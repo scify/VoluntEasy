@@ -1,1 +1,3 @@
 # Volunteasy
+
+## Documentation placeholder
