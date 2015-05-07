@@ -1,0 +1,9 @@
+/laravelProject/vendor
+/laravelProject/.env
+/laravelProject/.env.php
+/laravelProject/.env.*.php
+/laravelProject/bootstrap/compiled.php
+/laravelProject/composer.phar
+/laravelProject/composer.lock
+/laravelProject/.DS_Store
+/laravelProject/Thumbs.db
