@@ -2,9 +2,9 @@
 <html>
 <body>
 
-<h1>My First Heading</h1>
-
-<p>My first paragraph.</p>
+<h1> {{$var}} </h1>
+	
+<p> {{$var}} </p>
 
 </body>
 </html>

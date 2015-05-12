@@ -25,7 +25,10 @@ Route::controllers([
 
 
 Route::get('test', function () {
-	//return $environment = $app->environment();
+	
+
+	return View::make('test', ['var' => 'Hello']);
+	
 
 	if(DB::connection()->getDatabaseName())
 	{
