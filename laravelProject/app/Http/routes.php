@@ -16,22 +16,16 @@ Route::get('/', 'WelcomeController@index');
 Route::get('home', 'HomeController@index');
 
 Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
+    'auth' => 'Auth\AuthController',
+    'password' => 'Auth\PasswordController',
 ]);
 
-
-
-
-
 Route::get('test', function () {
-	
-
 	return View::make('test', ['var' => 'Hello']);
-	
-
-	if(DB::connection()->getDatabaseName())
-	{
-	   echo "conncted sucessfully to database ".DB::connection()->getDatabaseName();
-	}
+    if(DB::connection()->getDatabaseName()) {
+        echo "conncted sucessfully to database ".DB::connection()->getDatabaseName();
+    }
 });
+
+Route::get('songs','SongsController@index');
+Route::get('songs/{id}','SongsController@show');
