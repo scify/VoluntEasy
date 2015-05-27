@@ -17,7 +17,7 @@ class CreateUnitsTable extends Migration {
 		{
 			$table->increments('unit_id');
 			$table->integer('user_id')->unsigned;
-			$table->foreign('user_id')->references('user_id')->on('users');
+			$table->foreign('user_id')->references('id')->on('users');
 			$table->integer('parent_unit_id')->unsigned;
 			$table->foreign('parent_unit_id')->references('unit_id')->on('unit');
 		});
