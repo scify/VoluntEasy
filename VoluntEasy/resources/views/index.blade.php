@@ -41,7 +41,7 @@
         {{--<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>--}}
         {{--<![endif]--}}
 
-    </head>
+    </head> <!--yield('title')-->
 
 
     <body class="page-header-fixed">
@@ -281,7 +281,7 @@
                     <p class="no-s">2015 &copy; Modern by Steelcoders.</p>
                 </div>
                 <!--/FOUTER--->
-            </div>
+            </div> <!--yield('bodyContent')-->
             <!-- Page Inner -->
         </main>
         <!-- Page Content -->
