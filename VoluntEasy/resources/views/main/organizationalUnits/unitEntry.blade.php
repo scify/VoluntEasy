@@ -1,7 +1,7 @@
 @extends('index')
 
 @section('title')
-    VoluntEasy/Organizational Units/Unit Entry
+    Unit Entry
 @stop
 
 @section('bodyContent')

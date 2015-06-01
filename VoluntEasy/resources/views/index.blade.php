@@ -209,16 +209,16 @@
                 <div class="page-sidebar-inner slimscroll">
                     <ul class="menu accordion-menu">
                         <li class="droplink">
-                            <a href="#" class="waves-effect waves-button"><span
+                            <a class="waves-effect waves-button"><span
                                     class="menu-icon glyphicon glyphicon-home"></span>
                                 <p>Οργανωτικές<br>Μονάδες</p>
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li><a href="#">Καταχώρηση Μονάδας</a></li>
-                                <li><a href="#">Προβολή λίστας-Αναζήτηση</a></li>
-                                <li><a href="#">Τροποποίηση</a></li>
-                                <li><a href="#">Επισκόπηση</a></li>
+                                <li><a href="main/organizationalUnits/unitEntry">Καταχώρηση Μονάδας</a></li>
+                                <li><a href="main/organizationalUnits/listview">Προβολή λίστας-Αναζήτηση</a></li>
+                                <li><a href="main/organizationalUnits/modifications">Τροποποίηση</a></li>
+                                <li><a href="main/organizationalUnits/overview">Επισκόπηση</a></li>
                             </ul>
                         </li>
                         <li class="droplink">
@@ -228,10 +228,10 @@
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li><a href="#">Καταχώρηση Δράσης</a></li>
-                                <li><a href="#">Προβολή λίστας-Αναζήτηση</a></li>
-                                <li><a href="#">Τροποποίηση</a></li>
-                                <li><a href="#">Επισκόπηση</a></li>
+                                <li><a href="main/actionsPrograms/actionListing">Καταχώρηση Δράσης</a></li>
+                                <li><a href="main/actionsPrograms/listview">Προβολή λίστας-Αναζήτηση</a></li>
+                                <li><a href="main/actionsPrograms/modifications">Τροποποίηση</a></li>
+                                <li><a href="main/actionsPrograms/overview">Επισκόπηση</a></li>
                             </ul>
                         </li>
                         <li class="droplink">
@@ -241,8 +241,8 @@
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li><a href="#">Προβολή λίστας-Αναζήτηση</a></li>
-                                <li><a href="#">Στατιστικές Αναλύσεις</a></li>
+                                <li><a href="main/volunteers/listview">Προβολή λίστας-Αναζήτηση</a></li>
+                                <li><a href="main/volunteers/statistics">Στατιστικές Αναλύσεις</a></li>
                             </ul>
                         </li>
                         <li class="droplink">
@@ -252,14 +252,14 @@
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li><a href="#">Καταχώρηση χρήστη</a></li>
-                                <li><a href="#">Προβολή λίστας-Αναζήτηση</a></li>
-                                <li><a href="#">Τροποποίηση</a></li>
-                                <li><a href="#">Επισκόπηση</a></li>
+                                <li><a href="main/users/userListing">Καταχώρηση χρήστη</a></li>
+                                <li><a href="main/users/listview">Προβολή λίστας-Αναζήτηση</a></li>
+                                <li><a href="main/users/modifications">Τροποποίηση</a></li>
+                                <li><a href="main/users/overview">Επισκόπηση</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="waves-effect waves-button">
+                            <a href="main/sitemap/sitemap" class="waves-effect waves-button">
                                 <span class="menu-icon glyphicon glyphicon-list"></span>
                                 <p>Σχεδιάγραμμα<br>Ιστοσελίδας</p>
                             </a>
