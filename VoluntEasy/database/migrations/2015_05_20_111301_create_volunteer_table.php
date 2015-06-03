@@ -42,16 +42,9 @@ class CreateVolunteerTable extends Migration {
 		Schema::create('volunteer_id_type', function($table)
 		{
 			$table->increments('id');
-			$table->string('id_type', 50)->nullable();
-		});
-
-		Schema::create('volunteer_id_link', function($table)
-		{
-			$table->increments('id');
 			$table->integer('volunteer_id')->unsigned();
 			$table->foreign('volunteer_id')->references('id')->on('volunteer');
-			$table->integer('id_type_id')->unsigned();
-			$table->foreign('id_type_id')->references('id')->on('volunteer_id_type');
+			$table->string('id_type', 50);
 		});
 
 		// Populate marital status.
@@ -164,10 +157,8 @@ class CreateVolunteerTable extends Migration {
 		Schema::drop('volunteer_interests');
 		Schema::drop('volunteer_freq_link');
 		Schema::drop('volunteer_freq');
-		Schema::drop('volunteer_drv_link');
 		Schema::drop('volunteer_drv_license_type');
 		Schema::drop('volunteer_marital_status');
-		Schema::drop('volunteer_id_link');
 		Schema::drop('volunteer_id_type');
 		Schema::drop('volunteer_to_unit');
 		Schema::drop('volunteer');
