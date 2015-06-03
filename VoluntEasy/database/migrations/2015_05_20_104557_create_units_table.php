@@ -18,6 +18,7 @@ class CreateUnitsTable extends Migration {
 			$table->increments('id');
 			$table->string('description', 300);
 			$table->string('comments', 300);
+			$table->smallInteger('level')->nullable();
 			$table->integer('user_id')->unsigned;
 			$table->foreign('user_id')->references('id')->on('users');
 			$table->integer('parent_unit_id')->unsigned;
