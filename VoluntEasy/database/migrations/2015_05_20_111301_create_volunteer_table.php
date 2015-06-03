@@ -109,19 +109,12 @@ class CreateVolunteerTable extends Migration {
 		Schema::create('volunteer_work_status', function($table)
 		{
 			$table->increments('id');
-			$table->string('work_status', 300);
-		});
-
-		Schema::create('volunteer_work_status_link', function($table)
-		{
-			$table->increments('id');
 			$table->integer('volunteer_id')->unsigned();
 			$table->foreign('volunteer_id')->references('id')->on('volunteer');
-			$table->integer('status_id')->unsigned();
-			$table->foreign('status_id')->references('id')->on('volunteer_work_status');
+			$table->string('work_status', 300);
 			$table->string('work_message', 300)->nullable();
 		});
-		
+
 		Schema::create('volunteer_part_reason', function($table)
 		{
 			$table->increments('id');
