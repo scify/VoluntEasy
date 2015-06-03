@@ -15,11 +15,11 @@ class CreateUnitsTable extends Migration {
 		/* Unit model. */
 		Schema::create('unit', function($table)
 		{
-			$table->increments('unit_id');
+			$table->increments('id');
 			$table->integer('user_id')->unsigned;
 			$table->foreign('user_id')->references('id')->on('users');
 			$table->integer('parent_unit_id')->unsigned;
-			$table->foreign('parent_unit_id')->references('unit_id')->on('unit');
+			$table->foreign('parent_unit_id')->references('id')->on('unit');
 		});
 	}
 

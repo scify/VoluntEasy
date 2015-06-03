@@ -26,7 +26,7 @@ class CreateUsersTable extends Migration {
 
 		Schema::create('user_role', function($table)
 		{
-			$table->increments('role_id');
+			$table->increments('id');
 			$table->integer('user_id')->unsigned();
 			$table->foreign('user_id')->references('id')->on('users');
 		});
@@ -34,7 +34,7 @@ class CreateUsersTable extends Migration {
 		Schema::create('user_descr', function($table)
 		{
 			$table->integer('role_id')->unsigned();
-			$table->foreign('role_id')->references('role_id')->on('user_role');
+			$table->foreign('role_id')->references('id')->on('user_role');
 			$table->text('role_descr');
 		});
 	}

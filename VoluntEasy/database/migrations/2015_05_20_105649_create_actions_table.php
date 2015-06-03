@@ -14,13 +14,12 @@ class CreateActionsTable extends Migration {
 	{
 		Schema::create('actions', function($table)
 		{
-			$table->increments('action_id');
+			$table->increments('id');
 			$table->integer('unit_id')->unsigned();
-			$table->foreign('unit_id')->references('unit_id')->on('unit');
-			/* 'timestamps' adds created_at and updated_at columns. */
-			// $table->timestamps;
+			$table->foreign('unit_id')->references('id')->on('unit');
 			$table->timestamp('start_date');
 			$table->timestamp('end_date');
+			// $table->timestamps;
 		});
 
 		Schema::create('step_status', function($table)
@@ -33,7 +32,7 @@ class CreateActionsTable extends Migration {
 		{
 			$table->increments('action_step_id');
 			$table->integer('action_id')->unsigned();
-			$table->foreign('action_id')->references('action_id')->on('actions');
+			$table->foreign('action_id')->references('id')->on('actions');
 			/* Following may be null. */
 			$table->integer('step_id')->unsigned()->nullable();
 			$table->foreign('step_id')->references('step_id')->on('step_status');

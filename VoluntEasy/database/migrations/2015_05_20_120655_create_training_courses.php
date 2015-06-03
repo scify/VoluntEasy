@@ -14,9 +14,9 @@ class CreateTrainingCourses extends Migration {
 	{
 		Schema::create('training_courses', function($table)
 		{
-			$table->increments('course_id');
+			$table->increments('id');
 			$table->integer('action_id')->unsigned();
-			$table->foreign('action_id')->references('action_id')->on('actions');
+			$table->foreign('action_id')->references('id')->on('actions');
 			$table->string('name', 50);
 			$table->string('description', 300);
 			$table->string('duration', 50);
@@ -26,11 +26,11 @@ class CreateTrainingCourses extends Migration {
 
 		Schema::create('courses_to_volunteers', function($table)
 		{
-			$table->increments('course_to_vol_link_id');
+			$table->increments('id');
 			$table->integer('volunteer_id')->unsigned();
-			$table->foreign('volunteer_id')->references('volunteer_id')->on('volunteer');
+			$table->foreign('volunteer_id')->references('id')->on('volunteer');
 			$table->integer('course_id')->unsigned();
-			$table->foreign('course_id')->references('course_id')->on('training_courses');
+			$table->foreign('course_id')->references('id')->on('training_courses');
 		});
 	}
 
