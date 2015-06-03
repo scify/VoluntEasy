@@ -143,7 +143,6 @@ class CreateVolunteerTable extends Migration {
 	{
 		Schema::drop('volunteer_lang_list');
 		Schema::drop('volunteer_part_reason');
-		Schema::drop('volunteer_work_status_link');
 		Schema::drop('volunteer_work_status');
 		Schema::drop('volunteer_lang_level');
 		Schema::drop('volunteer_lang');
