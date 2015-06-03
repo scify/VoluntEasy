@@ -17,6 +17,7 @@ class CreateActionsTable extends Migration {
 			$table->increments('id');
 			$table->integer('unit_id')->unsigned();
 			$table->foreign('unit_id')->references('id')->on('unit');
+			$table->string('description', 300);
 			$table->timestamp('start_date');
 			$table->timestamp('end_date');
 			// $table->timestamps;
