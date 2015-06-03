@@ -29,11 +29,11 @@ class CreateVolunteerTable extends Migration {
 			$table->boolean('live_in_curr_country')->nullable();
 		});
 
-		Schema::create('volunteer_to_action', function($table)
+		Schema::create('volunteer_to_unit', function($table)
 		{
 			$table->increments('id');
-			$table->integer('action_id')->unsigned();
-			$table->foreign('action_id')->references('id')->on('actions');
+			$table->integer('unit_id')->unsigned();
+			$table->foreign('unit_id')->references('id')->on('unit');
 			$table->integer('volunteer_id')->unsigned();
 			$table->foreign('volunteer_id')->references('id')->on('volunteer');
 		});
@@ -169,7 +169,7 @@ class CreateVolunteerTable extends Migration {
 		Schema::drop('volunteer_marital_status');
 		Schema::drop('volunteer_id_link');
 		Schema::drop('volunteer_id_type');
-		Schema::drop('volunteer_to_action');
+		Schema::drop('volunteer_to_unit');
 		Schema::drop('volunteer');
 	}
 

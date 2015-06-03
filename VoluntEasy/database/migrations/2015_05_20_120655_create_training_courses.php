@@ -16,7 +16,7 @@ class CreateTrainingCourses extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('action_id')->unsigned();
-			$table->foreign('action_id')->references('id')->on('actions');
+			$table->foreign('action_id')->references('id')->on('unit');
 			$table->string('name', 50);
 			$table->string('description', 300);
 			$table->string('duration', 50);
