@@ -12,13 +12,13 @@ class CreateVolunteerTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('volunteer', function($table)
+		Schema::create('volunteers', function($table)
 		{
 			$table->increments('id');
 			$table->string('name', 100);
 			$table->string('last_name', 100);
 			$table->string('fathers_name', 100);
-			$table->string('id_num', 100);
+			$table->string('identification_num', 100);
 			$table->date('birth_date');
 			$table->boolean('gender');
 			$table->smallInteger('children')->nullable();
@@ -27,9 +27,20 @@ class CreateVolunteerTable extends Migration {
 			$table->string('participation_reason', 300);
 			$table->string('extra_lang', 100);
 			$table->boolean('live_in_curr_country')->nullable();
+			$table->text('comments', 300);
+			$table->timestamps();
+
+			$table->integer('identification_type_id')->unsigned();
+			$table->foreign('identification_type_id')->references('id')->on('identification_types');
+			$table->integer('marital_status_id')->unsigned();
+			$table->foreign('marital_status_id')->references('id')->on('marital_statuses');
+			$table->integer('driver_license_type_id')->unsigned();
+			$table->foreign('driver_license_type_id')->references('id')->on('driver_license_types');
+			$table->integer('availability_freqs_id')->unsigned();
+			$table->foreign('availability_freqs_id')->references('id')->on('availability_freqs');
 		});
 
-		Schema::create('volunteer_to_unit', function($table)
+		Schema::create('unit_volunteer', function($table)
 		{
 			$table->increments('id');
 			$table->integer('unit_id')->unsigned();
@@ -38,79 +49,95 @@ class CreateVolunteerTable extends Migration {
 			$table->foreign('volunteer_id')->references('id')->on('volunteer');
 		});
 
-		// Populate id types.
-		Schema::create('volunteer_id_type', function($table)
+		// TODO: Populate id types.
+		Schema::create('identification_types', function($table)
+		{
+			$table->increments('id');
+			$table->string('description', 50);
+		});
+
+		// TODO: Populate marital status.
+		Schema::create('marital_statuses', function($table)
+		{
+			$table->increments('id');
+			$table->string('description', 100)->nullable;
+		});
+
+		// TODO: Populate driver license types.
+		Schema::create('driver_license_types', function($table)
+		{
+			$table->increments('id');
+			$table->string('description', 100)->nullable();
+		});
+
+		// TODO: Populate volunteer frequency text.
+		Schema::create('availability_time', function($table)
+		{
+			$table->increments('id');
+			$table->string('description', 100);
+		});
+
+		Schema::create('volunteers_availability_freqs', function($table)
+		{
+			$table->integer('volunteer_id')->unsigned();
+			$table->foreign('volunteer_id')->references('id')->on('volunteers');
+			$table->integer('availability_freqs_id')->unsigned();
+			$table->foreign('availability_freqs_id')->references('id')->on('availability_time');
+		});
+
+		Schema::create('availability_freqs', function($table)
+		{
+			$table->integer('id');
+			$table->string('description', 100);
+		});
+
+
+		/* TODO: Populate interest for checkboxes. */
+		Schema::create('interests', function($table)
+		{
+			$table->increments('id');
+			$table->text('category', 100);
+			$table->text('description', 100);
+		});
+
+		Schema::create('volunteer_interest', function($table)
 		{
 			$table->increments('id');
 			$table->integer('volunteer_id')->unsigned();
-			$table->foreign('volunteer_id')->references('id')->on('volunteer');
-			$table->string('id_type', 50);
+			$table->foreign('volunteer_id')->references('id')->on('volunteers');
+			$table->integer('interest_id')->unsigned();
+			$table->foreign('interest_id')->references('id')->on('interests');
 		});
 
-		// Populate marital status.
-		Schema::create('volunteer_marital_status', function($table)
+
+		// TODO: Populate language list.
+		Schema::create('languages', function($table)
+		{
+			$table->increments('id');
+			$table->string('description', 50);
+		});
+
+		Schema::create('language_levels', function($table)
+		{
+			$table->increments('id');
+			$table->string('description', 50);
+		});
+
+		Schema::create('volunteer_languages', function($table)
 		{
 			$table->increments('id');
 			$table->integer('volunteer_id')->unsigned();
-			$table->foreign('volunteer_id')->references('id')->on('volunteer');
-			$table->string('marital_status', 100)->nullable;
+			$table->foreign('volunteer_id')->references('id')->on('volunteers');
+			$table->integer('language_id')->unsigned();
+			$table->foreign('language_id')->references('id')->on('languages');
+			$table->integer('language_level_id')->unsigned();
+			$table->foreign('language_level_id')->references('id')->on('language_levels');
 		});
 
-		// Populate driver license types.
-		Schema::create('volunteer_drv_license_type', function($table)
-		{
-			$table->increments('id');
-			$table->integer('volunteer_id')->unsigned();
-			$table->foreign('volunteer_id')->references('id')->on('volunteer');
-			$table->string('category', 100)->nullable();
-		});
-
-		// Populate volunteer frequency text.
-		Schema::create('volunteer_freq', function($table)
-		{
-			$table->increments('id');
-			$table->string('frequency', 50)->nullable();
-			$table->string('time_of_day', 50)->nullable();
-		});
-
-		Schema::create('volunteer_freq_link', function($table)
-		{
-			$table->integer('volunteer_id')->unsigned();
-			$table->foreign('volunteer_id')->references('id')->on('volunteer');
-			$table->integer('freq_id')->unsigned();
-			$table->foreign('freq_id')->references('id')->on('volunteer_freq');
-		});
-
-		/* Populate interest for checkboxes. */
-		Schema::create('volunteer_interests', function($table)
-		{
-			$table->increments('id');
-			$table->integer('volunteer_id')->unsigned();
-			$table->foreign('volunteer_id')->references('id')->on('volunteer');
-		});
-
-		// Populate language list.
-		Schema::create('volunteer_lang', function($table)
-		{
-			$table->increments('id');
-			$table->string('language', 50)->nullable();
-		});
-
-		Schema::create('volunteer_lang_level', function($table)
-		{
-			$table->increments('lang_level_id');
-			$table->integer('volunteer_id')->unsigned();
-			$table->foreign('volunteer_id')->references('id')->on('volunteer');
-			$table->integer('lang_id')->unsigned();
-			$table->foreign('lang_id')->references('id')->on('volunteer_lang');
-		});
-
-		// Populate work status.
+		// TODO: Populate work status.
 		Schema::create('volunteer_work_status', function($table)
 		{
 			$table->increments('id');
-			$table->integer('volunteer_id')->unsigned();
-			$table->foreign('volunteer_id')->references('id')->on('volunteer');
 			$table->string('work_status', 300);
 			$table->string('work_message', 300)->nullable();
 		});
@@ -124,7 +151,7 @@ class CreateVolunteerTable extends Migration {
 			$table->string('participation_actions', 400)->nullable();
 		});
 
-		// Populate languages.
+		// TODO: Populate languages.
 		Schema::create('volunteer_lang_list', function($table)
 		{
 			$table->increments('id');
@@ -150,10 +177,10 @@ class CreateVolunteerTable extends Migration {
 		Schema::drop('volunteer_freq_link');
 		Schema::drop('volunteer_freq');
 		Schema::drop('volunteer_drv_license_type');
-		Schema::drop('volunteer_marital_status');
-		Schema::drop('volunteer_id_type');
-		Schema::drop('volunteer_to_unit');
-		Schema::drop('volunteer');
+		Schema::drop('marital_status');
+		Schema::drop('identification_type');
+		Schema::drop('unit_volunteer');
+		Schema::drop('volunteers');
 	}
 
 }

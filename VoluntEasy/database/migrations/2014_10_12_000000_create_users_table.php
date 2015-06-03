@@ -24,19 +24,21 @@ class CreateUsersTable extends Migration {
 			$table->timestamps();
 		});
 
-		Schema::create('user_role', function($table)
-		{
-			$table->increments('id');
-			$table->integer('user_id')->unsigned();
-			$table->foreign('user_id')->references('id')->on('users');
-		});
+                /*
+		 * Schema::create('user_role', function($table)
+		 * {
+		 * 	$table->increments('id');
+		 * 	$table->integer('user_id')->unsigned();
+		 * 	$table->foreign('user_id')->references('id')->on('users');
+		 * });
 
-		Schema::create('user_descr', function($table)
-		{
-			$table->integer('role_id')->unsigned();
-			$table->foreign('role_id')->references('id')->on('user_role');
-			$table->text('role_descr');
-		});
+		 * Schema::create('user_descr', function($table)
+		 * {
+		 * 	$table->integer('role_id')->unsigned();
+		 * 	$table->foreign('role_id')->references('id')->on('user_role');
+		 * 	$table->text('role_descr');
+		 * });
+                 */
 	}
 
 	/**
@@ -46,8 +48,10 @@ class CreateUsersTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('user_descr');
-		Schema::drop('user_role');
+                /*
+		 * Schema::drop('user_descr');
+		 * Schema::drop('user_role');
+                 */
 		Schema::drop('users');
 	}
 
