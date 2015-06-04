@@ -13,7 +13,7 @@ class CreateUnitsTable extends Migration {
 	public function up()
 	{
 		/* Unit model. */
-		Schema::create('unit', function($table)
+		Schema::create('units', function($table)
 		{
 			$table->increments('id');
 			$table->string('description', 300);
@@ -22,13 +22,13 @@ class CreateUnitsTable extends Migration {
 			$table->integer('user_id')->unsigned;
 			$table->foreign('user_id')->references('id')->on('users');
 			$table->integer('parent_unit_id')->unsigned;
-			$table->foreign('parent_unit_id')->references('id')->on('unit');
+			$table->foreign('parent_unit_id')->references('id')->on('units');
 			$table->timestamp('start_date');
 			$table->timestamp('end_date');
 			$table->timestamps();
 		});
 
-		Schema::create('step_status', function($table)
+		Schema::create('step_statuses', function($table)
 		{
 			$table->increments('id');
 			$table->text('description');
@@ -38,9 +38,8 @@ class CreateUnitsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('unit_id')->unsigned();
-			$table->foreign('unit_id')->references('id')->on('unit');
-			$table->integer('status_id')->unsigned()->nullable();
-			$table->foreign('status_id')->references('id')->on('step_status');
+			$table->foreign('unit_id')->references('id')->on('units');
+			$table->string('description', 300);
 			$table->smallInteger('step_order');
 		});
 	}
@@ -53,8 +52,8 @@ class CreateUnitsTable extends Migration {
 	public function down()
 	{
 		Schema::drop('steps');
-		Schema::drop('step_status');
-		Schema::drop('unit');
+		Schema::drop('step_statuses');
+		Schema::drop('units');
 	}
 
 }

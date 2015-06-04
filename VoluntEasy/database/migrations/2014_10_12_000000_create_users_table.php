@@ -19,8 +19,8 @@ class CreateUsersTable extends Migration {
 			$table->string('email')->unique();
 			$table->string('password', 60);
 			$table->smallInteger('level')->nullable();
-			$table->string('user_addr');
-			$table->string('user_tel', 50);
+			$table->string('addr');
+			$table->string('tel', 50);
 			$table->rememberToken()->nullable();
 			$table->timestamps();
 		});
