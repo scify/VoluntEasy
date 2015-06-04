@@ -59,6 +59,7 @@ class CreateUnitsTable extends Migration {
 	{
 		Schema::drop('steps');
 		Schema::drop('step_statuses');
+		Schema::drop('unit_statuses');
 		Schema::drop('units');
 	}
 
