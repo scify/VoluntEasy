@@ -160,19 +160,20 @@ class CreateVolunteerTable extends Migration {
 		Schema::create('volunteer_step_history', function($table)
 		{
 			$table->increments('id');
-			$table->string('description', 300);
+			$table->date('date');
 			$table->integer('volunteer_id')->unsigned();
 			$table->foreign('volunteer_id')->references('id')->on('volunteers');
 			$table->integer('step_id')->unsigned();
 			$table->foreign('step_id')->references('id')->on('steps');
-			$table->integer('step_status_id')->unsigned();
-			$table->foreign('step_status_id')->references('id')->on('step_statuses');
+			$table->integer('previous_step_status_id')->unsigned();
+			$table->foreign('previous_step_status_id')->references('id')->on('step_statuses');
+			$table->integer('new_step_status_id')->unsigned();
+			$table->foreign('new_step_status_id')->references('id')->on('step_statuses');
 		});
 
 		Schema::create('volunteer_unit_status', function($table)
 		{
 			$table->increments('id');
-			$table->string('description', 300);
 			$table->integer('volunteer_id')->unsigned();
 			$table->foreign('volunteer_id')->references('id')->on('volunteers');
 			$table->integer('unit_id')->unsigned();
@@ -184,13 +185,14 @@ class CreateVolunteerTable extends Migration {
 		Schema::create('volunteer_unit_history', function($table)
 		{
 			$table->increments('id');
-			$table->string('description', 300);
 			$table->integer('volunteer_id')->unsigned();
 			$table->foreign('volunteer_id')->references('id')->on('volunteers');
 			$table->integer('unit_id')->unsigned();
 			$table->foreign('unit_id')->references('id')->on('units');
-			$table->integer('unit_status_id')->unsigned();
-			$table->foreign('unit_status_id')->references('id')->on('unit_statuses');
+			$table->integer('previous_unit_status_id')->unsigned();
+			$table->foreign('previous_unit_status_id')->references('id')->on('unit_statuses');
+			$table->integer('new_unit_status_id')->unsigned();
+			$table->foreign('new_unit_status_id')->references('id')->on('unit_statuses');
 		});
 
 	}
