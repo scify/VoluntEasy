@@ -31,6 +31,7 @@ class CreateUnitsTable extends Migration {
 		Schema::create('unit_statuses', function($table)
 		{
 			$table->increments('id');
+			$table->text('description');
 		});
 
 		Schema::create('step_statuses', function($table)
