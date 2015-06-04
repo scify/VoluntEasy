@@ -52,14 +52,14 @@
 						<div class="form-group">
 							<label class="col-md-4 control-label">Address</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="user_addr">
+								<input type="text" class="form-control" name="addr">
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label class="col-md-4 control-label">Telephone</label>
 							<div class="col-md-6">
-								<input type="text" class="form-control" name="user_tel">
+								<input type="text" class="form-control" name="tel">
 							</div>
 						</div>
 
