@@ -28,6 +28,11 @@ class CreateUnitsTable extends Migration {
 			$table->timestamps();
 		});
 
+		Schema::create('unit_statuses', function($table)
+		{
+			$table->increments('id');
+		});
+
 		Schema::create('step_statuses', function($table)
 		{
 			$table->increments('id');

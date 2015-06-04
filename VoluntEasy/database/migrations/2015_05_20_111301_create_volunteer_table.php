@@ -145,6 +145,49 @@ class CreateVolunteerTable extends Migration {
 			$table->foreign('language_level_id')->references('id')->on('language_levels');
 		});
 
+		Schema::create('volunteer_step_status', function($table)
+		{
+			$table->increments('id');
+			$table->integer('volunteer_id')->unsigned();
+			$table->foreign('volunteer_id')->references('id')->on('volunteers');
+			$table->integer('step_id')->unsigned();
+			$table->foreign('step_id')->references('id')->on('steps');
+			$table->integer('step_status_id')->unsigned();
+			$table->foreign('step_status_id')->references('id')->on('step_statuses');
+		});
+
+		Schema::create('volunteer_step_history', function($table)
+		{
+			$table->increments('id');
+			$table->integer('volunteer_id')->unsigned();
+			$table->foreign('volunteer_id')->references('id')->on('volunteers');
+			$table->integer('step_id')->unsigned();
+			$table->foreign('step_id')->references('id')->on('steps');
+			$table->integer('step_status_id')->unsigned();
+			$table->foreign('step_status_id')->references('id')->on('step_statuses');
+		});
+
+		Schema::create('volunteer_unit_status', function($table)
+		{
+			$table->increments('id');
+			$table->integer('volunteer_id')->unsigned();
+			$table->foreign('volunteer_id')->references('id')->on('volunteers');
+			$table->integer('unit_id')->unsigned();
+			$table->foreign('unit_id')->references('id')->on('units');
+			$table->integer('unit_status_id')->unsigned();
+			$table->foreign('unit_status_id')->references('id')->on('unit_statuses');
+		});
+
+		Schema::create('volunteer_unit_history', function($table)
+		{
+			$table->increments('id');
+			$table->integer('volunteer_id')->unsigned();
+			$table->foreign('volunteer_id')->references('id')->on('volunteers');
+			$table->integer('unit_id')->unsigned();
+			$table->foreign('unit_id')->references('id')->on('units');
+			$table->integer('unit_status_id')->unsigned();
+			$table->foreign('unit_status_id')->references('id')->on('unit_statuses');
+		});
 
 	}
 
@@ -155,6 +198,10 @@ class CreateVolunteerTable extends Migration {
 	 */
 	public function down()
 	{
+		Schema::drop('volunteer_unit_history');
+		Schema::drop('volunteer_unit_status');
+		Schema::drop('volunteer_step_history');
+		Schema::drop('volunteer_step_status');
 		Schema::drop('volunteer_languages');
 		Schema::drop('language_levels');
 		Schema::drop('languages');
