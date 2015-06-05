@@ -2,19 +2,6 @@
                 <div class="page-sidebar-inner slimscroll">
                     <ul class="menu accordion-menu">
                         <li class="droplink">
-                            <a class="waves-effect waves-button"><span
-                                    class="menu-icon glyphicon glyphicon-home"></span>
-                                <p>Οργανωτικές<br>Μονάδες</p>
-                                <span class="arrow"></span>
-                            </a>
-                            <ul class="sub-menu">
-                                <li>{!! link_to('main/organizationalUnits/unitEntry', 'Καταχώρηση Μονάδας') !!}</li>
-                                <li>{!! link_to('main/organizationalUnits/listview', 'Προβολή λίστας-Αναζήτηση') !!}</li>
-                                <li>{!! link_to('main/organizationalUnits/modifications', 'Τροποποίηση') !!}</li>
-                                <li>{!! link_to('main/organizationalUnits/overview', 'Επισκόπηση') !!}</li>
-                            </ul>
-                        </li>
-                        <li class="droplink">
                             <a href="#" class="waves-effect waves-button">
                                 <span class="menu-icon glyphicon glyphicon-user"></span>
                                 <p>Δράσεις &<br>Προγράμματα</p>

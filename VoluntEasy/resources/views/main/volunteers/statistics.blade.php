@@ -1,4 +1,4 @@
-@extends('index')
+@extends('default')
 
 @section('title')
     Statistics
@@ -7,3 +7,4 @@
 @section('bodyContent')
    <h1>Στατιστικά Εθελοντή</h1>
 @stop
+

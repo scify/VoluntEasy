@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class IndexPage extends Controller {
 
     public function mainIndex() {
-        return view('main.mainPage');
+        return view('main.dashboard');
     }
 
 }

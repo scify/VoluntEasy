@@ -5,16 +5,12 @@
         <title> @yield('title') </title>
 
         <!-- Include css, js files-->
-        @include('template.includes')
+        @include('template.headerIncludes')
     </head>
 
 
     <body class="page-header-fixed">
-        <!--search popup-->
-        @include('template.search')
-
         <main class="page-content content-wrap">
-
             <!-- Navbar/TopBar -->
             @include('template.topBar')
 
@@ -24,6 +20,7 @@
             <div class="page-inner">
                 <!--Page Title & Breadcrumbs -->
                 @include('template.pageTitle')
+
                 <!--Body -->
                 @yield('bodyContent')
 
@@ -32,5 +29,8 @@
             </div>
         </main>
         <div class="cd-overlay"></div>
+        @include('template.footerIncludes')
     </body>
 </html>
+
+

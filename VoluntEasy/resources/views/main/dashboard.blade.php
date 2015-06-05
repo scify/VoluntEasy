@@ -1,20 +1,13 @@
-@extends('index')
-
+@extends('default')
 @section('title')
-    VoluntEasy
+    VoluntEasy Αρχική
+@stop
+@section('pageTitle')
+    Dashboard
 @stop
 
 @section('bodyContent')
-    <div class="page-title">
-                <h3>Dashboard</h3>
-                <div class="page-breadcrumb">
-                    <ol class="breadcrumb">
-                        <li><a href="#">Home</a></li>
-                        <li class="active">Dashboard</li>
-                    </ol>
-                </div>
-            </div>
-    <div id="main-wrapper">
+    <!--div id="main-wrapper">
         <div class="row">
             <div class="col-lg-3 col-md-6">
                 <div class="panel info-box panel-white">
@@ -97,5 +90,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div-->
 @stop

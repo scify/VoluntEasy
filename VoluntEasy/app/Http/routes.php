@@ -1,10 +1,30 @@
 <?php
 
+Route::get('/', 'WelcomeController@index');
+
 Route::get('main','IndexPage@mainIndex');
 
-Route::get('main/orgUnits/unitEntry','MenuController@a1');
-
 Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
+    'auth' => 'Auth\AuthController',
+    'password' => 'Auth\PasswordController',
 ]);
+
+Route::get('main/organizationalUnits/unitEntry','MenuController@a1');
+Route::get('main/organizationalUnits/listview','MenuController@a2');
+Route::get('main/organizationalUnits/modifications','MenuController@a3');
+Route::get('main/organizationalUnits/overview','MenuController@a4');
+
+Route::get('main/actionsPrograms/actionListing','MenuController@b1');
+Route::get('main/actionsPrograms/listview','MenuController@b2');
+Route::get('main/actionsPrograms/modifications','MenuController@b3');
+Route::get('main/actionsPrograms/overview','MenuController@b4');
+
+Route::get('main/volunteers/listview','MenuController@c1');
+Route::get('main/volunteers/statistics','MenuController@c2');
+
+Route::get('main/users/userListing','MenuController@d1');
+Route::get('main/users/listview','MenuController@d2');
+Route::get('main/users/modifications','MenuController@d3');
+Route::get('main/users/overview','MenuController@d4');
+
+Route::get('main/sitemap/sitemap','MenuController@e1');
