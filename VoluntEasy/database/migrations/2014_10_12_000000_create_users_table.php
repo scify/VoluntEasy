@@ -53,7 +53,7 @@ class CreateUsersTable extends Migration {
 		 * Schema::drop('user_descr');
 		 * Schema::drop('user_role');
                  */
-		Schema::drop('users');
+		Schema::dropIfExists('users');
 	}
 
 }

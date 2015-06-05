@@ -57,10 +57,10 @@ class CreateUnitsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('steps');
-		Schema::drop('step_statuses');
-		Schema::drop('unit_statuses');
-		Schema::drop('units');
+		Schema::dropIfExists('steps');
+		Schema::dropIfExists('step_statuses');
+		Schema::dropIfExists('unit_statuses');
+		Schema::dropIfExists('units');
 	}
 
 }

@@ -41,8 +41,8 @@ class CreateTrainingCourses extends Migration {
 	 */
 	public function down()
 	{
-		// Schema::drop('courses_to_volunteers');
-		// Schema::drop('training_courses');
+		// Schema::dropIfExists('courses_to_volunteers');
+		// Schema::dropIfExists('training_courses');
 	}
 
 }
