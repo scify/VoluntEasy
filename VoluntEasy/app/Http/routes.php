@@ -1,13 +1,17 @@
 <?php
 
 Route::get('/', 'WelcomeController@index');
+//Route::get('/', 'WelcomeController@index');
 
-Route::get('main','IndexPage@mainIndex');
+
+Route::get('main','HomeController@mainIndex');
 
 Route::controllers([
     'auth' => 'Auth\AuthController',
     'password' => 'Auth\PasswordController',
 ]);
+
+
 
 Route::get('main/organizationalUnits/unitEntry','MenuController@a1');
 Route::get('main/organizationalUnits/listview','MenuController@a2');

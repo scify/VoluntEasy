@@ -61,12 +61,6 @@
                         <!--/options(appearence)-->
 
                             <ul class="nav navbar-nav navbar-right">
-                                <li>
-                                    <a href="javascript:void(0);" class="waves-effect waves-button waves-classic show-search">
-                                        <i class="fa fa-search"></i>
-                                    </a>
-                                </li>
-
                                 <!---Notificasion Icon-->
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic"

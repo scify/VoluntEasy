@@ -44,13 +44,7 @@ $( document ).ready(function() {
     $( '[data-toggle~="tooltip"]' ).tooltip({
         container: 'body'
     });
-    
-    // Switchery
-    var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-    
-    elems.forEach(function(html) {
-        var switchery = new Switchery(html, { color: '#23B7E5' });
-    });
+
     
     // Element Blocking
     function blockUI(item) {    
@@ -242,15 +236,8 @@ $( document ).ready(function() {
     var fixedHeaderCheck = document.querySelector('.fixed-header-check'),
         fixedSidebarCheck = document.querySelector('.fixed-sidebar-check'),
         horizontalBarCheck = document.querySelector('.horizontal-bar-check'),
-        toggleSidebarCheck = document.querySelector('.toggle-sidebar-check'),
-        boxedLayoutCheck = document.querySelector('.boxed-layout-check'),
-        compactMenuCheck = document.querySelector('.compact-menu-check'),
-        hoverMenuCheck = document.querySelector('.hover-menu-check'),
         defaultOptions = function() {
-            
-            if(($('body').hasClass('small-sidebar'))&&(toggleSidebarCheck.checked == 1)){
-                toggleSidebarCheck.click();
-            }
+
         
             if(!($('body').hasClass('page-header-fixed'))&&(fixedHeaderCheck.checked == 0)){
                 fixedHeaderCheck.click();
@@ -262,18 +249,6 @@ $( document ).ready(function() {
         
             if(($('body').hasClass('page-horizontal-bar'))&&(horizontalBarCheck.checked == 1)){
                 horizontalBarCheck.click();
-            }
-        
-            if(($('body').hasClass('compact-menu'))&&(compactMenuCheck.checked == 1)){
-                compactMenuCheck.click();
-            }
-        
-            if(($('body').hasClass('hover-menu'))&&(hoverMenuCheck.checked == 1)){
-                hoverMenuCheck.click();
-            }
-        
-            if(($('.page-content').hasClass('container'))&&(boxedLayoutCheck.checked == 1)){
-                boxedLayoutCheck.click();
             }
         
             $(".theme-color").attr("href", 'assets/css/themes/white.css');
@@ -363,28 +338,7 @@ $( document ).ready(function() {
     horizontalBarCheck.onchange = function() {
         horizontalBar();
     };
-    
-    toggleSidebarCheck.onchange = function() {
-        collapseSidebar();
-    };
-        
-    compactMenuCheck.onchange = function() {
-        compactMenu();
-    };
-        
-    hoverMenuCheck.onchange = function() {
-        hoverMenu();
-    };
-        
-    boxedLayoutCheck.onchange = function() {
-        boxedLayout();
-    };
-    
-    
-    // Sidebar Toggle
-    $('.sidebar-toggle').click(function() {
-        toggleSidebarCheck.click();
-    });
+
     
     // Reset options
     $('.reset-options').click(function() {
@@ -426,64 +380,15 @@ $( document ).ready(function() {
     if(($('body').hasClass('page-horizontal-bar'))&&(horizontalBarCheck.checked == 0)){
         $('.horizontal-bar-check').prop('checked', true);
     }
-    
-    // Toggle Sidebar Bug
-    if(!($('body').hasClass('small-sidebar'))&&(toggleSidebarCheck.checked == 1)){
-        $('body').addClass('small-sidebar');
-    }
-    
-    if(($('body').hasClass('small-sidebar'))&&(toggleSidebarCheck.checked == 0)){
-        $('.horizontal-bar-check').prop('checked', true);
-    }
-    
-    // Boxed Layout Bug
-    if(!($('.page-content').hasClass('container'))&&(boxedLayoutCheck.checked == 1)){
-        $('.toggle-sidebar-check').addClass('container');
-    }
-    
-    if(($('.page-content').hasClass('container'))&&(boxedLayoutCheck.checked == 0)){
-        $('.boxed-layout-check').prop('checked', true);
-    }
-        
-    // Boxed Layout Bug
-    if(!($('.page-content').hasClass('container'))&&(boxedLayoutCheck.checked == 1)){
-        $('.toggle-sidebar-check').addClass('container');
-    }
-    
-    if(($('.page-content').hasClass('container'))&&(boxedLayoutCheck.checked == 0)){
-        $('.boxed-layout-check').prop('checked', true);
-    }
-        
-    // Boxed Layout Bug
-    if(!($('.page-content').hasClass('container'))&&(boxedLayoutCheck.checked == 1)){
-        $('.toggle-sidebar-check').addClass('container');
-    }
-    
-    if(($('.page-content').hasClass('container'))&&(boxedLayoutCheck.checked == 0)){
-        $('.boxed-layout-check').prop('checked', true);
-    }
+
     }
     
     
     // Chat Sidebar
     var menuRight = document.getElementById( 'cbp-spmenu-s1' ),
-        showRight = document.getElementById( 'showRight' ),
-        closeRight = document.getElementById( 'closeRight' ),
         menuRight2 = document.getElementById( 'cbp-spmenu-s2' ),
-        closeRight2 = document.getElementById( 'closeRight2' ),
         body = document.body;
-    
-    showRight.onclick = function() {
-        classie.toggle( menuRight, 'cbp-spmenu-open' );
-    };
-    
-    closeRight.onclick = function() {
-        classie.toggle( menuRight, 'cbp-spmenu-open' );
-    };
-    
-    closeRight2.onclick = function() {
-        classie.toggle( menuRight2, 'cbp-spmenu-open' );
-    };
+
     
     $('.showRight2').click(function() {
         classie.toggle( menuRight2, 'cbp-spmenu-open' );
