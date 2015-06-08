@@ -1,10 +1,12 @@
 @extends('default')
+
 @section('title')
-Δημιουργία Εθελοντή/Εθελόντριας
+    Δημιουργία Εθελοντή/Εθελόντριας
 @stop
 @section('pageTitle')
-Δημιουργία Εθελοντή/Εθελόντριας
+    Δημιουργία Εθελοντή/Εθελόντριας
 @stop
+
 @section('bodyContent')
 <div class="panel panel-white">
    <div class="panel-body">

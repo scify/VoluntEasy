@@ -1,9 +1,11 @@
-@extends('index')
+@extends('default')
 
 @section('title')
-    Action Listing
+    Καταχώρηση Δράσης
+@stop
+@section('pageTitle')
+    Καταχώρηση Δράσης
 @stop
 
 @section('bodyContent')
-   <h1>Καταχώρηση Δράσης</h1>
 @stop

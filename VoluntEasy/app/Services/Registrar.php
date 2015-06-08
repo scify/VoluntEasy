@@ -1,8 +1,8 @@
 <?php namespace App\Services;
 
-use App\User;
-use Validator;
 use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
+use App\Models\User as User;
+use Validator;
 
 class Registrar implements RegistrarContract {
 

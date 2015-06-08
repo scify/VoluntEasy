@@ -1,9 +1,11 @@
-@extends('index')
+@extends('default')
 
 @section('title')
-    Modifications
+    Τροποποίηση
+@stop
+@section('pageTitle')
+    Τροποποίηση
 @stop
 
 @section('bodyContent')
-   <h1>Τροποποίηση</h1>
 @stop

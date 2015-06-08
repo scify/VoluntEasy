@@ -1,7 +1,6 @@
 <?php
 
 Route::get('/', 'WelcomeController@index');
-//Route::get('/', 'WelcomeController@index');
 
 
 Route::get('main','HomeController@mainIndex');
@@ -10,7 +9,6 @@ Route::controllers([
     'auth' => 'Auth\AuthController',
     'password' => 'Auth\PasswordController',
 ]);
-
 
 
 Route::get('main/organizationalUnits/unitEntry','MenuController@a1');

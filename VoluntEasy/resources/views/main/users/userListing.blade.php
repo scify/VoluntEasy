@@ -1,9 +1,11 @@
 @extends('default')
 
 @section('title')
-    User Listing
+    Καταχώρηση Χρήστη
+@stop
+@section('pageTitle')
+    Καταχώρηση Χρήστη
 @stop
 
 @section('bodyContent')
-   <h1>Καταχώρηση Χρήστη</h1>
 @stop

@@ -1,4 +1,4 @@
-@extends('index')
+@extends('default')
 
 @section('title')
     List View

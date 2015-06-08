@@ -1,9 +1,11 @@
-@extends('index')
+@extends('default')
 
 @section('title')
-    List View
+    Προβολή λίστας-Αναζήτηση
+@stop
+@section('pageTitle')
+    Προβολή λίστας-Αναζήτηση
 @stop
 
 @section('bodyContent')
-   <h1>Προβολή λίστας-Αναζήτηση</h1>
 @stop

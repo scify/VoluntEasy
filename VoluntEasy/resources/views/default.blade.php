@@ -5,31 +5,31 @@
         <title> @yield('title') </title>
 
         <!-- Include css, js files-->
-        @include('template.headerIncludes')
+        @include('template.default.headerIncludes')
     </head>
 
 
     <body class="page-header-fixed">
         <main class="page-content content-wrap">
             <!-- Navbar/TopBar -->
-            @include('template.topBar')
+            @include('template.default.topBar')
 
             <!--Side Menu--->
-            @include('template.menu')
+            @include('template.default.menu')
 
             <div class="page-inner">
                 <!--Page Title & Breadcrumbs -->
-                @include('template.pageTitle')
+                @include('template.default.pageTitle')
 
                 <!--Body -->
                 @yield('bodyContent')
 
                 <!-- Footer -->
-                @include('template.footer')
+                @include('template.default.footer')
             </div>
         </main>
         <div class="cd-overlay"></div>
-        @include('template.footerIncludes')
+        @include('template.default.footerIncludes')
     </body>
 </html>
 

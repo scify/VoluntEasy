@@ -103,7 +103,8 @@
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic"
                                         data-toggle="dropdown">
-                                        <span class="user-name">David<i class="fa fa-angle-down"></i></span>
+                                        <!-- Display the username -->
+                                        <span class="user-name">{{{ isset(Auth::user()->name) ? Auth::user()->name : 'not logged in' }}}<i class="fa fa-angle-down"></i></span>
                                         <img class="img-circle avatar" src="/assets/images/avatar1.png" width="40" height="40"
                                          alt="">
                                     </a>
@@ -124,7 +125,7 @@
 
                                 <!---Logout--->
                                 <li>
-                                    <a href="template%20parts/login.html" class="log-out waves-effect waves-button waves-classic">
+                                    <a href="{!! url('auth/logout') !!}" class="log-out waves-effect waves-button waves-classic">
                                         <span><i class="fa fa-sign-out m-r-xs"></i>Log out</span>
                                     </a>
                                 </li>

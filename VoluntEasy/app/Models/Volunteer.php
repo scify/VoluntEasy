@@ -1,4 +1,4 @@
-<?php namespace App;
+<?php namespace App\Models;
 
 
 class Volunteer extends User {

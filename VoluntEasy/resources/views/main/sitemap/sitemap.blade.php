@@ -3,7 +3,9 @@
 @section('title')
     SiteMap
 @stop
+@section('pageTitle')
+    SiteMap
+@stop
 
 @section('bodyContent')
-   <h1>Σχεδιάγραμμα ιστοσελίδας</h1>
 @stop

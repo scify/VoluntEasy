@@ -1,9 +1,11 @@
 @extends('default')
 
 @section('title')
-    Listview
+    Προβολή λίστας-Αναζήτηση
+@stop
+@section('pageTitle')
+    Προβολή λίστας-Αναζήτηση
 @stop
 
 @section('bodyContent')
-   <h1>Προβολή λίστας-Αναζήτηση</h1>
 @stop

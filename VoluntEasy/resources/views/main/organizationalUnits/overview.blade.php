@@ -1,9 +1,11 @@
-@extends('index')
+@extends('default')
 
 @section('title')
-    Overview
+    Επισκόπηση
+@stop
+@section('pageTitle')
+    Επισκόπηση
 @stop
 
 @section('bodyContent')
-   <h1>Επισκόπηση</h1>
 @stop

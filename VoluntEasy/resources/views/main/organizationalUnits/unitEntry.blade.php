@@ -1,9 +1,11 @@
 @extends('default')
 
 @section('title')
-    Unit Entry
+    Καταχώρηση Μονάδας
+@stop
+@section('pageTitle')
+    Καταχώρηση Μονάδας
 @stop
 
 @section('bodyContent')
-   <h1>Καταχώρηση Μονάδας</h1>
 @stop

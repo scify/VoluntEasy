@@ -1,9 +1,11 @@
 @extends('default')
 
 @section('title')
-    Modifications
+    Τροποποίηση Χρήστη
+@stop
+@section('pageTitle')
+    Τροποποίηση Χρήστη
 @stop
 
 @section('bodyContent')
-   <h1>Τροποποίηση</h1>
 @stop
