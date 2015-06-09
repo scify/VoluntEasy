@@ -2,10 +2,17 @@
 
 use App\Http\Requests;
 use App\Models\User as User;
+use App\Http\Requests\UserRequest as UserRequest;
+use Illuminate\Http\Request as Request;
 use Illuminate\Support\Facades\DB;
 
 
 class UserController extends Controller {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
 	/**
 	 * Display a listing of the resource.
@@ -60,7 +67,10 @@ class UserController extends Controller {
 	 */
 	public function edit($id)
 	{
-        $user = User::find($id);
+
+
+        $user = User::findOrFail($id);
+
 
         return view("main.users.edit", compact('user'));
 	}
@@ -71,9 +81,16 @@ class UserController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($id, Request $request)
 	{
-		//
+		dd('lala');
+
+      /*  $user = User::findOrFailt($id);
+        $user->update($request->all());
+
+        dd($user);
+
+        return Redirect::to('');*/
 	}
 
 	/**

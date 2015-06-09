@@ -28,6 +28,8 @@ Route::get('main/users','UserController@index');
 Route::get('main/users/{id}', 'UserController@show');
 Route::get('main/users/create', 'UserController@create');
 Route::get('main/users/edit', 'UserController@edit');
+Route::post('main/users/update', 'UserController@update');
+Route::post('main/users/store', 'UserController@store');
 
 
 Route::get('main/users/listview','MenuController@d2');
@@ -35,3 +37,7 @@ Route::get('main/users/modifications','MenuController@d3');
 Route::get('main/users/overview','MenuController@d4');
 
 Route::get('main/sitemap/sitemap','MenuController@e1');
+
+
+
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

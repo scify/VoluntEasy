@@ -1,24 +1,25 @@
 @extends('default')
 
 @section('title')
-    Δημιουργία Χρήστη
+    Προσθήκη Χρήστη
 @stop
 
 @section('pageTitle')
-    Δημιουργία Χρήστη
+    Προσθήκη Χρήστη
 @stop
-
 
 @section('bodyContent')
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
         <div class="panel panel-white">
-           <div class="panel-heading clearfix">
-              <h4 class="panel-title">Χρήστες</h4>
-           </div>
            <div class="panel-body">
-              @include('main.users.form')
+
+                {!! Form::model($user, ['method' => 'POST', 'action' => ['UserController@store', $user->id]]) !!}
+                    @include('main.users._form', ['submitButtonText' => 'Αποθήκευση', 'user' => $user])
+                {!! Form::close() !!}
+                
+                @include('errors.list')
            </div>
         </div>
     </div>

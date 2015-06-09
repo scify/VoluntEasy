@@ -14,7 +14,12 @@
     <div class="col-md-6">
         <div class="panel panel-white">
            <div class="panel-body">
-              @include('main.users.form', array("user" => $user))
+
+                {!! Form::model($user, ['method' => 'POST', 'action' => ['UserController@update', $user->id]]) !!}
+                    @include('main.users._form', ['submitButtonText' => 'Αποθήκευση', 'user' => $user])
+                {!! Form::close() !!}
+
+                @include('errors.list')
            </div>
         </div>
     </div>
