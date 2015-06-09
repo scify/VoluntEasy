@@ -1,6 +1,6 @@
 # Volunteasy
 
-## Starting the project
+### Starting the project
 
 For installing Laravel, please refer to [Official Laravel installation
 guide](http://laravel.com/docs/5.0).
@@ -35,7 +35,7 @@ db:seed`. You can verify the created user with:
 
 Verify login credentials by navigating at http://localhost/auth/login
 
-## Mail setup
+### Mail setup
 
 Manual intervention required in this. You'll have to edit
 VoluntEasy/VoluntEasy/config/mail.php and set the global "From" Address from:
