@@ -24,7 +24,12 @@ Route::get('main/actionsPrograms/overview','MenuController@b4');
 Route::get('main/volunteers/listview','MenuController@c1');
 Route::get('main/volunteers/statistics','MenuController@c2');
 
-Route::get('main/users/userListing','MenuController@d1');
+Route::get('main/users','UserController@index');
+Route::get('main/users/{id}', 'UserController@show');
+Route::get('main/users/create', 'UserController@create');
+Route::get('main/users/edit', 'UserController@edit');
+
+
 Route::get('main/users/listview','MenuController@d2');
 Route::get('main/users/modifications','MenuController@d3');
 Route::get('main/users/overview','MenuController@d4');

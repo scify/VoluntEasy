@@ -22,7 +22,9 @@
                 @include('template.default.pageTitle')
 
                 <!--Body -->
-                @yield('bodyContent')
+                <div id="main-wrapper">
+                    @yield('bodyContent')
+                </div>
 
                 <!-- Footer -->
                 @include('template.default.footer')
