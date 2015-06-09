@@ -7,4 +7,6 @@
 /laravelProject/composer.lock
 /laravelProject/.DS_Store
 /laravelProject/Thumbs.db
+laravelProject
+.htaccess
 .idea
