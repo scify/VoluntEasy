@@ -1,8 +1,8 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Http\Requests\UserRequest as UserRequest;
 use App\Models\User as User;
-use Illuminate\Support\Facades\Input as Input;
 use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
@@ -79,40 +79,14 @@ class UserController extends Controller
      *
      * @return Response
      */
-    public function update()
+
+    public function update(UserRequest $request)
     {
-        // create a new model instance
-        $user = new User();
+        $user = User::find(2);
 
-        // attempt validation
-        if ($user->validate(Input::all()))
-        {
-            $user = User::where('email', Input::get('email'))->pluck();
-            dd($user);
+        $user->update($request->all());
 
-
-        }
-        else
-        {
-            return Redirect::back()->withInput()->withErrors($user->errors());
-        }
-
-        // attempt validation
-        /*if ()
-        {
-            // success code
-        }
-        else
-        {
-            // failure
-        }
-*/
-        /*  $user = User::findOrFailt($id);
-          $user->update($request->all());
-
-          dd($user);
-
-          return Redirect::to('');*/
+        return Redirect::to('main/users');
     }
 
     /**

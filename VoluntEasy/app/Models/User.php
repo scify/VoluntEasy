@@ -32,46 +32,4 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
-
-
-    /**
-     * Validation Rules
-     *
-     * @var array
-     */
-    private $rules = array(
-        'name' => 'required',
-        'email' => 'required|email',
-        'password' => 'required',
-    );
-
-    private $errors;
-
-    /**
-     * Validate the object
-     *
-     * @param $data
-     * @return mixed
-     */
-    public function validate($data)
-    {
-        // make a new validator object
-        $v = Validator::make($data, $this->rules);
-
-        // check for failure
-        if ($v->fails())
-        {
-            // set errors and return false
-            $this->errors = $v->errors();
-            return false;
-        }
-
-        // return the result
-        return $v->passes();
-    }
-
-    public function errors()
-    {
-        return $this->errors;
-    }
 }

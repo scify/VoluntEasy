@@ -7,10 +7,6 @@
        {!! Form::text('email', null, ['class' => 'form-control']) !!}
    </div>
    <div class="form-group">
-       {!! Form::label('password', 'Κωδικός:') !!}
-       {!! Form::text('password', null, ['class' => 'form-control']) !!}
-   </div>
-   <div class="form-group">
        {!! Form::label('addr', 'Διεύθυνση:') !!}
        {!! Form::text('addr', null, ['class' => 'form-control']) !!}
    </div>

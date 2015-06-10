@@ -13,7 +13,7 @@ class UserRequest extends Request {
 	{
 		return [
 			'name' => 'required',
-            'email' => 'required|email'
+            'email' => 'required'
 		];
 	}
 
