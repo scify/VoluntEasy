@@ -42,7 +42,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     private $rules = array(
         'name' => 'required',
         'email' => 'required|email',
-        'password' => 'required|alphaNum',
+        'password' => 'required',
     );
 
     private $errors;

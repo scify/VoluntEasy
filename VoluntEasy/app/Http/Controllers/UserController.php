@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Models\User as User;
 use Illuminate\Support\Facades\Input as Input;
+use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
@@ -86,11 +87,14 @@ class UserController extends Controller
         // attempt validation
         if ($user->validate(Input::all()))
         {
-            echo 'cool';
+            $user = User::where('email', Input::get('email'))->pluck();
+            dd($user);
+
+
         }
         else
         {
-            dd($user->errors());
+            return Redirect::back()->withInput()->withErrors($user->errors());
         }
 
         // attempt validation
