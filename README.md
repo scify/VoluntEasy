@@ -31,7 +31,7 @@ For OpenBSD:
 
 Disable cgi.fix_pathinfo at /etc/php-5.5.ini: `cgi.fix_pathinfo=0`
 
-`% sudo php5enmod mcrypt && sudo service php5-fpm restart`
+`% sudo php5enmod mcrypt && sudo /etc/rc.d/php_fpm restart`
 
 Nginx server block:
 
