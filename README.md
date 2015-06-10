@@ -9,6 +9,65 @@ After cloning the project with a simple `git clone
 https://github.com/scify/VoluntEasy.git`, type `cd VoluntEasy/VoluntEasy &&
 composer install` to install all dependencies.
 
+### Installing dependencies (assuming nginx as web server):
+
+For Linux (Debian based):
+
+`% sudo aptitude install nginx php5-fpm php5-mcrypt mcrypt`
+
+For OpenBSD:
+
+`% sudo pkg_add nginx php-fpm php-mcrypt mcrypt`
+
+### Settings:
+
+For Linux:
+
+Disable cgi.fix_pathinfo at /etc/php5/fpm/php.ini: `cgi.fix_pathinfo=0`
+
+`% sudo php5enmod mcrypt && sudo service php5-fpm restart`
+
+For OpenBSD:
+
+Disable cgi.fix_pathinfo at /etc/php-5.5.ini: `cgi.fix_pathinfo=0`
+
+`% sudo php5enmod mcrypt && sudo service php5-fpm restart`
+
+Nginx server block:
+
+```
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server ipv6only=on;
+
+    root /var/www/laravel/public;
+    index index.php index.html index.htm;
+
+    server_name server_domain_or_IP;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        try_files $uri /index.php =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass unix:/var/run/php5-fpm.sock;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+}
+```
+
+For Linux:
+
+`% sudo service nginx restart && sudo chmod -R 755 path/to/project/storage`
+
+For OpenBSD:
+
+`% sudo /etc/rc.d/nginx restart && sudo chmod -R 755 path/to/project/storage`
+
 *database instructions placeholder*
 
 Initialize the database with `php artisan migrate` and test the installation
