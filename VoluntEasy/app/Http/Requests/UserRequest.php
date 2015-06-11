@@ -22,4 +22,18 @@ class UserRequest extends Request {
 	}
 
 
+    /**
+     * Custom error messages that override those defined in validation.php file.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'email.unique' => 'Το email χρησιμοποιείται ήδη.',
+            'password.min' => 'Ο κωδικός πρέπει να έχει μήκος πάνω από 6 χαρακτήρες.',
+            'confirmPassword.same' => 'Οι κωδικοί δεν είναι ίδιοι.',
+        ];
+    }
+
 }
