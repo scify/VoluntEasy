@@ -19,8 +19,6 @@ class CreateUnitsTable extends Migration {
 			$table->string('description', 300);
 			$table->string('comments', 300);
 			$table->smallInteger('level')->nullable();
-			$table->integer('user_id')->unsigned;
-			$table->foreign('user_id')->references('id')->on('users');
 			$table->integer('parent_unit_id')->unsigned;
 			$table->foreign('parent_unit_id')->references('id')->on('units');
 			$table->timestamp('start_date');
@@ -48,6 +46,14 @@ class CreateUnitsTable extends Migration {
 			$table->string('description', 300);
 			$table->smallInteger('step_order');
 		});
+
+		Schema::create('units_to_users', function($table)
+		{
+			$table->integer('user_id')->unsigned;
+			$table->foreign('user_id')->references('id')->on('users');
+			$table->integer('unit_id')->unsigned;
+			$table->foreign('unit_id')->references('id')->on('units');
+		});
 	}
 
 	/**
@@ -57,6 +63,7 @@ class CreateUnitsTable extends Migration {
 	 */
 	public function down()
 	{
+		Schema::dropIfExists('units_to_users');
 		Schema::dropIfExists('steps');
 		Schema::dropIfExists('step_statuses');
 		Schema::dropIfExists('unit_statuses');
