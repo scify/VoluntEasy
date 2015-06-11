@@ -11,11 +11,6 @@ Route::controllers([
 ]);
 
 
-Route::get('main/organizationalUnits/unitEntry','MenuController@a1');
-Route::get('main/organizationalUnits/listview','MenuController@a2');
-Route::get('main/organizationalUnits/modifications','MenuController@a3');
-Route::get('main/organizationalUnits/overview','MenuController@a4');
-
 Route::get('main/actionsPrograms/actionListing','MenuController@b1');
 Route::get('main/actionsPrograms/listview','MenuController@b2');
 Route::get('main/actionsPrograms/modifications','MenuController@b3');
@@ -24,6 +19,7 @@ Route::get('main/actionsPrograms/overview','MenuController@b4');
 Route::get('main/volunteers/listview','MenuController@c1');
 Route::get('main/volunteers/statistics','MenuController@c2');
 
+//User Routes
 Route::get('main/users','UserController@index');
 Route::get('main/users/one/{id}', 'UserController@show');
 Route::get('main/users/create', 'UserController@create');
@@ -31,6 +27,11 @@ Route::get('main/users/edit', 'UserController@edit');
 Route::get('main/users/delete/{id}', 'UserController@destroy');
 Route::post('main/users/update', 'UserController@update');
 Route::post('main/users/store', 'UserController@store');
+
+//Unit Routes
+Route::get('main/units','UnitController@index');
+Route::get('main/test','UnitController@test');
+
 
 
 Route::get('main/users/listview','MenuController@d2');

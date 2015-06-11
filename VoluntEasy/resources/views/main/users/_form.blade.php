@@ -5,10 +5,10 @@
        {!! Form::formInput('email', 'Email:', $errors, ['class' => 'form-control']) !!}
    </div>
    <div class="form-group">
-       {!! Form::formInput('password', 'Κωδικός:', $errors, ['class' => 'form-control']) !!}
+       {!! Form::formInput('password', 'Κωδικός:', $errors, ['class' => 'form-control', 'type' =>'password']) !!}
    </div>
    <div class="form-group">
-       {!! Form::formInput('confirmPassword', 'Επιβεβαίωση κωδικού:', $errors, ['class' => 'form-control']) !!}
+       {!! Form::formInput('password_confirmation', 'Επιβεβαίωση κωδικού:', $errors, ['class' => 'form-control', 'type' =>'password']) !!}
    </div>
    <div class="form-group">
        {!! Form::formInput('addr', 'Διεύθυνση:', $errors, ['class' => 'form-control']) !!}

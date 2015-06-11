@@ -8,10 +8,8 @@
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li><a href="{{ url('main/organizationalUnits/unitEntry') }}">Καταχώρηση Μονάδας</a></li>
-                                <li><a href="{{ url('main/organizationalUnits/listview') }}">Προβολή λίστας-Αναζήτηση</a></li>
-                                <li><a href="{{ url('main/organizationalUnits/modifications') }}">Τροποποίηση</a></li>
-                                <li><a href="{{ url('main/organizationalUnits/overview') }}">Επισκόπηση</a></li>
+                                <li><a href="{{ url('main/units/unitEntry') }}">Καταχώρηση Μονάδας</a></li>
+                                <li><a href="{{ url('main/units') }}">Προβολή Μονάδων</a></li>
                             </ul>
                         </li>
                         <li class="droplink">

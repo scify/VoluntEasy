@@ -31,4 +31,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+
+    public function units()
+    {
+        return $this->belongsToMany('App\Models\Unit', 'units_to_users', 'user_id', 'unit_id');
+    }
 }

@@ -15,7 +15,6 @@ class UserRequest extends Request {
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:6',
-            'confirmPassword' => 'same:password',
             'addr' => 'required|max:255',
             'tel' => 'required|max:50',
 		];
@@ -32,7 +31,7 @@ class UserRequest extends Request {
         return [
             'email.unique' => 'Το email χρησιμοποιείται ήδη.',
             'password.min' => 'Ο κωδικός πρέπει να έχει μήκος πάνω από 6 χαρακτήρες.',
-            'confirmPassword.same' => 'Οι κωδικοί δεν είναι ίδιοι.',
+            'password.confirmed' => 'Οι κωδικοί δεν είναι ίδιοι.',
         ];
     }
 

@@ -22,7 +22,7 @@ class UserController extends Controller
     {
         $users = User::all();
 
-        return view("main.users.listview", compact('users'));
+        return view("main.users.list", compact('users'));
     }
 
     /**

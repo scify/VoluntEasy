@@ -8,19 +8,19 @@ use Illuminate\Http\Request;
 class MenuController extends Controller {
 
     public function a1() {
-        return view('main.organizationalUnits.unitEntry');
+        return view('main.units.unitEntry');
     }
 
     public function a2() {
-        return view('main.organizationalUnits.listview');
+        return view('main.units.listview');
     }
 
     public function a3() {
-        return view('main.organizationalUnits.modifications');
+        return view('main.units.modifications');
     }
 
     public function a4() {
-        return view('main.organizationalUnits.overview');
+        return view('main.units.overview');
     }
 //-----------------------------------------------------------------------//
     public function b1() {

@@ -12,7 +12,14 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
     $label_html = Form::label($field, $label);
 
     //creating the html for the input tag
-    $text_html = Form::text($field, null, $attributes);
+    //if the input is f type password, create a password input
+    if (array_key_exists('type', $attributes) && $attributes['type'] == 'password') {
+        //useless, remove from attributes array
+        unset($attributes['type']);
+        $text_html = Form::password($field, $attributes);
+    } else {
+        $text_html = Form::text($field, null, $attributes);
+    }
 
     $msg_html = '';
 
