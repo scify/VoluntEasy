@@ -18,8 +18,6 @@
                 {!! Form::open(['method' => 'POST', 'action' => ['UserController@store']]) !!}
                     @include('main.users._form', ['submitButtonText' => 'Αποθήκευση'])
                 {!! Form::close() !!}
-
-                @include('errors.list')
            </div>
         </div>
     </div>

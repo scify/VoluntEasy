@@ -18,8 +18,6 @@
                 {!! Form::model($user, ['method' => 'POST', 'action' => ['UserController@update', 'id' => $user->id]]) !!}
                     @include('main.users._form', ['submitButtonText' => 'Αποθήκευση', 'user' => $user])
                 {!! Form::close() !!}
-
-                @include('errors.list')
            </div>
         </div>
     </div>

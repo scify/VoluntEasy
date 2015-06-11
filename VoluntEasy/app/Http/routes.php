@@ -40,5 +40,28 @@ Route::get('main/users/overview','MenuController@d4');
 Route::get('main/sitemap/sitemap','MenuController@e1');
 
 
-
+// Route to view logs in a more human way
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
+
+
+
+
+Form::macro('textError', function($field, $label, $errors, array $attributes){
+    $label_html = Form::label($field, $label);
+    $text_html = Form::text($field, null, $attributes);
+    $msg_html = '';
+
+    if($errors->has($field)){
+        $msg_html.= '<p class="help-block">';
+        $msg_html.= $errors->first($field);
+        $msg_html.= rtrim($label, ":");
+        $msg_html.= '</p>';
+        $text_html = Form::text($field, null, $attributes);
+
+        return '<div class="has-error">'.$label_html.$text_html.$msg_html.'</div>';
+    }
+    else{
+        return $label_html.$text_html.$msg_html;
+    }
+
+});

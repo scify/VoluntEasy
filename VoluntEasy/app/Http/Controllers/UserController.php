@@ -8,8 +8,6 @@ use Illuminate\Support\Facades\Redirect;
 class UserController extends Controller
 {
 
-    protected $_validator;
-
     public function __construct()
     {
         $this->middleware('auth');
