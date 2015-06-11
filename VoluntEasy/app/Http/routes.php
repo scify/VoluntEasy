@@ -54,7 +54,6 @@ Form::macro('textError', function($field, $label, $errors, array $attributes){
     if($errors->has($field)){
         $msg_html.= '<p class="help-block">';
         $msg_html.= $errors->first($field);
-        $msg_html.= rtrim($label, ":");
         $msg_html.= '</p>';
         $text_html = Form::text($field, null, $attributes);
 
