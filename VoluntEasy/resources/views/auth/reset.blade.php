@@ -1,12 +1,21 @@
-@extends('app')
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Title -->
+        <title>VoluntEasy | Login </title>
 
-@section('content')
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<div class="panel panel-default">
-				<div class="panel-heading">Reset Password</div>
-				<div class="panel-body">
+        @include('template.default.headerIncludes')
+    </head>
+
+    <body class="page-login">
+        <main class="page-content">
+            <div class="page-inner">
+                <div id="main-wrapper">
+                    <div class="row">
+                        <div class="col-md-3 center">
+                            <div class="login-box">
+                                <a href="{{ url('main') }}" class="logo-name text-lg text-center">VoluntEasy</a>
+
 					@if (count($errors) > 0)
 						<div class="alert alert-danger">
 							<strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -18,42 +27,35 @@
 						</div>
 					@endif
 
-					<form class="form-horizontal" role="form" method="POST" action="{{ url('/password/reset') }}">
+					<form class="m-t-d" role="form" method="POST" action="{{ url('/password/reset') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 						<input type="hidden" name="token" value="{{ $token }}">
 
 						<div class="form-group">
-							<label class="col-md-4 control-label">E-Mail Address</label>
-							<div class="col-md-6">
-								<input type="email" class="form-control" name="email" value="{{ old('email') }}">
-							</div>
+							<label>E-Mail address</label>
+							<input type="email" class="form-control" name="email" value="{{ old('email') }}">
 						</div>
 
 						<div class="form-group">
-							<label class="col-md-4 control-label">Password</label>
-							<div class="col-md-6">
-								<input type="password" class="form-control" name="password">
-							</div>
+							<label>New password</label>
+							<input type="password" class="form-control" name="password">
 						</div>
 
 						<div class="form-group">
-							<label class="col-md-4 control-label">Confirm Password</label>
-							<div class="col-md-6">
-								<input type="password" class="form-control" name="password_confirmation">
-							</div>
+							<label>Confirm Password</label>
+							<input type="password" class="form-control" name="password_confirmation">
 						</div>
 
 						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
-								<button type="submit" class="btn btn-primary">
-									Reset Password
-								</button>
+							<div class="btn btn-success btn-block">
+								<button type="submit" class="btn btn-success btn-block">Reset Password</button>
 							</div>
 						</div>
 					</form>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-@endsection
+			</div><!-- Row -->
+		</div><!-- Main Wrapper -->
+            </div><!-- Page Inner -->
+        </main><!-- Page Content -->
+         @include('...template.default.footerIncludes')
+    </body>
+</html>
