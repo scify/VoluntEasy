@@ -25,9 +25,10 @@ Route::get('main/volunteers/listview','MenuController@c1');
 Route::get('main/volunteers/statistics','MenuController@c2');
 
 Route::get('main/users','UserController@index');
-Route::get('main/users/{id}', 'UserController@show');
+Route::get('main/users/one/{id}', 'UserController@show');
 Route::get('main/users/create', 'UserController@create');
 Route::get('main/users/edit', 'UserController@edit');
+Route::get('main/users/delete/{id}', 'UserController@destroy');
 Route::post('main/users/update', 'UserController@update');
 Route::post('main/users/store', 'UserController@store');
 

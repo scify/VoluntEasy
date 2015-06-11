@@ -25,17 +25,19 @@
                        <th>Διεύθυνση</th>
                        <th>Τηλέφωνο</th>
                        <th>Level</th>
+                       <th></th>
                     </tr>
                  </thead>
                  <tbody>
                  @foreach ($users as $user)
                      <tr>
                         <td>{{ $user->id }}</td>
-                        <td><a href="{{ url('main/users/'.$user->id) }}">{{ $user->name }}</a></td>
+                        <td><a href="{{ url('main/users/one/'.$user->id) }}">{{ $user->name }}</a></td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->addr }}</td>
                         <td>{{ $user->tel }}</td>
                         <td>{{ $user->level }}</td>
+                        <td><a href="{{ url('main/users/delete/'.$user->id) }}"><i class="fa fa-trash"></i></a></td>
                      </tr>
                  @endforeach
                  </tbody>
@@ -44,14 +46,4 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
 @stop

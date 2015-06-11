@@ -15,7 +15,7 @@
         <div class="panel panel-white">
            <div class="panel-body">
 
-                {!! Form::model($user, ['method' => 'POST', 'action' => ['UserController@update', $user->id]]) !!}
+                {!! Form::model($user, ['method' => 'POST', 'action' => ['UserController@update', 'id' => $user->id]]) !!}
                     @include('main.users._form', ['submitButtonText' => 'Αποθήκευση', 'user' => $user])
                 {!! Form::close() !!}
 

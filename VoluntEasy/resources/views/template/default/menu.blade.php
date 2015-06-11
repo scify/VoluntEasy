@@ -45,7 +45,7 @@
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li><a href="/main/users/create">Καταχώρηση χρήστη</a></li>
+                                <li><a href="{{url('/main/users/create')}}">Καταχώρηση χρήστη</a></li>
                                 <li><a href="{{url('/main/users')}}">Προβολή λίστας-Αναζήτηση</a></li>
                                 <li><a href="/main/users/modifications">Τροποποίηση</a></li>
                                 <li><a href="/main/users/overview">Επισκόπηση</a></li>

@@ -40,11 +40,14 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param UserRequest $request
      * @return Response
      */
-    public function store()
+    public function store(UserRequest $request)
     {
-        //
+        User::create($request->all());
+
+        return Redirect::to('main/users');
     }
 
     /**
@@ -70,19 +73,19 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-
         return view("main.users.edit", compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      *
+     * @param UserRequest $request
      * @return Response
      */
 
     public function update(UserRequest $request)
     {
-        $user = User::find(2);
+        $user = User::findOrFail($request->get('id'));
 
         $user->update($request->all());
 
@@ -97,7 +100,11 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $user->delete();
+
+        return Redirect::to('main/users');
     }
 
 }

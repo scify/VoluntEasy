@@ -1,11 +1,11 @@
 @extends('default')
 
 @section('title')
-    Προσθήκη Χρήστη
+    Επεξεργασία Χρήστη
 @stop
 
 @section('pageTitle')
-    Προσθήκη Χρήστη
+    Επεξεργασία Χρήστη
 @stop
 
 @section('bodyContent')
@@ -15,10 +15,10 @@
         <div class="panel panel-white">
            <div class="panel-body">
 
-                {!! Form::model($user, ['method' => 'POST', 'action' => ['UserController@store', $user->id]]) !!}
-                    @include('main.users._form', ['submitButtonText' => 'Αποθήκευση', 'user' => $user])
+                {!! Form::open(['method' => 'POST', 'action' => ['UserController@store']]) !!}
+                    @include('main.users._form', ['submitButtonText' => 'Αποθήκευση'])
                 {!! Form::close() !!}
-                
+
                 @include('errors.list')
            </div>
         </div>
