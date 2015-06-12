@@ -8,10 +8,12 @@
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet" type="text/css">
         <link href="{{ asset('assets/plugins/uniform/css/uniform.default.min.css')}}" rel="stylesheet"/>
         <link href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('assets/plugins/bootstrap-datepicker/css/datepicker3.css')}}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('assets/plugins/fontawesome/css/font-awesome.css')}}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('assets/plugins/line-icons/simple-line-icons.css')}}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('assets/plugins/waves/waves.min.css')}}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('assets/plugins/slidepushmenus/css/component.css')}}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('assets/plugins/jOrgChart/jOrgChart.css')}}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('assets/plugins/toastr/toastr.min.css')}}" rel="stylesheet" type="text/css"/>
 
         <!-- Theme Styles -->

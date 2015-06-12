@@ -30,7 +30,12 @@ Route::post('main/users/store', 'UserController@store');
 
 //Unit Routes
 Route::get('main/units','UnitController@index');
-Route::get('main/test','UnitController@test');
+Route::get('main/units/all','UnitController@all');
+Route::get('main/units/one/{id}', 'UnitController@show');
+Route::get('main/units/create', 'UnitController@create');
+Route::get('main/units/edit', 'UnitController@edit');
+Route::post('main/units/store', 'UnitController@store');
+Route::post('main/units/update', 'UnitController@update');
 
 
 
@@ -46,4 +51,5 @@ Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
 
 
-
+/** TESTS **/
+Route::get('main/test','UnitController@test');

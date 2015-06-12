@@ -2,7 +2,8 @@
 
 use App\Http\Requests;
 use App\Models\Unit as Unit;
-use Illuminate\Http\Request;
+use App\Http\Requests\UnitRequest as UnitRequest;
+use Illuminate\Support\Facades\Redirect;
 
 class UnitController extends Controller
 {
@@ -14,9 +15,14 @@ class UnitController extends Controller
      */
     public function index()
     {
-        $units = Unit::all();
+        $units = Unit::with('parent', 'children')->get();
 
         return view("main.units.list", compact('units'));
+    }
+
+    public function all()
+    {
+        return Unit::with('parent', 'children')->orderBy('id')->get();
     }
 
     /**
@@ -26,17 +32,21 @@ class UnitController extends Controller
      */
     public function create()
     {
-        //
+        return view("main.units.create");
     }
 
     /**
      * Store a newly created resource in storage.
      *
+     * @param UnitRequest $request
      * @return Response
      */
-    public function store()
+    public function store(UnitRequest $request)
     {
-        //
+      // dd($request->all());
+        Unit::create($request->all());
+
+        return Redirect::to('main/units');
     }
 
     /**
@@ -47,7 +57,9 @@ class UnitController extends Controller
      */
     public function show($id)
     {
-        //
+        $unit = Unit::findOrFail($id);
+
+        return view("main.units.edit", compact('unit'));
     }
 
     /**

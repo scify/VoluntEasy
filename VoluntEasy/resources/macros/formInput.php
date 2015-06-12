@@ -5,21 +5,39 @@
  *  Macro 'formInput' is responsible for constructing the label+input+errors
  * for a form.
  *
+ * To create a custom form input, use the following syntax:
+ *
+ * {!! Form::formInput('inputName', 'Field label', $errors, ['class' => 'form-control', 'type' => 'textarea']) !!}
+ *
+ * Available types: password, textarea, date, text
+ *
  */
 
 Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
     //creating the html for the label tag
     $label_html = Form::label($field, $label);
 
-    //creating the html for the input tag
-    //if the input is f type password, create a password input
-    if (array_key_exists('type', $attributes) && $attributes['type'] == 'password') {
-        //useless, remove from attributes array
+    //creating the html for the input tag according to its type
+    if (array_key_exists('type', $attributes)) {
+        switch ($attributes['type']) {
+            case "password":
+                $text_html = Form::password($field, $attributes);
+                break;
+            case "textarea":
+                $text_html = Form::textarea($field, null, $attributes);
+                break;
+            case "date":
+                $text_html = Form::input('date', $field);
+                break;
+            default:
+                $text_html = Form::text($field, null, $attributes);
+        }
         unset($attributes['type']);
-        $text_html = Form::password($field, $attributes);
-    } else {
+    }
+    else {
         $text_html = Form::text($field, null, $attributes);
     }
+
 
     $msg_html = '';
 

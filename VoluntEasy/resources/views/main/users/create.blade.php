@@ -1,11 +1,11 @@
 @extends('default')
 
 @section('title')
-    Επεξεργασία Χρήστη
+    Προσθήκη Χρήστη
 @stop
 
 @section('pageTitle')
-    Επεξεργασία Χρήστη
+    Προσθήκη Χρήστη
 @stop
 
 @section('bodyContent')

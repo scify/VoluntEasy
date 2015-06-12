@@ -32,6 +32,7 @@
         </main>
         <div class="cd-overlay"></div>
         @include('template.default.footerIncludes')
+        @yield('footerScripts')
     </body>
 </html>
 

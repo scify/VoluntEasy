@@ -8,7 +8,7 @@
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li><a href="{{ url('main/units/unitEntry') }}">Καταχώρηση Μονάδας</a></li>
+                                <li><a href="{{ url('main/units/create') }}">Καταχώρηση Μονάδας</a></li>
                                 <li><a href="{{ url('main/units') }}">Προβολή Μονάδων</a></li>
                             </ul>
                         </li>
