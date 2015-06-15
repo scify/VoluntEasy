@@ -37,4 +37,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         return $this->belongsToMany('App\Models\Unit', 'units_to_users', 'user_id', 'unit_id');
     }
+
+    public function setPasswordAttribute($password)
+    {
+	return $this->attributes['password'] = bcrypt($password);
+    }
 }
