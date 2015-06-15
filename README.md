@@ -68,6 +68,10 @@ For OpenBSD:
 
 `% sudo /etc/rc.d/nginx restart && sudo chmod -R 755 path/to/project/storage`
 
+And finally, set the group appropriately:
+
+`% sudo chown -R www-data storage`
+
 *database instructions placeholder*
 
 Initialize the database with `php artisan migrate` and test the installation
