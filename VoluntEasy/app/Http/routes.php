@@ -30,7 +30,7 @@ Route::post('main/users/store', 'UserController@store');
 
 //Unit Routes
 Route::get('main/units','UnitController@index');
-Route::get('main/units/all','UnitController@all');
+Route::get('main/units/all/{id}','UnitController@all');
 Route::get('main/units/one/{id}', 'UnitController@show');
 Route::get('main/units/create', 'UnitController@create');
 Route::get('main/units/edit', 'UnitController@edit');

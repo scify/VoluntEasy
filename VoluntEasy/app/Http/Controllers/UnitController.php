@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Models\Unit as Unit;
 use App\Http\Requests\UnitRequest as UnitRequest;
 use Illuminate\Support\Facades\Redirect;
+use App\Helpers\UnitHelper as UnitHelper;
 
 class UnitController extends Controller
 {
@@ -15,14 +16,23 @@ class UnitController extends Controller
      */
     public function index()
     {
-        $units = Unit::with('parent', 'children')->get();
+        $units = Unit::whereRaw('parent_unit_id=id')->with('parent', 'children')->get();
 
         return view("main.units.list", compact('units'));
     }
 
-    public function all()
+    /**
+     * Get the tree with its branches in JSON format
+     *
+     * @return mixed
+     */
+    public function all($id)
     {
-        return Unit::with('parent', 'children')->orderBy('id')->get();
+        $units = Unit::where('id', '=', $id)->with('allChildren')->first();
+
+        $units->allChildren();
+
+        return $units;
     }
 
     /**
@@ -43,7 +53,6 @@ class UnitController extends Controller
      */
     public function store(UnitRequest $request)
     {
-      // dd($request->all());
         Unit::create($request->all());
 
         return Redirect::to('main/units');
@@ -57,9 +66,11 @@ class UnitController extends Controller
      */
     public function show($id)
     {
-        $unit = Unit::findOrFail($id);
+        $unit = Unit::where('id', '=', $id)->with('allChildren')->first();
 
-        return view("main.units.edit", compact('unit'));
+        $unit->allChildren();
+
+        return view("main.units.show", compact('unit'));
     }
 
     /**

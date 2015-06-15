@@ -36,9 +36,25 @@ class Unit extends Model
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function children(){
-        return $this->hasMany('App\Models\Unit', 'parent_unit_id', 'id');
+        return $this->hasMany('App\Models\Unit', 'parent_unit_id', 'id')->whereRaw('parent_unit_id<>id');
     }
 
+    /**
+     * Get all children/branches of a node
+     *
+     * @return mixed
+     */
+    public function allChildren()
+    {
+        return $this->children()->with('allChildren');
+    }
+
+
+    /**
+     * Format dates before showing on front end
+     *
+     * @return string
+     */
     public function getStartDateAttribute(){
         return Carbon::parse($this->attributes['start_date'])->format('d/m/Y');
     }

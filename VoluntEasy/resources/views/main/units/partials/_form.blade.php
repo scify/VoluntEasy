@@ -1,10 +1,10 @@
-   <div class="form-group">
+<div class="form-group">
        {!! Form::formInput('description', 'Περιγραφή:', $errors, ['class' => 'form-control']) !!}
    </div>
    <div class="form-group">
        {!! Form::formInput('comments', 'Σχόλια:', $errors, ['class' => 'form-control', 'type' => 'textarea', 'size' => '5x5']) !!}
    </div>
-   <div class="row">
+     <div class="row">
        <div class="col-md-6">
            <div class="form-group">
                  {!! Form::formInput('start_date', 'Ημερομηνία Έναρξης:', $errors, ['class' => 'form-control', 'data-provide' => 'datepicker']) !!}
@@ -19,17 +19,15 @@
    <div class="form-group">
        {!! Form::formInput('parent_unit_id', 'Πατέρας:', $errors, ['class' => 'form-control']) !!}
    </div>
-   <div class="form-group">
-       {!! Form::formInput('level', 'Επίπεδο:', $errors, ['class' => 'form-control']) !!}
-   </div>
+   {!! Form::hidden('level', '0') !!}
   <div class="form-group">
         {!! Form::submit($submitButtonText, ['class' => 'btn btn-success']) !!}
   </div>
 
 
 
-@section('footerScripts')
- <script type="text/javascript">
+<script>
+    //datepickers for the edit form
      $('#start_date').datepicker({
          language: 'el',
          format: 'dd/mm/yyyy',
@@ -52,4 +50,3 @@
            $('#start_date').datepicker('setEndDate', null);
        });
  </script>
- @stop

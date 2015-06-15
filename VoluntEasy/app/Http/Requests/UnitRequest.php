@@ -11,13 +11,19 @@ class UnitRequest extends Request {
 	 */
 	public function rules()
 	{
-		return [
-            'description' => 'required|max:300',
-            'comments' => 'required|max:300',
-            'parent_unit_id' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-		];
+        if(Request::get('type')=='root')
+            return [
+                'description' => 'required|max:300',
+                'comments' => 'required|max:300',
+            ];
+        else
+            return [
+                'description' => 'required|max:300',
+                'comments' => 'required|max:300',
+                'parent_unit_id' => 'required',
+                'start_date' => 'required',
+                'end_date' => 'required',
+            ];
 	}
 
 

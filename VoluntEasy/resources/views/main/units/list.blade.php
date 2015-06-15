@@ -48,59 +48,6 @@
     </div>
 </div>
 
-
-
-<div class="row">
-
-    <div class="col-md-6">
-        <div class="panel panel-white">
-           <div class="panel-heading clearfix">
-              <h4 class="panel-title">Tree</h4>
-           </div>
-           <div class="panel-body">
-
-            <div id="unitsTree"></div>
-
-            <p></p>
-            <ul id="tree" ></ul>
-
-           </div>
-           </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="panel panel-white">
-           <div class="panel-heading clearfix">
-              <h4 class="panel-title">Tree</h4>
-           </div>
-           <div class="panel-body">
-           <div id="testTree"></div>
-               <ul id="org" style="display:none">
-               <li>
-                 Food
-                 <ul>
-                   <li>Beer</li>
-                   <li>Vegetables
-                     <ul>
-                       <li>Pumpkin</li>
-                       <li><a href="http://tquila.com" target="_blank">Aubergine</a></li>
-                     </ul>
-                   </li>
-                   <li>Bread</li>
-                   <li>Chocolate
-                     <ul>
-                       <li>Topdeck</li>
-                       <li>Reese's Cups</li>
-                     </ul>
-                   </li>
-                 </ul>
-               </li>
-               </ul>
-           </div>
-        </div>
-    </div>
-    </div>
-
 @stop
 
 
@@ -113,9 +60,14 @@ var html='';
        url: '/main/units/all',
        success: function(data) {
             var ul = '<ul id="org" style="display:none">';
-            getLi(data);
 
-console.log(html);
+            html +='<li>' + data.id + ' ' + data.description + '<ul>';
+
+            getLi(data.all_children);
+
+             html +='</ul></li>';
+
+    console.log(html);
              $("#tree").append(html);
 
             $("#tree").jOrgChart({
@@ -129,23 +81,19 @@ console.log(html);
         chartElement: '#testTree'
     });
 
-/*
-function getLi(unit){
-    html = '<ul><li>';
-    html_+= unit.description;
-    html += '</li></ul>';
-}
-*/
+
 function getLi(units) {
+
     for (var i in units) {
-        if (units[i].hasOwnProperty('children') && units[i].children !== null && units[i].children.length>0) {
+    console.log(units[i]);
+        if (units[i].hasOwnProperty('all_children') && units[i].all_children !== null && units[i].all_children.length>0) {
             html += '<li>'+units[i].id+units[i].description+'<ul data-id="'+units[i].id+'">';
 
-            getLi(units[i].children);
+            getLi(units[i].all_children);
 
             html += '</ul></li>';
 
-        } else if (!units[i].hasOwnProperty('children')) {
+        } else if (units[i].all_children.length==0) {
 
             html += '<li data-id="'+units[i].id+'">';
             html += units[i].id+units[i].description;
