@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Requests\UserRequest as UserRequest;
+use App\Models\Unit;
 use App\Models\User as User;
 use Illuminate\Support\Facades\Redirect;
 
@@ -56,9 +57,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::where('id', $id)->with('units')->first();
 
-        return view("main.users.edit", compact('user'));
+        return view("main.users.show", compact('user'));
     }
 
     /**
@@ -69,7 +70,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::where('id', $id)->with('units.allChildren')->first();
 
         return view("main.users.edit", compact('user'));
     }

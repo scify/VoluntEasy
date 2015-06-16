@@ -1,10 +1,11 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Models\Unit as Unit;
 use App\Http\Requests\UnitRequest as UnitRequest;
+use App\Models\Unit as Unit;
 use Illuminate\Support\Facades\Redirect;
-use App\Helpers\UnitHelper as UnitHelper;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\View;
 
 class UnitController extends Controller
 {
@@ -69,6 +70,12 @@ class UnitController extends Controller
         $unit = Unit::where('id', '=', $id)->with('allChildren')->first();
 
         $unit->allChildren();
+
+        //if the request comes from ajax, return only a section of the needed code
+        if (Request::ajax()) {
+            $view = View::make('main.units.show')->with('unit', $unit);
+            return $view->renderSections()['details'];
+        }
 
         return view("main.units.show", compact('unit'));
     }

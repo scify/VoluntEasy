@@ -1,1 +1,26 @@
 /* Write your custom CSS here */
+
+.user-image img{
+    width:150px;
+    border-radius:50%;
+}
+
+
+
+/*** jOrgChart overrides ***/
+.jOrgChart .line{
+    width:2px;
+}
+.jOrgChart .top{
+    border-top-width:2px;
+}
+.jOrgChart .node{
+    background-color: #34425A;
+    padding:4px;
+    -webkit-box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.40);
+    -moz-box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.40);
+    box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.40);
+}
+.jOrgChart .active-node{
+    background-color: #1DB198;
+}

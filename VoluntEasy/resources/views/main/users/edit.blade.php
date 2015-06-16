@@ -11,7 +11,7 @@
 @section('bodyContent')
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="panel panel-white">
            <div class="panel-body">
 
@@ -23,4 +23,22 @@
     </div>
 </div>
 
+@stop
+
+
+
+@section('footerScripts')
+<script>
+    $(".unit").click(function(event){
+        event.preventDefault();
+
+
+        $("#unit-"+$(this).attr('data-id')).jOrgChart({
+            chartElement: '#unitsTree'
+        });
+
+    })
+
+
+</script>
 @stop

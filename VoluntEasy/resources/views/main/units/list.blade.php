@@ -1,49 +1,54 @@
 @extends('default')
 
 @section('title')
-    Προβολή Μονάδων
+Προβολή Μονάδων
 @stop
 @section('pageTitle')
-    Προβολή Μονάδων
+Προβολή Μονάδων
 @stop
 
 @section('bodyContent')
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-white">
-           <div class="panel-heading clearfix">
-              <h4 class="panel-title">Μονάδες</h4>
-           </div>
-           <div class="panel-body">
-              <table class="table table-striped">
-                 <thead>
+            <div class="panel-heading clearfix">
+                <h4 class="panel-title">Μονάδες</h4>
+            </div>
+            <div class="panel-body">
+                <table class="table table-striped">
+                    <thead>
                     <tr>
-                       <th>#</th>
-                       <th>Περιγραφή</th>
-                       <th>Σχόλια</th>
-                       <th>Ημ. Έναρξης</th>
-                       <th>Ημ. Λήξης</th>
-                       <th>Level</th>
-                       <th>Paren Id</th>
-                       <th></th>
+                        <th>#</th>
+                        <th>Περιγραφή</th>
+                        <th>Σχόλια</th>
+                        <th></th>
                     </tr>
-                 </thead>
-                 <tbody>
-                 @foreach ($units as $unit)
-                     <tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($units as $unit)
+                    <tr>
                         <td>{{ $unit->id }}</td>
                         <td><a href="{{ url('main/units/one/'.$unit->id) }}">{{ $unit->description }}</a></td>
                         <td>{{ $unit->comments }}</td>
-                        <td>{{ $unit->start_date }}</td>
-                        <td>{{ $unit->end_date }}</td>
-                        <td>{{ $unit->level }}</td>
-                        <td>{{ $unit->parent_unit_id }} {{ $unit->parent->description }}</td>
-                        <td><a href="{{ url('main/units/delete/'.$unit->id) }}"><i class="fa fa-trash"></i></a></td>
-                     </tr>
-                 @endforeach
-                 </tbody>
-              </table>
-           </div>
+                        <td>
+                            <ul class="list-inline">
+                                <li><a href="{{ url('main/units/edit/'.$unit->id) }}" data-toggle="tooltip"
+                                       data-placement="bottom" title="Προσθήκη Κλαδιού" class=""><i
+                                        class="fa fa-plus fa-2x"></i></a></li>
+                                <li><a href="{{ url('main/units/edit/'.$unit->id) }}" data-toggle="tooltip"
+                                       data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit fa-2x"></i></a>
+                                </li>
+                                <li><a href="{{ url('main/units/delete/'.$unit->id) }}" data-toggle="tooltip"
+                                       data-placement="bottom" title="Διαγραφή"><i class="fa fa-trash fa-2x"></i></a>
+                                </li>
+                            </ul>
+                        </td>
+
+                    </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
@@ -54,26 +59,30 @@
 @section('footerScripts')
 <script>
 
-var html='';
-//add spinner while it loads
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
+    var html = '';
+    //add spinner while it loads
     $.ajax({
-       url: '/main/units/all',
-       success: function(data) {
+        url: '/main/units/all',
+        success: function (data) {
             var ul = '<ul id="org" style="display:none">';
 
-            html +='<li>' + data.id + ' ' + data.description + '<ul>';
+            html += '<li>' + data.id + ' ' + data.description + '<ul>';
 
             getLi(data.all_children);
 
-             html +='</ul></li>';
+            html += '</ul></li>';
 
-    console.log(html);
-             $("#tree").append(html);
+            console.log(html);
+            $("#tree").append(html);
 
             $("#tree").jOrgChart({
-                    chartElement: '#unitsTree'
-                });
-       }
+                chartElement: '#unitsTree'
+            });
+        }
     });
 
 
@@ -82,24 +91,24 @@ var html='';
     });
 
 
-function getLi(units) {
+    function getLi(units) {
 
-    for (var i in units) {
-    console.log(units[i]);
-        if (units[i].hasOwnProperty('all_children') && units[i].all_children !== null && units[i].all_children.length>0) {
-            html += '<li>'+units[i].id+units[i].description+'<ul data-id="'+units[i].id+'">';
+        for (var i in units) {
+            console.log(units[i]);
+            if (units[i].hasOwnProperty('all_children') && units[i].all_children !== null && units[i].all_children.length > 0) {
+                html += '<li>' + units[i].id + units[i].description + '<ul data-id="' + units[i].id + '">';
 
-            getLi(units[i].all_children);
+                getLi(units[i].all_children);
 
-            html += '</ul></li>';
+                html += '</ul></li>';
 
-        } else if (units[i].all_children.length==0) {
+            } else if (units[i].all_children.length == 0) {
 
-            html += '<li data-id="'+units[i].id+'">';
-            html += units[i].id+units[i].description;
-            html += '</li>';
+                html += '<li data-id="' + units[i].id + '">';
+                html += units[i].id + units[i].description;
+                html += '</li>';
+            }
         }
     }
-}
 </script>
 @stop

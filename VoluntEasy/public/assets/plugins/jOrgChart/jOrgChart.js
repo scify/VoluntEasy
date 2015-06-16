@@ -12,14 +12,14 @@
  *
  */
 (function($) {
-
+    var $container;
     $.fn.jOrgChart = function(options) {
         var opts = $.extend({}, $.fn.jOrgChart.defaults, options);
         var $appendTo = $(opts.chartElement);
 
         // build the tree
         $this = $(this);
-        var $container = $("<div class='" + opts.chartClass + "'/>");
+        $container = $("<div class='" + opts.chartClass + "'/>");
         if($this.is("ul")) {
             buildNode($this.find("li:first"), $container, 0, opts);
         }
@@ -125,21 +125,25 @@
             .end()
             .html();
 
+        // Get the node id
+        var nodeId = $node.attr('data-id');
+
         //Increaments the node count which is used to link the source list and the org chart
         nodeCount++;
         $node.data("tree-node", nodeCount);
         $nodeDiv = $("<div>").addClass("node")
+            .attr('data-id', nodeId)
             .data("tree-node", nodeCount)
             .append($nodeContent);
 
         // Expand and contract nodes
-        if ($childNodes.length > 0) {
+        /*if ($childNodes.length > 0) {
             $nodeDiv.click(function() {
                 var $this = $(this);
                 var $tr = $this.closest("tr");
 
                 if($tr.hasClass('contracted')){
-                    $this.css('cursor','n-resize');
+                    //$this.css('cursor','n-resize');
                     $tr.removeClass('contracted').addClass('expanded');
                     $tr.nextAll("tr").css('visibility', '');
 
@@ -147,7 +151,7 @@
                     // maintain their appearance
                     $node.removeClass('collapsed');
                 }else{
-                    $this.css('cursor','s-resize');
+                    //$this.css('cursor','s-resize');
                     $tr.removeClass('expanded').addClass('contracted');
                     $tr.nextAll("tr").css('visibility', 'hidden');
 
@@ -155,6 +159,12 @@
                 }
             });
         }
+        */
+
+        $nodeDiv.click(function() {
+            $container.find('.active-node').removeClass('active-node');
+            $nodeDiv.addClass('active-node');
+        })
 
         $nodeCell.append($nodeDiv);
         $nodeRow.append($nodeCell);
@@ -162,7 +172,7 @@
 
         if($childNodes.length > 0) {
             // if it can be expanded then change the cursor
-            $nodeDiv.css('cursor','n-resize');
+           // $nodeDiv.css('cursor','n-resize');
 
             // recurse until leaves found (-1) or to the level specified
             if(opts.depth == -1 || (level+1 < opts.depth)) {
@@ -214,7 +224,7 @@
                     $nodeRow.nextAll('tr').css('visibility', 'hidden');
                     $nodeRow.removeClass('expanded');
                     $nodeRow.addClass('contracted');
-                    $nodeDiv.css('cursor','s-resize');
+                    //$nodeDiv.css('cursor','s-resize');
                 } else {
                     $nodeDiv.addClass(item);
                 }
