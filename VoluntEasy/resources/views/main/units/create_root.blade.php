@@ -14,8 +14,8 @@
     <div class="col-md-6">
         <div class="panel panel-white">
            <div class="panel-body">
-                {!! Form::open(['method' => 'POST', 'action' => ['UnitController@store', 'type' => 'root']]) !!}
-                    @include('main.units.partials._form_root', ['submitButtonText' => 'Αποθήκευση', 'type' => 'rootUnit'])
+                {!! Form::open(['method' => 'POST', 'action' => ['UnitController@store', 'type' => $type]]) !!}
+                    @include('main.units.partials._form', ['submitButtonText' => 'Αποθήκευση', 'type' => $type])
                 {!! Form::close() !!}
            </div>
         </div>

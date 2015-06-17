@@ -12,11 +12,13 @@
 @section('bodyContent')
 
 <div class="row">
+
+
     <div class="col-md-6">
         <div class="panel panel-white">
             <div class="panel-body">
                 @section('details')
-                  @include('main.units.partials._details', array('$unit->allChildren' => $unit))
+                @include('main.units.partials._details', array('$unit->allChildren' => $unit))
                 @append
                 <div class="unit-details">
                     @include('main.units.partials._details', array('$unit->allChildren' => $unit))
@@ -25,16 +27,14 @@
         </div>
     </div>
 
-    <div class="col-md-6">
-        <div class="panel panel-white">
-            <div class="panel-heading clearfix">
-                <h4 class="panel-title">Tree</h4>
-            </div>
-            <div class="panel-body">
 
+
+    <div class="col-md-4">
+        <div class="panel panel-white">
+            <div class="panel-body">
                 <div id="unitsTree"></div>
                 <ul id="tree" style="display:none;">
-                    <li data-id="{{$unit->id}}">{{$unit->description}}
+                    <li data-id="{{$unit->id}}" class="active-node">{{$unit->description}}
                         <ul>
                             @include('main.units.partials._branch', array('$unit->allChildren' => $unit))
                         </ul>
@@ -44,6 +44,8 @@
         </div>
     </div>
 </div>
+
+
 
 @stop
 

@@ -36,7 +36,7 @@ class Unit extends Model
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function children(){
-        return $this->hasMany('App\Models\Unit', 'parent_unit_id', 'id')->whereRaw('parent_unit_id<>id');
+        return $this->hasMany('App\Models\Unit', 'parent_unit_id', 'id');
     }
 
     /**

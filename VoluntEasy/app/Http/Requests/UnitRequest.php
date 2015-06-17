@@ -20,9 +20,7 @@ class UnitRequest extends Request {
             return [
                 'description' => 'required|max:300',
                 'comments' => 'required|max:300',
-                'parent_unit_id' => 'required',
-                'start_date' => 'required',
-                'end_date' => 'required',
+                'parent_unit' => 'required'
             ];
 	}
 

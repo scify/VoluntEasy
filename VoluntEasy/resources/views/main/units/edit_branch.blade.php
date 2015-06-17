@@ -14,7 +14,7 @@
     <div class="col-md-6">
         <div class="panel panel-white">
            <div class="panel-body">
-                {!! Form::model($unit, ['method' => 'POST', 'action' => ['UnitController@update', 'id' => $unit->id, 'type' => $type]]) !!}
+                {!! Form::model($unit, ['method' => 'POST', 'action' => ['UnitController@update', 'id' => $unit->id, 'type' => 'branch']]) !!}
                     @include('main.units.partials._form', ['submitButtonText' => 'Αποθήκευση', 'unit' => $unit])
                 {!! Form::close() !!}
            </div>

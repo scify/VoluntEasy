@@ -28,7 +28,7 @@ class AddActionsToUnitsRelation extends Migration {
 	{
 		Schema::table('actions', function($table)
 		{
-			$table->dropColumn('unit_id');
+			//$table->dropColumn('unit_id');
 		});
 	}
 

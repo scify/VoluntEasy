@@ -32,7 +32,7 @@
                         <td>{{ $unit->comments }}</td>
                         <td>
                             <ul class="list-inline">
-                                <li><a href="{{ url('main/units/edit/'.$unit->id) }}" data-toggle="tooltip"
+                                <li><a href="{{ url('main/units/create/'.$unit->id) }}" data-toggle="tooltip"
                                        data-placement="bottom" title="Προσθήκη Κλαδιού" class=""><i
                                         class="fa fa-plus fa-2x"></i></a></li>
                                 <li><a href="{{ url('main/units/edit/'.$unit->id) }}" data-toggle="tooltip"
@@ -43,7 +43,6 @@
                                 </li>
                             </ul>
                         </td>
-
                     </tr>
                     @endforeach
                     </tbody>
@@ -52,63 +51,13 @@
         </div>
     </div>
 </div>
-
 @stop
 
 
 @section('footerScripts')
 <script>
-
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
-    })
-
-    var html = '';
-    //add spinner while it loads
-    $.ajax({
-        url: '/main/units/all',
-        success: function (data) {
-            var ul = '<ul id="org" style="display:none">';
-
-            html += '<li>' + data.id + ' ' + data.description + '<ul>';
-
-            getLi(data.all_children);
-
-            html += '</ul></li>';
-
-            console.log(html);
-            $("#tree").append(html);
-
-            $("#tree").jOrgChart({
-                chartElement: '#unitsTree'
-            });
-        }
     });
-
-
-    $("#org").jOrgChart({
-        chartElement: '#testTree'
-    });
-
-
-    function getLi(units) {
-
-        for (var i in units) {
-            console.log(units[i]);
-            if (units[i].hasOwnProperty('all_children') && units[i].all_children !== null && units[i].all_children.length > 0) {
-                html += '<li>' + units[i].id + units[i].description + '<ul data-id="' + units[i].id + '">';
-
-                getLi(units[i].all_children);
-
-                html += '</ul></li>';
-
-            } else if (units[i].all_children.length == 0) {
-
-                html += '<li data-id="' + units[i].id + '">';
-                html += units[i].id + units[i].description;
-                html += '</li>';
-            }
-        }
-    }
 </script>
 @stop

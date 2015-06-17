@@ -2,7 +2,7 @@
 <html>
     <head>
         <!-- Title -->
-        <title> @yield('title') </title>
+        <title> @yield('title') | VoluntEasy</title>
 
         <!-- Include css, js files-->
         @include('template.default.headerIncludes')

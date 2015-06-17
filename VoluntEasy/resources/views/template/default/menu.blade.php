@@ -8,8 +8,8 @@
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li><a href="{{ url('main/units/create') }}">Καταχώρηση Μονάδας</a></li>
                                 <li><a href="{{ url('main/units') }}">Προβολή Μονάδων</a></li>
+                                <li><a href="{{ url('main/units/create') }}">Δημιουργία Μονάδας</a></li>
                             </ul>
                         </li>
                         <li class="droplink">
@@ -19,7 +19,7 @@
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li><a href="{{url('/main/actionsPrograms/actionListing')}}">Καταχώρηση Δράσης</a></li>
+                                <li><a href="{{url('/main/actionsPrograms/actionListing')}}">Δημιουργία Δράσης</a></li>
                                 <li><a href="/main/actionsPrograms/listview">Προβολή λίστας-Αναζήτηση</a></li>
                                 <li><a href="/main/actionsPrograms/modifications">Τροποποίηση</a></li>
                                 <li><a href="/main/actionsPrograms/overview">Επισκόπηση</a></li>
@@ -44,7 +44,7 @@
                             </a>
                             <ul class="sub-menu">
                                 <li><a href="{{url('/main/users')}}">Προβολή Χρηστών</a></li>
-                                <li><a href="{{url('/main/users/create')}}">Καταχώρηση Χρήστη</a></li>
+                                <li><a href="{{url('/main/users/create')}}">Δημιουργία Χρήστη</a></li>
                             </ul>
                         </li>
                         <li>
