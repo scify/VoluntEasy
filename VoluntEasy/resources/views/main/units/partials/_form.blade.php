@@ -7,13 +7,12 @@
 </div>
 @if($type=='root')
     {!! Form::hidden('level', 0) !!}
-    {!! Form::hidden('parent_unit_id', 0) !!}
 @elseif($type=='branch')
     <div class="form-group">
-        {!! Form::formInput('parent_unit', 'Πατέρας:', $errors, ['class' => 'form-control']) !!}
+        {!! Form::formInput('parent_unit', 'Πατέρας:', $errors, ['class' => 'form-control', 'data-value' => $unit->description]) !!}
     </div>
     {!! Form::hidden('level', $unit->level+1) !!}
-    {!! Form::hidden('parent_unit_id', $unit->parent_unit_id) !!}
+    {!! Form::hidden('parent_unit_id', $unit->id) !!}
 @endif
 <div class="form-group">
     {!! Form::submit($submitButtonText, ['class' => 'btn btn-success']) !!}

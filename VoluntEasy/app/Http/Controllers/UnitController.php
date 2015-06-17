@@ -43,14 +43,17 @@ class UnitController extends Controller
      */
     public function createRoot()
     {
-        return view("main.units.create_root");
+        $type='root';
+        return view("main.units.create_root", compact('type'));
     }
 
     public function createBranch($id)
     {
         $unit = Unit::where('id', $id)->with('allChildren')->first();
 
-        return view("main.units.create_branch", compact('unit'));
+        $type='branch';
+
+        return view("main.units.create_branch", compact('unit', 'type'));
     }
 
     /**
@@ -61,12 +64,9 @@ class UnitController extends Controller
      */
     public function store(UnitRequest $request)
     {
-        if($request->get('type')=='root')
-
-
         Unit::create($request->all());
 
-        return Redirect::to('main.units');
+        return Redirect::to('main/units');
     }
 
     /**
@@ -96,15 +96,20 @@ class UnitController extends Controller
      */
     public function edit($id)
     {
-        $unit = Unit::where('id', $id)->with('allChildren')->first();
-        if($unit->id==$unit->parent_unit_id)
-            $type='root';
-        else
-            $type='branch';
+        $unit = Unit::where('id', $id)->first();
+
+        if($unit->id==$unit->parent_unit_id) {
+            $type = 'root';
+            $unit->load('allChildren');
+        }
+        else {
+            $type = 'branch';
+            $unit->load('allParents.allChildren');
+        }
+        //return $unit;
 
         return view("main.units.edit", compact('unit', 'type'));
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -129,7 +134,11 @@ class UnitController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $unit = Unit::findOrFail($id);
+
+        $unit->delete();
+
+        return Redirect::to('main/units');
     }
 
 

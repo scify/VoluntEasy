@@ -21,5 +21,6 @@
 <div class="text-right">
     <a href="{{ url('main/units/edit/'.$unit->id) }}" class="btn btn-success"><i
             class="fa fa-edit"></i> Επεξεργασία</a>
-    <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i> Διαγραφή</button>
+    <a href="{{ url('main/units/delete/'.$unit->id) }}" class="btn btn-danger"><i
+            class="fa fa-edit"></i> Διαγραφή</a>
 </div>

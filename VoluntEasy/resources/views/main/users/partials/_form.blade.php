@@ -9,6 +9,16 @@
         <div class="row m-b-lg">
             <div class="col-md-6">
 
+
+
+
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target=".bs-example-modal-lg">Προσθήκη σε Οργανωτική</button>
+                @include('main.users.partials._unit_modal')
+
+
+
+
+
                 <div class="form-group">
                     {!! Form::formInput('name', 'Όνομα:', $errors, ['class' => 'form-control']) !!}
                 </div>
@@ -43,10 +53,13 @@
                 @if(isset($user))
                 @if (sizeof($user->units)==0)
                 <h3>Ο χρήστης δεν ανήκει σε καμία οργανωτική μονάδα.</h3>
+                <div class="text-right">
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target=".bs-example-modal-lg">Προσθήκη σε Οργανωτική</button>
+                </div>
+                @include('main.users.partials._unit_modal')
             </div>
             @else
             <ul class="list-unstyled">
-
                 @foreach($user->units as $unit)
                 <li><a href="#" class="unit" data-id="{{$unit->id}}">{{$unit->description}}</a></li>
                 @endforeach
@@ -71,5 +84,6 @@
     </div>
 </div>
 </div>
+
 
 

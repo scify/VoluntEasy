@@ -72,7 +72,9 @@ class UserController extends Controller
     {
         $user = User::where('id', $id)->with('units.allChildren')->first();
 
-        return view("main.users.edit", compact('user'));
+        $units = Unit::whereNull('parent_unit_id')->with('parent', 'children')->get();
+
+        return view("main.users.edit", compact('user', 'units'));
     }
 
     /**

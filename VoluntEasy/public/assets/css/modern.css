@@ -1549,10 +1549,6 @@ h5 {
     padding: 0!important;
 }
 
-.modal-backdrop {
-    z-index: 999999;
-}
-
 /* Pagination */
 
 .pagination > li > a {

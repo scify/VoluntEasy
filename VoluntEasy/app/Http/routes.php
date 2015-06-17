@@ -35,6 +35,7 @@ Route::get('main/units/one/{id}', 'UnitController@show');
 Route::get('main/units/create', 'UnitController@createRoot');
 Route::get('main/units/create/{id}', 'UnitController@createBranch');
 Route::get('main/units/edit/{id}', 'UnitController@edit');
+Route::get('main/units/delete/{id}', 'UnitController@destroy');
 Route::post('main/units/store', 'UnitController@store');
 Route::post('main/units/update', 'UnitController@update');
 

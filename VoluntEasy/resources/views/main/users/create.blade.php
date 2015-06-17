@@ -16,7 +16,7 @@
            <div class="panel-body">
 
                 {!! Form::open(['method' => 'POST', 'action' => ['UserController@store']]) !!}
-                    @include('main.users._form', ['submitButtonText' => 'Αποθήκευση'])
+                    @include('main.users.partials._form', ['submitButtonText' => 'Αποθήκευση'])
                 {!! Form::close() !!}
            </div>
         </div>

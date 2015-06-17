@@ -49,6 +49,16 @@ class Unit extends Model
         return $this->children()->with('allChildren');
     }
 
+    /**
+     * Get all parents of a node
+     *
+     * @return mixed
+     */
+    public function allParents()
+    {
+        return $this->parent()->with('allParents');
+    }
+
 
     /**
      * Format dates before showing on front end

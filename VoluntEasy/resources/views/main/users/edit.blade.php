@@ -16,19 +16,23 @@
            <div class="panel-body">
 
                 {!! Form::model($user, ['method' => 'POST', 'action' => ['UserController@update', 'id' => $user->id]]) !!}
-                    @include('main.users._form', ['submitButtonText' => 'Αποθήκευση', 'user' => $user])
+                    @include('main.users.partials._form', ['submitButtonText' => 'Αποθήκευση', 'user' => $user])
                 {!! Form::close() !!}
            </div>
         </div>
     </div>
 </div>
 
+
+
 @stop
 
 
 
 @section('footerScripts')
+
 <script>
+    /*
     $(".unit").click(function(event){
         event.preventDefault();
 
@@ -39,6 +43,6 @@
 
     })
 
-
+*/
 </script>
 @stop

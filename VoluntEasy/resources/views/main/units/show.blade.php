@@ -34,7 +34,7 @@
             <div class="panel-body">
                 <div id="unitsTree"></div>
                 <ul id="tree" style="display:none;">
-                    <li data-id="{{$unit->id}}" class="active-node">{{$unit->description}}
+                    <li data-id="{{$unit->id}}" class="active-node"><span class="description">{{$unit->description}}</span>
                         <ul>
                             @include('main.units.partials._branch', array('$unit->allChildren' => $unit))
                         </ul>
