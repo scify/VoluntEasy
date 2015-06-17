@@ -30,10 +30,11 @@ Route::post('main/users/store', 'UserController@store');
 
 //Unit Routes
 Route::get('main/units','UnitController@index');
-Route::get('main/units/all/{id}','UnitController@all');
+Route::get('main/units/tree/{id}','UnitController@tree');
 Route::get('main/units/one/{id}', 'UnitController@show');
-Route::get('main/units/create', 'UnitController@create');
-Route::get('main/units/edit', 'UnitController@edit');
+Route::get('main/units/create', 'UnitController@createRoot');
+Route::get('main/units/create/{id}', 'UnitController@createBranch');
+Route::get('main/units/edit/{id}', 'UnitController@edit');
 Route::post('main/units/store', 'UnitController@store');
 Route::post('main/units/update', 'UnitController@update');
 

@@ -4,7 +4,14 @@
     width:150px;
     border-radius:50%;
 }
-
+.user-image-small{
+    width:40px;
+    border-radius:50%;
+}
+.user-list a{
+    font-size:14px;
+    margin-left:5px;
+}
 
 
 /*** jOrgChart overrides ***/
@@ -23,4 +30,7 @@
 }
 .jOrgChart .active-node{
     background-color: #1DB198;
+}
+.jOrgChart table{
+    margin:0 auto;
 }
