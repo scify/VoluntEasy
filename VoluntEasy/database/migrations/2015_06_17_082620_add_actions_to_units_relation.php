@@ -12,10 +12,10 @@ class AddActionsToUnitsRelation extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('units', function($table)
+		Schema::table('actions', function($table)
 		{
-			$table->integer('action_id')->unsigned;
-			$table->foreign('action_id')->references('id')->on('actions');
+			$table->integer('unit_id')->unsigned;
+			$table->foreign('unit_id')->references('id')->on('units');
 		});
 	}
 
@@ -26,9 +26,9 @@ class AddActionsToUnitsRelation extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('units', function($table)
+		Schema::table('actions', function($table)
 		{
-			$table->dropColumn('action_id');
+			$table->dropColumn('unit_id');
 		});
 	}
 
