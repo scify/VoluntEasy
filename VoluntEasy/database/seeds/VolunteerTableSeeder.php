@@ -35,7 +35,7 @@ class VolunteerTableSeeder extends Seeder {
 		    ['description' => 'Διαζευγμένος/η'],
 	    ];
 
-	    DB::table('marital_statuses')->insert($types);
+	    DB::table('marital_statuses')->insert($statuses);
 
 	    // Driver license types.
 	    DB::table('driver_license_types')->delete();
