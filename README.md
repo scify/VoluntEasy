@@ -78,11 +78,10 @@ Initialize the database with `php artisan migrate` and test the installation
 with `php artisan serve` and hit `localhost:8000/auth/register` at your browser
 of choice.
 
-After running migrations, it's time to create an initial user. Edit the file
-with `$EDITOR VoluntEasy/VoluntEasy/database/seeds/UserTableSeeder.php` and
-fill the appropriate fields (name, email, password, password, addr, tel). Going
-back to VoluntEasy/VoluntEasy, you may seed the database with `php artisan
-db:seed`. You can verify the created user with:
+After running migrations, it's time to create an initial user.
+
+Navigate at the root directory and run `./config-user.pl`. The script asks for initial user info. After filling everything, you will be asked if the info is correct. If not, just press `n` and it will run once more. Upon successful completion, the database seed file will be generated. It's time to seed the database with `php artisan db:seed --class=UserTableSeeder`. You can verify the created user with:
+
 
 ```
 % psql -d <database_name>
