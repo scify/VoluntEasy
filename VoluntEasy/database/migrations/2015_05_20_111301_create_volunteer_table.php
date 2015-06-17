@@ -12,21 +12,18 @@ class CreateVolunteerTable extends Migration {
      */
     public function up()
     {
-        // TODO: Populate id types.
         Schema::create('identification_types', function($table)
         {
             $table->increments('id');
             $table->string('description', 50);
         });
 
-        // TODO: Populate marital status.
         Schema::create('marital_statuses', function($table)
         {
             $table->increments('id');
             $table->string('description', 100)->nullable;
         });
 
-        // TODO: Populate driver license types.
         Schema::create('driver_license_types', function($table)
         {
             $table->increments('id');
@@ -40,7 +37,6 @@ class CreateVolunteerTable extends Migration {
         });
 
 
-        // TODO: Populate work status.
         Schema::create('work_statuses', function($table)
         {
             $table->increments('id');
@@ -80,7 +76,6 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('work_status_id')->references('id')->on('work_statuses');
         });
 
-        // TODO: Populate volunteer frequency text.
         Schema::create('availability_time', function($table)
         {
             $table->increments('id');
@@ -104,7 +99,6 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
         });
 
-        /* TODO: Populate interest for checkboxes. */
         Schema::create('interests', function($table)
         {
             $table->increments('id');
@@ -121,7 +115,6 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('interest_id')->references('id')->on('interests');
         });
 
-        // TODO: Populate language list.
         Schema::create('languages', function($table)
         {
             $table->increments('id');
