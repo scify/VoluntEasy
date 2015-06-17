@@ -21,12 +21,20 @@ class CreateUnitsTable extends Migration {
 			$table->smallInteger('level')->nullable();
 			$table->integer('parent_unit_id')->unsigned;
 			$table->foreign('parent_unit_id')->references('id')->on('units');
+			$table->timestamps();
+		});
+
+		Schema::create('actions', function($table)
+		{
+			$table->increments('id');
+			$table->string('description', 300);
+			$table->string('comments', 300);
 			$table->timestamp('start_date');
 			$table->timestamp('end_date');
 			$table->timestamps();
 		});
 
-		Schema::create('unit_statuses', function($table)
+		Schema::create('action_statuses', function($table)
 		{
 			$table->increments('id');
 			$table->text('description');
@@ -41,8 +49,8 @@ class CreateUnitsTable extends Migration {
 		Schema::create('steps', function($table)
 		{
 			$table->increments('id');
-			$table->integer('unit_id')->unsigned();
-			$table->foreign('unit_id')->references('id')->on('units');
+			$table->integer('action_id')->unsigned();
+			$table->foreign('action_id')->references('id')->on('actions');
 			$table->string('description', 300);
 			$table->smallInteger('step_order');
 		});
@@ -66,7 +74,8 @@ class CreateUnitsTable extends Migration {
 		Schema::dropIfExists('units_to_users');
 		Schema::dropIfExists('steps');
 		Schema::dropIfExists('step_statuses');
-		Schema::dropIfExists('unit_statuses');
+		Schema::dropIfExists('action_statuses');
+		Schema::dropIfExists('actions');
 		Schema::dropIfExists('units');
 	}
 
