@@ -19,7 +19,7 @@ class CreateUnitsTable extends Migration {
 			$table->string('description', 300);
 			$table->string('comments', 300);
 			$table->smallInteger('level')->nullable();
-			$table->integer('parent_unit_id')->unsigned;
+			$table->integer('parent_unit_id')->nullable();
 			$table->foreign('parent_unit_id')->references('id')->on('units');
 			$table->timestamps();
 		});
