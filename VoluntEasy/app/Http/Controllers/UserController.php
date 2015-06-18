@@ -44,6 +44,7 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
+	$request['password'] = \Hash::make($request['password']);
         User::create($request->all());
 
         return Redirect::to('main/users');
