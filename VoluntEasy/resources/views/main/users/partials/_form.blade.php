@@ -56,7 +56,6 @@
                 <div class="text-right">
                     <button type="button" class="btn btn-success" data-toggle="modal" data-target=".bs-example-modal-lg">Προσθήκη σε Οργανωτική</button>
                 </div>
-                @include('main.users.partials._unit_modal')
             </div>
             @else
             <ul class="list-unstyled">

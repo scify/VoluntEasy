@@ -19,6 +19,11 @@ class Unit extends Model
         return $this->belongsToMany('App\Models\User', 'units_to_users', 'unit_id', 'user_id');
     }
 
+    public function actions()
+    {
+        return $this->hasMany('App\Models\Action');
+    }
+
     /**
      * Get the unit's parent unit
      *

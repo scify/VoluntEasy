@@ -40,7 +40,7 @@ class CreateVolunteerTable extends Migration {
         Schema::create('work_statuses', function($table)
         {
             $table->increments('id');
-            $table->string('work_status', 300);
+            $table->string('description', 300);
         });
 
         Schema::create('volunteers', function($table)

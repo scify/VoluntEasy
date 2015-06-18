@@ -39,6 +39,20 @@ Route::get('main/units/delete/{id}', 'UnitController@destroy');
 Route::post('main/units/store', 'UnitController@store');
 Route::post('main/units/update', 'UnitController@update');
 
+//Volunteer Routes
+Route::get('main/volunteers','VolunteerController@all');
+
+
+
+
+
+
+//Action Routes
+Route::get('main/actions','ActionController@index');
+
+
+
+
 
 
 Route::get('main/users/listview','MenuController@d2');

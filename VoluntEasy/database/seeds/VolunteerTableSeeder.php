@@ -66,10 +66,10 @@ class VolunteerTableSeeder extends Seeder {
 	    DB::table('work_statuses')->delete();
 
 	    $statuses = [
-		    ['work_status' => 'Φοιτητής'],
-		    ['work_status' => 'Εργαζόμενος'],
-		    ['work_status' => 'Άνεργος'],
-		    ['work_status' => 'Συνταξιούχος'],
+		    ['description' => 'Φοιτητής'],
+		    ['description' => 'Εργαζόμενος'],
+		    ['description' => 'Άνεργος'],
+		    ['description' => 'Συνταξιούχος'],
 	    ];
 
 	    DB::table('work_statuses')->insert($statuses);

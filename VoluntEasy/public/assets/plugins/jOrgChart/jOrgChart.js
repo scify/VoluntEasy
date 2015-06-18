@@ -11,45 +11,45 @@
  * Dual licensed under the MIT and GPL licenses.
  *
  */
-(function($) {
+(function ($) {
     var $container;
-    $.fn.jOrgChart = function(options) {
+    $.fn.jOrgChart = function (options) {
         var opts = $.extend({}, $.fn.jOrgChart.defaults, options);
         var $appendTo = $(opts.chartElement);
 
         // build the tree
         $this = $(this);
         $container = $("<div class='" + opts.chartClass + "'/>");
-        if($this.is("ul")) {
+        if ($this.is("ul")) {
             buildNode($this.find("li:first"), $container, 0, opts);
         }
-        else if($this.is("li")) {
+        else if ($this.is("li")) {
             buildNode($this, $container, 0, opts);
         }
         $appendTo.append($container);
 
         // add drag and drop if enabled
-        if(opts.dragAndDrop){
+        if (opts.dragAndDrop) {
             $('div.node').draggable({
-                cursor      : 'move',
-                distance    : 40,
-                helper      : 'clone',
-                opacity     : 0.8,
-                revert      : 'invalid',
-                revertDuration : 100,
-                snap        : 'div.node.expanded',
-                snapMode    : 'inner',
-                stack       : 'div.node'
+                cursor: 'move',
+                distance: 40,
+                helper: 'clone',
+                opacity: 0.8,
+                revert: 'invalid',
+                revertDuration: 100,
+                snap: 'div.node.expanded',
+                snapMode: 'inner',
+                stack: 'div.node'
             });
 
             $('div.node').droppable({
-                accept      : '.node',
-                activeClass : 'drag-active',
-                hoverClass  : 'drop-hover'
+                accept: '.node',
+                activeClass: 'drag-active',
+                hoverClass: 'drop-hover'
             });
 
             // Drag start event handler for nodes
-            $('div.node').bind("dragstart", function handleDragStart( event, ui ){
+            $('div.node').bind("dragstart", function handleDragStart(event, ui) {
 
                 var sourceNode = $(this);
                 sourceNode.parentsUntil('.node-container')
@@ -59,7 +59,7 @@
             });
 
             // Drag stop event handler for nodes
-            $('div.node').bind("dragstop", function handleDragStop( event, ui ){
+            $('div.node').bind("dragstop", function handleDragStop(event, ui) {
 
                 /* reload the plugin */
                 $(opts.chartElement).children().remove();
@@ -67,17 +67,21 @@
             });
 
             // Drop event handler for nodes
-            $('div.node').bind("drop", function handleDropEvent( event, ui ) {
+            $('div.node').bind("drop", function handleDropEvent(event, ui) {
 
                 var targetID = $(this).data("tree-node");
-                var targetLi = $this.find("li").filter(function() { return $(this).data("tree-node") === targetID; } );
+                var targetLi = $this.find("li").filter(function () {
+                    return $(this).data("tree-node") === targetID;
+                });
                 var targetUl = targetLi.children('ul');
 
                 var sourceID = ui.draggable.data("tree-node");
-                var sourceLi = $this.find("li").filter(function() { return $(this).data("tree-node") === sourceID; } );
+                var sourceLi = $this.find("li").filter(function () {
+                    return $(this).data("tree-node") === sourceID;
+                });
                 var sourceUl = sourceLi.parent('ul');
 
-                if (targetUl.length > 0){
+                if (targetUl.length > 0) {
                     targetUl.append(sourceLi);
                 } else {
                     targetLi.append("<ul></ul>");
@@ -85,21 +89,43 @@
                 }
 
                 //Removes any empty lists
-                if (sourceUl.children().length === 0){
+                if (sourceUl.children().length === 0) {
                     sourceUl.remove();
                 }
 
             }); // handleDropEvent
 
         } // Drag and drop
+
+
+        // Behavior of tree, if the user can select multiple nodes
+        if (opts.multiple) {
+            $('div.node').click(function () {
+                console.log($(this).attr('data-id') + ' isActive '+$(this).hasClass('active-node'));
+                if ($(this).hasClass('active-node'))
+                    $(this).removeClass('active-node');
+                else
+                    $(this).addClass('active-node');
+            })
+        }
+        else {
+            $('div.node').click(function () {
+                $container.find('.active-node').removeClass('active-node');
+                if ($(this).hasClass('active-node'))
+                    $(this).removeClass('active-node');
+                else
+                    $(this).addClass('active-node');
+            })
+        }//Multiple
     };
 
     // Option defaults
     $.fn.jOrgChart.defaults = {
-        chartElement : 'body',
-        depth      : -1,
-        chartClass : "jOrgChart",
-        dragAndDrop: false
+        chartElement: 'body',
+        depth: -1,
+        chartClass: "jOrgChart",
+        dragAndDrop: false,
+        multiple: false
     };
 
     var nodeCount = 0;
@@ -114,7 +140,7 @@
         var $childNodes = $node.children("ul:first").children("li");
         var $nodeDiv;
 
-        if($childNodes.length > 1) {
+        if ($childNodes.length > 1) {
             $nodeCell.attr("colspan", $childNodes.length * 2);
         }
         // Draw the node
@@ -125,7 +151,7 @@
             .end()
             .html();
 
-        // Get the node id
+        // Set the node id
         var nodeId = $node.attr('data-id');
 
         //Increaments the node count which is used to link the source list and the org chart
@@ -136,48 +162,44 @@
             .data("tree-node", nodeCount)
             .append($nodeContent);
 
+
         // Expand and contract nodes
         /*if ($childNodes.length > 0) {
-            $nodeDiv.click(function() {
-                var $this = $(this);
-                var $tr = $this.closest("tr");
+         $nodeDiv.click(function() {
+         var $this = $(this);
+         var $tr = $this.closest("tr");
 
-                if($tr.hasClass('contracted')){
-                    //$this.css('cursor','n-resize');
-                    $tr.removeClass('contracted').addClass('expanded');
-                    $tr.nextAll("tr").css('visibility', '');
+         if($tr.hasClass('contracted')){
+         //$this.css('cursor','n-resize');
+         $tr.removeClass('contracted').addClass('expanded');
+         $tr.nextAll("tr").css('visibility', '');
 
-                    // Update the <li> appropriately so that if the tree redraws collapsed/non-collapsed nodes
-                    // maintain their appearance
-                    $node.removeClass('collapsed');
-                }else{
-                    //$this.css('cursor','s-resize');
-                    $tr.removeClass('expanded').addClass('contracted');
-                    $tr.nextAll("tr").css('visibility', 'hidden');
+         // Update the <li> appropriately so that if the tree redraws collapsed/non-collapsed nodes
+         // maintain their appearance
+         $node.removeClass('collapsed');
+         }else{
+         //$this.css('cursor','s-resize');
+         $tr.removeClass('expanded').addClass('contracted');
+         $tr.nextAll("tr").css('visibility', 'hidden');
 
-                    $node.addClass('collapsed');
-                }
-            });
-        }
-        */
-
-        $nodeDiv.click(function() {
-            $container.find('.active-node').removeClass('active-node');
-            $nodeDiv.addClass('active-node');
-        })
+         $node.addClass('collapsed');
+         }
+         });
+         }
+         */
 
         $nodeCell.append($nodeDiv);
         $nodeRow.append($nodeCell);
         $tbody.append($nodeRow);
 
-        if($childNodes.length > 0) {
+        if ($childNodes.length > 0) {
             // if it can be expanded then change the cursor
-           // $nodeDiv.css('cursor','n-resize');
+            // $nodeDiv.css('cursor','n-resize');
 
             // recurse until leaves found (-1) or to the level specified
-            if(opts.depth == -1 || (level+1 < opts.depth)) {
+            if (opts.depth == -1 || (level + 1 < opts.depth)) {
                 var $downLineRow = $("<tr/>");
-                var $downLineCell = $("<td/>").attr("colspan", $childNodes.length*2);
+                var $downLineCell = $("<td/>").attr("colspan", $childNodes.length * 2);
                 $downLineRow.append($downLineCell);
 
                 // draw the connecting line from the parent node to the horizontal line
@@ -187,7 +209,7 @@
 
                 // Draw the horizontal lines
                 var $linesRow = $("<tr/>");
-                $childNodes.each(function() {
+                $childNodes.each(function () {
                     var $left = $("<td>&nbsp;</td>").addClass("line left top");
                     var $right = $("<td>&nbsp;</td>").addClass("line right top");
                     $linesRow.append($left).append($right);
@@ -202,11 +224,11 @@
 
                 $tbody.append($linesRow);
                 var $childNodesRow = $("<tr/>");
-                $childNodes.each(function() {
+                $childNodes.each(function () {
                     var $td = $("<td class='node-container'/>");
                     $td.attr("colspan", 2);
                     // recurse through children lists and items
-                    buildNode($(this), $td, level+1, opts);
+                    buildNode($(this), $td, level + 1, opts);
                     $childNodesRow.append($td);
                 });
 
@@ -218,7 +240,7 @@
         // apart from the special 'collapsed' class, which collapses the sub-tree at this point
         if ($node.attr('class') != undefined) {
             var classList = $node.attr('class').split(/\s+/);
-            $.each(classList, function(index,item) {
+            $.each(classList, function (index, item) {
                 if (item == 'collapsed') {
                     console.log($node);
                     $nodeRow.nextAll('tr').css('visibility', 'hidden');
@@ -235,7 +257,7 @@
         $appendTo.append($table);
 
         /* Prevent trees collapsing if a link inside a node is clicked */
-        $nodeDiv.children('a').click(function(e){
+        $nodeDiv.children('a').click(function (e) {
             console.log(e);
             e.stopPropagation();
         });

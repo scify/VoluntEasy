@@ -1,11 +1,18 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\Volunteer;
 
 class VolunteerController extends Controller
 {
+    public function all(){
 
-    /**
+        $vol = Volunteer::all();
+
+        return $vol->load('actions.steps.status');
+    }
+
+   /**
      * Display a listing of the resource.
      *
      * @return Response

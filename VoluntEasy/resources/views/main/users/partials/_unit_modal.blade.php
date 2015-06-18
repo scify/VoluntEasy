@@ -14,18 +14,22 @@
                             @foreach ($units as $unit)
                             <p class="lead unit" data-id="{{ $unit->id }}">{{ $unit->description }}</p>
                             @endforeach
-
-                            <p class="lead unit" data-id="aa">aa</p>
-
                         </div>
 
                         <div class="col-md-6">
-                            <div id="appendTree">
-                                <div id="unitsTree"></div>
-                            </div>
+                            <div id="appendTree"></div>
+                            <div id="unitsTree"></div>
+                            @foreach ($units as $unit)
+                                <ul id="tree-{{ $unit->id }}" style="display:none;">
+                                    <li data-id="{{$unit->id}}"><span class="description">{{$unit->description}}</span>
+                                        <ul>
+                                            @include('main.units.partials._branch', ['unit' => $unit])
+                                        </ul>
 
+                                    </li>
+                                </ul>
+                            @endforeach
                         </div>
-
 
                     </div>
                 </div>
@@ -40,39 +44,21 @@
 
 @section('footerScripts')
 <script>
-    var html = '';
     $(".unit").click(function () {
-        //add spinner while it loads
-        $.ajax({
-            url: '/main/units/tree/' + $(this).attr('data-id'),
-            success: function (data) {
-                console.log(html);
-                html = '<ul id="tree" style="display:none">';
-                html += '<li>' + data.id + ' ' + data.description + '<ul>';
-                getLi(data.all_children);
-                html += '</ul></li>';
-                //console.log(html);
-                $("#appendTree").empty();
-                $("#appendTree").append(html);
-                $("#tree").jOrgChart({
-                    chartElement: '#unitsTree'
-                });
-            }
-        });
+        $(".jOrgChart").hide();
+
+        if ( $(".jOrgChart.tree"+$(this).attr('data-id')).length>0 ) {
+            $(".jOrgChart.tree"+$(this).attr('data-id')).show();
+        }
+        else {
+            //$("#unitsTree").empty();
+            $('#tree-' + $(this).attr('data-id')).jOrgChart({
+                chartElement: '#unitsTree',
+                chartClass: 'jOrgChart tree' + $(this).attr('data-id'),
+                multiple: true
+            });
+        }
     });
 
-    function getLi(units) {
-        for (var i in units) {
-            if (units[i].hasOwnProperty('all_children') && units[i].all_children !== null && units[i].all_children.length > 0) {
-                html += '<li>' + units[i].id + units[i].description + '<ul data-id="' + units[i].id + '">';
-                getLi(units[i].all_children);
-                html += '</ul></li>';
-            } else if (units[i].all_children.length == 0) {
-                html += '<li data-id="' + units[i].id + '">';
-                html += units[i].id + units[i].description;
-                html += '</li>';
-            }
-        }
-    }
 </script>
 @stop
