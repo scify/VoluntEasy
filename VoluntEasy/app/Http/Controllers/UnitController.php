@@ -98,7 +98,7 @@ class UnitController extends Controller
     {
         $unit = Unit::where('id', $id)->first();
 
-        if($unit->id==$unit->parent_unit_id) {
+        if($unit->parent_unit_id==null) {
             $type = 'root';
             $unit->load('allChildren');
         }
@@ -106,7 +106,6 @@ class UnitController extends Controller
             $type = 'branch';
             $unit->load('allParents.allChildren');
         }
-        //return $unit;
 
         return view("main.units.edit", compact('unit', 'type'));
     }

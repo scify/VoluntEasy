@@ -46,6 +46,7 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $request['password'] = \Hash::make($request['password']);
+
         User::create($request->all());
 
         return Redirect::to('main/users');
@@ -100,10 +101,6 @@ class UserController extends Controller
         $user = User::findOrFail($request->get('id'));
 
         $user->units()->sync($request->get('units'), false);
-
-        //return Redirect::route('main.users.one', array('id' => $user->id));
-
-//        return redirect()->route('user/profile', [$user->id]);
 
         return $user->id;
     }

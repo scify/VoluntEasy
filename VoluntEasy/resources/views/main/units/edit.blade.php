@@ -26,6 +26,7 @@
         <div class="panel panel-white">
             <div class="panel-body">
                 <div id="unitsTree"></div>
+                @if(isset($unit->allParents))
                 <ul id="tree" style="display:none;">
                     <li data-id="{{$unit->allParents->id}}"
                     {{ $unit->id==$unit->allParents->id ? 'class="active-node"' : '' }}><span class="description">{{$unit->allParents->description}}</span>
@@ -34,6 +35,16 @@
                     </ul>
                     </li>
                 </ul>
+                @elseif(isset($unit->allChildren))
+                <ul id="tree" style="display:none;">
+                    <li data-id="{{$unit->allParents->id}}"
+                    {{ $unit->id==$unit->allChildren->id ? 'class="active-node"' : '' }}><span class="description">{{$unit->allChildren->description}}</span>
+                    <ul>
+                        @include('main.units.partials._branch_active', ['unit' => $unit->allChildren, 'active' => $unit->id])
+                    </ul>
+                    </li>
+                </ul>
+                @endif
             </div>
         </div>
     </div>
