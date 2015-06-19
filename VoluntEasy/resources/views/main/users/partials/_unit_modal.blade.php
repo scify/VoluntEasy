@@ -20,7 +20,7 @@
                             <div id="appendTree"></div>
                             <div id="unitsTree"></div>
                             @foreach ($units as $unit)
-                                <ul id="tree-{{ $unit->id }}" style="display:none;">
+                                <ul id="tree-{{ $unit->id }}" class="jOrgChartUl" style="display:none;">
                                     <li data-id="{{$unit->id}}"><span class="description">{{$unit->description}}</span>
                                         <ul>
                                             @include('main.units.partials._branch', ['unit' => $unit])
@@ -35,8 +35,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success">Save changes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
+                <button type="button" class="btn btn-success" id="save">Αποθήκευση</button>
             </div>
         </div>
     </div>
@@ -51,14 +51,39 @@
             $(".jOrgChart.tree"+$(this).attr('data-id')).show();
         }
         else {
-            //$("#unitsTree").empty();
             $('#tree-' + $(this).attr('data-id')).jOrgChart({
                 chartElement: '#unitsTree',
                 chartClass: 'jOrgChart tree' + $(this).attr('data-id'),
-                multiple: true
+                multiple: true,
+                ulId: '#tree-' + $(this).attr('data-id')
             });
         }
     });
+
+    $("#save").click(function(){
+
+        var activeLis = [];
+        $("ul.jOrgChartUl").find("li.active").each(function(){
+            activeLis.push($(this).attr('data-id'));
+        });
+
+        var userUnits = {
+            id: $("#addUnits").attr('data-userid'),
+            units: activeLis
+        };
+
+        $.ajax({
+             url: '/main/users/units',
+             method: 'POST',
+             data: userUnits,
+             headers: {
+                 'X-CSRF-Token': $('input[name="_token"]').val()
+             },
+             success: function (data) {
+                 window.location.href="/main/users/one/"+data;
+             }
+             });
+    })
 
 </script>
 @stop

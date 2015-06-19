@@ -18,9 +18,13 @@ class VolunteerStepStatus extends User {
     }
 
 
-    public function step_statuses()
+    public function status()
     {
-        return $this->hasMany('App\Models\Descriptions\StepStatus');
+        return $this->hasOne('App\Models\Descriptions\StepStatus');
+    }
+
+    public function volunteer() {
+        return $this->belongsTo('App\Models\Step')->belongsTo('App\Models\Action')->belongsTo('App\Models\Volunteer');
     }
 
 

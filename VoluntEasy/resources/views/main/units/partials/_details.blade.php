@@ -18,6 +18,19 @@
     </ul>
 @endif
 
+
+@if(sizeof($unit->actions)==0)
+<h3>Η μονάδα δεν έχει καμία δράση</h3>
+@else
+<h3>Δράσεις:</h3>
+<ul class="list-unstyled">
+    @foreach($unit->actions as $action)
+    <li><p class="user-list"><a href="{{ url('main/users/one/'.$unit->users[0]->id) }}">{{$action->description}}</a></p>
+    </li>
+    @endforeach
+</ul>
+@endif
+
 <div class="text-right">
     <a href="{{ url('main/units/edit/'.$unit->id) }}" class="btn btn-success"><i
             class="fa fa-edit"></i> Επεξεργασία</a>

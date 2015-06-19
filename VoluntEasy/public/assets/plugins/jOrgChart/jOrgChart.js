@@ -100,16 +100,21 @@
 
         // Behavior of tree, if the user can select multiple nodes
         if (opts.multiple) {
-            $('div.node').click(function () {
-                console.log($(this).attr('data-id') + ' isActive '+$(this).hasClass('active-node'));
-                if ($(this).hasClass('active-node'))
+            $('div.node').unbind('click').click(function () {
+                if ($(this).hasClass('active-node')) {
                     $(this).removeClass('active-node');
-                else
+                    $(opts.ulId + ' [data-id="'+$(this).attr('data-id')+'"]').removeClass("active");
+                }
+                else {
                     $(this).addClass('active-node');
+                    $(opts.ulId + ' [data-id="'+$(this).attr('data-id')+'"]').addClass("active");
+                }
+
+                //console.log($(this).attr('data-id') + ' isActive ' + $(this).hasClass('active-node'));
             })
         }
         else {
-            $('div.node').click(function () {
+            $('div.node').unbind('click').click(function () {
                 $container.find('.active-node').removeClass('active-node');
                 if ($(this).hasClass('active-node'))
                     $(this).removeClass('active-node');

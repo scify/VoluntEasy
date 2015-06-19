@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Requests\UserRequest as UserRequest;
 use App\Models\Unit;
 use App\Models\User as User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
@@ -44,7 +45,7 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-	$request['password'] = \Hash::make($request['password']);
+        $request['password'] = \Hash::make($request['password']);
         User::create($request->all());
 
         return Redirect::to('main/users');
@@ -75,7 +76,6 @@ class UserController extends Controller
 
         $units = Unit::whereNull('parent_unit_id')->with('allChildren')->get();
 
-
         return view("main.users.edit", compact('user', 'units'));
     }
 
@@ -93,6 +93,19 @@ class UserController extends Controller
         $user->update($request->all());
 
         return Redirect::to('main/users');
+    }
+
+    public function addUnits(Request $request)
+    {
+        $user = User::findOrFail($request->get('id'));
+
+        $user->units()->sync($request->get('units'), false);
+
+        //return Redirect::route('main.users.one', array('id' => $user->id));
+
+//        return redirect()->route('user/profile', [$user->id]);
+
+        return $user->id;
     }
 
     /**

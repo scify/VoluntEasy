@@ -10,13 +10,8 @@ class Step extends Model {
 
 
     public function status(){
-
-        dd($this->belongsToMany('App\Models\VolunteerStepStatus'));
-        return $this->belongsToMany('App\Models\VolunteerStepStatus', 'volunteer_step_statuses', 'id', 'step_id');
-
-       // return $this->hasManyThrough('App\Models\StepStatus', 'App\Models\VolunteerStepStatus', 'step_id', 'step_status_id');
+        return $this->hasManyThrough('App\Models\Descriptions\StepStatus', 'App\Models\VolunteerStepStatus', 'step_id', 'id');
     }
-
 
 
 }

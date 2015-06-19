@@ -17,7 +17,7 @@ class UnitController extends Controller
      */
     public function index()
     {
-        $units = Unit::whereNull('parent_unit_id')->with('parent', 'children')->get();
+        $units = Unit::whereNull('parent_unit_id')->with('parent', 'children', 'actions')->get();
 
         return view("main.units.list", compact('units'));
     }
