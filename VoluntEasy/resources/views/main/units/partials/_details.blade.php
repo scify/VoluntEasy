@@ -1,4 +1,3 @@
-<p class="lead" id="unitDescription">{{$unit->description}}</p>
 <p id="unitComments">{{$unit->comments}}</p>
 
 @if(sizeof($unit->users)==0)
@@ -31,9 +30,3 @@
 </ul>
 @endif
 
-<div class="text-right">
-    <a href="{{ url('main/units/edit/'.$unit->id) }}" class="btn btn-success"><i
-            class="fa fa-edit"></i> Επεξεργασία</a>
-    <a href="{{ url('main/units/delete/'.$unit->id) }}" class="btn btn-danger"><i
-            class="fa fa-edit"></i> Διαγραφή</a>
-</div>

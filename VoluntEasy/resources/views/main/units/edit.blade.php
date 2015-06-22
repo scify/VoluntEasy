@@ -65,8 +65,6 @@
                 $(".unit-details").html(data);
             }
         });
-
     })
-
 </script>
 @stop

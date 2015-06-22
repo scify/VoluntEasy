@@ -1,5 +1,8 @@
 /* Write your custom CSS here */
 
+h3{font-weight: 400;}
+
+
 .user-image img{
     width:150px;
     border-radius:50%;

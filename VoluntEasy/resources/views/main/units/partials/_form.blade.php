@@ -12,7 +12,7 @@
         {!! Form::formInput('parent_unit', 'Πατέρας:', $errors, ['class' => 'form-control', 'data-value' => $unit->description]) !!}
     </div>
     {!! Form::hidden('level', $unit->level+1) !!}
-    {!! Form::hidden('parent_unit_id', $unit->id) !!}
+    {!! Form::hidden('parent_unit_id', $unit->id, ['id' => 'parent_unit_id']) !!}
 @endif
 <div class="form-group">
     {!! Form::submit($submitButtonText, ['class' => 'btn btn-success']) !!}

@@ -51,7 +51,7 @@
 
     $(".node").click(function () {
         $("#parent_unit").val($(this).find(".description").text());
-        $("#parent_unit_id").value($(this).attr("data-id"));
+        $("#parent_unit_id").val($(this).attr("data-id"));
     })
 </script>
 @stop
