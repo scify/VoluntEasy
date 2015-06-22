@@ -1,7 +1,9 @@
 <?php namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
 
-class VolunteerLanguage extends User {
+
+class VolunteerLanguage extends Model {
 
     /**
      * The database table used by the model.
@@ -12,15 +14,15 @@ class VolunteerLanguage extends User {
 
 
 
-    public function languages()
+    public function language()
     {
-        return $this->hasMany('App\Models\Descriptions\Language');
+        return $this->belongsTo('App\Models\Descriptions\Language');
     }
 
 
-    public function language_levels()
+    public function level()
     {
-        return $this->hasMany('App\Models\Descriptions\LanguageLevel');
+        return $this->belongsTo('App\Models\Descriptions\LanguageLevel', 'language_level_id', 'id');
     }
 
 

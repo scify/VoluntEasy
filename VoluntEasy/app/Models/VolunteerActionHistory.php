@@ -1,7 +1,9 @@
 <?php namespace App\Models;
 
 
-class VolunteerActionHistory extends User {
+use Illuminate\Database\Eloquent\Model;
+
+class VolunteerActionHistory extends Model {
 
     /**
      * The database table used by the model.

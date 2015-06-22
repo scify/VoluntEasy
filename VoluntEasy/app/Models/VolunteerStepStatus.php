@@ -1,7 +1,8 @@
 <?php namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
 
-class VolunteerStepStatus extends User {
+class VolunteerStepStatus extends Model {
 
     /**
      * The database table used by the model.
@@ -11,21 +12,6 @@ class VolunteerStepStatus extends User {
     protected $table = 'volunteer_step_status';
 
 
-
-    public function steps()
-    {
-        return $this->hasMany('App\Models\Step');
-    }
-
-
-    public function status()
-    {
-        return $this->hasOne('App\Models\Descriptions\StepStatus');
-    }
-
-    public function volunteer() {
-        return $this->belongsTo('App\Models\Step')->belongsTo('App\Models\Action')->belongsTo('App\Models\Volunteer');
-    }
 
 
 }

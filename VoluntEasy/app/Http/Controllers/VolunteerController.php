@@ -9,7 +9,21 @@ class VolunteerController extends Controller
 
         $vol = Volunteer::all();
 
-        return $vol->load('actions.steps.status');
+        $vol->load('availabilityFrequencies', 'driverLicenceType', 'identificationType', 'maritalStatus');
+
+
+        $vol->load( 'languages.level', 'languages.language');
+
+        $vol->load('availabilityTimes');
+
+        $vol->load('actions.steps.status');
+        $vol->load('interests');
+
+
+       // foreach($vol->languages as lang)
+
+
+        return $vol;
     }
 
    /**

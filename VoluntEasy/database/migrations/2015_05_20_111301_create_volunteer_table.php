@@ -82,12 +82,13 @@ class CreateVolunteerTable extends Migration {
             $table->string('description', 100);
         });
 
-        Schema::create('volunteers_availability_freqs', function($table)
+        Schema::create('volunteer_availability_times', function($table)
         {
+            $table->increments('id');
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
-            $table->integer('availability_freqs_id')->unsigned();
-            $table->foreign('availability_freqs_id')->references('id')->on('availability_time');
+            $table->integer('availability_time_id')->unsigned();
+            $table->foreign('availability_time_id')->references('id')->on('availability_time');
         });
 
         Schema::create('action_volunteer', function($table)
@@ -106,7 +107,7 @@ class CreateVolunteerTable extends Migration {
             $table->text('description', 100);
         });
 
-        Schema::create('volunteer_interest', function($table)
+        Schema::create('volunteer_interests', function($table)
         {
             $table->increments('id');
             $table->integer('volunteer_id')->unsigned();
@@ -204,10 +205,10 @@ class CreateVolunteerTable extends Migration {
         Schema::dropIfExists('volunteer_languages');
         Schema::dropIfExists('language_levels');
         Schema::dropIfExists('languages');
-        Schema::dropIfExists('volunteer_interest');
+        Schema::dropIfExists('volunteer_interests');
         Schema::dropIfExists('interests');
         Schema::dropIfExists('action_volunteer');
-        Schema::dropIfExists('volunteers_availability_freqs');
+        Schema::dropIfExists('volunteer_availability_times');
         Schema::dropIfExists('availability_time');
         Schema::dropIfExists('volunteers');
         Schema::dropIfExists('work_statuses');
