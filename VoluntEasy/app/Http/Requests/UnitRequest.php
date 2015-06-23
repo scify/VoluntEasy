@@ -19,8 +19,7 @@ class UnitRequest extends Request {
         else
             return [
                 'description' => 'required|max:300',
-                'comments' => 'required|max:300',
-                'parent_unit' => 'required'
+                'comments' => 'required|max:300'
             ];
 	}
 

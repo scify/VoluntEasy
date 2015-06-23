@@ -55,35 +55,28 @@
                         </div>
                         <div class="col-md-6">
                             <div id="unitsTree"></div>
-                            @foreach($user->units as $unit)
-                            <ul id="unit-{{$unit->id}}" style="display:none;">
-                                <li>{{$unit->description}}
+                            <ul id="tree" style="display:none;">
+                                <li data-id="{{$tree->id}}"><span class="description">{{$tree->description}}</span>
                                     <ul>
-                                        @include('main.units.partials._branch', ['$unit->allChildren' => $unit, 'user'
-                                        => $user])
+                                        @include('main.units.partials._branch_actives', ['unit' => $tree, 'active' =>
+                                        $active])
                                     </ul>
                                 </li>
                             </ul>
-                            @endforeach
                         </div>
-                        @endif
-                        @endif
-                    </div>
-                    <div class="row m-b-lg">
-                        <div class="col-md-4">
-                            <button type="button" id="addUnits" data-userid="{{$user->id}}" class="btn btn-success"
-                                    data-toggle="modal" data-target=".bs-example-modal-lg">Επεξεργασία Οργανωτικών
-                            </button>
-                            @include('main.users.partials._unit_modal')
-                        </div>
-                    </div>
+                        <button type="button" class="btn btn-success" id="save" data-user-id="{{$user->id}}">
+                            Αποθήκευση
+                        </button>
 
+                        @endif
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+</div>
 
 @stop
 
@@ -91,17 +84,37 @@
 @section('footerScripts')
 
 <script>
-    /*
-     $(".unit").click(function(event){
-     event.preventDefault();
+    $("#tree").jOrgChart({
+        chartElement: '#unitsTree',
+        multiple: true,
+        ulId: "#tree"
+    });
 
 
-     $("#unit-"+$(this).attr('data-id')).jOrgChart({
-     chartElement: '#unitsTree'
-     });
+    $("#save").click(function () {
 
-     })
+        var activeLis = [];
+        $("#tree").find("li.active-node").each(function () {
+            activeLis.push($(this).attr('data-id'));
+        });
 
-     */
+        var userUnits = {
+            id: $(this).attr('data-user-id'),
+            units: activeLis
+        };
+
+        $.ajax({
+            url: '/main/users/units',
+            method: 'POST',
+            data: userUnits,
+            headers: {
+                'X-CSRF-Token': $('input[name="_token"]').val()
+            },
+            success: function (data) {
+                window.location.href = "/main/users/one/" + data;
+            }
+        });
+    })
+
 </script>
 @stop

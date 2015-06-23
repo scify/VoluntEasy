@@ -3,13 +3,11 @@
 use App\Http\Requests;
 use App\Http\Requests\UnitRequest as UnitRequest;
 use App\Models\Unit as Unit;
+use App\Services\Facades\UnitServiceFacade as UnitService;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\View;
 
 class UnitController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -41,10 +39,19 @@ class UnitController extends Controller
      *
      * @return Response
      */
-    public function createRoot()
+    public function create()
     {
-        $type='root';
-        return view("main.units.create_root", compact('type'));
+        $root = UnitService::getRoot();
+
+        if(count($root)==0) {
+            $type='root';
+            return view("main.units.create_root", compact('type'));
+        }
+        else {
+            $tree = Unit::whereNull('parent_unit_id')->with('allChildren')->first();
+            $type='branch';
+            return view("main.units.create_branch", compact('type', 'tree'));
+        }
     }
 
     public function createBranch($id)
@@ -79,7 +86,8 @@ class UnitController extends Controller
     {
         $active = Unit::where('id', $id)->first();
 
-        $tree = Unit::whereNull('parent_unit_id')->with('allChildren')->first();
+        $tree = UnitService::getTree();
+
 
         //if the request comes from ajax, return only a section of the needed code
        /* if (Request::ajax()) {
@@ -101,20 +109,11 @@ class UnitController extends Controller
     {
         $active = Unit::where('id', $id)->first();
 
-        if($active->parent_unit_id==null) {
-            $type = 'root';
-            $active->load('allChildren');
-            $units = $active;
+        $tree = UnitService::getTree();
 
-        }
-        else {
-            $type = 'branch';
-            $active->load('root');
-            $units=$active;
-        }
+        $type = UnitService::type($active->parent_unit_id);
 
-        //return $units;
-        return view("main.units.edit", compact('active', 'units', 'type'));
+        return view("main.units.edit", compact('active', 'tree', 'type'));
     }
 
     /**
@@ -129,7 +128,7 @@ class UnitController extends Controller
 
         $unit->update($request->all());
 
-        return view('main.units.show', compact('unit'));
+        return Redirect::route('unit/one', ['id' => $unit->id]);
     }
 
     /**
@@ -145,24 +144,6 @@ class UnitController extends Controller
         $unit->delete();
 
         return Redirect::to('main/units');
-    }
-
-
-    /**
-     * Test and play
-     *
-     * @return Response
-     */
-    public function test()
-    {
-        $unit = Unit::find(8);
-
-
-        $lala = Unit::parent($unit->parent_unit_id)->get();
-
-        return $lala;
-
-        /* return Unit::all();*/
     }
 
 }

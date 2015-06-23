@@ -10,15 +10,6 @@ Route::controllers([
     'password' => 'Auth\PasswordController',
 ]);
 
-
-Route::get('main/actionsPrograms/actionListing','MenuController@b1');
-Route::get('main/actionsPrograms/listview','MenuController@b2');
-Route::get('main/actionsPrograms/modifications','MenuController@b3');
-Route::get('main/actionsPrograms/overview','MenuController@b4');
-
-Route::get('main/volunteers/listview','MenuController@c1');
-Route::get('main/volunteers/statistics','MenuController@c2');
-
 //User Routes
 Route::get('main/users','UserController@index');
 Route::get('main/users/one/{id}', ['as' => 'user/profile', 'uses' => 'UserController@show']);
@@ -33,13 +24,14 @@ Route::post('main/users/units', 'UserController@addUnits');
 //Unit Routes
 Route::get('main/units','UnitController@index');
 Route::get('main/units/tree/{id}','UnitController@tree');
-Route::get('main/units/one/{id}', 'UnitController@show');
-Route::get('main/units/create', 'UnitController@createRoot');
+Route::get('main/units/one/{id}', ['as' => 'unit/one', 'uses' => 'UnitController@show']);
+Route::get('main/units/create', 'UnitController@create');
 Route::get('main/units/create/{id}', 'UnitController@createBranch');
 Route::get('main/units/edit/{id}', 'UnitController@edit');
 Route::get('main/units/delete/{id}', 'UnitController@destroy');
 Route::post('main/units/store', 'UnitController@store');
 Route::post('main/units/update', 'UnitController@update');
+
 
 //Volunteer Routes
 Route::get('main/volunteers','VolunteerController@all');
@@ -51,17 +43,11 @@ Route::get('main/volunteers','VolunteerController@all');
 
 //Action Routes
 Route::get('main/actions','ActionController@index');
+Route::get('main/actions/create', 'ActionController@create');
 
 
 
 
-
-
-Route::get('main/users/listview','MenuController@d2');
-Route::get('main/users/modifications','MenuController@d3');
-Route::get('main/users/overview','MenuController@d4');
-
-Route::get('main/sitemap/sitemap','MenuController@e1');
 
 
 // Route to view logs in a more human way

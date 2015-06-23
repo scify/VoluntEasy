@@ -104,11 +104,11 @@
                 if (!opts.disabled) {
                     if ($(this).hasClass('active-node')) {
                         $(this).removeClass('active-node');
-                        $(opts.ulId + ' [data-id="' + $(this).attr('data-id') + '"]').removeClass("active");
+                        $(opts.ulId + ' [data-id="' + $(this).attr('data-id') + '"]').removeClass("active-node");
                     }
                     else {
                         $(this).addClass('active-node');
-                        $(opts.ulId + ' [data-id="' + $(this).attr('data-id') + '"]').addClass("active");
+                        $(opts.ulId + ' [data-id="' + $(this).attr('data-id') + '"]').addClass("active-node");
                     }
                 }
                 //console.log($(this).attr('data-id') + ' isActive ' + $(this).hasClass('active-node'));

@@ -19,10 +19,8 @@
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li><a href="{{url('/main/actionsPrograms/actionListing')}}">Δημιουργία Δράσης</a></li>
-                                <li><a href="/main/actionsPrograms/listview">Προβολή λίστας-Αναζήτηση</a></li>
-                                <li><a href="/main/actionsPrograms/modifications">Τροποποίηση</a></li>
-                                <li><a href="/main/actionsPrograms/overview">Επισκόπηση</a></li>
+                                <li><a href="{{ url('main/actions') }}">Προβολή Δράσεων</a></li>
+                                <li><a href="{{ url('main/actions/create') }}">Δημιουργία Δράσης</a></li>
                             </ul>
                         </li>
                         <li class="droplink">

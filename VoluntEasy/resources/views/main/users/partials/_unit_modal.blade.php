@@ -10,16 +10,18 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
+                        {{$tree}}
+
                         <div class="col-md-6">
-                            @foreach ($units as $unit)
+                            @foreach ($tree as $unit)
                             <p class="lead unit" data-id="{{ $unit->id }}">{{ $unit->description }}</p>
                             @endforeach
                         </div>
 
                         <div class="col-md-6">
                             <div id="appendTree"></div>
-                            <div id="unitsTree"></div>
-                            @foreach ($units as $unit)
+                            <div id="unitsTreeEditable"></div>
+                            @foreach ($tree as $unit)
                                 <ul id="tree-{{ $unit->id }}" class="jOrgChartUl" style="display:none;">
                                     <li data-id="{{$unit->id}}"><span class="description">{{$unit->description}}</span>
                                         <ul>
@@ -45,15 +47,15 @@
 @section('footerScripts')
 <script>
     $(".unit").click(function () {
-        $(".jOrgChart").hide();
+        $(".jOrgChart.editable").hide();
 
-        if ( $(".jOrgChart.tree"+$(this).attr('data-id')).length>0 ) {
-            $(".jOrgChart.tree"+$(this).attr('data-id')).show();
+        if ( $(".jOrgChart.tree.editable"+$(this).attr('data-id')).length>0 ) {
+            $(".jOrgChart.tree.editable"+$(this).attr('data-id')).show();
         }
         else {
             $('#tree-' + $(this).attr('data-id')).jOrgChart({
-                chartElement: '#unitsTree',
-                chartClass: 'jOrgChart tree' + $(this).attr('data-id'),
+                chartElement: '#unitsTreeEditable',
+                chartClass: 'jOrgChart editable tree' + $(this).attr('data-id'),
                 multiple: true,
                 ulId: '#tree-' + $(this).attr('data-id')
             });

@@ -26,13 +26,16 @@
         <div class="panel panel-white">
             <div class="panel-body">
                 <div id="unitsTree"></div>
+
+
                 <ul id="tree" style="display:none;">
-                    <li data-id="{{$units->id}}" {{ $active->id==$units->id ? 'class=active-node' : '' }}><span class="description">{{$units->description}}</span>
-                        <ul>$units->all_children
-                            @include('main.units.partials._branch_active', ['unit' => $units,  'active' => $active->id])
+                    <li data-id="{{$tree->id}}" {{ $active->id==$tree->id ? 'class=active-node' : '' }}><span class="description">{{$tree->description}}</span>
+                        <ul>
+                            @include('main.units.partials._branch_active', ['unit' => $tree,  'active' => $active->id])
                         </ul>
                     </li>
                 </ul>
+
             </div>
         </div>
     </div>

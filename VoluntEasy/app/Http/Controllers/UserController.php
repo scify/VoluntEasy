@@ -2,8 +2,9 @@
 
 use App\Http\Requests;
 use App\Http\Requests\UserRequest as UserRequest;
-use App\Models\Unit;
 use App\Models\User as User;
+use App\Services\Facades\UnitServiceFacade as UnitService;
+use App\Services\Facades\UserServiceFacade as UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -62,7 +63,10 @@ class UserController extends Controller
     {
         $user = User::where('id', $id)->with('units')->first();
 
-        return view("main.users.show", compact('user'));
+
+        $tree = UnitService::getTree();
+
+        return view("main.users.show", compact('user', 'tree'));
     }
 
     /**
@@ -75,9 +79,11 @@ class UserController extends Controller
     {
         $user = User::where('id', $id)->with('units.allChildren')->first();
 
-        $units = Unit::whereNull('parent_unit_id')->with('allChildren')->get();
+        $tree = UnitService::getTree();
 
-        return view("main.users.edit", compact('user', 'units'));
+        $active = UserService::userUnitsIds($user);
+
+        return view("main.users.edit", compact('user', 'tree', 'active'));
     }
 
     /**
@@ -98,9 +104,10 @@ class UserController extends Controller
 
     public function addUnits(Request $request)
     {
+
         $user = User::findOrFail($request->get('id'));
 
-        $user->units()->sync($request->get('units'), false);
+        $user->units()->sync($request->get('units'));
 
         return $user->id;
     }
