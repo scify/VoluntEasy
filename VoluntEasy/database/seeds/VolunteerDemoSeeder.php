@@ -19,6 +19,7 @@ class VolunteerDemoSeeder extends Seeder {
             'fathers_name' => 'John',
             'last_name' => 'George',
             'identification_num' => 'AK 1234567',
+	    'identification_type_id' => 1,
             'birth_date' => '1970-01-01',
             'gender' => true,
             'participation_reason' => 'Just because',
@@ -27,6 +28,7 @@ class VolunteerDemoSeeder extends Seeder {
             'identification_type_id' => 1,
             'marital_status_id' => 1,
             'driver_license_type_id' => 1,
+            'availability_time_id' => 1,
             'availability_freqs_id' => 1,
             'work_status_id' => 1,
         ]);
