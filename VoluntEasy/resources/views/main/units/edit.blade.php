@@ -14,9 +14,9 @@
     <div class="col-md-6">
         <div class="panel panel-white">
             <div class="panel-body">
-                {!! Form::model($unit, ['method' => 'POST', 'action' => ['UnitController@update', 'id' => $unit->id,
+                {!! Form::model($active, ['method' => 'POST', 'action' => ['UnitController@update', 'id' => $active->id,
                 'type' => $type]]) !!}
-                @include('main.units.partials._form', ['submitButtonText' => 'Αποθήκευση', 'unit' => $unit])
+                @include('main.units.partials._form', ['submitButtonText' => 'Αποθήκευση', 'unit' => $active])
                 {!! Form::close() !!}
             </div>
         </div>
@@ -26,42 +26,31 @@
         <div class="panel panel-white">
             <div class="panel-body">
                 <div id="unitsTree"></div>
-                @if(isset($unit->allParents))
                 <ul id="tree" style="display:none;">
-                    <li data-id="{{$unit->allParents->id}}"
-                    {{ $unit->id==$unit->allParents->id ? 'class="active-node"' : '' }}><span class="description">{{$unit->allParents->description}}</span>
-                    <ul>
-                        @include('main.units.partials._branch_active', ['unit' => $unit->allParents, 'active' => $unit->id])
-                    </ul>
+                    <li data-id="{{$units->id}}" {{ $active->id==$units->id ? 'class=active-node' : '' }}><span class="description">{{$units->description}}</span>
+                        <ul>$units->all_children
+                            @include('main.units.partials._branch_active', ['unit' => $units,  'active' => $active->id])
+                        </ul>
                     </li>
                 </ul>
-                @elseif(isset($unit->allChildren))
-                <ul id="tree" style="display:none;">
-                    <li data-id="{{$unit->allParents->id}}"
-                    {{ $unit->id==$unit->allChildren->id ? 'class="active-node"' : '' }}><span class="description">{{$unit->allChildren->description}}</span>
-                    <ul>
-                        @include('main.units.partials._branch_active', ['unit' => $unit->allChildren, 'active' => $unit->id])
-                    </ul>
-                    </li>
-                </ul>
-                @endif
             </div>
         </div>
     </div>
-
 </div>
 @stop
 
 @section('footerScripts')
 <script>
     $("#tree").jOrgChart({
-        chartElement: '#unitsTree'
+        chartElement: '#unitsTree',
+        disabled: true
     });
 
     $(".node").click(function () {
         $.ajax({
             url: '/main/units/one/' + $(this).attr('data-id'),
             success: function (data) {
+                console.log(data);
                 $(".unit-details").html(data);
             }
         });

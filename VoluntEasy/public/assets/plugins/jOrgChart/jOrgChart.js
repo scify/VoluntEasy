@@ -101,28 +101,33 @@
         // Behavior of tree, if the user can select multiple nodes
         if (opts.multiple) {
             $('div.node').unbind('click').click(function () {
-                if ($(this).hasClass('active-node')) {
-                    $(this).removeClass('active-node');
-                    $(opts.ulId + ' [data-id="'+$(this).attr('data-id')+'"]').removeClass("active");
+                if (!opts.disabled) {
+                    if ($(this).hasClass('active-node')) {
+                        $(this).removeClass('active-node');
+                        $(opts.ulId + ' [data-id="' + $(this).attr('data-id') + '"]').removeClass("active");
+                    }
+                    else {
+                        $(this).addClass('active-node');
+                        $(opts.ulId + ' [data-id="' + $(this).attr('data-id') + '"]').addClass("active");
+                    }
                 }
-                else {
-                    $(this).addClass('active-node');
-                    $(opts.ulId + ' [data-id="'+$(this).attr('data-id')+'"]').addClass("active");
-                }
-
                 //console.log($(this).attr('data-id') + ' isActive ' + $(this).hasClass('active-node'));
             })
         }
         else {
             $('div.node').unbind('click').click(function () {
-                $container.find('.active-node').removeClass('active-node');
-                if ($(this).hasClass('active-node'))
-                    $(this).removeClass('active-node');
-                else
-                    $(this).addClass('active-node');
-            })
+                    if (!opts.disabled) {
+                        $container.find('.active-node').removeClass('active-node');
+                        if ($(this).hasClass('active-node'))
+                            $(this).removeClass('active-node');
+                        else
+                            $(this).addClass('active-node');
+                    }
+                }
+            )
         }//Multiple
-    };
+    }
+    ;
 
     // Option defaults
     $.fn.jOrgChart.defaults = {
@@ -130,7 +135,8 @@
         depth: -1,
         chartClass: "jOrgChart",
         dragAndDrop: false,
-        multiple: false
+        multiple: false,
+        disabled:false
     };
 
     var nodeCount = 0;
@@ -268,4 +274,5 @@
         });
     };
 
-})(jQuery);
+})
+(jQuery);

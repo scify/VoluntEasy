@@ -29,10 +29,9 @@ class Unit extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function parent(){
-        //dd($this->getKey('parent_unit_id'));
-        //if($this->attributes('parent_unit_id')!=$this->attributes('id'))
-         return $this->hasOne('App\Models\Unit', 'id', 'parent_unit_id');
+    public function parent()
+    {
+        return $this->hasOne('App\Models\Unit', 'id', 'parent_unit_id');
     }
 
     /**
@@ -40,7 +39,8 @@ class Unit extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function children(){
+    public function children()
+    {
         return $this->hasMany('App\Models\Unit', 'parent_unit_id', 'id');
     }
 
@@ -70,26 +70,28 @@ class Unit extends Model
      *
      * @return string
      */
-    public function getStartDateAttribute(){
+    public function getStartDateAttribute()
+    {
         return Carbon::parse($this->attributes['start_date'])->format('d/m/Y');
     }
 
-    public function getEndDateAttribute(){
+    public function getEndDateAttribute()
+    {
         return Carbon::parse($this->attributes['end_date'])->format('d/m/Y');
     }
 
 
-     /*
-    public function setStartDateAttribute($date){
-        dd(Carbon::parse($date)->format('dd/mm/yyyy'));
+    /*
+   public function setStartDateAttribute($date){
+       dd(Carbon::parse($date)->format('dd/mm/yyyy'));
 
-        $this->attributes['start_date'] = Carbon::parse($date)->format('d/m/Y');
-    }
+       $this->attributes['start_date'] = Carbon::parse($date)->format('d/m/Y');
+   }
 
-    public function setEndDateAttribute($date){
-        dd(Carbon::parse($date));
-        $this->attributes['end_date'] = Carbon::parse($date)->format('d/m/Y');
-     // createFromFormat('d/m/Y', $date);
-    }*/
+   public function setEndDateAttribute($date){
+       dd(Carbon::parse($date));
+       $this->attributes['end_date'] = Carbon::parse($date)->format('d/m/Y');
+    // createFromFormat('d/m/Y', $date);
+   }*/
 
 }

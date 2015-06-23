@@ -17,7 +17,7 @@ class UnitController extends Controller
      */
     public function index()
     {
-        $units = Unit::whereNull('parent_unit_id')->with('parent', 'children', 'actions')->get();
+        $units = Unit::orderBy('description', 'ASC')->get();
 
         return view("main.units.list", compact('units'));
     }
@@ -77,15 +77,18 @@ class UnitController extends Controller
      */
     public function show($id)
     {
-        $unit = Unit::where('id', $id)->with('allChildren', 'users')->first();
+        $active = Unit::where('id', $id)->first();
+
+        $tree = Unit::whereNull('parent_unit_id')->with('allChildren')->first();
 
         //if the request comes from ajax, return only a section of the needed code
-        if (Request::ajax()) {
-            $view = View::make('main.units.show')->with('unit', $unit);
+       /* if (Request::ajax()) {
+            $view = View::make('main.units.show')->with('active', $active);
             return $view->renderSections()['details'];
         }
+        */
 
-        return view("main.units.show", compact('unit'));
+        return view("main.units.show", compact('active', 'tree'));
     }
 
     /**
@@ -96,18 +99,22 @@ class UnitController extends Controller
      */
     public function edit($id)
     {
-        $unit = Unit::where('id', $id)->first();
+        $active = Unit::where('id', $id)->first();
 
-        if($unit->parent_unit_id==null) {
+        if($active->parent_unit_id==null) {
             $type = 'root';
-            $unit->load('allChildren');
+            $active->load('allChildren');
+            $units = $active;
+
         }
         else {
             $type = 'branch';
-            $unit->load('allParents.allChildren');
+            $active->load('root');
+            $units=$active;
         }
 
-        return view("main.units.edit", compact('unit', 'type'));
+        //return $units;
+        return view("main.units.edit", compact('active', 'units', 'type'));
     }
 
     /**
