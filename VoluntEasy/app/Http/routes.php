@@ -15,7 +15,7 @@ Route::get('main/users','UserController@index');
 Route::get('main/users/one/{id}', ['as' => 'user/profile', 'uses' => 'UserController@show']);
 Route::get('main/users/create', 'UserController@create');
 Route::get('main/users/edit/{id}', 'UserController@edit');
-Route::get('main/users/delete/{id}', 'UserController@destroy');
+Route::post('main/users/delete/{id}', 'UserController@destroy');
 Route::post('main/users/update', 'UserController@update');
 Route::post('main/users/store', 'UserController@store');
 Route::post('main/users/units', 'UserController@addUnits');
@@ -43,8 +43,12 @@ Route::get('main/volunteers','VolunteerController@all');
 
 //Action Routes
 Route::get('main/actions','ActionController@index');
+Route::get('main/actions/one/{id}', ['as' => 'unit/one', 'uses' => 'ActionController@show']);
 Route::get('main/actions/create', 'ActionController@create');
-
+Route::get('main/actions/edit/{id}', 'ActionController@edit');
+Route::get('main/actions/delete/{id}', 'ActionController@destroy');
+Route::post('main/actions/store', 'ActionController@store');
+Route::post('main/actions/update', 'ActionController@update');
 
 
 

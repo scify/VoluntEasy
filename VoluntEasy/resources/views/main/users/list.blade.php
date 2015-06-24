@@ -37,7 +37,7 @@
                         <td>{{ $user->addr }}</td>
                         <td>{{ $user->tel }}</td>
                         <td>{{ $user->level }}</td>
-                        <td><a href="{{ url('main/users/delete/'.$user->id) }}"><i class="fa fa-trash"></i></a></td>
+                        <td><a href="#" class="delete" data-id="{{ $user->id }}"><i class="fa fa-trash"></i></a></td>
                      </tr>
                  @endforeach
                  </tbody>
@@ -46,4 +46,26 @@
         </div>
     </div>
 </div>
+
+@stop
+
+@section('footerScripts')
+<input id="token" type="hidden" value="{{ csrf_token() }}">
+
+<script>
+    $(".delete").click(function(){
+        if (confirm("Delete user?") == true) {
+            $.ajax({
+                url: '/main/users/delete/'+$(this).attr('data-id'),
+                method: 'POST',
+                headers: {
+                    'X-CSRF-Token': $('#token').val()
+                },
+                success: function (data) {
+                    window.location.href = "/main/users";
+                }
+            });
+        }
+    });
+</script>
 @stop

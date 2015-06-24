@@ -114,6 +114,18 @@
                 //console.log($(this).attr('data-id') + ' isActive ' + $(this).hasClass('active-node'));
             })
         }
+        else if(opts.leaves){
+            $('div.node').unbind('click').click(function () {
+                    if (!opts.disabled && $(this).hasClass('leaf')) {
+                        $container.find('.active-node').removeClass('active-node');
+                        if ($(this).hasClass('active-node'))
+                            $(this).removeClass('active-node');
+                        else
+                            $(this).addClass('active-node');
+                    }
+                }
+            )
+        }
         else {
             $('div.node').unbind('click').click(function () {
                     if (!opts.disabled) {
@@ -136,7 +148,8 @@
         chartClass: "jOrgChart",
         dragAndDrop: false,
         multiple: false,
-        disabled:false
+        disabled: false,
+        leaves: false
     };
 
     var nodeCount = 0;

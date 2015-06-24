@@ -58,6 +58,8 @@ class UnitController extends Controller
     {
         $unit = Unit::where('id', $id)->with('allChildren')->first();
 
+        $tree = Unit::whereNull('parent_unit_id')->with('allChildren')->first();
+
         $type='branch';
 
         return view("main.units.create_branch", compact('unit', 'type'));

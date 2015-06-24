@@ -6,6 +6,6 @@
             </ul>
         </li>
     @else
-        <li data-id="{{ $unit['id'] }}"><span class="description">{{ $unit['description']}}</span>
+        <li data-id="{{ $unit['id'] }}" class="leaf"><span class="description">{{ $unit['description']}}</span>
     @endif
 @endforeach

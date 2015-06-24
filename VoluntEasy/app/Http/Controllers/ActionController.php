@@ -1,10 +1,12 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
+use App\Http\Requests\ActionRequest as ActionRequest;
 use App\Http\Controllers\Controller;
 
 use App\Models\Action;
+use App\Services\Facades\UnitServiceFacade as UnitService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class ActionController extends Controller {
 
@@ -15,8 +17,10 @@ class ActionController extends Controller {
 	 */
 	public function index()
 	{
-        $a = Action::all();
-		return $a->load('steps');
+        $actions = Action::all();
+		$actions->load('steps');
+
+        return view("main.actions.list", compact('actions'));
 	}
 
 	/**
@@ -26,7 +30,9 @@ class ActionController extends Controller {
 	 */
 	public function create()
 	{
-		//
+        $tree = UnitService::getTree();
+
+        return view('main.actions.create', compact('tree'));
 	}
 
 	/**
@@ -34,10 +40,12 @@ class ActionController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
-	{
-		//
-	}
+	public function store(ActionRequest $request)
+    {
+        Action::create($request->all());
+
+        return Redirect::to('main/actions');
+    }
 
 	/**
 	 * Display the specified resource.

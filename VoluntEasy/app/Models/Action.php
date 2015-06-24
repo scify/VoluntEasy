@@ -6,7 +6,7 @@ class Action extends Model {
 
     protected $table = 'actions';
 
-    protected $fillable = ['description', 'comments', 'start_date', 'end_date'];
+    protected $fillable = ['description', 'comments', 'start_date', 'end_date', 'unit_id'];
 
 
     public function unit()

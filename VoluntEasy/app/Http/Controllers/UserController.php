@@ -124,7 +124,7 @@ class UserController extends Controller
 
         $user->delete();
 
-        return Redirect::to('main/users');
+        return $id;
     }
 
 }

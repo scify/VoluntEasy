@@ -31,9 +31,20 @@ h3{font-weight: 400;}
     -moz-box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.40);
     box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.40);
 }
-.jOrgChart .active-node{
+.jOrgChart .active-node, {
     background-color: #1DB198;
 }
 .jOrgChart table{
     margin:0 auto;
+}
+
+/* highlight only leaves */
+.jOrgChart.leaves .node{
+    background-color: #72829E;
+}
+.jOrgChart.leaves .node.leaf{
+    background-color: #34425A;
+}
+.jOrgChart.leaves .node.leaf.active-node{
+    background-color: #1DB198;
 }
