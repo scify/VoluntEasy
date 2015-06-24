@@ -29,7 +29,7 @@ class CreateUnitsTable extends Migration {
 			$table->increments('id');
 			$table->string('description', 300);
 			$table->string('comments', 300);
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->timestamp('start_date');
 			$table->timestamp('end_date');
 			$table->timestamps();
@@ -49,6 +49,7 @@ class CreateUnitsTable extends Migration {
 			$table->foreign('unit_id')->references('id')->on('units');
 			$table->string('description', 300);
 			$table->smallInteger('step_order');
+            $table->timestamps();
 		});
 
 		Schema::create('units_users', function($table)

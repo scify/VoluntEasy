@@ -6,18 +6,12 @@ class Action extends Model {
 
     protected $table = 'actions';
 
-    protected $fillable = ['description', 'comments', 'start_date', 'end_date', 'unit_id'];
+    protected $fillable = ['description', 'comments', 'start_date', 'end_date', 'unit_id', 'email'];
 
 
     public function unit()
     {
         return $this->belongsToOne('App\Models\Unit');
-    }
-
-
-    public function steps()
-    {
-        return $this->hasMany('App\Models\Step');
     }
 
 

@@ -31,6 +31,10 @@ Route::get('main/units/edit/{id}', 'UnitController@edit');
 Route::get('main/units/delete/{id}', 'UnitController@destroy');
 Route::post('main/units/store', 'UnitController@store');
 Route::post('main/units/update', 'UnitController@update');
+Route::get('main/units/wholeTree', 'UnitController@wholeTree');
+
+
+
 
 
 //Volunteer Routes

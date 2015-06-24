@@ -16,12 +16,17 @@ class Unit extends Model
      */
     public function users()
     {
-        return $this->belongsToMany('App\Models\User', 'units_to_users', 'unit_id', 'user_id');
+        return $this->belongsToMany('App\Models\User', 'units_users', 'unit_id', 'user_id');
     }
 
     public function actions()
     {
         return $this->hasMany('App\Models\Action');
+    }
+
+    public function steps()
+    {
+        return $this->hasMany('App\Models\Step');
     }
 
     /**
@@ -51,7 +56,7 @@ class Unit extends Model
      */
     public function allChildren()
     {
-        return $this->children()->with('allChildren');
+        return $this->children()->with('allChildren', 'actions');
     }
 
     /**

@@ -6,6 +6,6 @@
 </ul>
 </li>
 @else
-<li data-id="{{ $unit['id'] }}"  {{ in_array($unit->id, $active) ? 'class=active-node' : '' }}><span class="description">{{ $unit['description']}}</span>
+<li data-id="{{ $unit['id'] }}"  {{ in_array($unit->id, $active) ? 'class=active-node' : '' }}><span class="description">{{ $unit['description']}}</span></li>
 @endif
 @endforeach

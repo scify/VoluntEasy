@@ -51,6 +51,12 @@
                                 <p>Σχεδιάγραμμα<br>Ιστοσελίδας</p>
                             </a>
                         </li>
+                        <li>
+                            <a href="/main/units/wholeTree" class="waves-effect waves-button">
+                                <span class="menu-icon glyphicon glyphicon-tree-deciduous"></span>
+                                <p>Δέντρο</p>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <!-- Page Sidebar Inner -->

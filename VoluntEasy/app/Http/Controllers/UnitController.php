@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Requests\UnitRequest as UnitRequest;
+use App\Models\Step;
 use App\Models\Unit as Unit;
 use App\Services\Facades\UnitServiceFacade as UnitService;
 use Illuminate\Support\Facades\Redirect;
@@ -43,13 +44,12 @@ class UnitController extends Controller
     {
         $root = UnitService::getRoot();
 
-        if(count($root)==0) {
-            $type='root';
+        if (count($root) == 0) {
+            $type = 'root';
             return view("main.units.create_root", compact('type'));
-        }
-        else {
+        } else {
             $tree = Unit::whereNull('parent_unit_id')->with('allChildren')->first();
-            $type='branch';
+            $type = 'branch';
             return view("main.units.create_branch", compact('type', 'tree'));
         }
     }
@@ -60,7 +60,7 @@ class UnitController extends Controller
 
         $tree = Unit::whereNull('parent_unit_id')->with('allChildren')->first();
 
-        $type='branch';
+        $type = 'branch';
 
         return view("main.units.create_branch", compact('unit', 'type'));
     }
@@ -73,7 +73,10 @@ class UnitController extends Controller
      */
     public function store(UnitRequest $request)
     {
-        Unit::create($request->all());
+        $unit = Unit::create($request->all());
+
+
+        $unit->steps()->saveMany($this->createSteps());
 
         return Redirect::to('main/units');
     }
@@ -90,13 +93,14 @@ class UnitController extends Controller
 
         $tree = UnitService::getTree();
 
+       // return $tree;
 
         //if the request comes from ajax, return only a section of the needed code
-       /* if (Request::ajax()) {
-            $view = View::make('main.units.show')->with('active', $active);
-            return $view->renderSections()['details'];
-        }
-        */
+        /* if (Request::ajax()) {
+             $view = View::make('main.units.show')->with('active', $active);
+             return $view->renderSections()['details'];
+         }
+         */
 
         return view("main.units.show", compact('active', 'tree'));
     }
@@ -146,6 +150,44 @@ class UnitController extends Controller
         $unit->delete();
 
         return Redirect::to('main/units');
+    }
+
+
+    public function wholeTree(){
+
+        $tree = UnitService::getTree();
+
+       // return $tree;
+
+        return view("main.units.tree", compact('tree'));
+
+
+    }
+
+
+    /**
+     * When creating a new unit, automatically assign some predefined steps
+     *
+     * @return array
+     */
+    public function createSteps()
+    {
+        $steps = [
+            new Step([
+                'description' => 'Επικοινωνία με εθελοντή',
+                'step_order' => 1
+            ]),
+            new Step([
+                'description' => 'Συνέντευξη με εθελοντή',
+                'step_order' => 2
+            ]),
+            new Step([
+                'description' => 'Ανάθεση σε Μονάδα/Δράση',
+                'step_order' => 3
+            ])
+        ];
+
+        return $steps;
     }
 
 }

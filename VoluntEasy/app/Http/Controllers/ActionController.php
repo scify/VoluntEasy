@@ -18,7 +18,7 @@ class ActionController extends Controller {
 	public function index()
 	{
         $actions = Action::all();
-		$actions->load('steps');
+		//$actions->load('steps');
 
         return view("main.actions.list", compact('actions'));
 	}

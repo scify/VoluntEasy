@@ -16,7 +16,7 @@ class Volunteer extends User
 
     public function actions()
     {
-        return $this->belongsToMany('App\Models\Action');
+        return $this->belongsToMany('App\Models\Action', 'actions_volunteers');
     }
 
     public function availabilityTimes()

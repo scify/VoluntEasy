@@ -31,8 +31,12 @@ h3{font-weight: 400;}
     -moz-box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.40);
     box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.40);
 }
-.jOrgChart .active-node, {
+.jOrgChart .active-node {
     background-color: #1DB198;
+}
+.jOrgChart .node.action{
+    background-color: #08A7C3;
+    border-radius: 50%;
 }
 .jOrgChart table{
     margin:0 auto;
@@ -48,3 +52,4 @@ h3{font-weight: 400;}
 .jOrgChart.leaves .node.leaf.active-node{
     background-color: #1DB198;
 }
+
