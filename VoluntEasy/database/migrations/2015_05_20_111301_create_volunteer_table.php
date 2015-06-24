@@ -209,7 +209,7 @@ class CreateVolunteerTable extends Migration {
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
             $table->integer('unit_id')->unsigned();
-            $table->foreign('unit_id')->references('id')->on('unit');
+            $table->foreign('unit_id')->references('id')->on('units');
             $table->integer('unit_status_id')->unsigned();
             $table->foreign('unit_status_id')->references('id')->on('volunteer_statuses');
         });
@@ -220,7 +220,7 @@ class CreateVolunteerTable extends Migration {
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
             $table->integer('unit_id')->unsigned();
-            $table->foreign('unit_id')->references('id')->on('unit');
+            $table->foreign('unit_id')->references('id')->on('units');
             $table->integer('previous_unit_status_id')->unsigned();
             $table->foreign('previous_unit_status_id')->references('id')->on('volunteer_statuses');
             $table->integer('new_unit_status_id')->unsigned();

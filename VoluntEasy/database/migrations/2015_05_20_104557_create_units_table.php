@@ -45,8 +45,8 @@ class CreateUnitsTable extends Migration {
 		Schema::create('steps', function($table)
 		{
 			$table->increments('id');
-			$table->integer('action_id')->unsigned();
-			$table->foreign('action_id')->references('id')->on('actions');
+			$table->integer('unit_id')->unsigned();
+			$table->foreign('unit_id')->references('id')->on('units');
 			$table->string('description', 300);
 			$table->smallInteger('step_order');
 		});

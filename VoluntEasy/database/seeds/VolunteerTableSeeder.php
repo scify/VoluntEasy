@@ -127,16 +127,25 @@ class VolunteerTableSeeder extends Seeder {
 	    DB::table('language_levels')->insert($levels);
 
 	    // // Seed template.
-	    // DB::table('')->delete();
+	    DB::table('volunteer_statuses')->delete();
 
-	    // $statuses = [
-	    //         ['description' => ''],
-	    //         ['description' => ''],
-	    //         ['description' => ''],
-	    //         ['description' => ''],
-	    // ];
+        $statuses = [
+	             ['description' => 'Active'],
+	             ['description' => 'Inactive'],
+	             ['description' => 'Blacklisted'],
+	     ];
 
-	    // DB::table('')->insert($types);
+	     DB::table('volunteer_statuses')->insert($statuses);
+
+        // // Seed template.
+        DB::table('step_statuses')->delete();
+
+        $statuses = [
+            ['description' => 'Complete'],
+            ['description' => 'Incomplete'],
+        ];
+
+        DB::table('step_statuses')->insert($statuses);
     }
 
 }

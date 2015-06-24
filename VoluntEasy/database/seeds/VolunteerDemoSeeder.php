@@ -28,7 +28,7 @@ class VolunteerDemoSeeder extends Seeder {
             'identification_type_id' => 1,
             'marital_status_id' => 1,
             'driver_license_type_id' => 1,
-            'availability_time_id' => 1,
+            /*'availability_time_id' => 1,*/
             'availability_freqs_id' => 1,
             'work_status_id' => 1,
         ]);
