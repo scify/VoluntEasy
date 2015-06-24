@@ -25,11 +25,8 @@
                 <hr/>
                 <div class="row">
                     <div class="col-md-6">
-                        @section('details')
-                        @include('main.units.partials._details', array('$active->allChildren' => $active))
-                        @append
                         <div class="unit-details">
-                            @include('main.units.partials._details', array('$active->allChildren' => $active))
+                            @include('main.units.partials._details', array('active' => $active))
                         </div>
                     </div>
                     <div class="col-md-6">

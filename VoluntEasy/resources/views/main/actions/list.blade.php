@@ -31,12 +31,9 @@
                         <td>{{ $action->id }}</td>
                         <td><a href="{{ url('main/actions/one/'.$action->id) }}">{{ $action->description }}</a></td>
                         <td>{{ $action->comments }}</td>
-                        <td>{{ $action->unit_id }}</td>
+                        <td>{{ $action->unit->description }}</td>
                         <td>
                             <ul class="list-inline">
-                                <li><a href="{{ url('main/actions/create/'.$action->id) }}" data-toggle="tooltip"
-                                       data-placement="bottom" title="Προσθήκη Κλαδιού" class=""><i
-                                        class="fa fa-plus fa-2x"></i></a></li>
                                 <li><a href="{{ url('main/actions/edit/'.$action->id) }}" data-toggle="tooltip"
                                        data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit fa-2x"></i></a>
                                 </li>

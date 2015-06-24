@@ -199,8 +199,8 @@ return [
         'Html'      => 'Illuminate\Html\HtmlFacade',
         'Form'      => 'Illuminate\Html\FormFacade',
         'Debugbar'  => 'Barryvdh\Debugbar\Facade',
-        'UnitService' => 'App\Services\Facades\UnitServiceFacade',
-        'UserService' => 'App\Services\Facades\UserServiceFacade',
+        'UnitService' => 'App\Services\Facades\UnitService',
+        'UserService' => 'App\Services\Facades\UserService',
 
 
     ],

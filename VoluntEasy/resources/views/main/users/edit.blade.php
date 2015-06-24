@@ -37,23 +37,8 @@
                     </div>
                     <div class="tab-pane fade" id="tab2">
                         <div class="row m-b-lg">
-                            <div class="col-md-4">
-                                @if(isset($user))
-                                @if (sizeof($user->units)==0)
-                                <h3>Ο χρήστης δεν ανήκει σε καμία οργανωτική μονάδα.</h3>
-
-                                <div class="text-right">
-                                </div>
-                            </div>
-                            @else
-                            <ul class="list-unstyled">
-                                @foreach($user->units as $unit)
-                                <li><a href="#" class="unit" data-id="{{$unit->id}}">{{$unit->description}}</a></li>
-                                @endforeach
-
-                            </ul>
-                        </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
+                            <h2>Επιλογή Οργανωτικών Μονάδων</h2>
                             <div id="unitsTree"></div>
                             <ul id="tree" style="display:none;">
                                 <li data-id="{{$tree->id}}"><span class="description">{{$tree->description}}</span>
@@ -67,10 +52,7 @@
                         <button type="button" class="btn btn-success" id="save" data-user-id="{{$user->id}}">
                             Αποθήκευση
                         </button>
-
-                        @endif
-                        @endif
-                    </div>
+                        </div>
                 </div>
             </div>
         </div>

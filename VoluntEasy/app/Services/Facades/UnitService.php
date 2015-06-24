@@ -5,7 +5,7 @@ use \Illuminate\Support\Facades\Facade;
 /**
  * Facade class to be called whenever the class UnitService is called
  */
-class UnitServiceFacade extends Facade {
+class UnitService extends Facade {
 
     /**
      * Get the registered name of the component. This tells $this->app what record to return

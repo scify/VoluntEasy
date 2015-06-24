@@ -11,7 +11,7 @@ class Action extends Model {
 
     public function unit()
     {
-        return $this->belongsToOne('App\Models\Unit');
+        return $this->belongsTo('App\Models\Unit');
     }
 
 

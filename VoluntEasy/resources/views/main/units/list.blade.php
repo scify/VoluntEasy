@@ -32,9 +32,6 @@
                         <td>{{ $unit->comments }}</td>
                         <td>
                             <ul class="list-inline">
-                                <li><a href="{{ url('main/units/create/'.$unit->id) }}" data-toggle="tooltip"
-                                       data-placement="bottom" title="Προσθήκη Κλαδιού" class=""><i
-                                        class="fa fa-plus fa-2x"></i></a></li>
                                 <li><a href="{{ url('main/units/edit/'.$unit->id) }}" data-toggle="tooltip"
                                        data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit fa-2x"></i></a>
                                 </li>

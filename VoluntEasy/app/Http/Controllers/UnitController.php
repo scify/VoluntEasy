@@ -4,11 +4,17 @@ use App\Http\Requests;
 use App\Http\Requests\UnitRequest as UnitRequest;
 use App\Models\Step;
 use App\Models\Unit as Unit;
-use App\Services\Facades\UnitServiceFacade as UnitService;
+use App\Services\Facades\UnitService;
 use Illuminate\Support\Facades\Redirect;
 
 class UnitController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -90,10 +96,13 @@ class UnitController extends Controller
     public function show($id)
     {
         $active = Unit::where('id', $id)->first();
+        $active->load('actions');
+
+       // return $active;
 
         $tree = UnitService::getTree();
 
-       // return $tree;
+        // return $tree;
 
         //if the request comes from ajax, return only a section of the needed code
         /* if (Request::ajax()) {
@@ -153,11 +162,12 @@ class UnitController extends Controller
     }
 
 
-    public function wholeTree(){
+    public function wholeTree()
+    {
 
         $tree = UnitService::getTree();
 
-       // return $tree;
+        // return $tree;
 
         return view("main.units.tree", compact('tree'));
 

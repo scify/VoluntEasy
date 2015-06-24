@@ -3,8 +3,8 @@
 use App\Http\Requests;
 use App\Http\Requests\UserRequest as UserRequest;
 use App\Models\User as User;
-use App\Services\Facades\UnitServiceFacade as UnitService;
-use App\Services\Facades\UserServiceFacade as UserService;
+use App\Services\Facades\UnitService;
+use App\Services\Facades\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 

@@ -49,6 +49,7 @@
         disabled: true
     });
 
+    /*
     $(".node").click(function () {
         $.ajax({
             url: '/main/units/one/' + $(this).attr('data-id'),
@@ -57,6 +58,6 @@
                 $(".unit-details").html(data);
             }
         });
-    })
+    })*/
 </script>
 @stop

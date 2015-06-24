@@ -31,8 +31,7 @@ Route::get('main/units/edit/{id}', 'UnitController@edit');
 Route::get('main/units/delete/{id}', 'UnitController@destroy');
 Route::post('main/units/store', 'UnitController@store');
 Route::post('main/units/update', 'UnitController@update');
-Route::get('main/units/wholeTree', 'UnitController@wholeTree');
-
+Route::get('main/wholeTree', 'UnitController@wholeTree');
 
 
 
@@ -47,7 +46,7 @@ Route::get('main/volunteers','VolunteerController@all');
 
 //Action Routes
 Route::get('main/actions','ActionController@index');
-Route::get('main/actions/one/{id}', ['as' => 'unit/one', 'uses' => 'ActionController@show']);
+Route::get('main/actions/one/{id}', ['as' => 'action/one', 'uses' => 'ActionController@show']);
 Route::get('main/actions/create', 'ActionController@create');
 Route::get('main/actions/edit/{id}', 'ActionController@edit');
 Route::get('main/actions/delete/{id}', 'ActionController@destroy');
