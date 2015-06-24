@@ -29,16 +29,12 @@ class CreateUnitsTable extends Migration {
 			$table->increments('id');
 			$table->string('description', 300);
 			$table->string('comments', 300);
-			$table->timestamp('start_date');
+            $table->string('email');
+            $table->timestamp('start_date');
 			$table->timestamp('end_date');
 			$table->timestamps();
 		});
 
-		Schema::create('action_statuses', function($table)
-		{
-			$table->increments('id');
-			$table->text('description');
-		});
 
 		Schema::create('step_statuses', function($table)
 		{
@@ -55,7 +51,7 @@ class CreateUnitsTable extends Migration {
 			$table->smallInteger('step_order');
 		});
 
-		Schema::create('units_to_users', function($table)
+		Schema::create('units_users', function($table)
 		{
 			$table->integer('user_id')->unsigned;
 			$table->foreign('user_id')->references('id')->on('users');
@@ -71,10 +67,9 @@ class CreateUnitsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::dropIfExists('units_to_users');
+		Schema::dropIfExists('units_users');
 		Schema::dropIfExists('steps');
 		Schema::dropIfExists('step_statuses');
-		Schema::dropIfExists('action_statuses');
 		Schema::dropIfExists('actions');
 		Schema::dropIfExists('units');
 	}
