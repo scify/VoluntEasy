@@ -28,7 +28,7 @@
                 <ul id="tree" style="display:none;">
                     <li data-id="{{$tree->id}}" class="active-node"><span class="description">{{$tree->description}}</span>
                         <ul>
-                            @include('main.units.partials._branch', array('unit' => $tree))
+                            @include('main.units.partials._branch_actions', array('unit' => $tree))
                         </ul>
                     </li>
                 </ul>
@@ -44,7 +44,9 @@
 @section('footerScripts')
 <script>
     $("#tree").jOrgChart({
-        chartElement: '#unitsTree'
+        chartElement: '#unitsTree',
+        chartClass: "jOrgChart actions",
+        actions: true
     });
 
     $("#parent_unit").val($("#parent_unit").attr("data-value"));

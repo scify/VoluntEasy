@@ -11,7 +11,7 @@
     <ul class="list-unstyled">
         @foreach($active->users as $user)
         <li><p class="user-list"><img src="{{ asset('assets/images/avatar4.png')}}" alt="" class="user-image-small">
-            <a href="{{ url('main/users/one/'.$active->users[0]->id) }}">{{$active->users[0]->name}}</a></p>
+            <a href="{{ url('main/users/one/'.$user->id) }}">{{$user->name}}</a></p>
         </li>
         @endforeach
     </ul>
@@ -28,10 +28,3 @@
     @endforeach
 </ul>
 @endif
-
-<div class="text-right">
-    <a href="{{ url('main/units/edit/'.$active->id) }}" class="btn btn-success"><i
-            class="fa fa-edit"></i> Επεξεργασία</a>
-    <a href="{{ url('main/units/delete/'.$active->id) }}" class="btn btn-danger"><i
-            class="fa fa-edit"></i> Διαγραφή</a>
-</div>

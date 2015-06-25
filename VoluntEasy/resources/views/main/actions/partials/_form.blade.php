@@ -17,7 +17,7 @@
        </div>
      </div>
        {!! Form::formInput('unit_id', null, $errors, ['type' => 'hidden', 'id' => 'unit_id']) !!}
-  <div class="form-group">
+  <div class="form-group text-right">
         {!! Form::submit($submitButtonText, ['class' => 'btn btn-success']) !!}
   </div>
 

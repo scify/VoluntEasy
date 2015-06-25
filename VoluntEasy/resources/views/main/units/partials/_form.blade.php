@@ -11,6 +11,6 @@
     {!! Form::hidden('level', $tree->level+1) !!}
     {!! Form::hidden('parent_unit_id', $tree->id, ['id' => 'parent_unit_id']) !!}
 @endif
-<div class="form-group">
+<div class="form-group text-right">
     {!! Form::submit($submitButtonText, ['class' => 'btn btn-success']) !!}
 </div>

@@ -1,5 +1,8 @@
 <?php namespace App\Http\Controllers;
 
+use App\Models\Action;
+use App\Services\Facades\VolunteerService;
+
 class HomeController extends Controller
 {
 
@@ -17,7 +20,6 @@ class HomeController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @return void
      */
     public function __construct()
     {
@@ -31,7 +33,10 @@ class HomeController extends Controller
      */
     public function mainIndex()
     {
-        return view('main.dashboard');
+        $volunteers = VolunteerService::getNew()->count();
+        $actions = Action::all()->count();
+
+        return view('main.dashboard', compact('volunteers', 'actions'));
     }
 
 }

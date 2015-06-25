@@ -31,6 +31,7 @@ Route::get('main/units/edit/{id}', 'UnitController@edit');
 Route::get('main/units/delete/{id}', 'UnitController@destroy');
 Route::post('main/units/store', 'UnitController@store');
 Route::post('main/units/update', 'UnitController@update');
+Route::post('main/units/users', 'UnitController@addUsers');
 Route::get('main/wholeTree', 'UnitController@wholeTree');
 
 
@@ -38,6 +39,7 @@ Route::get('main/wholeTree', 'UnitController@wholeTree');
 
 //Volunteer Routes
 Route::get('main/volunteers','VolunteerController@all');
+Route::get('main/volunteers/new','VolunteerController@getNew');
 
 
 

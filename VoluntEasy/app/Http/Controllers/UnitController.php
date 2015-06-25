@@ -1,11 +1,12 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use App\Http\Requests\UnitRequest as UnitRequest;
 use App\Models\Step;
 use App\Models\Unit as Unit;
+use App\Models\User;
 use App\Services\Facades\UnitService;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\Request;
 
 class UnitController extends Controller
 {
@@ -98,7 +99,7 @@ class UnitController extends Controller
         $active = Unit::where('id', $id)->first();
         $active->load('actions');
 
-       // return $active;
+        // return $active;
 
         $tree = UnitService::getTree();
 
@@ -122,13 +123,22 @@ class UnitController extends Controller
      */
     public function edit($id)
     {
-        $active = Unit::where('id', $id)->first();
+        $active = Unit::where('id', $id)->with('users', 'actions')->first();
+
+        $users = User::all();
+
+        //get the user ids that are assigned to the unit
+        //used in the front end
+        $userIds = array();
+        foreach ($active->users as $user) {
+            array_push($userIds, $user->id);
+        }
 
         $tree = UnitService::getTree();
 
         $type = UnitService::type($active->parent_unit_id);
 
-        return view("main.units.edit", compact('active', 'tree', 'type'));
+        return view("main.units.edit", compact('active', 'tree', 'type', 'users', 'userIds'));
     }
 
     /**
@@ -172,6 +182,15 @@ class UnitController extends Controller
         return view("main.units.tree", compact('tree'));
 
 
+    }
+
+    public function addUsers(Request $request)
+    {
+        $unit = Unit::findOrFail($request->get('id'));
+
+        $unit->users()->sync($request->get('users'));
+
+        return $unit->id;
     }
 
 

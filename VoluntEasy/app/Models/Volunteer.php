@@ -63,4 +63,9 @@ class Volunteer extends User
     {
         return $this->hasMany('App\Models\VolunteerStepHistory');
     }
+
+    public function units(){
+        return $this->belongsToMany('App\Models\Unit', 'units_volunteers');
+    }
+
 }

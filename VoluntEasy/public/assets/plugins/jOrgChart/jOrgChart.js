@@ -111,12 +111,23 @@
                         $(opts.ulId + ' [data-id="' + $(this).attr('data-id') + '"]').addClass("active-node");
                     }
                 }
-                //console.log($(this).attr('data-id') + ' isActive ' + $(this).hasClass('active-node'));
             })
         }
-        else if(opts.leaves){
+        else if (opts.leaves) {
             $('div.node').unbind('click').click(function () {
                     if (!opts.disabled && $(this).hasClass('leaf')) {
+                        $container.find('.active-node').removeClass('active-node');
+                        if ($(this).hasClass('active-node'))
+                            $(this).removeClass('active-node');
+                        else
+                            $(this).addClass('active-node');
+                    }
+                }
+            )
+        }
+        else if (opts.actions) {
+            $('div.node').unbind('click').click(function () {
+                    if (!opts.disabled && !$(this).hasClass('hasActions') && !$(this).hasClass('action')) {
                         $container.find('.active-node').removeClass('active-node');
                         if ($(this).hasClass('active-node'))
                             $(this).removeClass('active-node');
@@ -138,8 +149,7 @@
                 }
             )
         }//Multiple
-    }
-    ;
+    };
 
     // Option defaults
     $.fn.jOrgChart.defaults = {
@@ -149,7 +159,8 @@
         dragAndDrop: false,
         multiple: false,
         disabled: false,
-        leaves: false
+        leaves: false,
+        actions: false
     };
 
     var nodeCount = 0;
@@ -186,30 +197,31 @@
             .data("tree-node", nodeCount)
             .append($nodeContent);
 
-
+        /*
         // Expand and contract nodes
-        /*if ($childNodes.length > 0) {
-         $nodeDiv.click(function() {
-         var $this = $(this);
-         var $tr = $this.closest("tr");
+        if ($childNodes.length > 0) {
+            $nodeDiv.click(function () {
 
-         if($tr.hasClass('contracted')){
-         //$this.css('cursor','n-resize');
-         $tr.removeClass('contracted').addClass('expanded');
-         $tr.nextAll("tr").css('visibility', '');
+                var $this = $(this);
+                var $tr = $this.closest("tr");
 
-         // Update the <li> appropriately so that if the tree redraws collapsed/non-collapsed nodes
-         // maintain their appearance
-         $node.removeClass('collapsed');
-         }else{
-         //$this.css('cursor','s-resize');
-         $tr.removeClass('expanded').addClass('contracted');
-         $tr.nextAll("tr").css('visibility', 'hidden');
+                if ($tr.hasClass('contracted')) {
+                    //$this.css('cursor','n-resize');
+                    $tr.removeClass('contracted').addClass('expanded');
+                    $tr.nextAll("tr").css('visibility', '');
 
-         $node.addClass('collapsed');
-         }
-         });
-         }
+                    // Update the <li> appropriately so that if the tree redraws collapsed/non-collapsed nodes
+                    // maintain their appearance
+                    $node.removeClass('collapsed');
+                } else {
+                    //$this.css('cursor','s-resize');
+                    $tr.removeClass('expanded').addClass('contracted');
+                    $tr.nextAll("tr").css('visibility', 'hidden');
+
+                    $node.addClass('collapsed');
+                }
+            });
+        }
          */
 
         $nodeCell.append($nodeDiv);

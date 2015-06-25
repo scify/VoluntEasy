@@ -6,7 +6,7 @@
     </ul>
 </li>
 @else
-<li data-id="{{ $unit['id'] }}" class="leaf"><span class="description">{{ $unit['description']}}</span>
+<li data-id="{{ $unit['id'] }}" class="leaf {{ sizeof($unit->actions) > 0 ? 'hasActions' : '' }}"><span class="description">{{ $unit['description']}}</span>
     @if (sizeof($unit->actions) > 0)
     <ul>
         @foreach ($unit->actions as $action)

@@ -2,23 +2,25 @@
 
 use App\Http\Requests;
 use App\Models\Volunteer;
+use App\Services\Facades\VolunteerService;
 
 class VolunteerController extends Controller
 {
-    public function all(){
+    public function all()
+    {
 
         $vol = Volunteer::all();
 
         $vol->load('availabilityFrequencies', 'availabilityTimes', 'driverLicenceType', 'identificationType', 'maritalStatus', 'interests');
 
-        $vol->load( 'languages.level', 'languages.language');
+        $vol->load('languages.level', 'languages.language');
 
         $vol->load('actions.steps.status');
 
         return $vol;
     }
 
-   /**
+    /**
      * Display a listing of the resource.
      *
      * @return Response
@@ -117,6 +119,10 @@ class VolunteerController extends Controller
     function destroy($id)
     {
         //
+    }
+
+    public function getNew(){
+        return VolunteerService::getNew();
     }
 
 }
