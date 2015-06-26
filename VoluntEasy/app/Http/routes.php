@@ -26,12 +26,12 @@ Route::get('main/units','UnitController@index');
 Route::get('main/units/tree/{id}','UnitController@tree');
 Route::get('main/units/one/{id}', ['as' => 'unit/one', 'uses' => 'UnitController@show']);
 Route::get('main/units/create', 'UnitController@create');
-Route::get('main/units/create/{id}', 'UnitController@createBranch');
 Route::get('main/units/edit/{id}', 'UnitController@edit');
 Route::get('main/units/delete/{id}', 'UnitController@destroy');
 Route::post('main/units/store', 'UnitController@store');
 Route::post('main/units/update', 'UnitController@update');
 Route::post('main/units/users', 'UnitController@addUsers');
+Route::post('main/units/volunteers', 'UnitController@addVolunteers');
 Route::get('main/wholeTree', 'UnitController@wholeTree');
 
 

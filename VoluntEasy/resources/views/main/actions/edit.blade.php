@@ -1,11 +1,11 @@
 @extends('default')
 
 @section('title')
-Προσθήκη Δράσης
+Επεξεργασία Δράσης
 @stop
 
 @section('pageTitle')
-Προσθήκη Δράσης
+Επεξεργασία Δράσης
 @stop
 
 @section('bodyContent')
@@ -14,32 +14,27 @@
     <div class="col-md-6">
         <div class="panel panel-white">
             <div class="panel-body">
-
-                {!! Form::open(['method' => 'POST', 'action' => ['ActionController@store']]) !!}
-                @include('main.actions.partials._form', ['submitButtonText' => 'Αποθήκευση'])
+                {!! Form::model($action, ['method' => 'POST', 'action' => ['ActionController@update', 'id' => $action->id]]) !!}
+                @include('main.actions.partials._form', ['submitButtonText' => 'Αποθήκευση', 'action' =>$action])
                 {!! Form::close() !!}
             </div>
         </div>
     </div>
-
-
     <div class="col-md-4">
         <div class="panel panel-white">
             <div class="panel-body">
                 <div id="unitsTree"></div>
-                <ul id="tree" style="display:none;">
+                <ul id="tree" style="display:none;" data-id="{{ $action->id }}">
                     <li data-id="{{$tree->id}}" ><span
                             class="description">{{$tree->description}}</span>
                         <ul>
-                            @include('main.units.partials._branch', array('unit' => $tree))
+                            @include('main.units.partials._branch_actions', ['unit' => $tree])
                         </ul>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
-
-
 </div>
 
 @stop
@@ -48,9 +43,7 @@
 @section('footerScripts')
 <script>
 
-    if($('#unit_id').val()!=''){
-        $("#tree li[data-id='"+$('#unit_id').val()+"'").addClass('active-node');
-    }
+    $("#tree li.action[data-id='"+$('#tree').attr("data-id")+"'").addClass('active-node');
 
     //datepickers for the edit form
     $('#start_date').datepicker({
@@ -80,8 +73,7 @@
 
     $("#tree").jOrgChart({
         chartElement: '#unitsTree',
-        chartClass: "jOrgChart leaves",
-        leaves: true
+        disabled: true
     });
 
 

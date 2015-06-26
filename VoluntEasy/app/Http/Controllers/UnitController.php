@@ -4,9 +4,10 @@ use App\Http\Requests\UnitRequest as UnitRequest;
 use App\Models\Step;
 use App\Models\Unit as Unit;
 use App\Models\User;
+use App\Models\Volunteer;
 use App\Services\Facades\UnitService;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class UnitController extends Controller
 {
@@ -23,7 +24,7 @@ class UnitController extends Controller
      */
     public function index()
     {
-        $units = Unit::orderBy('description', 'ASC')->get();
+        $units = Unit::orderBy('description', 'ASC')->paginate(3);
 
         return view("main.units.list", compact('units'));
     }
@@ -61,19 +62,10 @@ class UnitController extends Controller
         }
     }
 
-    public function createBranch($id)
-    {
-        $unit = Unit::where('id', $id)->with('allChildren')->first();
-
-        $tree = Unit::whereNull('parent_unit_id')->with('allChildren')->first();
-
-        $type = 'branch';
-
-        return view("main.units.create_branch", compact('unit', 'type'));
-    }
 
     /**
      * Store a newly created resource in storage.
+     * Also assign the predefined steps.
      *
      * @param UnitRequest $request
      * @return Response
@@ -81,7 +73,6 @@ class UnitController extends Controller
     public function store(UnitRequest $request)
     {
         $unit = Unit::create($request->all());
-
 
         $unit->steps()->saveMany($this->createSteps());
 
@@ -96,14 +87,15 @@ class UnitController extends Controller
      */
     public function show($id)
     {
-        $active = Unit::where('id', $id)->first();
-        $active->load('actions');
-
-        // return $active;
+        $active = Unit::findOrFail($id);
+        $active->load('actions', 'volunteers');
 
         $tree = UnitService::getTree();
 
-        // return $tree;
+        $type = UnitService::type($active);
+
+
+        $volunteers = Volunteer::all();
 
         //if the request comes from ajax, return only a section of the needed code
         /* if (Request::ajax()) {
@@ -112,7 +104,7 @@ class UnitController extends Controller
          }
          */
 
-        return view("main.units.show", compact('active', 'tree'));
+        return view("main.units.show", compact('active', 'tree', 'type', 'volunteers'));
     }
 
     /**
@@ -125,18 +117,14 @@ class UnitController extends Controller
     {
         $active = Unit::where('id', $id)->with('users', 'actions')->first();
 
+        //display all the users in the front end
         $users = User::all();
 
-        //get the user ids that are assigned to the unit
-        //used in the front end
-        $userIds = array();
-        foreach ($active->users as $user) {
-            array_push($userIds, $user->id);
-        }
+        $userIds = UnitService::userIds($active);
 
         $tree = UnitService::getTree();
 
-        $type = UnitService::type($active->parent_unit_id);
+        $type = UnitService::type($active);
 
         return view("main.units.edit", compact('active', 'tree', 'type', 'users', 'userIds'));
     }
@@ -174,14 +162,9 @@ class UnitController extends Controller
 
     public function wholeTree()
     {
-
         $tree = UnitService::getTree();
 
-        // return $tree;
-
         return view("main.units.tree", compact('tree'));
-
-
     }
 
     public function addUsers(Request $request)
@@ -189,6 +172,15 @@ class UnitController extends Controller
         $unit = Unit::findOrFail($request->get('id'));
 
         $unit->users()->sync($request->get('users'));
+
+        return $unit->id;
+    }
+
+    public function addVolunteers(Request $request)
+    {
+        $unit = Unit::findOrFail($request->get('id'));
+
+        $unit->volunteers()->sync($request->get('volunteers'));
 
         return $unit->id;
     }

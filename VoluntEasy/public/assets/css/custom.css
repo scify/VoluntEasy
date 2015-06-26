@@ -43,8 +43,10 @@ h3{font-weight: 400;}
 	background-color: #1DB198;
 }
 .jOrgChart .node.action{
-	background-color: #08A7C3;
-	border-radius: 50%;
+	border-radius: 35%;
+}
+.jOrgChart .node.action.active-node{
+    background-color: #08A7C3;
 }
 .jOrgChart table{
 	margin:0 auto;

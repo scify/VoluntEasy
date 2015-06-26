@@ -1,10 +1,10 @@
 <?php namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Unit extends Model
 {
+
     protected $table = 'units';
 
     protected $fillable = ['description', 'comments', 'level', 'user_id', 'parent_unit_id', 'start_date', 'end_date'];
@@ -27,6 +27,11 @@ class Unit extends Model
     public function steps()
     {
         return $this->hasMany('App\Models\Step');
+    }
+
+    public function volunteers()
+    {
+        return $this->belongsToMany('App\Models\Volunteer', 'units_volunteers');
     }
 
     /**
@@ -67,22 +72,6 @@ class Unit extends Model
     public function allParents()
     {
         return $this->parent()->with('allParents');
-    }
-
-
-    /**
-     * Format dates before showing on front end
-     *
-     * @return string
-     */
-    public function getStartDateAttribute()
-    {
-        return Carbon::parse($this->attributes['start_date'])->format('d/m/Y');
-    }
-
-    public function getEndDateAttribute()
-    {
-        return Carbon::parse($this->attributes['end_date'])->format('d/m/Y');
     }
 
 

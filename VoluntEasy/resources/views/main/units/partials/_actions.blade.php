@@ -23,10 +23,10 @@
                 <h4 class="modal-title" id="myLargeModalLabel">Προσθήκη Δράσης</h4>
             </div>
             <div class="modal-body">
-                {!! Form::open(['method' => 'POST', 'action' => ['ActionController@store']]) !!}
                 @include('main.actions.partials._form', ['submitButtonText' => 'Αποθήκευση'])
-                {!! Form::close() !!}
             </div>
         </div>
     </div>
 </div>
+
+

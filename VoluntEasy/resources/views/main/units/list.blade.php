@@ -44,6 +44,8 @@
                     @endforeach
                     </tbody>
                 </table>
+                {!! $units->render() !!}
+
             </div>
         </div>
     </div>

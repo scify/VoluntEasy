@@ -10,7 +10,7 @@
     @if (sizeof($unit->actions) > 0)
     <ul>
         @foreach ($unit->actions as $action)
-        <li class="action"><span class="description">{{ $action['description']}}</span></li>
+        <li class="action" data-id="{{ $action->id }}"><span class="description">{{ $action['description']}}</span></li>
         @endforeach
     </ul>
     @endif

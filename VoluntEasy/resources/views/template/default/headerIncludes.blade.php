@@ -3,6 +3,8 @@
         <meta name="description" content="Admin Dashboard Template"/>
         <meta name="keywords" content="admin,dashboard"/>
         <meta name="author" content="Steelcoders"/>
+        <meta name="_token" content="{{ csrf_token() }}" />
+
 
         <!-- Styles -->
         <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
