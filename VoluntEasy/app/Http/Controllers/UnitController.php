@@ -87,7 +87,7 @@ class UnitController extends Controller
      */
     public function show($id)
     {
-        $active = Unit::where('id', $id)->first();
+        $active = Unit::findOrFail($id);
         $active->load('actions', 'volunteers');
 
         $tree = UnitService::getTree();
