@@ -31,6 +31,7 @@
                             </a>
                             <ul class="sub-menu">
                                 <li class="{{ Request::is('main/volunteers') ? 'active' : '' }}"><a href="/main/volunteers/listview">Προβολή λίστας-Αναζήτηση</a></li>
+                                <li class="{{ Request::is('main/volunteers/create') ? 'active' : '' }}"><a href="/main/volunteers/create">Καταχώρηση εθελοντή</a></li>
                                 <li class="{{ Request::is('main/volunteers/create') ? 'active' : '' }}"><a href="/main/volunteers/statistics">Στατιστικές Αναλύσεις</a></li>
                             </ul>
                         </li>

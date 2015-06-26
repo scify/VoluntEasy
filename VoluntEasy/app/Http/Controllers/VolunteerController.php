@@ -58,7 +58,7 @@ class VolunteerController extends Controller
     public
     function create()
     {
-        //
+	    return view('main.volunteers.new');
     }
 
     /**

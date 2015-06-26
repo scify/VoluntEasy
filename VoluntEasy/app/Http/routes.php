@@ -40,6 +40,7 @@ Route::get('main/wholeTree', 'UnitController@wholeTree');
 //Volunteer Routes
 Route::get('main/volunteers','VolunteerController@all');
 Route::get('main/volunteers/new','VolunteerController@getNew');
+Route::get('main/volunteers/create', 'VolunteerController@create');
 
 
 
