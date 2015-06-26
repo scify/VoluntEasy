@@ -8,7 +8,6 @@ class VolunteerController extends Controller
 {
     public function all()
     {
-
         $vol = Volunteer::all();
 
         $vol->load('availabilityFrequencies', 'availabilityTimes', 'driverLicenceType', 'identificationType', 'maritalStatus', 'interests');

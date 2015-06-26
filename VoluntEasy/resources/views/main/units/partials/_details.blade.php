@@ -17,6 +17,7 @@
     </ul>
 @endif
 
+@if($type=='leaf')
 @if(sizeof($active->actions)==0)
 <h3>Η μονάδα δεν έχει καμία δράση</h3>
 @else
@@ -27,4 +28,5 @@
     </li>
     @endforeach
 </ul>
+@endif
 @endif

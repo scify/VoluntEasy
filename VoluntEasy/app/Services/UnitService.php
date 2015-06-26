@@ -6,12 +6,23 @@ class UnitService
 {
 
 
-    public function type($id)
+    /**
+     * Get the type of each unit.
+     * If parent_unit_id is null, we have a root.
+     * If it has children, we have a branch.
+     * Else we have a leaf.
+     *
+     * @param Unit $unit
+     * @return string
+     */
+    public function type(Unit $unit)
     {
-        if ($id == null)
+        if ($unit->parent_unit_id == null)
             return 'root';
-        else
+        else if ($unit->parent_unit_id != null && $unit->allChildren != null && sizeof($unit->allChildren) > 0)
             return 'branch';
+        else
+            return 'leaf';
     }
 
     public function getRoot()

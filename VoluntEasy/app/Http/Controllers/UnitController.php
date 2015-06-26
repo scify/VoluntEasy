@@ -5,8 +5,8 @@ use App\Models\Step;
 use App\Models\Unit as Unit;
 use App\Models\User;
 use App\Services\Facades\UnitService;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class UnitController extends Controller
 {
@@ -74,6 +74,7 @@ class UnitController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * Also assign the predefined steps.
      *
      * @param UnitRequest $request
      * @return Response
@@ -81,7 +82,6 @@ class UnitController extends Controller
     public function store(UnitRequest $request)
     {
         $unit = Unit::create($request->all());
-
 
         $unit->steps()->saveMany($this->createSteps());
 
@@ -99,11 +99,11 @@ class UnitController extends Controller
         $active = Unit::where('id', $id)->first();
         $active->load('actions');
 
-        // return $active;
 
         $tree = UnitService::getTree();
 
-        // return $tree;
+        $type = UnitService::type($active);
+
 
         //if the request comes from ajax, return only a section of the needed code
         /* if (Request::ajax()) {
@@ -112,7 +112,7 @@ class UnitController extends Controller
          }
          */
 
-        return view("main.units.show", compact('active', 'tree'));
+        return view("main.units.show", compact('active', 'tree', 'type'));
     }
 
     /**
@@ -136,7 +136,7 @@ class UnitController extends Controller
 
         $tree = UnitService::getTree();
 
-        $type = UnitService::type($active->parent_unit_id);
+        $type = UnitService::type($active);
 
         return view("main.units.edit", compact('active', 'tree', 'type', 'users', 'userIds'));
     }
@@ -174,14 +174,9 @@ class UnitController extends Controller
 
     public function wholeTree()
     {
-
         $tree = UnitService::getTree();
 
-        // return $tree;
-
         return view("main.units.tree", compact('tree'));
-
-
     }
 
     public function addUsers(Request $request)

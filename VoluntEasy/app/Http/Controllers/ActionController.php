@@ -45,10 +45,9 @@ class ActionController extends Controller
      */
     public function store(ActionRequest $request)
     {
-        Action::create($request->all());
+        $action = Action::create($request->all());
 
-
-        return Redirect::to('main/actions');
+        return $action->unit_id;
     }
 
     /**

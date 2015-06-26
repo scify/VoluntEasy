@@ -32,7 +32,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="unit-details">
-                            @include('main.units.partials._details', array('active' => $active))
+                            @include('main.units.partials._details', array('active' => $active, 'type' => $type))
                         </div>
                     </div>
                     <div class="col-md-6">
