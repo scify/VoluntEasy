@@ -24,7 +24,7 @@ class UnitController extends Controller
      */
     public function index()
     {
-        $units = Unit::orderBy('description', 'ASC')->get();
+        $units = Unit::orderBy('description', 'ASC')->paginate(3);
 
         return view("main.units.list", compact('units'));
     }

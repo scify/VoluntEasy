@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Unit extends Model
 {
+
     protected $table = 'units';
 
     protected $fillable = ['description', 'comments', 'level', 'user_id', 'parent_unit_id', 'start_date', 'end_date'];

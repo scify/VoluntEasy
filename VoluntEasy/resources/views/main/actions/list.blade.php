@@ -22,6 +22,8 @@
                         <th>Περιγραφή</th>
                         <th>Σχόλια</th>
                         <th>Μονάδα</th>
+                        <th>Ημ. Έναρξης</th>
+                        <th>Ημ. Λήξης</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -32,6 +34,8 @@
                         <td><a href="{{ url('main/actions/one/'.$action->id) }}">{{ $action->description }}</a></td>
                         <td>{{ $action->comments }}</td>
                         <td>{{ $action->unit->description }}</td>
+                        <td>{{ $action->start_date }}</td>
+                        <td>{{ $action->end_date }}</td>
                         <td>
                             <ul class="list-inline">
                                 <li><a href="{{ url('main/actions/edit/'.$action->id) }}" data-toggle="tooltip"
