@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Models\Volunteer;
 use App\Services\Facades\VolunteerService;
+use DB;
 
 class VolunteerController extends Controller
 {
@@ -59,7 +60,15 @@ class VolunteerController extends Controller
     public
     function create()
     {
-	    return view('main.volunteers.new');
+	    $identityTypes = DB::table('identification_types')->lists('description');
+	    $driverLicenses = DB::table('driver_license_types')->lists('description');
+	    $maritalTypes = DB::table('marital_statuses')->lists('description');
+	    $languages = DB::table('languages')->lists('description');
+	    $lang_levels = DB::table('language_levels')->lists('description');
+	    $work_statuses = DB::table('work_statuses')->lists('description');
+	    $availability_freqs = DB::table('availability_freqs')->lists('description');
+	    $availability_times = DB::table('availability_time')->lists('description');
+	    return view('main.volunteers.new')->with('id_type', $identityTypes)->with('driver_license_type', $driverLicenses)->with('marital_status', $maritalTypes)->with('languages', $languages)->with('lang_levels', $lang_levels)->with('work_statuses', $work_statuses)->with('availability_freqs', $availability_freqs)->with('availability_times', $availability_times);
     }
 
     /**
