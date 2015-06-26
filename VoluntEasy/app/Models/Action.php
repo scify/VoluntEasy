@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Action extends Model {
@@ -14,9 +15,23 @@ class Action extends Model {
         return $this->belongsTo('App\Models\Unit');
     }
 
-
     public function volunteers()
     {
         return $this->belongsToMany('App\Models\Volunteer');
+    }
+
+    /**
+     * Format dates before showing on front end
+     *
+     * @return string
+     */
+    public function getStartDateAttribute()
+    {
+        return Carbon::parse($this->attributes['start_date'])->format('d/m/Y');
+    }
+
+    public function getEndDateAttribute()
+    {
+        return Carbon::parse($this->attributes['end_date'])->format('d/m/Y');
     }
 }

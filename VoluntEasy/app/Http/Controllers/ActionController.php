@@ -58,8 +58,7 @@ class ActionController extends Controller
      */
     public function show($id)
     {
-        $action = Action::find($id)->first();
-        $action->load('unit');
+        $action = Action::where('id', $id)->first();
 
         return view('main.actions.show', compact('action'));
     }
@@ -72,18 +71,26 @@ class ActionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $action = Action::where('id', $id)->first();
+
+        $tree = UnitService::getTree();
+
+        return view('main.actions.edit', compact('action', 'tree'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int $id
+     * @param  ActionRequest $request
      * @return Response
      */
-    public function update($id)
+    public function update(ActionRequest $request)
     {
-        //
+        $action = Action::findOrFail($request->get('id'));
+
+        $action->update($request->all());
+
+        return Redirect::route('action/one', ['id' => $action->id]);
     }
 
     /**

@@ -79,8 +79,6 @@
         <div class="panel panel-white">
             <div class="panel-body">
                 <div id="unitsTree"></div>
-
-
                 <ul id="tree" style="display:none;">
                     <li data-id="{{$tree->id}}"
                     {{ $active->id==$tree->id ? 'class=active-node' : '' }}><span class="description">{{$tree->description}}</span>
@@ -166,19 +164,19 @@
                 $("#actionEndDate").parent().removeClass("has-error");
 
                 $.each(jqXHR.responseJSON, function (key, value) {
-                    if(key=='description') {
+                    if (key == 'description') {
                         $("#actionDescription").parent().addClass("has-error");
                         $("#actionDescription").parent().append('<p class="help-block">' + value + '</p>');
                     }
-                    if(key=='comments') {
+                    if (key == 'comments') {
                         $("#actionComments").parent().addClass("has-error");
                         $("#actionComments").parent().append('<p class="help-block">' + value + '</p>');
                     }
-                    if(key=='start_date') {
+                    if (key == 'start_date') {
                         $("#actionStartDate").parent().addClass("has-error");
                         $("#actionStartDate").parent().append('<p class="help-block">' + value + '</p>');
                     }
-                    if(key=='end_date') {
+                    if (key == 'end_date') {
                         $("#actionEndDate").parent().addClass("has-error");
                         $("#actionEndDate").parent().append('<p class="help-block">' + value + '</p>');
                     }

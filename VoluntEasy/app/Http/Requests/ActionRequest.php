@@ -3,8 +3,6 @@
 
 class ActionRequest extends Request
 {
-
-
     /**
      * Get the validation rules that apply to the request.
      * If the id is null, return the validation rules for the create form,
