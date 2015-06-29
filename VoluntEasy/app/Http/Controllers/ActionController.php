@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests\ActionRequest as ActionRequest;
+use App\Http\Requests\Request;
 use App\Models\Action;
 use App\Services\Facades\UnitService;
 use Illuminate\Support\Facades\Redirect;
@@ -41,13 +42,17 @@ class ActionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param ActionRequest $request
      * @return Response
      */
     public function store(ActionRequest $request)
     {
         $action = Action::create($request->all());
 
-        return $action->unit_id;
+        if($request->ajax())
+            return $action->unit_id;
+        else
+            return view('main.actions.show', compact('action'));
     }
 
     /**

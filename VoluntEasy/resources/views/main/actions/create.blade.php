@@ -53,28 +53,28 @@
     }
 
     //datepickers for the edit form
-    $('#start_date').datepicker({
+    $('#actionStartDate').datepicker({
         language: 'el',
         format: 'dd/mm/yyyy',
         autoclose: true
     }).on('changeDate', function (selected) {
         var startDate = new Date(selected.date.valueOf());
-        $('#end_date').datepicker('setStartDate', startDate);
+        $('#actionEndDate').datepicker('setStartDate', startDate);
     }).on('clearDate', function (selected) {
-        $('#end_date').datepicker('setStartDate', null);
+        $('#actionEndDate').datepicker('setStartDate', null);
     });
 
     //add restrictions: user should not be able to check
     // an end_date after start_date and vice-versa
-    $('#end_date').datepicker({
+    $('#actionEndDate').datepicker({
         language: 'el',
         format: 'dd/mm/yyyy',
         autoclose: true
     }).on('changeDate', function (selected) {
         var endDate = new Date(selected.date.valueOf());
-        $('#start_date').datepicker('setEndDate', endDate);
+        $('#actionStartDate').datepicker('setEndDate', endDate);
     }).on('clearDate', function (selected) {
-        $('#start_date').datepicker('setEndDate', null);
+        $('#actionStartDate').datepicker('setEndDate', null);
     });
 
 
