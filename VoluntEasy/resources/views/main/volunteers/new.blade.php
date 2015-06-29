@@ -138,16 +138,16 @@ tab2
                   <div class="row m-b-lg">
                   <div class="row">
                            <div class="form-group col-md-4">
-                              {!! Form::label('phoneNumberHome', 'Τηλέφωνο Οικίας:') !!}
-                              {!! Form::text('phoneNumberHome', null, ['class' => 'form-control', 'id' => 'phoneNumberHome', 'placeholder' => 'Τηλέφωνο Οικίας']) !!}
+                              {!! Form::label('home_tel', 'Τηλέφωνο Οικίας:') !!}
+                              {!! Form::text('home_tel', null, ['class' => 'form-control', 'id' => 'home_tel', 'placeholder' => 'Τηλέφωνο Οικίας']) !!}
                            </div>
                            <div class="form-group  col-md-4">
-                              {!! Form::label('phoneNumberWork', 'Τηλέφωνο Εργασίας:') !!}
-                              {!! Form::text('phoneNumberWork', null, ['class' => 'form-control', 'id' => 'phoneNumberWork', 'placeholder' => 'Τηλέφωνο Εργασίας']) !!}
+                              {!! Form::label('work_tel', 'Τηλέφωνο Εργασίας:') !!}
+                              {!! Form::text('work_tel', null, ['class' => 'form-control', 'id' => 'work_tel', 'placeholder' => 'Τηλέφωνο Εργασίας']) !!}
                            </div>
                            <div class="form-group  col-md-4">
-                              {!! Form::label('mobileNumber', 'Κινητό:') !!}
-                              {!! Form::text('mobileNumber', null, ['class' => 'form-control', 'id' => 'mobileNumber', 'placeholder' => 'Κινητό']) !!}
+                              {!! Form::label('cell_tel', 'Κινητό:') !!}
+                              {!! Form::text('cell_tel', null, ['class' => 'form-control', 'id' => 'cell_tel', 'placeholder' => 'Κινητό']) !!}
                            </div>
                    </div>
                         <div class="row">
