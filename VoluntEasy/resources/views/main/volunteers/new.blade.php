@@ -42,8 +42,6 @@ tab1
 
 				<br>
 				<br>
-				<br>
-				<br>
 
 			      {!! Form::label('Αριθμός τέκνων:') !!}<br>
                               {!! Form::text('', null, ['class' => 'form-control', 'id' => 'children', 'placeholder' => 'Αριθμός τέκνων']) !!}
