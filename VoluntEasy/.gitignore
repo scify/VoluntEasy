@@ -4,4 +4,5 @@
 *.env
 .idea
 _ide_helper.php
-
+volunteasy.sublime-project
+volunteasy.sublime-workspace
