@@ -4,3 +4,4 @@
 *.env
 .idea
 _ide_helper.php
+/config/mail.php
