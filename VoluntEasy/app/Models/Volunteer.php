@@ -11,7 +11,7 @@ class Volunteer extends User
      */
     protected $table = 'volunteers';
 
-    protected $fillable = ['name', 'fathers_name', 'last_name', 'identification_num', 'birth_date', 'gender', 'participation_reason', 'extra_lang', 'comments', 'identification_type_id', 'marital_status_id', 'driver_license_type_id', 'availability_freqs_id', 'work_status_id'];
+    protected $fillable = ['name', 'fathers_name', 'last_name', 'email', 'identification_num', 'birth_date', 'gender_id', 'education_level_id', 'participation_reason', 'extra_lang', 'comments', 'identification_type_id', 'marital_status_id', 'driver_license_type_id', 'availability_freqs_id', 'work_status_id'];
 
 
     public function actions()

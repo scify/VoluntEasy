@@ -41,6 +41,7 @@ Route::get('main/wholeTree', 'UnitController@wholeTree');
 Route::get('main/volunteers','VolunteerController@all');
 Route::get('main/volunteers/new','VolunteerController@getNew');
 Route::get('main/volunteers/create', 'VolunteerController@create');
+Route::post('main/volunteers/store', 'VolunteerController@store');
 
 
 

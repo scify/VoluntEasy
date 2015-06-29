@@ -67,7 +67,7 @@ class CreateVolunteerTable extends Migration {
             $table->string('name', 100);
             $table->string('last_name', 100);
             $table->string('fathers_name', 100);
-            $table->string('identification_num', 100);
+            $table->string('identification_num', 100)->nullable();
             $table->date('birth_date');
             $table->smallInteger('children')->nullable();
             $table->string('address', 300)->nullable();
@@ -82,7 +82,7 @@ class CreateVolunteerTable extends Migration {
             $table->string('work_description', 300)->nullable();
             $table->string('additional_skills', 300)->nullable();
             $table->boolean('live_in_curr_country')->nullable();
-            $table->text('comments', 300);
+            $table->text('comments', 300)->nullable();
             $table->timestamps();
 
 	    $table->integer('gender_id')->unsigned();
@@ -93,7 +93,7 @@ class CreateVolunteerTable extends Migration {
 	    $table->foreign('comm_method_id')->references('id')->on('comm_method');
             $table->integer('identification_type_id')->unsigned();
             $table->foreign('identification_type_id')->references('id')->on('identification_types');
-            $table->integer('marital_status_id')->unsigned();
+            $table->integer('marital_status_id')->unsigned()->nullable();
             $table->foreign('marital_status_id')->references('id')->on('marital_statuses');
             $table->integer('driver_license_type_id')->unsigned();
             $table->foreign('driver_license_type_id')->references('id')->on('driver_license_types');

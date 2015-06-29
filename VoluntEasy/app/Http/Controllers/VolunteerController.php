@@ -3,10 +3,17 @@
 use App\Http\Requests;
 use App\Models\Volunteer;
 use App\Services\Facades\VolunteerService;
+use App\Http\Requests\VolunteerFormRequest as VolunteerFormRequest;
+use Illuminate\Support\Facades\Redirect;
 use DB;
 
 class VolunteerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function all()
     {
         $vol = Volunteer::all();
@@ -59,17 +66,17 @@ class VolunteerController extends Controller
     public
     function create()
     {
-	    $identityTypes = DB::table('identification_types')->lists('description');
-	    $driverLicenses = DB::table('driver_license_types')->lists('description');
-	    $maritalTypes = DB::table('marital_statuses')->lists('description');
-	    $languages = DB::table('languages')->lists('description');
-	    $lang_levels = DB::table('language_levels')->lists('description');
-	    $work_statuses = DB::table('work_statuses')->lists('description');
-	    $availability_freqs = DB::table('availability_freqs')->lists('description');
-	    $availability_times = DB::table('availability_time')->lists('description');
-	    $genders = DB::table('genders')->lists('description');
-	    $comm_method = DB::table('comm_method')->lists('description');
-	    $ed_level = DB::table('education_levels')->lists('description');
+	    $identityTypes = DB::table('identification_types')->lists('description', 'id');
+	    $driverLicenses = DB::table('driver_license_types')->lists('description', 'id');
+	    $maritalTypes = DB::table('marital_statuses')->lists('description', 'id');
+	    $languages = DB::table('languages')->lists('description', 'id');
+	    $lang_levels = DB::table('language_levels')->lists('description', 'id');
+	    $work_statuses = DB::table('work_statuses')->lists('description', 'id');
+	    $availability_freqs = DB::table('availability_freqs')->lists('description', 'id');
+	    $availability_times = DB::table('availability_time')->lists('description', 'id');
+	    $genders = DB::table('genders')->lists('description', 'id');
+	    $comm_method = DB::table('comm_method')->lists('description', 'id');
+	    $ed_level = DB::table('education_levels')->lists('description', 'id');
 	    return view('main.volunteers.new')->with('id_type', $identityTypes)->with('driver_license_type', $driverLicenses)->with('marital_status', $maritalTypes)->with('languages', $languages)->with('lang_levels', $lang_levels)->with('work_statuses', $work_statuses)->with('availability_freqs', $availability_freqs)->with('availability_times', $availability_times)->with('genders', $genders)->with('comm_method', $comm_method)->with('ed_level', $ed_level);
     }
 
@@ -79,9 +86,12 @@ class VolunteerController extends Controller
      * @return Response
      */
     public
-    function store()
+    function store(VolunteerFormRequest $request)
     {
-        //
+	    // dd($request->all());
+	    Volunteer::create($request->all());
+
+	    return Redirect::to('main/volunteers/listview');
     }
 
     /**
