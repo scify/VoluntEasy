@@ -37,29 +37,16 @@ tab1
 				<br>
 				<br>
 
-                              <!-- {!! Form::label('dateOfBirth', 'Ημερομηνία Γέννησης:') !!}<br> -->
-                              <!-- {!! Form::input('date', 'dateOfBirth', null, ['required', 'class' => 'form&#45;control'])!!} -->
                               {!! Form::label('birth_date', 'Ημερομηνία Γέννησης:') !!}<br>
-				{!! Form::input('birth_date', 'birth_date', null, ['required', 'class' => 'form-control', 'id' => 'birth_date']) !!}
-                                   <!--
-				     <div class="form-group  col-md-4">
-				        {!! Form::selectMonth('month', null, ['class' => 'form-control']) !!}
-				     </div>
-				     <div class="form-group  col-md-4">
-				        {!! Form::selectRange('day', 1, 31, null, ['class' => 'form-control']) !!}
-				     </div>
-				     <div class="form-group  col-md-4">
-				        {!! Form::selectYear('year', Carbon\Carbon::now()->year, (new Carbon\Carbon('100 years ago'))->year, null, ['class' => 'form-control']) !!}
-				     </div>
-                                   -->
+			      {!! Form::input('birth_date', 'birth_date', null, ['required', 'class' => 'form-control', 'id' => 'birth_date']) !!}
 
 				<br>
 				<br>
 				<br>
 				<br>
 
-			   	 {!! Form::label('Αριθμός τέκνων:') !!}<br>
-                                 {!! Form::text('', null, ['class' => 'form-control', 'id' => 'children', 'placeholder' => 'Αριθμός τέκνων']) !!}
+			      {!! Form::label('Αριθμός τέκνων:') !!}<br>
+                              {!! Form::text('', null, ['class' => 'form-control', 'id' => 'children', 'placeholder' => 'Αριθμός τέκνων']) !!}
 
 				<br>
 				<br>
@@ -69,7 +56,7 @@ tab1
 
                            </div>
 
-                           <div class="form-group  col-md-4">
+                           <div class="form-group col-md-4">
                               {!! Form::label('last_name', 'Επώνυμο:') !!}
                               {!! Form::text('last_name', null, ['class' => 'form-control', 'id' => 'last_name', 'placeholder' => 'Επώνυμο']) !!}
 
@@ -98,7 +85,7 @@ tab1
                               {!! Form::text('', null, ['class' => 'form-control', 'id' => 'country', 'placeholder' => 'Χώρα']) !!}
                            </div>
 
-                           <div class="form-group  col-md-4">
+                           <div class="form-group col-md-4">
                               {!! Form::label('fathers_name', 'Όνομα Πατέρα:') !!}
                               {!! Form::text('fathers_name', null, ['class' => 'form-control', 'id' => 'fathers_name', 'placeholder' => 'Όνομα Πατέρα']) !!}
 
@@ -137,29 +124,35 @@ tab2
                <div class="tab-pane fade" id="tab2">
                   <div class="row m-b-lg">
                   <div class="row">
-                           <div class="form-group col-md-4">
+                           <div class="form-group col-md-6">
                               {!! Form::label('home_tel', 'Τηλέφωνο Οικίας:') !!}
                               {!! Form::text('home_tel', null, ['class' => 'form-control', 'id' => 'home_tel', 'placeholder' => 'Τηλέφωνο Οικίας']) !!}
-                           </div>
-                           <div class="form-group  col-md-4">
+
+				<br>
+				<br>
+
                               {!! Form::label('work_tel', 'Τηλέφωνο Εργασίας:') !!}
                               {!! Form::text('work_tel', null, ['class' => 'form-control', 'id' => 'work_tel', 'placeholder' => 'Τηλέφωνο Εργασίας']) !!}
-                           </div>
-                           <div class="form-group  col-md-4">
+
+				<br>
+				<br>
+
                               {!! Form::label('cell_tel', 'Κινητό:') !!}
                               {!! Form::text('cell_tel', null, ['class' => 'form-control', 'id' => 'cell_tel', 'placeholder' => 'Κινητό']) !!}
                            </div>
-                   </div>
-                        <div class="row">
-                           <div class="form-group  col-md-4">
+                           <div class="form-group col-md-6">
                                {!! Form::label('fax', 'Fax:') !!}
                                {!! Form::text('fax', null, ['class' => 'form-control', 'id' => 'fax', 'placeholder' => 'Fax']) !!}
-                           </div>
-                           <div class="form-group  col-md-4">
+
+				<br>
+				<br>
+
                                {!! Form::label('email', 'Email:') !!}
                                {!! Form::text('email', null, ['class' => 'form-control', 'id' => 'email', 'placeholder' => 'Email']) !!}
-                           </div>
-                           <div class="form-group  col-md-4">
+
+				<br>
+				<br>
+
                                {!! Form::label('communicationMethod', 'Να επικοινωνήσουμε μαζί σας στο:') !!}
 			       {!! Form::select('communicationMethod', ($comm_method), null, ['class' => 'form-control']) !!}
                            </div>
@@ -209,7 +202,6 @@ tab3
 				@foreach ($languages as $language)
 					<br><br>
 					<p>{{ $language . ':' }}</p>
-			   	 <!-- {!! Form::label($language . ':' . PHP_EOL) !!} -->
 			   	 {!! Form::label('') !!}
 					@foreach ($lang_levels as $level)
 						<em>{{ $level }}</em>
@@ -235,7 +227,7 @@ tab4
                <div class="tab-pane fade" id="tab4">
                   <div class="row m-b-lg">
                   <div class="row">
-                           <div class="form-group  col-md-6">
+                           <div class="form-group col-md-6">
 				 <h2>Εργασιακή εμπειρία</h2>
 			   	 {!! Form::label('work_status_id', 'Εργασιακή κατάσταση:') !!}<br>
 			   	 {!! Form::select('work_status_id', ($work_statuses), null, ['class' => 'form-control']) !!}
@@ -245,7 +237,7 @@ tab4
 				{!! Form::textarea('extra_lang', null, ['placeholder' => 'Περιγράψτε τη θέση σας στην παρούσα ή πιο πρόσφατη εργασία.', 'class' => 'form-control', 'id' => 'extra_lang']) !!}
                            </div>
 
-                           <div class="form-group  col-md-6">
+                           <div class="form-group col-md-6">
 				 <h2>Εθελοντική προσφορά</h2>
 				{!! Form::label('participation_reason', 'Λόγος συμμετοχής:') !!}
 				{!! Form::textarea('participation_reason', null, ['placeholder' => 'Περιγράψτε τους λόγους που θέλετε να γίνετε εθελοντής. ', 'class' => 'form-control', 'id' => 'participation_reason']) !!}
