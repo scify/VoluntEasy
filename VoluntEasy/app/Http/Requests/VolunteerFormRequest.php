@@ -14,10 +14,6 @@ class VolunteerFormRequest extends Request {
 	 *
 	 * @return bool
 	 */
-	public function authorize()
-	{
-		return false;
-	}
 
 	/**
 	 * Get the validation rules that apply to the request.
@@ -27,7 +23,16 @@ class VolunteerFormRequest extends Request {
 	public function rules()
 	{
 		return [
-			//
+                        /*
+			 * 'name' => 'required|max:100',
+			 * 'last_name' => 'required|max:100',
+			 * 'fathers_name' => 'required|max:100',
+			 * 'gender_id' => 'required',
+			 * 'email' => 'required|email',
+			 * 'education_level_id' => 'required',
+			 * 'work_status_id' => 'required',
+			 * 'participation_reason' => 'required|max:300',
+                         */
 		];
 	}
 

@@ -21,7 +21,7 @@ class VolunteerDemoSeeder extends Seeder {
             'identification_num' => 'AK 1234567',
 	        'identification_type_id' => 1,
             'birth_date' => '1970-01-01',
-            'gender' => true,
+            'gender_id' => 1,
             'participation_reason' => 'Just because',
             'extra_lang' => 'Japanese, Chinese',
             'comments' => 'This is a comment',
@@ -31,6 +31,8 @@ class VolunteerDemoSeeder extends Seeder {
             /*'availability_time_id' => 1,*/
             'availability_freqs_id' => 1,
             'work_status_id' => 1,
+	    'email' => 'george@example.com',
+	    'education_level_id' => '2',
         ]);
 
 
@@ -41,7 +43,7 @@ class VolunteerDemoSeeder extends Seeder {
             'identification_num' => 'fddfd',
             'identification_type_id' => 1,
             'birth_date' => '1970-01-01',
-            'gender' => true,
+            'gender_id' => 2,
             'participation_reason' => 'I like saving cats',
             'extra_lang' => 'Cat Language',
             'comments' => 'This is a comment',
@@ -51,6 +53,8 @@ class VolunteerDemoSeeder extends Seeder {
             /*'availability_time_id' => 1,*/
             'availability_freqs_id' => 1,
             'work_status_id' => 1,
+	    'email' => 'trolli@example.com',
+	    'education_level_id' => '2',
         ]);
 
 
@@ -61,7 +65,7 @@ class VolunteerDemoSeeder extends Seeder {
             'identification_num' => 'AK fdsfdsf',
             'identification_type_id' => 1,
             'birth_date' => '1970-01-01',
-            'gender' => false,
+            'gender_id' => 2,
             'participation_reason' => 'Just because',
             'extra_lang' => 'Japanese, Chinese',
             'comments' => 'This is a comment',
@@ -71,6 +75,8 @@ class VolunteerDemoSeeder extends Seeder {
             /*'availability_time_id' => 1,*/
             'availability_freqs_id' => 1,
             'work_status_id' => 1,
+	    'email' => 'mary@example.com',
+	    'education_level_id' => '2',
         ]);
 
 
@@ -81,7 +87,7 @@ class VolunteerDemoSeeder extends Seeder {
             'identification_num' => 'AK 1234567',
             'identification_type_id' => 1,
             'birth_date' => '1970-01-01',
-            'gender' => true,
+            'gender_id' => 1,
             'participation_reason' => 'Just because',
             'extra_lang' => 'Japanese, Chinese',
             'comments' => 'This is a comment',
@@ -91,6 +97,8 @@ class VolunteerDemoSeeder extends Seeder {
             /*'availability_time_id' => 1,*/
             'availability_freqs_id' => 1,
             'work_status_id' => 1,
+	    'email' => 'john@example.com',
+	    'education_level_id' => '2',
         ]);
     }
 

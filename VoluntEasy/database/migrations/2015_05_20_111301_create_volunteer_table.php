@@ -43,15 +43,32 @@ class CreateVolunteerTable extends Migration {
             $table->string('description', 300);
         });
 
+	Schema::create('genders', function($table)
+	{
+	    $table->increments('id');
+	    $table->string('description', 50);
+	});
+
+	Schema::create('education_levels', function($table)
+	{
+	    $table->increments('id');
+	    $table->string('description', 50);
+	});
+
+	Schema::create('comm_method', function($table)
+	{
+	    $table->increments('id');
+	    $table->string('description', 200);
+	});
+
         Schema::create('volunteers', function($table)
         {
             $table->increments('id');
             $table->string('name', 100);
             $table->string('last_name', 100);
             $table->string('fathers_name', 100);
-            $table->string('identification_num', 100);
+            $table->string('identification_num', 100)->nullable();
             $table->date('birth_date');
-            $table->boolean('gender');
             $table->smallInteger('children')->nullable();
             $table->string('address', 300)->nullable();
             $table->string('city', 300)->nullable();
@@ -65,12 +82,18 @@ class CreateVolunteerTable extends Migration {
             $table->string('work_description', 300)->nullable();
             $table->string('additional_skills', 300)->nullable();
             $table->boolean('live_in_curr_country')->nullable();
-            $table->text('comments', 300);
+            $table->text('comments', 300)->nullable();
             $table->timestamps();
 
+	    $table->integer('gender_id')->unsigned();
+	    $table->foreign('gender_id')->references('id')->on('genders');
+	    $table->integer('education_level_id')->unsigned();
+	    $table->foreign('education_level_id')->references('id')->on('education_levels');
+	    $table->integer('comm_method_id')->unsigned()->nullable();
+	    $table->foreign('comm_method_id')->references('id')->on('comm_method');
             $table->integer('identification_type_id')->unsigned();
             $table->foreign('identification_type_id')->references('id')->on('identification_types');
-            $table->integer('marital_status_id')->unsigned();
+            $table->integer('marital_status_id')->unsigned()->nullable();
             $table->foreign('marital_status_id')->references('id')->on('marital_statuses');
             $table->integer('driver_license_type_id')->unsigned();
             $table->foreign('driver_license_type_id')->references('id')->on('driver_license_types');
@@ -241,11 +264,11 @@ class CreateVolunteerTable extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('volunteer_statuses');
         Schema::dropIfExists('volunteer_unit_history');
         Schema::dropIfExists('volunteer_unit_status');
         Schema::dropIfExists('volunteer_action_history');
         Schema::dropIfExists('volunteer_action_status');
+        Schema::dropIfExists('volunteer_statuses');
         Schema::dropIfExists('volunteer_step_history');
         Schema::dropIfExists('volunteer_step_status');
         Schema::dropIfExists('volunteer_languages');
@@ -258,6 +281,9 @@ class CreateVolunteerTable extends Migration {
         Schema::dropIfExists('volunteer_availability_times');
         Schema::dropIfExists('availability_time');
         Schema::dropIfExists('volunteers');
+        Schema::dropIfExists('comm_method');
+        Schema::dropIfExists('education_levels');
+        Schema::dropIfExists('genders');
         Schema::dropIfExists('work_statuses');
         Schema::dropIfExists('availability_freqs');
         Schema::dropIfExists('driver_license_types');
