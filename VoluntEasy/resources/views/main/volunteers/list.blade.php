@@ -36,6 +36,7 @@
                         <td>{{ $volunteer->address}}</td>
                         <td>{{ $volunteer->tel }}</td>
                         <td><a href="{{ url('main/steps/volunteer/'.$volunteer->id) }}" class="btn btn-info">Προβολή Βημάτων</a></td>
+
                      </tr>
                  @endforeach
                  </tbody>
