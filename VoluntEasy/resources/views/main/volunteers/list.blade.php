@@ -34,7 +34,7 @@
                         <td><a href="{{ url('main/users/one/'.$volunteer->id) }}">{{ $volunteer->name }} {{ $volunteer->last_name }} </a></td>
                         <td>{{ $volunteer->email }}</td>
                         <td>{{ $volunteer->address}}</td>
-                        <td>{{ $volunteer->tel }}</td>
+                        <td>{{ $volunteer->home_tel }}</td>
                         <td><a href="{{ url('main/steps/one/'.$volunteer->id) }}" class="btn btn-info">Προβολή Βημάτων</a></td>
                      </tr>
                  @endforeach
