@@ -161,6 +161,7 @@ class CreateVolunteerTable extends Migration {
         {
             $table->increments('id');
             $table->string('description', 300);
+            $table->string('comments', 300)->nullable;
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
             $table->integer('step_id')->unsigned();

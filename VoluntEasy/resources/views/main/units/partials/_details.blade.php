@@ -18,15 +18,15 @@
 @endif
 
 @if($type=='leaf')
-@if(sizeof($active->actions)==0)
-<h3>Η μονάδα δεν έχει καμία δράση</h3>
-@else
-<h3>Δράσεις:</h3>
-<ul class="list-unstyled">
-    @foreach($active->actions as $action)
-    <li><p class="user-list"><a href="{{ url('main/actions/one/'.$action->id) }}">{{$action->description}}</a></p>
-    </li>
-    @endforeach
-</ul>
-@endif
+    @if(sizeof($active->actions)==0)
+    <h3>Η μονάδα δεν έχει καμία δράση</h3>
+    @else
+    <h3>Δράσεις:</h3>
+    <ul class="list-unstyled">
+        @foreach($active->actions as $action)
+        <li><p class="user-list"><a href="{{ url('main/actions/one/'.$action->id) }}">{{$action->description}}</a></p>
+        </li>
+        @endforeach
+    </ul>
+    @endif
 @endif

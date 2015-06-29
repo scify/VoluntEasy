@@ -43,6 +43,9 @@ Route::get('main/volunteers/new','VolunteerController@getNew');
 Route::get('main/volunteers/create', 'VolunteerController@create');
 
 
+/**  test remove */
+Route::get('main/volunteers/new','TestController@newVolunteers');
+
 
 
 
@@ -57,6 +60,8 @@ Route::post('main/actions/store', 'ActionController@store');
 Route::post('main/actions/update', 'ActionController@update');
 
 
+//Step Routes
+Route::get('main/steps/one/{id}','StepController@show');
 
 
 
@@ -67,3 +72,5 @@ Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
 /** TESTS **/
 Route::get('main/test','UnitController@test');
+
+

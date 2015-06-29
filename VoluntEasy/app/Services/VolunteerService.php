@@ -1,24 +1,26 @@
 <?php namespace App\Services;
 
-use App\Models\Unit;
 use App\Models\Volunteer;
+use App\Services\Facades\UnitService;
 
 class VolunteerService
 {
 
     /**
-     * This beauty, this classy and minimal piece of code that Laravel made for us,
-     * fetches all the volunteers that do not belong to a unit.
-     * Pls don't get teary-eyed.
+     * Get all the volunteers that are assigned to the root unit,
+     * aka unassigned.
      *
      * @return mixed
      */
     public function getNew()
     {
-        $volunteers = Volunteer::doesntHave('units')->get();
+        //get the root unit id
+        $rootId = UnitService::getRoot()->first()->id;
+
+        $volunteers = Volunteer::unassigned($rootId)->with('units.steps.status')->get();
+
         return $volunteers;
     }
-
 
 
 }

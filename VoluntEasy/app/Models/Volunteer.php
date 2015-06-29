@@ -41,7 +41,7 @@ class Volunteer extends User
 
     public function interests()
     {
-       return $this->belongsToMany('App\Models\Descriptions\Interest', 'volunteer_interests', 'volunteer_id', 'interest_id');
+        return $this->belongsToMany('App\Models\Descriptions\Interest', 'volunteer_interests', 'volunteer_id', 'interest_id');
     }
 
     public function languages()
@@ -64,8 +64,24 @@ class Volunteer extends User
         return $this->hasMany('App\Models\VolunteerStepHistory');
     }
 
-    public function units(){
+    public function units()
+    {
         return $this->belongsToMany('App\Models\Unit', 'units_volunteers');
+    }
+
+    /**
+     * Get all the volunteers that are assigned to the root unit.
+     * (our convention is that these volunteers are unassigned)
+     *
+     * @param $query
+     * @param $root
+     * @return mixed
+     */
+    public function scopeUnassigned($query, $root)
+    {
+        return Volunteer::whereHas('units', function ($query) use ($root) {
+            $query->where('id', $root);
+        });
     }
 
 }

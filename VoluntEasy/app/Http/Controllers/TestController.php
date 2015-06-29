@@ -3,6 +3,8 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Models\Volunteer;
+use App\Services\Facades\VolunteerService;
 use Illuminate\Http\Request;
 
 /**
@@ -19,4 +21,15 @@ class TestController extends Controller {
         return view('test/');
     }
 
+
+
+
+    public function newVolunteers(){
+
+        $volunteers = VolunteerService::getNew();
+
+        return $volunteers;
+
+        return view("main.volunteers.list", compact('volunteers'));
+    }
 }

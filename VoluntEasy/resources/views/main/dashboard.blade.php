@@ -13,7 +13,7 @@
                 <div class="panel info-box panel-white">
                             <div class="panel-body">
                                 <div class="info-box-stats">
-                                    <p class="counter">{{ $volunteers }}</p>
+                                    <p class="counter"><a href="{{ url('main/volunteers/new') }}">{{ $volunteers }}</a></p>
                                     <span class="info-box-title">ΝΕΟΙ ΕΘΕΛΟΝΤΕΣ</span>
                                 </div>
                                 <div class="info-box-icon">

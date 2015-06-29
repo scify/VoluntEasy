@@ -75,17 +75,6 @@ class Unit extends Model
     }
 
 
-    /*
-   public function setStartDateAttribute($date){
-       dd(Carbon::parse($date)->format('dd/mm/yyyy'));
 
-       $this->attributes['start_date'] = Carbon::parse($date)->format('d/m/Y');
-   }
-
-   public function setEndDateAttribute($date){
-       dd(Carbon::parse($date));
-       $this->attributes['end_date'] = Carbon::parse($date)->format('d/m/Y');
-    // createFromFormat('d/m/Y', $date);
-   }*/
 
 }
