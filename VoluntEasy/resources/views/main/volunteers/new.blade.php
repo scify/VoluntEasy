@@ -24,44 +24,60 @@
          </div>
          {!! Form::open(['id' => 'wizardForm']) !!}
             <div class="tab-content">
+<!--
+tab1
+Ατομικά στοιχεία.
+-->
                <div class="tab-pane active fade in" id="tab1">
                   <div class="row m-b-lg">
-                     <div class="col-md-6">
                         <div class="row">
                            <div class="form-group col-md-4">
                               {!! Form::label('firstName', 'Όνομα:') !!}
-                              {!! Form::text('', null, ['class' => 'form-control', 'id' => 'firstName', 'placeholder' => 'Όνομα']) !!}
+                              {!! Form::text('', null, ['required', 'class' => 'form-control', 'id' => 'firstName', 'placeholder' => 'Όνομα']) !!}
                            </div>
                            <div class="form-group  col-md-4">
                               {!! Form::label('lastName', 'Επώνυμο:') !!}
-                              {!! Form::text('', null, ['class' => 'form-control', 'id' => 'lastName', 'placeholder' => 'Επώνυμο']) !!}
+                              {!! Form::text('', null, ['required', 'class' => 'form-control', 'id' => 'lastName', 'placeholder' => 'Επώνυμο']) !!}
                            </div>
                            <div class="form-group  col-md-4">
                               {!! Form::label('fatherName', 'Όνομα Πατέρα:') !!}
-                              {!! Form::text('', null, ['class' => 'form-control', 'id' => 'fatherName', 'placeholder' => 'Όνομα Πατέρα']) !!}
+                              {!! Form::text('', null, ['required', 'class' => 'form-control', 'id' => 'fatherName', 'placeholder' => 'Όνομα Πατέρα']) !!}
                            </div>
-                           <div class="form-group  col-md-6">
-                              {!! Form::label('dateOfBirth', 'Ημερομηνία Γέννησης:') !!}
-                              {!! Form::input('date', 'dateOfBirth', null, ['class' => 'form-control'])!!}
+
+                           <div class="form-group  col-md-4">
+                              {!! Form::label('dateOfBirth', 'Ημερομηνία Γέννησης:') !!}<br>
+                              <!-- {!! Form::input('date', 'dateOfBirth', null, ['required', 'class' => 'form&#45;control'])!!} -->
+				   <div class="form-group  col-md-4">
+				      {!! Form::selectMonth('month', null, ['class' => 'form-control']) !!}
+				   </div>
+				   <div class="form-group  col-md-4">
+				      {!! Form::selectRange('day', 1, 31, null, ['class' => 'form-control']) !!}
+				   </div>
+				   <div class="form-group  col-md-4">
+				      {!! Form::selectYear('year', Carbon\Carbon::now()->year, (new Carbon\Carbon('100 years ago'))->year, null, ['class' => 'form-control']) !!}
+				   </div>
                            </div>
-                           <div class="form-group  col-md-6">
-                               {!! Form::label('dateOfBirth', '') !!}
-                               {!! Form::input('date', 'dateOfBirth', null, ['class' => 'form-control'])!!}
+                           <div class="form-group  col-md-4">
+				 {!! Form::label('Τύπος ταυτότητας') !!}<br>
+				 {!! Form::select('identityType', ($id_type), null, ['class' => 'form-control']) !!}
                            </div>
-                           <!--div class="form-group  col-md-6">
-                               <div class="radio">
-                                   {!! Form::label('name', 'Φύλο:') !!} <br/>
-                                   {!! Form::radio('sex', 'Άνδρας',  ['class' => 'radio']) !!} Άνδρας
-                                   {!! Form::radio('sex', 'Γυναίκα', ['class' => 'radio']) !!} Γυναίκα
-                               </div>
-                           </div-->
-                           <div class="form-group  col-md-6">
-                               {!! Form::label('identityType', 'Τύπος Ταυτότητας:') !!}
-                               {!! Form::text('', null, ['class' => 'form-control', 'id' => 'identityType', 'placeholder' => 'Τύπος Ταυτότητας']) !!}
-                           </div>
-                           <div class="form-group  col-md-6">
+                           <div class="form-group  col-md-4">
                                {!! Form::label('identityTypeNumber', 'Αριθμός Α.Δ.Τ./Διαβατηρίου/Άδειας Παραμονής:') !!}
                                {!! Form::text('', null, ['class' => 'form-control', 'id' => 'identityTypeNumber', 'placeholder' => 'Αριθμός Α.Δ.Τ./Διαβατηρίου/Άδειας Παραμονής']) !!}
+                           </div>
+
+                           <div class="form-group col-md-4">
+				   {!! Form::label('name', 'Φύλο:') !!} <br/>
+				   {!! Form::select('gender', ['Άνδρας' => 'Άνδρας',
+							       'Γυναίκα' => 'Γυναίκα'], null, ['class' => 'form-control']) !!}
+                           </div>
+                           <div class="form-group col-md-4">
+			   	 {!! Form::label('Οικογενειακή κατάσταση:') !!}<br>
+			   	 {!! Form::select('maritalType', ($marital_status), null, ['class' => 'form-control']) !!}
+                           </div>
+                           <div class="form-group col-md-4">
+			   	 {!! Form::label('Αριθμός τέκνων:') !!}<br>
+                                 {!! Form::text('', null, ['required', 'class' => 'form-control', 'id' => 'children', 'placeholder' => 'Αριθμός τέκνων']) !!}
                            </div>
 
                            <div class="form-group  col-md-4">
@@ -69,12 +85,8 @@
                               {!! Form::text('', null, ['class' => 'form-control', 'id' => 'address', 'placeholder' => 'Διεύθυνση']) !!}
                            </div>
                            <div class="form-group  col-md-4">
-                               {!! Form::label('addressNumber', 'Αριθμός:') !!}
-                               {!! Form::text('', null, ['class' => 'form-control', 'id' => 'addressNumber', 'placeholder' => 'Αριθμός']) !!}
-                           </div>
-                           <div class="form-group  col-md-4">
                               {!! Form::label('zipCode', 'Τ.Κ.:') !!}
-                              {!! Form::text('', null, ['class' => 'form-control', 'id' => 'zipCode', 'placeholder' => 'Τ.Κ.']) !!}
+                              {!! Form::text('', null, ['class' => 'form-control', 'id' => 'post_box', 'placeholder' => 'Τ.Κ.']) !!}
                            </div>
                            <div class="form-group  col-md-4">
                               {!! Form::label('city', 'Πόλη:') !!}
@@ -84,24 +96,26 @@
                               {!! Form::label('country', 'Χώρα:') !!}
                               {!! Form::text('', null, ['class' => 'form-control', 'id' => 'country', 'placeholder' => 'Χώρα']) !!}
                            </div>
-                           <div class="form-group  col-md-4">
+                           <div class="form-group  col-md-2">
+                           </div>
+                           <div class="form-group  col-md-6">
+				<br>
                              <div class="checkbox">
-                              {!! Form::label('name', 'Κάτοικος Ελλάδας:') !!}
+                              {!! Form::label('live_in_curr_country', 'Κάτοικος Ελλάδας:') !!}
                               {!! Form::checkbox('greeceCitizen', null, true, ['class' => 'checker']) !!}
+				<em>Αποεπιλέξτε εφόσον δε διαμένετε μόνιμα στην Ελλάδα.</em>
                              </div>
                            </div>
-                        </div>
-                     </div>
-                     <div class="col-md-6">
-                        <h3>Personal Info</h3>
-                        <p>Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus.</p>
-                        <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec ullamcorper nulla non metus auctor fringilla.</p>
                      </div>
                   </div>
                </div>
+<!--
+tab2
+Στοιχεία επικοινωνίας.
+-->
                <div class="tab-pane fade" id="tab2">
+                  <div class="row m-b-lg">
                   <div class="row">
-                        <div class="row">
                            <div class="form-group col-md-4">
                               {!! Form::label('phoneNumberHome', 'Τηλέφωνο Οικίας:') !!}
                               {!! Form::text('phoneNumberHome', null, ['class' => 'form-control', 'id' => 'phoneNumberHome', 'placeholder' => 'Τηλέφωνο Οικίας']) !!}
@@ -114,13 +128,15 @@
                               {!! Form::label('mobileNumber', 'Κινητό:') !!}
                               {!! Form::text('mobileNumber', null, ['class' => 'form-control', 'id' => 'mobileNumber', 'placeholder' => 'Κινητό']) !!}
                            </div>
+                   </div>
+                        <div class="row">
                            <div class="form-group  col-md-4">
                                {!! Form::label('fax', 'Fax:') !!}
                                {!! Form::text('fax', null, ['class' => 'form-control', 'id' => 'fax', 'placeholder' => 'Fax']) !!}
                            </div>
                            <div class="form-group  col-md-4">
                                {!! Form::label('name', 'Email:') !!}
-                               {!! Form::input('email', 'email', null, ['class' => 'form-control', 'id' => 'email', 'placeholder' => 'Email']) !!}
+                               {!! Form::input('email', 'email', null, ['required', 'class' => 'form-control', 'id' => 'email', 'placeholder' => 'Email']) !!}
                            </div>
                            <div class="form-group  col-md-4">
                                {!! Form::label('communicationMethod', 'Να επικοινωνήσουμε μαζί σας στο:') !!}
@@ -130,60 +146,125 @@
                                                                         'mobileNumber' => 'Κινητό Τηλέφωνο'], null, ['class' => 'form-control']) !!}
                            </div>
                       </div>
-                   </div>
+                  </div>
                </div>
+<!--
+tab3
+Εκπαίδευση και ικανότητες.
+-->
                <div class="tab-pane fade" id="tab3">
+                  <div class="row m-b-lg">
                   <div class="row">
-                     <div class="col-md-12">
-                           <div class="form-group  col-md-4">
+                           <div class="form-group col-md-6">
                                {!! Form::label('educationLevel', 'Επίπεδο εκπαίδευσης:') !!}
                                {!! Form::select('educationLevel', ['gumnasio' => 'Γυμνάσιο',
                                                                    'lukeio' => 'Λύκειο',
                                                                    'anwteri' => 'Ανώτερη',
                                                                    'anwtati' => 'Ανώτατη',
                                                                    'metaptuxiaka' => 'Μεταπτυχιακά'], null, ['class' => 'form-control']) !!}
-                           </div>
-                           <div class="form-group col-md-4">
+				<br>
+				<br>
+
                               {!! Form::label('specialty', 'Ειδικότητα:') !!}
                               {!! Form::text('specialty', null, ['class' => 'form-control', 'id' => 'specialty', 'placeholder' => 'Ειδικότητα']) !!}
-                           </div>
-                           <div class="form-group  col-md-4">
+				<br>
+				<br>
                               {!! Form::label('department', 'Σχολή:') !!}
                               {!! Form::text('department', null, ['class' => 'form-control', 'id' => 'department', 'placeholder' => 'Σχολή']) !!}
-                           </div>
-                            <div class="form-group  col-md-4">
-                                {!! Form::label('educationLevel', 'Δίπλωμα οδήγησης - Κατηγορία:') !!}
-                                {!! Form::select('educationLevel', ['gumnasio' => 'Γυμνάσιο',
-                                                                    'lukeio' => 'Λύκειο',
-                                                                    'anwteri' => 'Ανώτερη',
-                                                                    'anwtati' => 'Ανώτατη',
-                                                                    'metaptuxiaka' => 'Μεταπτυχιακά'], null, ['class' => 'form-control']) !!}
+				<br>
+				<br>
+				 {!! Form::label('Δίπλωμα οδήγησης') !!}<br>
+				 {!! Form::select('driverLicense', ($driver_license_type), null, ['class' => 'form-control']) !!}
+
+				<br>
+				<br>
+
+                               <div class="checkbox">
+                                {!! Form::label('computerUse', 'Χρήση υπολογιστή:') !!}
+                                {!! Form::checkbox('computerUse', null, true, ['class' => 'checker']) !!}
+				<br>
+				<br>
+				{!! Form::label('additional_skills', 'Πρόσθετες ικανότητες, προσόντα και εμπειρία:') !!}
+				{!! Form::textarea('additional_skills', null, ['class' => 'form-control', 'id' => 'additional_skills']) !!}
+                               </div>
+
                             </div>
-                           <div class="form-group  col-md-4">
-                             <div class="checkbox">
-                              {!! Form::label('computerUse', 'Χρήση υπολογιστή:') !!}
-                              {!! Form::checkbox('computerUse', null, true, ['class' => 'checker']) !!}
-                             </div>
-                           </div>
-                           <div class="form-group  col-md-6">
-                              {!! Form::label('additionalSkills', 'Πρόσθετες ικανότητες, προσόντα και εμπειρία:') !!}
-                              {!! Form::textarea('additionalSkills', null, ['class' => 'form-control', 'id' => 'additionalSkills']) !!}
-                           </div>
+
+                              <div class="form-group col-md-6">
+				<p>Ξένες γλώσσες:</p>
+				@foreach ($languages as $language)
+					<br><br>
+					<p>{{ $language . ':' }}</p>
+			   	 <!-- {!! Form::label($language . ':' . PHP_EOL) !!} -->
+			   	 {!! Form::label('') !!}
+					@foreach ($lang_levels as $level)
+						<em>{{ $level }}</em>
+						{!! Form::radio('level['.$language.']', 0, false, ['class' => 'form-control']) !!}
+					@endforeach
+				@endforeach
+				<br>
+				<br>
+				{!! Form::label('extra_langs', 'Άλλες γλώσσες:') !!}
+				{!! Form::textarea('extra_lang', null, ['placeholder' => 'Συμπληρώστε τις επιπλέον γλώσσες που γνωρίζετε και το επιπεδό σας', 'class' => 'form-control', 'id' => 'extra_lang']) !!}
+				<br>
+				<br>
+
+                              </div>
                      </div>
                   </div>
                </div>
+<!--
+tab4
+Εργασιακή εμπειρία και εθελοντική προσφορά.
+-->
                <div class="tab-pane fade" id="tab4">
-                  <h2 class="no-s">Thank You !</h2>
-                  <div class="alert alert-info m-t-sm m-b-lg" role="alert">
-                     Congratulations ! You got the last step.
-                  </div>
+                  <div class="row m-b-lg">
+                  <div class="row">
+                           <div class="form-group  col-md-6">
+				 <h2>Εργασιακή εμπειρία</h2>
+			   	 {!! Form::label('Εργασιακή κατάσταση:') !!}<br>
+			   	 {!! Form::select('work_status', ($work_statuses), null, ['class' => 'form-control']) !!}
+				<br>
+				<br>
+				{!! Form::label('work_description', 'Εργασία:') !!}
+				{!! Form::textarea('extra_lang', null, ['placeholder' => 'Περιγράψτε τη θέση σας στην παρούσα ή πιο πρόσφατη εργασία.', 'class' => 'form-control', 'id' => 'extra_lang']) !!}
+                           </div>
+
+                           <div class="form-group  col-md-6">
+				 <h2>Εθελοντική προσφορά</h2>
+				{!! Form::label('participation_reason', 'Λόγος συμμετοχής:') !!}
+				{!! Form::textarea('', null, ['placeholder' => 'Περιγράψτε τους λόγους που θέλετε να γίνετε εθελοντής. ', 'class' => 'form-control', 'id' => 'participation_reason']) !!}
+				<br>
+				<br>
+				{!! Form::label('participation_actions', 'Εθελοντική οργάνωση:') !!}
+				{!! Form::textarea('', null, ['placeholder' => 'Εαν ανήκετε ή ανήκατε σε κάποιες εθελοντικές οργανώσεις ποιο ήταν το αντικείμενο τους και για πόσο χρονικό διάστημα είχατε συμετοχή.', 'class' => 'form-control', 'id' => 'participation_actions']) !!}
+				<br>
+				<br>
+				{!! Form::label('participation_previous', 'Εθελοντικές δράσεις:') !!}
+				{!! Form::textarea('', null, ['placeholder' => 'Εαν έχετε πάρει μέρος σε εθελοντικές δράσεις στο παρελθόν περιγράψτε ποιο ήταν/είναι το αντικείμενο.', 'class' => 'form-control', 'id' => 'participation_previous']) !!}
+                           </div>
                </div>
+               </div>
+               </div>
+<!--
+tab5
+Διαθεσιμότητα.
+-->
                <div class="tab-pane fade" id="tab5">
-                                 <h2 class="no-s">Thank You !</h2>
-                                 <div class="alert alert-info m-t-sm m-b-lg" role="alert">
-                                    Congratulations ! You got the last step.
-                                 </div>
-               </div>
+                  <div class="row m-b-lg">
+                  <div class="row">
+                           <div class="form-group col-md-6">
+				<h2>Διαθεσιμότητα:</h2>
+				{!! Form::label('Συχνότητα συνεισφοράς:') !!}<br>
+				{!! Form::select('availability_frequency', ($availability_freqs), null, ['class' => 'form-control']) !!}
+				<br>
+				<br>
+				<p>Χρόνοι συνεισφοράς</p>
+				{!! Form::label('Χρόνοι συνεισφοράς:') !!}<br>
+				{!! Form::select('availability_time', ($availability_times), null, ['class' => 'form-control']) !!}
+			   </div>
+		  </div>
+		  </div>
                <ul class="pager wizard">
                   <li class="previous"><a href="#" class="btn btn-default">Previous</a></li>
                   <li class="next"><a href="#" class="btn btn-default">Next</a></li>
@@ -193,26 +274,4 @@
       </div>
    </div>
 </div>
-<!--
-<div class="form-group">
-   {!! Form::label('name', 'Όνομα:') !!}
-   {!! Form::text('', null, ['class' => 'form-control']) !!}
-</div>
-<div class="form-group">
-   {!! Form::label('name', 'Επώνυμο:') !!}
-   {!! Form::text('', null, ['class' => 'form-control']) !!}
-</div>
-<div class="form-group">
-   {!! Form::label('name', 'Όνομα Πατέρα:') !!}
-   {!! Form::text('', null, ['class' => 'form-control']) !!}
-</div>
-<div class="form-group">
-   {!! Form::label('name', 'Τύπος Ταυτότητας:') !!}
-   {!! Form::text('', null, ['class' => 'form-control']) !!}
-</div>
-<div class="form-group">
-   {!! Form::label('name', 'Τύπος Ταυτότητας:') !!}
-   {!! Form::text('', null, ['class' => 'form-control']) !!}
-</div>
--->
 @stop
