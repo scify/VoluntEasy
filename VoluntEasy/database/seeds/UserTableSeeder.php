@@ -15,11 +15,11 @@ class UserTableSeeder extends Seeder {
     public function run()
     {
         User::create([
-            'name' => 'admin',
-            'email' => 'test@scify.org',
-            'password' => \Hash::make('1q2w3e'),
-            'addr' => '17 Amphiktyonos str & Vassilis',
-            'tel' => '123456789',
+            'name' => 'Aris',
+            'email' => 'aris.stru@gmail.com',
+            'password' => Hash::make('aris.stru@gmail.com'),
+            'addr' => 'SciFY',
+            'tel' => '6666666666',
 
         ]);
     }
