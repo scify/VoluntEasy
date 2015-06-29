@@ -6,7 +6,9 @@ use App\Models\Unit as Unit;
 use App\Models\User;
 use App\Models\Volunteer;
 use App\Services\Facades\UnitService;
+use App\Services\Facades\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class UnitController extends Controller
@@ -24,9 +26,11 @@ class UnitController extends Controller
      */
     public function index()
     {
-        $units = Unit::orderBy('description', 'ASC')->paginate(3);
+        $units = Unit::orderBy('description', 'ASC')->paginate(5);
 
-        return view("main.units.list", compact('units'));
+        $userUnits = UserService::userUnits();
+
+        return view("main.units.list", compact('units', 'userUnits'));
     }
 
     /**
@@ -94,6 +98,7 @@ class UnitController extends Controller
 
         $type = UnitService::type($active);
 
+        $userUnits = UserService::userUnits();
 
         $volunteers = Volunteer::all();
 
@@ -104,7 +109,7 @@ class UnitController extends Controller
          }
          */
 
-        return view("main.units.show", compact('active', 'tree', 'type', 'volunteers'));
+        return view("main.units.show", compact('active', 'tree', 'type', 'volunteers', 'userUnits'));
     }
 
     /**

@@ -97,6 +97,9 @@ class UserController extends Controller
     {
         $user = User::findOrFail($request->get('id'));
 
+        $request['password'] = \Hash::make($request['password']);
+
+
         $user->update($request->all());
 
         return Redirect::to('main/users');

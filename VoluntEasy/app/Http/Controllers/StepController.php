@@ -90,10 +90,10 @@ class StepController extends Controller {
      */
     public function volunteerSteps($id)
     {
-        $volunteer = Volunteer::where('id', $id)->with('units.steps.status')->get();
+        $volunteer = Volunteer::where('id', $id)->with('units.steps.status')->first();
 
         //return $volunteer;
-        return view("main.steps.volunteersSteps", compact('volunteer'));
+        return view("main.steps.volunteer", compact('volunteer'));
 
     }
 

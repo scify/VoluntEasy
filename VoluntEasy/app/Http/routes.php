@@ -26,7 +26,7 @@ Route::get('main/units','UnitController@index');
 Route::get('main/units/tree/{id}','UnitController@tree');
 Route::get('main/units/one/{id}', ['as' => 'unit/one', 'uses' => 'UnitController@show']);
 Route::get('main/units/create', 'UnitController@create');
-Route::get('main/units/edit/{id}', 'UnitController@edit');
+Route::get('main/units/edit/{id}', ['middleware' => 'unitPermissions', 'uses' => 'UnitController@edit']);
 Route::get('main/units/delete/{id}', 'UnitController@destroy');
 Route::post('main/units/store', 'UnitController@store');
 Route::post('main/units/update', 'UnitController@update');

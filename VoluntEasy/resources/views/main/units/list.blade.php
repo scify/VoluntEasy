@@ -31,6 +31,7 @@
                         <td><a href="{{ url('main/units/one/'.$unit->id) }}">{{ $unit->description }}</a></td>
                         <td>{{ $unit->comments }}</td>
                         <td>
+                            @if(in_array($unit->id, $userUnits))
                             <ul class="list-inline">
                                 <li><a href="{{ url('main/units/edit/'.$unit->id) }}" data-toggle="tooltip"
                                        data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit fa-2x"></i></a>
@@ -39,6 +40,7 @@
                                        data-placement="bottom" title="Διαγραφή"><i class="fa fa-trash fa-2x"></i></a>
                                 </li>
                             </ul>
+                            @endif
                         </td>
                     </tr>
                     @endforeach

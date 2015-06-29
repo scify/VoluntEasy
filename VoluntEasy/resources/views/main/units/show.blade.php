@@ -19,12 +19,14 @@
                     <div class="col-md-8">
                         <h2 id="unitDescription">{{$active->description}}</h2>
                     </div>
+                    @if(in_array($active->id, $userUnits))
                     <div class="col-md-4 text-right">
                         <a href="{{ url('main/units/edit/'.$active->id) }}" class="btn btn-success"><i
                                 class="fa fa-edit"></i> Επεξεργασία</a>
                         <a href="{{ url('main/units/delete/'.$active->id) }}" class="btn btn-danger"><i
                                 class="fa fa-edit"></i> Διαγραφή</a>
                     </div>
+                    @endif
                 </div>
                 <hr/>
                 <div class="row">
@@ -68,12 +70,14 @@
                     <div class="col-md-8">
                         <h2>Εθελοντές</h2>
                     </div>
+                    @if(in_array($active->id, $userUnits))
                     <div class="col-md-4 text-right">
                         <button type="button" class="btn btn-success" data-toggle="modal"
                                 data-target="#volunteersModal"><i
                                 class="fa fa-leaf"></i> Προσθήκη Εθελοντών
                         </button>
                     </div>
+                    @endif
                 </div>
                 <hr/>
                 @include('main.units.partials._volunteers', ['unit' => $active])

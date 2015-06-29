@@ -24,6 +24,24 @@ h3{font-weight: 400;}
 	margin-left:5px;
 }
 
+/* steps */
+.panel-grey{
+    background-color: #E9EDF2;
+    border: solid 1px #E2E7ED !important;
+}
+.panel-steps .info-box-stats p{
+    font-size:20px;
+}
+.panel-steps .info-box-stats span.info-box-title {
+    color:#767676;
+}
+.panel-steps i.inactive{
+    color:#f25656;
+}
+.panel-steps i.active{
+    color:#22BAA0;
+}
+
 
 /*** jOrgChart overrides ***/
 .jOrgChart .line{
