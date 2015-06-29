@@ -67,7 +67,10 @@ class VolunteerController extends Controller
 	    $work_statuses = DB::table('work_statuses')->lists('description');
 	    $availability_freqs = DB::table('availability_freqs')->lists('description');
 	    $availability_times = DB::table('availability_time')->lists('description');
-	    return view('main.volunteers.new')->with('id_type', $identityTypes)->with('driver_license_type', $driverLicenses)->with('marital_status', $maritalTypes)->with('languages', $languages)->with('lang_levels', $lang_levels)->with('work_statuses', $work_statuses)->with('availability_freqs', $availability_freqs)->with('availability_times', $availability_times);
+	    $genders = DB::table('genders')->lists('description');
+	    $comm_method = DB::table('comm_method')->lists('description');
+	    $ed_level = DB::table('education_levels')->lists('description');
+	    return view('main.volunteers.new')->with('id_type', $identityTypes)->with('driver_license_type', $driverLicenses)->with('marital_status', $maritalTypes)->with('languages', $languages)->with('lang_levels', $lang_levels)->with('work_statuses', $work_statuses)->with('availability_freqs', $availability_freqs)->with('availability_times', $availability_times)->with('genders', $genders)->with('comm_method', $comm_method)->with('ed_level', $ed_level);
     }
 
     /**

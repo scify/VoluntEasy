@@ -15,7 +15,7 @@
             <li role="presentation" class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-user m-r-xs"></i>Ατομικά Στοιχεία</a></li>
             <li role="presentation"><a href="#tab2" data-toggle="tab"><i class="fa fa-phone m-r-xs"></i>Στοιχεία Επικοινωνίας</a></li>
             <li role="presentation"><a href="#tab3" data-toggle="tab"><i class="fa fa-university m-r-xs"></i>Εκπαίδευση & Ικανότητες</a></li>
-            <li role="presentation"><a href="#tab4" data-toggle="tab"><i class="fa fa-cog m-r-xs"></i>Εργασιακή Εμπειρία & Εθελοντκή Προσφορά</a></li>
+            <li role="presentation"><a href="#tab4" data-toggle="tab"><i class="fa fa-cog m-r-xs"></i>Εργασιακή Εμπειρία & Εθελοντική Προσφορά</a></li>
             <li role="presentation"><a href="#tab5" data-toggle="tab"><i class="fa fa-clock-o m-r-xs"></i>Διαθεσιμότητα</a></li>
          </ul>
          <div class="progress progress-sm m-t-sm">
@@ -34,17 +34,10 @@ tab1
                            <div class="form-group col-md-4">
                               {!! Form::label('firstName', 'Όνομα:') !!}
                               {!! Form::text('', null, ['required', 'class' => 'form-control', 'id' => 'firstName', 'placeholder' => 'Όνομα']) !!}
-                           </div>
-                           <div class="form-group  col-md-4">
-                              {!! Form::label('lastName', 'Επώνυμο:') !!}
-                              {!! Form::text('', null, ['required', 'class' => 'form-control', 'id' => 'lastName', 'placeholder' => 'Επώνυμο']) !!}
-                           </div>
-                           <div class="form-group  col-md-4">
-                              {!! Form::label('fatherName', 'Όνομα Πατέρα:') !!}
-                              {!! Form::text('', null, ['required', 'class' => 'form-control', 'id' => 'fatherName', 'placeholder' => 'Όνομα Πατέρα']) !!}
-                           </div>
 
-                           <div class="form-group  col-md-4">
+				<br>
+				<br>
+
                               {!! Form::label('dateOfBirth', 'Ημερομηνία Γέννησης:') !!}<br>
                               <!-- {!! Form::input('date', 'dateOfBirth', null, ['required', 'class' => 'form&#45;control'])!!} -->
 				   <div class="form-group  col-md-4">
@@ -56,55 +49,80 @@ tab1
 				   <div class="form-group  col-md-4">
 				      {!! Form::selectYear('year', Carbon\Carbon::now()->year, (new Carbon\Carbon('100 years ago'))->year, null, ['class' => 'form-control']) !!}
 				   </div>
-                           </div>
-                           <div class="form-group  col-md-4">
-				 {!! Form::label('Τύπος ταυτότητας') !!}<br>
-				 {!! Form::select('identityType', ($id_type), null, ['class' => 'form-control']) !!}
-                           </div>
-                           <div class="form-group  col-md-4">
-                               {!! Form::label('identityTypeNumber', 'Αριθμός Α.Δ.Τ./Διαβατηρίου/Άδειας Παραμονής:') !!}
-                               {!! Form::text('', null, ['class' => 'form-control', 'id' => 'identityTypeNumber', 'placeholder' => 'Αριθμός Α.Δ.Τ./Διαβατηρίου/Άδειας Παραμονής']) !!}
-                           </div>
 
-                           <div class="form-group col-md-4">
-				   {!! Form::label('name', 'Φύλο:') !!} <br/>
-				   {!! Form::select('gender', ['Άνδρας' => 'Άνδρας',
-							       'Γυναίκα' => 'Γυναίκα'], null, ['class' => 'form-control']) !!}
-                           </div>
-                           <div class="form-group col-md-4">
-			   	 {!! Form::label('Οικογενειακή κατάσταση:') !!}<br>
-			   	 {!! Form::select('maritalType', ($marital_status), null, ['class' => 'form-control']) !!}
-                           </div>
-                           <div class="form-group col-md-4">
+				<br>
+				<br>
+				<br>
+				<br>
+
 			   	 {!! Form::label('Αριθμός τέκνων:') !!}<br>
                                  {!! Form::text('', null, ['required', 'class' => 'form-control', 'id' => 'children', 'placeholder' => 'Αριθμός τέκνων']) !!}
+
+				<br>
+				<br>
+
+                              {!! Form::label('city', 'Πόλη:') !!}
+                              {!! Form::text('', null, ['class' => 'form-control', 'id' => 'city', 'placeholder' => 'Πόλη']) !!}
+
                            </div>
 
                            <div class="form-group  col-md-4">
+                              {!! Form::label('lastName', 'Επώνυμο:') !!}
+                              {!! Form::text('', null, ['required', 'class' => 'form-control', 'id' => 'lastName', 'placeholder' => 'Επώνυμο']) !!}
+
+				<br>
+				<br>
+
+				 {!! Form::label('Τύπος ταυτότητας') !!}<br>
+				 {!! Form::select('identityType', ($id_type), null, ['class' => 'form-control']) !!}
+
+				<br>
+				<br>
+
+				   {!! Form::label('name', 'Φύλο:') !!} <br/>
+				   {!! Form::select('gender', ($genders), null, ['class' => 'form-control']) !!}
+
+				<br>
+				<br>
+
                               {!! Form::label('address', 'Διεύθυνση:') !!}
                               {!! Form::text('', null, ['class' => 'form-control', 'id' => 'address', 'placeholder' => 'Διεύθυνση']) !!}
-                           </div>
-                           <div class="form-group  col-md-4">
-                              {!! Form::label('zipCode', 'Τ.Κ.:') !!}
-                              {!! Form::text('', null, ['class' => 'form-control', 'id' => 'post_box', 'placeholder' => 'Τ.Κ.']) !!}
-                           </div>
-                           <div class="form-group  col-md-4">
-                              {!! Form::label('city', 'Πόλη:') !!}
-                              {!! Form::text('', null, ['class' => 'form-control', 'id' => 'city', 'placeholder' => 'Πόλη']) !!}
-                           </div>
-                           <div class="form-group  col-md-4">
+
+				<br>
+				<br>
+
                               {!! Form::label('country', 'Χώρα:') !!}
                               {!! Form::text('', null, ['class' => 'form-control', 'id' => 'country', 'placeholder' => 'Χώρα']) !!}
                            </div>
-                           <div class="form-group  col-md-2">
-                           </div>
-                           <div class="form-group  col-md-6">
+
+                           <div class="form-group  col-md-4">
+                              {!! Form::label('fatherName', 'Όνομα Πατέρα:') !!}
+                              {!! Form::text('', null, ['required', 'class' => 'form-control', 'id' => 'fatherName', 'placeholder' => 'Όνομα Πατέρα']) !!}
+
 				<br>
-                             <div class="checkbox">
+				<br>
+
+                               {!! Form::label('identityTypeNumber', 'Αριθμός Α.Δ.Τ./Διαβατηρίου/Άδειας Παραμονής:') !!}
+                               {!! Form::text('', null, ['class' => 'form-control', 'id' => 'identityTypeNumber', 'placeholder' => 'Αριθμός Α.Δ.Τ./Διαβατηρίου/Άδειας Παραμονής']) !!}
+
+				<br>
+				<br>
+
+			   	 {!! Form::label('Οικογενειακή κατάσταση:') !!}<br>
+			   	 {!! Form::select('maritalType', ($marital_status), null, ['class' => 'form-control']) !!}
+
+				<br>
+				<br>
+
+                              {!! Form::label('zipCode', 'Τ.Κ.:') !!}
+                              {!! Form::text('', null, ['class' => 'form-control', 'id' => 'post_box', 'placeholder' => 'Τ.Κ.']) !!}
+
+				<br>
+				<br>
+
                               {!! Form::label('live_in_curr_country', 'Κάτοικος Ελλάδας:') !!}
                               {!! Form::checkbox('greeceCitizen', null, true, ['class' => 'checker']) !!}
 				<em>Αποεπιλέξτε εφόσον δε διαμένετε μόνιμα στην Ελλάδα.</em>
-                             </div>
                            </div>
                      </div>
                   </div>
@@ -140,10 +158,7 @@ tab2
                            </div>
                            <div class="form-group  col-md-4">
                                {!! Form::label('communicationMethod', 'Να επικοινωνήσουμε μαζί σας στο:') !!}
-                               {!! Form::select('communicationMethod', ['email' => 'Ηλεκτρονικό ταχυδρομείο',
-                                                                        'phoneNumberHome' => 'Τηλέφωνο Οικίας',
-                                                                        'phoneNumberWork' => 'Τηλέφωνο Εργασίας',
-                                                                        'mobileNumber' => 'Κινητό Τηλέφωνο'], null, ['class' => 'form-control']) !!}
+			       {!! Form::select('communicationMethod', ($comm_method), null, ['class' => 'form-control']) !!}
                            </div>
                       </div>
                   </div>
@@ -157,11 +172,7 @@ tab3
                   <div class="row">
                            <div class="form-group col-md-6">
                                {!! Form::label('educationLevel', 'Επίπεδο εκπαίδευσης:') !!}
-                               {!! Form::select('educationLevel', ['gumnasio' => 'Γυμνάσιο',
-                                                                   'lukeio' => 'Λύκειο',
-                                                                   'anwteri' => 'Ανώτερη',
-                                                                   'anwtati' => 'Ανώτατη',
-                                                                   'metaptuxiaka' => 'Μεταπτυχιακά'], null, ['class' => 'form-control']) !!}
+			       {!! Form::select('educationLevel', ($ed_level), null, ['class' => 'form-control']) !!}
 				<br>
 				<br>
 
@@ -200,6 +211,7 @@ tab3
 					@foreach ($lang_levels as $level)
 						<em>{{ $level }}</em>
 						{!! Form::radio('level['.$language.']', 0, false, ['class' => 'form-control']) !!}
+						{!! Form::label('') !!}
 					@endforeach
 				@endforeach
 				<br>

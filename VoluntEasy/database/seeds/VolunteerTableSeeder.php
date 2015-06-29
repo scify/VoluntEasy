@@ -102,6 +102,16 @@ class VolunteerTableSeeder extends Seeder {
 
 	    DB::table('interests')->insert($interests);
 
+	    // Genders.
+	    DB::table('genders')->delete();
+
+	    $genders = [
+		    ['description' => 'Άνδρας'],
+		    ['description' => 'Γυναίκα'],
+	    ];
+
+	    DB::table('genders')->insert($genders);
+
 	    // Language list.
 	    DB::table('languages')->delete();
 
@@ -114,6 +124,31 @@ class VolunteerTableSeeder extends Seeder {
 	    ];
 
 	    DB::table('languages')->insert($languages);
+
+	    // Education levels.
+	    DB::table('education_levels')->delete();
+
+	    $ed_levels = [
+		    ['description' => 'Γυμνάσιο'],
+		    ['description' => 'Λύκειο'],
+		    ['description' => 'Ανώτερη'],
+		    ['description' => 'Ανώτατη'],
+		    ['description' => 'Μεταπτυχιακά'],
+	    ];
+
+	    DB::table('education_levels')->insert($ed_levels);
+
+	    // Communication method.
+	    DB::table('comm_method')->delete();
+
+	    $comm_choice = [
+		    ['description' => 'Ηλεκτρονικό ταχυδρομείο'],
+		    ['description' => 'Τηλέφωνο οικίας'],
+		    ['description' => 'Τηλέφωνο εργασίας'],
+		    ['description' => 'Κινητό τηλέφωνο'],
+	    ];
+
+	    DB::table('comm_method')->insert($comm_choice);
 
 	    // Language levels.
 	    DB::table('language_levels')->delete();
