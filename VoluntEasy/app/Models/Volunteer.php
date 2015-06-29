@@ -70,17 +70,16 @@ class Volunteer extends User
     }
 
     /**
-     * Get all the volunteers that are assigned to the root unit.
-     * (our convention is that these volunteers are unassigned)
+     * Get all the volunteers that are assigned to a unit.
      *
      * @param $query
-     * @param $root
+     * @param $id
      * @return mixed
      */
-    public function scopeUnassigned($query, $root)
+    public function scopeUnit($query, $id)
     {
-        return Volunteer::whereHas('units', function ($query) use ($root) {
-            $query->where('id', $root);
+        return Volunteer::whereHas('units', function ($query) use ($id) {
+            $query->where('id', $id);
         });
     }
 

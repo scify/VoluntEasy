@@ -17,7 +17,7 @@ class VolunteerService
         //get the root unit id
         $rootId = UnitService::getRoot()->first()->id;
 
-        $volunteers = Volunteer::unassigned($rootId)->with('units.steps.status')->get();
+        $volunteers = Volunteer::unit($rootId)->with('units.steps.status')->get();
 
         return $volunteers;
     }

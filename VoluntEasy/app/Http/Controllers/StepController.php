@@ -46,9 +46,7 @@ class StepController extends Controller {
 	 */
 	public function show($id)
 	{
-		$volunteer = Volunteer::where('id', $id)->with('units.steps.status')->get();
-
-        return $volunteer;
+		//
 	}
 
 	/**
@@ -83,5 +81,20 @@ class StepController extends Controller {
 	{
 		//
 	}
+
+
+    /**
+     * Show the steps and status steps of a particular volunteer
+     * @param $id
+     * @return mixed
+     */
+    public function volunteerSteps($id)
+    {
+        $volunteer = Volunteer::where('id', $id)->with('units.steps.status')->get();
+
+        //return $volunteer;
+        return view("main.steps.volunteersSteps", compact('volunteer'));
+
+    }
 
 }

@@ -28,8 +28,6 @@ class TestController extends Controller {
 
         $volunteers = VolunteerService::getNew();
 
-        return $volunteers;
-
         return view("main.volunteers.list", compact('volunteers'));
     }
 }

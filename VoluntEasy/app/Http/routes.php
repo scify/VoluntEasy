@@ -62,7 +62,12 @@ Route::post('main/actions/update', 'ActionController@update');
 
 
 //Step Routes
-Route::get('main/steps/one/{id}','StepController@show');
+Route::get('main/steps/volunteer/{id}','StepController@volunteerSteps');
+
+
+
+
+
 
 
 
