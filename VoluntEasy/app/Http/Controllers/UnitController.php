@@ -10,6 +10,7 @@ use App\Services\Facades\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class UnitController extends Controller
 {
@@ -162,7 +163,41 @@ class UnitController extends Controller
     public function destroy($id)
     {
         $unit = Unit::findOrFail($id);
+        $unit->load('actions');
+        $unit->load('allChildren');
+        $unit->load('users');
+        $unit->load('volunteers');
 
+        //if the unit has actions, do not delete
+        if(sizeof($unit->actions)>0){
+            Session::flash('flash_message', 'Η οργανωτική μονάδα περιέχει δράσεις και δεν μπορεί να διαγραφεί.');
+            Session::flash('flash_type', 'alert-danger');
+
+            return Redirect::to('main/units');
+        }
+        //if the unit has children units, do not delete
+        if(sizeof($unit->allChildren)>0){
+            Session::flash('flash_message', 'Η οργανωτική μονάδα δεν μπορεί να διαγραφεί γιατί εξαρτώνται άλλες μονάδες από αυτή.');
+            Session::flash('flash_type', 'alert-danger');
+
+            return Redirect::to('main/units');
+        }
+        //if the unit has volunteers, do not delete
+        if(sizeof($unit->volunteers)>0){
+            Session::flash('flash_message', 'Η οργανωτική μονάδα περιέχει εθελοντές και δεν μπορεί να διαγραφεί.');
+            Session::flash('flash_type', 'alert-danger');
+
+            return Redirect::to('main/units');
+        }
+        //if the unit has users, do not delete
+        if(sizeof($unit->users)>0){
+            Session::flash('flash_message', 'Η οργανωτική μονάδα περιέχει χρήστης και δεν μπορεί να διαγραφεί.');
+            Session::flash('flash_type', 'alert-danger');
+
+            return Redirect::to('main/units');
+        }
+
+        $unit->steps()->delete();
         $unit->delete();
 
         return Redirect::to('main/units');
@@ -178,6 +213,12 @@ class UnitController extends Controller
         return view("main.units.tree", compact('tree', 'userUnits'));
     }
 
+    /**
+     * Sync the users with the db.
+     *
+     * @param Request $request
+     * @return mixed
+     */
     public function addUsers(Request $request)
     {
         $unit = Unit::findOrFail($request->get('id'));
@@ -187,6 +228,12 @@ class UnitController extends Controller
         return $unit->id;
     }
 
+    /**
+     * Sync the units with the db.
+     *
+     * @param Request $request
+     * @return mixed
+     */
     public function addVolunteers(Request $request)
     {
         $unit = Unit::findOrFail($request->get('id'));

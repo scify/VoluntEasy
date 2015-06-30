@@ -106,7 +106,22 @@ class ActionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $action = Action::findOrFail($id);
+        $action->load('volunteers');
+
+        //if the action has volunteers, do not delete
+        if(sizeof($action->volunteers)>0){
+            Session::flash('flash_message', 'Η δράση περιέχει εθελοντές και δεν μπορεί να διαγραφεί.');
+            Session::flash('flash_type', 'alert-danger');
+
+            return Redirect::to('main/actions');
+        }
+
+        $action->delete();
+
+        return Redirect::to('main/actions');
     }
+
+
 
 }
