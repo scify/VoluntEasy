@@ -3,7 +3,9 @@
 use App\Http\Requests\ActionRequest as ActionRequest;
 use App\Http\Requests\Request;
 use App\Models\Action;
+use App\Models\Volunteer;
 use App\Services\Facades\UnitService;
+use App\Services\Facades\VolunteerService;
 use Illuminate\Support\Facades\Redirect;
 
 class ActionController extends Controller
@@ -64,8 +66,13 @@ class ActionController extends Controller
     public function show($id)
     {
         $action = Action::where('id', $id)->first();
+        $action->load('volunteers');
 
-        return view('main.actions.show', compact('action'));
+        $volunteerIds = VolunteerService::volunteerIds($action->volunteers);
+
+        $volunteers = Volunteer::all();
+
+        return view('main.actions.show', compact('action', 'volunteers', 'volunteerIds'));
     }
 
     /**

@@ -7,8 +7,8 @@ use App\Models\User;
 use App\Models\Volunteer;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
+use App\Services\Facades\VolunteerService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
@@ -107,6 +107,9 @@ class UnitController extends Controller
 
         $volunteers = Volunteer::all();
 
+        $volunteerIds = VolunteerService::volunteerIds($active->volunteers);
+
+
         //if the request comes from ajax, return only a section of the needed code
         /* if (Request::ajax()) {
              $view = View::make('main.units.show')->with('active', $active);
@@ -114,7 +117,7 @@ class UnitController extends Controller
          }
          */
 
-        return view("main.units.show", compact('active', 'tree', 'type', 'volunteers', 'userUnits'));
+        return view("main.units.show", compact('active', 'tree', 'type', 'volunteers', 'userUnits', 'volunteerIds'));
     }
 
     /**
@@ -130,7 +133,7 @@ class UnitController extends Controller
         //display all the users in the front end
         $users = User::all();
 
-        $userIds = UnitService::userIds($active);
+        $userIds = UserService::userIds($active->users);
 
         $tree = UnitService::getTree();
 

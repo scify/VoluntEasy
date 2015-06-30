@@ -12,8 +12,6 @@
 @section('bodyContent')
 
 <div class="row">
-
-
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-body">
@@ -25,7 +23,7 @@
                 <hr/>
                 <div class="row">
                     <div class="col-md-6">
-                            @include('main.actions.partials._details', array('action' => $action))
+                        @include('main.actions.partials._details', array('action' => $action))
                     </div>
                     <div class="col-md-6">
 
@@ -34,14 +32,36 @@
                 <div class="row">
                     <div class="col-md-12">
                         <hr/>
-
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2>Εθελοντές</h2>
+                    </div>
+                    <div class="col-md-4 text-right">
+                        <button type="button" class="btn btn-success" data-toggle="modal"
+                                data-target="#volunteersModal"><i
+                                class="fa fa-leaf"></i> Προσθήκη Εθελοντών
+                        </button>
+                    </div>
+                </div>
+                <hr/>
+                @include('main.units.partials._volunteers', ['unit' => $action])
+            </div>
+        </div>
+    </div>
+</div>
+
+@include('main._modals._volunteers', ['volunteers' => $volunteers, 'active' => $action])
 
 
 @stop
@@ -49,6 +69,7 @@
 
 @section('footerScripts')
 <script>
-
+    //initialize user select
+    $('#volunteerList').select2();
 </script>
 @stop

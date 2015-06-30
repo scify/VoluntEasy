@@ -17,7 +17,7 @@ class Action extends Model {
 
     public function volunteers()
     {
-        return $this->belongsToMany('App\Models\Volunteer');
+        return $this->belongsToMany('App\Models\Volunteer', 'actions_volunteers');
     }
 
     /**

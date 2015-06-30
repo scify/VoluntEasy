@@ -23,4 +23,20 @@ class VolunteerService
     }
 
 
+    /**
+     * From a list of volunteers, get a list of ids.
+     *
+     * @param $volunteers
+     * @return mixed
+     */
+    public function volunteerIds($volunteers)
+    {
+        $ids = [];
+
+        foreach ($volunteers as $volunteer)
+            array_push($ids, $volunteer->id);
+
+        return $ids;
+    }
+
 }

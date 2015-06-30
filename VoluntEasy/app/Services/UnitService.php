@@ -50,22 +50,6 @@ class UnitService
         return $tree;
     }
 
-    /**
-     * Create an array that includes only the user ids
-     * of the users assigned to a unit.
-     * Used in the front end, in order to display the currently assigned users.
-     *
-     * @param Unit $unit
-     * @return array
-     */
-    public function userIds(Unit $unit)
-    {
-        $userIds = array();
-        foreach ($unit->users as $user) {
-            array_push($userIds, $user->id);
-        }
 
-        return $userIds;
-    }
 
 }
