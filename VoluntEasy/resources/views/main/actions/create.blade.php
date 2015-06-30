@@ -48,6 +48,9 @@
 @section('footerScripts')
 <script>
 
+    //if the user has clciked on a unit, but the submittions returns errors,
+    //the page gets reloaded and the active node is lost.
+    //the value (unit id) stays in the hidden input so we can make it active again.
     if($('#unit_id').val()!=''){
         $("#tree li[data-id='"+$('#unit_id').val()+"'").addClass('active-node');
     }

@@ -127,7 +127,7 @@
         }
         else if (opts.actions) {
             $('div.node').unbind('click').click(function () {
-                    if (!opts.disabled && !$(this).hasClass('hasActions') && !$(this).hasClass('action')) {
+                    if (!opts.disabled && !$(this).hasClass('hasActions') && !$(this).hasClass('action') && !$(this).hasClass('disabled')) {
                         $container.find('.active-node').removeClass('active-node');
                         if ($(this).hasClass('active-node'))
                             $(this).removeClass('active-node');

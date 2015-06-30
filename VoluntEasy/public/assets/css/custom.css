@@ -80,8 +80,11 @@ h3{font-weight: 400;}
 .jOrgChart.leaves .node.leaf.active-node{
 	background-color: #1DB198;
 }
+.jOrgChart .node.action{
+    background-color: #3395C4;
+}
 
 /* disable actions and units with actions */
-.jOrgChart.actions .node.hasActions, .jOrgChart .node.action{
+.jOrgChart.actions .node.hasActions, .jOrgChart .node.action.disabled, .jOrgChart .node.disabled{
 	background-color: #72829E;
 }

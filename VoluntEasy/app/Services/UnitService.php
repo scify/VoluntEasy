@@ -25,6 +25,11 @@ class UnitService
             return 'leaf';
     }
 
+    /**
+     * Get only the root of the tree
+     *
+     * @return mixed
+     */
     public function getRoot()
     {
         $root = Unit::whereNull('parent_unit_id')->get();
@@ -33,6 +38,11 @@ class UnitService
     }
 
 
+    /**
+     * Get the whole tree oft he organization
+     *
+     * @return mixed
+     */
     public function getTree()
     {
         $tree = Unit::whereNull('parent_unit_id')->with('allChildren')->first();

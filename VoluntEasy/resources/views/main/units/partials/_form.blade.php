@@ -9,7 +9,7 @@
     {!! Form::hidden('level', 0) !!}
 @elseif($type=='branch')
     {!! Form::hidden('level', $tree->level+1) !!}
-    {!! Form::hidden('parent_unit_id', $tree->id, ['id' => 'parent_unit_id']) !!}
+    {!! Form::formInput('parent_unit_id', null, $errors, ['type' => 'hidden', 'id' => 'parent_unit_id']) !!}
 @endif
 <div class="form-group text-right">
     {!! Form::submit($submitButtonText, ['class' => 'btn btn-success']) !!}

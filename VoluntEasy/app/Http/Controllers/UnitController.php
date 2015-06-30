@@ -17,6 +17,7 @@ class UnitController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permissions.unit', ['only' => ['edit']]);
     }
 
     /**
@@ -56,13 +57,15 @@ class UnitController extends Controller
     {
         $root = UnitService::getRoot();
 
+        $userUnits = UserService::userUnits();
+
         if (count($root) == 0) {
             $type = 'root';
             return view("main.units.create_root", compact('type'));
         } else {
             $tree = Unit::whereNull('parent_unit_id')->with('allChildren')->first();
             $type = 'branch';
-            return view("main.units.create_branch", compact('type', 'tree'));
+            return view("main.units.create_branch", compact('type', 'tree', 'userUnits'));
         }
     }
 
@@ -92,6 +95,7 @@ class UnitController extends Controller
     public function show($id)
     {
         $active = Unit::findOrFail($id);
+
         $active->load('actions', 'volunteers');
 
         $tree = UnitService::getTree();
@@ -169,7 +173,9 @@ class UnitController extends Controller
     {
         $tree = UnitService::getTree();
 
-        return view("main.units.tree", compact('tree'));
+        $userUnits = UserService::userUnits();
+
+        return view("main.units.tree", compact('tree', 'userUnits'));
     }
 
     public function addUsers(Request $request)

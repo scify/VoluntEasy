@@ -19,7 +19,8 @@ class UnitRequest extends Request {
         else
             return [
                 'description' => 'required|max:300',
-                'comments' => 'required|max:300'
+                'comments' => 'required|max:300',
+                'parent_unit_id' => 'required'
             ];
 	}
 
@@ -32,7 +33,7 @@ class UnitRequest extends Request {
     public function messages()
     {
         return [
-           // 'comments.required' => '//.',
+            'parent_unit_id.required' => 'Παρακαλώ επιλέξτε Οργανωτική Μονάδα.',
         ];
     }
 
