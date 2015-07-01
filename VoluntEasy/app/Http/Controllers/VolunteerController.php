@@ -91,7 +91,7 @@ class VolunteerController extends Controller
 	    // dd($request->all());
 	    Volunteer::create($request->all());
 
-	    return Redirect::to('main/volunteers/listview');
+	    return Redirect::to('volunteers/listview');
     }
 
     /**

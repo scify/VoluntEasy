@@ -84,7 +84,7 @@ class UnitController extends Controller
 
         $unit->steps()->saveMany($this->createSteps());
 
-        return Redirect::to('main/units');
+        return Redirect::to('units');
     }
 
     /**
@@ -176,34 +176,34 @@ class UnitController extends Controller
             Session::flash('flash_message', 'Η οργανωτική μονάδα περιέχει δράσεις και δεν μπορεί να διαγραφεί.');
             Session::flash('flash_type', 'alert-danger');
 
-            return Redirect::to('main/units');
+            return Redirect::to(' units');
         }
         //if the unit has children units, do not delete
         if(sizeof($unit->allChildren)>0){
             Session::flash('flash_message', 'Η οργανωτική μονάδα δεν μπορεί να διαγραφεί γιατί εξαρτώνται άλλες μονάδες από αυτή.');
             Session::flash('flash_type', 'alert-danger');
 
-            return Redirect::to('main/units');
+            return Redirect::to(' units');
         }
         //if the unit has volunteers, do not delete
         if(sizeof($unit->volunteers)>0){
             Session::flash('flash_message', 'Η οργανωτική μονάδα περιέχει εθελοντές και δεν μπορεί να διαγραφεί.');
             Session::flash('flash_type', 'alert-danger');
 
-            return Redirect::to('main/units');
+            return Redirect::to('units');
         }
         //if the unit has users, do not delete
         if(sizeof($unit->users)>0){
             Session::flash('flash_message', 'Η οργανωτική μονάδα περιέχει χρήστης και δεν μπορεί να διαγραφεί.');
             Session::flash('flash_type', 'alert-danger');
 
-            return Redirect::to('main/units');
+            return Redirect::to('units');
         }
 
         $unit->steps()->delete();
         $unit->delete();
 
-        return Redirect::to('main/units');
+        return Redirect::to('units');
     }
 
 

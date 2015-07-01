@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="col-md-3 center">
                             <div class="login-box">
-                                <a href="{{ url('main') }}" class="logo-name text-lg text-center">VoluntEasy</a>
+                                <a href="{{ url('/') }}" class="logo-name text-lg text-center">VoluntEasy</a>
                                    @if (count($errors) > 0)
                                 		<div class="alert alert-danger">
                                 			<ul>
@@ -47,6 +47,6 @@
                 </div><!-- Main Wrapper -->
             </div><!-- Page Inner -->
         </main><!-- Page Content -->
-         @include('...template.default.footerIncludes')
+         @include('template.default.footerIncludes')
     </body>
 </html>

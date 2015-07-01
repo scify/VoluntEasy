@@ -52,7 +52,7 @@ class UserController extends Controller
 
         User::create($request->all());
 
-        return Redirect::to('main/users');
+        return Redirect::to('users');
     }
 
     /**
@@ -104,7 +104,7 @@ class UserController extends Controller
 
         $user->update($request->all());
 
-        return Redirect::to('main/users');
+        return Redirect::to('users');
     }
 
     public function addUnits(Request $request)
