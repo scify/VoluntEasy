@@ -21,9 +21,9 @@
                     </div>
                     @if(in_array($action->unit->id, $userUnits))
                     <div class="col-md-4 text-right">
-                        <a href="{{ url('main/actions/edit/'.$action->id) }}" class="btn btn-success"><i
+                        <a href="{{ url('actions/edit/'.$action->id) }}" class="btn btn-success"><i
                                 class="fa fa-edit"></i> Επεξεργασία</a>
-                        <a href="{{ url('main/actions/delete/'.$action->id) }}" class="btn btn-danger"><i
+                        <a href="{{ url('actions/delete/'.$action->id) }}" class="btn btn-danger"><i
                                 class="fa fa-edit"></i> Διαγραφή</a>
                     </div>
                     @endif
@@ -98,14 +98,14 @@
         console.log(volunteersUnits);
 
         $.ajax({
-            url: '/main/actions/volunteers',
+            url: '/actions/volunteers',
             method: 'POST',
             data: volunteersUnits,
             headers: {
                 'X-CSRF-Token': $('meta[name="_token"]').attr('content')
             },
             success: function (data) {
-                window.location.href = "/main/actions/one/" + data;
+                window.location.href = "/actions/one/" + data;
             }
         });
     });

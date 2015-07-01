@@ -16,7 +16,7 @@
             @foreach ($unit->volunteers as $volunteer)
             <tr>
                 <td>{{ $volunteer->id }}</td>
-                <td><a href="{{ url('main/units/one/'.$volunteer->id) }}">{{ $volunteer->name.' '.$volunteer->last_name}}</a></td>
+                <td><a href="{{ url('units/one/'.$volunteer->id) }}">{{ $volunteer->name.' '.$volunteer->last_name}}</a></td>
                 <td>{{ $volunteer->comments }}</td>
             </tr>
             @endforeach

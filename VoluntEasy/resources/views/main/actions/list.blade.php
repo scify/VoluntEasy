@@ -31,7 +31,7 @@
                     @foreach ($actions as $action)
                     <tr>
                         <td>{{ $action->id }}</td>
-                        <td><a href="{{ url('main/actions/one/'.$action->id) }}">{{ $action->description }}</a></td>
+                        <td><a href="{{ url('actions/one/'.$action->id) }}">{{ $action->description }}</a></td>
                         <td>{{ $action->comments }}</td>
                         <td>{{ $action->unit->description }}</td>
                         <td>{{ $action->start_date }}</td>
@@ -39,10 +39,10 @@
                         <td>
                             @if(in_array($action->unit->id, $userUnits))
                             <ul class="list-inline">
-                                <li><a href="{{ url('main/actions/edit/'.$action->id) }}" data-toggle="tooltip"
+                                <li><a href="{{ url('actions/edit/'.$action->id) }}" data-toggle="tooltip"
                                        data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit fa-2x"></i></a>
                                 </li>
-                                <li><a href="{{ url('main/actions/delete/'.$action->id) }}" data-toggle="tooltip"
+                                <li><a href="{{ url('actions/delete/'.$action->id) }}" data-toggle="tooltip"
                                        data-placement="bottom" title="Διαγραφή"><i class="fa fa-trash fa-2x"></i></a>
                                 </li>
                             </ul>

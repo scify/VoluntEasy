@@ -39,6 +39,7 @@
                         <div class="row m-b-lg">
                         <div class="col-md-12">
                             <h2>Επιλογή Οργανωτικών Μονάδων</h2>
+                            @if($tree!=null)
                             <div id="unitsTree"></div>
                             <ul id="tree" style="display:none;">
                                 <li data-id="{{$tree->id}}"><span class="description">{{$tree->description}}</span>
@@ -48,6 +49,9 @@
                                     </ul>
                                 </li>
                             </ul>
+                            @else
+                            <h3>Δεν υπάρχουν οργανωτικές μονάδες.</h3>
+                            @endif
                         </div>
                         <button type="button" class="btn btn-success" id="save" data-user-id="{{$user->id}}">
                             Αποθήκευση
