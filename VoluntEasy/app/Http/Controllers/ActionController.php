@@ -130,12 +130,12 @@ class ActionController extends Controller
             Session::flash('flash_message', 'Η δράση περιέχει εθελοντές και δεν μπορεί να διαγραφεί.');
             Session::flash('flash_type', 'alert-danger');
 
-            return Redirect::to(' actions');
+            return Redirect::to('actions');
         }
 
         $action->delete();
 
-        return Redirect::to(' actions');
+        return Redirect::to('actions');
     }
 
 

@@ -120,14 +120,14 @@
         };
 
         $.ajax({
-            url: '/main/units/users',
+            url: '/units/users',
             method: 'POST',
             data: userUnits,
             headers: {
                 'X-CSRF-Token': $('input[name="_token"]').val()
             },
             success: function (data) {
-                window.location.href = "/main/units/one/" + data;
+                window.location.href = "/units/one/" + data;
             }
         });
     });
@@ -145,7 +145,7 @@
         };
 
         $.ajax({
-            url: "/main/actions/store",
+            url: "/actions/store",
             data: action,
             type: "POST",
             headers: {
@@ -153,7 +153,7 @@
             }
         }).done(function (data) {
             console.log(data)
-            window.location.href = "/main/units/one/" + data;
+            window.location.href = "/units/one/" + data;
         }).fail(function (jqXHR) {
 
             if (jqXHR.status == 422) {
