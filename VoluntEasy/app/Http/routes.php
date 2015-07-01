@@ -59,6 +59,7 @@ Route::get('main/actions/edit/{id}', 'ActionController@edit');
 Route::get('main/actions/delete/{id}', 'ActionController@destroy');
 Route::post('main/actions/store', 'ActionController@store');
 Route::post('main/actions/update', 'ActionController@update');
+Route::post('main/actions/volunteers', 'ActionController@addVolunteers');
 
 
 //Step Routes

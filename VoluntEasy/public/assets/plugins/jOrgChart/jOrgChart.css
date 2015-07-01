@@ -38,6 +38,12 @@
     height: 60px;
     z-index: 10;
     margin: 0 2px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 /* jQuery drag 'n drop */

@@ -37,6 +37,7 @@
                         <td>{{ $action->start_date }}</td>
                         <td>{{ $action->end_date }}</td>
                         <td>
+                            @if(in_array($action->unit->id, $userUnits))
                             <ul class="list-inline">
                                 <li><a href="{{ url('main/actions/edit/'.$action->id) }}" data-toggle="tooltip"
                                        data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit fa-2x"></i></a>
@@ -45,6 +46,7 @@
                                        data-placement="bottom" title="Διαγραφή"><i class="fa fa-trash fa-2x"></i></a>
                                 </li>
                             </ul>
+                            @endif
                         </td>
                     </tr>
                     @endforeach

@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
 
@@ -16,6 +17,11 @@ class TestController extends Controller
 
     public function test()
     {
+      /*  $tree = UnitService::getTree()->lists('id');
+
+        return $tree;
+*/
+
         return UserService::userUnits();
     }
 

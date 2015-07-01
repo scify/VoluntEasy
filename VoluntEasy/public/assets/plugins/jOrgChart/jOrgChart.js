@@ -98,10 +98,14 @@
         } // Drag and drop
 
 
-        // Behavior of tree, if the user can select multiple nodes
-        if (opts.multiple) {
-            $('div.node').unbind('click').click(function () {
-                if (!opts.disabled) {
+        $('div.node').unbind('click').click(function () {
+
+            console.log('clicky');
+
+            if (!$(this).hasClass('disabled') && !opts.disabled) {
+                console.log('not disabled');
+                /*if (opts.disabled) {
+                    console.log('opts.disabled');
                     if ($(this).hasClass('active-node')) {
                         $(this).removeClass('active-node');
                         $(opts.ulId + ' [data-id="' + $(this).attr('data-id') + '"]').removeClass("active-node");
@@ -111,11 +115,22 @@
                         $(opts.ulId + ' [data-id="' + $(this).attr('data-id') + '"]').addClass("active-node");
                     }
                 }
-            })
-        }
-        else if (opts.leaves) {
-            $('div.node').unbind('click').click(function () {
-                    if (!opts.disabled && $(this).hasClass('leaf')) {
+                else */if (opts.multiple) {
+                    console.log('opts.multiple');
+                    if (!opts.disabled) {
+                        if ($(this).hasClass('active-node')) {
+                            $(this).removeClass('active-node');
+                            $(opts.ulId + ' [data-id="' + $(this).attr('data-id') + '"]').removeClass("active-node");
+                        }
+                        else {
+                            $(this).addClass('active-node');
+                            $(opts.ulId + ' [data-id="' + $(this).attr('data-id') + '"]').addClass("active-node");
+                        }
+                    }
+                }
+                else if (opts.actions) {
+                    console.log('opts.actions');
+                    if (!opts.disabled && !$(this).hasClass('hasActions') && !$(this).hasClass('action')) {
                         $container.find('.active-node').removeClass('active-node');
                         if ($(this).hasClass('active-node'))
                             $(this).removeClass('active-node');
@@ -123,22 +138,8 @@
                             $(this).addClass('active-node');
                     }
                 }
-            )
-        }
-        else if (opts.actions) {
-            $('div.node').unbind('click').click(function () {
-                    if (!opts.disabled && !$(this).hasClass('hasActions') && !$(this).hasClass('action') && !$(this).hasClass('disabled')) {
-                        $container.find('.active-node').removeClass('active-node');
-                        if ($(this).hasClass('active-node'))
-                            $(this).removeClass('active-node');
-                        else
-                            $(this).addClass('active-node');
-                    }
-                }
-            )
-        }
-        else {
-            $('div.node').unbind('click').click(function () {
+                else {
+                    console.log('no options');
                     if (!opts.disabled) {
                         $container.find('.active-node').removeClass('active-node');
                         if ($(this).hasClass('active-node'))
@@ -147,8 +148,8 @@
                             $(this).addClass('active-node');
                     }
                 }
-            )
-        }//Multiple
+            }
+        });
     };
 
     // Option defaults
@@ -197,10 +198,10 @@
             .data("tree-node", nodeCount)
             .append($nodeContent);
 
-        /*
+
         // Expand and contract nodes
         if ($childNodes.length > 0) {
-            $nodeDiv.click(function () {
+            $nodeDiv.dblclick(function () {
 
                 var $this = $(this);
                 var $tr = $this.closest("tr");
@@ -222,7 +223,7 @@
                 }
             });
         }
-         */
+
 
         $nodeCell.append($nodeDiv);
         $nodeRow.append($nodeCell);

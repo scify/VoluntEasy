@@ -1,12 +1,13 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests\ActionRequest as ActionRequest;
-use App\Http\Requests\Request;
 use App\Models\Action;
 use App\Models\Volunteer;
 use App\Services\Facades\UnitService;
+use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\Request;
 
 class ActionController extends Controller
 {
@@ -23,10 +24,11 @@ class ActionController extends Controller
      */
     public function index()
     {
-        $actions = Action::all();
-        $actions->load('unit');
+        $actions = Action::with('unit')->get();
 
-        return view("main.actions.list", compact('actions'));
+        $userUnits = UserService::userUnits();
+
+        return view("main.actions.list", compact('actions', 'userUnits'));
     }
 
     /**
@@ -38,7 +40,9 @@ class ActionController extends Controller
     {
         $tree = UnitService::getTree();
 
-        return view('main.actions.create', compact('tree'));
+        $userUnits = UserService::userUnits();
+
+        return view('main.actions.create', compact('tree', 'userUnits'));
     }
 
     /**
@@ -65,14 +69,17 @@ class ActionController extends Controller
      */
     public function show($id)
     {
-        $action = Action::where('id', $id)->first();
-        $action->load('volunteers');
+        $action = Action::where('id', $id)->with('volunteers')->first();
 
+        //get the volunteer ids in an array for the select box
         $volunteerIds = VolunteerService::volunteerIds($action->volunteers);
 
+        //get all volunteers to show in select box
         $volunteers = Volunteer::all();
 
-        return view('main.actions.show', compact('action', 'volunteers', 'volunteerIds'));
+        $userUnits = UserService::userUnits();
+
+        return view('main.actions.show', compact('action', 'volunteers', 'volunteerIds', 'userUnits'));
     }
 
     /**
@@ -87,7 +94,9 @@ class ActionController extends Controller
 
         $tree = UnitService::getTree();
 
-        return view('main.actions.edit', compact('action', 'tree'));
+        $userUnits = UserService::userUnits();
+
+        return view('main.actions.edit', compact('action', 'tree', 'userUnits'));
     }
 
     /**
@@ -129,6 +138,22 @@ class ActionController extends Controller
         return Redirect::to('main/actions');
     }
 
+
+
+    /**
+     * Sync the action volunteers with the db.
+     *
+     * @param Request $request
+     * @return mixed
+     */
+    public function addVolunteers(Request $request)
+    {
+        $action = Action::findOrFail($request->get('id'));
+
+        $action->volunteers()->sync($request->get('volunteers'));
+
+        return $action->id;
+    }
 
 
 }

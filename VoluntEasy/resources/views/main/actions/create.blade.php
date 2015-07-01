@@ -11,7 +11,7 @@
 @section('bodyContent')
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="panel panel-white">
             <div class="panel-body">
 
@@ -23,15 +23,20 @@
     </div>
 
 
-    <div class="col-md-4">
+    <div class="col-md-8">
         <div class="panel panel-white">
             <div class="panel-body">
+
+                @foreach($userUnits as $u)
+                    <?php echo $u.',' ?>
+                @endforeach
+
                 <div id="unitsTree"></div>
                 <ul id="tree" style="display:none;">
-                    <li data-id="{{$tree->id}}" ><span
+                    <li data-id="{{$tree->id}}" class="root {{ in_array($tree->id, $userUnits) ? '' : 'disabled' }}"><span
                             class="description">{{$tree->description}}</span>
                         <ul>
-                            @include('main.units.partials._branch', array('unit' => $tree))
+                            @include('main.units.partials._branch_actions', ['unit' => $tree, 'userUnits' => $userUnits])
                         </ul>
                     </li>
                 </ul>
@@ -83,8 +88,7 @@
 
     $("#tree").jOrgChart({
         chartElement: '#unitsTree',
-        chartClass: "jOrgChart leaves",
-        leaves: true
+        chartClass: "jOrgChart"
     });
 
 

@@ -232,7 +232,7 @@ class UnitController extends Controller
     }
 
     /**
-     * Sync the units with the db.
+     * Sync the unit volunteers with the db.
      *
      * @param Request $request
      * @return mixed
