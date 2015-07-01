@@ -11,6 +11,7 @@
 @section('bodyContent')
 
 <div class="row">
+    @if($tree!=null)
     <div class="col-md-4">
         <div class="panel panel-white">
             <div class="panel-body">
@@ -21,8 +22,6 @@
             </div>
         </div>
     </div>
-
-
     <div class="col-md-8">
         <div class="panel panel-white">
             <div class="panel-body">
@@ -31,7 +30,6 @@
                     <?php echo $u.',' ?>
                 @endforeach
 
-                <div id="unitsTree"></div>
                 <ul id="tree" style="display:none;">
                     <li data-id="{{$tree->id}}" class="root {{ in_array($tree->id, $userUnits) ? '' : 'disabled' }}"><span
                             class="description">{{$tree->description}}</span>
@@ -40,10 +38,19 @@
                         </ul>
                     </li>
                 </ul>
+                <div id="unitsTree"></div>
             </div>
         </div>
     </div>
-
+    @else
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-body">
+                <h3>Παρακαλώ δημιουργήστε πρώτα οργανωτική μονάδα.</h3>
+            </div>
+        </div>
+    </div>
+    @endif
 
 </div>
 

@@ -27,7 +27,7 @@
                 <div id="unitsTree"></div>
                 <ul id="tree" style="display:none;">
                     <li data-id="{{$tree->id}}"
-                        class="{{ in_array($tree->id, $userUnits) ? 'active-node' : 'disabled' }}"><span
+                        class="{{ in_array($tree->id, $userUnits) ? '' : 'disabled' }}"><span
                             class="description">{{$tree->description}}</span>
                         <ul>
                             @include('main.units.partials._branch_actions', ['unit' => $tree, 'userUnits' =>

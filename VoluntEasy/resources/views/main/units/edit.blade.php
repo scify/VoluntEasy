@@ -214,7 +214,7 @@
     /*
      $(".node").click(function () {
      $.ajax({
-     url: '/main/units/one/' + $(this).attr('data-id'),
+     url: '/units/one/' + $(this).attr('data-id'),
      success: function (data) {
      console.log(data);
      $(".unit-details").html(data);

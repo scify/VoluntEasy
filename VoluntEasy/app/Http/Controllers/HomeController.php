@@ -33,10 +33,15 @@ class HomeController extends Controller
      */
     public function mainIndex()
     {
-        $volunteers = VolunteerService::getNew()->count();
+        $volunteers = VolunteerService::getNew();
+
         $actions = Action::all()->count();
 
-        return view('main.dashboard', compact('volunteers', 'actions'));
+        $volunteersSum = 0;
+        if($volunteers!=null)
+            $volunteersSum = $volunteers->count();
+
+        return view('main.dashboard', compact('volunteersSum', 'actions'));
     }
 
 }

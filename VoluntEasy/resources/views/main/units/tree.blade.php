@@ -11,11 +11,8 @@ Tree
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-white">
-            <div class="panel-heading clearfix">
-                <h4 class="panel-title">Tree</h4>
-            </div>
             <div class="panel-body">
-
+                @if($tree!=null)
                 <div id="unitsTree"></div>
                 <ul id="tree" style="display:none;">
                     <li data-id="{{$tree->id}}" class="{{ in_array($tree->id, $userUnits) ? '' : 'disabled' }}"><span
@@ -25,7 +22,9 @@ Tree
                     </ul>
                     </li>
                 </ul>
-
+                @else
+                    <h3>Δεν υπάρχει καμία οργανωτική μονάδα.</h3>
+                @endif
             </div>
         </div>
     </div>

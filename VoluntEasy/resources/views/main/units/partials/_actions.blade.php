@@ -3,7 +3,7 @@
 @else
 <ul class="list-unstyled">
     @foreach($active->actions as $action)
-    <li><p class="user-list"><a href="{{ url('main/actions/one/'.$active->id) }}">{{$action->description}}</a></p>
+    <li><p class="user-list"><a href="{{ url('actions/one/'.$active->id) }}">{{$action->description}}</a></p>
     </li>
     @endforeach
 </ul>

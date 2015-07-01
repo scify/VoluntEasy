@@ -31,11 +31,11 @@
                  @foreach ($volunteers as $volunteer)
                      <tr>
                         <td>{{ $volunteer->id }}</td>
-                        <td><a href="{{ url('main/users/one/'.$volunteer->id) }}">{{ $volunteer->name }} {{ $volunteer->last_name }} </a></td>
+                        <td><a href="{{ url('users/one/'.$volunteer->id) }}">{{ $volunteer->name }} {{ $volunteer->last_name }} </a></td>
                         <td>{{ $volunteer->email }}</td>
                         <td>{{ $volunteer->address}}</td>
                         <td>{{ $volunteer->tel }}</td>
-                        <td><a href="{{ url('main/steps/volunteer/'.$volunteer->id) }}" class="btn btn-info">Προβολή Βημάτων</a></td>
+                        <td><a href="{{ url('steps/volunteer/'.$volunteer->id) }}" class="btn btn-info">Προβολή Βημάτων</a></td>
 
                      </tr>
                  @endforeach
@@ -54,13 +54,13 @@
     $(".delete").click(function(){
         if (confirm("Delete user?") == true) {
             $.ajax({
-                url: '/main/users/delete/'+$(this).attr('data-id'),
+                url: '/users/delete/'+$(this).attr('data-id'),
                 method: 'POST',
                 headers: {
                     'X-CSRF-Token': $('#token').val()
                 },
                 success: function (data) {
-                    window.location.href = "/main/users";
+                    window.location.href = "/users";
                 }
             });
         }

@@ -5,13 +5,13 @@
 @elseif(sizeof($active->users)==1)
     <h3>Υπεύθυνος Μονάδας</h3>
     <p class="user-list"><img src="{{ asset('assets/images/avatar4.png')}}" alt="" class="user-image-small">
-    <a href="{{ url('main/users/one/'.$active->users[0]->id) }}">{{$active->users[0]->name}}</a></p>
+    <a href="{{ url('users/one/'.$active->users[0]->id) }}">{{$active->users[0]->name}}</a></p>
 @else
     <h3>Υπεύθυνοι Μονάδας:</h3>
     <ul class="list-unstyled">
         @foreach($active->users as $user)
-        <li><p class="user-list"><img src="{{ asset('assets/images/avatar4.png')}}" alt="" class="user-image-small">
-            <a href="{{ url('main/users/one/'.$user->id) }}">{{$user->name}}</a></p>
+        <li><p class="user-list"><img src="{{ asset('images/avatar4.png')}}" alt="" class="user-image-small">
+            <a href="{{ url('users/one/'.$user->id) }}">{{$user->name}}</a></p>
         </li>
         @endforeach
     </ul>
@@ -24,7 +24,7 @@
     <h3>Δράσεις:</h3>
     <ul class="list-unstyled">
         @foreach($active->actions as $action)
-        <li><p class="user-list"><a href="{{ url('main/actions/one/'.$action->id) }}">{{$action->description}}</a></p>
+        <li><p class="user-list"><a href="{{ url('actions/one/'.$action->id) }}">{{$action->description}}</a></p>
         </li>
         @endforeach
     </ul>

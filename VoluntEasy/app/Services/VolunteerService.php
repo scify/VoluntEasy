@@ -14,10 +14,13 @@ class VolunteerService
      */
     public function getNew()
     {
-        //get the root unit id
-        $rootId = UnitService::getRoot()->first()->id;
+        $root = UnitService::getRoot();
 
-        $volunteers = Volunteer::unit($rootId)->with('units.steps.status')->get();
+        $volunteers = null;
+
+        if ($root->count() > 0) {
+            $volunteers = Volunteer::unit($root->id)->with('units.steps.status')->get();
+        }
 
         return $volunteers;
     }
