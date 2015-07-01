@@ -40,7 +40,7 @@
                         @endif
                     </div>
                     <div class="col-md-4 text-right">
-                        <a href="{{ url('main/users/edit/'.$user->id) }}" class="btn btn-success"><i
+                        <a href="{{ url('users/edit/'.$user->id) }}" class="btn btn-success"><i
                                 class="fa fa-edit"></i> Επεξεργασία</a>
                         <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i> Διαγραφή</button>
                     </div>

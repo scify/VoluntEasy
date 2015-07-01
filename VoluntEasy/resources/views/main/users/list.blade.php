@@ -32,7 +32,7 @@
                  @foreach ($users as $user)
                      <tr>
                         <td>{{ $user->id }}</td>
-                        <td><a href="{{ url('main/users/one/'.$user->id) }}">{{ $user->name }}</a></td>
+                        <td><a href="{{ url('users/one/'.$user->id) }}">{{ $user->name }}</a></td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->addr }}</td>
                         <td>{{ $user->tel }}</td>
@@ -56,13 +56,13 @@
     $(".delete").click(function(){
         if (confirm("Delete user?") == true) {
             $.ajax({
-                url: '/main/users/delete/'+$(this).attr('data-id'),
+                url: '/users/delete/'+$(this).attr('data-id'),
                 method: 'POST',
                 headers: {
                     'X-CSRF-Token': $('#token').val()
                 },
                 success: function (data) {
-                    window.location.href = "/main/users";
+                    window.location.href = "/users";
                 }
             });
         }

@@ -86,14 +86,14 @@
         };
 
         $.ajax({
-            url: '/main/users/units',
+            url: '/users/units',
             method: 'POST',
             data: userUnits,
             headers: {
                 'X-CSRF-Token': $('input[name="_token"]').val()
             },
             success: function (data) {
-                window.location.href = "/main/users/one/" + data;
+                window.location.href = "/users/one/" + data;
             }
         });
     })
