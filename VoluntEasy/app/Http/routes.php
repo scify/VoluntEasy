@@ -44,7 +44,6 @@ Route::get('volunteers/new','VolunteerController@getNew');
 Route::get('volunteers/create', 'VolunteerController@create');
 Route::post('volunteers/store', 'VolunteerController@store');
 
-
 /**  test remove */
 Route::get('volunteers/new','TestController@newVolunteers');
 

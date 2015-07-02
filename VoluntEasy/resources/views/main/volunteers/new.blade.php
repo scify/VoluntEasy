@@ -43,14 +43,14 @@ tab1
 				<br>
 				<br>
 
-			      {!! Form::label('Αριθμός τέκνων:') !!}<br>
-                              {!! Form::text('', null, ['class' => 'form-control', 'id' => 'children', 'placeholder' => 'Αριθμός τέκνων']) !!}
+			      {!! Form::label('children', 'Αριθμός τέκνων:') !!}<br>
+                              {!! Form::text('children', null, ['class' => 'form-control', 'id' => 'children', 'placeholder' => 'Αριθμός τέκνων']) !!}
 
 				<br>
 				<br>
 
                               {!! Form::label('city', 'Πόλη:') !!}
-                              {!! Form::text('', null, ['class' => 'form-control', 'id' => 'city', 'placeholder' => 'Πόλη']) !!}
+                              {!! Form::text('city', null, ['class' => 'form-control', 'id' => 'city', 'placeholder' => 'Πόλη']) !!}
 
                            </div>
 
@@ -74,13 +74,13 @@ tab1
 				<br>
 
                               {!! Form::label('address', 'Διεύθυνση:') !!}
-                              {!! Form::text('', null, ['class' => 'form-control', 'id' => 'address', 'placeholder' => 'Διεύθυνση']) !!}
+                              {!! Form::text('address', null, ['class' => 'form-control', 'id' => 'address', 'placeholder' => 'Διεύθυνση']) !!}
 
 				<br>
 				<br>
 
                               {!! Form::label('country', 'Χώρα:') !!}
-                              {!! Form::text('', null, ['class' => 'form-control', 'id' => 'country', 'placeholder' => 'Χώρα']) !!}
+                              {!! Form::text('country', null, ['class' => 'form-control', 'id' => 'country', 'placeholder' => 'Χώρα']) !!}
                            </div>
 
                            <div class="form-group col-md-4">
@@ -102,14 +102,14 @@ tab1
 				<br>
 				<br>
 
-                              {!! Form::label('zipCode', 'Τ.Κ.:') !!}
-                              {!! Form::text('', null, ['class' => 'form-control', 'id' => 'post_box', 'placeholder' => 'Τ.Κ.']) !!}
+                              {!! Form::label('post_box', 'Τ.Κ.:') !!}
+                              {!! Form::text('post_box', null, ['class' => 'form-control', 'id' => 'post_box', 'placeholder' => 'Τ.Κ.']) !!}
 
 				<br>
 				<br>
 
                               {!! Form::label('live_in_curr_country', 'Κάτοικος Ελλάδας:') !!}
-                              {!! Form::checkbox('greeceCitizen', null, true, ['class' => 'checker']) !!}
+                              {!! Form::checkbox('live_in_curr_country', null, true, ['class' => 'checker']) !!}
 				<em>Αποεπιλέξτε εφόσον δε διαμένετε μόνιμα στην Ελλάδα.</em>
                            </div>
                      </div>
@@ -151,8 +151,8 @@ tab2
 				<br>
 				<br>
 
-                               {!! Form::label('communicationMethod', 'Να επικοινωνήσουμε μαζί σας στο:') !!}
-			       {!! Form::select('communicationMethod', ($comm_method), null, ['class' => 'form-control']) !!}
+                               {!! Form::label('comm_method', 'Να επικοινωνήσουμε μαζί σας στο:') !!}
+			       {!! Form::select('comm_method', ($comm_method), null, ['class' => 'form-control']) !!}
                            </div>
                       </div>
                   </div>
@@ -185,8 +185,8 @@ tab3
 				<br>
 
                                <div class="checkbox">
-                                {!! Form::label('computerUse', 'Χρήση υπολογιστή:') !!}
-                                {!! Form::checkbox('computerUse', null, true, ['class' => 'checker']) !!}
+                                {!! Form::label('computer_usage', 'Χρήση υπολογιστή:') !!}
+                                {!! Form::checkbox('computer_usage', null, true, ['class' => 'checker']) !!}
 				<br>
 				<br>
 				{!! Form::label('additional_skills', 'Πρόσθετες ικανότητες, προσόντα και εμπειρία:') !!}
@@ -209,7 +209,7 @@ tab3
 				@endforeach
 				<br>
 				<br>
-				{!! Form::label('extra_langs', 'Άλλες γλώσσες:') !!}
+				{!! Form::label('extra_lang', 'Άλλες γλώσσες:') !!}
 				{!! Form::textarea('extra_lang', null, ['placeholder' => 'Συμπληρώστε τις επιπλέον γλώσσες που γνωρίζετε και το επιπεδό σας', 'class' => 'form-control', 'id' => 'extra_lang']) !!}
 				<br>
 				<br>
@@ -232,7 +232,7 @@ tab4
 				<br>
 				<br>
 				{!! Form::label('work_description', 'Εργασία:') !!}
-				{!! Form::textarea('extra_lang', null, ['placeholder' => 'Περιγράψτε τη θέση σας στην παρούσα ή πιο πρόσφατη εργασία.', 'class' => 'form-control', 'id' => 'extra_lang']) !!}
+				{!! Form::textarea('work_description', null, ['placeholder' => 'Περιγράψτε τη θέση σας στην παρούσα ή πιο πρόσφατη εργασία.', 'class' => 'form-control', 'id' => 'work_description']) !!}
                            </div>
 
                            <div class="form-group col-md-6">
@@ -242,7 +242,7 @@ tab4
 				<br>
 				<br>
 				{!! Form::label('participation_actions', 'Εθελοντική οργάνωση:') !!}
-				{!! Form::textarea('', null, ['placeholder' => 'Εαν ανήκετε ή ανήκατε σε κάποιες εθελοντικές οργανώσεις ποιο ήταν το αντικείμενο τους και για πόσο χρονικό διάστημα είχατε συμετοχή.', 'class' => 'form-control', 'id' => 'participation_actions']) !!}
+				{!! Form::textarea('participation_actions', null, ['placeholder' => 'Εαν ανήκετε ή ανήκατε σε κάποιες εθελοντικές οργανώσεις ποιο ήταν το αντικείμενο τους και για πόσο χρονικό διάστημα είχατε συμετοχή.', 'class' => 'form-control', 'id' => 'participation_actions']) !!}
 				<br>
 				<br>
 				{!! Form::label('participation_previous', 'Εθελοντικές δράσεις:') !!}
