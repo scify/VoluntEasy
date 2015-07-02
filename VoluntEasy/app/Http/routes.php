@@ -7,6 +7,9 @@ Route::controllers([
     'password' => 'Auth\PasswordController',
 ]);
 
+
+
+
 //User Routes
 Route::get('users','UserController@index');
 Route::get('users/one/{id}', ['as' => 'user/profile', 'uses' => 'UserController@show']);
@@ -30,6 +33,7 @@ Route::post('units/update', 'UnitController@update');
 Route::post('units/users', 'UnitController@addUsers');
 Route::post('units/volunteers', 'UnitController@addVolunteers');
 Route::get('wholeTree', 'UnitController@wholeTree');
+Route::get('rootUnit', 'UnitController@rootUnit');
 
 
 
