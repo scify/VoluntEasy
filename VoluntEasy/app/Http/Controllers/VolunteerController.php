@@ -116,7 +116,7 @@ class VolunteerController extends Controller
 			'specialty' => \Input::get('specialty'),
 			'department' => \Input::get('department'),
 			'driver_license_type_id' => \Input::get('driver_license_type_id'),
-			'computerUse' => \Input::get('computerUse'),
+			'computer_usage' => \Input::get('computer_usage'),
 			'additional_skills' => \Input::get('additional_skills'),
 			// TODO: languages.
 			'extra_lang' => \Input::get('extra_lang'),
