@@ -23,16 +23,15 @@ class VolunteerFormRequest extends Request {
 	public function rules()
 	{
 		return [
-                        /*
-			 * 'name' => 'required|max:100',
-			 * 'last_name' => 'required|max:100',
-			 * 'fathers_name' => 'required|max:100',
-			 * 'gender_id' => 'required',
-			 * 'email' => 'required|email',
-			 * 'education_level_id' => 'required',
-			 * 'work_status_id' => 'required',
-			 * 'participation_reason' => 'required|max:300',
-                         */
+			'name' => 'required',
+			'last_name' => 'required',
+			'fathers_name' => 'required',
+			'birth_date' => 'required',
+			'gender_id' => 'required',
+			'email' => 'required|email|unique',
+			'education_level_id' => 'required',
+			'woth_status_id' => 'required',
+			'participation_reason' => 'required',
 		];
 	}
 

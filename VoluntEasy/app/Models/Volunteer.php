@@ -69,23 +69,6 @@ class Volunteer extends User
         return $this->belongsToMany('App\Models\Unit', 'units_volunteers');
     }
 
-    public function validate($input)
-    {
-	$rules = array(
-		'name' => 'required',
-		'last_name' => 'required',
-		'fathers_name' => 'required',
-		'birth_date' => 'required',
-		'gender_id' => 'required',
-		'email' => 'required|email|unique',
-		'education_level_id' => 'required',
-		'woth_status_id' => 'required',
-		'participation_reason' => 'required',
-	);
-
-	return Validator::make($input, $rules);
-    }
-
     /**
      * Get all the volunteers that are assigned to a unit.
      *

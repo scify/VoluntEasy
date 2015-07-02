@@ -89,6 +89,7 @@ class VolunteerController extends Controller
     public
     function store(VolunteerFormRequest $request)
     {
+	    dd($request);
 	    $data = new Volunteer(array(
 			'name' => \Input::get('name'),
 			'last_name' => \Input::get('last_name'),
@@ -127,7 +128,7 @@ class VolunteerController extends Controller
 			'availability_freqs_id' => \Input::get('availability_freqs_id'),
 		));
 
-	    $data->save();
+	    // $data->save();
 	    return 'Thanks for registering a volunteer...';
 	    // dd($request->all());
             /*

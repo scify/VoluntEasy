@@ -18,10 +18,15 @@
             <li role="presentation"><a href="#tab4" data-toggle="tab"><i class="fa fa-cog m-r-xs"></i>Εργασιακή Εμπειρία & Εθελοντική Προσφορά</a></li>
             <li role="presentation"><a href="#tab5" data-toggle="tab"><i class="fa fa-clock-o m-r-xs"></i>Διαθεσιμότητα</a></li>
          </ul>
-         <div class="progress progress-sm m-t-sm">
-            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-            </div>
-         </div>
+                                   @if (count($errors) > 0)
+                                		<div class="alert alert-danger">
+                                			<ul>
+                                				@foreach ($errors->all() as $error)
+                                					<li>{{ $error }}</li>
+                                				@endforeach
+                                			</ul>
+                                		</div>
+                                	@endif
          {!! Form::open(['id' => 'wizardForm', 'method' => 'POST', 'action' => ['VolunteerController@store']]) !!}
             <div class="tab-content">
 <!--
@@ -38,7 +43,7 @@ tab1
 				<br>
 
                               {!! Form::label('birth_date', 'Ημερομηνία Γέννησης:') !!}<br>
-			      {!! Form::input('birth_date', 'birth_date', null, ['required', 'class' => 'form-control', 'id' => 'birth_date']) !!}
+			      {!! Form::input('birth_date', 'birth_date', null, ['class' => 'form-control', 'id' => 'birth_date']) !!}
 
 				<br>
 				<br>
