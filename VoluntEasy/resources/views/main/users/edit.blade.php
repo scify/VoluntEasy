@@ -83,7 +83,7 @@
         };
 
         $.ajax({
-            url: '/users/units',
+            url: 'users/units',
             method: 'POST',
             data: userUnits,
             headers: {

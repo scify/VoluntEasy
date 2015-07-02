@@ -35,7 +35,9 @@ class VolunteerController extends Controller
      */
     public function index()
     {
-        return view('main.volunteers.list');
+        $volunteers = Volunteer::with('units', 'actions')->get();
+
+        return view('main.volunteers.list', compact('volunteers'));
     }
 
     /**

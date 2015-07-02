@@ -46,12 +46,6 @@
                                 <li class="{{ Request::is('users/create') ? 'active' : '' }}"><a href="{{url('users/create')}}">Δημιουργία Χρήστη</a></li>
                             </ul>
                         </li>
-                        <li>
-                            <a href="/sitemap/sitemap" class="waves-effect waves-button">
-                                <span class="menu-icon glyphicon glyphicon-list"></span>
-                                <p>Σχεδιάγραμμα<br>Ιστοσελίδας</p>
-                            </a>
-                        </li>
                         <li class=" {{ Request::is('wholeTree*') ? 'active open' : '' }}">
                             <a href="{{url('wholeTree')}}" class="waves-effect waves-button">
                                 <span class="menu-icon glyphicon glyphicon-tree-deciduous"></span>
