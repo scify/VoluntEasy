@@ -30,9 +30,9 @@
                                 <span class="arrow"></span>
                             </a>
                             <ul class="sub-menu">
-                                <li class="{{ Request::is('volunteers') ? 'active' : '' }}"><a href="/volunteers/listview">Προβολή λίστας-Αναζήτηση</a></li>
-                                <li class="{{ Request::is('volunteers/create') ? 'active' : '' }}"><a href="/volunteers/create">Καταχώρηση εθελοντή</a></li>
-                                <li class="{{ Request::is('volunteers/create') ? 'active' : '' }}"><a href="/volunteers/statistics">Στατιστικές Αναλύσεις</a></li>
+                                <li class="{{ Request::is('volunteers') ? 'active' : '' }}"><a href="{{url('volunteers')}}">Προβολή Εθελοντών</a></li>
+                                <li class="{{ Request::is('volunteers/create') ? 'active' : '' }}"><a href="{{url('volunteers/create')}}">Δημιουργία εθελοντή</a></li>
+                                <li class="{{ Request::is('volunteers/create') ? 'active' : '' }}"><a href="#">Στατιστικές Αναλύσεις</a></li>
                             </ul>
                         </li>
                         <li class="droplink {{ Request::is('users*') ? 'active open' : '' }}">
@@ -53,7 +53,7 @@
                             </a>
                         </li>
                         <li class=" {{ Request::is('wholeTree*') ? 'active open' : '' }}">
-                            <a href="/wholeTree" class="waves-effect waves-button">
+                            <a href="{{url('wholeTree')}}" class="waves-effect waves-button">
                                 <span class="menu-icon glyphicon glyphicon-tree-deciduous"></span>
                                 <p>Δέντρο</p>
                             </a>
