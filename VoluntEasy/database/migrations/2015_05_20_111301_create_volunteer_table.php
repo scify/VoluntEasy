@@ -84,8 +84,11 @@ class CreateVolunteerTable extends Migration {
             $table->string('email')->unique();
             $table->string('extra_lang', 100);
             $table->string('work_description', 300)->nullable();
+            $table->string('specialty', 300)->nullable();
+            $table->string('department', 300)->nullable();
             $table->string('additional_skills', 300)->nullable();
             $table->boolean('live_in_curr_country')->nullable();
+            $table->boolean('computer_usage')->nullable();
             $table->text('comments', 300)->nullable();
             $table->timestamps();
 
