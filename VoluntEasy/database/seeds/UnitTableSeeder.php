@@ -15,12 +15,8 @@ class UnitTableSeeder extends Seeder {
     public function run()
     {
         Unit::create([
-            'description' => 'SciFY',
-            'comments' => 'test@scify.org',
-            'password' => Hash::make('1q2w3e'),
-            'addr' => '17 Amphiktyonos str & Vassilis',
-            'tel' => '123456789',
-
+            'description' => 'root',
+            'comments' => 'Root unit',
         ]);
     }
 
