@@ -70,13 +70,13 @@ UNITQUESTION:
 chomp (my $unitanswer = <STDIN>);
 
 if ($unitanswer =~ m/^[Y]$/i) {
-	while (<in>) {
+	while (<$unitin>) {
 		s/%%UNIT%DESCRIPTION%%/$unitdescription/g;
 		s/%%UNIT%COMMENTS%%/$unitcomments/g;
 		print $unitout $_;
 	}
 	print "Unit seed file generated.\n";
-} elseif ($unitanswer =~ m/^[N]$/i) {
+} elsif ($unitanswer =~ m/^[N]$/i) {
 	print "Please enter unit credentials again.\n";
 	goto UNITSTART;
 } else {
