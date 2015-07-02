@@ -55,9 +55,9 @@ class CreateUnitsTable extends Migration {
 
 		Schema::create('units_users', function($table)
 		{
-			$table->integer('user_id')->unsigned;
+			$table->integer('user_id')->unsigned();
 			$table->foreign('user_id')->references('id')->on('users');
-			$table->integer('unit_id')->unsigned;
+			$table->integer('unit_id')->unsigned();
 			$table->foreign('unit_id')->references('id')->on('units');
 		});
 	}

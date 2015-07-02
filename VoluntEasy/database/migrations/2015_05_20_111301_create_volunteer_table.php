@@ -133,9 +133,9 @@ class CreateVolunteerTable extends Migration {
 
         Schema::create('units_volunteers', function($table)
         {
-            $table->integer('volunteer_id')->unsigned;
+            $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
-            $table->integer('unit_id')->unsigned;
+            $table->integer('unit_id')->unsigned();
             $table->foreign('unit_id')->references('id')->on('units');
         });
 

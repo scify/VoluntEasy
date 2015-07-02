@@ -14,7 +14,7 @@ class AddActionsToUnitsRelation extends Migration {
 	{
 		Schema::table('actions', function($table)
 		{
-			$table->integer('unit_id')->unsigned;
+			$table->integer('unit_id')->unsigned();
 			$table->foreign('unit_id')->references('id')->on('units');
 		});
 	}
