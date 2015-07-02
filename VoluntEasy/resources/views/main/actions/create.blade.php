@@ -31,7 +31,7 @@
                 @endforeach
 
                 <ul id="tree" style="display:none;">
-                    <li data-id="{{$tree->id}}" class="root {{ in_array($tree->id, $userUnits) ? '' : 'disabled' }}"><span
+                    <li data-id="{{$tree->id}}" class="root disabled"><span
                             class="description">{{$tree->description}}</span>
                         <ul>
                             @include('main.units.partials._branch_actions', ['unit' => $tree, 'userUnits' => $userUnits])
@@ -100,7 +100,9 @@
 
 
     $(".node.leaf").click(function () {
-        $("#unit_id").val($(this).attr("data-id"));
+        if (!$(this).hasClass("disabled")) {
+            $("#unit_id").val($(this).attr("data-id"));
+        }
     })
 
 

@@ -8,6 +8,7 @@ use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class ActionController extends Controller
 {
@@ -58,7 +59,7 @@ class ActionController extends Controller
         if($request->ajax())
             return $action->unit_id;
         else
-            return view('main.actions.show', compact('action'));
+            return Redirect::route('action/one', ['id' => $action->id]);
     }
 
     /**
@@ -130,12 +131,12 @@ class ActionController extends Controller
             Session::flash('flash_message', 'Η δράση περιέχει εθελοντές και δεν μπορεί να διαγραφεί.');
             Session::flash('flash_type', 'alert-danger');
 
-            return Redirect::to('main/actions');
+            return Redirect::back();
         }
 
         $action->delete();
 
-        return Redirect::to('main/actions');
+        return Redirect::to('actions');
     }
 
 

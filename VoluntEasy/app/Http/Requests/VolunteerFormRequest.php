@@ -28,9 +28,9 @@ class VolunteerFormRequest extends Request {
 			'fathers_name' => 'required',
 			'birth_date' => 'required',
 			'gender_id' => 'required',
-			'email' => 'required|email|unique',
+			'email' => 'required|email|unique:volunteers',
 			'education_level_id' => 'required',
-			'woth_status_id' => 'required',
+			'work_status_id' => 'required',
 			'participation_reason' => 'required',
 		];
 	}

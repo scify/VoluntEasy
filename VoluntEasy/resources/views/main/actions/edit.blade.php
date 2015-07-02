@@ -76,12 +76,5 @@
         disabled: true
     });
 
-
-    $(".node.leaf").click(function () {
-        $("#unit_id").val($(this).attr("data-id"));
-    })
-
-
-
 </script>
 @stop

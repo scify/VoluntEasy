@@ -183,27 +183,27 @@ class UnitController extends Controller
             Session::flash('flash_message', 'Η οργανωτική μονάδα δεν μπορεί να διαγραφεί γιατί εξαρτώνται άλλες μονάδες από αυτή.');
             Session::flash('flash_type', 'alert-danger');
 
-            return Redirect::to('units');
+            return Redirect::back();
         }
         //if the unit has volunteers, do not delete
         if(sizeof($unit->volunteers)>0){
             Session::flash('flash_message', 'Η οργανωτική μονάδα περιέχει εθελοντές και δεν μπορεί να διαγραφεί.');
             Session::flash('flash_type', 'alert-danger');
 
-            return Redirect::to('units');
+            return Redirect::back();
         }
         //if the unit has users, do not delete
         if(sizeof($unit->users)>0){
             Session::flash('flash_message', 'Η οργανωτική μονάδα περιέχει χρήστες και δεν μπορεί να διαγραφεί.');
             Session::flash('flash_type', 'alert-danger');
 
-            return Redirect::to('units');
+            return Redirect::back();
         }
 
         $unit->steps()->delete();
         $unit->delete();
 
-        return Redirect::to('units');
+        return Redirect::back();
     }
 
     public function rootUnit()

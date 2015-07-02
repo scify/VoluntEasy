@@ -11,7 +11,8 @@ class Volunteer extends User
      */
     protected $table = 'volunteers';
 
-    protected $fillable = ['name', 'last_name', 'fathers_name', 'identification_num', 'birth_date', 'children', 'address', 'city', 'country', 'post_box', 'participation_reason', 'participation_previous', 'participation_actions', 'email', 'extra_lang', 'work_description', 'additional_skills', 'live_in_curr_country', 'comments', 'gender_id', 'education_level_id', 'comm_method', 'identification_type_id', 'marital_status_id', 'driver_license_type_id', 'availability_freqs_id', 'work_status_id'];
+    protected $fillable = ['name', 'last_name', 'fathers_name', 'identification_num', 'birth_date', 'children', 'address', 'city', 'country', 'post_box', 'participation_reason', 'participation_previous', 'participation_actions', 'email', 'extra_lang', 'work_description', 'additional_skills', 'live_in_curr_country', 'comments', 'gender_id', 'education_level_id', 'comm_method', 'identification_type_id', 'marital_status_id', 'driver_license_type_id', 'availability_freqs_id', 'work_status_id',
+    'home_tel', 'work_tel', 'cell_tel', 'fax', 'comm_method_id', 'specialty', 'department', 'computer_usage', 'availability_time'];
 
 
     public function actions()
@@ -52,6 +53,11 @@ class Volunteer extends User
     public function maritalStatus()
     {
         return $this->hasOne('App\Models\Descriptions\MaritalStatus', 'id', 'marital_status_id');
+    }
+
+    public function commMethod()
+    {
+        return $this->hasOne('App\Models\Descriptions\CommunicationMethod', 'id', 'comm_method_id');
     }
 
     public function actionHistories()

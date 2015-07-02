@@ -2,11 +2,11 @@
 
 use App\Http\Requests;
 use App\Models\Volunteer;
+use App\Services\Facades\UnitService;
 use App\Services\Facades\VolunteerService;
 use App\Http\Requests\VolunteerFormRequest as VolunteerFormRequest;
 use Illuminate\Support\Facades\Redirect;
 use DB;
-use Validator;
 
 class VolunteerController extends Controller
 {
@@ -89,19 +89,18 @@ class VolunteerController extends Controller
     public
     function store(VolunteerFormRequest $request)
     {
-	    dd($request);
-	    $data = new Volunteer(array(
+        $volunteer = new Volunteer(array(
 			'name' => \Input::get('name'),
 			'last_name' => \Input::get('last_name'),
 			'fathers_name' => \Input::get('fathers_name'),
 			'birth_date' => \Input::get('birth_date'),
-			'identification_type_id' => \Input::get('identification_type_id'),
+			'identification_type_id' => intval(\Input::get('identification_type_id')),
 			'identification_num' => \Input::get('identification_num'),
-			'gender_id' => \Input::get('gender_id'),
-			'marital_status_id' => \Input::get('marital_status_id'),
-			'children' => \Input::get('children'),
+			'gender_id' => intval(\Input::get('gender_id')),
+			'marital_status_id' => intval(\Input::get('marital_status_id')),
+			'children' => intval(\Input::get('children')),
 			'address' => \Input::get('address'),
-			'post_box' => \Input::get('post_box'),
+			'post_box' => intval(\Input::get('post_box')),
 			'city' => \Input::get('city'),
 			'country' => \Input::get('country'),
 			'live_in_curr_country' => \Input::get('live_in_curr_country'),
@@ -110,44 +109,32 @@ class VolunteerController extends Controller
 			'cell_tel' => \Input::get('cell_tel'),
 			'fax' => \Input::get('fax'),
 			'email' => \Input::get('email'),
-			'comm_method_id' => \Input::get('comm_method'),
-			'education_level_id' => \Input::get('education_level_id'),
-			'education_level_id' => \Input::get('education_level_id'),
+			'comm_method_id' => intval(\Input::get('comm_method_id')),
+			'education_level_id' => intval(\Input::get('education_level_id')),
 			'specialty' => \Input::get('specialty'),
 			'department' => \Input::get('department'),
-			'driver_license_type_id' => \Input::get('driver_license_type_id'),
+			'driver_license_type_id' => intval(\Input::get('driver_license_type_id')),
 			'computer_usage' => \Input::get('computer_usage'),
 			'additional_skills' => \Input::get('additional_skills'),
 			// TODO: languages.
 			'extra_lang' => \Input::get('extra_lang'),
-			'work_status_id' => \Input::get('work_status_id'),
+			'work_status_id' => intval(\Input::get('work_status_id')),
 			'work_description' => \Input::get('work_description'),
 			'participation_reason' => \Input::get('participation_reason'),
 			'participation_actions' => \Input::get('participation_actions'),
 			'participation_previous' => \Input::get('participation_previous'),
-			'availability_freqs_id' => \Input::get('availability_freqs_id'),
+			'availability_freqs_id' => intval(\Input::get('availability_freqs_id')),
 		));
 
-	    // $data->save();
-	    return 'Thanks for registering a volunteer...';
-	    // dd($request->all());
-            /*
-	     * $this->validate($request, [
-		 *     'name' => 'required',
-		 *     'last_name' => 'required',
-		 *     'fathers_name' => 'required',
-		 *     'birth_date' => 'required',
-		 *     'gender_id' => 'required',
-		 *     'email' => 'required|email|unique',
-		 *     'education_level_id' => 'required',
-		 *     'woth_status_id' => 'required',
-		 *     'participation_reason' => 'required',
-	     * ]);
-             */
+        $volunteer->save();
 
-	    // Volunteer::create($request->all());
+        $unit = UnitService::getRoot();
 
-	    return Redirect::to('volunteers/listview');
+        $volunteer->units()->save($unit);
+
+        return 'Thanks for registering a volunteer... ID: '.$volunteer->id;
+
+	  //  return Redirect::to('volunteers/listview');
     }
 
     /**

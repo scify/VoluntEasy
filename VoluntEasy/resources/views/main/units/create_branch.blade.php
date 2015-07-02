@@ -30,7 +30,7 @@
                         class="{{ in_array($tree->id, $userUnits) ? '' : 'disabled' }}"><span
                             class="description">{{$tree->description}}</span>
                         <ul>
-                            @include('main.units.partials._branch_actions', ['unit' => $tree, 'userUnits' =>
+                            @include('main.units.partials._branch', ['unit' => $tree, 'userUnits' =>
                             $userUnits])
                         </ul>
                     </li>
@@ -62,8 +62,10 @@
     $("#parent_unit").val($("#parent_unit").attr("data-value"));
 
     $(".node").click(function () {
-        $("#parent_unit").val($(this).find(".description").text());
-        $("#parent_unit_id").val($(this).attr("data-id"));
+        if (!$(this).hasClass("disabled")) {
+            $("#parent_unit").val($(this).find(".description").text());
+            $("#parent_unit_id").val($(this).attr("data-id"));
+        }
     })
 </script>
 @stop

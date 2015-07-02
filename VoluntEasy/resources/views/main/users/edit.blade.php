@@ -35,16 +35,13 @@
                 @if($tree!=null)
                 <div id="unitsTree"></div>
                 <ul id="tree" style="display:none;">
-                    <li data-id="{{$tree->id}}"><span class="description">{{$tree->description}}</span>
+                    <li data-id="{{$tree->id}}" {{ in_array($tree->id, $active) ? 'class=active-node' : '' }}><span class="description">{{$tree->description}}</span>
                         <ul>
                             @include('main.units.partials._branch_actives', ['unit' => $tree, 'active' =>
                             $active])
                         </ul>
                     </li>
                 </ul>
-                @else
-                <h3>Δεν υπάρχουν οργανωτικές μονάδες.</h3>
-                @endif
                 <div class="row">
                     <div class="col-md-12 text-right">
                         <button type="button" class="btn btn-success" id="save" data-user-id="{{$user->id}}">
@@ -52,6 +49,9 @@
                         </button>
                     </div>
                 </div>
+                @else
+                <h3>Δεν υπάρχουν οργανωτικές μονάδες.</h3>
+                @endif
             </div>
         </div>
     </div>

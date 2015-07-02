@@ -32,7 +32,7 @@ class UnitService
      */
     public function getRoot()
     {
-        $root = Unit::whereNull('parent_unit_id')->get();
+        $root = Unit::whereNull('parent_unit_id')->first();
 
         return $root;
     }

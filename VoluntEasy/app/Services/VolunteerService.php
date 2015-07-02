@@ -1,6 +1,7 @@
 <?php namespace App\Services;
 
 use App\Models\Volunteer;
+use App\Services\Facades\UnitService;
 
 class VolunteerService
 {
