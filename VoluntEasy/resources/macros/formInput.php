@@ -1,8 +1,8 @@
 <?php
 
 /**
- *  Form macros extend the Form facade with additional functionality.
- *  Macro 'formInput' is responsible for constructing the label+input+errors
+ * Form macros extend the Form facade with additional functionality.
+ * Macro 'formInput' is responsible for constructing the label+input+errors
  * for a form.
  *
  * To create a custom form input, use the following syntax:

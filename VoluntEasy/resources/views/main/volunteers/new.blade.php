@@ -177,16 +177,8 @@
                 {!! Form::label('') !!}
                 @foreach ($lang_levels as $key => $level)
                 <label><em>{{ $level }}</em>
-
                     {!! Form::formInput('level['.$language.']', '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value' => $key]) !!}
-
-
-
                 </label>
-
-
-
-
                 @endforeach
             </div>
             @endforeach
