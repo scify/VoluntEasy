@@ -6,10 +6,25 @@
  * for a form.
  *
  * To create a custom form input, use the following syntax:
+ **
+ * --Plain input field
+ * {!! Form::formInput('field_id/name', 'Field Label:', $errors, ['class' => 'form-control']) !!}
  *
- * {!! Form::formInput('inputName', 'Field label', $errors, ['class' => 'form-control', 'type' => 'textarea']) !!}
+ * --Textarea
+ * {!! Form::formInput('field_id/name', 'Field label', $errors, ['class' => 'form-control', 'type' => 'textarea']) !!}
  *
- * Available types: password, textarea, date, text
+ * --Date
+ * {!! Form::formInput('field_id/name', 'Field Label:', $errors, ['class' => 'form-control', 'id' => 'field_id']) !!}
+ * (we also set the field id in order to initialize the datepicker widget)
+ *
+ * --Select
+ * {!! Form::formInput('field_id/name', 'Field Label:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $arrayWithValues]) !!}
+ *
+ * --Checkbox
+ * {!! Form::formInput('field_id/name', 'Field Label:', $errors, ['class' => 'form-control', 'type' => 'checkbox', 'value' => true/false]) !!}
+ *
+ * --Radio
+ * {!! Form::formInput('field_id/name', '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value' => $key]) !!}
  *
  */
 
@@ -34,6 +49,16 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
                 unset($attributes['value']);
                 $text_html = Form::select($field, $value, '', $attributes);
                 break;
+            case "checkbox":
+                $value = $attributes['value'];
+                unset($attributes['value']);
+                $text_html = Form::checkbox($field, $value, $attributes);
+                break;
+            case "radio":
+                $value = $attributes['value'];
+                unset($attributes['value']);
+                $text_html = Form::radio($field, $value, false, $attributes);
+                break;
             case "date":
                 $text_html = Form::input('date', $field);
                 break;
@@ -47,9 +72,6 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
     } else {
         $text_html = Form::text($field, null, $attributes);
     }
-
-
-    //  {!! Form::select('availability_freqs_id', ($availability_freqs), null, ['class' => 'form-control']) !!}
 
 
     $msg_html = '';

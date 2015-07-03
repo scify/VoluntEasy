@@ -8,9 +8,10 @@
 @stop
 
 @section('bodyContent')
+<div class="row">
+<div class="col-md-12">
 <div class="panel panel-white">
 <div class="panel-body">
-<div id="rootwizard">
 <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-user m-r-xs"></i>Ατομικά
         Στοιχεία</a></li>
@@ -20,300 +21,234 @@
         Ικανότητες</a></li>
     <li role="presentation"><a href="#tab4" data-toggle="tab"><i class="fa fa-cog m-r-xs"></i>Εργασιακή Εμπειρία &
         Εθελοντική Προσφορά</a></li>
-    <li role="presentation"><a href="#tab5" data-toggle="tab"><i class="fa fa-clock-o m-r-xs"></i>Διαθεσιμότητα</a></li>
+    <li role="presentation"><a href="#tab5" data-toggle="tab"><i class="fa fa-clock-o m-r-xs"></i>Διαθεσιμότητα</a>
+    </li>
 </ul>
-@if (count($errors) > 0)
-<div class="alert alert-danger">
-    <ul>
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
 {!! Form::open(['id' => 'wizardForm', 'method' => 'POST', 'action' => ['VolunteerController@store']]) !!}
 <div class="tab-content">
-<!--
-tab1
-Ατομικά στοιχεία.
--->
+
+<!-- tab1 Ατομικά στοιχεία.-->
 <div class="tab-pane active fade in" id="tab1">
     <div class="row m-b-lg">
-        <div class="row">
-            <div class="form-group col-md-4">
-                {!! Form::label('name', 'Όνομα:') !!}
-                {!! Form::text('name', null, ['class' => 'form-control', 'id' => 'name', 'placeholder' => 'Όνομα']) !!}
-                <br>
-                <br>
-
-                {!! Form::label('birth_date', 'Ημερομηνία Γέννησης:') !!}<br>
-                {!! Form::input('birth_date', 'birth_date', null, ['class' => 'form-control', 'id' => 'birth_date']) !!}
-
-                <br>
-                <br>
-
-                {!! Form::label('children', 'Αριθμός τέκνων:') !!}<br>
-                {!! Form::text('children', null, ['class' => 'form-control', 'id' => 'children', 'placeholder' =>
-                'Αριθμός τέκνων']) !!}
-
-                <br>
-                <br>
-
-                {!! Form::label('city', 'Πόλη:') !!}
-                {!! Form::text('city', null, ['class' => 'form-control', 'id' => 'city', 'placeholder' => 'Πόλη']) !!}
-
+        <div class="col-md-4">
+            <div class="form-group">
+                {!! Form::formInput('name', 'Όνομα:', $errors, ['class' => 'form-control']) !!}
             </div>
-
-            <div class="form-group col-md-4">
-                {!! Form::label('last_name', 'Επώνυμο:') !!}
-                {!! Form::text('last_name', null, ['class' => 'form-control', 'id' => 'last_name', 'placeholder' =>
-                'Επώνυμο']) !!}
-
-                <br>
-                <br>
-
-                {!! Form::label('identification_type_id', 'Τύπος ταυτότητας') !!}<br>
-                {!! Form::select('identification_type_id', ($id_type), null, ['class' => 'form-control']) !!}
-
-                <br>
-                <br>
-
-                {!! Form::label('gender_id', 'Φύλο:') !!} <br/>
-                {!! Form::select('gender_id', ($genders), null, ['class' => 'form-control']) !!}
-
-                <br>
-                <br>
-
-                {!! Form::label('address', 'Διεύθυνση:') !!}
-                {!! Form::text('address', null, ['class' => 'form-control', 'id' => 'address', 'placeholder' =>
-                'Διεύθυνση']) !!}
-
-                <br>
-                <br>
-
-                {!! Form::label('country', 'Χώρα:') !!}
-                {!! Form::text('country', null, ['class' => 'form-control', 'id' => 'country', 'placeholder' => 'Χώρα'])
-                !!}
+            <div class="form-group">
+                {!! Form::formInput('last_name', 'Επώνυμο:', $errors, ['class' => 'form-control']) !!}
             </div>
-
-            <div class="form-group col-md-4">
-                {!! Form::label('fathers_name', 'Όνομα Πατέρα:') !!}
-                {!! Form::text('fathers_name', null, ['class' => 'form-control', 'id' => 'fathers_name', 'placeholder'
-                => 'Όνομα Πατέρα']) !!}
-
-                <br>
-                <br>
-
-                {!! Form::label('identification_num', 'Αριθμός Α.Δ.Τ./Διαβατηρίου/Άδειας Παραμονής:') !!}
-                {!! Form::text('identification_num', null, ['class' => 'form-control', 'id' => 'identityTypeNumber',
-                'placeholder' => 'Αριθμός Α.Δ.Τ./Διαβατηρίου/Άδειας Παραμονής']) !!}
-
-                <br>
-                <br>
-
-                {!! Form::label('marital_status_id', 'Οικογενειακή κατάσταση:') !!}<br>
-                {!! Form::select('marital_status_id', ($marital_status), null, ['class' => 'form-control']) !!}
-
-                <br>
-                <br>
-
-                {!! Form::label('post_box', 'Τ.Κ.:') !!}
-                {!! Form::text('post_box', null, ['class' => 'form-control', 'id' => 'post_box', 'placeholder' =>
-                'Τ.Κ.']) !!}
-
-                <br>
-                <br>
-
-                {!! Form::label('live_in_curr_country', 'Κάτοικος Ελλάδας:') !!}
-                {!! Form::checkbox('live_in_curr_country', null, true, ['class' => 'checker']) !!}
-                <em>Αποεπιλέξτε εφόσον δε διαμένετε μόνιμα στην Ελλάδα.</em>
+            <div class="form-group">
+                {!! Form::formInput('fathers_name', 'Όνομα Πατέρα:', $errors, ['class' => 'form-control']) !!}
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::formInput('birth_date', 'Ημερομηνία Γέννησης:', $errors, ['class' => 'form-control', 'id' => 'birth_date']) !!}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::formInput('gender_id', 'Φύλο:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $genders]) !!}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        {!! Form::formInput('address', 'Διεύθυνση:', $errors, ['class' => 'form-control']) !!}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {!! Form::formInput('post_box', 'Τ.Κ:', $errors, ['class' => 'form-control']) !!}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                {!! Form::formInput('city', 'Πόλη:', $errors, ['class' => 'form-control']) !!}
+            </div>
+            <div class="form-group">
+                {!! Form::formInput('country', 'Χώρα:', $errors, ['class' => 'form-control']) !!}
+            </div>
+            <div class="form-group">
+                {!! Form::formInput('live_in_curr_country', 'Κάτοικος Ελλάδας:', $errors, ['class' => 'form-control', 'type' => 'checkbox', 'value' => true]) !!} <em>Αποεπιλέξτε εφόσον δε διαμένετε μόνιμα στην Ελλάδα.</em>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {!! Form::formInput('identification_type_id', 'Τύπος ταυτότητας:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $id_type]) !!}
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="form-group">
+                        {!! Form::formInput('identification_num', 'Αριθμός Α.Δ.Τ./Διαβατηρίου/Άδειας Παραμονής:', $errors, ['class' => 'form-control']) !!}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::formInput('marital_status_id', 'Οικογενειακή κατάσταση:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $marital_status]) !!}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::formInput('children', 'Αριθμός τέκνων:', $errors, ['class' => 'form-control']) !!}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<!--
-tab2
-Στοιχεία επικοινωνίας.
--->
+
+<!-- tab2 Στοιχεία επικοινωνίας. -->
 <div class="tab-pane fade" id="tab2">
     <div class="row m-b-lg">
-        <div class="row">
-            <div class="form-group col-md-6">
-                {!! Form::label('home_tel', 'Τηλέφωνο Οικίας:') !!}
-                {!! Form::text('home_tel', null, ['class' => 'form-control', 'id' => 'home_tel', 'placeholder' =>
-                'Τηλέφωνο Οικίας']) !!}
-
-                <br>
-                <br>
-
-                {!! Form::label('work_tel', 'Τηλέφωνο Εργασίας:') !!}
-                {!! Form::text('work_tel', null, ['class' => 'form-control', 'id' => 'work_tel', 'placeholder' =>
-                'Τηλέφωνο Εργασίας']) !!}
-
-                <br>
-                <br>
-
-                {!! Form::label('cell_tel', 'Κινητό:') !!}
-                {!! Form::text('cell_tel', null, ['class' => 'form-control', 'id' => 'cell_tel', 'placeholder' =>
-                'Κινητό']) !!}
+        <div class="col-md-4">
+            <div class="form-group">
+                {!! Form::formInput('home_tel', 'Τηλέφωνο Οικίας:', $errors, ['class' => 'form-control']) !!}
             </div>
-            <div class="form-group col-md-6">
-                {!! Form::label('fax', 'Fax:') !!}
-                {!! Form::text('fax', null, ['class' => 'form-control', 'id' => 'fax', 'placeholder' => 'Fax']) !!}
-
-                <br>
-                <br>
-
-                {!! Form::label('email', 'Email:') !!}
-                {!! Form::text('email', null, ['class' => 'form-control', 'id' => 'email', 'placeholder' => 'Email'])
-                !!}
-
-                <br>
-                <br>
-
-                {!! Form::label('comm_method_id', 'Να επικοινωνήσουμε μαζί σας στο:') !!}
-                {!! Form::select('comm_method_id', ($comm_method), null, ['class' => 'form-control']) !!}
+            <div class="form-group">
+                {!! Form::formInput('work_tel', 'Τηλέφωνο Εργασίας:', $errors, ['class' => 'form-control']) !!}
+            </div>
+            <div class="form-group">
+                {!! Form::formInput('cell_tel', 'Κινητό:', $errors, ['class' => 'form-control']) !!}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                {!! Form::formInput('fax', 'Fax:', $errors, ['class' => 'form-control']) !!}
+            </div>
+            <div class="form-group">
+                {!! Form::formInput('email', 'Email:', $errors, ['class' => 'form-control']) !!}
+            </div>
+            <div class="form-group">
+                {!! Form::formInput('comm_method_id', 'Να επικοινωνήσουμε μαζί σας στο:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $comm_method]) !!}
             </div>
         </div>
     </div>
 </div>
-<!--
-tab3
-Εκπαίδευση και ικανότητες.
--->
+<!-- tab3 Εκπαίδευση και ικανότητες. -->
 <div class="tab-pane fade" id="tab3">
     <div class="row m-b-lg">
-        <div class="row">
-            <div class="form-group col-md-6">
-                {!! Form::label('education_level_id', 'Επίπεδο εκπαίδευσης:') !!}
-                {!! Form::select('education_level_id', ($ed_level), null, ['class' => 'form-control']) !!}
-                <br>
-                <br>
-
-                {!! Form::label('specialty', 'Ειδικότητα:') !!}
-                {!! Form::text('specialty', null, ['class' => 'form-control', 'id' => 'specialty', 'placeholder' =>
-                'Ειδικότητα']) !!}
-                <br>
-                <br>
-                {!! Form::label('department', 'Σχολή:') !!}
-                {!! Form::text('department', null, ['class' => 'form-control', 'id' => 'department', 'placeholder' =>
-                'Σχολή']) !!}
-                <br>
-                <br>
-                {!! Form::label('driver_license_type_id', 'Δίπλωμα οδήγησης') !!}<br>
-                {!! Form::select('driver_license_type_id', ($driver_license_type), null, ['class' => 'form-control'])
-                !!}
-
-                <br>
-                <br>
-
-                <div class="checkbox">
-                    {!! Form::label('computer_usage', 'Χρήση υπολογιστή:') !!}
-                    {!! Form::checkbox('computer_usage', null, true, ['class' => 'checker']) !!}
-                    <br>
-                    <br>
-                    {!! Form::label('additional_skills', 'Πρόσθετες ικανότητες, προσόντα και εμπειρία:') !!}
-                    {!! Form::textarea('additional_skills', null, ['class' => 'form-control', 'id' =>
-                    'additional_skills']) !!}
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {!! Form::formInput('education_level_id', 'Επίπεδο εκπαίδευσης:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $ed_level]) !!}
+                    </div>
                 </div>
-
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {!! Form::formInput('specialty', 'Ειδικότητα:', $errors, ['class' => 'form-control']) !!}
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {!! Form::formInput('department', 'Σχολή:', $errors, ['class' => 'form-control']) !!}
+                    </div>
+                </div>
             </div>
-
-            <div class="form-group col-md-6">
-                <p>Ξένες γλώσσες:</p>
-                @foreach ($languages as $language)
-                <br><br>
-
-                <p>{{ $language . ':' }}</p>
-                {!! Form::label('') !!}
-                @foreach ($lang_levels as $level)
-                <em>{{ $level }}</em>
-                {!! Form::radio('level['.$language.']', 0, false, ['class' => 'form-control']) !!}
-                {!! Form::label('') !!}
-                @endforeach
-                @endforeach
-                <br>
-                <br>
-                {!! Form::label('extra_lang', 'Άλλες γλώσσες:') !!}
-                {!! Form::textarea('extra_lang', null, ['placeholder' => 'Συμπληρώστε τις επιπλέον γλώσσες που γνωρίζετε
-                και το επιπεδό σας', 'class' => 'form-control', 'id' => 'extra_lang']) !!}
-                <br>
-                <br>
-
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::formInput('driver_license_type_id', 'Δίπλωμα οδήγησης:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $driver_license_type]) !!}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::formInput('computer_usage', 'Χρήση υπολογιστή:', $errors, ['class' => 'form-control', 'type' => 'checkbox', 'value' => false]) !!}
+                    </div>
+                </div>
             </div>
+            <div class="form-group">
+                {!! Form::formInput('additional_skills', 'Πρόσθετες ικανότητες, προσόντα και εμπειρία', $errors, ['class' => 'form-control', 'type' => 'textarea']) !!}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <p>Ξένες γλώσσες:</p>
+            @foreach ($languages as $language)
+            <div class="form-group">
+                <p> {{ $language . ':' }}</p>
+                {!! Form::label('') !!}
+                @foreach ($lang_levels as $key => $level)
+                <label><em>{{ $level }}</em>
+
+                    {!! Form::formInput('level['.$language.']', '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value' => $key]) !!}
+
+
+
+                </label>
+
+
+
+
+                @endforeach
+            </div>
+            @endforeach
+            <div class="form-group">
+                {!! Form::formInput('extra_lang', 'Άλλες γλώσσες', $errors, ['class' => 'form-control', 'type' => 'textarea', 'placeholder' => 'Συμπληρώστε τις επιπλέον γλώσσες που γνωρίζετε και το επίπεδό σας']) !!}
+            </div>
+            <br>
+            <br>
         </div>
     </div>
 </div>
-<!--
-tab4
-Εργασιακή εμπειρία και εθελοντική προσφορά.
--->
+<!-- tab4 Εργασιακή εμπειρία και εθελοντική προσφορά. -->
 <div class="tab-pane fade" id="tab4">
     <div class="row m-b-lg">
-        <div class="row">
-            <div class="form-group col-md-6">
-                <h2>Εργασιακή εμπειρία</h2>
-                {!! Form::label('work_status_id', 'Εργασιακή κατάσταση:') !!}<br>
-                {!! Form::select('work_status_id', ($work_statuses), null, ['class' => 'form-control']) !!}
-                <br>
-                <br>
-                {!! Form::label('work_description', 'Εργασία:') !!}
-                {!! Form::textarea('work_description', null, ['placeholder' => 'Περιγράψτε τη θέση σας στην παρούσα ή
-                πιο πρόσφατη εργασία.', 'class' => 'form-control', 'id' => 'work_description']) !!}
+        <div class="col-md-4">
+            <div class="form-group">
+                {!! Form::formInput('work_status_id', 'Εργασιακή κατάσταση:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $work_statuses]) !!}
             </div>
-
-            <div class="form-group col-md-6">
-                <h2>Εθελοντική προσφορά</h2>
-                {!! Form::label('participation_reason', 'Λόγος συμμετοχής:') !!}
-                {!! Form::textarea('participation_reason', null, ['placeholder' => 'Περιγράψτε τους λόγους που θέλετε να
-                γίνετε εθελοντής. ', 'class' => 'form-control', 'id' => 'participation_reason']) !!}
-                <br>
-                <br>
-                {!! Form::label('participation_actions', 'Εθελοντική οργάνωση:') !!}
-                {!! Form::textarea('participation_actions', null, ['placeholder' => 'Εαν ανήκετε ή ανήκατε σε κάποιες
-                εθελοντικές οργανώσεις ποιο ήταν το αντικείμενο τους και για πόσο χρονικό διάστημα είχατε συμετοχή.',
-                'class' => 'form-control', 'id' => 'participation_actions']) !!}
-                <br>
-                <br>
-                {!! Form::label('participation_previous', 'Εθελοντικές δράσεις:') !!}
-                {!! Form::textarea('', null, ['placeholder' => 'Εαν έχετε πάρει μέρος σε εθελοντικές δράσεις στο
-                παρελθόν περιγράψτε ποιο ήταν/είναι το αντικείμενο.', 'class' => 'form-control', 'id' =>
-                'participation_previous']) !!}
+            <div class="form-group">
+                {!! Form::formInput('work_description', 'Εργασία', $errors, ['class' => 'form-control', 'type' => 'textarea', 'placeholder' => 'Περιγράψτε τη θέση σας στην παρούσα ή πιο πρόσφατη εργασία.']) !!}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                {!! Form::formInput('participation_actions', 'Εθελοντική οργάνωση', $errors, ['class' => 'form-control', 'type' => 'textarea', 'placeholder' => 'Εαν ανήκετε ή ανήκατε σε κάποιες εθελοντικές οργανώσεις ποιο ήταν το αντικείμενο τους και για πόσο χρονικό διάστημα είχατε συμετοχή.']) !!}
+            </div>
+            <div class="form-group">
+                {!! Form::formInput('participation_previous', 'Εθελοντικές δράσεις', $errors, ['class' => 'form-control', 'type' => 'textarea', 'placeholder' => 'Εαν έχετε πάρει μέρος σε εθελοντικές δράσεις στο παρελθόν περιγράψτε ποιο ήταν/είναι το αντικείμενο.']) !!}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                {!! Form::formInput('participation_reason', 'Λόγος συμμετοχής', $errors, ['class' => 'form-control', 'type' => 'textarea', 'placeholder' => 'Περιγράψτε τους λόγους που θέλετε να γίνετε εθελοντής.']) !!}
             </div>
         </div>
     </div>
 </div>
-<!--
-tab5
-Διαθεσιμότητα.
--->
+<!-- tab5 Διαθεσιμότητα. -->
 <div class="tab-pane fade" id="tab5">
     <div class="row m-b-lg">
         <div class="row">
-            <div class="form-group col-md-6">
-                <h2>Διαθεσιμότητα:</h2>
-                {!! Form::label('availability_freqs_id', 'Συχνότητα συνεισφοράς:') !!}<br>
-                {!! Form::select('availability_freqs_id', ($availability_freqs), null, ['class' => 'form-control']) !!}
-                <br>
-                <br>
-
-                <p>Χρόνοι συνεισφοράς</p>
-                {!! Form::label('Χρόνοι συνεισφοράς:') !!}<br>
-                {!! Form::select('availability_time', ($availability_times), null, ['class' => 'form-control']) !!}
+            <div class="col-md-4">
+                <div class="form-group">
+                    {!! Form::formInput('availability_freqs_id', 'Συχνότητα συνεισφοράς:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $availability_freqs]) !!}
+                </div>
+                <div class="form-group">
+                    {!! Form::formInput('availability_time', 'Χρόνοι συνεισφοράς:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $availability_times]) !!}
+                </div>
             </div>
         </div>
     </div>
-    <ul class="pager wizard">
-        <li class="previous"><a href="#" class="btn btn-default">Previous</a></li>
-        <li class="next"><a href="#" class="btn btn-default">Next</a></li>
-    </ul>
 </div>
 {!! Form::submit('Καταχώρηση εθελοντή', ['class' => 'btn']) !!}
 {!! Form::close() !!}
 </div>
 </div>
 </div>
+</div>
+</div>
 @stop
+
+
 @section('footerScripts')
 <script>
     //datepickers for the edit form
