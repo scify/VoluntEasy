@@ -1,7 +1,7 @@
 <?php namespace App\Services;
 
 use App\Models\Volunteer;
-use App\Services\Facades\UnitService;
+use App\Services\Facades\UnitService as UnitServiceFacade;
 
 class VolunteerService
 {
@@ -14,7 +14,7 @@ class VolunteerService
      */
     public function getNew()
     {
-        $root = UnitService::getRoot();
+        $root = UnitServiceFacade::getRoot();
 
         $volunteers = null;
 
