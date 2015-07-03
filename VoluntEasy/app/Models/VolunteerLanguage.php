@@ -3,7 +3,8 @@
 use Illuminate\Database\Eloquent\Model;
 
 
-class VolunteerLanguage extends Model {
+class VolunteerLanguage extends Model
+{
 
     /**
      * The database table used by the model.
@@ -11,7 +12,6 @@ class VolunteerLanguage extends Model {
      * @var string
      */
     protected $table = 'volunteer_languages';
-
 
 
     public function language()
@@ -25,5 +25,10 @@ class VolunteerLanguage extends Model {
         return $this->belongsTo('App\Models\Descriptions\LanguageLevel', 'language_level_id', 'id');
     }
 
+
+    public function volunteer()
+    {
+        return $this->belongsTo('App\Models\Volunteer');
+    }
 
 }

@@ -7,7 +7,7 @@ use App\Http\Requests\Request;
  *
  * @package App\Http\Requests
  */
-class VolunteerFormRequest extends Request {
+class VolunteerRequest extends Request {
 
 	/**
 	 * Determine if the user is authorized to make this request.

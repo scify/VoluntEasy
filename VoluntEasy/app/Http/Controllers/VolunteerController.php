@@ -1,7 +1,9 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Http\Requests\VolunteerFormRequest as VolunteerFormRequest;
+use App\Http\Requests\VolunteerRequest;
+use App\Models\Descriptions\Language;
+use App\Models\Descriptions\LanguageLevel;
 use App\Models\Volunteer;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\VolunteerService;
@@ -85,13 +87,12 @@ class VolunteerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param VolunteerRequest $request
      * @return Response
      */
-    public function store(VolunteerFormRequest $request)
+    public function store(VolunteerRequest $request)
     {
 
-
-        dd( $request->all());
         $volunteer = new Volunteer(array(
             'name' => \Input::get('name'),
             'last_name' => \Input::get('last_name'),
@@ -106,7 +107,7 @@ class VolunteerController extends Controller
             'post_box' => intval(\Input::get('post_box')),
             'city' => \Input::get('city'),
             'country' => \Input::get('country'),
-            'live_in_curr_country' => \Input::get('live_in_curr_country'),
+            'live_in_curr_country' => intval(\Input::get('live_in_curr_country')),
             'home_tel' => \Input::get('home_tel'),
             'work_tel' => \Input::get('work_tel'),
             'cell_tel' => \Input::get('cell_tel'),
@@ -117,9 +118,8 @@ class VolunteerController extends Controller
             'specialty' => \Input::get('specialty'),
             'department' => \Input::get('department'),
             'driver_license_type_id' => intval(\Input::get('driver_license_type_id')),
-            'computer_usage' => \Input::get('computer_usage'),
+            'computer_usage' => intval(\Input::get('computer_usage')),
             'additional_skills' => \Input::get('additional_skills'),
-            // TODO: languages.
             'extra_lang' => \Input::get('extra_lang'),
             'work_status_id' => intval(\Input::get('work_status_id')),
             'work_description' => \Input::get('work_description'),
@@ -129,12 +129,24 @@ class VolunteerController extends Controller
             'availability_freqs_id' => intval(\Input::get('availability_freqs_id')),
         ));
 
+       // return $volunteer;
+
         $volunteer->save();
 
         $unit = UnitService::getRoot();
 
         $volunteer->units()->save($unit);
 
+/*
+        $languages = Language::all();
+
+        foreach($languages as $language){
+            if(\Input::has('lang'.$language->id)){
+                $level = LanguageLevel::where('id', \Input::get('lang'.$language->id))->first();
+               $volunteer->languages()->language()->associate($language);
+            }
+        }
+*/
         return 'Thanks for registering a volunteer... ID: ' . $volunteer->id;
 
         //  return Redirect::to('volunteers/listview');

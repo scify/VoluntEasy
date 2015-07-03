@@ -171,17 +171,18 @@
         </div>
         <div class="col-md-6">
             <p>Ξένες γλώσσες:</p>
-            @foreach ($languages as $language)
+            @foreach ($languages as $lan => $language)
             <div class="form-group">
                 <p> {{ $language . ':' }}</p>
                 {!! Form::label('') !!}
-                @foreach ($lang_levels as $key => $level)
+                @foreach ($lang_levels as $lev => $level)
                 <label><em>{{ $level }}</em>
-                    {!! Form::formInput('level['.$language.']', '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value' => $key]) !!}
+                    {!! Form::formInput('lang'.$lan, '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value' => $lev]) !!}
                 </label>
                 @endforeach
             </div>
             @endforeach
+
             <div class="form-group">
                 {!! Form::formInput('extra_lang', 'Άλλες γλώσσες', $errors, ['class' => 'form-control', 'type' => 'textarea', 'placeholder' => 'Συμπληρώστε τις επιπλέον γλώσσες που γνωρίζετε και το επίπεδό σας']) !!}
             </div>
