@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Session;
 
 class UnitController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth');
