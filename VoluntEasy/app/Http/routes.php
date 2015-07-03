@@ -81,3 +81,16 @@ Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 Route::get('test','TestController@test');
 
 
+
+/** aris TESTing... **/
+Route::get('aris', function()
+{
+	// return Mail::send('emails.reminder', ['user' => $user], function ($m) use ($user) {
+ //            $m->to($user->email, $user->name)->subject('Your Reminder!');
+ //        });    
+
+		return Mail::send('emails.testmail', array(),function ($m) {
+            $m->to('aris.stru@gmail.com', 'Aris')->subject('testinggggg');
+        });    
+});
+
