@@ -120,14 +120,14 @@
         };
 
         $.ajax({
-            url: '/units/users',
+            url: $("body").attr('data-url') + '/units/users',
             method: 'POST',
             data: userUnits,
             headers: {
                 'X-CSRF-Token': $('input[name="_token"]').val()
             },
             success: function (data) {
-                window.location.href = "/units/one/" + data;
+                window.location.href = $("body").attr('data-url') + "/units/one/" + data;
             }
         });
     });
@@ -145,7 +145,7 @@
         };
 
         $.ajax({
-            url: "/actions/store",
+            url: $("body").attr('data-url') + "/actions/store",
             data: action,
             type: "POST",
             headers: {
@@ -153,7 +153,7 @@
             }
         }).done(function (data) {
             console.log(data)
-            window.location.href = "/units/one/" + data;
+            window.location.href = $("body").attr('data-url') + "/units/one/" + data;
         }).fail(function (jqXHR) {
 
             if (jqXHR.status == 422) {

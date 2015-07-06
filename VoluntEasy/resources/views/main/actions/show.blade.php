@@ -98,14 +98,14 @@
         console.log(volunteersUnits);
 
         $.ajax({
-            url: '/actions/volunteers',
+            url: $("body").attr('data-url') + '/actions/volunteers',
             method: 'POST',
             data: volunteersUnits,
             headers: {
                 'X-CSRF-Token': $('meta[name="_token"]').attr('content')
             },
             success: function (data) {
-                window.location.href = "/actions/one/" + data;
+                window.location.href = $("body").attr('data-url') + "/actions/one/" + data;
             }
         });
     });

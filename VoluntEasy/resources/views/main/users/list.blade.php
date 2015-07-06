@@ -56,13 +56,13 @@
     $(".delete").click(function(){
         if (confirm("Delete user?") == true) {
             $.ajax({
-                url: '/users/delete/'+$(this).attr('data-id'),
+                url: $("body").attr('data-url') + '/users/delete/'+$(this).attr('data-id'),
                 method: 'POST',
                 headers: {
                     'X-CSRF-Token': $('#token').val()
                 },
                 success: function (data) {
-                    window.location.href = "/users";
+                    window.location.href = $("body").attr('data-url') + "/users";
                 }
             });
         }

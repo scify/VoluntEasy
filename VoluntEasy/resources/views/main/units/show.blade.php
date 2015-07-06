@@ -120,14 +120,14 @@
         console.log(volunteersUnits);
 
         $.ajax({
-            url: '/units/volunteers',
+            url: $("body").attr('data-url') + '/units/volunteers',
             method: 'POST',
             data: volunteersUnits,
             headers: {
                 'X-CSRF-Token': $('meta[name="_token"]').attr('content')
             },
             success: function (data) {
-                window.location.href = "/units/one/" + data;
+                window.location.href = $("body").attr('data-url') + "/units/one/" + data;
             }
         });
     });

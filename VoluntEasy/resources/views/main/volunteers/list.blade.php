@@ -33,7 +33,7 @@
                      <tr>
                         <td>{{ $volunteer->id }}</td>
                         <td>
-                            <a href="{{ url('volunteer/one/'.$volunteer->id) }}">{{ $volunteer->name }} {{ $volunteer->last_name }} </a></td>
+                            <a href="{{ url('volunteers/one/'.$volunteer->id) }}">{{ $volunteer->name }} {{ $volunteer->last_name }} </a></td>
                         <td>{{ $volunteer->email }}</td>
                         <td>{{ $volunteer->address}}</td>
                         <td>{{ $volunteer->tel }}</td>
@@ -67,13 +67,13 @@
     $(".delete").click(function(){
         if (confirm("Delete user?") == true) {
             $.ajax({
-                url: '/users/delete/'+$(this).attr('data-id'),
+                url: $("body").attr('data-url') + '/users/delete/'+$(this).attr('data-id'),
                 method: 'POST',
                 headers: {
                     'X-CSRF-Token': $('#token').val()
                 },
                 success: function (data) {
-                    window.location.href = "/users";
+                    window.location.href = $("body").attr('data-url') + "/users";
                 }
             });
         }
