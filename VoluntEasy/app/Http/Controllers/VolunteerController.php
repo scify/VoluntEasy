@@ -5,19 +5,17 @@ use App\Http\Requests\VolunteerRequest;
 use App\Models\Descriptions\Language;
 use App\Models\Descriptions\LanguageLevel;
 use App\Models\Volunteer;
+use App\Models\VolunteerLanguage;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\VolunteerService;
 use DB;
 
-class VolunteerController extends Controller
-{
-    public function __construct()
-    {
+class VolunteerController extends Controller {
+    public function __construct() {
         $this->middleware('auth');
     }
 
-    public function all()
-    {
+    public function all() {
         $vol = Volunteer::all();
 
         $vol->load('availabilityFrequencies', 'availabilityTimes', 'driverLicenceType', 'identificationType', 'maritalStatus', 'interests');
@@ -34,8 +32,7 @@ class VolunteerController extends Controller
      *
      * @return Response
      */
-    public function index()
-    {
+    public function index() {
         $volunteers = Volunteer::with('units', 'actions')->get();
 
         return view('main.volunteers.list', compact('volunteers'));
@@ -46,8 +43,7 @@ class VolunteerController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function newVolunteer()
-    {
+    public function newVolunteer() {
         return view('main.volunteers.new');
     }
 
@@ -57,8 +53,7 @@ class VolunteerController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function statistics()
-    {
+    public function statistics() {
         return view('main.volunteers.statistics');
     }
 
@@ -67,8 +62,7 @@ class VolunteerController extends Controller
      *
      * @return Response
      */
-    public function create()
-    {
+    public function create() {
         $identityTypes = DB::table('identification_types')->lists('description', 'id');
         $driverLicenses = DB::table('driver_license_types')->lists('description', 'id');
         $maritalTypes = DB::table('marital_statuses')->lists('description', 'id');
@@ -90,8 +84,7 @@ class VolunteerController extends Controller
      * @param VolunteerRequest $request
      * @return Response
      */
-    public function store(VolunteerRequest $request)
-    {
+    public function store(VolunteerRequest $request) {
 
         $volunteer = new Volunteer(array(
             'name' => \Input::get('name'),
@@ -129,7 +122,7 @@ class VolunteerController extends Controller
             'availability_freqs_id' => intval(\Input::get('availability_freqs_id')),
         ));
 
-       // return $volunteer;
+        // return $volunteer;
 
         $volunteer->save();
 
@@ -137,16 +130,25 @@ class VolunteerController extends Controller
 
         $volunteer->units()->save($unit);
 
-/*
+
         $languages = Language::all();
 
-        foreach($languages as $language){
-            if(\Input::has('lang'.$language->id)){
-                $level = LanguageLevel::where('id', \Input::get('lang'.$language->id))->first();
-               $volunteer->languages()->language()->associate($language);
+        //Get all languages, and check if they are selected
+        foreach ($languages as $language) {
+            if (\Input::has('lang' . $language->id)) {
+                $level = LanguageLevel::where('id', \Input::get('lang' . $language->id))->first();
+
+                //create a new VolunteerLanguage that has
+                $volLanguage = new VolunteerLanguage([
+                    'volunteer_id' => $volunteer->id,
+                    'language_id' => $language->id,
+                    'language_level_id' => \Input::get('lang' . $language->id)
+                ]);
+
+                $volunteer->languages()->save($volLanguage);
             }
         }
-*/
+
         return 'Thanks for registering a volunteer... ID: ' . $volunteer->id;
 
         //  return Redirect::to('volunteers/listview');
@@ -158,8 +160,7 @@ class VolunteerController extends Controller
      * @param  int $id
      * @return Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         //
     }
 
@@ -169,8 +170,7 @@ class VolunteerController extends Controller
      * @param  int $id
      * @return Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         //
     }
 
@@ -180,8 +180,7 @@ class VolunteerController extends Controller
      * @param  int $id
      * @return Response
      */
-    public function update($id)
-    {
+    public function update($id) {
         //
     }
 
@@ -191,13 +190,11 @@ class VolunteerController extends Controller
      * @param  int $id
      * @return Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         //
     }
 
-    public function getNew()
-    {
+    public function getNew() {
         return VolunteerService::getNew();
     }
 

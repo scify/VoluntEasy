@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateVolunteerTable extends Migration {
@@ -10,59 +9,49 @@ class CreateVolunteerTable extends Migration {
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('identification_types', function($table)
-        {
+    public function up() {
+        Schema::create('identification_types', function ($table) {
             $table->increments('id');
             $table->string('description', 50);
         });
 
-        Schema::create('marital_statuses', function($table)
-        {
+        Schema::create('marital_statuses', function ($table) {
             $table->increments('id');
             $table->string('description', 100)->nullable;
         });
 
-        Schema::create('driver_license_types', function($table)
-        {
+        Schema::create('driver_license_types', function ($table) {
             $table->increments('id');
             $table->string('description', 100)->nullable();
         });
 
-        Schema::create('availability_freqs', function($table)
-        {
+        Schema::create('availability_freqs', function ($table) {
             $table->increments('id');
             $table->string('description', 100);
         });
 
 
-        Schema::create('work_statuses', function($table)
-        {
+        Schema::create('work_statuses', function ($table) {
             $table->increments('id');
             $table->string('description', 300);
         });
 
-	Schema::create('genders', function($table)
-	{
-	    $table->increments('id');
-	    $table->string('description', 50);
-	});
+        Schema::create('genders', function ($table) {
+            $table->increments('id');
+            $table->string('description', 50);
+        });
 
-	Schema::create('education_levels', function($table)
-	{
-	    $table->increments('id');
-	    $table->string('description', 50);
-	});
+        Schema::create('education_levels', function ($table) {
+            $table->increments('id');
+            $table->string('description', 50);
+        });
 
-	Schema::create('comm_method', function($table)
-	{
-	    $table->increments('id');
-	    $table->string('description', 200);
-	});
+        Schema::create('comm_method', function ($table) {
+            $table->increments('id');
+            $table->string('description', 200);
+        });
 
-        Schema::create('volunteers', function($table)
-        {
+        Schema::create('volunteers', function ($table) {
             $table->increments('id');
             $table->string('name', 100);
             $table->string('last_name', 100);
@@ -92,12 +81,12 @@ class CreateVolunteerTable extends Migration {
             $table->text('comments', 300)->nullable();
             $table->timestamps();
 
-	    $table->integer('gender_id')->unsigned();
-	    $table->foreign('gender_id')->references('id')->on('genders');
-	    $table->integer('education_level_id')->unsigned();
-	    $table->foreign('education_level_id')->references('id')->on('education_levels');
-	    $table->integer('comm_method_id')->unsigned()->nullable();
-	    $table->foreign('comm_method_id')->references('id')->on('comm_method');
+            $table->integer('gender_id')->unsigned();
+            $table->foreign('gender_id')->references('id')->on('genders');
+            $table->integer('education_level_id')->unsigned();
+            $table->foreign('education_level_id')->references('id')->on('education_levels');
+            $table->integer('comm_method_id')->unsigned()->nullable();
+            $table->foreign('comm_method_id')->references('id')->on('comm_method');
             $table->integer('identification_type_id')->unsigned();
             $table->foreign('identification_type_id')->references('id')->on('identification_types');
             $table->integer('marital_status_id')->unsigned()->nullable();
@@ -110,14 +99,12 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('work_status_id')->references('id')->on('work_statuses');
         });
 
-        Schema::create('availability_time', function($table)
-        {
+        Schema::create('availability_time', function ($table) {
             $table->increments('id');
             $table->string('description', 100);
         });
 
-        Schema::create('volunteer_availability_times', function($table)
-        {
+        Schema::create('volunteer_availability_times', function ($table) {
             $table->increments('id');
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
@@ -125,8 +112,7 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('availability_time_id')->references('id')->on('availability_time');
         });
 
-        Schema::create('actions_volunteers', function($table)
-        {
+        Schema::create('actions_volunteers', function ($table) {
             $table->increments('id');
             $table->integer('action_id')->unsigned();
             $table->foreign('action_id')->references('id')->on('actions');
@@ -134,23 +120,20 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
         });
 
-        Schema::create('units_volunteers', function($table)
-        {
+        Schema::create('units_volunteers', function ($table) {
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
             $table->integer('unit_id')->unsigned();
             $table->foreign('unit_id')->references('id')->on('units');
         });
 
-        Schema::create('interests', function($table)
-        {
+        Schema::create('interests', function ($table) {
             $table->increments('id');
             $table->text('category', 100);
             $table->text('description', 100);
         });
 
-        Schema::create('volunteer_interests', function($table)
-        {
+        Schema::create('volunteer_interests', function ($table) {
             $table->increments('id');
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
@@ -158,21 +141,19 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('interest_id')->references('id')->on('interests');
         });
 
-        Schema::create('languages', function($table)
-        {
+        Schema::create('languages', function ($table) {
             $table->increments('id');
             $table->string('description', 50);
         });
 
-        Schema::create('language_levels', function($table)
-        {
+        Schema::create('language_levels', function ($table) {
             $table->increments('id');
             $table->string('description', 50);
         });
 
-        Schema::create('volunteer_languages', function($table)
-        {
+        Schema::create('volunteer_languages', function ($table) {
             $table->increments('id');
+            $table->timestamps();
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
             $table->integer('language_id')->unsigned();
@@ -181,14 +162,12 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('language_level_id')->references('id')->on('language_levels');
         });
 
-        Schema::create('volunteer_statuses', function($table)
-        {
+        Schema::create('volunteer_statuses', function ($table) {
             $table->increments('id');
             $table->text('description');
         });
 
-        Schema::create('volunteer_step_status', function($table)
-        {
+        Schema::create('volunteer_step_status', function ($table) {
             $table->increments('id');
             $table->string('description', 300);
             $table->string('comments', 300)->nullable;
@@ -200,8 +179,7 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('step_status_id')->references('id')->on('step_statuses');
         });
 
-        Schema::create('volunteer_step_history', function($table)
-        {
+        Schema::create('volunteer_step_history', function ($table) {
             $table->increments('id');
             $table->date('date');
             $table->integer('volunteer_id')->unsigned();
@@ -214,8 +192,7 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('new_step_status_id')->references('id')->on('step_statuses');
         });
 
-        Schema::create('volunteer_action_status', function($table)
-        {
+        Schema::create('volunteer_action_status', function ($table) {
             $table->increments('id');
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
@@ -225,8 +202,7 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('action_status_id')->references('id')->on('volunteer_statuses');
         });
 
-        Schema::create('volunteer_action_history', function($table)
-        {
+        Schema::create('volunteer_action_history', function ($table) {
             $table->increments('id');
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
@@ -238,8 +214,7 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('new_action_status_id')->references('id')->on('volunteer_statuses');
         });
 
-        Schema::create('volunteer_unit_status', function($table)
-        {
+        Schema::create('volunteer_unit_status', function ($table) {
             $table->increments('id');
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
@@ -249,8 +224,7 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('unit_status_id')->references('id')->on('volunteer_statuses');
         });
 
-        Schema::create('volunteer_unit_history', function($table)
-        {
+        Schema::create('volunteer_unit_history', function ($table) {
             $table->increments('id');
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
@@ -269,8 +243,7 @@ class CreateVolunteerTable extends Migration {
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('volunteer_unit_history');
         Schema::dropIfExists('volunteer_unit_status');
         Schema::dropIfExists('volunteer_action_history');

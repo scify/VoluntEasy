@@ -40,6 +40,7 @@ Route::get('rootUnit', 'UnitController@rootUnit');
 
 //Volunteer Routes
 Route::get('volunteers','VolunteerController@index');
+Route::get('volunteers/all','VolunteerController@all');
 Route::get('volunteers/new','VolunteerController@getNew');
 Route::get('volunteers/create', 'VolunteerController@create');
 Route::post('volunteers/store', 'VolunteerController@store');

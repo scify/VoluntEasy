@@ -13,6 +13,8 @@ class VolunteerLanguage extends Model
      */
     protected $table = 'volunteer_languages';
 
+    protected $fillable = ['volunteer_id', 'language_id', 'language_level_id'];
+
 
     public function language()
     {
