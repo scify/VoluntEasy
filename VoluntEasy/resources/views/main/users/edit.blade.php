@@ -91,7 +91,7 @@
                 'X-CSRF-Token': $('input[name="_token"]').val()
             },
             success: function (data) {
-                window.location.href = "/users/one/" + data;
+                window.location.href = $("body").attr('data-url')+"/users/one/" + data;
             }
         });
     })
