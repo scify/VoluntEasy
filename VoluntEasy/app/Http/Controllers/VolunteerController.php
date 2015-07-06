@@ -9,6 +9,9 @@ use App\Models\VolunteerLanguage;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\VolunteerService;
 use DB;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\URL;
 
 class VolunteerController extends Controller {
     public function __construct() {
@@ -16,6 +19,7 @@ class VolunteerController extends Controller {
     }
 
     public function all() {
+
         $vol = Volunteer::all();
 
         $vol->load('availabilityFrequencies', 'availabilityTimes', 'driverLicenceType', 'identificationType', 'maritalStatus', 'interests');
@@ -148,9 +152,7 @@ class VolunteerController extends Controller {
                 $volunteer->languages()->save($volLanguage);
             }
         }
-
         return 'Thanks for registering a volunteer... ID: ' . $volunteer->id;
-
         //  return Redirect::to('volunteers/listview');
     }
 

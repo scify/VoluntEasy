@@ -9,7 +9,7 @@
     </head>
 
 
-    <body class="page-header-fixed">
+    <body class="page-header-fixed" data-url="{!! URL::to('/') !!}">
         <main class="page-content content-wrap">
             <!-- Navbar/TopBar -->
             @include('template.default.topBar')

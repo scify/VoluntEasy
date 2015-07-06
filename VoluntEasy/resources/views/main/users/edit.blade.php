@@ -70,6 +70,7 @@
     });
 
 
+
     $("#save").click(function () {
 
         var activeLis = [];
@@ -83,7 +84,7 @@
         };
 
         $.ajax({
-            url: 'users/units',
+            url: $("body").attr('data-url')+'/users/units',
             method: 'POST',
             data: userUnits,
             headers: {
