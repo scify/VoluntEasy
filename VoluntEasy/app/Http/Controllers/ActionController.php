@@ -25,7 +25,8 @@ class ActionController extends Controller
      */
     public function index()
     {
-        $actions = Action::with('unit')->get();
+        $actions = Action::with('unit')->paginate(5);
+        $actions->setPath(\URL::to('/').'/actions');
 
         $userUnits = UserService::userUnits();
 

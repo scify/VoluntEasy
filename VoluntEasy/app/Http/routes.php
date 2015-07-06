@@ -53,8 +53,6 @@ Route::get('volunteers/new','TestController@newVolunteers');
 
 
 
-
-
 //Action Routes
 Route::get('actions','ActionController@index');
 Route::get('actions/one/{id}', ['as' => 'action/one', 'uses' => 'ActionController@show']);

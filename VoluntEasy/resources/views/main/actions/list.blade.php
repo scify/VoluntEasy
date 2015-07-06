@@ -52,6 +52,7 @@
                     @endforeach
                     </tbody>
                 </table>
+                {!! $actions->render() !!}
             </div>
         </div>
     </div>

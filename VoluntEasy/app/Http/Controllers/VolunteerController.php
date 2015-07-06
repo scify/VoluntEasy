@@ -37,7 +37,8 @@ class VolunteerController extends Controller {
      * @return Response
      */
     public function index() {
-        $volunteers = Volunteer::with('units', 'actions')->get();
+        $volunteers = Volunteer::with('units', 'actions')->paginate(5);
+        $volunteers->setPath(\URL::to('/').'/volunteers');
 
         return view('main.volunteers.list', compact('volunteers'));
     }

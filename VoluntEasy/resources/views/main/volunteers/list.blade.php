@@ -69,6 +69,7 @@
                  @endforeach
                  </tbody>
               </table>
+              {!! $volunteers->render() !!}
            </div>
         </div>
     </div>
