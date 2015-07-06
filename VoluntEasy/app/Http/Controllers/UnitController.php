@@ -25,7 +25,7 @@ class UnitController extends Controller {
      */
     public function index() {
         $units = Unit::orderBy('description', 'ASC')->with('parent')->paginate(5);
-        $units->setPath(\URL::to('/'));
+        $units->setPath(\URL::to('/').'/units');
 
         $userUnits = UserService::userUnits();
 
