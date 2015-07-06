@@ -13,20 +13,19 @@
 <div class="panel panel-white">
 <div class="panel-body">
 <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-user m-r-xs"></i>Ατομικά
+    <li role="presentation" class="active"><a href="#tab1" data-toggle="tab" class="{{ $errors->has('name') || $errors->has('last_name') || $errors->has('fathers_name') ||$errors->has('birth_date') ? 'tab has-error' : ''}}"><i class="fa fa-user m-r-xs"></i>Ατομικά
         Στοιχεία</a></li>
-    <li role="presentation"><a href="#tab2" data-toggle="tab"><i class="fa fa-phone m-r-xs"></i>Στοιχεία
+    <li role="presentation"><a href="#tab2" data-toggle="tab" class="{{ $errors->has('email') ? 'tab has-error' : ''}}"><i class="fa fa-phone m-r-xs"></i>Στοιχεία
         Επικοινωνίας</a></li>
     <li role="presentation"><a href="#tab3" data-toggle="tab"><i class="fa fa-university m-r-xs"></i>Εκπαίδευση &
         Ικανότητες</a></li>
-    <li role="presentation"><a href="#tab4" data-toggle="tab"><i class="fa fa-cog m-r-xs"></i>Εργασιακή Εμπειρία &
+    <li role="presentation"><a href="#tab4" data-toggle="tab" class="{{ $errors->has('participation_reason') ? 'tab has-error' : ''}}"><i class="fa fa-cog m-r-xs"></i>Εργασιακή Εμπειρία &
         Εθελοντική Προσφορά</a></li>
     <li role="presentation"><a href="#tab5" data-toggle="tab"><i class="fa fa-clock-o m-r-xs"></i>Διαθεσιμότητα</a>
     </li>
 </ul>
 {!! Form::open(['id' => 'wizardForm', 'method' => 'POST', 'action' => ['VolunteerController@store']]) !!}
 <div class="tab-content">
-
 <!-- tab1 Ατομικά στοιχεία.-->
 <div class="tab-pane active fade in" id="tab1">
     <div class="row m-b-lg">
