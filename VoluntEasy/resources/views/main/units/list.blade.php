@@ -8,6 +8,23 @@
 @stop
 
 @section('bodyContent')
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading clearfix">
+                <h4 class="panel-title">Αναζήτηση</h4>
+            </div>
+            <div class="panel-body">
+                {!! Form::open(['method' => 'POST', 'action' => ['UnitController@search']]) !!}
+                @include('main.units.partials._search')
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-white">
@@ -28,7 +45,11 @@
                     @foreach ($units as $unit)
                     <tr>
                         <td>{{ $unit->id }}</td>
-                        <td><a href="{{ url('units/one/'.$unit->id) }}">{{ $unit->description }}</a></td>
+                        <td><a href="{{ url('units/one/'.$unit->id) }}">{{ $unit->description }}</a><br/>
+                            @if($unit->parent!=null)
+                            <small>Ανήκει σε {{ $unit->parent->description }}</small>
+                            @endif
+                        </td>
                         <td>{{ $unit->comments }}</td>
                         <td>
                             @if(in_array($unit->id, $userUnits))

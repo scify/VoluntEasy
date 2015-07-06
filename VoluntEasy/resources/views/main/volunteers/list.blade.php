@@ -12,6 +12,21 @@
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-white">
+            <div class="panel-heading clearfix">
+                <h4 class="panel-title">Αναζήτηση</h4>
+            </div>
+            <div class="panel-body">
+                {!! Form::open(['method' => 'POST', 'action' => ['VolunteerController@search'], 'class' => 'form-inline']) !!}
+                @include('main.volunteers.partials._search')
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
            <div class="panel-heading clearfix">
               <h4 class="panel-title">Εθελοντές</h4>
            </div>

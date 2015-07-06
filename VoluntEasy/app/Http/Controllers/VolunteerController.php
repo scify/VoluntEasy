@@ -196,6 +196,19 @@ class VolunteerController extends Controller {
         //
     }
 
+    /**
+     * Search all volunteers
+     *
+     * @return mixed
+     */
+    public function search() {
+
+        $volunteers = VolunteerService::search();
+
+        return view("main.volunteers.list", compact('volunteers'));
+    }
+
+
     public function getNew() {
         return VolunteerService::getNew();
     }

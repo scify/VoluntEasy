@@ -2,9 +2,14 @@
 
 use App\Models\Unit;
 
-class UnitService
-{
+class UnitService {
 
+    /**
+     * This array holds the names of the filters that the user is able to search by.
+     * Filters correspond to column names.
+     * @var array
+     */
+    private $filters = ['description' => 'like%'];
 
     /**
      * Get the type of each unit.
@@ -15,8 +20,7 @@ class UnitService
      * @param Unit $unit
      * @return string
      */
-    public function type(Unit $unit)
-    {
+    public function type(Unit $unit) {
         if ($unit->parent_unit_id == null)
             return 'root';
         else if ($unit->parent_unit_id != null && $unit->allChildren != null && sizeof($unit->allChildren) > 0)
@@ -30,8 +34,7 @@ class UnitService
      *
      * @return mixed
      */
-    public function getRoot()
-    {
+    public function getRoot() {
         $root = Unit::whereNull('parent_unit_id')->first();
 
         return $root;
@@ -43,13 +46,41 @@ class UnitService
      *
      * @return mixed
      */
-    public function getTree()
-    {
+    public function getTree() {
         $tree = Unit::whereNull('parent_unit_id')->with('allChildren')->first();
 
         return $tree;
     }
 
+
+    /**
+     * Dynamic search chains a lot of queries depending on the filters sent by the user.
+     *
+     * @return mixed
+     */
+    public function search() {
+
+        $query = Unit::select();
+
+        foreach ($this->filters as $column => $filter) {
+            if (\Input::has($column)) {
+                switch($filter) {
+                    case '=':
+                        $query->where($column, '=', \Input::get($column));
+                        break;
+                    case 'like%':
+                        $query->where($column, 'like', \Input::get($column).'%');
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        $result = $query->orderBy('description', 'ASC')->with('parent')->paginate(5);
+
+        return $result;
+    }
 
 
 }

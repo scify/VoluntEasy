@@ -22,7 +22,7 @@ Route::post('users/units', 'UserController@addUnits');
 
 
 //Unit Routes
-Route::get('units','UnitController@index');
+Route::get('units', ['as' => 'units', 'uses' => 'UnitController@index']);
 Route::get('units/tree/{id}','UnitController@tree');
 Route::get('units/one/{id}', ['as' => 'unit/one', 'uses' => 'UnitController@show']);
 Route::get('units/create', 'UnitController@create');
@@ -32,6 +32,8 @@ Route::post('units/store', 'UnitController@store');
 Route::post('units/update', 'UnitController@update');
 Route::post('units/users', 'UnitController@addUsers');
 Route::post('units/volunteers', 'UnitController@addVolunteers');
+Route::post('units/search', 'UnitController@search');
+Route::post('units/results', 'UnitController@results');
 Route::get('wholeTree', 'UnitController@wholeTree');
 Route::get('rootUnit', 'UnitController@rootUnit');
 
@@ -44,6 +46,7 @@ Route::get('volunteers/all','VolunteerController@all');
 Route::get('volunteers/new','VolunteerController@getNew');
 Route::get('volunteers/create', 'VolunteerController@create');
 Route::post('volunteers/store', 'VolunteerController@store');
+Route::post('volunteers/search', 'VolunteerController@search');
 
 /**  test remove */
 Route::get('volunteers/new','TestController@newVolunteers');

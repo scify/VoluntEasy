@@ -12,10 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
-class UnitController extends Controller
-{
-    public function __construct()
-    {
+class UnitController extends Controller {
+    public function __construct() {
         $this->middleware('auth');
         $this->middleware('permissions.unit', ['only' => ['edit']]);
     }
@@ -25,9 +23,8 @@ class UnitController extends Controller
      *
      * @return Response
      */
-    public function index()
-    {
-        $units = Unit::orderBy('description', 'ASC')->paginate(5);
+    public function index() {
+        $units = Unit::orderBy('description', 'ASC')->with('parent')->paginate(5);
 
         $userUnits = UserService::userUnits();
 
@@ -39,8 +36,7 @@ class UnitController extends Controller
      *
      * @return mixed
      */
-    public function tree($id)
-    {
+    public function tree($id) {
         $unit = Unit::where('id', $id)->with('allChildren')->first();
 
         return $unit;
@@ -53,8 +49,7 @@ class UnitController extends Controller
      *
      * @return Response
      */
-    public function create()
-    {
+    public function create() {
         $root = UnitService::getRoot();
 
         $userUnits = UserService::userUnits();
@@ -77,8 +72,7 @@ class UnitController extends Controller
      * @param UnitRequest $request
      * @return Response
      */
-    public function store(UnitRequest $request)
-    {
+    public function store(UnitRequest $request) {
         $unit = Unit::create($request->all());
 
         $unit->steps()->saveMany($this->createSteps());
@@ -92,8 +86,7 @@ class UnitController extends Controller
      * @param  int $id
      * @return Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         $active = Unit::findOrFail($id);
 
         $active->load('actions', 'volunteers');
@@ -125,8 +118,7 @@ class UnitController extends Controller
      * @param  int $id
      * @return Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         $active = Unit::where('id', $id)->with('users', 'actions')->first();
 
         //display all the users in the front end
@@ -147,8 +139,7 @@ class UnitController extends Controller
      * @param  UnitRequest $request
      * @return Response
      */
-    public function update(UnitRequest $request)
-    {
+    public function update(UnitRequest $request) {
         $unit = Unit::findOrFail($request->get('id'));
 
         $unit->update($request->all());
@@ -162,8 +153,7 @@ class UnitController extends Controller
      * @param  int $id
      * @return Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         $unit = Unit::findOrFail($id);
         $unit->load('actions');
         $unit->load('allChildren');
@@ -171,28 +161,28 @@ class UnitController extends Controller
         $unit->load('volunteers');
 
         //if the unit has actions, do not delete
-        if(sizeof($unit->actions)>0){
+        if (sizeof($unit->actions) > 0) {
             Session::flash('flash_message', 'Η οργανωτική μονάδα περιέχει δράσεις και δεν μπορεί να διαγραφεί.');
             Session::flash('flash_type', 'alert-danger');
 
             return Redirect::to('units');
         }
         //if the unit has children units, do not delete
-        if(sizeof($unit->allChildren)>0){
+        if (sizeof($unit->allChildren) > 0) {
             Session::flash('flash_message', 'Η οργανωτική μονάδα δεν μπορεί να διαγραφεί γιατί εξαρτώνται άλλες μονάδες από αυτή.');
             Session::flash('flash_type', 'alert-danger');
 
             return Redirect::back();
         }
         //if the unit has volunteers, do not delete
-        if(sizeof($unit->volunteers)>0){
+        if (sizeof($unit->volunteers) > 0) {
             Session::flash('flash_message', 'Η οργανωτική μονάδα περιέχει εθελοντές και δεν μπορεί να διαγραφεί.');
             Session::flash('flash_type', 'alert-danger');
 
             return Redirect::back();
         }
         //if the unit has users, do not delete
-        if(sizeof($unit->users)>0){
+        if (sizeof($unit->users) > 0) {
             Session::flash('flash_message', 'Η οργανωτική μονάδα περιέχει χρήστες και δεν μπορεί να διαγραφεί.');
             Session::flash('flash_type', 'alert-danger');
 
@@ -205,14 +195,27 @@ class UnitController extends Controller
         return Redirect::back();
     }
 
-    public function rootUnit()
-    {
+    /**
+     * Search all units
+     *
+     * @return mixed
+     */
+    public function search() {
+
+        $units = UnitService::search();
+
+        $userUnits = UserService::userUnits();
+
+        return view("main.units.list", compact('units', 'userUnits'));
+    }
+
+
+    public function rootUnit() {
         return view('auth/rootUnit');
     }
 
 
-    public function wholeTree()
-    {
+    public function wholeTree() {
         $tree = UnitService::getTree();
 
         $userUnits = UserService::userUnits();
@@ -226,8 +229,7 @@ class UnitController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function addUsers(Request $request)
-    {
+    public function addUsers(Request $request) {
         $unit = Unit::findOrFail($request->get('id'));
 
         $unit->users()->sync($request->get('users'));
@@ -241,8 +243,7 @@ class UnitController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function addVolunteers(Request $request)
-    {
+    public function addVolunteers(Request $request) {
         $unit = Unit::findOrFail($request->get('id'));
 
         $unit->volunteers()->sync($request->get('volunteers'));
@@ -256,8 +257,7 @@ class UnitController extends Controller
      *
      * @return array
      */
-    public function createSteps()
-    {
+    public function createSteps() {
         $steps = [
             new Step([
                 'description' => 'Επικοινωνία με εθελοντή',
