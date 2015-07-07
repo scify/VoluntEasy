@@ -47,6 +47,10 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
             $volunteerStatuses = VolunteerStatus::all()->lists('description', 'id');
 
+            $maritalStatuses[0]='Οικογενειακή Κατάσταση';
+            ksort($maritalStatuses);
+
+
             $view->with('maritalStatuses', $maritalStatuses)
                 ->with( 'identificationTypes', $identificationTypes)
                 ->with('driverLicenseTypes', $driverLicenseTypes)
