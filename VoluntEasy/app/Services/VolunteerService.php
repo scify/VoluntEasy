@@ -14,6 +14,7 @@ class VolunteerService {
         'name' => 'like%',
         'last_name' => 'like%',
         'email' => '=',
+        'marital_status_id' =>'=',
     ];
 
     /**

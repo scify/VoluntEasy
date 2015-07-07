@@ -148,6 +148,7 @@ return [
 		'App\Providers\EventServiceProvider',
         'App\Providers\MacroServiceProvider',
 		'App\Providers\RouteServiceProvider',
+		'App\Providers\ViewComposerServiceProvider',
 
 	],
 

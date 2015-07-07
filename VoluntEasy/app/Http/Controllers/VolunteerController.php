@@ -2,16 +2,22 @@
 
 use App\Http\Requests;
 use App\Http\Requests\VolunteerRequest;
+use App\Models\Descriptions\AvailabilityFrequencies;
+use App\Models\Descriptions\AvailabilityTime;
+use App\Models\Descriptions\CommunicationMethod;
+use App\Models\Descriptions\DriverLicenceType;
+use App\Models\Descriptions\EducationLevel;
+use App\Models\Descriptions\Gender;
+use App\Models\Descriptions\IdentificationType;
 use App\Models\Descriptions\Language;
 use App\Models\Descriptions\LanguageLevel;
+use App\Models\Descriptions\MaritalStatus;
+use App\Models\Descriptions\WorkStatus;
 use App\Models\Volunteer;
 use App\Models\VolunteerLanguage;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\VolunteerService;
 use DB;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\URL;
 
 class VolunteerController extends Controller {
     public function __construct() {
@@ -38,7 +44,6 @@ class VolunteerController extends Controller {
      */
     public function index() {
         $volunteers = Volunteer::with('units', 'actions')->paginate(5);
-        $volunteers->setPath(\URL::to('/').'/volunteers');
 
         return view('main.volunteers.list', compact('volunteers'));
     }
@@ -68,19 +73,21 @@ class VolunteerController extends Controller {
      * @return Response
      */
     public function create() {
-        $identityTypes = DB::table('identification_types')->lists('description', 'id');
-        $driverLicenses = DB::table('driver_license_types')->lists('description', 'id');
-        $maritalTypes = DB::table('marital_statuses')->lists('description', 'id');
-        $languages = DB::table('languages')->lists('description', 'id');
-        $lang_levels = DB::table('language_levels')->lists('description', 'id');
-        $work_statuses = DB::table('work_statuses')->lists('description', 'id');
-        $availability_freqs = DB::table('availability_freqs')->lists('description', 'id');
-        $availability_times = DB::table('availability_time')->lists('description', 'id');
-        $genders = DB::table('genders')->lists('description', 'id');
-        $comm_method = DB::table('comm_method')->lists('description', 'id');
-        $ed_level = DB::table('education_levels')->lists('description', 'id');
 
-        return view('main.volunteers.new')->with('id_type', $identityTypes)->with('driver_license_type', $driverLicenses)->with('marital_status', $maritalTypes)->with('languages', $languages)->with('lang_levels', $lang_levels)->with('work_statuses', $work_statuses)->with('availability_freqs', $availability_freqs)->with('availability_times', $availability_times)->with('genders', $genders)->with('comm_method', $comm_method)->with('ed_level', $ed_level);
+        $identificationTypes = IdentificationType::all()->lists('description', 'id');
+        $driverLicenseTypes = DriverLicenceType::all()->lists('description', 'id');
+        $maritalStatuses = MaritalStatus::all()->lists('description', 'id');
+        $languages = Language::all()->lists('description', 'id');
+        $langLevels = LanguageLevel::all()->lists('description', 'id');
+        $workStatuses = WorkStatus::all()->lists('description', 'id');
+        $availabilityFreqs = AvailabilityFrequencies::all()->lists('description', 'id');
+        $availabilityTimes = AvailabilityTime::all()->lists('description', 'id');
+        $genders = Gender::all()->lists('description', 'id');
+        $commMethod = CommunicationMethod::all()->lists('description', 'id');
+        $edLevel = EducationLevel::all()->lists('description', 'id');
+
+        return view('main.volunteers.new', compact('identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
+                    'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'genders', 'commMethod', 'edLevel'));
     }
 
     /**
@@ -206,7 +213,11 @@ class VolunteerController extends Controller {
 
         $volunteers = VolunteerService::search();
 
-        return view("main.volunteers.list", compact('volunteers'));
+        $identityTypes = DB::table('identification_types')->lists('description', 'id');
+        $driverLicenses = DB::table('driver_license_types')->lists('description', 'id');
+        $maritalStatus = DB::table('marital_statuses')->lists('description', 'id');
+
+        return view("main.volunteers.list", compact('volunteers', 'identityTypes', 'driverLicenses', 'maritalStatus'));
     }
 
 

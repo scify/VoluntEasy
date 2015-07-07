@@ -16,6 +16,10 @@
         <div class="form-group">
             {!! Form::formInput('home_tel', '', $errors, ['class' => 'form-control', 'placeholder' => 'Τηλέφωνο']) !!}
         </div>
+        <div class="form-group">
+        {!! Form::formInput('marital_status_id', '', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $maritalStatuses]) !!}
+        </div>
+
 
         <div class="form-group ">
             <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>

@@ -79,7 +79,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        {!! Form::formInput('identification_type_id', 'Τύπος ταυτότητας:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $id_type]) !!}
+                        {!! Form::formInput('identification_type_id', 'Τύπος ταυτότητας:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $identificationTypes]) !!}
                     </div>
                 </div>
                 <div class="col-md-8">
@@ -91,7 +91,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::formInput('marital_status_id', 'Οικογενειακή κατάσταση:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $marital_status]) !!}
+                        {!! Form::formInput('marital_status_id', 'Οικογενειακή κατάσταση:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $maritalStatuses]) !!}
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -126,7 +126,7 @@
                 {!! Form::formInput('email', 'Email:', $errors, ['class' => 'form-control']) !!}
             </div>
             <div class="form-group">
-                {!! Form::formInput('comm_method_id', 'Να επικοινωνήσουμε μαζί σας στο:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $comm_method]) !!}
+                {!! Form::formInput('comm_method_id', 'Να επικοινωνήσουμε μαζί σας στο:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $commMethod]) !!}
             </div>
         </div>
     </div>
@@ -138,7 +138,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        {!! Form::formInput('education_level_id', 'Επίπεδο εκπαίδευσης:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $ed_level]) !!}
+                        {!! Form::formInput('education_level_id', 'Επίπεδο εκπαίδευσης:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $edLevel]) !!}
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -155,7 +155,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::formInput('driver_license_type_id', 'Δίπλωμα οδήγησης:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $driver_license_type]) !!}
+                        {!! Form::formInput('driver_license_type_id', 'Δίπλωμα οδήγησης:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $driverLicenseTypes]) !!}
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -174,7 +174,7 @@
             <div class="form-group">
                 <p> {{ $language . ':' }}</p>
                 {!! Form::label('') !!}
-                @foreach ($lang_levels as $lev => $level)
+                @foreach ($langLevels as $lev => $level)
                 <label><em>{{ $level }}</em>
                     {!! Form::formInput('lang'.$lan, '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value' => $lev]) !!}
                 </label>
@@ -195,7 +195,7 @@
     <div class="row m-b-lg">
         <div class="col-md-4">
             <div class="form-group">
-                {!! Form::formInput('work_status_id', 'Εργασιακή κατάσταση:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $work_statuses]) !!}
+                {!! Form::formInput('work_status_id', 'Εργασιακή κατάσταση:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $workStatuses]) !!}
             </div>
             <div class="form-group">
                 {!! Form::formInput('work_description', 'Εργασία', $errors, ['class' => 'form-control', 'type' => 'textarea', 'placeholder' => 'Περιγράψτε τη θέση σας στην παρούσα ή πιο πρόσφατη εργασία.']) !!}
@@ -222,10 +222,10 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    {!! Form::formInput('availability_freqs_id', 'Συχνότητα συνεισφοράς:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $availability_freqs]) !!}
+                    {!! Form::formInput('availability_freqs_id', 'Συχνότητα συνεισφοράς:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $availabilityFreqs]) !!}
                 </div>
                 <div class="form-group">
-                    {!! Form::formInput('availability_time', 'Χρόνοι συνεισφοράς:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $availability_times]) !!}
+                    {!! Form::formInput('availability_time', 'Χρόνοι συνεισφοράς:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $availabilityTimes]) !!}
                 </div>
             </div>
         </div>
