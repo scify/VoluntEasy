@@ -18,6 +18,7 @@ use App\Models\VolunteerLanguage;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\VolunteerService;
 use DB;
+use Illuminate\Support\Facades\View;
 
 class VolunteerController extends Controller {
     public function __construct() {
@@ -44,8 +45,9 @@ class VolunteerController extends Controller {
      */
     public function index() {
         $volunteers = Volunteer::with('units', 'actions')->paginate(5);
+        $volunteers->setPath(\URL::to('/').'/users');
 
-        return view('main.volunteers.list', compact('volunteers'));
+        return view('main.volunteers.list', compact('volunteers', 'maritalStatus'));
     }
 
     /**
@@ -205,19 +207,16 @@ class VolunteerController extends Controller {
     }
 
     /**
-     * Search all volunteers
+     * Search all volunteers and re-render the partial
+     * that contains the table with the volunteer data.
      *
      * @return mixed
      */
     public function search() {
-
         $volunteers = VolunteerService::search();
 
-        $identityTypes = DB::table('identification_types')->lists('description', 'id');
-        $driverLicenses = DB::table('driver_license_types')->lists('description', 'id');
-        $maritalStatus = DB::table('marital_statuses')->lists('description', 'id');
-
-        return view("main.volunteers.list", compact('volunteers', 'identityTypes', 'driverLicenses', 'maritalStatus'));
+        $view = View::make('main.volunteers.list')->with('volunteers', $volunteers);
+        return $view->renderSections()['table'];
     }
 
 

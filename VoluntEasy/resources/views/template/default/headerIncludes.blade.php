@@ -10,6 +10,7 @@
         <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
         <link href="{{ asset('assets/plugins/uniform/css/uniform.default.min.css')}}" rel="stylesheet"/>
         <link href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('assets/plugins/jquery-ui/jquery-ui.min.css')}}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('assets/plugins/bootstrap-datepicker/css/datepicker3.css')}}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('assets/plugins/fontawesome/css/font-awesome.css')}}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('assets/plugins/line-icons/simple-line-icons.css')}}" rel="stylesheet" type="text/css"/>

@@ -1,10 +1,10 @@
 @extends('default')
 
 @section('title')
-    Προβολή Εθελοντών
+Προβολή Εθελοντών
 @stop
 @section('pageTitle')
-    Προβολή Εθελοντών
+Προβολή Εθελοντών
 @stop
 
 @section('bodyContent')
@@ -16,7 +16,8 @@
                 <h4 class="panel-title">Αναζήτηση</h4>
             </div>
             <div class="panel-body">
-                {!! Form::open(['method' => 'POST', 'action' => ['VolunteerController@search'], 'class' => 'form-inline']) !!}
+                {!! Form::open(['method' => 'POST', 'action' => ['VolunteerController@search'], 'class' =>
+                'form-inline', 'id' => 'searchForm']) !!}
                 @include('main.volunteers.partials._search')
                 {!! Form::close() !!}
             </div>
@@ -27,50 +28,17 @@
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-white">
-           <div class="panel-heading clearfix">
-              <h4 class="panel-title">Εθελοντές</h4>
-           </div>
-           <div class="panel-body">
-              <table class="table table-striped">
-                 <thead>
-                    <tr>
-                       <th>#</th>
-                       <th>Όνομα</th>
-                       <th>Email</th>
-                       <th>Διεύθυνση</th>
-                       <th>Τηλέφωνο</th>
-                       <th></th>
-                       <th></th>
-                    </tr>
-                 </thead>
-                 <tbody>
-                 @foreach ($volunteers as $volunteer)
-                     <tr>
-                        <td>{{ $volunteer->id }}</td>
-                        <td>
-                            <a href="{{ url('volunteers/one/'.$volunteer->id) }}">{{ $volunteer->name }} {{ $volunteer->last_name }} </a></td>
-                        <td>{{ $volunteer->email }}</td>
-                        <td>{{ $volunteer->address}}</td>
-                        <td>{{ $volunteer->tel }}</td>
-                        <td>
-                            @if(sizeof($volunteer->units)>0)
-                            <a href="{{ url('steps/volunteer/'.$volunteer->id) }}" class="btn btn-info">Προβολή Βημάτων/Εκκρεμοτήτων</a>
-                            @endif
-                        </td>
-                         <td><ul class="list-inline">
-                             <li><a href="#" data-toggle="tooltip"
-                                    data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit fa-2x"></i></a>
-                             </li>
-                             <li><a href="#" data-toggle="tooltip"
-                                    data-placement="bottom" title="Διαγραφή"><i class="fa fa-trash fa-2x"></i></a>
-                             </li>
-                         </ul></td>
-                     </tr>
-                 @endforeach
-                 </tbody>
-              </table>
-              {!! $volunteers->render() !!}
-           </div>
+            <div class="panel-heading clearfix">
+                <h4 class="panel-title">Εθελοντές</h4>
+            </div>
+            <div class="panel-body">
+                @section('table')
+                @include('main.volunteers.partials._table', ['volunteers' => $volunteers])
+                @endsection
+                <div id="table">
+                    @yield('table')
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -78,12 +46,11 @@
 @stop
 
 @section('footerScripts')
-
 <script>
-    $(".delete").click(function(){
+    $(".delete").click(function () {
         if (confirm("Delete user?") == true) {
             $.ajax({
-                url: $("body").attr('data-url') + '/users/delete/'+$(this).attr('data-id'),
+                url: $("body").attr('data-url') + '/users/delete/' + $(this).attr('data-id'),
                 method: 'POST',
                 headers: {
                     'X-CSRF-Token': $('#token').val()
@@ -94,5 +61,43 @@
             });
         }
     });
+
+
+    //Submit the form through ajax.
+    //The result data is the html of the table.
+    $('#searchForm').on('submit', function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            type: $(this).attr('method'),
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            cache: false,
+            headers: {
+                'X-XSRF-Token': $('meta[name="_token"]').attr('content')
+            },
+            success: function (data) {
+                $("#table").html(data);
+                console.log(data);
+            }
+        });
+        return false; // prevent send form
+    });
+
+
+    $("#age-slider-range").slider({
+        range: true,
+        min: 0,
+        max: 100,
+        values: [18, 45],
+        slide: function (event, ui) {
+            $("#age").val(ui.values[0] + "-" + ui.values[1]);
+            $("#age-range").val(ui.values[0] + "-" + ui.values[1]);
+        }
+    });
+
+    $("#age").val($("#age-slider-range").slider("values", 0) + "-" + $("#age-slider-range").slider("values", 1));
+
+
 </script>
 @stop

@@ -10,6 +10,7 @@ use App\Models\Descriptions\IdentificationType;
 use App\Models\Descriptions\Language;
 use App\Models\Descriptions\LanguageLevel;
 use App\Models\Descriptions\MaritalStatus;
+use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Descriptions\WorkStatus;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -44,8 +45,13 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $commMethod = CommunicationMethod::all()->lists('description', 'id');
             $edLevel = EducationLevel::all()->lists('description', 'id');
 
+            $volunteerStatuses = VolunteerStatus::all()->lists('description', 'id');
 
-            $view->with('maritalStatuses', $maritalStatuses);
+            $view->with('maritalStatuses', $maritalStatuses)
+                ->with( 'identificationTypes', $identificationTypes)
+                ->with('driverLicenseTypes', $driverLicenseTypes)
+                ->with('languages', $languages)
+                ->with('volunteerStatuses', $volunteerStatuses);
         });
     }
 
