@@ -9,7 +9,6 @@ Route::controllers([
 
 
 
-
 //User Routes
 Route::get('users','UserController@index');
 Route::get('users/one/{id}', ['as' => 'user/profile', 'uses' => 'UserController@show']);
@@ -87,12 +86,10 @@ Route::get('test','TestController@test');
 /** aris TESTing... **/
 Route::get('aris', function()
 {
-	// return Mail::send('emails.reminder', ['user' => $user], function ($m) use ($user) {
- //            $m->to($user->email, $user->name)->subject('Your Reminder!');
- //        });    
+	// return \Unit::first();
 
-		return Mail::send('emails.testmail', array(),function ($m) {
-            $m->to('aris.stru@gmail.com', 'Aris')->subject('testinggggg');
-        });    
+		// return Mail::send('emails.testmail', array(),function ($m) {
+  //           $m->to('aris.stru@gmail.com', 'Aris')->subject('testinggggg');
+  //       });    
 });
 
