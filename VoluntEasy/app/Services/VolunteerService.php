@@ -17,6 +17,7 @@ class VolunteerService {
         'email' => '=',
         'marital_status_id' => '=',
         'age-range' => '',
+        'phoneNumber' => '',
 
     ];
 
@@ -63,19 +64,23 @@ class VolunteerService {
 
         $query = Volunteer::select();
 
+        //dd(\Input::all());
+
         foreach ($this->filters as $column => $filter) {
             if (\Input::has($column) && \Input::get($column) != "") {
+                $value = \Input::get($column);
                 switch ($filter) {
                     case '=':
-                        $query->where($column, '=', \Input::get($column));
+                        if ($value != 0)
+                            $query->where($column, '=', $value);
                         break;
                     case 'like%':
-                        $query->where($column, 'like', \Input::get($column) . '%');
+                        $query->where($column, 'like', $value . '%');
                         break;
                     case '':
                         switch ($column) {
                             case 'age-range':
-                                $ages = explode("-", \Input::get('age-range'));
+                                $ages = explode("-", $value);
 
                                 $date = date('Y-m-d');
                                 $newdate = strtotime('-' . $ages[0] . ' year', strtotime($date));
@@ -84,9 +89,13 @@ class VolunteerService {
                                 $newdate = strtotime('-' . $ages[1] . ' year', strtotime($date));
                                 $ages[1] = date('Y-m-j', $newdate);
 
+
                                 $query->whereBetween('birth_date', [$ages[1], $ages[0]]);
-                                
                                 break;
+                            case 'phoneNumber':
+                                $query->where('home_tel', \Input::get('phoneNumber'))
+                                    ->orWhere('work_tel', \Input::get('phoneNumber'))
+                                    ->orWhere('cell_tel', \Input::get('phoneNumber'));
                         }
                     default:
                         //  dd('default switch');
@@ -95,6 +104,7 @@ class VolunteerService {
             }
         }
         $result = $query->orderBy('name', 'ASC')->with('actions')->paginate(5);
+
 
         return $result;
     }
