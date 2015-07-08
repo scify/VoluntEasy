@@ -85,6 +85,6 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
         //wrap the label, input and error msg into an error div
         return '<div class="has-error">' . $label_html . $text_html . $msg_html . '</div>';
     } else {
-        return $label_html . $text_html . $msg_html;
+            return $label_html . $text_html . $msg_html;
     }
 });

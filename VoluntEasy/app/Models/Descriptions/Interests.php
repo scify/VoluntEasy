@@ -3,7 +3,7 @@
 use Illuminate\Database\Eloquent\Model;
 
 
-class Interest extends Model {
+class Interests extends Model {
 
     /**
      * The database table used by the model.
