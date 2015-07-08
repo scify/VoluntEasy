@@ -7,14 +7,14 @@ $("#age-slider-range").slider({
     range: true,
     min: 0,
     max: 100,
-    values: [18, 45],
+    values: [18, 50],
     slide: function (event, ui) {
-        $("#age").val(ui.values[0] + "-" + ui.values[1]);
+        $("#age").text(ui.values[0] + "-" + ui.values[1]);
         $("#age-range").val(ui.values[0] + "-" + ui.values[1]);
     }
 });
 
-$("#age").val($("#age-slider-range").slider("values", 0) + "-" + $("#age-slider-range").slider("values", 1));
+$("#age").text($("#age-slider-range").slider("values", 0) + "-" + $("#age-slider-range").slider("values", 1));
 
 
 /*** City autocomplete ***/
