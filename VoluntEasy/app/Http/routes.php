@@ -69,6 +69,7 @@ Route::post('actions/volunteers', 'ActionController@addVolunteers');
 Route::get('steps/volunteer/{id}','StepController@volunteerSteps');
 
 
+
 ////////////////////
 // Notifications //
 ////////////////////	
@@ -88,6 +89,13 @@ Route::get( '/checkForNotification', array(
     'as' => 'notifications.check',
     'uses' => 'NotificationController@checkForNotifications'
 ) );
+
+//Search Route
+Route::get('search/city','SearchController@city');
+Route::get('search/country','SearchController@country');
+
+
+
 
 
 // Route to view logs in a more human way

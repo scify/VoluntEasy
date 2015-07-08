@@ -16,10 +16,13 @@ class VolunteerService {
         'last_name' => 'like%',
         'email' => '=',
         'marital_status_id' => '=',
+        'city' => '=',
+        'country' => '=',
         'age-range' => '',
         'phoneNumber' => '',
-
     ];
+
+    private $dropDowns = ['marital_status_id'];
 
     /**
      * Get all the volunteers that are assigned to the root unit,
@@ -71,11 +74,11 @@ class VolunteerService {
                 $value = \Input::get($column);
                 switch ($filter) {
                     case '=':
-                        if ($value != 0)
+                        if (!$this->notDropDown($value, $column))
                             $query->where($column, '=', $value);
                         break;
                     case 'like%':
-                        $query->where($column, 'like', $value . '%');
+                        $query->where($column, 'ilike', $value . '%');
                         break;
                     case '':
                         switch ($column) {
@@ -105,8 +108,25 @@ class VolunteerService {
         }
         $result = $query->orderBy('name', 'ASC')->with('actions')->paginate(5);
 
+       // dd($query);
 
         return $result;
+    }
+
+
+    /**
+     * Dropdowns have an extra option that acts as a placeholder and has id=0.
+     * If the user hasn't selected anything, the placeholder is selected and
+     * the value 0 is send to the server so we don't have to make a query.
+     *
+     * @param $value
+     * @param $column
+     * @return bool
+     */
+    public function notDropDown($value, $column){
+        if(in_array($column, $this->dropDowns) && $value=="0") {
+            return true;
+        }
     }
 
 }
