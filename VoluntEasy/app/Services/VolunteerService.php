@@ -16,13 +16,14 @@ class VolunteerService {
         'last_name' => 'like%',
         'email' => '=',
         'marital_status_id' => '=',
+        'gender_id' => '=',
         'city' => '=',
         'country' => '=',
         'age-range' => '',
         'phoneNumber' => '',
     ];
 
-    private $dropDowns = ['marital_status_id'];
+    private $dropDowns = ['marital_status_id', 'gender_id'];
 
     /**
      * Get all the volunteers that are assigned to the root unit,
@@ -78,7 +79,7 @@ class VolunteerService {
                             $query->where($column, '=', $value);
                         break;
                     case 'like%':
-                        $query->where($column, 'ilike', $value . '%');
+                        $query->where($column, 'like', $value . '%');
                         break;
                     case '':
                         switch ($column) {
@@ -91,7 +92,6 @@ class VolunteerService {
                                 $date = date('Y-m-d');
                                 $newdate = strtotime('-' . $ages[1] . ' year', strtotime($date));
                                 $ages[1] = date('Y-m-j', $newdate);
-
 
                                 $query->whereBetween('birth_date', [$ages[1], $ages[0]]);
                                 break;
@@ -124,9 +124,8 @@ class VolunteerService {
      * @return bool
      */
     public function notDropDown($value, $column){
-        if(in_array($column, $this->dropDowns) && $value=="0") {
+        if(in_array($column, $this->dropDowns) && $value=="0")
             return true;
-        }
     }
 
 }
