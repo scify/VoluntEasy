@@ -9,7 +9,9 @@ Route::controllers([
 
 
 
-//User Routes
+////////////////
+//User Routes //
+////////////////
 Route::get('users','UserController@index');
 Route::get('users/one/{id}', ['as' => 'user/profile', 'uses' => 'UserController@show']);
 Route::get('users/create', 'UserController@create');
@@ -20,7 +22,9 @@ Route::post('users/store', 'UserController@store');
 Route::post('users/units', 'UserController@addUnits');
 
 
-//Unit Routes
+////////////////
+//Unit Routes //
+////////////////
 Route::get('units', ['as' => 'units', 'uses' => 'UnitController@index']);
 Route::get('units/tree/{id}','UnitController@tree');
 Route::get('units/one/{id}', ['as' => 'unit/one', 'uses' => 'UnitController@show']);
@@ -90,11 +94,12 @@ Route::get( '/checkForNotification', array(
     'uses' => 'NotificationController@checkForNotifications'
 ) );
 
-//Search Route
+
+/////////////////
+//Search Route //
+/////////////////
 Route::get('search/city','SearchController@city');
 Route::get('search/country','SearchController@country');
-
-
 
 
 
