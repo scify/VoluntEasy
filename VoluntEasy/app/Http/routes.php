@@ -68,6 +68,9 @@ Route::post('actions/volunteers', 'ActionController@addVolunteers');
 Route::get('steps/volunteer/{id}','StepController@volunteerSteps');
 
 
+//Search Route
+Route::get('search/city','SearchController@city');
+Route::get('search/country','SearchController@country');
 
 
 
