@@ -39,7 +39,9 @@ Route::get('rootUnit', 'UnitController@rootUnit');
 
 
 
-//Volunteer Routes
+/////////////////////
+//Volunteer Routes //
+/////////////////////
 Route::get('volunteers','VolunteerController@index');
 Route::get('volunteers/all','VolunteerController@all');
 Route::get('volunteers/new','VolunteerController@getNew');
@@ -47,12 +49,10 @@ Route::get('volunteers/create', 'VolunteerController@create');
 Route::post('volunteers/store', 'VolunteerController@store');
 Route::post('volunteers/search', 'VolunteerController@search');
 
-/**  test remove */
-Route::get('volunteers/new','TestController@newVolunteers');
 
-
-
-//Action Routes
+//////////////////
+//Action Routes //
+//////////////////
 Route::get('actions','ActionController@index');
 Route::get('actions/one/{id}', ['as' => 'action/one', 'uses' => 'ActionController@show']);
 Route::get('actions/create', 'ActionController@create');
@@ -63,14 +63,31 @@ Route::post('actions/update', 'ActionController@update');
 Route::post('actions/volunteers', 'ActionController@addVolunteers');
 
 
-//Step Routes
+////////////////
+//Step Routes //
+////////////////
 Route::get('steps/volunteer/{id}','StepController@volunteerSteps');
 
 
-
-
-
-
+////////////////////
+// Notifications //
+////////////////////	
+Route::get('/deactivateNotification/{id}', array(
+    'as' => 'notification.deactivate',
+    'uses' => 'NotificationController@deactivateNotification'
+) );
+Route::get('/addNotification/{userId}/{typeId}/{request1Id}/{request2Id?}', array(
+    'as' => 'notifications.add',
+    'uses' => 'NotificationController@addNotification'
+) );
+Route::get('/stopBellNotification/{notificationId}', array(
+    'as' => 'notifications.stopBell',
+    'uses' => 'NotificationController@stopBellNotification'
+) );
+Route::get( '/checkForNotification', array(
+    'as' => 'notifications.check',
+    'uses' => 'NotificationController@checkForNotifications'
+) );
 
 
 // Route to view logs in a more human way
@@ -78,10 +95,13 @@ Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
 
 
-/** TESTS **/
+////////////
+// TESTS  //
+////////////
 Route::get('test','TestController@test');
 
-
+/**  test remove */
+Route::get('volunteers/new','TestController@newVolunteers');
 
 /** aris TESTing... **/
 Route::get('aris', function()

@@ -5,14 +5,14 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateNotificationsTable extends Migration {
 
-	
-    ///////////////////////////////////////////////////
-    //   Notification Types Index                    //
-    //   1 = new Request from Shipper To Transporter //
-    //   2 = request Rejected from Transporter       //
-    //   3 = request Rejected from Transporter       //
-    //   4 = request Approved from Transporter       //
-    ///////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////
+    //   Notification Types Index                                           //
+    //   1 = Volunteer is assighned to Unit (Unit-Users)                    //
+    //   2 = Volunteer is deleted or unAssighned (top Users)                //
+    //   3 = Voluteer is in the midle of actions period (parent Unit-Users) //
+    //   4 = action is expired ...   (parent Unit-Users)                    //
+    //   4 = Volunteer submited the Questionare (parent Unit-Users)         //
+    //////////////////////////////////////////////////////////////////////////
 
  
 	/**
@@ -22,17 +22,18 @@ class CreateNotificationsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('notifications', function(Blueprint $table)
+		Schema::create('notifications', function($table)
 		{
 			$table->increments('id');
-			$table->timestamps();
 			$table->unsignedInteger('userId')->index();
-			$table->integer('typeId')->index(); //  what the notification is about
-			$table->integer('referenceId')->index(); // the bookingId 
-			$table->string('status', 30)->nullable;  // what notification action (ring a bell, print red button on NavBar, etc..)
+			$table->integer('typeId')->index(); // the Model instance id that we have o locate 
+			$table->integer('reference1Id')->index(); // the bookingId 
+			$table->integer('reference2Id')->nullable(); // a second Model instance id that maybe we have o locate
+			$table->string('status', 30)->nullable();  // what notification action (ring a bell, print red button on NavBar, etc..)
+			$table->timestamps();
 		});
 
-		Schema::table('notifications', function(Blueprint $table)
+		Schema::table('notifications', function($table)
 		{
 			$table->foreign('userId')->references('id')->on('users')->onDelete('cascade');
 		});

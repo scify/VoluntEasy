@@ -5,27 +5,31 @@ use App\Services\Facades\NotificationService;
 
 Class NotificationController extends Controller {
 
-    ///////////////////////////////////////////////////
-    //   Notification Types Index                    //
-    //   1 = new Request from Shipper To Transporter //
-    //   2 = request Rejected from Transporter       //
-    //   3 = request Rejected from Transporter       //
-    //   4 = request Approved from Transporter       //
-    ///////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////
+    //   Notification Types Index                                           //
+    //   1 = Volunteer is assighned to Unit (Unit-Users)                    //
+    //   2 = Volunteer is deleted or unAssighned (top Users)                //
+    //   3 = Voluteer is in the midle of actions period (parent Unit-Users) //
+    //   4 = action is expired ...   (parent Unit-Users)                    //
+    //   4 = Volunteer submited the Questionare (parent Unit-Users)         //
+    //////////////////////////////////////////////////////////////////////////
 
+    public function __construct() {
+        $this->middleware('auth');        
+    }
 
     /**
      * create a new Notification Instance
      * 
 	 * @param  [$userId] [which user it concerns]
-     * @param [$bookingId] [the booking the notification is about]
      * @param [typeId] [check Index above]
+     * @param reference1Id [the Model instance id that we have o locate ]
+     * @param reference2Id [a second Model instance id that maybe we have o locate]
      * @return [boolean] [success status]
      */
-    public function addNotification($userId, $bookingId, $typeId) 
-    {
-		$not = new NotificationManager;
-		return $not->addNotification($userId, $bookingId, $typeId);
+    public function addNotification($userId, $typeId, $reference1Id, $reference2Id=null) 
+    {                                                                                          
+		return $not = NotificationService::addNotification($userId, $typeId, $reference1Id, $reference2Id ?: null);
     }
     
     /**
@@ -37,10 +41,9 @@ Class NotificationController extends Controller {
      */
     public function deactivateNotification($notificationId)
     {
-    	$userId = Auth::user()->id;
-		$notificationManager = new NotificationManager;		
+    	$userId = Auth::user()->id;			
 
-		if ($notificationManager->deactivateOneNotification($notificationId))
+		if (NotificationService::deactivateOneNotification($notificationId))
 			$status = 'success';
 		else 
 			$status = 'error';
@@ -62,9 +65,8 @@ Class NotificationController extends Controller {
     public function checkForNotifications() 
     {
         if (Auth::check()) {
-		  $userId = Auth::user()->id;
-		  $notificationManager = new NotificationManager;		
-		  $notificationsList = $notificationManager->checkForNotification($userId);
+		  $userId = Auth::user()->id;		  
+		  $notificationsList = NotificationService::checkForNotification($userId);
 
 		  $response = array(
             'status' => 'success',
@@ -88,10 +90,8 @@ Class NotificationController extends Controller {
      * @return [boolean] [succes status]
      */
     public function stopBellNotification($notificationId) 
-    {
-		$notificationManager = new NotificationManager;		
-
-		if ($notificationManager->stopBellNotification($notificationId))
+    {		
+		if (NotificationService::stopBellNotification($notificationId))
 			$status = 'success';
 		else 
 			$status = 'error';
@@ -103,46 +103,4 @@ Class NotificationController extends Controller {
  
         return Response::json( $response );
     }
-    
-
-
-    /////////////////
-    // for Testing //
-    /////////////////
-
-    /**
-     * show a view with form to create settings
-     */
-    public function add() {
-        return View::make( 'test' );
-    }
- 
-    /**
-     * handle data posted by ajax request
-     */
-    public function create() {
-    
-        //check if its our form
-        if ( Session::token() !== Input::get( '_token' ) ) {
-            return Response::json( array(
-                'msg' => 'Unauthorized attempt to create setting'
-            ) );
-        }
- 
-        $setting_name = Input::get( 'setting_name' );
-        $setting_value = Input::get( 'setting_value' );
- 
-        //.....
-        //validate data
-        //and then store it in DB
-        //.....
- 
-        $response = array(
-            'status' => 'success',
-            'msg' => 'Setting created successfully',
-        );
- 
-        return Response::json( $response );
-    }
-
 }

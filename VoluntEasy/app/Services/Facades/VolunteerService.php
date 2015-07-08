@@ -13,6 +13,8 @@ class VolunteerService extends Facade {
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'App\Services\VolunteerService'; }
+    protected static function getFacadeAccessor() { 
+    	return 'App\Services\VolunteerService'; 
+    }
 
 }

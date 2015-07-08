@@ -13,6 +13,8 @@ class UserService extends Facade {
      *
      * @return string
      */
-    protected static function getFacadeAccessor() { return 'App\Services\UserService'; }
+    protected static function getFacadeAccessor() { 
+    	return 'App\Services\UserService'; 
+    }
 
 }
