@@ -65,7 +65,6 @@ class UnitController extends Controller {
         }
     }
 
-
     /**
      * Store a newly created resource in storage.
      * Also assign the predefined steps.
@@ -210,11 +209,9 @@ class UnitController extends Controller {
         return view("main.units.list", compact('units', 'userUnits'));
     }
 
-
     public function rootUnit() {
         return view('auth/rootUnit');
     }
-
 
     public function wholeTree() {
         $tree = UnitService::getTree();
@@ -252,7 +249,6 @@ class UnitController extends Controller {
         return $unit->id;
     }
 
-
     /**
      * When creating a new unit, automatically assign some predefined steps
      *
@@ -276,5 +272,4 @@ class UnitController extends Controller {
 
         return $steps;
     }
-
 }

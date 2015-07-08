@@ -7,7 +7,8 @@ class Unit extends Model
 
     protected $table = 'units';
 
-    protected $fillable = ['description', 'comments', 'level', 'user_id', 'parent_unit_id', 'start_date', 'end_date'];
+    protected $fillable = ['description', 'comments', 'level', 
+                           'user_id', 'parent_unit_id', 'start_date', 'end_date'];
 
     /**
      * Retrieve the users associated with the unit
@@ -55,7 +56,7 @@ class Unit extends Model
     }
 
     /**
-     * Get all children/branches of a node
+     * Get all children/branches of a node (with Actions)
      *
      * @return mixed
      */
