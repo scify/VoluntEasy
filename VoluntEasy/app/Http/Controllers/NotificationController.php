@@ -33,6 +33,30 @@ Class NotificationController extends Controller {
     }
     
     /**
+     * stop the Bell Ring at a Notification Instanse
+     * @param [$notificationId]
+     * @return [boolean] [succes status]
+     */
+    public function stopBellNotification($notificationId) 
+    {
+        if (NotificationService::stopBellNotification($notificationId)) {
+            $status = 'success';
+            $msg = 'the bell Sound is deactivated';
+        }
+        else {
+            $status = 'error';
+            $msg = 'could not change notification status';
+        }
+
+        $response = array(
+            'status' =>  $status, 
+            'msg' => $msg
+        );
+ 
+        return \Response::json( $response );
+    }
+
+    /**
      * deactivate a Notification Instance
      * so it is not appear any more to the client
      * we deactivate and don't delete it for Data Mining reasons
@@ -41,19 +65,23 @@ Class NotificationController extends Controller {
      */
     public function deactivateNotification($notificationId)
     {
-    	$userId = Auth::user()->id;			
+    	$userId = \Auth::user()->id;			
 
-		if (NotificationService::deactivateOneNotification($notificationId))
-			$status = 'success';
-		else 
+		if (NotificationService::deactivateNotification($notificationId)) {
+			$status = 'success';                        
+            $msg = 'notification is deactivated';
+        }
+		else {
 			$status = 'error';
+            $msg = 'could not deactivated notification';
+        }
 
 		$response = array(
-            'status' =>  'success', 
-            'msg' => 'it is deactivated',
+            'status' =>  $status, 
+            'msg' => $msg
         );
  
-        return Response::json( $response );
+        return \Response::json( $response );
     }
 
     /**
@@ -64,9 +92,9 @@ Class NotificationController extends Controller {
      */
     public function checkForNotifications() 
     {
-        if (Auth::check()) {
-		  $userId = Auth::user()->id;		  
-		  $notificationsList = NotificationService::checkForNotification($userId);
+        //@ TODO check if he is loged in from JavaScipt so not to execute the Check Ajax
+		  		  
+		  return $notificationsList = NotificationService::checkForNotifications();
 
 		  $response = array(
             'status' => 'success',
@@ -74,33 +102,7 @@ Class NotificationController extends Controller {
             'notificationsList' => $notificationsList,
             );
 
-        }
-        else {
-            $response = array(
-            'status' => 'error',
-            'numberOfNotifications' => 0,
-            'notificationsList' => 'not loged in',
-            ); }
         return Response::json( $response );
     }
 
-    /**
-     * stop the Bell Ring at a Notification Instanse
-     * @param [$notificationId]
-     * @return [boolean] [succes status]
-     */
-    public function stopBellNotification($notificationId) 
-    {		
-		if (NotificationService::stopBellNotification($notificationId))
-			$status = 'success';
-		else 
-			$status = 'error';
-
-		$response = array(
-            'status' =>  'success', 
-            'msg' => 'it is deactivated',
-        );
- 
-        return Response::json( $response );
-    }
 }

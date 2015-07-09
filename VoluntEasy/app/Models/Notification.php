@@ -1,6 +1,7 @@
 <?php namespace App\Models;
  
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 /**
  * An Eloquent Model: 'Notification'
@@ -47,7 +48,7 @@ class Notification extends Model
 	// User __one to many__ Notifications
 	public function user()
 	{
-		return $this->belongsTo('User', 'userId');
+		return $this->belongsTo('App\Models\User', 'userId');
 	}
 
 }

@@ -39,26 +39,24 @@ class NotificationService
             return 1;
         else
             return 0;
-
     }
-    
+
     /**
-     * deactivate all Notifications from a list
-     * so it is not appeared any more to the client 
-     * we deactivate and don't delete it for Data Mining reasons
-     * @param [$notificationIdsList] [a collection with the notification records we want to deactivate] [listSize-> 1 - many]
+     * stop the Bell Ring at a Notification Instanse
+     * @param [$notificationId] 
      * @return [boolean] [succes status]
      */
-    public function deactivateNotifications($notificationIdsList) 
-    {
-        foreach ($notificationIdsList as $notificationId) {
-            $notification = Notification::findOrFail($notificationId);
-            $notification->status = 'inactive';
-            if (!$notification->save())
-                return 0;
-        }
+    public function stopBellNotification($notificationId) 
+    {        
+        $notification = Notification::findOrFail($notificationId);
+        
+        $notification->status = 'active';
+        
+        if (!$notification->save())
+            return 0;
+
         return 1;
-    }
+    }    
 
     /**
      * deactivate a Notification Instanse
@@ -67,7 +65,7 @@ class NotificationService
      * @param [$notificationId] [a notifications instance Id we want to deactivate]
      * @return [boolean] [succes status]
      */
-    public function deactivateOneNotification($notificationId) 
+    public function deactivateNotification($notificationId) 
     {
         $notification = Notification::findOrFail($notificationId);
         
@@ -80,131 +78,28 @@ class NotificationService
     }
 
     /**
-     * stop the Bell Ring at a Notification Instanse
-     * @param [$notificationId] 
-     * @return [boolean] [succes status]
-     */
-    public function stopBellNotification($notificationId) 
-    {
-        
-        $notification = Notification::findOrFail($notificationId);
-        
-        $notification->status = 'active';
-        
-        if (!$notification->save())
-            return 0;
-
-        return 1;
-    }    
-
-    /**
+     * !!! Notification Types Index on top of the page !!!
      * check if there is any active Notification for the specific User
-     * 
      * @param [$userId] [the User]
      * @return [collection] [a list with all the active notification for the user]
      */
-    public function checkForNotification() 
-    {
-        $userId = Auth::user()->id;
-        if ( Auth::user()->isAdmin() ){
-            $notificationObjectsList = Notification::where('userId', '=', $userId)->where('status', 'alarmAndActive')->where('typeId',3)->orWhere('userId', '=', $userId)->where('status', 'active')->where('typeId',3)->get();
+    public function checkForNotifications() 
+    {        
+        $userId = \Auth::user()->id;
 
-            $notificationsList = array();
+        $notificationObjectsList = Notification::whereStatus('active')->orWhere('status','alarmAndActive')
+        ->whereHas('user', function($q) use ($userId)
+        {
+            $q->whereId($userId);
 
-            foreach ($notificationObjectsList as $notificationObject) {
+        })->get();
 
-                $booking = Booking::find($notificationObject->referenceId);
-                
-                $notification = array(
-                    'id' => $notificationObject->id,
-                    'userId' => $notificationObject->userId,
-                    'typeId' => $notificationObject->typeId,
-                    'referenceId' => $notificationObject->referenceId,
-                    'status' => $notificationObject->status,
-                    'url' => URL::to('transferRequest', $booking->id),
-                    'msg' => 'Transporter '.$booking->transporterId.' dint answer',
-                    'img' => '',
-                );
-                
-                $notificationsList = array_add($notificationsList, $notificationObject->id, $notification);
-            }
-
-            return $notificationsList;
+        foreach ($notificationObjectsList as $notificationObject) {                        
+            $notificationObject['msg'] = "testttt";            
+            $notificationObject['url'] = "testttt";    //URL::to('transferRequest', $booking->id),
         }
-        elseif( Auth::user()->isShipper() ) {
-            $notificationObjectsList = Notification::where('userId', $userId)->where('status', 'alarmAndActive')->orWhere('userId', $userId)->where('status', 'active')->get();
 
-            $notificationsList = array();
+        return $notificationObjectsList;
 
-            foreach ($notificationObjectsList as $notificationObject) {
-                
-                $booking = Booking::find($notificationObject->referenceId);
-
-                $notification = array(
-                    'id' => $notificationObject->id,
-                    'userId' => $notificationObject->userId,
-                    'typeId' => $notificationObject->typeId,
-                    'status' => $notificationObject->status,
-                    'referenceId' => $notificationObject->referenceId,
-                );
-
-                if ($notificationObject->typeId == 2) {
-                    $notification = array_add($notification, 'url', URL::to('shipper/requestResults', array( $booking->searchRequest->GUID, $booking->searchRequest->id )) );
-                    $notification = array_add($notification, 'msg', trans('common/common.request').': JC-'.$booking->id.' '.trans('common/common.was-rejected').' '.trans('common/common.research') );    
-                    $notification = array_add($notification, 'img', '' );
-                }
-                elseif ($notificationObject->typeId == 3) {
-                    $notification = array_add($notification, 'url', URL::to('shipper/requestResults', array( $booking->searchRequest->GUID, $booking->searchRequest->id )) );    
-                    $notification = array_add($notification, 'msg', trans('common/common.request').': JC-'.$booking->id.' '.trans('common/common.was-expired').' '.trans('common/common.research') );    
-                    $notification = array_add($notification, 'img', '' );
-                }
-                elseif ($notificationObject->typeId == 4) {
-                    $notification = array_add($notification, 'url', URL::to('transferRequest', $booking->id) );
-                    $notification = array_add($notification, 'msg', trans('common/common.request').': JC-'.$booking->id.' '.trans('common/common.was-approved') );    
-                    $notification = array_add($notification, 'img', '' );
-                }
-                
-                $notificationsList = array_add($notificationsList, $notificationObject->id, $notification);
-            }
-
-            return $notificationsList;
-        }
-        elseif( Auth::user()->isTransporter() ) {
-            
-            $notificationObjectsList = Notification::where('userId', $userId)->where('status', 'alarmAndActive')->orWhere('userId', $userId)->where('status', 'active')->get();
-
-            $notificationsList = array();
-
-            foreach ($notificationObjectsList as $notificationObject) {
-                
-                $booking = Booking::find($notificationObject->referenceId);
-
-                $notification = array(
-                    'id' => $notificationObject->id,
-                    'userId' => $notificationObject->userId,
-                    'typeId' => $notificationObject->typeId,
-                    'status' => $notificationObject->status,
-                    'referenceId' => $notificationObject->referenceId,
-                );
-
-                if ($notificationObject->typeId == 1) {
-                    // WARNING LINE!!!
-                            // ceap in mind that once we had a bug with /checkForNotifications on production 
-                            // wee had a 500 internal server error at this line:
-                            // $booking->id    -> trying to take a property of no object 
-                    $notification = array_add($notification, 'url', URL::to('transferRequest', $booking->id) );    
-                    $notification = array_add($notification, 'msg', trans('common/common.new-transferRequest').' JC-'.$booking->id );
-                    $notification = array_add($notification, 'img', 1+$booking->updated_at->addSeconds(900)->diffInMinutes().' min' );
-                }
-                elseif ($notificationObject->typeId == 3) {
-                    $notification = array_add($notification, 'url', URL::to('transferRequest', $booking->id) );    
-                    $notification = array_add($notification, 'msg', trans('common/common.request').': JC-'.$booking->id.trans('common/common.was-expired') );    
-                    $notification = array_add($notification, 'img', '' );
-                }
-                
-                $notificationsList = array_add($notificationsList, $notificationObject->id, $notification);
-            }
-            return $notificationsList;
-        }
     }
 }      

@@ -77,10 +77,6 @@ Route::get('steps/volunteer/{id}','StepController@volunteerSteps');
 ////////////////////
 // Notifications //
 ////////////////////	
-Route::get('/deactivateNotification/{id}', array(
-    'as' => 'notification.deactivate',
-    'uses' => 'NotificationController@deactivateNotification'
-) );
 Route::get('/addNotification/{userId}/{typeId}/{request1Id}/{request2Id?}', array(
     'as' => 'notifications.add',
     'uses' => 'NotificationController@addNotification'
@@ -89,7 +85,11 @@ Route::get('/stopBellNotification/{notificationId}', array(
     'as' => 'notifications.stopBell',
     'uses' => 'NotificationController@stopBellNotification'
 ) );
-Route::get( '/checkForNotification', array(
+Route::get('/deactivateNotification/{notificationId}', array(
+    'as' => 'notification.deactivate',
+    'uses' => 'NotificationController@deactivateNotification'
+) );
+Route::get( '/checkForNotifications', array(
     'as' => 'notifications.check',
     'uses' => 'NotificationController@checkForNotifications'
 ) );
@@ -102,10 +102,11 @@ Route::get('search/city','SearchController@city');
 Route::get('search/country','SearchController@country');
 
 
-
-// Route to view logs in a more human way
+////////////////////////////////////////////
+// Log Viewer                             //
+// Route to view logs in a more human way //
+////////////////////////////////////////////
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
-
 
 
 ////////////

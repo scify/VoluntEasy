@@ -40,6 +40,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function setPasswordAttribute($password)
     {
-	return $this->attributes['password'] = $password;
+	   return $this->attributes['password'] = $password;
     }
+
+    public function notifications()
+    {
+        return $this->hasMany('App\Models\Notification');
+    }    
 }
