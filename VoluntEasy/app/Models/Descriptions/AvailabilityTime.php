@@ -14,5 +14,8 @@ class AvailabilityTime extends Model {
 
     protected $fillable = ['description'];
 
-
+    public function volunteer()
+    {
+        return $this->belongsToMany('App\Models\Descriptions\VolunteerAvailabilityTime', 'volunteer_availability_times', 'availability_time_id', 'volunteer_id');
+    }
 }

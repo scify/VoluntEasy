@@ -15,6 +15,7 @@ use App\Models\Descriptions\LanguageLevel;
 use App\Models\Descriptions\MaritalStatus;
 use App\Models\Descriptions\WorkStatus;
 use App\Models\Volunteer;
+use App\Models\VolunteerAvailabilityTime;
 use App\Models\VolunteerLanguage;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\VolunteerService;
@@ -138,17 +139,22 @@ class VolunteerController extends Controller {
             'availability_freqs_id' => intval(\Input::get('availability_freqs_id')),
         ));
 
-        // return $volunteer;
-
         $volunteer->save();
 
         $unit = UnitService::getRoot();
 
         $volunteer->units()->save($unit);
 
+        // Save availability time from checkbox.
+        $volunteer_availability = [
+            'availability_time_id' => intval(\Input::get('availability_time')),
+        ];
+
+        $volunteer->availabilityTimes()->sync($volunteer_availability);
+
         $interests = Interests::all();
 
-        //dd(\Input::all());
+        // Get interests selected and pass values to volunteer_interests table.
         $interest_array = [];
         foreach ($interests as $interest) {
             if (\Input::has('interest' . $interest->id)) {
@@ -156,10 +162,6 @@ class VolunteerController extends Controller {
             }
         }
         $volunteer->interests()->sync($interest_array);
-        //dd(\Input::all());
-
-        //dd($volunteer->id);
-        //dd(\Input::all());
 
         $languages = Language::all();
 
