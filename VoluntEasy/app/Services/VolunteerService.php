@@ -16,13 +16,17 @@ class VolunteerService {
         'last_name' => 'like%',
         'email' => '=',
         'marital_status_id' => '=',
+        'gender_id' => '=',
         'city' => '=',
         'country' => '=',
         'age-range' => '',
         'phoneNumber' => '',
+        'education_level_id' => '=',
+        'unit_id' => '',
+
     ];
 
-    private $dropDowns = ['marital_status_id'];
+    private $dropDowns = ['marital_status_id', 'gender_id', 'education_level_id', 'unit_id'];
 
     /**
      * Get all the volunteers that are assigned to the root unit,
@@ -78,7 +82,7 @@ class VolunteerService {
                             $query->where($column, '=', $value);
                         break;
                     case 'like%':
-                        $query->where($column, 'ilike', $value . '%');
+                        $query->where($column, 'like', $value . '%');
                         break;
                     case '':
                         switch ($column) {
@@ -92,13 +96,19 @@ class VolunteerService {
                                 $newdate = strtotime('-' . $ages[1] . ' year', strtotime($date));
                                 $ages[1] = date('Y-m-j', $newdate);
 
-
                                 $query->whereBetween('birth_date', [$ages[1], $ages[0]]);
                                 break;
                             case 'phoneNumber':
                                 $query->where('home_tel', \Input::get('phoneNumber'))
                                     ->orWhere('work_tel', \Input::get('phoneNumber'))
                                     ->orWhere('cell_tel', \Input::get('phoneNumber'));
+                            case 'unit_id':
+                                if (!$this->notDropDown($value, $column)) {
+                                    $id = \Input::get('unit_id');
+                                    $query->whereHas('units', function ($query) use ($id) {
+                                        $query->where('id', $id);
+                                    });
+                                }
                         }
                     default:
                         //  dd('default switch');
@@ -108,7 +118,7 @@ class VolunteerService {
         }
         $result = $query->orderBy('name', 'ASC')->with('actions')->paginate(5);
 
-       // dd($query);
+        // dd($query);
 
         return $result;
     }
@@ -123,10 +133,9 @@ class VolunteerService {
      * @param $column
      * @return bool
      */
-    public function notDropDown($value, $column){
-        if(in_array($column, $this->dropDowns) && $value=="0") {
+    public function notDropDown($value, $column) {
+        if (in_array($column, $this->dropDowns) && $value == "0")
             return true;
-        }
     }
 
 }

@@ -11,6 +11,7 @@ use App\Services\Facades\VolunteerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
 
 class UnitController extends Controller {
     public function __construct() {
@@ -201,12 +202,11 @@ class UnitController extends Controller {
      * @return mixed
      */
     public function search() {
-
+        $userUnits = UserService::userUnits();
         $units = UnitService::search();
 
-        $userUnits = UserService::userUnits();
-
-        return view("main.units.list", compact('units', 'userUnits'));
+        $view = View::make('main.units.list')->with('units', $units)->with('userUnits', $userUnits);
+        return $view->renderSections()['table'];
     }
 
     public function rootUnit() {
@@ -215,9 +215,7 @@ class UnitController extends Controller {
 
     public function wholeTree() {
         $tree = UnitService::getTree();
-
         $userUnits = UserService::userUnits();
-
         return view("main.units.tree", compact('tree', 'userUnits'));
     }
 

@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Requests\VolunteerRequest;
 use App\Models\Descriptions\AvailabilityFrequencies;
 use App\Models\Descriptions\AvailabilityTime;
+use App\Models\Descriptions\Interests;
 use App\Models\Descriptions\CommunicationMethod;
 use App\Models\Descriptions\DriverLicenceType;
 use App\Models\Descriptions\EducationLevel;
@@ -84,12 +85,13 @@ class VolunteerController extends Controller {
         $workStatuses = WorkStatus::all()->lists('description', 'id');
         $availabilityFreqs = AvailabilityFrequencies::all()->lists('description', 'id');
         $availabilityTimes = AvailabilityTime::all()->lists('description', 'id');
+        $interests = Interests::all()->lists('description', 'id');
         $genders = Gender::all()->lists('description', 'id');
         $commMethod = CommunicationMethod::all()->lists('description', 'id');
         $edLevel = EducationLevel::all()->lists('description', 'id');
 
         return view('main.volunteers.new', compact('identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
-                    'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'genders', 'commMethod', 'edLevel'));
+                    'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interests', 'genders', 'commMethod', 'edLevel'));
     }
 
     /**
@@ -144,6 +146,20 @@ class VolunteerController extends Controller {
 
         $volunteer->units()->save($unit);
 
+        $interests = Interests::all();
+
+        //dd(\Input::all());
+        $interest_array = [];
+        foreach ($interests as $interest) {
+            if (\Input::has('interest' . $interest->id)) {
+                array_push($interest_array, $interest->id);
+            }
+        }
+        $volunteer->interests()->sync($interest_array);
+        //dd(\Input::all());
+
+        //dd($volunteer->id);
+        //dd(\Input::all());
 
         $languages = Language::all();
 

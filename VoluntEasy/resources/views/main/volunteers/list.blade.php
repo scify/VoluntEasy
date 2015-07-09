@@ -12,12 +12,11 @@
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-white">
-            <div class="panel-heading clearfix">
+            <!--div class="panel-heading clearfix">
                 <h4 class="panel-title">Αναζήτηση</h4>
-            </div>
+            </div-->
             <div class="panel-body">
-                {!! Form::open(['method' => 'POST', 'action' => ['VolunteerController@search'], 'class' =>
-                'form-inline', 'id' => 'searchForm']) !!}
+                {!! Form::open(['method' => 'POST', 'action' => ['VolunteerController@search'], 'id' => 'searchForm']) !!}
                 @include('main.volunteers.partials._search')
                 {!! Form::close() !!}
             </div>

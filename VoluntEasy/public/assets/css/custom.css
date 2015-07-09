@@ -17,10 +17,10 @@ h3{font-weight: 400;}
 	border-radius:50%;
 }
 .user-image-small{
-	width:40px;
+	width:50px;
 	border-radius:50%;
 }
-.user-list a{
+.user-list.msg-name a{
 	font-size:14px;
 	margin-left:5px;
 }
@@ -109,4 +109,46 @@ h3{font-weight: 400;}
     background: #e9edf2;
     color: #000;
     font-weight: normal;
+}
+
+/**indicate that an input is an autocomplete widjet **/
+.form-control.ui-autocomplete-input::-webkit-input-placeholder {
+    text-align:right;
+}
+
+.form-control.ui-autocomplete-input:-moz-placeholder { /* Firefox 18- */
+    text-align:right;
+}
+
+.form-control.ui-autocomplete-input::-moz-placeholder {  /* Firefox 19+ */
+    text-align:right;
+}
+
+.form-control.ui-autocomplete-input:-ms-input-placeholder {
+    text-align:right;
+}
+
+#age-slider-range{
+    margin-top:10px;
+}
+
+/* style for the user list in show unit page */
+.msg-img {
+    height: 100%;
+    display: block;
+    float: left;
+    position: relative;
+    margin-right:10px;
+}
+
+.msg-name {
+    display: block;
+    font-size: 14px;
+    color: #707070;
+    padding: 0 0 0 10px;
+}
+.msg-text {
+    display: block;
+    color: #a0a0a0;
+    padding: 0 0 0 10px;
 }

@@ -9,7 +9,11 @@ class UnitService {
      * Filters correspond to column names.
      * @var array
      */
-    private $filters = ['description' => 'like%'];
+    private $filters = [
+        'description' => 'like%',
+        'parent_unit_id' => '=',
+
+    ];
 
     /**
      * Get the type of each unit.

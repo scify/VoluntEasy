@@ -22,11 +22,9 @@
                     </div>
                     <div class="col-md-6">
                         <p class="lead">{{ $user->name }}</p>
-
                         <p><i class="fa fa-envelope"></i> <a href="mailto:{{ $user->email }}">{{ $user->email }}</a> |
                             <i class="fa fa-home"></i> {{ $user->addr }} |
                             <i class="fa fa-phone"></i> {{ $user->tel }}</p>
-
                         <hr/>
                         <h3>Οργανωτικές Μονάδες</h3>
                         @if(sizeof($user->units)==0)

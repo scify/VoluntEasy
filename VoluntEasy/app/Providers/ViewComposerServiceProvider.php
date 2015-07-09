@@ -12,6 +12,7 @@ use App\Models\Descriptions\LanguageLevel;
 use App\Models\Descriptions\MaritalStatus;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Descriptions\WorkStatus;
+use App\Models\Unit;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -32,7 +33,6 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
         //Volunteer Search Page requires all the following data for it's dropdowns etc.
         View::composer('main.volunteers.partials._search', function ($view) {
-
             $identificationTypes = IdentificationType::all()->lists('description', 'id');
             $driverLicenseTypes = DriverLicenceType::all()->lists('description', 'id');
             $maritalStatuses = MaritalStatus::all()->lists('description', 'id');
@@ -43,19 +43,38 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $availabilityTimes = AvailabilityTime::all()->lists('description', 'id');
             $genders = Gender::all()->lists('description', 'id');
             $commMethod = CommunicationMethod::all()->lists('description', 'id');
-            $edLevel = EducationLevel::all()->lists('description', 'id');
+            $educationLevels = EducationLevel::all()->lists('description', 'id');
+            $units = Unit::all()->lists('description', 'id');
+
 
             $volunteerStatuses = VolunteerStatus::all()->lists('description', 'id');
 
-            $maritalStatuses[0]='Οικογενειακή Κατάσταση';
+            $maritalStatuses[0]='[- επιλέξτε -]';
+            $educationLevels[0]='[- επιλέξτε -]';
+            $genders[0]='[- επιλέξτε -]';
+            $units[0]='[- επιλέξτε -]';
             ksort($maritalStatuses);
-
+            ksort($educationLevels);
+            ksort($genders);
+            ksort($units);
 
             $view->with('maritalStatuses', $maritalStatuses)
-                ->with( 'identificationTypes', $identificationTypes)
-                ->with('driverLicenseTypes', $driverLicenseTypes)
-                ->with('languages', $languages)
-                ->with('volunteerStatuses', $volunteerStatuses);
+                 ->with('identificationTypes', $identificationTypes)
+                 ->with('driverLicenseTypes', $driverLicenseTypes)
+                 ->with('languages', $languages)
+                 ->with('volunteerStatuses', $volunteerStatuses)
+                 ->with('educationLevels', $educationLevels)
+                 ->with('genders', $genders)
+                 ->with('units', $units);
+        });
+
+        //Units Search Page requires all the following data for it's dropdowns etc.
+        View::composer('main.units.partials._search', function ($view) {
+
+            $units = Unit::all()->lists('description', 'id');
+            ksort($units);
+
+            $view->with('units', $units);
         });
     }
 
