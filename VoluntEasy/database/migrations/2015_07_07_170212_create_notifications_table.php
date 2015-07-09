@@ -25,17 +25,17 @@ class CreateNotificationsTable extends Migration {
 		Schema::create('notifications', function($table)
 		{
 			$table->increments('id');
-			$table->unsignedInteger('userId')->index();
-			$table->integer('typeId')->index(); // the Model instance id that we have o locate 
-			$table->integer('reference1Id')->index(); // the bookingId 
-			$table->integer('reference2Id')->nullable(); // a second Model instance id that maybe we have o locate
+			$table->unsignedInteger('user_id')->index();
+			$table->integer('type_id')->index(); // the Model instance id that we have o locate 
+			$table->integer('reference1_id')->index(); // the bookingId 
+			$table->integer('reference2_id')->nullable(); // a second Model instance id that maybe we have o locate
 			$table->string('status', 30)->nullable();  // what notification action (ring a bell, print red button on NavBar, etc..)
 			$table->timestamps();
 		});
 
 		Schema::table('notifications', function($table)
 		{
-			$table->foreign('userId')->references('id')->on('users')->onDelete('cascade');
+			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 		});
 	}
 

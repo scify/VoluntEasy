@@ -38,8 +38,7 @@ class Notification extends Model
 	 * @var string
 	 */
 	protected $table = 'notifications';
-	protected $fillable = array('userId', 'typeId', 'reference1Id', 'reference2Id', 'status');
-
+	protected $fillable = array('user_id', 'type_id', 'reference1_id', 'reference2_id', 'status');
 
     ////////////////////////
     //  *** RELATIONS *** //
@@ -48,7 +47,43 @@ class Notification extends Model
 	// User __one to many__ Notifications
 	public function user()
 	{
-		return $this->belongsTo('App\Models\User', 'userId');
+		return $this->belongsTo('App\Models\User', 'user_id');
 	}
+	
+	///////////////
+	// Accessors //
+	///////////////
+    public function getUserIdAttribute($value)
+    {
+        return $this->attributes['user_id'];
+    }
+    public function setUserIdAttribute($value)
+    {
+        $this->attributes['user_id'] = $value;
+    }
+    public function getTypeIdAttribute($value)
+    {
+        return $this->attributes['type_id'];
+    }
+    public function setTypeIdAttribute($value)
+    {
+        $this->attributes['type_id'] = $value;
+    }
+        public function getReference1IdAttribute($value)
+    {
+        return $this->attributes['reference1_id'];
+    }
+    public function setReference1IdAttribute($value)
+    {
+        $this->attributes['reference1_id'] = $value;
+    }
+    public function getReference2IdAttribute($value)
+    {
+        return $this->attributes['reference2_id'];
+    }
+    public function setReference2IdAttribute($value)
+    {
+        $this->attributes['reference2_id'] = $value;
+    }
 
 }

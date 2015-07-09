@@ -29,12 +29,12 @@ class NotificationService
     public function addNotification($userId, $typeId, $reference1Id, $reference2Id=null)
     {
         $notification = new Notification;
-        $notification->userId = $userId;
+        $notification->user_id = $userId;
         $notification->typeId = $typeId;
         $notification->reference1Id = $reference1Id;
         $notification->reference2Id = $reference2Id;
         $notification->status = 'alarmAndActive';        
-
+// return "hello";
         if ($notification->save())
             return 1;
         else
