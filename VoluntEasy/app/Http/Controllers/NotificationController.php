@@ -37,7 +37,7 @@ Class NotificationController extends Controller {
      * @param [$notificationId]
      * @return [boolean] [succes status]
      */
-    public function stopBellNotification($notificationId) 
+    public function stopBellNotification($notificationId)
     {
         if (NotificationService::stopBellNotification($notificationId)) {
             $status = 'success';
@@ -65,7 +65,7 @@ Class NotificationController extends Controller {
      */
     public function deactivateNotification($notificationId)
     {
-    	$userId = \Auth::user()->id;			
+    	$userId = \Auth::user()->id;
 
 		if (NotificationService::deactivateNotification($notificationId)) {
 			$status = 'success';                        

@@ -13,8 +13,6 @@
                         <a href="javascript:void(0);" class="waves-effect waves-button waves-classic show-search">
                             <i class="fa fa-search"></i></a>
                     </div>
-
-
                     <div class="topmenu-outer">
                         <!--options(appearence)-->
                         <div class="top-menu">
@@ -62,16 +60,16 @@
 
                             <ul class="nav navbar-nav navbar-right">
                                 <!---Notificasion Icon-->
-                                <li class="dropdown">
+                                <li class="dropdown" id="notificationsDropdown">
                                     <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic"
-                                        data-toggle="dropdown"><i class="fa fa-bell"></i>
-                                        <span class="badge badge-success pull-right">3</span>
+                                        data-toggle="dropdown" id="notificationBell"><i class="fa fa-bell"></i>
+                                        <span class="badge badge-success pull-right notificationSum" id="notificationBadge"></span>
                                     </a>
                                     <ul class="dropdown-menu title-caret dropdown-lg" role="menu">
-                                        <li><p class="drop-title">You have 3 pending tasks !</p></li>
+                                        <li><p class="drop-title">You have <span class="notificationSum">0</span> pending tasks !</p></li>
                                         <li class="dropdown-menu-list slimscroll tasks">
-                                            <ul class="list-unstyled">
-                                                <li>
+                                            <ul class="list-unstyled" id="notificationList">
+                                                <!--li>
                                                     <a href="#">
                                                         <div class="task-icon badge badge-success"><i class="icon-user"></i></div>
                                                         <span class="badge badge-roundless badge-default pull-right">1min ago</span>
@@ -91,7 +89,7 @@
                                                         <span class="badge badge-roundless badge-default pull-right">1h ago</span>
                                                         <p class="task-details">Reached 24k likes</p>
                                                     </a>
-                                                </li>
+                                                </li-->
                                             </ul>
                                         </li>
                                         <li class="drop-all"><a href="#" class="text-center">All Tasks</a></li>

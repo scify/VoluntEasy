@@ -81,7 +81,7 @@ Route::get('/addNotification/{userId}/{typeId}/{request1Id}/{request2Id?}', arra
     'as' => 'notifications.add',
     'uses' => 'NotificationController@addNotification'
 ) );
-Route::get('/stopBellNotification/{notificationId}', array(
+Route::get('stopBellNotification/{notificationId}', array(
     'as' => 'notifications.stopBell',
     'uses' => 'NotificationController@stopBellNotification'
 ) );

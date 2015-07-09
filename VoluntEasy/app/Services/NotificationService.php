@@ -46,8 +46,8 @@ class NotificationService
      * @param [$notificationId] 
      * @return [boolean] [succes status]
      */
-    public function stopBellNotification($notificationId) 
-    {        
+    public function stopBellNotification($notificationId)
+    {
         $notification = Notification::findOrFail($notificationId);
         
         $notification->status = 'active';
@@ -102,4 +102,4 @@ class NotificationService
         return $notificationObjectsList;
 
     }
-}      
+}
