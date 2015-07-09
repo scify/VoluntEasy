@@ -29,12 +29,12 @@ class NotificationService
     public function addNotification($userId, $typeId, $reference1Id, $reference2Id=null)
     {
         $notification = new Notification;
-        $notification->user_id = $userId;
+        $notification->userId = $userId;
         $notification->typeId = $typeId;
         $notification->reference1Id = $reference1Id;
         $notification->reference2Id = $reference2Id;
-        $notification->status = 'alarmAndActive';        
-// return "hello";
+        $notification->status = 'alarmAndActive';
+
         if ($notification->save())
             return 1;
         else
@@ -94,8 +94,9 @@ class NotificationService
 
         })->get();
 
-        foreach ($notificationObjectsList as $notificationObject) {                        
-            $notificationObject['msg'] = "testttt";            
+        foreach ($notificationObjectsList as $notificationObject) {            
+            $notificationObject['when'] = ;
+            $notificationObject['msg'] = "testttt";
             $notificationObject['url'] = "testttt";    //URL::to('transferRequest', $booking->id),
         }
 

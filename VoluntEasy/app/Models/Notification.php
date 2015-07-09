@@ -49,7 +49,7 @@ class Notification extends Model
 	{
 		return $this->belongsTo('App\Models\User', 'user_id');
 	}
-	
+
 	///////////////
 	// Accessors //
 	///////////////
@@ -69,7 +69,7 @@ class Notification extends Model
     {
         $this->attributes['type_id'] = $value;
     }
-        public function getReference1IdAttribute($value)
+    public function getReference1IdAttribute($value)
     {
         return $this->attributes['reference1_id'];
     }
