@@ -85,6 +85,7 @@ class UnitService {
         }
 
         $result = $query->orderBy('description', 'ASC')->with('parent')->paginate(5);
+        $result->setPath(\URL::to('/').'/units');
 
         return $result;
     }

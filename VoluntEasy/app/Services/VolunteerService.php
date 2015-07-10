@@ -117,7 +117,7 @@ class VolunteerService {
             }
         }
         $result = $query->orderBy('name', 'ASC')->with('actions')->paginate(5);
-
+        $result->setPath(\URL::to('/').'/volunteers');
         // dd($query);
 
         return $result;

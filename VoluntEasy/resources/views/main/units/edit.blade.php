@@ -11,6 +11,22 @@
 @section('bodyContent')
 
 <div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-body">
+                <div id="unitsTree"></div>
+                <ul id="tree" style="display:none;">
+                    <li data-id="{{$tree->id}}"
+                    {{ $active->id==$tree->id ? 'class=active-node' : '' }}><span class="description">{{$tree->description}}</span>
+                    <ul>
+                        @include('main.tree._branch_active', ['unit' => $tree, 'active' => $active->id])
+                    </ul>
+                    </li>
+                </ul>
+                @include('main.tree._legend')
+            </div>
+        </div>
+    </div>
     <div class="col-md-6">
         <div class="panel panel-white">
             <div class="panel-body">
@@ -71,22 +87,6 @@
                     </div>
                     @endif
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="panel panel-white">
-            <div class="panel-body">
-                <div id="unitsTree"></div>
-                <ul id="tree" style="display:none;">
-                    <li data-id="{{$tree->id}}"
-                    {{ $active->id==$tree->id ? 'class=active-node' : '' }}><span class="description">{{$tree->description}}</span>
-                    <ul>
-                        @include('main.tree._branch_active', ['unit' => $tree, 'active' => $active->id])
-                    </ul>
-                    </li>
-                </ul>
-
             </div>
         </div>
     </div>

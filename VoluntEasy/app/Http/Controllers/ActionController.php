@@ -3,6 +3,7 @@
 use App\Http\Requests\ActionRequest as ActionRequest;
 use App\Models\Action;
 use App\Models\Volunteer;
+use App\Services\Facades\ActionService;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
@@ -140,6 +141,19 @@ class ActionController extends Controller
         return Redirect::to('actions');
     }
 
+    /**
+     * Search all actions
+     *
+     * @return mixed
+     */
+    public function search() {
+        $actions = ActionService::search();
+
+        $userUnits = UserService::userUnits();
+
+        $view = \View::make('main.actions.list')->with('actions', $actions)->with('userUnits', $userUnits);
+        return $view->renderSections()['table'];
+    }
 
 
     /**
