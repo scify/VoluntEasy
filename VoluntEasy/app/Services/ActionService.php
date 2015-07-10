@@ -13,6 +13,8 @@ class ActionService{
     private $filters = [
         'description' => 'like%',
         'unit_id' => '=',
+        'start_date' => '>',
+        'end_date' => '<',
 
     ];
 
@@ -26,16 +28,30 @@ class ActionService{
 
         $query = Action::select();
 
+        //dd(\Input::all());
+
         foreach ($this->filters as $column => $filter) {
             if (\Input::has($column)) {
                 $value = \Input::get($column);
                 switch ($filter) {
                     case '=':
                         if (!Search::notDropDown($value, $column))
-                            $query->where($column, '=', \Input::get($column));
+                            $query->where($column, '=', $value);
                         break;
                     case 'like%':
-                        $query->where($column, 'like', \Input::get($column) . '%');
+                        $query->where($column, 'like', $value . '%');
+                        break;
+                    case '>':
+                        //operator used only for dates
+                        $value = str_replace('/', '-', $value);
+                        $value = date("Y-m-d", strtotime($value));
+                        $query->where($column, '>', $value);
+                        break;
+                    case '<':
+                        //operator used only for dates
+                        $value = str_replace('/', '-', $value);
+                        $value = date("Y-m-d", strtotime($value));
+                        $query->where($column, '<', $value);
                         break;
                     default:
                         break;
@@ -44,6 +60,8 @@ class ActionService{
         }
 
         $result = $query->orderBy('description', 'ASC')->paginate(5);
+      //  dd($query);
+
         $result->setPath(\URL::to('/').'/actions');
 
         return $result;
