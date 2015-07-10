@@ -11,6 +11,8 @@
     {!! Form::hidden('level', $tree->level+1) !!}
     {!! Form::formInput('parent_unit_id', null, $errors, ['type' => 'hidden', 'id' => 'parent_unit_id']) !!}
 @endif
+@if($submitButtonText!='none')
 <div class="form-group text-right">
     {!! Form::submit($submitButtonText, ['class' => 'btn btn-success']) !!}
 </div>
+@endif

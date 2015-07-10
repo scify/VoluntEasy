@@ -202,6 +202,7 @@ return [
         'Debugbar'  => 'Barryvdh\Debugbar\Facade',
         'UnitService' => 'App\Services\Facades\UnitService',
         'UserService' => 'App\Services\Facades\UserService',
+        'SearchService' => 'App\Services\Facades\SearchService',
         'VolunteerService' => 'App\Services\Facades\VolunteerService',
     ],
 

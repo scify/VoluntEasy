@@ -1,6 +1,7 @@
 <?php namespace App\Services;
 
 use App\Models\Unit;
+use App\Services\Facades\SearchService as Search;
 
 class UnitService {
 
@@ -68,12 +69,14 @@ class UnitService {
 
         foreach ($this->filters as $column => $filter) {
             if (\Input::has($column)) {
-                switch($filter) {
+                $value = \Input::get($column);
+                switch ($filter) {
                     case '=':
-                        $query->where($column, '=', \Input::get($column));
+                        if (!Search::notDropDown($value, $column))
+                            $query->where($column, '=', \Input::get($column));
                         break;
                     case 'like%':
-                        $query->where($column, 'like', \Input::get($column).'%');
+                        $query->where($column, 'like', \Input::get($column) . '%');
                         break;
                     default:
                         break;

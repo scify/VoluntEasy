@@ -25,7 +25,7 @@
                                 <ul id="tree-{{ $unit->id }}" class="jOrgChartUl" style="display:none;">
                                     <li data-id="{{$unit->id}}"><span class="description">{{$unit->description}}</span>
                                         <ul>
-                                            @include('main.units.partials._branch', ['unit' => $unit])
+                                            @include('main.tree._branch', ['unit' => $unit])
                                         </ul>
 
                                     </li>

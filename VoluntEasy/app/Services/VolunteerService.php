@@ -1,6 +1,7 @@
 <?php namespace App\Services;
 
 use App\Models\Volunteer;
+use App\Services\Facades\SearchService as Search;
 use App\Services\Facades\UnitService as UnitServiceFacade;
 
 class VolunteerService {
@@ -26,7 +27,6 @@ class VolunteerService {
 
     ];
 
-    private $dropDowns = ['marital_status_id', 'gender_id', 'education_level_id', 'unit_id'];
 
     /**
      * Get all the volunteers that are assigned to the root unit,
@@ -78,7 +78,7 @@ class VolunteerService {
                 $value = \Input::get($column);
                 switch ($filter) {
                     case '=':
-                        if (!$this->notDropDown($value, $column))
+                        if (!Search::notDropDown($value, $column))
                             $query->where($column, '=', $value);
                         break;
                     case 'like%':
@@ -103,7 +103,7 @@ class VolunteerService {
                                     ->orWhere('work_tel', \Input::get('phoneNumber'))
                                     ->orWhere('cell_tel', \Input::get('phoneNumber'));
                             case 'unit_id':
-                                if (!$this->notDropDown($value, $column)) {
+                                if (!Search::notDropDown($value, $column)) {
                                     $id = \Input::get('unit_id');
                                     $query->whereHas('units', function ($query) use ($id) {
                                         $query->where('id', $id);
@@ -124,18 +124,5 @@ class VolunteerService {
     }
 
 
-    /**
-     * Dropdowns have an extra option that acts as a placeholder and has id=0.
-     * If the user hasn't selected anything, the placeholder is selected and
-     * the value 0 is send to the server so we don't have to make a query.
-     *
-     * @param $value
-     * @param $column
-     * @return bool
-     */
-    public function notDropDown($value, $column) {
-        if (in_array($column, $this->dropDowns) && $value == "0")
-            return true;
-    }
 
 }

@@ -42,7 +42,7 @@
                             {{ $active->id==$tree->id ? 'class=active-node' : '' }}><span
                                 class="description">{{$tree->description}}</span>
                             <ul>
-                                @include('main.units.partials._branch_active', ['unit' => $tree, 'active' =>
+                                @include('main.tree._branch_active', ['unit' => $tree, 'active' =>
                                 $active->id])
                             </ul>
                             </li>

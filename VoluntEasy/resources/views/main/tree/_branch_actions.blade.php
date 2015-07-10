@@ -2,7 +2,7 @@
 @if (sizeof($unit['allChildren']) > 0)
 <li data-id="{{ $unit['id'] }}" class="disabled"><span class="description">{{ $unit['id'].$unit['description']}}</span>
     <ul>
-        @include('main.units.partials._branch_actions', ['unit' => $unit])
+        @include('main.tree._branch_actions', ['unit' => $unit])
     </ul>
 </li>
 @else

@@ -18,7 +18,7 @@ Tree
                     <li data-id="{{$tree->id}}" class="{{ in_array($tree->id, $userUnits) ? '' : 'disabled' }}"><span
                         class="description">{{$tree->description}}</span>
                     <ul>
-                        @include('main.units.partials._branch_actions', ['unit' => $tree, 'userUnits' => $userUnits])
+                        @include('main.tree._branch_actions', ['unit' => $tree, 'userUnits' => $userUnits])
                     </ul>
                     </li>
                 </ul>

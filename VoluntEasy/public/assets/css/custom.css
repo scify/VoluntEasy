@@ -154,5 +154,5 @@ h3{font-weight: 400;}
 }
 
 /* tasks list */
-.tasks li{ background-color: #E9EDF2; }
+.tasks li.grey{ background-color: #E9EDF2; }
 .tasks li a:hover, .dropdown-menu li a:hover {background:none;}

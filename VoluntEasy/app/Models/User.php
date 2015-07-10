@@ -45,6 +45,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function notifications()
     {
-        return $this->hasMany('App\Models\Notification');
+        return $this->hasMany('App\Models\Notification')->orderBy('updated_at', 'desc');
     }    
 }

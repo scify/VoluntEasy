@@ -99,6 +99,7 @@ Route::get( '/checkForNotifications', array(
     'as' => 'notifications.check',
     'uses' => 'NotificationController@checkForNotifications'
 ) );
+Route::get('notifications','NotificationController@index');
 
 
 /////////////////

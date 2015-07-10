@@ -9,6 +9,8 @@
                 <th>#</th>
                 <th>Όνομα</th>
                 <th>Email</th>
+                <th>Διεύθυνση</th>
+                <th>Τηλέφωνο</th>
                 <th></th>
             </tr>
             </thead>
@@ -16,8 +18,16 @@
             @foreach ($unit->volunteers as $volunteer)
             <tr>
                 <td>{{ $volunteer->id }}</td>
-                <td><a href="{{ url('units/one/'.$volunteer->id) }}">{{ $volunteer->name.' '.$volunteer->last_name}}</a></td>
-                <td>{{ $volunteer->comments }}</td>
+                <td><a href="{{ url('volunteers/one/'.$volunteer->id) }}">{{ $volunteer->name }} {{ $volunteer->last_name }}</a></td>
+                <td>{{ $volunteer->email }}</td>
+                <td>{{ $volunteer->address}}
+                    @if($volunteer->city!=null || $volunteer->city!=""), {{ $volunteer->city }}@endif
+                    @if($volunteer->country!=null || $volunteer->country!=""), {{ $volunteer->country }}@endif
+                </td>
+                <td>@if($volunteer->home_tel!=null || $volunteer->home_tel!="") {{ $volunteer->home_tel }}@endif
+                    @if($volunteer->work_tel!=null || $volunteer->home_tel!="") {{ $volunteer->work_tel }}@endif
+                    @if($volunteer->cell_tel!=null || $volunteer->home_tel!="") {{ $volunteer->cell_tel }}@endif
+                </td>
             </tr>
             @endforeach
             </tbody>
