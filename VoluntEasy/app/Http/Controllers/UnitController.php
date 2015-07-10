@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
+use App\Services\Facades\NotificationService as NotificationService;
 
 class UnitController extends Controller {
     public function __construct() {
@@ -247,6 +248,10 @@ class UnitController extends Controller {
 
         $unit->users()->sync($request->get('users'));
 
+        $users = User::whereIn('id', $request->get('users'))->get();
+        foreach ($users as $user) {
+            NotificationService::addNotification($user->id, 1, 'you are added to Unit: '.$unit->description, "athensIndymedia", $user->id, $unit->id);
+        }
         return $unit->id;
     }
 
@@ -258,7 +263,7 @@ class UnitController extends Controller {
      */
     public function addVolunteers(Request $request) {
         $unit = Unit::findOrFail($request->get('id'));
-
+        return "hello";
         $unit->volunteers()->sync($request->get('volunteers'));
 
         return $unit->id;

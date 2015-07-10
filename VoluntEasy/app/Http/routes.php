@@ -82,11 +82,6 @@ Route::get('/addNotification/{userId}/{typeId}/{msg}/{url}/{reference1Id}/{refer
     'uses' => 'NotificationController@addNotification'
 ) );
 
-Route::get('/addNotification/{userId}/{typeId}/{reference1Id}/{reference2Id?}', array(
-    'as' => 'notifications.add',
-    'uses' => 'NotificationController@addNotification'
-) );
-
 Route::get('stopBellNotification/{notificationId}', array(
     'as' => 'notifications.stopBell',
     'uses' => 'NotificationController@stopBellNotification'
@@ -127,14 +122,20 @@ Route::get('volunteers/new','TestController@newVolunteers');
 /** aris TESTing... **/
 Route::get('aris', function()
 {
+    $user = Auth::user();
+    $unit = App\Models\Unit::first(); 
+    return App\Services\Facades\NotificationService::addNotification($user->id, 1, 'you are added to Unit: '.$unit->description, "athensIndymedia", $user->id, $unit->id);
 
-    return date();
-    //return new \DateTime('today');
+    
+    //Route::get('notifications.add', 'UserController@showProfile')
+    //route('notifications.add');
 
-	// return \Unit::first();
+    //$request = Request::create('/addNotification/'.$userId.'/1/you are added to Unit: '.'UNITNAME'.'/athens.indymedia/'.'1'.'/'.'2'.'/', 'GET');
+    //return var_dump($this);
+    //->client->get('http://volunteasy/addNotification/'.$userId.'/1/you are added to Unit: '
+     //   .'UNITNAME'.'/athens.indymedia/'.'1'.'/'.'2'.'/');
+    //return Route::dispatch($request);
 
-		// return Mail::send('emails.testmail', array(),function ($m) {
-  //           $m->to('aris.stru@gmail.com', 'Aris')->subject('testinggggg');
-  //       });    
+    //return new \DateTime('today'); 
 });
 

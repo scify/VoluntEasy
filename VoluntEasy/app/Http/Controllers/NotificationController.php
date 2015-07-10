@@ -36,7 +36,7 @@ Class NotificationController extends Controller {
      * @return [boolean] [success status]
      */
     public function addNotification($userId, $typeId, $msg, $url, $reference1Id, $reference2Id=null) 
-    {               
+    {
 		return $not = NotificationService::addNotification($userId, $typeId, $msg, $url, $reference1Id, $reference2Id ?: null);
     }
     

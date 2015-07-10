@@ -123,6 +123,4 @@ class VolunteerService {
         return $result;
     }
 
-
-
 }
