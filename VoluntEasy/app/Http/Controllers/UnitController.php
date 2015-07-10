@@ -72,7 +72,8 @@ class UnitController extends Controller {
 
     /**
      * Store a newly created resource in storage.
-     * Also assign the predefined steps.
+     * Also assign the predefined steps and
+     * the users, if they are set.
      *
      * @param UnitRequest $request
      * @return Response
@@ -232,7 +233,7 @@ class UnitController extends Controller {
     public function wholeTree() {
         $tree = UnitService::getTree();
         $userUnits = UserService::userUnits();
-        return view("main.units.tree", compact('tree', 'userUnits'));
+        return view("main.tree.tree", compact('tree', 'userUnits'));
     }
 
     /**

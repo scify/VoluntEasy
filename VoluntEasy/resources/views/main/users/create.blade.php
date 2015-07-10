@@ -29,7 +29,7 @@
                 <ul id="tree" style="display:none;">
                     <li data-id="{{$tree->id}}"><span class="description">{{$tree->description}}</span>
                         <ul>
-                            @include('main.units.partials._branch', ['unit' => $tree])
+                            @include('main.tree._branch', ['unit' => $tree])
                         </ul>
                     </li>
                 </ul>

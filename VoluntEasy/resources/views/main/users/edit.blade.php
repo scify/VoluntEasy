@@ -37,7 +37,7 @@
                 <ul id="tree" style="display:none;">
                     <li data-id="{{$tree->id}}" {{ in_array($tree->id, $active) ? 'class=active-node' : '' }}><span class="description">{{$tree->description}}</span>
                         <ul>
-                            @include('main.units.partials._branch_actives', ['unit' => $tree, 'active' =>
+                            @include('main.tree._branch_actives', ['unit' => $tree, 'active' =>
                             $active])
                         </ul>
                     </li>

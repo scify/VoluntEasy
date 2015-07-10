@@ -28,7 +28,7 @@
                     <li data-id="{{$tree->id}}" ><span
                             class="description">{{$tree->description}}</span>
                         <ul>
-                            @include('main.units.partials._branch_actions', ['unit' => $tree])
+                            @include('main.tree._branch_actions', ['unit' => $tree])
                         </ul>
                     </li>
                 </ul>

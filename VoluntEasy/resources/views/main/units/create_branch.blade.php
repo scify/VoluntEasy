@@ -11,6 +11,26 @@
 @section('bodyContent')
 
 <div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-body">
+                <h4>Επιλέξτε τον πατέρα της οργανωτικής:</h4>
+                <div id="unitsTree"></div>
+                <ul id="tree" style="display:none;">
+                    <li data-id="{{$tree->id}}"
+                        class="{{ in_array($tree->id, $userUnits) ? '' : 'disabled' }}"><span
+                            class="description">{{$tree->description}}</span>
+                        <ul>
+                            @include('main.tree._branch', ['unit' => $tree, 'userUnits' =>
+                            $userUnits])
+                        </ul>
+                    </li>
+                </ul>
+                @include('main.tree._legend')
+            </div>
+        </div>
+    </div>
+
     <div class="col-md-4">
         <div class="panel panel-white">
             <div class="panel-body">
@@ -24,26 +44,6 @@
                     {!! Form::submit('Αποθήκευση', ['class' => 'btn btn-success']) !!}
                 </div>
                 {!! Form::close() !!}
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-8">
-        <div class="panel panel-white">
-            <div class="panel-body">
-                <h4>Επιλέξτε τον πατέρα της οργανωτικής:</h4>
-
-                <div id="unitsTree"></div>
-                <ul id="tree" style="display:none;">
-                    <li data-id="{{$tree->id}}"
-                        class="{{ in_array($tree->id, $userUnits) ? '' : 'disabled' }}"><span
-                            class="description">{{$tree->description}}</span>
-                        <ul>
-                            @include('main.units.partials._branch', ['unit' => $tree, 'userUnits' =>
-                            $userUnits])
-                        </ul>
-                    </li>
-                </ul>
             </div>
         </div>
     </div>

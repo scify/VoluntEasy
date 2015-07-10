@@ -101,7 +101,6 @@ class UserController extends Controller
 
         $request['password'] = \Hash::make($request['password']);
 
-
         $user->update($request->all());
 
         return Redirect::to('users');
