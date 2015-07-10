@@ -38,7 +38,7 @@ class Notification extends Model
 	 * @var string
 	 */
 	protected $table = 'notifications';
-	protected $fillable = array('user_id', 'type_id', 'reference1_id', 'reference2_id', 'status');
+	protected $fillable = array('user_id', 'type_id', 'msg', 'url', 'reference1_id', 'reference2_id', 'status');
 
     ////////////////////////
     //  *** RELATIONS *** //

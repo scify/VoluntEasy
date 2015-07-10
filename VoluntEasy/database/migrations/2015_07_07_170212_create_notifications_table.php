@@ -30,6 +30,8 @@ class CreateNotificationsTable extends Migration {
 			$table->integer('reference1_id')->index(); // the bookingId 
 			$table->integer('reference2_id')->nullable(); // a second Model instance id that maybe we have o locate
 			$table->string('status', 30)->nullable();  // what notification action (ring a bell, print red button on NavBar, etc..)
+			$table->string('msg', 300);
+			$table->string('url', 100);
 			$table->timestamps();
 		});
 
@@ -49,7 +51,7 @@ class CreateNotificationsTable extends Migration {
 		
 		Schema::table('notifications', function($table)
         {
-		 	$table->dropForeign('notifications_userid_foreign');
+		 	$table->dropForeign('notifications_user_id_foreign');
         });
 
 		Schema::dropIfExists('notifications');

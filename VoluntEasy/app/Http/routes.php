@@ -8,7 +8,7 @@ Route::controllers([
 ]);
 
 
-
+ 
 ////////////////
 //User Routes //
 ////////////////
@@ -78,10 +78,16 @@ Route::get('steps/volunteer/{id}','StepController@volunteerSteps');
 ////////////////////
 // Notifications //
 ////////////////////	
-Route::get('/addNotification/{userId}/{typeId}/{request1Id}/{request2Id?}', array(
+Route::get('/addNotification/{userId}/{typeId}/{msg}/{url}/{reference1Id}/{reference2Id?}', array(
     'as' => 'notifications.add',
     'uses' => 'NotificationController@addNotification'
 ) );
+
+Route::get('/addNotification/{userId}/{typeId}/{reference1Id}/{reference2Id?}', array(
+    'as' => 'notifications.add',
+    'uses' => 'NotificationController@addNotification'
+) );
+
 Route::get('stopBellNotification/{notificationId}', array(
     'as' => 'notifications.stopBell',
     'uses' => 'NotificationController@stopBellNotification'
@@ -122,6 +128,10 @@ Route::get('volunteers/new','TestController@newVolunteers');
 /** aris TESTing... **/
 Route::get('aris', function()
 {
+
+    return date();
+    //return new \DateTime('today');
+
 	// return \Unit::first();
 
 		// return Mail::send('emails.testmail', array(),function ($m) {

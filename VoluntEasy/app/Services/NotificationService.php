@@ -1,6 +1,7 @@
 <?php namespace App\Services;
  
 use App\Models\Notification;
+use App\Helpers\Helper;
 
 /**
  * The PHP Class that will handle the buisnes logic for the Notification Engine
@@ -26,11 +27,13 @@ class NotificationService
      * @param reference2Id [a second Model instance id that maybe we have o locate]
      * @return [boolean] [succes status]
      */
-    public function addNotification($userId, $typeId, $reference1Id, $reference2Id=null)
+    public function addNotification($userId, $typeId, $msg, $url, $reference1Id, $reference2Id=null)
     {
         $notification = new Notification;
         $notification->userId = $userId;
         $notification->typeId = $typeId;
+        $notification->msg = $msg;
+        $notification->url = $url;
         $notification->reference1Id = $reference1Id;
         $notification->reference2Id = $reference2Id;
         $notification->status = 'alarmAndActive';
@@ -83,8 +86,8 @@ class NotificationService
      * @param [$userId] [the User]
      * @return [collection] [a list with all the active notification for the user]
      */
-    public function checkForNotifications() 
-    {        
+    public function checkForNotifications()
+    {
         $userId = \Auth::user()->id;
 
         $notificationObjectsList = Notification::whereStatus('active')->orWhere('status','alarmAndActive')
@@ -93,14 +96,17 @@ class NotificationService
             $q->whereId($userId);
 
         })->get();
-
+        
         foreach ($notificationObjectsList as $notificationObject) {            
-            $notificationObject['when'] = '';
-            $notificationObject['msg'] = "testttt";
-            $notificationObject['url'] = "testttt";    //URL::to('transferRequest', $booking->id),
+            $humanDateTime = new Helper;
+            $notificationObject['when'] = $humanDateTime->dateDiff($notificationObject->created_at);
+            unset($notificationObject['created_at']);
+            unset($notificationObject['updated_at']);
+            
+            //URL::to('transferRequest', $booking->id),
+            //$temp = $notificationObject->created_at->diff(new \DateTime('now'));
         }
 
         return $notificationObjectsList;
-
     }
 }
