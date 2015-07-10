@@ -65,6 +65,7 @@ Route::get('actions/delete/{id}', 'ActionController@destroy');
 Route::post('actions/store', 'ActionController@store');
 Route::post('actions/update', 'ActionController@update');
 Route::post('actions/volunteers', 'ActionController@addVolunteers');
+Route::post('actions/search', 'ActionController@search');
 
 
 ////////////////

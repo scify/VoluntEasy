@@ -11,48 +11,28 @@
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-white">
+            <div class="panel-body">
+                {!! Form::open(['method' => 'POST', 'action' => ['ActionController@search'], 'id' => 'searchForm']) !!}
+                @include('main.actions.partials._search')
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
             <div class="panel-heading clearfix">
                 <h4 class="panel-title">Δράσεις</h4>
             </div>
             <div class="panel-body">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Περιγραφή</th>
-                        <th>Σχόλια</th>
-                        <th>Μονάδα</th>
-                        <th>Ημ. Έναρξης</th>
-                        <th>Ημ. Λήξης</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach ($actions as $action)
-                    <tr>
-                        <td>{{ $action->id }}</td>
-                        <td><a href="{{ url('actions/one/'.$action->id) }}">{{ $action->description }}</a></td>
-                        <td>{{ $action->comments }}</td>
-                        <td>{{ $action->unit->description }}</td>
-                        <td>{{ $action->start_date }}</td>
-                        <td>{{ $action->end_date }}</td>
-                        <td>
-                            @if(in_array($action->unit->id, $userUnits))
-                            <ul class="list-inline">
-                                <li><a href="{{ url('actions/edit/'.$action->id) }}" data-toggle="tooltip"
-                                       data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit fa-2x"></i></a>
-                                </li>
-                                <li><a href="{{ url('actions/delete/'.$action->id) }}" data-toggle="tooltip"
-                                       data-placement="bottom" title="Διαγραφή"><i class="fa fa-trash fa-2x"></i></a>
-                                </li>
-                            </ul>
-                            @endif
-                        </td>
-                    </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-                {!! $actions->render() !!}
+                @section('table')
+                @include('main.actions.partials._table', ['actions' => $actions])
+                @endsection
+                <div id="table">
+                    @yield('table')
+                </div>
             </div>
         </div>
     </div>
@@ -65,5 +45,26 @@
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     });
+
+    //Submit the form through ajax.
+    //The result data is the html of the table.
+    $('#searchForm').on('submit', function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            type: $(this).attr('method'),
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            cache: false,
+            headers: {
+                'X-XSRF-Token': $('meta[name="_token"]').attr('content')
+            },
+            success: function (data) {
+                $("#table").html(data);
+                console.log(data);
+            }
+        });
+        return false; // prevent send form
+    });
 </script>
-@stop
+@append
