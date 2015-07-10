@@ -51,9 +51,9 @@ class UserController extends Controller
     {
         $request['password'] = \Hash::make($request['password']);
 
-        User::create($request->all());
+        $user = User::create($request->all());
 
-        return Redirect::to('users');
+        return Redirect::route('user/profile', ['id' => $user->id]);
     }
 
     /**
@@ -65,7 +65,6 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::where('id', $id)->with('units')->first();
-
 
         $tree = UnitService::getTree();
 

@@ -95,7 +95,7 @@ class NotificationService
         })->get();
 
         foreach ($notificationObjectsList as $notificationObject) {            
-            $notificationObject['when'] = ;
+            $notificationObject['when'] = '';
             $notificationObject['msg'] = "testttt";
             $notificationObject['url'] = "testttt";    //URL::to('transferRequest', $booking->id),
         }

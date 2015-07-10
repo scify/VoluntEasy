@@ -25,11 +25,7 @@
     <div class="col-md-8">
         <div class="panel panel-white">
             <div class="panel-body">
-
-                @foreach($userUnits as $u)
-                    <?php echo $u.',' ?>
-                @endforeach
-
+                <h4>Επιλέξτε σε ποια οργανωτική μονάδα ανήκει η δράση:</h4>
                 <ul id="tree" style="display:none;">
                     <li data-id="{{$tree->id}}" class="root disabled"><span
                             class="description">{{$tree->description}}</span>

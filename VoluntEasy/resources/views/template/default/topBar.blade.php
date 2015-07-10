@@ -92,7 +92,7 @@
                                                 </li-->
                                             </ul>
                                         </li>
-                                        <li class="drop-all"><a href="#" class="text-center">All Tasks</a></li>
+                                        <li class="drop-all"><a href="{{ url('notifications') }}" class="text-center">All Tasks</a></li>
                                     </ul>
                                 </li>
                                 <!---/Notificasion Icon-->

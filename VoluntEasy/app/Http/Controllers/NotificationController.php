@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
  
 use App\Models\Notification;
+use App\Models\User;
 use App\Services\Facades\NotificationService;
 
 Class NotificationController extends Controller {
@@ -17,6 +18,13 @@ Class NotificationController extends Controller {
     public function __construct() {
         $this->middleware('auth');        
     }
+
+    public function index(){
+        $user = User::where('id', \Auth::user()->id)->with('notifications')->first();
+
+        return view('main.notifications.list', compact('user'));
+    }
+
 
     /**
      * create a new Notification Instance

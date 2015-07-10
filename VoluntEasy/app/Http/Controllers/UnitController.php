@@ -26,7 +26,7 @@ class UnitController extends Controller {
      */
     public function index() {
         $units = Unit::orderBy('description', 'ASC')->with('parent')->paginate(5);
-        $units->setPath(\URL::to('/').'/units');
+        $units->setPath(\URL::to('/') . '/units');
 
         $userUnits = UserService::userUnits();
 
@@ -56,13 +56,17 @@ class UnitController extends Controller {
 
         $userUnits = UserService::userUnits();
 
+        $users = User::all();
+
         if (count($root) == 0) {
             $type = 'root';
-            return view("main.units.create_root", compact('type'));
+            return view("main.units.create_root", compact('type', 'users'));
         } else {
             $tree = Unit::whereNull('parent_unit_id')->with('allChildren')->first();
             $type = 'branch';
-            return view("main.units.create_branch", compact('type', 'tree', 'userUnits'));
+
+            return view("main.units.create_branch", compact('tree', 'type', 'users', 'userUnits'));
+            // return view("main.units.create_branch", compact('type', 'tree', 'userUnits'));
         }
     }
 
@@ -76,9 +80,21 @@ class UnitController extends Controller {
     public function store(UnitRequest $request) {
         $unit = Unit::create($request->all());
 
+        $inputs = $request->all();
+
+        $users = [];
+
+        foreach ($inputs as $id => $input) {
+            if (preg_match('/user.*/', $id)) {
+               array_push($users, $input);
+            }
+        }
+
+        $unit->users()->sync($users);
+
         $unit->steps()->saveMany($this->createSteps());
 
-        return Redirect::to('units');
+        return Redirect::route('unit/one', ['id' => $unit->id]);
     }
 
     /**
