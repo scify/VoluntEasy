@@ -191,7 +191,9 @@ class VolunteerController extends Controller {
      * @return Response
      */
     public function show($id) {
-        //
+       $volunteer = Volunteer::where('id', $id)->with('gender', 'identificationType', 'driverLicenceType', 'educationLevel', 'languages.level', 'languages.language')->first();
+
+        return view("main.volunteers.show", compact('volunteer'));
     }
 
     /**

@@ -30,7 +30,7 @@
     <div class="col-md-6">
         <div class="panel panel-white">
             <div class="panel-body">
-                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel-group big" id="accordion" role="tablist" aria-multiselectable="true">
                     <div class="panel panel-default">
                         <div class="panel-heading" role="tab" id="headingOne">
                             <h4 class="panel-title">
@@ -185,30 +185,7 @@
     });
 
 
-    //datepickers for the edit form
-    $('#actionStartDate').datepicker({
-        language: 'el',
-        format: 'dd/mm/yyyy',
-        autoclose: true
-    }).on('changeDate', function (selected) {
-        var startDate = new Date(selected.date.valueOf());
-        $('#actionEndDate').datepicker('setStartDate', startDate);
-    }).on('clearDate', function (selected) {
-        $('#actionEndDate').datepicker('setStartDate', null);
-    });
 
-    //add restrictions: user should not be able to check
-    // an end_date after start_date and vice-versa
-    $('#actionEndDate').datepicker({
-        language: 'el',
-        format: 'dd/mm/yyyy',
-        autoclose: true
-    }).on('changeDate', function (selected) {
-        var endDate = new Date(selected.date.valueOf());
-        $('#actionStartDate').datepicker('setEndDate', endDate);
-    }).on('clearDate', function (selected) {
-        $('#actionStartDate').datepicker('setEndDate', null);
-    });
 
     /*
      $(".node").click(function () {

@@ -64,31 +64,6 @@
         $("#tree li[data-id='"+$('#unit_id').val()+"'").addClass('active-node');
     }
 
-    //datepickers for the edit form
-    $('#actionStartDate').datepicker({
-        language: 'el',
-        format: 'dd/mm/yyyy',
-        autoclose: true
-    }).on('changeDate', function (selected) {
-        var startDate = new Date(selected.date.valueOf());
-        $('#actionEndDate').datepicker('setStartDate', startDate);
-    }).on('clearDate', function (selected) {
-        $('#actionEndDate').datepicker('setStartDate', null);
-    });
-
-    //add restrictions: user should not be able to check
-    // an end_date after start_date and vice-versa
-    $('#actionEndDate').datepicker({
-        language: 'el',
-        format: 'dd/mm/yyyy',
-        autoclose: true
-    }).on('changeDate', function (selected) {
-        var endDate = new Date(selected.date.valueOf());
-        $('#actionStartDate').datepicker('setEndDate', endDate);
-    }).on('clearDate', function (selected) {
-        $('#actionStartDate').datepicker('setEndDate', null);
-    });
-
 
     $("#tree").jOrgChart({
         chartElement: '#unitsTree',

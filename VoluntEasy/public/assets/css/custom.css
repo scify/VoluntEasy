@@ -5,11 +5,17 @@ h3{font-weight: 400;}
 .tab.has-error{  background-color: #ECAFAD !important;}
 
 .panel-group .panel-heading .panel-title > a{
-	font-size: 16px;
 	font-weight: 400;
+}
+.panel-group.big .panel-heading .panel-title > a {
+    font-size: 16px;
 }
 .panel-default .panel-heading{
 	background-color:#E9EDF2;
+}
+.panel-group.small .panel .panel-heading{
+    padding:10px;
+    height:35px;
 }
 
 .user-image img{

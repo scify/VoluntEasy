@@ -13,6 +13,7 @@ class UnitService {
     private $filters = [
         'description' => 'like%',
         'parent_unit_id' => '=',
+        'user_id' => '',
 
     ];
 
@@ -78,6 +79,17 @@ class UnitService {
                     case 'like%':
                         $query->where($column, 'like', \Input::get($column) . '%');
                         break;
+                    case '':
+                        switch ($column) {
+                            case 'user_id':
+                                if (!Search::notDropDown($value, $column)) {
+                                    $id = \Input::get('user_id');
+                                    $query->whereHas('users', function ($query) use ($id) {
+                                        $query->where('id', $id);
+                                    });
+                                }
+                                break;
+                        }
                     default:
                         break;
                 }
@@ -85,7 +97,7 @@ class UnitService {
         }
 
         $result = $query->orderBy('description', 'ASC')->with('parent')->paginate(5);
-        $result->setPath(\URL::to('/').'/units');
+        $result->setPath(\URL::to('/') . '/units');
 
         return $result;
     }

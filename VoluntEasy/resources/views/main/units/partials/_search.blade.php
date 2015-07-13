@@ -11,6 +11,12 @@
         </div>
     </div>
     <div class="col-md-2">
+        <div class="form-group">
+            {!! Form::formInput('user_id', 'Υπεύθυνος:', $errors, ['class' => 'form-control input-sm searchDropDown',
+            'type' => 'select', 'value' => $users]) !!}
+        </div>
+    </div>
+    <div class="col-md-2">
     </div>
     <div class="col-md-2">
         <div class="form-group ">
@@ -20,13 +26,3 @@
     </div>
 </div>
 
-
-@section('footerScripts')
-<script>
-    $("#clear").click(function(){
-        $(".search").val('');
-        $(".searchDropDown").val('0');
-    });
-
-</script>
-@append

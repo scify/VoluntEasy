@@ -33,5 +33,5 @@
     @endforeach
     </tbody>
 </table>
-@include('pagination.default', ['paginator' => $units])
+{!! $units->render() !!}
 

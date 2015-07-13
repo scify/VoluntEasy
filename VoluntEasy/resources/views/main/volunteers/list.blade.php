@@ -77,7 +77,6 @@
             },
             success: function (data) {
                 $("#table").html(data);
-                console.log(data);
             }
         });
         return false; // prevent send form

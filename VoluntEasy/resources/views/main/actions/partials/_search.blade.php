@@ -60,12 +60,5 @@
     }).on('clearDate', function (selected) {
         $('#actionStartDate').datepicker('setEndDate', null);
     });
-
-
-    $("#clear").click(function(){
-        $(".search").val('');
-        $(".searchDropDown").val('0');
-    });
-
 </script>
 @append

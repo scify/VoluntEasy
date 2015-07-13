@@ -2,23 +2,23 @@
 <div class="row">
     <div class="col-md-2">
         <div class="form-group">
-            {!! Form::formInput('name', 'Όνομα', $errors, ['class' => 'form-control input-sm']) !!}
+            {!! Form::formInput('name', 'Όνομα', $errors, ['class' => 'form-control input-sm search']) !!}
         </div>
     </div>
     <div class="col-md-2">
         <div class="form-group">
-            {!! Form::formInput('last_name', 'Επώνυμο', $errors, ['class' => 'form-control input-sm']) !!}
+            {!! Form::formInput('last_name', 'Επώνυμο', $errors, ['class' => 'form-control input-sm search']) !!}
         </div>
     </div>
     <div class="col-md-2">
         <div class="form-group">
-            {!! Form::formInput('email', 'Email', $errors, ['class' => 'form-control input-sm']) !!}
+            {!! Form::formInput('email', 'Email', $errors, ['class' => 'form-control input-sm search']) !!}
         </div>
     </div>
     <div class="col-md-2">
         <div class="form-group ">
             <button type="submit" id="search" class="btn btn-default"><i class="fa fa-search"></i> Αναζήτηση</button>
-            <button type="submit" id="clear" class="btn btn-default"><i class="fa fa-remove"></i> Καθαρισμός</button>
+            <button type="button" id="clear" class="btn btn-default"><i class="fa fa-remove"></i> Καθαρισμός</button>
 
         </div>
     </div>
@@ -36,27 +36,27 @@
         <div class="row">
             <div class="col-md-2">
                 <div class="form-group">
-                    {!! Form::formInput('address', 'Διεύθυνση', $errors, ['class' => 'form-control input-sm']) !!}
+                    {!! Form::formInput('address', 'Διεύθυνση', $errors, ['class' => 'form-control input-sm search']) !!}
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    {!! Form::formInput('city', 'Πόλη', $errors, ['class' => 'form-control input-sm', 'id' => 'city', 'placeholder' => '...']) !!}
+                    {!! Form::formInput('city', 'Πόλη', $errors, ['class' => 'form-control input-sm search', 'id' => 'city', 'placeholder' => '...']) !!}
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    {!! Form::formInput('country', 'Χώρα', $errors, ['class' => 'form-control input-sm', 'id' => 'country', 'placeholder' => '...']) !!}
+                    {!! Form::formInput('country', 'Χώρα', $errors, ['class' => 'form-control input-sm search', 'id' => 'country', 'placeholder' => '...']) !!}
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    {!! Form::formInput('phoneNumber', 'Τηλέφωνο', $errors, ['class' => 'form-control input-sm']) !!}
+                    {!! Form::formInput('phoneNumber', 'Τηλέφωνο', $errors, ['class' => 'form-control input-sm search']) !!}
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    {!! Form::formInput('fax', 'Fax', $errors, ['class' => 'form-control input-sm']) !!}
+                    {!! Form::formInput('fax', 'Fax', $errors, ['class' => 'form-control input-sm search']) !!}
                 </div>
             </div>
         </div>
@@ -72,34 +72,34 @@
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    {!! Form::formInput('gender_id', 'Φύλο:', $errors, ['class' => 'form-control input-sm', 'type' => 'select',
+                    {!! Form::formInput('gender_id', 'Φύλο:', $errors, ['class' => 'form-control input-sm searchDropDown', 'type' => 'select',
                     'value' => $genders]) !!}
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
                     {!! Form::formInput('marital_status_id', 'Οικογενειακή Κατάσταση:', $errors, ['class' =>
-                    'form-control input-sm', 'type' => 'select',
+                    'form-control input-sm searchDropDown', 'type' => 'select',
                     'value' => $maritalStatuses]) !!}
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    {!! Form::formInput('education_level_id', 'Επίπεδο Εκπαίδευσης:', $errors, ['class' => 'form-control input-sm',
+                    {!! Form::formInput('education_level_id', 'Επίπεδο Εκπαίδευσης:', $errors, ['class' => 'form-control input-sm searchDropDown',
                     'type' =>
                     'select', 'value' => $educationLevels]) !!}
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    {!! Form::formInput('department', 'Σχολή:', $errors, ['class' => 'form-control input-sm']) !!}
+                    {!! Form::formInput('department', 'Σχολή:', $errors, ['class' => 'form-control input-sm search']) !!}
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-2">
                 <div class="form-group">
-                    {!! Form::formInput('unit_id', 'Ανήκει στη μονάδα:', $errors, ['class' => 'form-control input-sm',
+                    {!! Form::formInput('unit_id', 'Ανήκει στη μονάδα:', $errors, ['class' => 'form-control input-sm searchDropDown',
                     'type' => 'select', 'value' => $units]) !!}
                 </div>
             </div>
@@ -125,7 +125,5 @@
     $("#showFilters").click(function () {
         $("#filters").toggle();
     });
-
-
 </script>
 @append

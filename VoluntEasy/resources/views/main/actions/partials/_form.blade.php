@@ -11,12 +11,12 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            {!! Form::formInput('start_date', 'Ημερομηνία Έναρξης:', $errors, ['class' => 'form-control', 'id' => 'actionStartDate']) !!}
+            {!! Form::formInput('start_date', 'Ημερομηνία Έναρξης:', $errors, ['class' => 'form-control startDate', 'id' => 'actionStartDate']) !!}
         </div>
     </div>
     <div class="col-md-6">
         <div class="form-group">
-            {!! Form::formInput('end_date', 'Ημερομηνία Λήξης:', $errors, ['class' => 'form-control',  'id' => 'actionEndDate']) !!}
+            {!! Form::formInput('end_date', 'Ημερομηνία Λήξης:', $errors, ['class' => 'form-control endDate',  'id' => 'actionEndDate']) !!}
         </div>
     </div>
 </div>

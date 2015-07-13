@@ -50,6 +50,7 @@ Route::get('volunteers','VolunteerController@index');
 Route::get('volunteers/all','VolunteerController@all');
 Route::get('volunteers/new','VolunteerController@getNew');
 Route::get('volunteers/create', 'VolunteerController@create');
+Route::get('volunteers/one/{id}', ['as' => 'volunteer/one', 'uses' => 'VolunteerController@show']);
 Route::post('volunteers/store', 'VolunteerController@store');
 Route::post('volunteers/search', 'VolunteerController@search');
 
@@ -123,6 +124,7 @@ Route::get('units/branch/{id}','UnitController@branch');
 /** aris TESTing... **/
 Route::get('aris', function()
 {
+    return  php_sapi_name();
     $user = Auth::user();
     $unit = App\Models\Unit::first(); 
     return App\Services\Facades\NotificationService::addNotification($user->id, 1, 'you are added to Unit: '.$unit->description, "athensIndymedia", $user->id, $unit->id);

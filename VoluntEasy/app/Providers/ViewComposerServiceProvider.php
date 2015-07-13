@@ -13,6 +13,7 @@ use App\Models\Descriptions\MaritalStatus;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Descriptions\WorkStatus;
 use App\Models\Unit;
+use App\Models\User;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -71,13 +72,15 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
         //Units Search Page requires all the following data for it's dropdowns etc.
         View::composer('main.units.partials._search', function ($view) {
-
             $units = Unit::all()->lists('description', 'id');
+            $users = User::all()->lists('name', 'id');
 
             $units[0]='[- επιλέξτε -]';
             ksort($units);
+            $users[0]='[- επιλέξτε -]';
+            ksort($users);
 
-            $view->with('units', $units);
+            $view->with('units', $units)->with('users', $users);
         });
 
         //Actions Search Page requires all the following data for it's dropdowns etc.

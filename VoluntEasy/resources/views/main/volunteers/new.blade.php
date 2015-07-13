@@ -21,7 +21,7 @@
         Ικανότητες</a></li>
     <li role="presentation"><a href="#tab4" data-toggle="tab" class="{{ $errors->has('participation_reason') ? 'tab has-error' : ''}}"><i class="fa fa-cog m-r-xs"></i>Εργασιακή Εμπειρία &
         Εθελοντική Προσφορά</a></li>
-    <li role="presentation"><a href="#tab5" data-toggle="tab"><i class="fa fa-clock-o m-r-xs"></i>Διαθεσιμότητα & περιοχές ενδιαφερόντων.</a>
+    <li role="presentation"><a href="#tab5" data-toggle="tab"><i class="fa fa-clock-o m-r-xs"></i>Διαθεσιμότητα & περιοχές ενδιαφερόντων</a>
     </li>
 </ul>
 {!! Form::open(['id' => 'wizardForm', 'method' => 'POST', 'action' => ['VolunteerController@store']]) !!}

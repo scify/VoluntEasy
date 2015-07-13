@@ -40,6 +40,11 @@ class Volunteer extends User
         return $this->hasOne('App\Models\Descriptions\DriverLicenceType', 'id', 'driver_license_type_id');
     }
 
+    public function educationLevel()
+    {
+        return $this->hasOne('App\Models\Descriptions\EducationLevel', 'id', 'education_level_id');
+    }
+
     public function identificationType()
     {
         return $this->hasOne('App\Models\Descriptions\IdentificationType', 'id', 'identification_type_id');
@@ -53,6 +58,11 @@ class Volunteer extends User
     public function maritalStatus()
     {
         return $this->hasOne('App\Models\Descriptions\MaritalStatus', 'id', 'marital_status_id');
+    }
+
+    public function gender()
+    {
+        return $this->hasOne('App\Models\Descriptions\Gender', 'id', 'gender_id');
     }
 
     public function commMethod()
