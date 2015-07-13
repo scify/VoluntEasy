@@ -123,7 +123,7 @@ Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 Route::get('test','TestController@test');
 
 /**  test remove */
-Route::get('volunteers/new','TestController@newVolunteers');
+Route::get('units/branch/{id}','UnitController@branch');
 
 /** aris TESTing... **/
 Route::get('aris', function()

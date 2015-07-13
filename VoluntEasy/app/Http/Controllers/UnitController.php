@@ -287,4 +287,19 @@ class UnitController extends Controller {
 
         return $steps;
     }
+
+
+    public $branch = [];
+    public function branch ($id){
+
+        $unit = Unit::where('id', $id)->with('allParents')->first();
+
+        return $unit;
+
+        /*if($unit->parent_unit_id!=null){
+            array_push($branch, $unit->id);
+
+        }*/
+
+    }
 }

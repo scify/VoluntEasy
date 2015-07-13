@@ -69,4 +69,4 @@
         return false; // prevent send form
     });
 </script>
-@stop
+@append
