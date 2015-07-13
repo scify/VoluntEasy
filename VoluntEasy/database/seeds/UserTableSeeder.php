@@ -20,7 +20,6 @@ class UserTableSeeder extends Seeder {
             'password' => Hash::make('1q2w3e'),
             'addr' => 'SciFY',
             'tel' => '6666666666',
-
         ]);
     }
 

@@ -95,7 +95,7 @@ class NotificationService
         {
             $q->whereId($userId);
 
-        })->get();
+        })->orderBy('created_at', 'desc')->get();
         
         foreach ($notificationObjectsList as $notificationObject) {            
             $humanDateTime = new Helper;
