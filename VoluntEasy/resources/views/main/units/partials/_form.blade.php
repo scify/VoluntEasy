@@ -1,9 +1,9 @@
 <div class="form-group">
-    {!! Form::formInput('description', 'Περιγραφή:', $errors, ['class' => 'form-control']) !!}
+    {!! Form::formInput('description', 'Όνομα:', $errors, ['class' => 'form-control', 'required' => 'true']) !!}
 </div>
 <div class="form-group">
-    {!! Form::formInput('comments', 'Σχόλια:', $errors, ['class' => 'form-control', 'type' => 'textarea', 'size' =>
-    '5x5']) !!}
+    {!! Form::formInput('comments', 'Περιγραφή:', $errors, ['class' => 'form-control', 'type' => 'textarea', 'size' =>
+    '5x5', 'required' => 'true']) !!}
 </div>
 @if($type=='root')
     {!! Form::hidden('level', 0) !!}

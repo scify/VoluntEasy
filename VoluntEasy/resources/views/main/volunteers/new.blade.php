@@ -31,18 +31,18 @@
     <div class="row m-b-lg">
         <div class="col-md-4">
             <div class="form-group">
-                {!! Form::formInput('name', 'Όνομα:', $errors, ['class' => 'form-control']) !!}
+                {!! Form::formInput('name', 'Όνομα:', $errors, ['class' => 'form-control', 'required' => 'true']) !!}
             </div>
             <div class="form-group">
-                {!! Form::formInput('last_name', 'Επώνυμο:', $errors, ['class' => 'form-control']) !!}
+                {!! Form::formInput('last_name', 'Επώνυμο:', $errors, ['class' => 'form-control', 'required' => 'true']) !!}
             </div>
             <div class="form-group">
-                {!! Form::formInput('fathers_name', 'Όνομα Πατέρα:', $errors, ['class' => 'form-control']) !!}
+                {!! Form::formInput('fathers_name', 'Όνομα Πατέρα:', $errors, ['class' => 'form-control', 'required' => 'true']) !!}
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::formInput('birth_date', 'Ημερομηνία Γέννησης:', $errors, ['class' => 'form-control', 'id' => 'birth_date']) !!}
+                        {!! Form::formInput('birth_date', 'Ημερομηνία Γέννησης:', $errors, ['class' => 'form-control', 'id' => 'birth_date', 'required' => 'true']) !!}
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -123,7 +123,7 @@
                 {!! Form::formInput('fax', 'Fax:', $errors, ['class' => 'form-control']) !!}
             </div>
             <div class="form-group">
-                {!! Form::formInput('email', 'Email:', $errors, ['class' => 'form-control']) !!}
+                {!! Form::formInput('email', 'Email:', $errors, ['class' => 'form-control', 'required' => 'true']) !!}
             </div>
             <div class="form-group">
                 {!! Form::formInput('comm_method_id', 'Να επικοινωνήσουμε μαζί σας στο:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $commMethod]) !!}
@@ -211,7 +211,7 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                {!! Form::formInput('participation_reason', 'Λόγος συμμετοχής', $errors, ['class' => 'form-control', 'type' => 'textarea', 'placeholder' => 'Περιγράψτε τους λόγους που θέλετε να γίνετε εθελοντής.']) !!}
+                {!! Form::formInput('participation_reason', 'Λόγος συμμετοχής', $errors, ['class' => 'form-control', 'required' => 'true', 'type' => 'textarea', 'placeholder' => 'Περιγράψτε τους λόγους που θέλετε να γίνετε εθελοντής.']) !!}
             </div>
         </div>
     </div>

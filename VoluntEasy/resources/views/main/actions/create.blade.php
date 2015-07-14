@@ -15,7 +15,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-body">
-                <h4>Επιλέξτε σε ποια οργανωτική μονάδα ανήκει η δράση:</h4>
+                <h4>Επιλέξτε σε ποια οργανωτική μονάδα ανήκει η δράση: <span class="star">*</span></h4>
                 <ul id="tree" style="display:none;">
                     <li data-id="{{$tree->id}}" class="root disabled"><span
                             class="description">{{$tree->description}}</span>

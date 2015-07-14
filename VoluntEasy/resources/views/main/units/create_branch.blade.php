@@ -14,7 +14,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-body">
-                <h4>Επιλέξτε τον πατέρα της οργανωτικής:</h4>
+                <h4>Επιλέξτε τον πατέρα της οργανωτικής: <span class="star">*</span></h4>
                 <div id="unitsTree"></div>
                 <ul id="tree" style="display:none;">
                     <li data-id="{{$tree->id}}"
