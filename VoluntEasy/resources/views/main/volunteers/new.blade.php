@@ -225,7 +225,14 @@
                     {!! Form::formInput('availability_freqs_id', 'Συχνότητα συνεισφοράς:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $availabilityFreqs]) !!}
                 </div>
                 <div class="form-group">
-                    {!! Form::formInput('availability_time', 'Χρόνοι συνεισφοράς:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $availabilityTimes]) !!}
+                    <!-- {!! Form::formInput('availability_time', 'Χρόνοι συνεισφοράς:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $availabilityTimes]) !!} -->
+                    <label>
+                    @foreach($availabilityTimes as $a_t_id => $availability_time)
+                    <br>
+                    {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' => 'form-control', 'type' => 'checkbox', 'value' => $a_t_id]) !!}
+                    <em>{{ $availability_time }}</em>
+                    @endforeach
+                    </label>
                 </div>
                 <div class="form-group">
                     <label>
