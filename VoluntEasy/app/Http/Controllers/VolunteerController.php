@@ -160,6 +160,8 @@ class VolunteerController extends Controller {
             }
         }
 
+        $volunteer->availabilityTimes()->sync($availability_array);
+
         $interests = Interests::all();
 
         // Get interests selected and pass values to volunteer_interests table.
