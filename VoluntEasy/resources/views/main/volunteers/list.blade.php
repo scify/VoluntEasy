@@ -46,40 +46,19 @@
 
 @section('footerScripts')
 <script>
-    $(".delete").click(function () {
-        if (confirm("Delete user?") == true) {
+    $(".delete").click(function(){
+        if (confirm("Delete volunteer?") == true) {
             $.ajax({
-                url: $("body").attr('data-url') + '/users/delete/' + $(this).attr('data-id'),
-                method: 'POST',
+                url: $("body").attr('data-url') + '/volunteers/delete/'+$(this).attr('data-id'),
+                method: 'GET',
                 headers: {
                     'X-CSRF-Token': $('#token').val()
                 },
                 success: function (data) {
-                    window.location.href = $("body").attr('data-url') + "/users";
+                    window.location.href = $("body").attr('data-url') + "/volunteers";
                 }
             });
         }
-    });
-
-
-    //Submit the form through ajax.
-    //The result data is the html of the table.
-    $('#searchForm').on('submit', function (event) {
-        event.preventDefault();
-
-        $.ajax({
-            type: $(this).attr('method'),
-            url: $(this).attr('action'),
-            data: $(this).serialize(),
-            cache: false,
-            headers: {
-                'X-XSRF-Token': $('meta[name="_token"]').attr('content')
-            },
-            success: function (data) {
-                $("#table").html(data);
-            }
-        });
-        return false; // prevent send form
     });
 </script>
 @append

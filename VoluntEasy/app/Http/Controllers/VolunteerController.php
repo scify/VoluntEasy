@@ -223,7 +223,11 @@ class VolunteerController extends Controller {
      * @return Response
      */
     public function destroy($id) {
-        //
+	    $volunteer = Volunteer::findOrFail($id);
+
+	    $volunteer->delete();
+
+	    return $id;
     }
 
     /**
