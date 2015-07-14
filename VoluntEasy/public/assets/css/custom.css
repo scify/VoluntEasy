@@ -76,6 +76,7 @@ h3{font-weight: 400;}
 }
 .jOrgChart .node.disabled{
     background-color: #72829E;
+    cursor: not-allowed;
 }
 .jOrgChart table{
 	margin:0 auto;

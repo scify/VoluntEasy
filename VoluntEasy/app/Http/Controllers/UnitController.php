@@ -55,8 +55,6 @@ class UnitController extends Controller {
     public function create() {
         $root = UnitService::getRoot();
 
-        $userUnits = UserService::userUnits();
-
         $users = User::all();
 
         if (count($root) == 0) {
@@ -66,7 +64,7 @@ class UnitController extends Controller {
             $tree = Unit::whereNull('parent_unit_id')->with('allChildren')->first();
             $type = 'branch';
 
-            return view("main.units.create_branch", compact('tree', 'type', 'users', 'userUnits'));
+            return view("main.units.create_branch", compact('tree', 'type', 'users'));
             // return view("main.units.create_branch", compact('type', 'tree', 'userUnits'));
         }
     }
@@ -107,17 +105,15 @@ class UnitController extends Controller {
      */
     public function show($id) {
         $active = Unit::findOrFail($id);
-
         $active->load('actions', 'volunteers');
+        $actives = [];
+        array_push($actives, $active->id);
 
         $tree = UnitService::getTree();
-
         $type = UnitService::type($active);
 
         $userUnits = UserService::userUnits();
-
         $volunteers = Volunteer::all();
-
         $volunteerIds = VolunteerService::volunteerIds($active->volunteers);
 
 
@@ -128,7 +124,7 @@ class UnitController extends Controller {
          }
          */
 
-        return view("main.units.show", compact('active', 'tree', 'type', 'volunteers', 'userUnits', 'volunteerIds'));
+        return view("main.units.show", compact('active', 'actives', 'tree', 'type', 'volunteers', 'userUnits', 'volunteerIds'));
     }
 
     /**
@@ -140,6 +136,9 @@ class UnitController extends Controller {
     public function edit($id) {
         $active = Unit::where('id', $id)->with('users', 'actions')->first();
 
+        $actives = [];
+        array_push($actives, $id);
+
         //display all the users in the front end
         $users = User::all();
 
@@ -149,7 +148,7 @@ class UnitController extends Controller {
 
         $type = UnitService::type($active);
 
-        return view("main.units.edit", compact('active', 'tree', 'type', 'users', 'userIds'));
+        return view("main.units.edit", compact('active', 'actives', 'tree', 'type', 'users', 'userIds'));
     }
 
     /**

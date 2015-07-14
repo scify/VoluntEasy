@@ -25,15 +25,7 @@
         <div class="panel panel-white">
             <div class="panel-body">
                 <h4>Επιλέξτε την οργανωτική στην οποία είναι υπεύθυνος ο χρήστης:</h4>
-                <div id="unitsTree"></div>
-                <ul id="tree" style="display:none;">
-                    <li data-id="{{$tree->id}}"><span class="description">{{$tree->description}}</span>
-                        <ul>
-                            @include('main.tree._branch', ['unit' => $tree])
-                        </ul>
-                    </li>
-                </ul>
-                @include('main.tree._legend')
+                @include('main.tree._tree', ['tooltips' => 'true'])
             </div>
         </div>
     </div>

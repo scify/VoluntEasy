@@ -36,9 +36,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $tree = UnitService::getTree();
-
-        return view("main.users.create", compact('tree'));
+        return view("main.users.create");
     }
 
     /**
@@ -83,9 +81,9 @@ class UserController extends Controller
 
         $tree = UnitService::getTree();
 
-        $active = UserService::userUnitsIds($user);
+        $actives = UserService::userUnitsIds($user);
 
-        return view("main.users.edit", compact('user', 'tree', 'active'));
+        return view("main.users.edit", compact('user', 'tree', 'actives'));
     }
 
     /**

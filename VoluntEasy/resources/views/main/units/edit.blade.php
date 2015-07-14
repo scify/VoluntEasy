@@ -14,16 +14,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-body">
-                <div id="unitsTree"></div>
-                <ul id="tree" style="display:none;">
-                    <li data-id="{{$tree->id}}"
-                    {{ $active->id==$tree->id ? 'class=active-node' : '' }}><span class="description">{{$tree->description}}</span>
-                    <ul>
-                        @include('main.tree._branch_active', ['unit' => $tree, 'active' => $active->id])
-                    </ul>
-                    </li>
-                </ul>
-                @include('main.tree._legend')
+                @include('main.tree._tree', ['unit' => $tree, 'actives' => $actives])
             </div>
         </div>
     </div>
@@ -46,8 +37,7 @@
                                 {!! Form::model($active, ['method' => 'POST', 'action' => ['UnitController@update', 'id'
                                 => $active->id,
                                 'type' => $type]]) !!}
-                                @include('main.units.partials._form', ['submitButtonText' => 'Αποθήκευση', 'unit' =>
-                                $active])
+                                @include('main.units.partials._form', ['submitButtonText' => 'Αποθήκευση', 'unit' => $active])
                                 {!! Form::close() !!}
                             </div>
                         </div>

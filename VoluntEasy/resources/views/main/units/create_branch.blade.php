@@ -15,18 +15,7 @@
         <div class="panel panel-white">
             <div class="panel-body">
                 <h4>Επιλέξτε τον πατέρα της οργανωτικής: <span class="star">*</span></h4>
-                <div id="unitsTree"></div>
-                <ul id="tree" style="display:none;">
-                    <li data-id="{{$tree->id}}"
-                        class="{{ in_array($tree->id, $userUnits) ? '' : 'disabled' }}"><span
-                            class="description">{{$tree->description}}</span>
-                        <ul>
-                            @include('main.tree._branch', ['unit' => $tree, 'userUnits' =>
-                            $userUnits])
-                        </ul>
-                    </li>
-                </ul>
-                @include('main.tree._legend')
+                @include('main.tree._tree', ['unit' => $tree, 'tooltips' => 'true'])
             </div>
         </div>
     </div>
@@ -58,7 +47,7 @@
     //the page gets reloaded and the active node is lost.
     //the value (unit id) stays in the hidden input so we can make it active again.
     if ($('#parent_unit_id').val() != '') {
-        $("#tree li[data-id='" + $('#parent_unit_id').val() + "'").addClass('active-node');
+        $("#tree li[data-id='" + $('#parent_unit_id').val() + "']").addClass('active-node');
     }
 
     $("#tree").jOrgChart({
@@ -77,6 +66,7 @@
         input = '<input id="user'+id+'" name="user'+id+'" value="'+id+'" hidden/>';
         $("#createForm").append(input);
     });
+
     //remove input when the option is unselected
     $('#userList').on("select2:unselect", function (e) {
         id = e.params.data.id;

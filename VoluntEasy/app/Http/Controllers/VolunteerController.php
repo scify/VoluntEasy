@@ -4,12 +4,12 @@ use App\Http\Requests;
 use App\Http\Requests\VolunteerRequest;
 use App\Models\Descriptions\AvailabilityFrequencies;
 use App\Models\Descriptions\AvailabilityTime;
-use App\Models\Descriptions\Interests;
 use App\Models\Descriptions\CommunicationMethod;
 use App\Models\Descriptions\DriverLicenceType;
 use App\Models\Descriptions\EducationLevel;
 use App\Models\Descriptions\Gender;
 use App\Models\Descriptions\IdentificationType;
+use App\Models\Descriptions\Interests;
 use App\Models\Descriptions\Language;
 use App\Models\Descriptions\LanguageLevel;
 use App\Models\Descriptions\MaritalStatus;
@@ -47,7 +47,7 @@ class VolunteerController extends Controller {
      */
     public function index() {
         $volunteers = Volunteer::with('units', 'actions')->paginate(5);
-        $volunteers->setPath(\URL::to('/').'/volunteers');
+        $volunteers->setPath(\URL::to('/') . '/volunteers');
 
         return view('main.volunteers.list', compact('volunteers', 'maritalStatus'));
     }
@@ -92,7 +92,7 @@ class VolunteerController extends Controller {
         $edLevel = EducationLevel::all()->lists('description', 'id');
 
         return view('main.volunteers.new', compact('identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
-                    'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interests', 'genders', 'commMethod', 'edLevel'));
+            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interests', 'genders', 'commMethod', 'edLevel'));
     }
 
     /**
@@ -191,7 +191,8 @@ class VolunteerController extends Controller {
      * @return Response
      */
     public function show($id) {
-       $volunteer = Volunteer::where('id', $id)->with('gender', 'identificationType', 'driverLicenceType', 'educationLevel', 'languages.level', 'languages.language')->first();
+        $volunteer = Volunteer::where('id', $id)->with('gender', 'identificationType', 'driverLicenceType',
+            'educationLevel', 'languages.level', 'languages.language', 'interests', 'workStatus', 'availabilityTimes', 'availabilityFrequencies')->first();
 
         return view("main.volunteers.show", compact('volunteer'));
     }
