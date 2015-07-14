@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Unit as Unit;
+use App\Models\User as User;
 
 class UnitTableSeeder extends Seeder {
 
@@ -14,17 +15,13 @@ class UnitTableSeeder extends Seeder {
      */
     public function run()
     {
-        Unit::create([
+        $unit = Unit::create([
             'description' => 'root',
             'comments' => 'Root unit',
         ]);
 
-	DB::table('units_users')->delete();
 
-	DB::table('units_users')->insert(array(
-		'user_id' => '1',
-		'unit_id' => '1',
-	));
+        $unit->users()->attach(User::first()->id);
     }
 
 }
