@@ -226,7 +226,9 @@
                 </div>
                 <div class="form-group">
                     <!-- {!! Form::formInput('availability_time', 'Χρόνοι συνεισφοράς:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $availabilityTimes]) !!} -->
+                    <br>
                     <label>
+                    <p>Χρόνοι συνεισφοράς:</p>
                     @foreach($availabilityTimes as $a_t_id => $availability_time)
                     <br>
                     {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' => 'form-control', 'type' => 'checkbox', 'value' => $a_t_id]) !!}
@@ -235,7 +237,9 @@
                     </label>
                 </div>
                 <div class="form-group">
+                    <br>
                     <label>
+                    <p>Περιοχές ενδιαφερόντων:</p>
                     @foreach($interests as $int_id => $interest)
                     <br>
                     {!! Form::formInput('interest' . $int_id, '', $errors, ['class' => 'form-control', 'type' => 'checkbox', 'value' => $int_id]) !!}
