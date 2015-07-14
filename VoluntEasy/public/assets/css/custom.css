@@ -1,6 +1,7 @@
 /* Write your custom CSS here */
 
 h3{font-weight: 400;}
+.star{color:#f25656; font-weight:600;}
 
 .tab.has-error{  background-color: #ECAFAD !important;}
 

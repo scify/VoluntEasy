@@ -6,7 +6,7 @@
  * for a form.
  *
  * To create a custom form input, use the following syntax:
- **
+ *
  * --Plain input field
  * {!! Form::formInput('field_id/name', 'Field Label:', $errors, ['class' => 'form-control']) !!}
  *
@@ -26,6 +26,9 @@
  * --Radio
  * {!! Form::formInput('field_id/name', '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value' => $key]) !!}
  *
+ * --Required input
+ * {!! Form::formInput('field_id/name', 'Field Label:', $errors, ['class' => 'form-control', 'required' => 'true']) !!}
+ *
  */
 
 Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
@@ -34,6 +37,12 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
         $label_html = Form::label($field, $label);
     else
         $label_html = '';
+
+    //if the field is required, then add a star to indicate that the user must fill it
+    if (array_key_exists('required', $attributes) && $attributes['required']=='true') {
+        $label_html = $label_html . ' <span class="star">*</span>';
+        unset($attributes['required']);
+    }
 
     //creating the html for the input tag according to its type
     if (array_key_exists('type', $attributes)) {
@@ -71,6 +80,11 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
         unset($attributes['type']);
     } else {
         $text_html = Form::text($field, null, $attributes);
+    }
+
+    if (array_key_exists('required', $attributes)) {
+        $label_html = $label_html . ' <span class="star">*</span>';
+        unset($attributes['required']);
     }
 
 

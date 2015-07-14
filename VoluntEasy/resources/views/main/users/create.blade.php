@@ -14,7 +14,6 @@
     <div class="col-md-4">
         <div class="panel panel-white">
             <div class="panel-body">
-
                 {!! Form::open(['method' => 'POST', 'action' => ['UserController@store']]) !!}
                 @include('main.users.partials._form', ['submitButtonText' => 'Αποθήκευση'])
                 {!! Form::close() !!}
@@ -22,9 +21,10 @@
         </div>
     </div>
 
-    <div class="col-md-8">
+    <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-body">
+                <h4>Επιλέξτε την οργανωτική στην οποία είναι υπεύθυνος ο χρήστης:</h4>
                 <div id="unitsTree"></div>
                 <ul id="tree" style="display:none;">
                     <li data-id="{{$tree->id}}"><span class="description">{{$tree->description}}</span>
@@ -33,6 +33,7 @@
                         </ul>
                     </li>
                 </ul>
+                @include('main.tree._legend')
             </div>
         </div>
     </div>
