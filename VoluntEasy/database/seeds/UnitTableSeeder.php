@@ -18,6 +18,13 @@ class UnitTableSeeder extends Seeder {
             'description' => 'root',
             'comments' => 'Root unit',
         ]);
+
+	DB::table('units_users')->delete();
+
+	DB::table('units_users')->insert(array(
+		'user_id' => '1',
+		'unit_id' => '1',
+	));
     }
 
 }
