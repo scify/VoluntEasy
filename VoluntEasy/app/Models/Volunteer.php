@@ -50,6 +50,11 @@ class Volunteer extends User
         return $this->hasOne('App\Models\Descriptions\IdentificationType', 'id', 'identification_type_id');
     }
 
+    public function workStatus()
+    {
+        return $this->hasOne('App\Models\Descriptions\WorkStatus', 'id', 'work_status_id');
+    }
+
     public function languages()
     {
         return $this->hasMany('App\Models\VolunteerLanguage');

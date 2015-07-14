@@ -36,4 +36,17 @@ $(document).ready(function () {
         $('.startDate').datepicker('setEndDate', null);
     });
 
+
+    /**
+     * tooltips for the tree
+     */
+    $('.node.tooltips.notAssigned.disabled').tooltip({
+        title: 'Δεν είστε υπεύθυνος της μονάδας και δεν μπορείτε να την επιλέξετε.',
+        placement: 'bottom'
+    });
+    $('.node.tooltips.parent.disabled').tooltip({
+        title: 'Δεν μπορείτε να προσθέσετε δράση σε μονάδα που έχει υπομονάδες.',
+        placement: 'bottom'
+    });
+
 });

@@ -48,7 +48,29 @@ class UnitService {
 
 
     /**
-     * Get the whole tree oft he organization
+     * Get an array with the current branch
+     *
+     * @param $unit
+     * @return array
+     */
+    public function getBranch($unit) {
+        $branchTmp = [];
+        array_push($branchTmp, $unit);
+        $curr = $unit->parent_unit_id;
+        while ($curr != null) {
+            $unit = Unit::where('id', $curr)->first();
+            array_push($branchTmp, $unit);
+            $curr = $unit->parent_unit_id;
+        }
+
+        $branchTmp = array_reverse($branchTmp);
+
+        return $branchTmp;
+    }
+
+
+    /**
+     * Get the whole tree of the organization
      *
      * @return mixed
      */

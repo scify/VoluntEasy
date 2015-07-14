@@ -14,6 +14,9 @@ use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Descriptions\WorkStatus;
 use App\Models\Unit;
 use App\Models\User;
+use App\Services\Facades\UnitService;
+use App\Services\Facades\UserService;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -92,6 +95,14 @@ class ViewComposerServiceProvider extends ServiceProvider {
             ksort($units);
 
             $view->with('units', $units);
+        });
+
+        //Data used for the tree
+        View::composer('main.tree._tree', function ($view) {
+            $tree = UnitService::getTree();
+            $userUnits = UserService::userUnits();
+
+            $view->with('userUnits', $userUnits)->with('tree', $tree);
         });
     }
 

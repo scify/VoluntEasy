@@ -31,10 +31,7 @@
                 <hr/>
                 <div class="row">
                     <div class="col-md-6">
-                        @include('main.actions.partials._details', array('action' => $action))
-                    </div>
-                    <div class="col-md-6">
-
+                        @include('main.actions.partials._details', ['action' => $action])
                     </div>
                 </div>
                 <div class="row">
@@ -79,6 +76,13 @@
 
 @section('footerScripts')
 <script>
+    $("#tree").jOrgChart({
+        chartElement: '#unitsTree',
+        chartClass: "jOrgChart actions",
+        actions: true
+    });
+
+
     //initialize user select
     $('#volunteerList').select2();
 

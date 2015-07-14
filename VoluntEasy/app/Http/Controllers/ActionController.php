@@ -2,20 +2,19 @@
 
 use App\Http\Requests\ActionRequest as ActionRequest;
 use App\Models\Action;
+use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Services\Facades\ActionService;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
-class ActionController extends Controller
-{
+class ActionController extends Controller {
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth');
     }
 
@@ -24,10 +23,9 @@ class ActionController extends Controller
      *
      * @return Response
      */
-    public function index()
-    {
+    public function index() {
         $actions = Action::with('unit')->paginate(5);
-        $actions->setPath(\URL::to('/').'/actions');
+        $actions->setPath(\URL::to('/') . '/actions');
 
         $userUnits = UserService::userUnits();
 
@@ -39,8 +37,7 @@ class ActionController extends Controller
      *
      * @return Response
      */
-    public function create()
-    {
+    public function create() {
         $tree = UnitService::getTree();
 
         $userUnits = UserService::userUnits();
@@ -54,11 +51,10 @@ class ActionController extends Controller
      * @param ActionRequest $request
      * @return Response
      */
-    public function store(ActionRequest $request)
-    {
+    public function store(ActionRequest $request) {
         $action = Action::create($request->all());
 
-        if($request->ajax())
+        if ($request->ajax())
             return $action->unit_id;
         else
             return Redirect::route('action/one', ['id' => $action->id]);
@@ -70,9 +66,15 @@ class ActionController extends Controller
      * @param  int $id
      * @return Response
      */
-    public function show($id)
-    {
-        $action = Action::where('id', $id)->with('volunteers')->first();
+    public function show($id) {
+        $action = Action::where('id', $id)->with('volunteers', 'unit')->first();
+
+        $branch = UnitService::getBranch(Unit::where('id', $action->unit->id)->with('actions')->first());
+
+
+       // return $branch;
+
+
 
         //get the volunteer ids in an array for the select box
         $volunteerIds = VolunteerService::volunteerIds($action->volunteers);
@@ -82,7 +84,7 @@ class ActionController extends Controller
 
         $userUnits = UserService::userUnits();
 
-        return view('main.actions.show', compact('action', 'volunteers', 'volunteerIds', 'userUnits'));
+        return view('main.actions.show', compact('action', 'volunteers', 'volunteerIds', 'userUnits', 'branch'));
     }
 
     /**
@@ -91,8 +93,7 @@ class ActionController extends Controller
      * @param  int $id
      * @return Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         $action = Action::where('id', $id)->first();
 
         $tree = UnitService::getTree();
@@ -108,8 +109,7 @@ class ActionController extends Controller
      * @param  ActionRequest $request
      * @return Response
      */
-    public function update(ActionRequest $request)
-    {
+    public function update(ActionRequest $request) {
         $action = Action::findOrFail($request->get('id'));
 
         $action->update($request->all());
@@ -123,13 +123,12 @@ class ActionController extends Controller
      * @param  int $id
      * @return Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         $action = Action::findOrFail($id);
         $action->load('volunteers');
 
         //if the action has volunteers, do not delete
-        if(sizeof($action->volunteers)>0){
+        if (sizeof($action->volunteers) > 0) {
             Session::flash('flash_message', 'Η δράση περιέχει εθελοντές και δεν μπορεί να διαγραφεί.');
             Session::flash('flash_type', 'alert-danger');
 
@@ -162,8 +161,7 @@ class ActionController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function addVolunteers(Request $request)
-    {
+    public function addVolunteers(Request $request) {
         $action = Action::findOrFail($request->get('id'));
 
         $action->volunteers()->sync($request->get('volunteers'));

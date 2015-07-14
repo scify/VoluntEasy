@@ -30,18 +30,10 @@
         <div class="panel panel-white">
             <div class="panel-body">
                 <h3>Επιλογή Οργανωτικών Μονάδων</h3>
-
                 <p>Επιλέξτε τις οργανωτικές μονάδες στις οποίες μπορεί να έχει πρόσβαση ο χρήστης.</p>
+
                 @if($tree!=null)
-                <div id="unitsTree"></div>
-                <ul id="tree" style="display:none;">
-                    <li data-id="{{$tree->id}}" {{ in_array($tree->id, $active) ? 'class=active-node' : '' }}><span class="description">{{$tree->description}}</span>
-                        <ul>
-                            @include('main.tree._branch_actives', ['unit' => $tree, 'active' =>
-                            $active])
-                        </ul>
-                    </li>
-                </ul>
+                @include('main.tree._tree', ['unit' => $tree, 'actives' => $actives])
                 <div class="row">
                     <div class="col-md-12 text-right">
                         <button type="button" class="btn btn-success" id="save" data-user-id="{{$user->id}}">
