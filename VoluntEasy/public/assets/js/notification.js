@@ -30,7 +30,7 @@ $(document).ready(function () {
                     stopBellNotification();
                 });
         }
-    }, 4000);
+    }, 1000);
 
 
     /* hit the server to check for new notifications*/

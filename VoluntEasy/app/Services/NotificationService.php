@@ -96,7 +96,8 @@ class NotificationService
             $q->whereId($userId);
 
         })->orderBy('created_at', 'desc')->get();
-        
+
+
         foreach ($notificationObjectsList as $notificationObject) {            
             $humanDateTime = new Helper;
             $notificationObject['when'] = $humanDateTime->dateDiff($notificationObject->created_at);

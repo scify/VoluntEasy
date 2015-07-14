@@ -16,7 +16,7 @@ Class NotificationController extends Controller {
     //////////////////////////////////////////////////////////////////////////
 
     public function __construct() {
-        $this->middleware('auth');        
+        $this->middleware('auth');
     }
 
     public function index(){
@@ -110,7 +110,7 @@ Class NotificationController extends Controller {
             'notificationsList' => $notificationsList,
             );
 
-        return Response::json( $response );
+        return \Response::json( $response );
     }
 
 }
