@@ -145,12 +145,22 @@ class VolunteerController extends Controller {
 
         $volunteer->units()->save($unit);
 
-        // Save availability time from checkbox.
-        $volunteer_availability = [
-            'availability_time_id' => intval(\Input::get('availability_time')),
-        ];
+//        // Save availability time from checkbox.
+//        $volunteer_availability = [
+//            'availability_time_id' => intval(\Input::get('availability_time')),
+//        ];
+//
+//        $volunteer->availabilityTimes()->sync($volunteer_availability);
+        $availability_times = AvailabilityTime::all();
 
-        $volunteer->availabilityTimes()->sync($volunteer_availability);
+        $availability_array = [];
+        foreach ($availability_times as $availability_time) {
+            if (\Input::has('availability_time' . $availability_time->id)) {
+                array_push($availability_array, $availability_time->id);
+            }
+        }
+
+        $volunteer->availabilityTimes()->sync($availability_array);
 
         $interests = Interests::all();
 
@@ -224,7 +234,11 @@ class VolunteerController extends Controller {
      * @return Response
      */
     public function destroy($id) {
-        //
+	    $volunteer = Volunteer::findOrFail($id);
+
+	    $volunteer->delete();
+
+	    return $id;
     }
 
     /**

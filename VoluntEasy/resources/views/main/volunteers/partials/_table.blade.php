@@ -34,7 +34,7 @@
                 <li><a href="#" data-toggle="tooltip"
                        data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit fa-2x"></i></a>
                 </li>
-                <li><a href="#" data-toggle="tooltip"
+                <li><a href="#" class="delete" data-id="{{ $volunteer->id }}" data-toggle="tooltip"
                        data-placement="bottom" title="Διαγραφή"><i class="fa fa-trash fa-2x"></i></a>
                 </li>
             </ul>
