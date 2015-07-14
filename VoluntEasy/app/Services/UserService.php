@@ -9,6 +9,7 @@ class UserService
 
     public $unitsIds = array();
 
+
     /**
      * Get the unit ids of the currently logged in user
      *
