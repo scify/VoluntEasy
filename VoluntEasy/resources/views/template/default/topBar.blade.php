@@ -66,33 +66,12 @@
                                         <span class="badge badge-success pull-right notificationSum" id="notificationBadge"></span>
                                     </a>
                                     <ul class="dropdown-menu title-caret dropdown-lg" role="menu">
-                                        <li><p class="drop-title">You have <span class="notificationSum">0</span> pending tasks !</p></li>
+                                        <li><p class="drop-title">Έχετε <span class="notificationSum">0</span> ειδοποιήσεις</p></li>
                                         <li class="dropdown-menu-list slimscroll tasks">
                                             <ul class="list-unstyled" id="notificationList">
-                                                <!--li>
-                                                    <a href="#">
-                                                        <div class="task-icon badge badge-success"><i class="icon-user"></i></div>
-                                                        <span class="badge badge-roundless badge-default pull-right">1min ago</span>
-                                                        <p class="task-details">New user registered.</p>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <div class="task-icon badge badge-danger"><i class="icon-energy"></i></div>
-                                                        <span class="badge badge-roundless badge-default pull-right">24min ago</span>
-                                                        <p class="task-details">Database error.</p>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <div class="task-icon badge badge-info"><i class="icon-heart"></i></div>
-                                                        <span class="badge badge-roundless badge-default pull-right">1h ago</span>
-                                                        <p class="task-details">Reached 24k likes</p>
-                                                    </a>
-                                                </li-->
                                             </ul>
                                         </li>
-                                        <li class="drop-all"><a href="{{ url('notifications') }}" class="text-center">All Tasks</a></li>
+                                        <li class="drop-all"><a href="{{ url('notifications') }}" class="text-center">'Ολες οι ειδοποιήσεις</a></li>
                                     </ul>
                                 </li>
                                 <!---/Notificasion Icon-->

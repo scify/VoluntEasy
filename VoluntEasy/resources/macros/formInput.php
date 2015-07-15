@@ -21,7 +21,7 @@
  * {!! Form::formInput('field_id/name', 'Field Label:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $arrayWithValues]) !!}
  *
  * --Checkbox
- * {!! Form::formInput('field_id/name', 'Field Label:', $errors, ['class' => 'form-control', 'type' => 'checkbox', 'value' => true/false]) !!}
+ * {!! Form::formInput('field_id/name', 'Field Label:', $errors, ['class' => 'form-control', 'type' => 'checkbox', 'value' => 'whatever', 'checked' => true/false]) !!}
  *
  * --Radio
  * {!! Form::formInput('field_id/name', '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value' => $key]) !!}
@@ -39,10 +39,12 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
         $label_html = '';
 
     //if the field is required, then add a star to indicate that the user must fill it
-    if (array_key_exists('required', $attributes) && $attributes['required']=='true') {
+    if (array_key_exists('required', $attributes) && $attributes['required'] == 'true') {
         $label_html = $label_html . ' <span class="star">*</span>';
         unset($attributes['required']);
     }
+
+    $type = '';
 
     //creating the html for the input tag according to its type
     if (array_key_exists('type', $attributes)) {
@@ -61,7 +63,10 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
             case "checkbox":
                 $value = $attributes['value'];
                 unset($attributes['value']);
-                $text_html = Form::checkbox($field, '', $value, $attributes);
+                $checked = $attributes['checked'];
+                unset($attributes['checked']);
+                $text_html = Form::checkbox($field, $value, $checked, $attributes);
+                $type = 'checkbox';
                 break;
             case "radio":
                 $value = $attributes['value'];
@@ -97,8 +102,14 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
         $msg_html .= '</p>';
 
         //wrap the label, input and error msg into an error div
+        if ($type == 'checkbox')
+            return '<div class="has-error">' . $text_html . $label_html . $msg_html . '</div>';
+
         return '<div class="has-error">' . $label_html . $text_html . $msg_html . '</div>';
     } else {
-            return $label_html . $text_html . $msg_html;
+        if ($type == 'checkbox')
+            return $text_html . $label_html . $msg_html;
+
+        return $label_html . $text_html . $msg_html;
     }
 });

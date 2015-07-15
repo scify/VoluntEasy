@@ -24,13 +24,14 @@ class TestController extends Controller
 
         //return UserService::permittedUsersIds();
 
-        return VolunteerService::permittedVolunteersIds();
+      //  return VolunteerService::permittedVolunteersIds();
+
+        return VolunteerService::unassigned();
     }
 
 
     public function newVolunteers()
     {
-
         $volunteers = VolunteerService::getNew();
 
         return view("main.volunteers.list", compact('volunteers'));

@@ -80,6 +80,30 @@ class UnitService {
         return $tree;
     }
 
+    /**
+     * When creating a new unit, automatically assign some predefined steps
+     *
+     * @return array
+     */
+    public function createSteps() {
+        $steps = [
+            new Step([
+                'description' => 'Επικοινωνία με εθελοντή',
+                'step_order' => 1
+            ]),
+            new Step([
+                'description' => 'Συνέντευξη με εθελοντή',
+                'step_order' => 2
+            ]),
+            new Step([
+                'description' => 'Ανάθεση σε Μονάδα/Δράση',
+                'step_order' => 3
+            ])
+        ];
+
+        return $steps;
+    }
+
 
     /**
      * Dynamic search chains a lot of queries depending on the filters sent by the user.

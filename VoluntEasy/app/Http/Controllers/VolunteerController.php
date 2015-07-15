@@ -27,19 +27,6 @@ class VolunteerController extends Controller {
         $this->middleware('auth');
     }
 
-    public function all() {
-
-        $vol = Volunteer::all();
-
-        $vol->load('availabilityFrequencies', 'availabilityTimes', 'driverLicenceType', 'identificationType', 'maritalStatus', 'interests');
-
-        $vol->load('languages.level', 'languages.language');
-
-        $vol->load('actions.steps.status');
-
-        return $vol;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -49,7 +36,7 @@ class VolunteerController extends Controller {
         $volunteers = Volunteer::with('units', 'actions')->paginate(5);
         $volunteers->setPath(\URL::to('/') . '/volunteers');
 
-        return view('main.volunteers.list', compact('volunteers', 'maritalStatus'));
+        return view('main.volunteers.list', compact('volunteers'));
     }
 
     /**
@@ -190,6 +177,7 @@ class VolunteerController extends Controller {
                 $volunteer->languages()->save($volLanguage);
             }
         }
+
         return 'Thanks for registering a volunteer... ID: ' . $volunteer->id;
         //  return Redirect::to('volunteers/listview');
     }
@@ -255,8 +243,10 @@ class VolunteerController extends Controller {
     }
 
 
-    public function getNew() {
-        return VolunteerService::getNew();
+    public function newVolunteers() {
+        $volunteers = VolunteerService::unassigned();
+
+        return view('main.volunteers.list', compact('volunteers'));
     }
 
 }

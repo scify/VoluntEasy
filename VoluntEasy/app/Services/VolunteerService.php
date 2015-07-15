@@ -25,23 +25,21 @@ class VolunteerService {
         'phoneNumber' => '',
         'education_level_id' => '=',
         'unit_id' => '',
+        'my_volunteers' => '',
 
-    ];  
-    
+    ];
+
     /**
-     * Get all the volunteers that are assigned to the root unit,
-     * aka unassigned.
+     * Get all the volunteers that are not assigned to any unit
+     * or that have not completed the steps of their units
      *
      * @return mixed
      */
-    public function getNew() {
-        $root = UnitServiceFacade::getRoot();
+    public function unassigned() {
 
-        $volunteers = null;
-
-        if ($root->count() > 0) {
-            $volunteers = Volunteer::unit($root->id)->with('units.steps.status')->get();
-        }
+        $volunteers = Volunteer::whereDoesntHave('units')->orWhereHas('units.steps.status', function ($query) {
+            $query->where('step_status_id', 2);
+        })->get();
 
         return $volunteers;
     }
@@ -117,11 +115,11 @@ class VolunteerService {
      *
      * @return array
      */
-    public function permittedVolunteersIds(){
+    public function permittedVolunteersIds() {
         $volunteers = $this->permittedVolunteers();
         $permittedVolunteersIds = [];
 
-        foreach($volunteers as $volunteer)
+        foreach ($volunteers as $volunteer)
             array_push($permittedVolunteersIds, $volunteer->id);
 
         return $permittedVolunteersIds;
@@ -134,9 +132,12 @@ class VolunteerService {
      */
     public function search() {
 
-        $query = Volunteer::select();
+        if (\Input::has('my_volunteers')) {
+            $permittedVolunteersIds = $this->permittedVolunteersIds();
+            $query = Volunteer::whereIn('id', $permittedVolunteersIds);
+        } else
+            $query = Volunteer::select();
 
-        //dd(\Input::all());
 
         foreach ($this->filters as $column => $filter) {
             if (\Input::has($column) && \Input::get($column) != "") {
@@ -167,6 +168,7 @@ class VolunteerService {
                                 $query->where('home_tel', \Input::get('phoneNumber'))
                                     ->orWhere('work_tel', \Input::get('phoneNumber'))
                                     ->orWhere('cell_tel', \Input::get('phoneNumber'));
+                                break;
                             case 'unit_id':
                                 if (!Search::notDropDown($value, $column)) {
                                     $id = \Input::get('unit_id');
@@ -174,6 +176,7 @@ class VolunteerService {
                                         $query->where('id', $id);
                                     });
                                 }
+                                break;
                         }
                     default:
                         //  dd('default switch');
@@ -182,7 +185,7 @@ class VolunteerService {
             }
         }
         $result = $query->orderBy('name', 'ASC')->with('actions')->paginate(5);
-        $result->setPath(\URL::to('/').'/volunteers');
+        $result->setPath(\URL::to('/') . '/volunteers');
         // dd($query);
 
         return $result;

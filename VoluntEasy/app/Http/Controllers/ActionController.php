@@ -71,16 +71,11 @@ class ActionController extends Controller {
 
         $branch = UnitService::getBranch(Unit::where('id', $action->unit->id)->with('actions')->first());
 
-
-       // return $branch;
-
-
-
         //get the volunteer ids in an array for the select box
         $volunteerIds = VolunteerService::volunteerIds($action->volunteers);
 
         //get all volunteers to show in select box
-        $volunteers = Volunteer::all();
+        $volunteers = VolunteerService::permittedVolunteers();
 
         $userUnits = UserService::userUnits();
 

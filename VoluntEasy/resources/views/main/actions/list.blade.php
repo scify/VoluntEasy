@@ -40,31 +40,3 @@
 @stop
 
 
-@section('footerScripts')
-<script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
-    });
-
-    //Submit the form through ajax.
-    //The result data is the html of the table.
-    $('#searchForm').on('submit', function (event) {
-        event.preventDefault();
-
-        $.ajax({
-            type: $(this).attr('method'),
-            url: $(this).attr('action'),
-            data: $(this).serialize(),
-            cache: false,
-            headers: {
-                'X-XSRF-Token': $('meta[name="_token"]').attr('content')
-            },
-            success: function (data) {
-                $("#table").html(data);
-                console.log(data);
-            }
-        });
-        return false; // prevent send form
-    });
-</script>
-@append

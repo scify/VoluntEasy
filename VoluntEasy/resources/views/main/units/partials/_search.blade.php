@@ -18,10 +18,12 @@
     </div>
     <div class="col-md-2">
         <div class="form-group">
-            {!! Form::formInput('my_units', 'Οι μονάδες μου: ', $errors, ['class' => 'form-control', 'type' => 'checkbox', 'value' => false]) !!}
+            {!! Form::formInput('my_units', 'Οι μονάδες μου', $errors, ['class' => 'form-control', 'type' => 'checkbox', 'value' => false, 'checked' => false]) !!}
         </div>
     </div>
-    <div class="col-md-2">
+</div>
+<div class="row">
+    <div class="col-md-12">
         <div class="form-group ">
             <button type="submit" id="search" class="btn btn-default"><i class="fa fa-search"></i> Αναζήτηση</button>
             <button type="button" id="clear" class="btn btn-default"><i class="fa fa-remove"></i> Καθαρισμός</button>

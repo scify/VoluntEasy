@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Models\Action;
+use App\Models\Volunteer;
 use App\Services\Facades\VolunteerService;
 
 class HomeController extends Controller
@@ -33,15 +34,16 @@ class HomeController extends Controller
      */
     public function mainIndex()
     {
-        $volunteers = VolunteerService::getNew();
-
+        $availableVolunteers = Volunteer::all()->count();
+        $activeVolunteers = 0;
         $actions = Action::all()->count();
 
-        $volunteersSum = 0;
+        $volunteers = VolunteerService::unassigned();
+        $newVolunteers = 0;
         if($volunteers!=null)
-            $volunteersSum = $volunteers->count();
+            $newVolunteers = $volunteers->count();
 
-        return view('main.dashboard', compact('volunteersSum', 'actions'));
+        return view('main.dashboard', compact('availableVolunteers', 'activeVolunteers', 'newVolunteers', 'actions'));
     }
 
 }

@@ -92,7 +92,7 @@ class UnitController extends Controller {
 
         $unit->users()->sync($users);
 
-        $unit->steps()->saveMany($this->createSteps());
+        $unit->steps()->saveMany(UnitService::createSteps());
 
         return Redirect::route('unit/one', ['id' => $unit->id]);
     }
@@ -113,7 +113,7 @@ class UnitController extends Controller {
         $type = UnitService::type($active);
 
         $userUnits = UserService::userUnits();
-        $volunteers = Volunteer::all();
+        $volunteers = VolunteerService::permittedVolunteers();
         $volunteerIds = VolunteerService::volunteerIds($active->volunteers);
 
 
@@ -172,11 +172,7 @@ class UnitController extends Controller {
      * @return Response
      */
     public function destroy($id) {
-        $unit = Unit::findOrFail($id);
-        $unit->load('actions');
-        $unit->load('allChildren');
-        $unit->load('users');
-        $unit->load('volunteers');
+        $unit = Unit::findOrFail($id)->with('actions', 'allChildren', 'users', 'volunteers');
 
         //if the unit has actions, do not delete
         if (sizeof($unit->actions) > 0) {
@@ -262,48 +258,10 @@ class UnitController extends Controller {
      */
     public function addVolunteers(Request $request) {
         $unit = Unit::findOrFail($request->get('id'));
-        return "hello";
         $unit->volunteers()->sync($request->get('volunteers'));
 
         return $unit->id;
     }
 
-    /**
-     * When creating a new unit, automatically assign some predefined steps
-     *
-     * @return array
-     */
-    public function createSteps() {
-        $steps = [
-            new Step([
-                'description' => 'Επικοινωνία με εθελοντή',
-                'step_order' => 1
-            ]),
-            new Step([
-                'description' => 'Συνέντευξη με εθελοντή',
-                'step_order' => 2
-            ]),
-            new Step([
-                'description' => 'Ανάθεση σε Μονάδα/Δράση',
-                'step_order' => 3
-            ])
-        ];
 
-        return $steps;
-    }
-
-
-    public $branch = [];
-    public function branch ($id){
-
-        $unit = Unit::where('id', $id)->with('allParents')->first();
-
-        return $unit;
-
-        /*if($unit->parent_unit_id!=null){
-            array_push($branch, $unit->id);
-
-        }*/
-
-    }
 }

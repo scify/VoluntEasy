@@ -9,54 +9,41 @@
 @section('bodyContent')
     <div id="main-wrapper">
         <div class="row">
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-4 col-md-4">
                 <div class="panel info-box panel-white">
                             <div class="panel-body">
                                 <div class="info-box-stats">
-                                    <p class="counter"><a href="{{ url('volunteers/new') }}">{{ $volunteersSum }}</a></p>
-                                    <span class="info-box-title">ΝΕΟΙ ΕΘΕΛΟΝΤΕΣ</span>
+                                    <p class="counter"><a href="{{ url('volunteers/new') }}">{{ $newVolunteers }}</a></p>
+                                    <span class="info-box-title">ΥΠΟ ΕΝΤΑΞΗ ΕΘΕΛΟΝΤΕΣ</span>
                                 </div>
                                 <div class="info-box-icon">
-                                    <i class="icon-users"></i>
+                                    <i class="fa fa-user"></i>
                                 </div>
                             </div>
                         </div>
             </div>
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-4 col-md-4">
                 <div class="panel info-box panel-white">
                             <div class="panel-body">
                                 <div class="info-box-stats">
-                                    <p class="counter">{{ $actions }}</p>
-                                    <span class="info-box-title">ΔΡΑΣΕΙΣ</span>
+                                    <p class="counter"><a href="{{ url('actions/') }}"> {{ $actions }} </a></p>
+                                    <span class="info-box-title">ΕΝΕΡΓΕΣ ΔΡΑΣΕΙΣ</span>
                                 </div>
                                 <div class="info-box-icon">
-                                    <i class="icon-eye"></i>
+                                    <i class="fa fa-bookmark"></i>
                                 </div>
                             </div>
                         </div>
             </div>
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-4 col-md-4">
                 <div class="panel info-box panel-white">
                     <div class="panel-body">
                         <div class="info-box-stats">
-                            <p>$<span class="counter">653,000</span></p>
-                            <span class="info-box-title">Monthly revenue goal</span>
+                            <p class="counter">{{ $availableVolunteers }} / {{ $activeVolunteers }}</p>
+                            <span class="info-box-title">ΔΙΑΘΕΣΙΜΟΙ / ΕΝΕΡΓΟΙ ΕΘΕΛΟΝΤΕΣ</span>
                         </div>
                         <div class="info-box-icon">
-                            <i class="icon-basket"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="panel info-box panel-white">
-                    <div class="panel-body">
-                        <div class="info-box-stats">
-                            <p class="counter">47,500</p>
-                            <span class="info-box-title">New emails recieved</span>
-                        </div>
-                        <div class="info-box-icon">
-                            <i class="icon-envelope"></i>
+                            <i class="fa fa-leaf"></i>
                         </div>
                     </div>
                 </div>

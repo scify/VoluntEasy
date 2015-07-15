@@ -165,9 +165,10 @@ class VolunteerTableSeeder extends Seeder {
 	    DB::table('volunteer_statuses')->delete();
 
         $statuses = [
-	             ['description' => 'Active'],
-	             ['description' => 'Inactive'],
-	             ['description' => 'Blacklisted'],
+	             ['description' => 'Υπό Ένταξη'],
+	             ['description' => 'Διαθέσιμος'],
+	             ['description' => 'Ενεργός'],
+	             ['description' => 'Μη Διαθέσιμος'],
 	     ];
 
 	     DB::table('volunteer_statuses')->insert($statuses);

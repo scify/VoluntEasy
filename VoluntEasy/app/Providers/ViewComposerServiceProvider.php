@@ -48,6 +48,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $genders = Gender::all()->lists('description', 'id');
             $commMethod = CommunicationMethod::all()->lists('description', 'id');
             $educationLevels = EducationLevel::all()->lists('description', 'id');
+            $statuses = VolunteerStatus::all()->lists('description', 'id');
             $units = Unit::all()->lists('description', 'id');
 
 
@@ -57,10 +58,12 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $educationLevels[0]='[- επιλέξτε -]';
             $genders[0]='[- επιλέξτε -]';
             $units[0]='[- επιλέξτε -]';
+            $statuses[0]='[- επιλέξτε -]';
             ksort($maritalStatuses);
             ksort($educationLevels);
             ksort($genders);
             ksort($units);
+            ksort($statuses);
 
             $view->with('maritalStatuses', $maritalStatuses)
                  ->with('identificationTypes', $identificationTypes)
@@ -69,6 +72,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
                  ->with('volunteerStatuses', $volunteerStatuses)
                  ->with('educationLevels', $educationLevels)
                  ->with('genders', $genders)
+                 ->with('statuses', $statuses)
                  ->with('units', $units);
         });
 

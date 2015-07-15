@@ -15,9 +15,10 @@ $(document).ready(function () {
         }
     });
 
-    /* every xx seconds check for notifications */
-    setInterval(function () {
 
+    /* every xx seconds check for notifications */
+    var timerLoop;
+    var timer = function(){
         //if the notification dropdown is not open,
         // and the user is not currently viewing any tasks, do the following
         if (!$("#notificationsDropdown").hasClass("open")) {
@@ -30,8 +31,9 @@ $(document).ready(function () {
                     stopBellNotification();
                 });
         }
-    }, 4000);
-
+        timerLoop = setTimeout(timer, 4000);
+    };
+    timer();
 
     /* hit the server to check for new notifications */
     function hitServer() {
@@ -55,16 +57,15 @@ $(document).ready(function () {
                     //loop through the notifications and draw the
                     //notification list
                     $.each(data, function (i, notification) {
-
                         //console.log(notification.id);
 
                         var notifClass = (notification.status == 'active' ? 'white' : 'grey');
 
                         //draw the <li> that holds all the notification info
                         html += '<li class="' + notifClass + '"><a href="#">';
-                        html += '<div class="task-icon badge badge-info"><i class="icon-energy"></i></div>';
-                        html += '<span class="badge badge-roundless badge-default pull-right">24min ago</span>';
-                        html += '<p class="task-details">Notification id: ' + notification.id + ' '+notification.status+'</p>';
+                        html += '<div class="task-icon badge badge-info"><i class="icon-info"></i></div>';
+                        html += '<span class="badge badge-roundless badge-default pull-right">' + notification.when + '</span>';
+                        html += '<p class="task-details">' + notification.msg + '</p>';
                         html += '</a></li>';
 
                         //notifications that have a status of 'alarmAndActive'
@@ -85,7 +86,7 @@ $(document).ready(function () {
                 else {
                     $("#notificationBadge").hide();
                     $("#notificationList").html('');
-
+                    $('title').text(pagetitle);
                 }
             }
         });

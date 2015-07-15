@@ -1,11 +1,11 @@
 @extends('default')
 
 @section('title')
-Δημιουργία Κλαδιού Μονάδας
+Δημιουργία Οργανωτικής Μονάδας
 @stop
 
 @section('pageTitle')
-Δημιουργία Κλαδιού Μονάδας
+Δημιουργία Οργανωτικής Μονάδας
 @stop
 
 @section('bodyContent')
