@@ -3,7 +3,6 @@
 @section('title')
 Δημιουργία Εθελοντή/Εθελόντριας
 @stop
-
 @section('pageTitle')
 Δημιουργία Εθελοντή/Εθελόντριας
 @stop
@@ -83,8 +82,9 @@
                 {!! Form::formInput('country', 'Χώρα:', $errors, ['class' => 'form-control']) !!}
             </div>
             <div class="form-group">
-                {!! Form::formInput('live_in_curr_country', 'Κάτοικος Ελλάδας:', $errors, ['class' => 'form-control',
-                'type' => 'checkbox', 'value' => true]) !!} <em>Αποεπιλέξτε εφόσον δε διαμένετε μόνιμα στην Ελλάδα.</em>
+                {!! Form::formInput('live_in_curr_country', 'Κάτοικος Ελλάδας', $errors, ['class' => 'form-control',
+                'type' => 'checkbox', 'value' => true, 'checked' => true]) !!} <em>(Αποεπιλέξτε εφόσον δε διαμένετε
+                μόνιμα στην Ελλάδα.)</em>
             </div>
         </div>
         <div class="col-md-4">
@@ -178,8 +178,8 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::formInput('computer_usage', 'Χρήση υπολογιστή:', $errors, ['class' => 'form-control',
-                        'type' => 'checkbox', 'value' => false]) !!}
+                        {!! Form::formInput('computer_usage', 'Χρήση υπολογιστή', $errors, ['class' => 'form-control',
+                        'type' => 'checkbox', 'value' => false, 'checked' => false]) !!}
                     </div>
                 </div>
             </div>
@@ -255,38 +255,29 @@
                     {!! Form::formInput('availability_freqs_id', 'Συχνότητα συνεισφοράς:', $errors, ['class' =>
                     'form-control', 'type' => 'select', 'value' => $availabilityFreqs]) !!}
                 </div>
+                <p>Χρόνοι συνεισφοράς:</p>
+                @foreach($availabilityTimes as $a_t_id => $availability_time)
                 <div class="form-group">
-                    <!-- {!! Form::formInput('availability_time', 'Χρόνοι συνεισφοράς:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $availabilityTimes]) !!} -->
-                    <br>
-                    <label>
-                        <p>Χρόνοι συνεισφοράς:</p>
-                        @foreach($availabilityTimes as $a_t_id => $availability_time)
-                        <br>
-                        {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' => 'form-control',
-                        'type' => 'checkbox', 'value' => $a_t_id]) !!}
-                        <em>{{ $availability_time }}</em>
-                        @endforeach
-                    </label>
+                    {!! Form::formInput('availability_time' . $a_t_id, $availability_time, $errors, ['class' =>
+                    'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => false]) !!}
                 </div>
+                @endforeach
+            </div>
+            <div class="col-md-4">
+                <p>Περιοχές ενδιαφερόντων:</p>
+                @foreach($interests as $int_id => $interest)
                 <div class="form-group">
-                    <br>
-                    <label>
-                        <p>Περιοχές ενδιαφερόντων:</p>
-                        @foreach($interests as $int_id => $interest)
-                        <br>
-                        {!! Form::formInput('interest' . $int_id, '', $errors, ['class' => 'form-control', 'type' =>
-                        'checkbox', 'value' => $int_id]) !!}
-                        <em>{{ $interest }}</em>
-                        @endforeach
-                    </label>
+                    {!! Form::formInput('interest' . $int_id, $interest , $errors, ['class' => 'form-control',
+                    'type' => 'checkbox', 'value' => $int_id, 'checked' => false]) !!}
                 </div>
+                @endforeach
             </div>
         </div>
     </div>
 </div>
+</div>
 {!! Form::submit('Καταχώρηση εθελοντή', ['class' => 'btn']) !!}
 {!! Form::close() !!}
-</div>
 </div>
 </div>
 </div>
