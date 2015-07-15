@@ -29,11 +29,16 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-body">
-                <h3>Επιλογή Οργανωτικών Μονάδων</h3>
-                <p>Επιλέξτε τις οργανωτικές μονάδες στις οποίες μπορεί να έχει πρόσβαση ο χρήστης.</p>
+                <div class="row m-b-lg">
+                    <div class="col-md-12 ">
+                        <h3>Επιλογή Οργανωτικών Μονάδων</h3>
 
-                @if($tree!=null)
-                @include('main.tree._tree', ['unit' => $tree, 'actives' => $actives])
+                        <p>Επιλέξτε τις οργανωτικές μονάδες στις οποίες μπορεί να έχει πρόσβαση ο χρήστης.</p>
+
+                        @if($tree!=null)
+                        @include('main.tree._tree', ['unit' => $tree, 'actives' => $actives])
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-12 text-right">
                         <button type="button" class="btn btn-success" id="save" data-user-id="{{$user->id}}">
@@ -58,9 +63,9 @@
     $("#tree").jOrgChart({
         chartElement: '#unitsTree',
         multiple: true,
-        ulId: "#tree"
+        ulId: "#tree",
+        children: true
     });
-
 
 
     $("#save").click(function () {
@@ -75,15 +80,17 @@
             units: activeLis
         };
 
+        console.log(activeLis);
+
         $.ajax({
-            url: $("body").attr('data-url')+'/users/units',
+            url: $("body").attr('data-url') + '/users/units',
             method: 'POST',
             data: userUnits,
             headers: {
                 'X-CSRF-Token': $('input[name="_token"]').val()
             },
             success: function (data) {
-                window.location.href = $("body").attr('data-url')+"/users/one/" + data;
+                window.location.href = $("body").attr('data-url') + "/users/one/" + data;
             }
         });
     })

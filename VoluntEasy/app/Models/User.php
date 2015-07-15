@@ -46,5 +46,20 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function notifications()
     {
         return $this->hasMany('App\Models\Notification')->orderBy('updated_at', 'desc');
-    }    
+    }
+
+
+    /**
+     * Check if user has a certain unit.
+     *
+     * @param $query
+     * @param $id
+     * @return mixed
+     */
+    public function scopeUnit($query, $id)
+    {
+        return User::whereHas('units', function ($query) use ($id) {
+            $query->where('id', $id);
+        });
+    }
 }

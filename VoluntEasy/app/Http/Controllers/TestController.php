@@ -22,7 +22,9 @@ class TestController extends Controller
         return $tree;
 */
 
-        return UserService::userUnits();
+        //return UserService::permittedUsersIds();
+
+        return VolunteerService::permittedVolunteersIds();
     }
 
 

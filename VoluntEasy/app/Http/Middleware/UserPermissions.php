@@ -7,7 +7,7 @@ class UserPermissions {
 
 	/**
 	 * Handle an incoming request.
-     * Check if the requested unit is assigned to the current user.
+     * Check if the requested user can be edited by the logged in user.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
 	 * @param  \Closure  $next
@@ -16,9 +16,9 @@ class UserPermissions {
 	public function handle($request, Closure $next)
 	{
         //get user units
-        $userUnits = UserService::userUnits();
+        $userUnits = UserService::permittedUsersIds();
 
-        //if the requested unit is not assigned to user, return error page
+        //if the requested user cannot be editted ny the logged in user, return error page
         if(!in_array( $request->route()->getParameter('id'), $userUnits))
             return response()->view('errors.550', [], 550);
 

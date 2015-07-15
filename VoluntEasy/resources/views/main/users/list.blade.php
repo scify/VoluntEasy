@@ -24,7 +24,6 @@
                        <th>Email</th>
                        <th>Διεύθυνση</th>
                        <th>Τηλέφωνο</th>
-                       <th>Level</th>
                        <th></th>
                     </tr>
                  </thead>
@@ -36,8 +35,17 @@
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->addr }}</td>
                         <td>{{ $user->tel }}</td>
-                        <td>{{ $user->level }}</td>
-                        <td><a href="#" class="delete" data-id="{{ $user->id }}"><i class="fa fa-trash"></i></a></td>
+                        <td>
+                            @if(in_array($user->id, $permittedUsers))
+                            <ul class="list-inline">
+                                <li><a href="{{ url('users/edit/'.$user->id) }}" data-toggle="tooltip"
+                                       data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit fa-2x"></i></a>
+                                </li>
+                                <li><a href="{{ url('users/delete/'.$user->id) }}" data-toggle="tooltip"
+                                       data-placement="bottom" title="Διαγραφή"><i class="fa fa-trash fa-2x"></i></a>
+                                </li>
+                            </ul>
+                            @endif
                      </tr>
                  @endforeach
                  </tbody>

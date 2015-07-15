@@ -32,15 +32,17 @@
                         @else
                             <ul class="list-unstyled">
                             @foreach($user->units as $unit)
-                                <li><a href="#" class="unit">{{$unit->description}}</a></li>
+                                <li><a href="{{ url('units/one/'.$unit->id) }}">{{$unit->description}}</a></li>
                             @endforeach
                             </ul>
                         @endif
                     </div>
                     <div class="col-md-4 text-right">
+                        @if(in_array($user->id, $permittedUsers))
                         <a href="{{ url('users/edit/'.$user->id) }}" class="btn btn-success"><i
                                 class="fa fa-edit"></i> Επεξεργασία</a>
                         <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i> Διαγραφή</button>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -53,11 +55,6 @@
 
 @section('footerScripts')
 <script>
-    $(".unit").click(function(event){
-        event.preventDefault();
-        console.log("hola");
-
-    })
 
 
 </script>

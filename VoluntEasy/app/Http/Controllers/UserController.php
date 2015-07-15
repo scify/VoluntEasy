@@ -8,12 +8,11 @@ use App\Services\Facades\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
-class UserController extends Controller
-{
+class UserController extends Controller {
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth');
+        $this->middleware('permissions.user', ['only' => ['edit']]);
     }
 
     /**
@@ -21,12 +20,12 @@ class UserController extends Controller
      *
      * @return Response
      */
-    public function index()
-    {
+    public function index() {
         $users = User::orderBy('name', 'ASC')->paginate(5);
-        $users->setPath(\URL::to('/').'/users');
+        $users->setPath(\URL::to('/') . '/users');
+        $permittedUsers = UserService::permittedUsersIds();
 
-        return view("main.users.list", compact('users'));
+        return view("main.users.list", compact('users', 'permittedUsers'));
     }
 
     /**
@@ -34,8 +33,7 @@ class UserController extends Controller
      *
      * @return Response
      */
-    public function create()
-    {
+    public function create() {
         return view("main.users.create");
     }
 
@@ -45,8 +43,7 @@ class UserController extends Controller
      * @param UserRequest $request
      * @return Response
      */
-    public function store(UserRequest $request)
-    {
+    public function store(UserRequest $request) {
         $request['password'] = \Hash::make($request['password']);
 
         $user = User::create($request->all());
@@ -60,13 +57,14 @@ class UserController extends Controller
      * @param  int $id
      * @return Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         $user = User::where('id', $id)->with('units')->first();
 
         $tree = UnitService::getTree();
 
-        return view("main.users.show", compact('user', 'tree'));
+        $permittedUsers = UserService::permittedUsersIds();
+
+        return view("main.users.show", compact('user', 'tree', 'permittedUsers'));
     }
 
     /**
@@ -75,8 +73,7 @@ class UserController extends Controller
      * @param  int $id
      * @return Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         $user = User::where('id', $id)->with('units.allChildren')->first();
 
         $tree = UnitService::getTree();
@@ -93,8 +90,7 @@ class UserController extends Controller
      * @return Response
      */
 
-    public function update(UserRequest $request)
-    {
+    public function update(UserRequest $request) {
         $user = User::findOrFail($request->get('id'));
 
         $request['password'] = \Hash::make($request['password']);
@@ -104,12 +100,13 @@ class UserController extends Controller
         return Redirect::to('users');
     }
 
-    public function addUnits(Request $request)
-    {
-
+    public function addUnits(Request $request) {
         $user = User::findOrFail($request->get('id'));
 
-        $user->units()->sync($request->get('units'));
+        if ($request->get('units') == null)
+            $user->units()->detach();
+        else
+            $user->units()->sync($request->get('units'));
 
         return $user->id;
     }
@@ -120,8 +117,7 @@ class UserController extends Controller
      * @param  int $id
      * @return Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         $user = User::findOrFail($id);
 
         $user->delete();

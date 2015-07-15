@@ -100,31 +100,27 @@
 
         $('div.node').unbind('click').click(function () {
 
-            console.log('clicky');
+            //console.log('clicky');
 
             if (!$(this).hasClass('disabled') && !opts.disabled) {
-                console.log('not disabled');
-                /*if (opts.disabled) {
-                    console.log('opts.disabled');
-                    if ($(this).hasClass('active-node')) {
-                        $(this).removeClass('active-node');
-                        $(opts.ulId + ' [data-id="' + $(this).attr('data-id') + '"]').removeClass("active-node");
-                    }
-                    else {
-                        $(this).addClass('active-node');
-                        $(opts.ulId + ' [data-id="' + $(this).attr('data-id') + '"]').addClass("active-node");
-                    }
-                }
-                else */if (opts.multiple) {
-                    console.log('opts.multiple');
+                //console.log('not disabled');
+                if (opts.multiple && opts.children) {
+                    //console.log('opts.multiple + opts.children');
                     if (!opts.disabled) {
                         if ($(this).hasClass('active-node')) {
                             $(this).removeClass('active-node');
+
+                            $(this).closest('table').children().find('div.node').removeClass('active-node disabled');
+
                             $(opts.ulId + ' [data-id="' + $(this).attr('data-id') + '"]').removeClass("active-node");
                         }
                         else {
                             $(this).addClass('active-node');
+                            $(this).closest('table').children().find('div.node').addClass('active-node disabled');
+                            $(this).removeClass('disabled');
+
                             $(opts.ulId + ' [data-id="' + $(this).attr('data-id') + '"]').addClass("active-node");
+                            $(opts.ulId + ' [data-id="' + $(this).attr('data-id') + '"]').children().find('li').removeClass("active-node");
                         }
                     }
                 }

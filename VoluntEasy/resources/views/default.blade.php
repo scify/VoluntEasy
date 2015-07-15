@@ -38,6 +38,7 @@
 </main>
 <div class="cd-overlay"></div>
 @include('template.default.footerIncludes')
+<script src="{{ asset('assets/js/notification.js')}}"></script>
 @yield('footerScripts')
 </body>
 </html>

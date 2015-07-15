@@ -55,7 +55,7 @@ class UnitController extends Controller {
     public function create() {
         $root = UnitService::getRoot();
 
-        $users = User::all();
+        $users = UserService::permittedUsers();
 
         if (count($root) == 0) {
             $type = 'root';
@@ -140,7 +140,7 @@ class UnitController extends Controller {
         array_push($actives, $id);
 
         //display all the users in the front end
-        $users = User::all();
+        $users = UserService::permittedUsers();
 
         $userIds = UserService::userIds($active->users);
 
