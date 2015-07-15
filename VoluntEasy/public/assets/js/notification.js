@@ -3,6 +3,7 @@ $(document).ready(function () {
     var alarmActive = [];
     var notifications = [];
     var ring;
+    var pagetitle = $('title').text();
 
     //set up the sound manager that will play  the ring sound
     soundManager.setup({
@@ -26,14 +27,13 @@ $(document).ready(function () {
              */
             $.when(hitServer())
                 .then(function () {
-                    console.log('alarmAndActive: ' + alarmActive.length);
                     stopBellNotification();
                 });
         }
-    }, 1000);
+    }, 4000);
 
 
-    /* hit the server to check for new notifications*/
+    /* hit the server to check for new notifications */
     function hitServer() {
         return $.ajax({
             url: $("body").attr('data-url') + '/checkForNotifications',
@@ -47,6 +47,9 @@ $(document).ready(function () {
                 if (data.length > 0) {
                     //there are new notifications
                     $("#notificationBadge").show();
+
+                    //add a (1) to the title!
+                    $('title').text('('+data.length+') ' +pagetitle);
 
                     var html = '';
                     //loop through the notifications and draw the
@@ -105,7 +108,7 @@ $(document).ready(function () {
     }
 
     /*
-     * when the bell is clicked and the user views the notification list,
+     * when the bell icon is clicked and the user views the notification list,
      * send a request to the server with all the active/alarmAndActive notifications
      * to change their status to inactive.
      */
@@ -121,6 +124,7 @@ $(document).ready(function () {
                     }
                 });
             });
+            $('title').text(pagetitle);
             $("#notificationBadge").hide();
             $(this).removeClass("open");
             $(this).addClass("open")

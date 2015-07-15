@@ -1,5 +1,6 @@
 <?php namespace App\Services;
 
+use App\Models\User;
 use App\Models\Volunteer;
 use App\Services\Facades\SearchService as Search;
 use App\Services\Facades\UnitService as UnitServiceFacade;
@@ -25,9 +26,8 @@ class VolunteerService {
         'education_level_id' => '=',
         'unit_id' => '',
 
-    ];
-
-
+    ];  
+    
     /**
      * Get all the volunteers that are assigned to the root unit,
      * aka unassigned.
@@ -60,6 +60,71 @@ class VolunteerService {
             array_push($ids, $volunteer->id);
 
         return $ids;
+    }
+
+    /**
+     * Get the volunteer ids of the currently logged in user.
+     * A user can view all the volunteers but may only edit the volunteers
+     * that are directly beneath his/her unit.
+     * If the user is assigned to the root unit, return all volunteers.
+     *
+     * @return array
+     */
+    public function permittedVolunteers() {
+        $permittedVolunteers = [];
+
+        //check if the logged in user is assigned to root unit.
+        //then return all the users since the admin is able to edit all of them.
+        $root = UnitServiceFacade::getRoot();
+
+        $user = User::unit($root->id)->where('id', \Auth::user()->id)->get();
+
+        //user is admin/assigned to root
+        if (sizeof($user) > 0) {
+            $volunteers = Volunteer::all();
+            foreach ($volunteers as $volunteer)
+                array_push($permittedVolunteers, $volunteer);
+        } else {
+            //get the user's units with their immediate children (first level)
+            //and their volunteers
+            $user = User::where('id', \Auth::user()->id)->with('units.children.volunteers')->first();
+
+            //loop through each unit and its children and add the user ids to the array
+            foreach ($user->units as $unit) {
+                if (sizeof($unit->children) > 0) {
+                    foreach ($unit->children as $child) {
+                        if (sizeof($child->volunteers) > 0) {
+                            foreach ($child->volunteers as $volunteer) {
+                                if (!in_array($volunteer, $permittedVolunteers))
+                                    array_push($permittedVolunteers, $volunteer);
+                            }
+                        }
+                    }
+                }
+                if (sizeof($unit->volunteers) > 0) {
+                    foreach ($unit->volunteers as $volunteer) {
+                        if (!in_array($volunteer, $permittedVolunteers))
+                            array_push($permittedVolunteers, $volunteer);
+                    }
+                }
+            }
+        }
+        return $permittedVolunteers;
+    }
+
+    /**
+     * Get only the ids of the permitted users
+     *
+     * @return array
+     */
+    public function permittedVolunteersIds(){
+        $volunteers = $this->permittedVolunteers();
+        $permittedVolunteersIds = [];
+
+        foreach($volunteers as $volunteer)
+            array_push($permittedVolunteersIds, $volunteer->id);
+
+        return $permittedVolunteersIds;
     }
 
     /**

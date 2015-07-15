@@ -1,6 +1,6 @@
 @extends('default')
 @section('title')
-    VoluntEasy Αρχική
+    Αρχική
 @stop
 @section('pageTitle')
     Dashboard

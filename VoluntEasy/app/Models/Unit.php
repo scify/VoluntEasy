@@ -2,36 +2,31 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Unit extends Model
-{
+class Unit extends Model {
 
     protected $table = 'units';
 
-    protected $fillable = ['description', 'comments', 'level', 
-                           'user_id', 'parent_unit_id', 'start_date', 'end_date'];
+    protected $fillable = ['description', 'comments', 'level',
+        'user_id', 'parent_unit_id', 'start_date', 'end_date'];
 
     /**
      * Retrieve the users associated with the unit
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function users()
-    {
+    public function users() {
         return $this->belongsToMany('App\Models\User', 'units_users', 'unit_id', 'user_id');
     }
 
-    public function actions()
-    {
+    public function actions() {
         return $this->hasMany('App\Models\Action');
     }
 
-    public function steps()
-    {
+    public function steps() {
         return $this->hasMany('App\Models\Step');
     }
 
-    public function volunteers()
-    {
+    public function volunteers() {
         return $this->belongsToMany('App\Models\Volunteer', 'units_volunteers');
     }
 
@@ -40,8 +35,7 @@ class Unit extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function parent()
-    {
+    public function parent() {
         return $this->hasOne('App\Models\Unit', 'id', 'parent_unit_id');
     }
 
@@ -50,8 +44,7 @@ class Unit extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function children()
-    {
+    public function children() {
         return $this->hasMany('App\Models\Unit', 'parent_unit_id', 'id');
     }
 
@@ -60,8 +53,7 @@ class Unit extends Model
      *
      * @return mixed
      */
-    public function allChildren()
-    {
+    public function allChildren() {
         return $this->children()->with('allChildren', 'actions');
     }
 
@@ -70,12 +62,8 @@ class Unit extends Model
      *
      * @return mixed
      */
-    public function allParents()
-    {
+    public function allParents() {
         return $this->parent()->with('allParents');
     }
-
-
-
 
 }

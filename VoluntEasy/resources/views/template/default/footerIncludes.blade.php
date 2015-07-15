@@ -18,4 +18,3 @@
 <script src="{{ asset('assets/js/modern.js')}}"></script>
 <script src="{{ asset('assets/js/custom.js')}}"></script>
 <script src="{{ asset('assets/js/pages/dashboard.js')}}"></script>
-<script src="{{ asset('assets/js/notification.js')}}"></script>
