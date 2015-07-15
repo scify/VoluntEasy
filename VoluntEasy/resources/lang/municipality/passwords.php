@@ -15,8 +15,8 @@ return [
 
 	"password" => "Ο κωδικός θα πρέπει να έχει μήκος τουλάχιστον 6 χαρακτήρες.",
 	"user" => "Δεν υπάρχει χρήστης με αυτό το email.",
-	"token" => "This password reset token is invalid.",
-	"sent" => "We have e-mailed your password reset link!",
-	"reset" => "Your password has been reset!",
+	"token" => "Το password reset token δεν είναι έγκυρο.",
+	"sent" => "Σας απεστάλη μέσω email ο σύνδεσμος επαναφοράς κωδικού πρόσβασης!",
+	"reset" => "Εγίνε επαναφορά κωδικού!",
 
 ];

@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"πε",
+				"περιέχει"
+			],
+			[
+				"έ",
+				"έχει"
+			],
+			[
+				"με",
+				"μεταξύ"
+			],
+			[
 				"var",
 				"var_dump〔function〕"
 			],
@@ -59,14 +71,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "app/Http/Controllers/UnitController.php",
-			"settings":
-			{
-				"buffer_size": 8521,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -151,25 +155,42 @@
 	"expanded_folders":
 	[
 		"/srv/http/VoluntEasy/VoluntEasy",
-		"/srv/http/VoluntEasy/VoluntEasy/app",
-		"/srv/http/VoluntEasy/VoluntEasy/app/Helpers",
-		"/srv/http/VoluntEasy/VoluntEasy/database",
-		"/srv/http/VoluntEasy/VoluntEasy/database/seeds"
+		"/srv/http/VoluntEasy/VoluntEasy/resources",
+		"/srv/http/VoluntEasy/VoluntEasy/resources/lang",
+		"/srv/http/VoluntEasy/VoluntEasy/resources/lang/en",
+		"/srv/http/VoluntEasy/VoluntEasy/resources/lang/municipality",
+		"/srv/http/VoluntEasy/VoluntEasy/resources/views",
+		"/srv/http/VoluntEasy/VoluntEasy/resources/views/main/_modals",
+		"/srv/http/VoluntEasy/VoluntEasy/resources/views/main/units",
+		"/srv/http/VoluntEasy/VoluntEasy/resources/views/main/units/partials",
+		"/srv/http/VoluntEasy/VoluntEasy/resources/views/main/volunteers",
+		"/srv/http/VoluntEasy/VoluntEasy/resources/views/main/volunteers/partials",
+		"/srv/http/VoluntEasy/VoluntEasy/resources/views/template/default"
 	],
 	"file_history":
 	[
 		"/srv/http/VoluntEasy/VoluntEasy/app/Http/routes.php",
+		"/srv/http/VoluntEasy/VoluntEasy/resources/views/main/dashboard.blade.php",
+		"/srv/http/VoluntEasy/VoluntEasy/resources/lang/municipality/validation.php",
+		"/srv/http/VoluntEasy/VoluntEasy/resources/lang/municipality/passwords.php",
+		"/srv/http/VoluntEasy/VoluntEasy/resources/lang/municipality/pagination.php",
+		"/srv/http/VoluntEasy/VoluntEasy/bootstrap/app.php",
+		"/srv/http/VoluntEasy/VoluntEasy/config/app.php",
+		"/srv/http/VoluntEasy/VoluntEasy/.env",
+		"/srv/http/VoluntEasy/VoluntEasy/app/Models/Action.php",
 		"/srv/http/VoluntEasy/VoluntEasy/app/Services/NotificationService.php",
 		"/srv/http/VoluntEasy/VoluntEasy/app/Http/Controllers/NotificationController.php",
+		"/srv/http/VoluntEasy/VoluntEasy/app/Helpers/Helper.php",
+		"/srv/http/VoluntEasy/VoluntEasy/app/Http/Controllers/VolunteerController.php",
+		"/srv/http/VoluntEasy/VoluntEasy/app/Http/Controllers/UnitController.php",
+		"/srv/http/VoluntEasy/VoluntEasy/resources/views/main/volunteers/partials/_form.blade.php",
+		"/srv/http/VoluntEasy/VoluntEasy/resources/views/main/volunteers/new.blade.php",
 		"/srv/http/VoluntEasy/VoluntEasy/app/Http/Controllers/UserController.php",
 		"/srv/http/VoluntEasy/VoluntEasy/database/seeds/UnitTableSeeder.php.tmpl",
 		"/srv/http/VoluntEasy/VoluntEasy/database/seeds/UserTableSeeder.php.tmpl",
-		"/srv/http/VoluntEasy/VoluntEasy/app/Http/Controllers/UnitController.php",
 		"/srv/http/VoluntEasy/VoluntEasy/database/seeds/UserTableSeeder.php",
 		"/srv/http/VoluntEasy/VoluntEasy/app/Services/VolunteerService.php",
 		"/srv/http/VoluntEasy/VoluntEasy/app/Services/UnitService.php",
-		"/srv/http/VoluntEasy/VoluntEasy/app/Http/Controllers/VolunteerController.php",
-		"/srv/http/VoluntEasy/VoluntEasy/app/Helpers/Helper.php",
 		"/srv/http/VoluntEasy/VoluntEasy/vendor/sebastian/comparator/src/DateTimeComparator.php",
 		"/srv/http/VoluntEasy/VoluntEasy/vendor/monolog/monolog/src/Monolog/Handler/StreamHandler.php",
 		"/srv/http/VoluntEasy/VoluntEasy/vendor/laravel/framework/src/Illuminate/Foundation/AliasLoader.php",
@@ -275,15 +296,7 @@
 		"/home/dubdub/projects/joincargo/composer.lock",
 		"/home/dubdub/projects/joincargo/buckUpS3Script",
 		"/home/dubdub/projects/joincargo/artisan",
-		"/home/dubdub/projects/joincargo/_ide_helper.php",
-		"/home/dubdub/projects/joincargo/.sftp-config.json",
-		"/home/dubdub/projects/joincargo/.gitignore",
-		"/home/dubdub/projects/joincargo/.gitattributes",
-		"/home/dubdub/projects/joincargo/info",
-		"/mnt/sd/test",
-		"/home/dubdub/projects/joincargo/app/routes.php",
-		"/home/dubdub/projects/joincargo/sftp-config.json",
-		"/home/dubdub/projects/joincargo/bootstrap/start.php"
+		"/home/dubdub/projects/joincargo/_ide_helper.php"
 	],
 	"find":
 	{
@@ -304,6 +317,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"αντι",
+			"Route::filter('csrf'",
+			"falba",
+			"Carbon",
+			"dateDiff",
 			"aris",
 			"assign",
 			"From",
@@ -435,103 +453,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "app/Http/Controllers/UnitController.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 8521,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7360,
-								7360
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"auto_complete": false,
-							"bh_regions":
-							[
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content"
-							],
-							"function_name_status_row": 251,
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1386.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		},
 		{
@@ -616,8 +539,36 @@
 		"selected_items":
 		[
 			[
+				"dash",
+				"resources/views/main/dashboard.blade.php"
+			],
+			[
+				".env",
+				".env"
+			],
+			[
+				"app",
+				"bootstrap/app.php"
+			],
+			[
+				"volu",
+				"app/Http/Controllers/VolunteerController.php"
+			],
+			[
+				"rou",
+				"app/Http/routes.php"
+			],
+			[
+				"noti",
+				"app/Http/Controllers/NotificationController.php"
+			],
+			[
 				"notifi",
-				"app/Services/NotificationService.php"
+				"app/Http/Controllers/NotificationController.php"
+			],
+			[
+				"volun",
+				"app/Http/Controllers/VolunteerController.php"
 			],
 			[
 				"notif",
@@ -640,14 +591,6 @@
 				"app/Http/Controllers/UnitController.php"
 			],
 			[
-				"volun",
-				"app/Http/Controllers/VolunteerController.php"
-			],
-			[
-				"rou",
-				"app/Http/routes.php"
-			],
-			[
 				"date",
 				"vendor/sebastian/comparator/src/DateTimeComparator.php"
 			],
@@ -662,10 +605,6 @@
 			[
 				"rout",
 				"app/Http/routes.php"
-			],
-			[
-				"volu",
-				"app/Services/VolunteerService.php"
 			],
 			[
 				"userco",
@@ -720,10 +659,6 @@
 				"app/views/transporter/createFleet.blade.php"
 			],
 			[
-				"app",
-				"app/config/app.php"
-			],
-			[
 				"cargo",
 				"app/models/Cargo.php"
 			],
@@ -770,10 +705,6 @@
 			[
 				"dashbo",
 				"app/lang/gr/transporter/dashboard.php"
-			],
-			[
-				"dash",
-				"app/lang/gr/shipper/dashboard.php"
 			],
 			[
 				"crfleet",
@@ -828,7 +759,7 @@
 		],
 		"width": 876.0
 	},
-	"selected_group": 0,
+	"selected_group": 2,
 	"settings":
 	{
 		"xdebug":

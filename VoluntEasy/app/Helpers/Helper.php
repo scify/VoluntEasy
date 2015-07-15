@@ -5,8 +5,8 @@ use Illuminate\Support\Str;
 
 class Helper
 {
-
 	/**
+	 * NOT USED at the Moment - replaced by Carbon->->diffForHumans()
 	 * Author
 	 * John Veldboom
 	 * Sounrce
@@ -46,7 +46,6 @@ class Helper
 	   
 	   return implode($return, ', ');
 	}
-
 }
 
 

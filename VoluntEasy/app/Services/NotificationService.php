@@ -2,6 +2,7 @@
  
 use App\Models\Notification;
 use App\Helpers\Helper;
+use \Carbon\Carbon;
 
 /**
  * The PHP Class that will handle the buisnes logic for the Notification Engine
@@ -99,11 +100,16 @@ class NotificationService
 
 
         foreach ($notificationObjectsList as $notificationObject) {            
-            $humanDateTime = new Helper;
-            $notificationObject['when'] = $humanDateTime->dateDiff($notificationObject->created_at);
+            // humanised date with Helper script
+            //$humanDateTime = new Helper;
+            //$notificationObject['when'] = $humanDateTime->dateDiff($notificationObject->created_at);
+            
+            // hummanised date with use of Carbon Date package
+            $notificationObject['when'] = $notificationObject->created_at->diffForHumans();
+            
             unset($notificationObject['created_at']);
             unset($notificationObject['updated_at']);
-            
+
             //URL::to('transferRequest', $booking->id),
             //$temp = $notificationObject->created_at->diff(new \DateTime('now'));
         }
