@@ -123,23 +123,12 @@ Route::get('test','TestController@test');
 Route::get('units/branch/{id}','UnitController@branch');
 
 /** aris TESTing... **/
+use App\Models\Notification;
+use Carbon\Carbon;
 Route::get('aris', function()
 {
-    return  php_sapi_name();
-    $user = Auth::user();
-    $unit = App\Models\Unit::first(); 
-    return App\Services\Facades\NotificationService::addNotification($user->id, 1, 'you are added to Unit: '.$unit->description, "athensIndymedia", $user->id, $unit->id);
 
-    
-    //Route::get('notifications.add', 'UserController@showProfile')
-    //route('notifications.add');
-
-    //$request = Request::create('/addNotification/'.$userId.'/1/you are added to Unit: '.'UNITNAME'.'/athens.indymedia/'.'1'.'/'.'2'.'/', 'GET');
-    //return var_dump($this);
-    //->client->get('http://volunteasy/addNotification/'.$userId.'/1/you are added to Unit: '
-     //   .'UNITNAME'.'/athens.indymedia/'.'1'.'/'.'2'.'/');
-    //return Route::dispatch($request);
-
-    //return new \DateTime('today'); 
+    //return lang('/passwords.password');
+    return @trans('/passwords.password');
 });
 
