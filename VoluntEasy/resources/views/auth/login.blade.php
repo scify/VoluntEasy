@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<?php  $lang = "auth/login."; ?> {{--  resource label path --}}     
 <html>
     <head>
         <!-- Title -->
@@ -6,7 +7,6 @@
 
         @include('template.default.headerIncludes')
     </head>
-    <?php  $lang = "templates/menu."; ?> {{--  resource label path --}}     
     <body class="page-login">
         <main class="page-content">
             <div class="page-inner">
