@@ -14,7 +14,7 @@ h3{font-weight: 400;}
 .panel-default .panel-heading{
 	background-color:#E9EDF2;
 }
-.panel-group.small .panel .panel-heading{
+.small .panel .panel-heading, .panel.panel-default.smallHeading .panel-heading{
     padding:10px;
     height:35px;
 }

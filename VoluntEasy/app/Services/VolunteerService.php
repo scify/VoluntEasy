@@ -153,20 +153,24 @@ class VolunteerService {
                 break;
 
             case '2':
-                $volunteers = Volunteer::has('units.steps')->whereHas('steps.status', function ($query) {
+              /*  $volunteers = Volunteer::has('units.steps')->whereHas('steps.status', function ($query) {
                     $query->where('id', 1);
-                });
-
-
-               /* $volunteers = Volunteer::has('steps.status', function ($query) {
-                    $query->whereAll('id', 2);
                 });*/
+
+
+
+        /* $volunteers = Volunteer::has('steps.status', function ($query) {
+             $query->whereAll('id', 2);
+         });*/
                 break;
 
             case '3':
                 break;
 
             case '4':
+                $volunteers = Volunteer::whereHas('steps.status', function ($query) {
+                    $query->where('id', 4);
+                });
                 break;
 
             case '5':
