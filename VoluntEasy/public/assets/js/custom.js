@@ -11,6 +11,7 @@ $(document).ready(function () {
     $("#clear").click(function(){
         $(".search").val('');
         $(".searchDropDown").val('0');
+        $('.searchCheckbox').attr('checked', false);
     });
 
     //Submit the form through ajax.

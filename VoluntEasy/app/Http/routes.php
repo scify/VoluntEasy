@@ -52,6 +52,7 @@ Route::get('volunteers/new','VolunteerController@newVolunteers');
 Route::get('volunteers/create', 'VolunteerController@create');
 Route::get('volunteers/delete/{id}', 'VolunteerController@destroy');
 Route::get('volunteers/one/{id}', ['as' => 'volunteer/one', 'uses' => 'VolunteerController@show']);
+Route::get('volunteers/addToRootUnit/{id}',  'VolunteerController@addToRootUnit');
 Route::post('volunteers/store', 'VolunteerController@store');
 Route::post('volunteers/search', 'VolunteerController@search');
 

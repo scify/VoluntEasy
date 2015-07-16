@@ -18,7 +18,7 @@
     </div>
     <div class="col-md-2">
         <div class="form-group">
-            {!! Form::formInput('my_units', 'Οι μονάδες μου', $errors, ['class' => 'form-control', 'type' => 'checkbox', 'value' => false, 'checked' => false]) !!}
+            {!! Form::formInput('my_units', 'Οι μονάδες μου', $errors, ['class' => 'form-control', 'type' => 'checkbox', 'value' => 'true', 'checked' => 'false']) !!}
         </div>
     </div>
 </div>

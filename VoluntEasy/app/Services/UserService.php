@@ -67,6 +67,20 @@ class UserService {
     }
 
     /**
+     * Check if the logged in user is assigned to root unit.
+     *
+     * @return mixed
+     */
+    public function isUserAdmin(){
+        $root = UnitServiceFacade::getRoot();
+
+        $users = User::unit($root->id)->where('id', \Auth::user()->id)->get();
+
+        return $users;
+    }
+
+
+    /**
      * Get the users ids of the currently logged in user.
      * A user can view all the users but may only edit the users
      * that are directly beneath his/her unit.
@@ -77,14 +91,8 @@ class UserService {
     public function permittedUsers() {
         $permittedUsers = [];
 
-        //check if the logged in user is assigned to root unit.
-        //then return all the users since the admin is able to edit all of them.
-        $root = UnitServiceFacade::getRoot();
-
-        $user = User::unit($root->id)->where('id', \Auth::user()->id)->get();
-
         //user is admin/assigned to root
-        if (sizeof($user) > 0) {
+        if (sizeof($this->isUserAdmin()) > 0) {
             $users = User::all();
             foreach ($users as $user)
                 array_push($permittedUsers, $user);

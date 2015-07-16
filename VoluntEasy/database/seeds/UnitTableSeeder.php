@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Unit as Unit;
 use App\Models\User as User;
+use \App\Services\Facades\UnitService;
 
 class UnitTableSeeder extends Seeder {
 
@@ -22,6 +23,9 @@ class UnitTableSeeder extends Seeder {
 
 
         $unit->users()->attach(User::first()->id);
+
+        $unit->steps()->saveMany(UnitService::createSteps());
+
     }
 
 }

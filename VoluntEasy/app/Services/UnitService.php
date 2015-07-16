@@ -3,19 +3,21 @@
 use App\Models\Unit;
 use App\Models\Step as Step;
 use App\Services\Facades\SearchService as Search;
+use App\Services\Facades\UserService as UserServiceFacade;
 
 class UnitService {
 
     /**
      * This array holds the names of the filters that the user is able to search by.
      * Filters correspond to column names.
+     * If a filter doesn't have an operator, a special action is required.
+     *
      * @var array
      */
     private $filters = [
         'description' => 'like%',
         'parent_unit_id' => '=',
         'user_id' => '',
-
     ];
 
     /**
@@ -113,7 +115,11 @@ class UnitService {
      */
     public function search() {
 
-        $query = Unit::select();
+        if (\Input::has('my_units')) {
+            $userUnits = UserServiceFacade::userUnits();
+            $query = Unit::whereIn('id', $userUnits);
+        } else
+            $query = Unit::select();
 
         foreach ($this->filters as $column => $filter) {
             if (\Input::has($column)) {
@@ -136,6 +142,7 @@ class UnitService {
                                     });
                                 }
                                 break;
+
                         }
                     default:
                         break;

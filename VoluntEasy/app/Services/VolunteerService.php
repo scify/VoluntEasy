@@ -26,6 +26,7 @@ class VolunteerService {
         'education_level_id' => '=',
         'unit_id' => '',
         'my_volunteers' => '',
+        'status_id' => '',
 
     ];
 
@@ -125,6 +126,59 @@ class VolunteerService {
         return $permittedVolunteersIds;
     }
 
+
+    /**
+     * Get volunteers based on a given status.
+     *
+     * Statuses may be:
+     *
+     * 1: upo entaksi
+     * 2: dia8esimoi/not in any action, have completed all steps for a certain unit
+     * 3: energoi/active/currently in an action
+     * 4: mh dia8esimoi/akatallhloi/blacklisted/a manually set status
+     * 0: unassigned/new
+     *
+     * @param $statusId
+     * @param null $unitId
+     * @return mixed
+     */
+    public function volunteersByStatus($statusId, $unitId = null) {
+
+        switch ($statusId) {
+            case '1':
+                $volunteers = Volunteer::whereHas('steps.status', function ($query) {
+                    $query->where('id', 2);
+                });
+                // dd($query);
+                break;
+
+            case '2':
+                $volunteers = Volunteer::has('units.steps')->whereHas('steps.status', function ($query) {
+                    $query->where('id', 1);
+                });
+
+
+               /* $volunteers = Volunteer::has('steps.status', function ($query) {
+                    $query->whereAll('id', 2);
+                });*/
+                break;
+
+            case '3':
+                break;
+
+            case '4':
+                break;
+
+            case '5':
+                $volunteers = Volunteer::whereIn('id', $this->unassigned()->lists('id'));
+                break;
+        }
+
+
+        return $volunteers->get();
+    }
+
+
     /**
      * Dynamic search chains a lot of queries depending on the filters sent by the user.
      *
@@ -135,9 +189,14 @@ class VolunteerService {
         if (\Input::has('my_volunteers')) {
             $permittedVolunteersIds = $this->permittedVolunteersIds();
             $query = Volunteer::whereIn('id', $permittedVolunteersIds);
+
         } else
             $query = Volunteer::select();
 
+
+        if (\Input::has('status_id') && !Search::notDropDown(\Input::get('status_id'), 'status_id')) {
+            $query = Volunteer::whereIn('id', $this->volunteersByStatus(\Input::get('status_id'))->lists('id'));
+        }
 
         foreach ($this->filters as $column => $filter) {
             if (\Input::has($column) && \Input::get($column) != "") {
@@ -184,9 +243,12 @@ class VolunteerService {
                 }
             }
         }
-        $result = $query->orderBy('name', 'ASC')->with('actions')->paginate(5);
-        $result->setPath(\URL::to('/') . '/volunteers');
+
+
         // dd($query);
+
+        $result = $query->orderBy('name', 'ASC')->with('actions')->get();
+        //  $result->setPath(\URL::to('/') . '/volunteers');
 
         return $result;
     }

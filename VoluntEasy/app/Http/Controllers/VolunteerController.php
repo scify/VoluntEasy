@@ -13,10 +13,12 @@ use App\Models\Descriptions\Interests;
 use App\Models\Descriptions\Language;
 use App\Models\Descriptions\LanguageLevel;
 use App\Models\Descriptions\MaritalStatus;
+use App\Models\Descriptions\StepStatus;
 use App\Models\Descriptions\WorkStatus;
 use App\Models\Volunteer;
 use App\Models\VolunteerAvailabilityTime;
 use App\Models\VolunteerLanguage;
+use App\Models\VolunteerStepStatus;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\VolunteerService;
 use DB;
@@ -33,8 +35,8 @@ class VolunteerController extends Controller {
      * @return Response
      */
     public function index() {
-        $volunteers = Volunteer::with('units', 'actions')->paginate(5);
-        $volunteers->setPath(\URL::to('/') . '/volunteers');
+        $volunteers = Volunteer::with('units', 'actions')->get();
+        //$volunteers->setPath(\URL::to('/') . '/volunteers');
 
         return view('main.volunteers.list', compact('volunteers'));
     }
@@ -190,7 +192,7 @@ class VolunteerController extends Controller {
      */
     public function show($id) {
         $volunteer = Volunteer::where('id', $id)->with('gender', 'identificationType', 'driverLicenceType',
-            'educationLevel', 'languages.level', 'languages.language', 'interests', 'workStatus', 'availabilityTimes', 'availabilityFrequencies')->first();
+            'educationLevel', 'languages.level', 'languages.language', 'interests', 'workStatus', 'availabilityTimes', 'availabilityFrequencies', 'units', 'steps.status')->first();
 
         return view("main.volunteers.show", compact('volunteer'));
     }
@@ -222,11 +224,11 @@ class VolunteerController extends Controller {
      * @return Response
      */
     public function destroy($id) {
-	    $volunteer = Volunteer::findOrFail($id);
+        $volunteer = Volunteer::findOrFail($id);
 
-	    $volunteer->delete();
+        $volunteer->delete();
 
-	    return $id;
+        return $id;
     }
 
     /**
@@ -247,6 +249,40 @@ class VolunteerController extends Controller {
         $volunteers = VolunteerService::unassigned();
 
         return view('main.volunteers.list', compact('volunteers'));
+    }
+
+    /**
+     * Add a volunteer to the root unit
+     * and also create the steps that are needed (status set to incomplete)
+     *
+     * @param $id
+     */
+    public function addToRootUnit($id) {
+
+        $rootUnit = UnitService::getRoot();
+        $rootUnit->load('steps');
+
+        $volunteer = Volunteer::where('id', 1)->with('steps.status')->first();
+
+        //check if the steps already exist
+        if (sizeof(array_diff($rootUnit->steps->lists('id'), $volunteer->steps->lists('step_id')))) {
+
+            $incompleteStatus = StepStatus::where('description', 'Incomplete')->first();
+
+            //for each step of the unit, create a step, set its status to incomplete
+            //and assign to volunteer
+            $steps = [];
+            foreach ($rootUnit->steps as $step) {
+                array_push($steps, new VolunteerStepStatus([
+                    'step_id' => $step->id,
+                    'step_status_id' => $incompleteStatus->id
+                ]));
+            }
+            $volunteer->steps()->saveMany($steps);
+
+            $rootUnit->volunteers()->attach($id);
+        }
+        return \Redirect::route('volunteer/one', ['id' => $id]);
     }
 
 }
