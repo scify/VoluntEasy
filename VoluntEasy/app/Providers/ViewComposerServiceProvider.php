@@ -59,6 +59,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $genders[0]='[- επιλέξτε -]';
             $units[0]='[- επιλέξτε -]';
             $statuses[0]='[- επιλέξτε -]';
+            $statuses[5]='Νέος';
             ksort($maritalStatuses);
             ksort($educationLevels);
             ksort($genders);
@@ -107,6 +108,16 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $userUnits = UserService::userUnits();
 
             $view->with('userUnits', $userUnits)->with('tree', $tree);
+        });
+
+        //Data used for the volunteers table
+        //We need to determine if the user is root
+        View::composer('main.volunteers.partials._table', function ($view) {
+            $root = false;
+            if(sizeof(UserService::isUserAdmin())>0)
+                $root = true;
+
+            $view->with('root', $root);
         });
     }
 

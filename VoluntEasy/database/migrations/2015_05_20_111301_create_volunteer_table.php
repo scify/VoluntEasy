@@ -169,7 +169,7 @@ class CreateVolunteerTable extends Migration {
 
         Schema::create('volunteer_step_status', function ($table) {
             $table->increments('id');
-            $table->string('description', 300);
+            $table->string('description', 300)->nullable;
             $table->string('comments', 300)->nullable;
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
@@ -177,6 +177,7 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('step_id')->references('id')->on('steps');
             $table->integer('step_status_id')->unsigned();
             $table->foreign('step_status_id')->references('id')->on('step_statuses');
+            $table->timestamps();
         });
 
         Schema::create('volunteer_step_history', function ($table) {

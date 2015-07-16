@@ -224,6 +224,21 @@
 </div>
 </div>
 
+<div class="row">
+<div class="col-md-12">
+<div class="panel panel-white">
+<div class="panel-body">
+<h3>Volunteer units</h3>
+@foreach($volunteer->units as $unit)
+
+<p>{{ $unit->description }}</p>
+
+@endforeach
+
+</div>
+</div>
+</div>
+</div>
 
 @stop
 

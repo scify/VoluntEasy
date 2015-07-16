@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Volunteer as Volunteer;
+use Illuminate\Database\Seeder;
 
 class VolunteerDemoSeeder extends Seeder {
 
@@ -12,14 +11,13 @@ class VolunteerDemoSeeder extends Seeder {
      *
      * @return void
      */
-    public function run()
-    {
+    public function run() {
         Volunteer::create([
             'name' => 'George',
             'fathers_name' => 'John',
             'last_name' => 'George',
             'identification_num' => 'AK 1234567',
-	        'identification_type_id' => 1,
+            'identification_type_id' => 1,
             'birth_date' => '1970-01-01',
             'gender_id' => 1,
             'participation_reason' => 'Just because',
@@ -31,8 +29,8 @@ class VolunteerDemoSeeder extends Seeder {
             /*'availability_time_id' => 1,*/
             'availability_freqs_id' => 1,
             'work_status_id' => 1,
-	    'email' => 'george@example.com',
-	    'education_level_id' => '2',
+            'email' => 'george@example.com',
+            'education_level_id' => '2',
         ]);
 
 
@@ -53,8 +51,8 @@ class VolunteerDemoSeeder extends Seeder {
             /*'availability_time_id' => 1,*/
             'availability_freqs_id' => 1,
             'work_status_id' => 1,
-	    'email' => 'trolli@example.com',
-	    'education_level_id' => '2',
+            'email' => 'trolli@example.com',
+            'education_level_id' => '2',
         ]);
 
 
@@ -75,8 +73,8 @@ class VolunteerDemoSeeder extends Seeder {
             /*'availability_time_id' => 1,*/
             'availability_freqs_id' => 1,
             'work_status_id' => 1,
-	    'email' => 'mary@example.com',
-	    'education_level_id' => '2',
+            'email' => 'mary@example.com',
+            'education_level_id' => '2',
         ]);
 
 
@@ -97,8 +95,8 @@ class VolunteerDemoSeeder extends Seeder {
             /*'availability_time_id' => 1,*/
             'availability_freqs_id' => 1,
             'work_status_id' => 1,
-	    'email' => 'john@example.com',
-	    'education_level_id' => '2',
+            'email' => 'john@example.com',
+            'education_level_id' => '2',
         ]);
     }
 

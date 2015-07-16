@@ -23,12 +23,13 @@
             @if($volunteer->country!=null || $volunteer->country!=""), {{ $volunteer->country }}@endif
         </td>
         <td>{{ $volunteer->tel }}</td>
-        <!--td>
-            @if(sizeof($volunteer->units)>0)
-            <a href="{{ url('steps/volunteer/'.$volunteer->id) }}" class="btn btn-info">Προβολή
-                Βημάτων/Εκκρεμοτήτων</a>
+        <td>
+            @if($root)
+            <a href="{{ url('volunteers/addToRootUnit/'.$volunteer->id) }}" class="btn btn-info">Ένταξη στη Μονάδα μου</a>
+            @else
+            <p>Επικοινωνήστε με τον αδμιν</p>
             @endif
-        </td-->
+        </td>
         <td>
             <ul class="list-inline">
                 <li><a href="#" data-toggle="tooltip"
@@ -43,7 +44,5 @@
     @endforeach
     </tbody>
 </table>
-
-{!! $volunteers->render() !!}
 
 

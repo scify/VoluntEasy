@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\Volunteer;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
@@ -26,7 +27,7 @@ class TestController extends Controller
 
       //  return VolunteerService::permittedVolunteersIds();
 
-        return VolunteerService::unassigned();
+        return VolunteerService::volunteersByStatus(2);
     }
 
 
