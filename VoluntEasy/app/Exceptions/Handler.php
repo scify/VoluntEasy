@@ -3,9 +3,9 @@
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
 
-class Handler extends ExceptionHandler
-{
+class Handler extends ExceptionHandler {
 
     /**
      * A list of the exception types that should not be reported.
@@ -24,8 +24,7 @@ class Handler extends ExceptionHandler
      * @param  \Exception $e
      * @return void
      */
-    public function report(Exception $e)
-    {
+    public function report(Exception $e) {
         return parent::report($e);
     }
 
@@ -36,12 +35,13 @@ class Handler extends ExceptionHandler
      * @param  \Exception $e
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Exception $e)
-    {
+    public function render($request, Exception $e) {
         if ($this->isHttpException($e)) {
             return $this->renderHttpException($e);
         } elseif ($e instanceof ModelNotFoundException) {
             return $this->renderModelNotFoundException($e);
+        } else if ($e instanceof TokenMismatchException) {
+            return \Redirect::back()->withInput()->with('error', 'Your session was expired');
         } else {
             return parent::render($request, $e);
         }
@@ -49,8 +49,7 @@ class Handler extends ExceptionHandler
     }
 
 
-    protected function renderModelNotFoundException(ModelNotFoundException $e)
-    {
+    protected function renderModelNotFoundException(ModelNotFoundException $e) {
         if (view()->exists('errors.404')) {
             return response()->view('errors.404', [], 404);
         }
