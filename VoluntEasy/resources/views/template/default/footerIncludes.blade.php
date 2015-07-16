@@ -15,6 +15,7 @@
 <script src="{{ asset('assets/plugins/fullcalendar/lib/moment.min.js')}}"></script>
 <script src="{{ asset('assets/plugins/fullcalendar/fullcalendar.min.js')}}"></script>
 <script src="{{ asset('assets/plugins/soundmanager2/soundmanager2-nodebug-jsmin.js')}}"></script>
+<script src="{{ asset('assets/plugins/vertical-timeline/js/main.js')}}"></script>
 <script src="{{ asset('assets/js/modern.js')}}"></script>
 <script src="{{ asset('assets/js/custom.js')}}"></script>
 <script src="{{ asset('assets/js/pages/dashboard.js')}}"></script>

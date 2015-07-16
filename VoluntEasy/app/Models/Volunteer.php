@@ -91,4 +91,18 @@ class Volunteer extends User {
         });
     }
 
+
+    public function scopeSkata($query) {
+        $volId = 5;//$this['id'];
+       // dd($this['id']);
+
+        return Volunteer::with('units.steps');
+
+
+        /*whereHas('steps', function ($query) use ($volId) {
+            $query->where('volunteer_id', $volId)->where('step_status_id', 2);
+        });*/
+
+    }
+
 }

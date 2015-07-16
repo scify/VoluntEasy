@@ -23,7 +23,7 @@
     <li role="presentation"><a href="#tab2" data-toggle="tab"
                                class="{{ $errors->has('email') ? 'tab has-error' : ''}}"><i
             class="fa fa-circle-o-notch m-r-xs"></i>Τρέχουσα κατάσταση</a></li>
-    <li role="presentation"><a href="#tab4" data-toggle="tab"
+    <li role="presentation"><a href="#tab3" data-toggle="tab"
                                class="{{ $errors->has('participation_reason') ? 'tab has-error' : ''}}"><i
             class="fa fa-file-o m-r-xs"></i>Ιστορικό δράσεων</a></li>
 </ul>
@@ -212,11 +212,16 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 
+<div class="tab-pane fade in" id="tab2">
+Nada
+</div>
+<div class="tab-pane fade in" id="tab3" style="background-color: rgb(233, 237, 242);">
+@include('main.volunteers.partials._timeline')
+</div>
 
 </div>
 </div>

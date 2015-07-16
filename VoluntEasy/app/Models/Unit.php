@@ -30,6 +30,10 @@ class Unit extends Model {
         return $this->belongsToMany('App\Models\Volunteer', 'units_volunteers');
     }
 
+    public function volSteps() {
+        return $this->hasMany('App\Models\Step');
+    }
+
     /**
      * Get the unit's parent unit
      *

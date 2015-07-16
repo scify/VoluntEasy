@@ -21,6 +21,7 @@
         <link href="{{ asset('assets/plugins/toastr/toastr.min.css')}}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('assets/plugins/select2/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('assets/plugins/fullcalendar/fullcalendar.min.css')}}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('assets/plugins/vertical-timeline/css/style.css')}}" rel="stylesheet" type="text/css"/>
 
 
         <!-- Theme Styles -->

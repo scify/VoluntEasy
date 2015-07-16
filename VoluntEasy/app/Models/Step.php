@@ -13,29 +13,4 @@ class Step extends Model {
         return $this->hasManyThrough('App\Models\Descriptions\StepStatus', 'App\Models\VolunteerStepStatus', 'step_status_id', 'id');
     }
 
-
-
-
-    /*
-     *
-        countries
-            id - integer
-            name - string
-
-        users
-            id - integer
-            country_id - integer
-            name - string
-
-        posts
-            id - integer
-            user_id - integer
-            title - string
-
-    */
-
-    //in country
-    //        return $this->hasManyThrough('Post', 'User', 'country_id', 'user_id');
-
-
 }
