@@ -1,6 +1,6 @@
 <?php
 
 return [
-	'home'			=> 'Αρχική',
+	'home'			=> 'Home',
 	'dashboard'		=> 'Dashboard', 	
 ];

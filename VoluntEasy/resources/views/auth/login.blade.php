@@ -2,11 +2,11 @@
 <html>
     <head>
         <!-- Title -->
-        <title>VoluntEasy | Login </title>
+        <title>{{trans('default.title')}} | {{trans($lang.'logIn')}} </title>
 
         @include('template.default.headerIncludes')
     </head>
-
+    <?php  $lang = "templates/menu."; ?> {{--  resource label path --}}     
     <body class="page-login">
         <main class="page-content">
             <div class="page-inner">
@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="col-md-3 center">
                             <div class="login-box">
-                                <a href="{{ url('/') }}" class="logo-name text-lg text-center">VoluntEasy</a>
+                                <a href="{{ url('/') }}" class="logo-name text-lg text-center">{{trans($lang.'title')}}</a>
                                    @if (count($errors) > 0)
                                 		<div class="alert alert-danger">
                                 			<ul>
@@ -33,12 +33,12 @@
                                             <input type="password" class="form-control" name="password" placeholder="Password" />
                                         </div>
                                         <div class="form-group">
-                                        			<label><input type="checkbox" name="remember"> Remember Me</label>
+                                        			<label><input type="checkbox" name="remember"> {{trans($lang.'remember')}}</label>
                                         </div>
-                                       <button type="submit" class="btn btn-success btn-block">Είσοδος</button>
+                                       <button type="submit" class="btn btn-success btn-block">{{trans($lang.'entrance')}}</button>
                                         <div class="form-group">
-                                            <a href="{{ url('/password/email') }}" class="display-block text-center m-t-md text-sm">Ξεχάσατε τον κωδικό σας;</a>
-                                            <a href="{{ url('/auth/register') }}" class="display-block text-center m-t-md text-sm">Δημιουργία Λογαριασμού</a>
+                                            <a href="{{ url('/password/email') }}" class="display-block text-center m-t-md text-sm">{{trans($lang.'forgotPass')}}</a>
+                                            <a href="{{ url('/auth/register') }}" class="display-block text-center m-t-md text-sm">{{trans($lang.'register')}}</a>
                                         </div>
                                    </form>
                             </div>

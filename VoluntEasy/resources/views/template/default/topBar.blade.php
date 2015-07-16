@@ -1,4 +1,4 @@
-<?php  $p = "templates/topBar."; ?> {{--  resource label path --}}
+<?php  $lang = "templates/topBar."; ?> {{--  resource label path --}}
  <div class="navbar">
                 <div class="navbar-inner">
                     <div class="sidebar-pusher">
@@ -7,7 +7,7 @@
                         </a>
                     </div>
                     <div class="logo-box">
-                        <a href="{{url('/')}}" class="logo-text"><span>{{trans($p.'title')}} </span></a>
+                        <a href="{{url('/')}}" class="logo-text"><span>{{trans($lang.'title')}} </span></a>
                     </div>
                     <!-- Logo Box -->
                     <div class="search-button">
@@ -67,12 +67,16 @@
                                         <span class="badge badge-success pull-right notificationSum" id="notificationBadge"></span>
                                     </a>
                                     <ul class="dropdown-menu title-caret dropdown-lg" role="menu">
-                                        <li><p class="drop-title">Έχετε <span class="notificationSum">0</span> ειδοποιήσεις</p></li>
+                                        <li><p class="drop-title">
+                                        {{trans($lang.'youHave')}}
+                                            <span class="notificationSum">0</span>
+                                        {{trans($lang.'notifications')}}
+                                        </p></li>
                                         <li class="dropdown-menu-list slimscroll tasks">
                                             <ul class="list-unstyled" id="notificationList">
                                             </ul>
                                         </li>
-                                        <li class="drop-all"><a href="{{ url('notifications') }}" class="text-center">'Ολες οι ειδοποιήσεις</a></li>
+                                        <li class="drop-all"><a href="{{ url('notifications') }}" class="text-center">{{trans($lang.'allNotifications')}}</a></li>
                                     </ul>
                                 </li>
                                 <!---/Notificasion Icon-->
@@ -87,16 +91,11 @@
                                          alt="">
                                     </a>
                                     <ul class="dropdown-menu dropdown-list" role="menu">
-                                        <li role="presentation"><a href="template%20parts/profile.html"><i class="fa fa-user"></i>Profile</a></li>
-                                        <li role="presentation"><a href="template%20parts/calendar.html"><i class="fa fa-calendar"></i>Calendar</a>
-                                        </li>
-                                        <li role="presentation"><a href="template%20parts/inbox.html"><i class="fa fa-envelope"></i>Inbox<span
-                                                class="badge badge-success pull-right">4</span></a></li>
+                                        <li role="presentation"><a href="template%20parts/profile.html"><i class="fa fa-user"></i>{{trans($lang.'profile')}}</a></li>
                                         <li role="presentation" class="divider"></li>
-                                        <li role="presentation"><a href="template%20parts/lock-screen.html"><i class="fa fa-lock"></i>Lock screen</a>
+                                        <li role="presentation"><a href="template%20parts/lock-screen.html"><i class="fa fa-lock"></i>{{trans($lang.'lockScreen')}}</a>
                                         </li>
-                                        <li role="presentation"><a href="template%20parts/login.html"><i class="fa fa-sign-out m-r-xs"></i>Log
-                                            out</a></li>
+                                        <li role="presentation"><a href="template%20parts/login.html"><i class="fa fa-sign-out m-r-xs"></i>{{trans($lang.'logOut')}}</a></li>
                                     </ul>
                                 </li>
                                 <!---/Profile--->
@@ -104,7 +103,7 @@
                                 <!---Logout--->
                                 <li>
                                     <a href="{!! url('auth/logout') !!}" class="log-out waves-effect waves-button waves-classic">
-                                        <span><i class="fa fa-sign-out m-r-xs"></i>Log out</span>
+                                        <span><i class="fa fa-sign-out m-r-xs"></i>{{trans($lang.'logOut')}}</span>
                                     </a>
                                 </li>
                                 <!---/Logout--->
