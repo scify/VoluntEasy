@@ -1,3 +1,4 @@
+<?php  $p = "templates/topBar."; ?> {{--  resource label path --}}
  <div class="navbar">
                 <div class="navbar-inner">
                     <div class="sidebar-pusher">
@@ -6,7 +7,7 @@
                         </a>
                     </div>
                     <div class="logo-box">
-                        <a href="{{url('/')}}" class="logo-text"><span>VoluntEasy</span></a>
+                        <a href="{{url('/')}}" class="logo-text"><span>{{trans($p.'title')}} </span></a>
                     </div>
                     <!-- Logo Box -->
                     <div class="search-button">

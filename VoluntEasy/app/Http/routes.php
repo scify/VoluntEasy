@@ -127,6 +127,6 @@ use App\Models\Notification;
 use Carbon\Carbon;
 Route::get('aris', function()
 {
-    return @trans('/passwords.password');
+    return @trans('templates/topBar.title');
 });
 
