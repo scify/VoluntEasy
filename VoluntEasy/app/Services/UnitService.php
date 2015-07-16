@@ -1,6 +1,7 @@
 <?php namespace App\Services;
 
 use App\Models\Unit;
+use App\Models\Step as Step;
 use App\Services\Facades\SearchService as Search;
 use App\Services\Facades\UserService as UserServiceFacade;
 

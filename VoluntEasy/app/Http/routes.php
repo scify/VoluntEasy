@@ -128,8 +128,6 @@ use App\Models\Notification;
 use Carbon\Carbon;
 Route::get('aris', function()
 {
-
-    //return lang('/passwords.password');
     return @trans('/passwords.password');
 });
 
