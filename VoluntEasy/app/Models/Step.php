@@ -4,6 +4,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Step extends Model {
 
+    use \SoftDeletes;
+    protected $dates = ['deleted_at'];
+    
     protected $table = 'steps';
 
     protected $fillable = ['description', 'step_order'];

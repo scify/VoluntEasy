@@ -11,6 +11,7 @@ use App\Services\Facades\VolunteerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use App\Models\ActionVolunteerHistory;
 
 class ActionController extends Controller {
 
@@ -150,17 +151,53 @@ class ActionController extends Controller {
     }
 
 
+
+
+
+// public function addUsers(Request $request) {
+//     $unit = Unit::findOrFail($request->get('id'));
+
+//     $unit->users()->sync($request->get('users'));
+
+//     $users = User::whereIn('id', $request->get('users'))->get();
+//     foreach ($users as $user) {
+//         NotificationService::addNotification($user->id, 1, 'you are added to Unit: '.$unit->description, "athensIndymedia", $user->id, $unit->id);
+//     }
+//     return $unit->id;
+// }
+
     /**
      * Sync the action volunteers with the db.
      *
      * @param Request $request
      * @return mixed
-     */
-    public function addVolunteers(Request $request) {
-        $action = Action::findOrFail($request->get('id'));
+     */    
+    public function addVolunteers(Request $request) {        
 
-        $action->volunteers()->sync($request->get('volunteers'));
+        $action = Action::whereId($request->get('id'))->first();
+        
+        $oldVolunteersOfAction = $action->volunteers()->get()->lists('id');
+        
+        $action->volunteers()->sync($request->get('volunteers'));        
 
+        // add new volunteers to history
+        foreach ($request->get('volunteers') as $volunteer) {            
+            if (!in_array($volunteer, $oldVolunteersOfAction)) {                
+                $historyTable = new ActionVolunteerHistory;
+                $historyTable->volunteer_id = $volunteer;
+                $historyTable->action_id = $action->id;            
+                $historyTable->save();
+            }
+        }
+
+        // update manualy unassigned
+        foreach ($oldVolunteersOfAction as $volunteer) {
+            if (!in_array($volunteer, $request->get('volunteers'))) {
+                $historyTable = ActionVolunteerHistory::where('volunteer_id',$volunteer)->where('action_id',$action->id)->first();                
+                $historyTable->update();
+            }
+        }
+        
         return $action->id;
     }
 

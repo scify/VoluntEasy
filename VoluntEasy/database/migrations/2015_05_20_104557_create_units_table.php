@@ -22,6 +22,7 @@ class CreateUnitsTable extends Migration {
 			$table->integer('parent_unit_id')->nullable();
 			$table->foreign('parent_unit_id')->references('id')->on('units');
 			$table->timestamps();
+			$table->softDeletes();
 		});
 
 		Schema::create('actions', function($table)
@@ -33,6 +34,7 @@ class CreateUnitsTable extends Migration {
             $table->timestamp('start_date');
 			$table->timestamp('end_date');
 			$table->timestamps();
+			$table->softDeletes();
 		});
 
 
@@ -51,6 +53,7 @@ class CreateUnitsTable extends Migration {
 			$table->string('comments', 300)->nullable();
 			$table->smallInteger('step_order');
             $table->timestamps();
+            $table->softDeletes();
 		});
 
 		Schema::create('units_users', function($table)

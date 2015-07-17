@@ -89,7 +89,6 @@ class UserController extends Controller {
      * @param UserRequest $request
      * @return Response
      */
-
     public function update(UserRequest $request) {
         $user = User::findOrFail($request->get('id'));
 

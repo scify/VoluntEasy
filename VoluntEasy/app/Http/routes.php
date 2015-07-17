@@ -47,13 +47,13 @@ Route::get('rootUnit', 'UnitController@rootUnit');
 //Volunteer Routes //
 /////////////////////
 Route::get('volunteers','VolunteerController@index');
-Route::get('volunteers/all','VolunteerController@all');
-Route::get('volunteers/new','VolunteerController@newVolunteers');
 Route::get('volunteers/create', 'VolunteerController@create');
+Route::post('volunteers/store', 'VolunteerController@store');
+Route::get('volunteers/edit/{id}', 'VolunteerController@edit');
+Route::post('volunteers/update', 'VolunteerController@update');
 Route::get('volunteers/delete/{id}', 'VolunteerController@destroy');
 Route::get('volunteers/one/{id}', ['as' => 'volunteer/one', 'uses' => 'VolunteerController@show']);
 Route::get('volunteers/addToRootUnit/{id}',  'VolunteerController@addToRootUnit');
-Route::post('volunteers/store', 'VolunteerController@store');
 Route::post('volunteers/search', 'VolunteerController@search');
 
 
@@ -124,11 +124,17 @@ Route::get('test','TestController@test');
 Route::get('units/branch/{id}','UnitController@branch');
 
 /** aris TESTing... **/
-use App\Models\Notification;
-use Carbon\Carbon;
+use App\Models\ActionVolunteerHistory;
 Route::get('aris', function()
 {
-    return @trans('templates/topBar.title');
+    if (!in_array(1, [2,3])) {        
+        $historyTable = ActionVolunteerHistory::where('volunteer_id',1)->where('action_id',1)->first();                
+        $historyTable->action_id = 1;
+        return var_dump($historyTable->save());
+        // $historyTable->action_id = 1;
+        // $historyTable->save();
+    }
+    return '666';
 });
 
 

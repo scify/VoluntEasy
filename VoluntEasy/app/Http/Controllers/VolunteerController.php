@@ -42,16 +42,6 @@ class VolunteerController extends Controller {
     }
 
     /**
-     * Display new volunteer form
-     *
-     * @return \Illuminate\View\View
-     */
-    public function newVolunteer() {
-        return view('main.volunteers.new');
-    }
-
-
-    /**
      * Display volunteer statistics
      *
      * @return \Illuminate\View\View
@@ -80,7 +70,7 @@ class VolunteerController extends Controller {
         $commMethod = CommunicationMethod::all()->lists('description', 'id');
         $edLevel = EducationLevel::all()->lists('description', 'id');
 
-        return view('main.volunteers.new', compact('identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
+        return view('main.volunteers.create', compact('identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
             'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interests', 'genders', 'commMethod', 'edLevel'));
     }
 
@@ -180,8 +170,7 @@ class VolunteerController extends Controller {
             }
         }
 
-        return 'Thanks for registering a volunteer... ID: ' . $volunteer->id;
-        //  return Redirect::to('volunteers/listview');
+        return \Redirect::route('volunteer/one', ['id' => $volunteer->id]);
     }
 
     /**
@@ -203,8 +192,25 @@ class VolunteerController extends Controller {
      * @param  int $id
      * @return Response
      */
-    public function edit($id) {
-        //
+    public function edit($volId) {
+        $volunteer = Volunteer::findOrFail($volId);        
+
+        $identificationTypes = IdentificationType::all()->lists('description', 'id');
+        $driverLicenseTypes = DriverLicenceType::all()->lists('description', 'id');
+        $maritalStatuses = MaritalStatus::all()->lists('description', 'id');
+        $languages = Language::all()->lists('description', 'id');
+        $langLevels = LanguageLevel::all()->lists('description', 'id');
+        $workStatuses = WorkStatus::all()->lists('description', 'id');
+        $availabilityFreqs = AvailabilityFrequencies::all()->lists('description', 'id');
+        $availabilityTimes = AvailabilityTime::all()->lists('description', 'id');
+        $interests = Interests::all()->lists('description', 'id');
+        $genders = Gender::all()->lists('description', 'id');
+        $commMethod = CommunicationMethod::all()->lists('description', 'id');
+        $edLevel = EducationLevel::all()->lists('description', 'id');
+
+        return view('main.volunteers.edit', compact('volunteer', 'identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
+            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interests', 'genders', 'commMethod', 'edLevel'));
+
     }
 
     /**
@@ -213,8 +219,106 @@ class VolunteerController extends Controller {
      * @param  int $id
      * @return Response
      */
-    public function update($id) {
-        //
+    public function update(VolunteerRequest $request) {
+
+        $volunteer = Volunteer::findOrFail($request->get('id'));
+
+        // update everithing exept midle table stuf 
+        // $volunteer->update($request->all());
+        $volunteer->update(
+            array(
+            'name' => \Input::get('name'),
+            'last_name' => \Input::get('last_name'),
+            'fathers_name' => \Input::get('fathers_name'),
+            'birth_date' => \Input::get('birth_date'),
+            'identification_type_id' => intval(\Input::get('identification_type_id')),
+            'identification_num' => \Input::get('identification_num'),
+            'gender_id' => intval(\Input::get('gender_id')),
+            'marital_status_id' => intval(\Input::get('marital_status_id')),
+            'children' => intval(\Input::get('children')),
+            'address' => \Input::get('address'),
+            'post_box' => intval(\Input::get('post_box')),
+            'city' => \Input::get('city'),
+            'country' => \Input::get('country'),
+            'live_in_curr_country' => intval(\Input::get('live_in_curr_country')),
+            'home_tel' => \Input::get('home_tel'),
+            'work_tel' => \Input::get('work_tel'),
+            'cell_tel' => \Input::get('cell_tel'),
+            'fax' => \Input::get('fax'),
+            'email' => \Input::get('email'),
+            'comm_method_id' => intval(\Input::get('comm_method_id')),
+            'education_level_id' => intval(\Input::get('education_level_id')),
+            'specialty' => \Input::get('specialty'),
+            'department' => \Input::get('department'),
+            'driver_license_type_id' => intval(\Input::get('driver_license_type_id')),
+            'computer_usage' => intval(\Input::get('computer_usage')),
+            'additional_skills' => \Input::get('additional_skills'),
+            'extra_lang' => \Input::get('extra_lang'),
+            'work_status_id' => intval(\Input::get('work_status_id')),
+            'work_description' => \Input::get('work_description'),
+            'participation_reason' => \Input::get('participation_reason'),
+            'participation_actions' => \Input::get('participation_actions'),
+            'participation_previous' => \Input::get('participation_previous'),
+            'availability_freqs_id' => intval(\Input::get('availability_freqs_id')),
+        ));
+
+        // update dropDown things wich sould be Integers and not Strings
+        // $volunteer->identification_type_id = intval(\Input::get('identification_type_id'));
+        // $volunteer->gender_id = intval(\Input::get('gender_id'));
+        // $volunteer->marital_status_id = intval(\Input::get('marital_status_id'));
+        // $volunteer->children = intval(\Input::get('children'));
+        // $volunteer->post_box = intval(\Input::get('post_box'));
+        // $volunteer->live_in_curr_country = intval(\Input::get('live_in_curr_country'));
+        // $volunteer->comm_method_id = intval(\Input::get('comm_method_id'));
+        // $volunteer->education_level_id = intval(\Input::get('education_level_id'));
+        // $volunteer->driver_license_type_id = intval(\Input::get('driver_license_type_id'));
+        // $volunteer->computer_usage = intval(\Input::get('computer_usage'));
+        // $volunteer->work_status_id = intval(\Input::get('work_status_id'));
+        // $volunteer->availability_freqs_id = intval(\Input::get('availability_freqs_id'));
+
+
+        // update midle table stuf relations
+        $availability_times = AvailabilityTime::all();
+
+        $availability_array = [];
+        foreach ($availability_times as $availability_time) {
+            if (\Input::has('availability_time' . $availability_time->id)) {
+                array_push($availability_array, $availability_time->id);
+            }
+        }
+
+        $volunteer->availabilityTimes()->sync($availability_array);
+
+        $interests = Interests::all();
+
+        // Get interests selected and pass values to volunteer_interests table.
+        $interest_array = [];
+        foreach ($interests as $interest) {
+            if (\Input::has('interest' . $interest->id)) {
+                array_push($interest_array, $interest->id);
+            }
+        }
+        $volunteer->interests()->sync($interest_array);
+
+        $languages = Language::all();
+
+        //Get all languages, and check if they are selected
+        foreach ($languages as $language) {
+            if (\Input::has('lang' . $language->id)) {
+                $level = LanguageLevel::where('id', \Input::get('lang' . $language->id))->first();
+
+                //create a new VolunteerLanguage that has
+                $volLanguage = new VolunteerLanguage([
+                    'volunteer_id' => $volunteer->id,
+                    'language_id' => $language->id,
+                    'language_level_id' => \Input::get('lang' . $language->id)
+                ]);
+
+                $volunteer->languages()->save($volLanguage);
+            }
+        }            
+
+        return \Redirect::route('volunteer/one', ['id' => $volunteer->id]);
     }
 
     /**

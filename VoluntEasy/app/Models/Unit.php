@@ -3,6 +3,9 @@
 use Illuminate\Database\Eloquent\Model;
 
 class Unit extends Model {
+    
+    use \SoftDeletes;
+    protected $dates = ['deleted_at'];
 
     protected $table = 'units';
 
