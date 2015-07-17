@@ -27,12 +27,12 @@
             @if($root)
             <a href="{{ url('volunteers/addToRootUnit/'.$volunteer->id) }}" class="btn btn-info">Ένταξη στη Μονάδα μου</a>
             @else
-            <p>Επικοινωνήστε με τον αδμιν</p>
+            <p>Επικοινωνήστε με τον αδμιν </p>
             @endif
         </td>
         <td>
             <ul class="list-inline">
-                <li><a href="#" data-toggle="tooltip"
+                <li><a href="{{url('volunteers/edit/'.$volunteer->id)}}" data-toggle="tooltip"
                        data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit fa-2x"></i></a>
                 </li>
                 <li><a href="#" class="delete" data-id="{{ $volunteer->id }}" data-toggle="tooltip"

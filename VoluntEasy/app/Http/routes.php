@@ -47,13 +47,13 @@ Route::get('rootUnit', 'UnitController@rootUnit');
 //Volunteer Routes //
 /////////////////////
 Route::get('volunteers','VolunteerController@index');
-Route::get('volunteers/all','VolunteerController@all');
-Route::get('volunteers/new','VolunteerController@newVolunteers');
 Route::get('volunteers/create', 'VolunteerController@create');
+Route::post('volunteers/store', 'VolunteerController@store');
+Route::get('volunteers/edit/{id}', 'VolunteerController@edit');
+Route::post('volunteers/update', 'VolunteerController@update');
 Route::get('volunteers/delete/{id}', 'VolunteerController@destroy');
 Route::get('volunteers/one/{id}', ['as' => 'volunteer/one', 'uses' => 'VolunteerController@show']);
 Route::get('volunteers/addToRootUnit/{id}',  'VolunteerController@addToRootUnit');
-Route::post('volunteers/store', 'VolunteerController@store');
 Route::post('volunteers/search', 'VolunteerController@search');
 
 

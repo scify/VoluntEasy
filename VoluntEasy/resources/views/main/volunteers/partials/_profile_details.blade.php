@@ -29,7 +29,7 @@
             '.$volunteer->country }}
         </p>
 
-        <p>Κάτοικος Ελλάδας: {{ $volunteer->live_in_curr_country=='' ? 'Ναι' : 'Όχι' }}</p>
+        <p>Κάτοικος Ελλάδας: {{ $volunteer->live_in_curr_country=='' ? 'Όχι' : 'Ναι' }}</p>
 
         <p>Τύπος ταυτότητας: {{ $volunteer->identificationType->description }}</p>
 
@@ -80,8 +80,10 @@
                                 <p><em>Δεν έχει δηλωθεί καμία ξένη γλώσσα.</em></p>
                                 @else
                                 @foreach($volunteer->languages as $language)
-                                <p>{{ $language->language->description }}: Επίπεδο {{
-                                    $language->level->description }}</p>
+                                    <p>
+                                        {{ $language->language->description }}: 
+                                        Επίπεδο {{ $language->level->description }}
+                                    </p>
                                 @endforeach
                                 @endif
                                 @if($volunteer->extra_lang!=null || $volunteer->extra_lang!='')

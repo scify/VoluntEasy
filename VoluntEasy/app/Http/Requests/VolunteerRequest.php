@@ -18,21 +18,35 @@ class VolunteerRequest extends Request {
 	/**
 	 * Get the validation rules that apply to the request.
 	 *
-	 * @return array
+	 * @return array 
 	 */
 	public function rules()
 	{
-		return [
-			'name' => 'required',
-			'last_name' => 'required',
-			'fathers_name' => 'required',
-			'birth_date' => 'required',
-			'gender_id' => 'required',
-			'email' => 'required|email|unique:volunteers',
-			'education_level_id' => 'required',
-			'work_status_id' => 'required',
-			'participation_reason' => 'required',
-		];
+        if(Request::get('id')==null)
+			return [
+				'name' => 'required',
+				'last_name' => 'required',
+				'fathers_name' => 'required',
+				'birth_date' => 'required',
+				'gender_id' => 'required',
+				'email' => 'required|email|unique:volunteers',
+				'education_level_id' => 'required',
+				'work_status_id' => 'required',
+				'participation_reason' => 'required',
+			];
+		else
+			return [
+				'name' => 'required',
+				'last_name' => 'required',
+				'fathers_name' => 'required',
+				'birth_date' => 'required',
+				'gender_id' => 'required',
+				'email' => 'required|email',
+				'education_level_id' => 'required',
+				'work_status_id' => 'required',
+				'participation_reason' => 'required',
+			];
+
 	}
 
     /**
