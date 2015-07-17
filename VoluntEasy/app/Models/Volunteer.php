@@ -91,18 +91,74 @@ class Volunteer extends User {
         });
     }
 
-
     public function scopeSkata($query) {
-        $volId = 5;//$this['id'];
-       // dd($this['id']);
-
-        return Volunteer::with('units.steps');
 
 
-        /*whereHas('steps', function ($query) use ($volId) {
+        $volId = $this->id;
+
+       //  dd($volId);
+
+        //  return Volunteer::where('id', 5)->with('units.steps.statuses.status');
+
+        /*
+         return Volunteer::where('id', 5)->with(['units.steps' => function($query) use ($volId){
+             $query->where('volunteer_id', $volId);
+         }])->with('units.steps.statuses.status');
+*/
+
+
+
+
+        //do not delete/mess with this
+        return Volunteer::with(['units.steps.statuses' => function($query) use ($volId){
+
+            $query->where('volunteer_id', $volId)->with('status');
+        }])->where('id', 5);
+
+
+
+
+
+
+      // this might be correct omg
+/*
+
+        return Volunteer::where('id', 5)->whereHas('units.steps.statuses', function ($query) use ($volId) {
+
+            $query->where('volunteer_id', $volId)->where('step_status_id', 2)->with('status');
+        });
+*/
+
+        /*
+                return Volunteer::whereHas('units', function ($query) use ($volId) {
+                    $query->whereHas('steps', function ($query) use ($volId) {
+                        //$query->with('status')->where('volunteer_id', $volId);
+
+                        $query->with(['status' => function($query) use ($volId){
+                            $query->where('volunteer_id', $volId);
+                        }]);
+
+                    });
+                });
+*/
+        /*
+                :with(array('Users' => function($query) use ($keyword){
+                    $query->where('somefield', $keyword);
+                }))->where('town', $keyword)->first();
+                */
+
+        /*
+                $usersFilter = Addresses::with(array('Users' => function($query) use ($keyword){
+                    $query->where('somefield', $keyword);
+                }))->where('town', $keyword)->first();
+                $myUsers = $usersFilter->users;
+
+        */
+        /*
+
+        return Volunteer::whereHas('steps', function ($query) use ($volId) {
             $query->where('volunteer_id', $volId)->where('step_status_id', 2);
-        });*/
-
+        });
+*/
     }
-
 }

@@ -30,7 +30,9 @@ class TestController extends Controller
       //  return VolunteerService::volunteersByStatus(2);
 
 
-        return Volunteer::skata()->get();
+      return Volunteer::skata()->get();
+
+        return '';
     }
 
 

@@ -131,3 +131,12 @@ Route::get('aris', function()
     return @trans('/passwords.password');
 });
 
+
+/*
+// Display all SQL executed in Eloquent
+Event::listen('illuminate.query', function($query)
+{
+    var_dump($query);
+});
+
+*/
