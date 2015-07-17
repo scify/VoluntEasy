@@ -82,21 +82,21 @@ class CreateVolunteerTable extends Migration {
             $table->timestamps();
 
             $table->integer('gender_id')->unsigned();
-            $table->foreign('gender_id')->references('id')->on('genders');
+            $table->foreign('gender_id')->references('id')->on('genders')->onDelete('cascade');
             $table->integer('education_level_id')->unsigned();
-            $table->foreign('education_level_id')->references('id')->on('education_levels');
+            $table->foreign('education_level_id')->references('id')->on('education_levels')->onDelete('cascade');
             $table->integer('comm_method_id')->unsigned()->nullable();
-            $table->foreign('comm_method_id')->references('id')->on('comm_method');
+            $table->foreign('comm_method_id')->references('id')->on('comm_method')->onDelete('cascade');
             $table->integer('identification_type_id')->unsigned();
-            $table->foreign('identification_type_id')->references('id')->on('identification_types');
+            $table->foreign('identification_type_id')->references('id')->on('identification_types')->onDelete('cascade');
             $table->integer('marital_status_id')->unsigned()->nullable();
-            $table->foreign('marital_status_id')->references('id')->on('marital_statuses');
+            $table->foreign('marital_status_id')->references('id')->on('marital_statuses')->onDelete('cascade');
             $table->integer('driver_license_type_id')->unsigned();
-            $table->foreign('driver_license_type_id')->references('id')->on('driver_license_types');
+            $table->foreign('driver_license_type_id')->references('id')->on('driver_license_types')->onDelete('cascade');
             $table->integer('availability_freqs_id')->unsigned();
-            $table->foreign('availability_freqs_id')->references('id')->on('availability_freqs');
+            $table->foreign('availability_freqs_id')->references('id')->on('availability_freqs')->onDelete('cascade');
             $table->integer('work_status_id')->unsigned();
-            $table->foreign('work_status_id')->references('id')->on('work_statuses');
+            $table->foreign('work_status_id')->references('id')->on('work_statuses')->onDelete('cascade');
         });
 
         Schema::create('availability_time', function ($table) {
@@ -122,9 +122,9 @@ class CreateVolunteerTable extends Migration {
 
         Schema::create('units_volunteers', function ($table) {
             $table->integer('volunteer_id')->unsigned();
-            $table->foreign('volunteer_id')->references('id')->on('volunteers');
+            $table->foreign('volunteer_id')->references('id')->on('volunteers')->onDelete('cascade');
             $table->integer('unit_id')->unsigned();
-            $table->foreign('unit_id')->references('id')->on('units');
+            $table->foreign('unit_id')->references('id')->on('units')->onDelete('cascade');
         });
 
         Schema::create('interests', function ($table) {
