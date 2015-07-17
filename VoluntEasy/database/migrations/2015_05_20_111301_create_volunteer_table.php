@@ -17,7 +17,7 @@ class CreateVolunteerTable extends Migration {
 
         Schema::create('marital_statuses', function ($table) {
             $table->increments('id');
-            $table->string('description', 100)->nullable;
+            $table->string('description', 100)->nullable();
         });
 
         Schema::create('driver_license_types', function ($table) {
@@ -169,8 +169,8 @@ class CreateVolunteerTable extends Migration {
 
         Schema::create('volunteer_step_status', function ($table) {
             $table->increments('id');
-            $table->string('description', 300)->nullable;
-            $table->string('comments', 300)->nullable;
+            $table->string('description', 300)->nullable();
+            $table->string('comments', 300)->nullable();
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
             $table->integer('step_id')->unsigned();
