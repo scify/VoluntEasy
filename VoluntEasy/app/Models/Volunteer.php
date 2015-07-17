@@ -8,6 +8,9 @@ class Volunteer extends User {
      *
      * @var string
      */
+    use \SoftDeletes;
+    protected $dates = ['deleted_at'];
+    
     protected $table = 'volunteers';
 
     protected $fillable = ['name', 'last_name', 'fathers_name', 'identification_num', 'birth_date', 'children', 'address', 'city', 'country', 'post_box', 'participation_reason', 'participation_previous', 'participation_actions', 'email', 'extra_lang', 'work_description', 'additional_skills', 'live_in_curr_country', 'comments', 'gender_id', 'education_level_id', 'comm_method', 'identification_type_id', 'marital_status_id', 'driver_license_type_id', 'availability_freqs_id', 'work_status_id',
@@ -62,9 +65,9 @@ class Volunteer extends User {
         return $this->hasOne('App\Models\Descriptions\CommunicationMethod', 'id', 'comm_method_id');
     }
 
-    public function actionHistories() {
-        return $this->hasMany('App\Models\VolunteerActionHistory');
-    }
+    // public function actionHistories() {
+    //     return $this->hasMany('App\Models\VolunteerActionHistory');
+    // }
 
     public function stepHistories() {
         return $this->hasMany('App\Models\VolunteerStepHistory');

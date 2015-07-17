@@ -258,6 +258,10 @@ class UnitController extends Controller {
      */
     public function addVolunteers(Request $request) {
         $unit = Unit::findOrFail($request->get('id'));
+
+                // return $unit->volunteers()->toArray();
+
+
         $unit->volunteers()->sync($request->get('volunteers'));
 
         return $unit->id;

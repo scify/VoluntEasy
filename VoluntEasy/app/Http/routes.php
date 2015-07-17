@@ -124,11 +124,17 @@ Route::get('test','TestController@test');
 Route::get('units/branch/{id}','UnitController@branch');
 
 /** aris TESTing... **/
-use App\Models\Notification;
-use Carbon\Carbon;
+use App\Models\ActionVolunteerHistory;
 Route::get('aris', function()
 {
-    return @trans('templates/topBar.title');
+    if (!in_array(1, [2,3])) {        
+        $historyTable = ActionVolunteerHistory::where('volunteer_id',1)->where('action_id',1)->first();                
+        $historyTable->action_id = 1;
+        return var_dump($historyTable->save());
+        // $historyTable->action_id = 1;
+        // $historyTable->save();
+    }
+    return '666';
 });
 
 

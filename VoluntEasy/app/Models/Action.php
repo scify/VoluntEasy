@@ -5,6 +5,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Action extends Model {
 
+    use \SoftDeletes;
+    protected $dates = ['deleted_at'];
+    
     protected $table = 'actions';
 
     protected $fillable = ['description', 'comments', 'start_date', 'end_date', 'unit_id', 'email'];

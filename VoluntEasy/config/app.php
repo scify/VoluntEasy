@@ -199,12 +199,13 @@ return [
 		'View'      => 'Illuminate\Support\Facades\View',
         'Html'      => 'Illuminate\Html\HtmlFacade',
         'Form'      => 'Illuminate\Html\FormFacade',
+        'SoftDeletes' => 'Illuminate\Database\Eloquent\SoftDeletes',
         'Debugbar'  => 'Barryvdh\Debugbar\Facade',
         'ActionService' => 'App\Services\Facades\ActionService',
         'UnitService' => 'App\Services\Facades\UnitService',
         'UserService' => 'App\Services\Facades\UserService',
         'SearchService' => 'App\Services\Facades\SearchService',
-        'VolunteerService' => 'App\Services\Facades\VolunteerService',
+        'VolunteerService' => 'App\Services\Facades\VolunteerService',        
     ],
 
 ];

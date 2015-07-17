@@ -80,6 +80,7 @@ class CreateVolunteerTable extends Migration {
             $table->boolean('computer_usage')->nullable();
             $table->text('comments', 300)->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->integer('gender_id')->unsigned();
             $table->foreign('gender_id')->references('id')->on('genders')->onDelete('cascade');
@@ -118,6 +119,15 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('action_id')->references('id')->on('actions');
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
+        });
+
+        Schema::create('actions_volunteers_history', function ($table) {
+            $table->increments('id');
+            $table->integer('action_id')->unsigned();
+            $table->foreign('action_id')->references('id')->on('actions');
+            $table->integer('volunteer_id')->unsigned();
+            $table->foreign('volunteer_id')->references('id')->on('volunteers');
+            $table->timestamps();
         });
 
         Schema::create('units_volunteers', function ($table) {
@@ -193,27 +203,27 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('new_step_status_id')->references('id')->on('step_statuses');
         });
 
-        Schema::create('volunteer_action_status', function ($table) {
-            $table->increments('id');
-            $table->integer('volunteer_id')->unsigned();
-            $table->foreign('volunteer_id')->references('id')->on('volunteers');
-            $table->integer('action_id')->unsigned();
-            $table->foreign('action_id')->references('id')->on('actions');
-            $table->integer('action_status_id')->unsigned();
-            $table->foreign('action_status_id')->references('id')->on('volunteer_statuses');
-        });
+        // Schema::create('volunteer_action_status', function ($table) {
+        //     $table->increments('id');
+        //     $table->integer('volunteer_id')->unsigned();
+        //     $table->foreign('volunteer_id')->references('id')->on('volunteers');
+        //     $table->integer('action_id')->unsigned();
+        //     $table->foreign('action_id')->references('id')->on('actions');
+        //     $table->integer('action_status_id')->unsigned();
+        //     $table->foreign('action_status_id')->references('id')->on('volunteer_statuses');
+        // });
 
-        Schema::create('volunteer_action_history', function ($table) {
-            $table->increments('id');
-            $table->integer('volunteer_id')->unsigned();
-            $table->foreign('volunteer_id')->references('id')->on('volunteers');
-            $table->integer('action_id')->unsigned();
-            $table->foreign('action_id')->references('id')->on('actions');
-            $table->integer('previous_action_status_id')->unsigned();
-            $table->foreign('previous_action_status_id')->references('id')->on('volunteer_statuses');
-            $table->integer('new_action_status_id')->unsigned();
-            $table->foreign('new_action_status_id')->references('id')->on('volunteer_statuses');
-        });
+        // Schema::create('volunteer_action_history', function ($table) {
+        //     $table->increments('id');
+        //     $table->integer('volunteer_id')->unsigned();
+        //     $table->foreign('volunteer_id')->references('id')->on('volunteers');
+        //     $table->integer('action_id')->unsigned();
+        //     $table->foreign('action_id')->references('id')->on('actions');
+        //     $table->integer('previous_action_status_id')->unsigned();
+        //     $table->foreign('previous_action_status_id')->references('id')->on('volunteer_statuses');
+        //     $table->integer('new_action_status_id')->unsigned();
+        //     $table->foreign('new_action_status_id')->references('id')->on('volunteer_statuses');
+        // });
 
         Schema::create('volunteer_unit_status', function ($table) {
             $table->increments('id');
@@ -247,8 +257,8 @@ class CreateVolunteerTable extends Migration {
     public function down() {
         Schema::dropIfExists('volunteer_unit_history');
         Schema::dropIfExists('volunteer_unit_status');
-        Schema::dropIfExists('volunteer_action_history');
-        Schema::dropIfExists('volunteer_action_status');
+        // Schema::dropIfExists('volunteer_action_history');
+        // Schema::dropIfExists('volunteer_action_status');
         Schema::dropIfExists('volunteer_statuses');
         Schema::dropIfExists('volunteer_step_history');
         Schema::dropIfExists('volunteer_step_status');
