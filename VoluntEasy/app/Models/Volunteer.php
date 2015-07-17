@@ -94,7 +94,7 @@ class Volunteer extends User {
     public function scopeSkata($query) {
 
 
-        $volId = $this->id;
+        $volId = 5;
 
        //  dd($volId);
 
@@ -110,6 +110,7 @@ class Volunteer extends User {
 
 
         //do not delete/mess with this
+        //works only for one volunteer
         return Volunteer::with(['units.steps.statuses' => function($query) use ($volId){
 
             $query->where('volunteer_id', $volId)->with('status');
