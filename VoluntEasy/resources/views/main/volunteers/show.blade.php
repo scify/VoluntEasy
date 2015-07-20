@@ -15,6 +15,14 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                            <a href="{{ url('volunteers/edit/'.$volunteer->id) }}" class="btn btn-success"><i
+                                    class="fa fa-edit"></i> Επεξεργασία</a>
+                            <a href="{{ url('volunteers/delete/'.$volunteer->id) }}" class="btn btn-danger"><i
+                                    class="fa fa-edit"></i> Διαγραφή</a>
+                    </div>
+                </div>
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#tab1" data-toggle="tab"
                                                               class="{{ $errors->has('name') || $errors->has('last_name') || $errors->has('fathers_name') ||$errors->has('birth_date') ? 'tab has-error' : ''}}"><i
@@ -26,6 +34,7 @@
                     <li role="presentation"><a href="#tab3" data-toggle="tab"
                                                class="{{ $errors->has('participation_reason') ? 'tab has-error' : ''}}"><i
                             class="fa fa-file-o m-r-xs"></i>Ιστορικό δράσεων</a></li>
+                    <li></li>
                 </ul>
 
                 <div class="tab-content">
@@ -45,7 +54,6 @@
         </div>
     </div>
 </div>
-
 
 
 @stop

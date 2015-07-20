@@ -23,8 +23,13 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            {!! Form::formInput('gender_id', 'Φύλο:', $errors, ['class' => 'form-control', 'type' =>
-                            'select', 'value' => $genders]) !!}
+                            @if (isset($volunteer))
+                                {!! Form::formInput('gender_id', 'Φύλο:', $errors, ['class' => 'form-control', 'type' =>
+                                'select', 'value' => $genders, 'key' => $volunteer->gender_id]) !!}
+                            @else
+                                {!! Form::formInput('gender_id', 'Φύλο:', $errors, ['class' => 'form-control', 'type' =>
+                                'select', 'value' => $genders]) !!}
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -58,8 +63,13 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
+                            @if (isset($volunteer))
+                            {!! Form::formInput('identification_type_id', 'Τύπος ταυτότητας:', $errors, ['class' =>
+                            'form-control', 'type' => 'select', 'value' => $identificationTypes, 'key' => $volunteer->identification_type_id]) !!}
+                            @else
                             {!! Form::formInput('identification_type_id', 'Τύπος ταυτότητας:', $errors, ['class' =>
                             'form-control', 'type' => 'select', 'value' => $identificationTypes]) !!}
+                            @endif
                         </div>
                     </div>
                     <div class="col-md-8">
@@ -72,8 +82,13 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
+                            @if (isset($volunteer))
+                            {!! Form::formInput('marital_status_id', 'Οικογενειακή κατάσταση:', $errors, ['class' =>
+                            'form-control', 'type' => 'select', 'value' => $maritalStatuses, 'key' => $volunteer->marital_status_id]) !!}
+                            @else
                             {!! Form::formInput('marital_status_id', 'Οικογενειακή κατάσταση:', $errors, ['class' =>
                             'form-control', 'type' => 'select', 'value' => $maritalStatuses]) !!}
+                            @endif
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -108,8 +123,13 @@
                     {!! Form::formInput('email', 'Email:', $errors, ['class' => 'form-control', 'required' => 'true']) !!}
                 </div>
                 <div class="form-group">
+                    @if (isset($volunteer))
+                    {!! Form::formInput('comm_method_id', 'Να επικοινωνήσουμε μαζί σας στο:', $errors, ['class' =>
+                    'form-control', 'type' => 'select', 'value' => $commMethod, 'key' => $volunteer->comm_method_id]) !!}
+                    @else
                     {!! Form::formInput('comm_method_id', 'Να επικοινωνήσουμε μαζί σας στο:', $errors, ['class' =>
                     'form-control', 'type' => 'select', 'value' => $commMethod]) !!}
+                    @endif
                 </div>
             </div>
         </div>
@@ -121,8 +141,13 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
+                            @if (isset($volunteer))
+                            {!! Form::formInput('education_level_id', 'Επίπεδο εκπαίδευσης:', $errors, ['class' =>
+                            'form-control', 'type' => 'select', 'value' => $edLevel, 'key' => $volunteer->education_level_id]) !!}
+                            @else
                             {!! Form::formInput('education_level_id', 'Επίπεδο εκπαίδευσης:', $errors, ['class' =>
                             'form-control', 'type' => 'select', 'value' => $edLevel]) !!}
+                            @endif
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -139,14 +164,19 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
+                            @if (isset($volunteer))
+                            {!! Form::formInput('driver_license_type_id', 'Δίπλωμα οδήγησης:', $errors, ['class' =>
+                            'form-control', 'type' => 'select', 'value' => $driverLicenseTypes, 'key' => $volunteer->driver_license_type_id]) !!}
+                            @else
                             {!! Form::formInput('driver_license_type_id', 'Δίπλωμα οδήγησης:', $errors, ['class' =>
                             'form-control', 'type' => 'select', 'value' => $driverLicenseTypes]) !!}
+                            @endif
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             {!! Form::formInput('computer_usage', 'Χρήση υπολογιστή', $errors, ['class' => 'form-control',
-                            'type' => 'checkbox', 'value' => false, 'checked' => 'false']) !!}
+                            'type' => 'checkbox', 'value' => true, 'checked' => 'true']) !!}
                         </div>
                     </div>
                 </div>
@@ -188,8 +218,13 @@
         <div class="row m-b-lg">
             <div class="col-md-4">
                 <div class="form-group">
+                    @if (isset($volunteer))
+                    {!! Form::formInput('work_status_id', 'Εργασιακή κατάσταση:', $errors, ['class' => 'form-control',
+                    'type' => 'select', 'value' => $workStatuses, 'key' => $volunteer->work_status_id]) !!}
+                    @else
                     {!! Form::formInput('work_status_id', 'Εργασιακή κατάσταση:', $errors, ['class' => 'form-control',
                     'type' => 'select', 'value' => $workStatuses]) !!}
+                    @endif
                 </div>
                 <div class="form-group">
                     {!! Form::formInput('work_description', 'Εργασία', $errors, ['class' => 'form-control', 'type' =>
@@ -223,8 +258,13 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
+                        @if (isset($volunteer))
+                        {!! Form::formInput('availability_freqs_id', 'Συχνότητα συνεισφοράς:', $errors, ['class' =>
+                        'form-control', 'type' => 'select', 'value' => $availabilityFreqs, 'key' => $volunteer->availability_freqs_id]) !!}
+                        @else
                         {!! Form::formInput('availability_freqs_id', 'Συχνότητα συνεισφοράς:', $errors, ['class' =>
                         'form-control', 'type' => 'select', 'value' => $availabilityFreqs]) !!}
+                        @endif
                     </div>
                     <p>Χρόνοι συνεισφοράς:</p>
                     @foreach($availabilityTimes as $a_t_id => $availability_time)

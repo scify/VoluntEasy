@@ -58,12 +58,17 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
             case "select":
                 $value = $attributes['value'];
                 unset($attributes['value']);
-                $text_html = Form::select($field, $value, '', $attributes);
+                if (array_key_exists('key', $attributes)) {
+                    $key = $attributes['key'];
+                    unset($attributes['key']);
+                    $text_html = Form::select($field, $value, $key, $attributes);
+                } else
+                    $text_html = Form::select($field, $value, '', $attributes);
                 break;
             case "checkbox":
                 $value = $attributes['value'];
                 unset($attributes['value']);
-                $checked = $attributes['checked']=='true' ? true : false;
+                $checked = $attributes['checked'] == 'true' ? true : false;
                 unset($attributes['checked']);
                 $text_html = Form::checkbox($field, $value, $checked);
                 $type = 'checkbox';
@@ -71,7 +76,7 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
             case "radio":
                 $value = $attributes['value'];
                 unset($attributes['value']);
-                $checked = $attributes['checked']=='true' ? true : false;
+                $checked = $attributes['checked'] == 'true' ? true : false;
                 unset($attributes['checked']);
                 $text_html = Form::radio($field, $value, $checked, $attributes);
                 break;

@@ -30,21 +30,6 @@ class VolunteerService {
 
     ];
 
-    /**
-     * Get all the volunteers that are not assigned to any unit
-     * or that have not completed the steps of their units
-     *
-     * @return mixed
-     */
-    public function unassigned() {
-
-        $volunteers = Volunteer::whereDoesntHave('units')->orWhereHas('units.steps.status', function ($query) {
-            $query->where('step_status_id', 2);
-        })->get();
-
-        return $volunteers;
-    }
-
 
     /**
      * From a list of volunteers, get a list of ids.
@@ -132,7 +117,7 @@ class VolunteerService {
      *
      * Statuses may be:
      *
-     * 1: upo entaksi
+     * 1: upo entaksi/pending
      * 2: dia8esimoi/not in any action, have completed all steps for a certain unit
      * 3: energoi/active/currently in an action
      * 4: mh dia8esimoi/akatallhloi/blacklisted/a manually set status
@@ -144,42 +129,32 @@ class VolunteerService {
      */
     public function volunteersByStatus($statusId, $unitId = null) {
 
+        $volunteers = [];
+        
         switch ($statusId) {
             case '1':
-                $volunteers = Volunteer::whereHas('steps.status', function ($query) {
-                    $query->where('id', 2);
-                });
-                // dd($query);
+                $tmpArray = Volunteer::pending();
+                foreach($tmpArray as $tmp)
+                    array_push($volunteers, $tmp->id);
                 break;
-
             case '2':
-              /*  $volunteers = Volunteer::has('units.steps')->whereHas('steps.status', function ($query) {
-                    $query->where('id', 1);
-                });*/
-
-
-
-        /* $volunteers = Volunteer::has('steps.status', function ($query) {
-             $query->whereAll('id', 2);
-         });*/
+                $volunteers = Volunteer::available()->lists('id'); //not ok
                 break;
-
             case '3':
+                $volunteers = Volunteer::active()->lists('id');
                 break;
-
             case '4':
                 $volunteers = Volunteer::whereHas('steps.status', function ($query) {
                     $query->where('id', 4);
-                });
+                })->lists('id');
                 break;
-
             case '5':
-                $volunteers = Volunteer::whereIn('id', $this->unassigned()->lists('id'));
+                $volunteers = Volunteer::unassigned()->lists('id');
                 break;
         }
 
+        return $volunteers;
 
-        return $volunteers->get();
     }
 
 
@@ -199,8 +174,9 @@ class VolunteerService {
 
 
         if (\Input::has('status_id') && !Search::notDropDown(\Input::get('status_id'), 'status_id')) {
-            $query = Volunteer::whereIn('id', $this->volunteersByStatus(\Input::get('status_id'))->lists('id'));
+           $query = Volunteer::whereIn('id', $this->volunteersByStatus(\Input::get('status_id')));
         }
+
 
         foreach ($this->filters as $column => $filter) {
             if (\Input::has($column) && \Input::get($column) != "") {

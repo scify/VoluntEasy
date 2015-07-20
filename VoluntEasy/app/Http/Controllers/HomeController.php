@@ -38,7 +38,7 @@ class HomeController extends Controller
         $activeVolunteers = 0;
         $actions = Action::all()->count();
 
-        $volunteers = VolunteerService::unassigned();
+        $volunteers = Volunteer::unassigned();
         $newVolunteers = 0;
         if($volunteers!=null)
             $newVolunteers = $volunteers->count();

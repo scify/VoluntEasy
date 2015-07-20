@@ -10,7 +10,7 @@ class Volunteer extends User {
      */
     use \SoftDeletes;
     protected $dates = ['deleted_at'];
-    
+
     protected $table = 'volunteers';
 
     protected $fillable = ['name', 'last_name', 'fathers_name', 'identification_num', 'birth_date', 'children', 'address', 'city', 'country', 'post_box', 'participation_reason', 'participation_previous', 'participation_actions', 'email', 'extra_lang', 'work_description', 'additional_skills', 'live_in_curr_country', 'comments', 'gender_id', 'education_level_id', 'comm_method', 'identification_type_id', 'marital_status_id', 'driver_license_type_id', 'availability_freqs_id', 'work_status_id',
@@ -94,75 +94,69 @@ class Volunteer extends User {
         });
     }
 
-    public function scopeSkata($query) {
 
+    /*** Scopes for Volunteer Statuses ***/
 
-        $volId = 5;
+    /**
+     * Get pending volunteers.
+     * To be refactored, don't judge me.
+     *
+     * @return mixed
+     */
+    public function scopePending() {
+        $volunteers = Volunteer::has('units')->get();
 
-       //  dd($volId);
+        $return = [];
 
-        //  return Volunteer::where('id', 5)->with('units.steps.statuses.status');
+        foreach ($volunteers as $volunteer) {
+            $id = $volunteer->id;
 
-        /*
-         return Volunteer::where('id', 5)->with(['units.steps' => function($query) use ($volId){
-             $query->where('volunteer_id', $volId);
-         }])->with('units.steps.statuses.status');
-*/
+            $tmp = Volunteer::where('id', $id)->with(['units.steps.statuses' => function ($query) use ($id) {
+                $query->where('volunteer_id', $id)->with('status');
+            }])->first();
 
+            if ($tmp != null)
+                array_push($return, $tmp);
+        }
 
-
-
-        //do not delete/mess with this
-        //works only for one volunteer
-        return Volunteer::with(['units.steps.statuses' => function($query) use ($volId){
-
-            $query->where('volunteer_id', $volId)->with('status');
-        }])->where('id', 5);
-
-
-
-
-
-
-      // this might be correct omg
-/*
-
-        return Volunteer::where('id', 5)->whereHas('units.steps.statuses', function ($query) use ($volId) {
-
-            $query->where('volunteer_id', $volId)->where('step_status_id', 2)->with('status');
-        });
-*/
-
-        /*
-                return Volunteer::whereHas('units', function ($query) use ($volId) {
-                    $query->whereHas('steps', function ($query) use ($volId) {
-                        //$query->with('status')->where('volunteer_id', $volId);
-
-                        $query->with(['status' => function($query) use ($volId){
-                            $query->where('volunteer_id', $volId);
-                        }]);
-
-                    });
-                });
-*/
-        /*
-                :with(array('Users' => function($query) use ($keyword){
-                    $query->where('somefield', $keyword);
-                }))->where('town', $keyword)->first();
-                */
-
-        /*
-                $usersFilter = Addresses::with(array('Users' => function($query) use ($keyword){
-                    $query->where('somefield', $keyword);
-                }))->where('town', $keyword)->first();
-                $myUsers = $usersFilter->users;
-
-        */
-        /*
-
-        return Volunteer::whereHas('steps', function ($query) use ($volId) {
-            $query->where('volunteer_id', $volId)->where('step_status_id', 2);
-        });
-*/
+        return $return;
     }
+
+    /**
+     * Get available volunteers.
+     *
+     * @return array
+     */
+    public function scopeAvailable() {
+        $volunteers = Volunteer::has('units.steps')->whereHas('steps.status', function ($query) {
+            $query->where('id', 1); //not ready, where count=3?
+        });
+
+        return $volunteers;
+    }
+
+    /**
+     * Get active volunteers
+     *
+     * @return mixed
+     */
+    public function scopeActive() {
+        $volunteers = Volunteer::has('actions');
+
+        return $volunteers;
+    }
+
+    /**
+     * Get unassigned volunteers.
+     * All the volunteers that are not assigned to any unit
+     * or that have not completed the steps of their units.
+     *
+     * @return mixed
+     */
+    public function scopeUnassigned() {
+        $volunteers = Volunteer::whereDoesntHave('units')->get();
+
+        return $volunteers;
+    }
+
 }

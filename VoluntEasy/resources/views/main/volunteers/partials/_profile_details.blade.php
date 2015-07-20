@@ -11,16 +11,17 @@
         <p>Φύλο: {{ $volunteer->gender->description }}</p>
     </div>
     <div class="col-md-4">
-        <p>Email: {{ $volunteer->email=='' ? '-' : $volunteer->email }}</p>
+        <p>Email: {{ $volunteer->email=='' ? '-' : $volunteer->email }} @if ($volunteer->comm_method_id==1) <i class="fa fa-star" data-toggle="tooltip" title="Προτιμώμενος τρόπος επικοινωνίας"></i> @endif </p>
 
-        <p>Κινητό: {{ $volunteer->cell_tel=='' ? '-' : $volunteer->cell_tel }}</p>
+        <p>Κινητό: {{ $volunteer->cell_tel=='' ? '-' : $volunteer->cell_tel }} @if ($volunteer->comm_method_id==4) <i class="fa fa-star" data-toggle="tooltip" title="Προτιμώμενος τρόπος επικοινωνίας"></i> @endif</p>
 
         <p>Τηλέφωνο εργασίας: {{ $volunteer->work_tel=='' ? '-' : $volunteer->work_tel
-            }}</p>
+            }} @if ($volunteer->comm_method_id==3) <i class="fa fa-star" data-toggle="tooltip" title="Προτιμώμενος τρόπος επικοινωνίας"></i> @endif</p>
 
-        <p>Τηλέφωνο οικίας: {{ $volunteer->home_tel=='' ? '-' : $volunteer->home_tel }}</p>
+        <p>Τηλέφωνο οικίας: {{ $volunteer->home_tel=='' ? '-' : $volunteer->home_tel }} @if ($volunteer->comm_method_id==2) <i class="fa fa-star" data-toggle="tooltip" title="Προτιμώμενος τρόπος επικοινωνίας"></i> @endif</p>
 
         <p>Φαξ: {{ $volunteer->fax=='' ? '-' : $volunteer->fax }}</p>
+
     </div>
     <div class="col-md-4">
         <p>Διεύθυνση: {{ $volunteer->address=='' ? '-' : $volunteer->address }}{{
@@ -70,8 +71,8 @@
                                 <p>Δίπλωμα οδήγησης: {{
                                     $volunteer->driverLicenceType->description }}</p>
 
-                                <p>Χρήση υπολογιστή: {{ $volunteer->computer_usage=='' ? 'Ναι' :
-                                    'Όχι' }}</p>
+                                <p>Χρήση υπολογιστή: {{ $volunteer->computer_usage=='' ? 'Όχι' :
+                                    'Ναι' }}</p>
                             </div>
                             <div class="col-md-4">
                                 <h4>Ξένες Γλώσσες</h4>

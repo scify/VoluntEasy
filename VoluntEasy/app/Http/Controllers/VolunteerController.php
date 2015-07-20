@@ -348,7 +348,7 @@ class VolunteerController extends Controller {
 
 
     public function newVolunteers() {
-        $volunteers = VolunteerService::unassigned();
+        $volunteers = Volunteer::unassigned();
 
         return view('main.volunteers.list', compact('volunteers'));
     }
@@ -364,7 +364,7 @@ class VolunteerController extends Controller {
         $rootUnit = UnitService::getRoot();
         $rootUnit->load('steps');
 
-        $volunteer = Volunteer::where('id', 1)->with('steps.status')->first();
+        $volunteer = Volunteer::where('id', $id)->with('steps.status')->first();
 
         //check if the steps already exist
         if (sizeof(array_diff($rootUnit->steps->lists('id'), $volunteer->steps->lists('step_id')))) {

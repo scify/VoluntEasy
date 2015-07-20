@@ -1,10 +1,10 @@
 @extends('default')
 
 @section('title')
-Δημιουργία Εθελοντή/Εθελόντριας
+Επεξεργασία Εθελοντή/Εθελόντριας
 @stop
 @section('pageTitle')
-Δημιουργία Εθελοντή/Εθελόντριας
+Επεξεργασία Εθελοντή/Εθελόντριας
 @stop
 
 @section('bodyContent')
@@ -30,11 +30,9 @@
                             περιοχές ενδιαφερόντων</a>
                         </li>
                     </ul>
-
                     {!! Form::model($volunteer, ['id' => 'wizardForm', 'method' => 'POST', 'action' => ['VolunteerController@update', 'id' => $volunteer->id]]) !!}
                         @include('main.volunteers.partials._form', ['submitButtonText' => 'Αποθήκευση', 'volunteer' => $volunteer])
                     {!! Form::close() !!}
-                    
                 </div>
             </div>
         </div>
