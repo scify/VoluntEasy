@@ -18,10 +18,10 @@
  * (we also set the field id in order to initialize the datepicker widget)
  *
  * --Select
- * {!! Form::formInput('field_id/name', 'Field Label:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $arrayWithValues]) !!}
+ * {!! Form::formInput('field_id/name', 'Field Label:', $errors, ['class' => 'form-control', 'type' => 'select', 'value' => $arrayWithValues, 'checked' => 'true/false']) !!}
  *
  * --Checkbox
- * {!! Form::formInput('field_id/name', 'Field Label:', $errors, ['class' => 'form-control', 'type' => 'checkbox', 'value' => 'whatever', 'checked' => true/false]) !!}
+ * {!! Form::formInput('field_id/name', 'Field Label:', $errors, ['class' => 'form-control', 'type' => 'checkbox', 'value' => 'whatever', 'checked' => 'true/false']) !!}
  *
  * --Radio
  * {!! Form::formInput('field_id/name', '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value' => $key]) !!}
@@ -71,7 +71,9 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
             case "radio":
                 $value = $attributes['value'];
                 unset($attributes['value']);
-                $text_html = Form::radio($field, $value, false, $attributes);
+                $checked = $attributes['checked']=='true' ? true : false;
+                unset($attributes['checked']);
+                $text_html = Form::radio($field, $value, $checked, $attributes);
                 break;
             case "date":
                 $text_html = Form::input('date', $field);

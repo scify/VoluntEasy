@@ -48,13 +48,15 @@ Route::get('rootUnit', 'UnitController@rootUnit');
 /////////////////////
 Route::get('volunteers','VolunteerController@index');
 Route::get('volunteers/create', 'VolunteerController@create');
-Route::post('volunteers/store', 'VolunteerController@store');
+Route::get('volunteers/new','VolunteerController@newVolunteers');
 Route::get('volunteers/edit/{id}', 'VolunteerController@edit');
-Route::post('volunteers/update', 'VolunteerController@update');
 Route::get('volunteers/delete/{id}', 'VolunteerController@destroy');
 Route::get('volunteers/one/{id}', ['as' => 'volunteer/one', 'uses' => 'VolunteerController@show']);
 Route::get('volunteers/addToRootUnit/{id}',  'VolunteerController@addToRootUnit');
+Route::post('volunteers/store', 'VolunteerController@store');
+Route::post('volunteers/update', 'VolunteerController@update');
 Route::post('volunteers/search', 'VolunteerController@search');
+
 
 
 //////////////////
@@ -128,9 +130,9 @@ use App\Models\ActionVolunteerHistory;
 Route::get('aris', function()
 {
     if (!in_array(1, [2,3])) {        
-        $historyTable = ActionVolunteerHistory::where('volunteer_id',1)->where('action_id',1)->first();                
-        $historyTable->action_id = 1;
-        return var_dump($historyTable->save());
+        $historyTable = ActionVolunteerHistory::where('volunteer_id',1)->where('action_id',1)->first();
+        $historyTable->action_id = 2;
+        return var_dump($historyTable->update());
         // $historyTable->action_id = 1;
         // $historyTable->save();
     }

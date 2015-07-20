@@ -2,8 +2,8 @@
 
 use App\Http\Requests\ActionRequest as ActionRequest;
 use App\Models\Action;
+use App\Models\ActionVolunteerHistory;
 use App\Models\Unit;
-use App\Models\Volunteer;
 use App\Services\Facades\ActionService;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
@@ -11,7 +11,6 @@ use App\Services\Facades\VolunteerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-use App\Models\ActionVolunteerHistory;
 
 class ActionController extends Controller {
 
@@ -171,33 +170,42 @@ class ActionController extends Controller {
      *
      * @param Request $request
      * @return mixed
-     */    
-    public function addVolunteers(Request $request) {        
+     */
+    public function addVolunteers(Request $request) {
 
         $action = Action::whereId($request->get('id'))->first();
-        
-        $oldVolunteersOfAction = $action->volunteers()->get()->lists('id');
-        
-        $action->volunteers()->sync($request->get('volunteers'));        
+        //if there are no volunteers, remove all
+        if (sizeof($request->get('volunteers')) == 0) {
+            $action->volunteers()->detach();
+        } else {
+            $oldVolunteersOfAction = $action->volunteers()->get()->lists('id');
 
-        // add new volunteers to history
-        foreach ($request->get('volunteers') as $volunteer) {            
-            if (!in_array($volunteer, $oldVolunteersOfAction)) {                
-                $historyTable = new ActionVolunteerHistory;
-                $historyTable->volunteer_id = $volunteer;
-                $historyTable->action_id = $action->id;            
-                $historyTable->save();
+            $action->volunteers()->sync($request->get('volunteers'));
+
+            // add new volunteers to history
+            foreach ($request->get('volunteers') as $volunteer) {
+                if (!in_array($volunteer, $oldVolunteersOfAction)) {
+                    $historyTable = new ActionVolunteerHistory;
+                    $historyTable->volunteer_id = $volunteer;
+                    $historyTable->action_id = $action->id;
+                    $historyTable->save();
+                }
+            }
+
+            // update manually unassigned
+            foreach ($oldVolunteersOfAction as $volunteer) {
+                if (!in_array($volunteer, $request->get('volunteers'))) {
+                    /*
+                     $historyTable = ActionVolunteerHistory::where('volunteer_id',$volunteer)->where('action_id',$action->id)->first();
+                     $historyTable->update();
+                    */
+                    $historyTable = ActionVolunteerHistory::where('volunteer_id', $volunteer)->where('action_id', 1)->first();
+                    $historyTable->action_id = 2;
+                    return var_dump($historyTable->save());
+                }
             }
         }
 
-        // update manualy unassigned
-        foreach ($oldVolunteersOfAction as $volunteer) {
-            if (!in_array($volunteer, $request->get('volunteers'))) {
-                $historyTable = ActionVolunteerHistory::where('volunteer_id',$volunteer)->where('action_id',$action->id)->first();                
-                $historyTable->update();
-            }
-        }
-        
         return $action->id;
     }
 

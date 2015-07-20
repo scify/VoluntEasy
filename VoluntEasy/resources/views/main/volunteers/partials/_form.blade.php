@@ -50,7 +50,7 @@
                 </div>
                 <div class="form-group">
                     {!! Form::formInput('live_in_curr_country', 'Κάτοικος Ελλάδας', $errors, ['class' => 'form-control',
-                    'type' => 'checkbox', 'value' => true, 'checked' => true]) !!} <em>(Αποεπιλέξτε εφόσον δε διαμένετε
+                    'type' => 'checkbox', 'value' => true, 'checked' => 'true']) !!} <em>(Αποεπιλέξτε εφόσον δε διαμένετε
                     μόνιμα στην Ελλάδα.)</em>
                 </div>
             </div>
@@ -146,7 +146,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             {!! Form::formInput('computer_usage', 'Χρήση υπολογιστή', $errors, ['class' => 'form-control',
-                            'type' => 'checkbox', 'value' => false, 'checked' => false]) !!}
+                            'type' => 'checkbox', 'value' => false, 'checked' => 'false']) !!}
                         </div>
                     </div>
                 </div>
@@ -164,10 +164,10 @@
                     @foreach ($langLevels as $lev => $level)
                     <label>
                         <em>{{ $level }}</em>
-                        @if (isset($volunteer))
-                            {!! Form::formInput('lang'.$lan, '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value' => $lev]) !!}
+                        @if (isset($volunteer) && in_array($lan, $volunteer->languages->lists('language_id')) )
+                            {!! Form::formInput('lang'.$lan, '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value' => $lev, 'checked' => 'true']) !!}
                         @else
-                            {!! Form::formInput('lang'.$lan, '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value' => $lev]) !!}
+                            {!! Form::formInput('lang'.$lan, '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value' => $lev, 'checked' => 'false']) !!}
                         @endif
                     </label>
                     @endforeach
@@ -229,8 +229,11 @@
                     <p>Χρόνοι συνεισφοράς:</p>
                     @foreach($availabilityTimes as $a_t_id => $availability_time)
                     <div class="form-group">
-                        {!! Form::formInput('availability_time' . $a_t_id, $availability_time, $errors, ['class' =>
-                        'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => false]) !!}
+                        @if (isset($volunteer) && in_array($a_t_id, $volunteer->availabilityTimes->lists('id')) )
+                           {!! Form::formInput('availability_time' . $a_t_id, $availability_time, $errors, ['class' => 'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'true']) !!}
+                        @else
+                           {!! Form::formInput('availability_time' . $a_t_id, $availability_time, $errors, ['class' => 'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
+                        @endif
                     </div>
                     @endforeach
                 </div>
@@ -241,7 +244,7 @@
                         @if (isset($volunteer) && in_array($int_id, $volunteer->interests->lists('id')) )
                             {!! Form::formInput('interest' . $int_id, $interest , $errors, ['class' => 'form-control',
                                 'type' => 'checkbox', 'value' => $int_id, 'checked' => 'true']) !!}
-                        @else ()       
+                        @else
                             {!! Form::formInput('interest' . $int_id, $interest , $errors, ['class' => 'form-control',
                                 'type' => 'checkbox', 'value' => $int_id, 'checked' => 'false']) !!}
                         @endif                                

@@ -99,7 +99,7 @@
             volunteers: volunteers
         };
 
-        console.log(volunteersUnits);
+      //  console.log(volunteersUnits);
 
         $.ajax({
             url: $("body").attr('data-url') + '/actions/volunteers',
@@ -109,7 +109,8 @@
                 'X-CSRF-Token': $('meta[name="_token"]').attr('content')
             },
             success: function (data) {
-                window.location.href = $("body").attr('data-url') + "/actions/one/" + data;
+            console.log(data);
+                //window.location.href = $("body").attr('data-url') + "/actions/one/" + data;
             }
         });
     });
