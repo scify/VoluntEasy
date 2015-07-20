@@ -54,8 +54,7 @@ class CreateNotificationsTable extends Migration {
 		 	$table->dropForeign('notifications_user_id_foreign');
         });
 
-		Schema::dropIfExists('notifications');
-		
+		Schema::dropIfExists('notifications');	
 	}
 
 }

@@ -78,7 +78,7 @@ class CreateVolunteerTable extends Migration {
             $table->string('additional_skills', 300)->nullable();
             $table->boolean('live_in_curr_country')->nullable();
             $table->boolean('computer_usage')->nullable();
-            $table->text('comments', 300)->nullable();
+            $table->text('comments', 20000)->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -98,6 +98,8 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('availability_freqs_id')->references('id')->on('availability_freqs')->onDelete('cascade');
             $table->integer('work_status_id')->unsigned();
             $table->foreign('work_status_id')->references('id')->on('work_statuses')->onDelete('cascade');
+
+            $table->boolean('blacklisted')->default(false);
         });
 
         Schema::create('availability_time', function ($table) {

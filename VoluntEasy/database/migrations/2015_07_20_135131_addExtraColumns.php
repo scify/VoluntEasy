@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class AddExtraColumns extends Migration {
@@ -28,7 +29,7 @@ class AddExtraColumns extends Migration {
      * @return void
      */
     public function down() {
-        Schema::table('notifications', function ($table) {
+        Schema::table('steps', function ($table) {
             $table->dropColumn('type');
         });
 
