@@ -50,6 +50,16 @@ h3{font-weight: 400;}
     color:#22BAA0;
 }
 
+span.incomplete{
+    padding:3px;
+    color:#fff;
+    background-color:#f25656;
+}
+span.completed{
+    padding:3px;
+    color:#fff;
+    background-color:#22BAA0;
+}
 
 /*** jOrgChart overrides ***/
 .jOrgChart .line{

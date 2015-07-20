@@ -26,7 +26,7 @@ class Unit extends Model {
     }
 
     public function steps() {
-        return $this->hasMany('App\Models\Step');
+        return $this->hasMany('App\Models\Step')->orderBy('step_order', 'asc');
     }
 
     public function volunteers() {

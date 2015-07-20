@@ -94,7 +94,6 @@ class Volunteer extends User {
         });
     }
 
-
     /*** Scopes for Volunteer Statuses ***/
 
     /**

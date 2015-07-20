@@ -181,7 +181,10 @@ class VolunteerController extends Controller {
      */
     public function show($id) {
         $volunteer = Volunteer::where('id', $id)->with('gender', 'identificationType', 'driverLicenceType',
-            'educationLevel', 'languages.level', 'languages.language', 'interests', 'workStatus', 'availabilityTimes', 'availabilityFrequencies', 'units', 'steps.status')->first();
+            'educationLevel', 'languages.level', 'languages.language', 'interests', 'workStatus', 'availabilityTimes', 'availabilityFrequencies')
+            ->where('id', $id)->with(['units.steps.statuses' => function ($query) use ($id) {
+                $query->where('volunteer_id', $id)->with('status');
+            }])->first();
 
         return view("main.volunteers.show", compact('volunteer'));
     }
@@ -310,8 +313,7 @@ class VolunteerController extends Controller {
                 ]);
 
                 array_push($languages_array, $volLanguage);
-            }
-            else{
+            } else {
             }
         }
         $volunteer->languages()->saveMany($languages_array);
