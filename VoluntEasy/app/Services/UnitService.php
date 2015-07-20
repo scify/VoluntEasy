@@ -92,15 +92,18 @@ class UnitService {
         $steps = [
             new Step([
                 'description' => 'Επικοινωνία με εθελοντή',
-                'step_order' => 1
+                'step_order' => 1,
+                'type' => 'Communication'
             ]),
             new Step([
                 'description' => 'Συνέντευξη με εθελοντή',
-                'step_order' => 2
+                'step_order' => 2,
+                'type' => 'Interview'
             ]),
             new Step([
                 'description' => 'Ανάθεση σε Μονάδα/Δράση',
-                'step_order' => 3
+                'step_order' => 3,
+                'type' => 'Assignment'
             ])
         ];
 

@@ -130,7 +130,7 @@ class VolunteerService {
     public function volunteersByStatus($statusId, $unitId = null) {
 
         $volunteers = [];
-        
+
         switch ($statusId) {
             case '1':
                 $tmpArray = Volunteer::pending();
@@ -152,9 +152,7 @@ class VolunteerService {
                 $volunteers = Volunteer::unassigned()->lists('id');
                 break;
         }
-
         return $volunteers;
-
     }
 
 

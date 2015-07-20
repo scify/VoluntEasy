@@ -174,6 +174,7 @@ class ActionController extends Controller {
     public function addVolunteers(Request $request) {
 
         $action = Action::whereId($request->get('id'))->first();
+
         //if there are no volunteers, remove all
         if (sizeof($request->get('volunteers')) == 0) {
             $action->volunteers()->detach();
@@ -188,20 +189,8 @@ class ActionController extends Controller {
                     $historyTable = new ActionVolunteerHistory;
                     $historyTable->volunteer_id = $volunteer;
                     $historyTable->action_id = $action->id;
+                    $historyTable->user_id = \Auth::user()->id;
                     $historyTable->save();
-                }
-            }
-
-            // update manually unassigned
-            foreach ($oldVolunteersOfAction as $volunteer) {
-                if (!in_array($volunteer, $request->get('volunteers'))) {
-                    /*
-                     $historyTable = ActionVolunteerHistory::where('volunteer_id',$volunteer)->where('action_id',$action->id)->first();
-                     $historyTable->update();
-                    */
-                    $historyTable = ActionVolunteerHistory::where('volunteer_id', $volunteer)->where('action_id', 1)->first();
-                    $historyTable->action_id = 2;
-                    return var_dump($historyTable->save());
                 }
             }
         }

@@ -110,7 +110,7 @@
             },
             success: function (data) {
             console.log(data);
-                //window.location.href = $("body").attr('data-url') + "/actions/one/" + data;
+                window.location.href = $("body").attr('data-url') + "/actions/one/" + data;
             }
         });
     });
