@@ -71,7 +71,7 @@ class CreateVolunteerTable extends Migration {
             $table->string('cell_tel')->nullable();
             $table->string('fax')->nullable();
             $table->string('email')->unique();
-            $table->string('extra_lang', 100);
+            $table->string('extra_lang', 100)->nullable();
             $table->string('work_description', 300)->nullable();
             $table->string('specialty', 300)->nullable();
             $table->string('department', 300)->nullable();

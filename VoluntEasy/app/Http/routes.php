@@ -121,6 +121,7 @@ Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 // TESTS  //
 ////////////
 Route::get('test','TestController@test');
+Route::get('faker','TestController@faker');
 
 /**  test remove */
 Route::get('units/branch/{id}','UnitController@branch');
