@@ -113,6 +113,37 @@ class VolunteerService {
 
 
     /**
+     * Set the volunteer status of each unit.
+     * UNFINISHED, must add actions
+     *
+     * @param $volunteer
+     * @return mixed
+     */
+    public function setStatusToUnits($volunteer) {
+
+        $unitStatus = [];
+
+        foreach ($volunteer->units as $unit) {
+            $incompleteCount = 0;
+            foreach ($unit->steps as $step) {
+                if ($step->statuses[0]->status->description == 'Incomplete')
+                    $incompleteCount++;
+            }
+            if ($incompleteCount == 0)
+                 $unit->status = 'Available';
+
+            else
+                $unit->status = 'Pending';
+
+         //   $unit->status = 'Pending';
+        }
+
+        return $volunteer;
+
+    }
+
+
+    /**
      * Get volunteers based on a given status.
      *
      * Statuses may be:
@@ -134,7 +165,7 @@ class VolunteerService {
         switch ($statusId) {
             case '1':
                 $tmpArray = Volunteer::pending();
-                foreach($tmpArray as $tmp)
+                foreach ($tmpArray as $tmp)
                     array_push($volunteers, $tmp->id);
                 break;
             case '2':
@@ -152,6 +183,7 @@ class VolunteerService {
                 $volunteers = Volunteer::unassigned()->lists('id');
                 break;
         }
+
         return $volunteers;
     }
 
@@ -172,7 +204,7 @@ class VolunteerService {
 
 
         if (\Input::has('status_id') && !Search::notDropDown(\Input::get('status_id'), 'status_id')) {
-           $query = Volunteer::whereIn('id', $this->volunteersByStatus(\Input::get('status_id')));
+            $query = Volunteer::whereIn('id', $this->volunteersByStatus(\Input::get('status_id')));
         }
 
 

@@ -9,7 +9,7 @@ class Step extends Model {
     
     protected $table = 'steps';
 
-    protected $fillable = ['description', 'step_order'];
+    protected $fillable = ['description', 'step_order', 'type'];
 
 
     public function status(){

@@ -113,7 +113,7 @@
             method: 'POST',
             data: userUnits,
             headers: {
-                'X-CSRF-Token': $('input[name="_token"]').val()
+                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
             },
             success: function (data) {
                 window.location.href = $("body").attr('data-url') + "/units/one/" + data;
@@ -138,7 +138,7 @@
             data: action,
             type: "POST",
             headers: {
-                'X-CSRF-Token': $('input[name="_token"]').val()
+                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
             }
         }).done(function (data) {
             console.log(data)

@@ -87,7 +87,7 @@
             method: 'POST',
             data: userUnits,
             headers: {
-                'X-CSRF-Token': $('input[name="_token"]').val()
+                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
             },
             success: function (data) {
                 window.location.href = $("body").attr('data-url') + "/users/one/" + data;

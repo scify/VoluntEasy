@@ -19,6 +19,19 @@ h3{font-weight: 400;}
     height:35px;
 }
 
+.modal-header{
+    height:auto;
+    border-bottom:1px solid #e5e5e5;
+}
+.modal-header small span.complete{color:#22BAA0;}
+.modal-header small span.incomplete{color:#f25656;}
+.modal-body{
+    border-top: 1px solid #e5e5e5;
+}
+.modal-header + .modal-body{
+    padding:20px;
+}
+
 .user-image img{
 	width:150px;
 	border-radius:50%;
@@ -50,15 +63,20 @@ h3{font-weight: 400;}
     color:#22BAA0;
 }
 
-span.incomplete{
+span.status.incomplete{
     padding:3px;
     color:#fff;
     background-color:#f25656;
 }
-span.completed{
+span.status.completed, span.status.available{
     padding:3px;
     color:#fff;
     background-color:#22BAA0;
+}
+span.status.pending{
+    padding:3px;
+    color:#fff;
+    background-color:#f2ca4c;
 }
 
 /*** jOrgChart overrides ***/

@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     //init tooltips
     $(function () {
-        $('[data-toggle="tooltip"]').tooltip()
+        $('[data-toggle="tooltip"]').tooltip();
     });
 
     /**
@@ -25,7 +25,7 @@ $(document).ready(function () {
             data: $(this).serialize(),
             cache: false,
             headers: {
-                'X-XSRF-Token': $('meta[name="_token"]').attr('content')
+                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
             },
             success: function (data) {
                 $("#table").html(data);

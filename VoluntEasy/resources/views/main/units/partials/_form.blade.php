@@ -7,9 +7,9 @@
 </div>
 @if($type=='root')
     {!! Form::hidden('level', 0) !!}
-@elseif($type=='branch')
+@elseif($type=='branch' || $type=='leaf')
     {!! Form::hidden('level', $tree->level+1) !!}
-    {!! Form::formInput('parent_unit_id', null, $errors, ['type' => 'hidden', 'id' => 'parent_unit_id']) !!}
+    {!! Form::formInput('parent_unit_id', '', $errors, ['type' => 'hidden', 'id' => 'parent_unit_id']) !!}
 @endif
 @if($submitButtonText!='none')
 <div class="form-group text-right">

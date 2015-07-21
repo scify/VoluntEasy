@@ -82,7 +82,7 @@
                                 @else
                                 @foreach($volunteer->languages as $language)
                                     <p>
-                                        {{ $language->language->description }}: 
+                                        {{ $language->language->description }}:
                                         Επίπεδο {{ $language->level->description }}
                                     </p>
                                 @endforeach
@@ -189,12 +189,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-body">
-                <h3>Volunteer units</h3>
-                @foreach($volunteer->units as $unit)
-
-                <p>{{ $unit->description }}</p>
-
-                @endforeach
+                <h3>Comments</h3>
 
             </div>
         </div>

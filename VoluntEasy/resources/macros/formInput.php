@@ -48,16 +48,19 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
 
     //creating the html for the input tag according to its type
     if (array_key_exists('type', $attributes)) {
+        if (array_key_exists('value', $attributes)) {
+            $value = $attributes['value'];
+            unset($attributes['value']);
+        } else
+            $value = null;
         switch ($attributes['type']) {
             case "password":
                 $text_html = Form::password($field, $attributes);
                 break;
             case "textarea":
-                $text_html = Form::textarea($field, null, $attributes);
+                $text_html = Form::textarea($field, $value, $attributes);
                 break;
             case "select":
-                $value = $attributes['value'];
-                unset($attributes['value']);
                 if (array_key_exists('key', $attributes)) {
                     $key = $attributes['key'];
                     unset($attributes['key']);
@@ -66,16 +69,12 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
                     $text_html = Form::select($field, $value, '', $attributes);
                 break;
             case "checkbox":
-                $value = $attributes['value'];
-                unset($attributes['value']);
                 $checked = $attributes['checked'] == 'true' ? true : false;
                 unset($attributes['checked']);
                 $text_html = Form::checkbox($field, $value, $checked);
                 $type = 'checkbox';
                 break;
             case "radio":
-                $value = $attributes['value'];
-                unset($attributes['value']);
                 $checked = $attributes['checked'] == 'true' ? true : false;
                 unset($attributes['checked']);
                 $text_html = Form::radio($field, $value, $checked, $attributes);

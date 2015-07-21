@@ -89,7 +89,6 @@ class UnitController extends Controller {
                array_push($users, $input);
             }
         }
-
         $unit->users()->sync($users);
 
         $unit->steps()->saveMany(UnitService::createSteps());

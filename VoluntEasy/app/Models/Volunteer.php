@@ -105,7 +105,7 @@ class Volunteer extends User {
     public function scopePending() {
         $volunteers = Volunteer::has('units')->get();
 
-        $return = [];
+        $array = [];
 
         foreach ($volunteers as $volunteer) {
             $id = $volunteer->id;
@@ -115,10 +115,10 @@ class Volunteer extends User {
             }])->first();
 
             if ($tmp != null)
-                array_push($return, $tmp);
+                array_push($array, $tmp);
         }
 
-        return $return;
+        return $array;
     }
 
     /**
@@ -153,7 +153,7 @@ class Volunteer extends User {
      * @return mixed
      */
     public function scopeUnassigned() {
-        $volunteers = Volunteer::whereDoesntHave('units')->get();
+        $volunteers = Volunteer::whereDoesntHave('units')->orderBy('name', 'ASC')->get();
 
         return $volunteers;
     }

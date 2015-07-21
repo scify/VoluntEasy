@@ -31,7 +31,7 @@ $(document).ready(function () {
                     stopBellNotification();
                 });
         }
-        timerLoop = setTimeout(timer, 4000);
+        timerLoop = setTimeout(timer, 1000000);
     };
     timer();
 
@@ -102,7 +102,7 @@ $(document).ready(function () {
                 url: $("body").attr('data-url') + '/stopBellNotification/' + id,
                 method: "GET",
                 headers: {
-                    'X-XSRF-Token': $('meta[name="_token"]').attr('content')
+                    'X-CSRF-Token': $('meta[name="_token"]').attr('content')
                 }
             });
         })
@@ -121,7 +121,7 @@ $(document).ready(function () {
                     url: $("body").attr('data-url') + '/deactivateNotification/' + id,
                     method: "GET",
                     headers: {
-                        'X-XSRF-Token': $('meta[name="_token"]').attr('content')
+                        'X-CSRF-Token': $('meta[name="_token"]').attr('content')
                     }
                 });
             });
