@@ -20,10 +20,14 @@ class CreateUnitsTable extends Migration {
 			$table->string('comments', 300);
 			$table->smallInteger('level')->nullable();
 			$table->integer('parent_unit_id')->nullable();
-			$table->foreign('parent_unit_id')->references('id')->on('units');
 			$table->timestamps();
 			$table->softDeletes();
 		});
+
+
+        Schema::table('units', function($table){
+            $table->foreign('parent_unit_id')->references('id')->on('units');
+        });
 
 		Schema::create('actions', function($table)
 		{

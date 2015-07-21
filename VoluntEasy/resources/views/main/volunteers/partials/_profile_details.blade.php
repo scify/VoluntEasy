@@ -1,40 +1,40 @@
 <div class="row">
     <div class="col-md-4">
-        <p>Όνομα: {{ $volunteer->name }}</p>
+        <p><strong>Όνομα:</strong> {{ $volunteer->name }}</p>
 
-        <p>Επώνυμο: {{ $volunteer->last_name }}</p>
+        <p><strong>Επώνυμο:</strong> {{ $volunteer->last_name }}</p>
 
-        <p>Όνομα πατέρα: {{ $volunteer->fathers_name }}</p>
+        <p><strong>Όνομα πατέρα:</strong> {{ $volunteer->fathers_name }}</p>
 
-        <p>Ημ/νία γέννησης: {{ $volunteer->birth_date }}</p>
+        <p><strong>Ημ/νία γέννησης:</strong> {{ $volunteer->birth_date }}</p>
 
-        <p>Φύλο: {{ $volunteer->gender->description }}</p>
+        <p><strong>Φύλο:</strong> {{ $volunteer->gender->description }}</p>
     </div>
     <div class="col-md-4">
-        <p>Email: {{ $volunteer->email=='' ? '-' : $volunteer->email }} @if ($volunteer->comm_method_id==1) <i class="fa fa-star" data-toggle="tooltip" title="Προτιμώμενος τρόπος επικοινωνίας"></i> @endif </p>
+        <p><strong>Email:</strong> {{ $volunteer->email=='' ? '-' : $volunteer->email }} @if ($volunteer->comm_method_id==1) <i class="fa fa-star" data-toggle="tooltip" title="Προτιμώμενος τρόπος επικοινωνίας"></i> @endif </p>
 
-        <p>Κινητό: {{ $volunteer->cell_tel=='' ? '-' : $volunteer->cell_tel }} @if ($volunteer->comm_method_id==4) <i class="fa fa-star" data-toggle="tooltip" title="Προτιμώμενος τρόπος επικοινωνίας"></i> @endif</p>
+        <p><strong>Κινητό:</strong> {{ $volunteer->cell_tel=='' ? '-' : $volunteer->cell_tel }} @if ($volunteer->comm_method_id==4) <i class="fa fa-star" data-toggle="tooltip" title="Προτιμώμενος τρόπος επικοινωνίας"></i> @endif</p>
 
-        <p>Τηλέφωνο εργασίας: {{ $volunteer->work_tel=='' ? '-' : $volunteer->work_tel
+        <p><strong>Τηλέφωνο εργασίας:</strong> {{ $volunteer->work_tel=='' ? '-' : $volunteer->work_tel
             }} @if ($volunteer->comm_method_id==3) <i class="fa fa-star" data-toggle="tooltip" title="Προτιμώμενος τρόπος επικοινωνίας"></i> @endif</p>
 
-        <p>Τηλέφωνο οικίας: {{ $volunteer->home_tel=='' ? '-' : $volunteer->home_tel }} @if ($volunteer->comm_method_id==2) <i class="fa fa-star" data-toggle="tooltip" title="Προτιμώμενος τρόπος επικοινωνίας"></i> @endif</p>
+        <p><strong>Τηλέφωνο οικίας:</strong> {{ $volunteer->home_tel=='' ? '-' : $volunteer->home_tel }} @if ($volunteer->comm_method_id==2) <i class="fa fa-star" data-toggle="tooltip" title="Προτιμώμενος τρόπος επικοινωνίας"></i> @endif</p>
 
-        <p>Φαξ: {{ $volunteer->fax=='' ? '-' : $volunteer->fax }}</p>
+        <p><strong>Φαξ:</strong> {{ $volunteer->fax=='' ? '-' : $volunteer->fax }}</p>
 
     </div>
     <div class="col-md-4">
-        <p>Διεύθυνση: {{ $volunteer->address=='' ? '-' : $volunteer->address }}{{
+        <p><strong>Διεύθυνση:</strong> {{ $volunteer->address=='' ? '-' : $volunteer->address }}{{
             $volunteer->city=='' ? '' : ', '.$volunteer->city }}{{ $volunteer->post_box==''
             ? '' : ', '.$volunteer->post_box }}{{ $volunteer->country=='' ? '' : ',
             '.$volunteer->country }}
         </p>
 
-        <p>Κάτοικος Ελλάδας: {{ $volunteer->live_in_curr_country=='' ? 'Όχι' : 'Ναι' }}</p>
+        <p><strong>Κάτοικος Ελλάδας:</strong> {{ $volunteer->live_in_curr_country=='' ? 'Όχι' : 'Ναι' }}</p>
 
-        <p>Τύπος ταυτότητας: {{ $volunteer->identificationType->description }}</p>
+        <p><strong>Τύπος ταυτότητας:</strong> {{ $volunteer->identificationType->description }}</p>
 
-        <p>Αριθμός Α.Δ.Τ./Διαβατηρίου/Άδειας Παραμονής: {{
+        <p><strong>Αριθμός Α.Δ.Τ./Διαβατηρίου/Άδειας Παραμονής:</strong> {{
             $volunteer->identification_num=='' ? '-' : $volunteer->identification_num }}</p>
     </div>
 </div>
@@ -59,19 +59,19 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-4">
-                                <p>Επίπεδο εκπαίδευσης: {{
+                                <p><strong>Επίπεδο εκπαίδευσης:</strong> {{
                                     $volunteer->educationLevel->description }}</p>
 
-                                <p>Ειδικότητα: {{ $volunteer->specialty=='' ? '-' :
+                                <p><strong>Ειδικότητα:</strong> {{ $volunteer->specialty=='' ? '-' :
                                     $volunteer->specialty }}</p>
 
-                                <p>Σχολή: {{ $volunteer->department=='' ? '-' :
+                                <p><strong>Σχολή:</strong> {{ $volunteer->department=='' ? '-' :
                                     $volunteer->department }}</p>
 
-                                <p>Δίπλωμα οδήγησης: {{
+                                <p><strong>Δίπλωμα οδήγησης:</strong> {{
                                     $volunteer->driverLicenceType->description }}</p>
 
-                                <p>Χρήση υπολογιστή: {{ $volunteer->computer_usage=='' ? 'Όχι' :
+                                <p><strong>Χρήση υπολογιστή:</strong> {{ $volunteer->computer_usage=='' ? 'Όχι' :
                                     'Ναι' }}</p>
                             </div>
                             <div class="col-md-4">
@@ -83,12 +83,12 @@
                                 @foreach($volunteer->languages as $language)
                                     <p>
                                         {{ $language->language->description }}:
-                                        Επίπεδο {{ $language->level->description }}
+                                        <em>Επίπεδο {{ $language->level->description }}</em>
                                     </p>
                                 @endforeach
                                 @endif
                                 @if($volunteer->extra_lang!=null || $volunteer->extra_lang!='')
-                                <p>Άλλες γλώσσες: {{ $volunteer->extra_lang }}</p>
+                                <p><strong>Άλλες γλώσσες:</strong> {{ $volunteer->extra_lang }}</p>
                                 @endif
                             </div>
                         </div>
@@ -111,21 +111,21 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <p>Εργασιακή κατάσταση: {{
+                                <p><strong>Εργασιακή κατάσταση:</strong> {{
                                     $volunteer->workStatus->description }}</p>
 
-                                <p>Εργασία: {{ $volunteer->work_description=='' ? '-' :
+                                <p><strong>Εργασία:</strong> {{ $volunteer->work_description=='' ? '-' :
                                     $volunteer->work_description }}</p>
 
-                                <p>Εθελοντική οργάνωση: {{ $volunteer->participation_actions=='' ?
+                                <p><strong>Εθελοντική οργάνωση:</strong> {{ $volunteer->participation_actions=='' ?
                                     '-' :
                                     $volunteer->participation_actions }}</p>
 
-                                <p>Εθελοντικές δράσεις: {{ $volunteer->participation_previous=='' ?
+                                <p><strong>Εθελοντικές δράσεις:</strong> {{ $volunteer->participation_previous=='' ?
                                     '-' :
                                     $volunteer->participation_previous }}</p>
 
-                                <p>Λόγος συμμετοχής: {{ $volunteer->participation_reason=='' ? '-' :
+                                <p><strong>Λόγος συμμετοχής:</strong> {{ $volunteer->participation_reason=='' ? '-' :
                                     $volunteer->participation_reason }}</p>
                             </div>
                         </div>
@@ -150,10 +150,10 @@
                             <div class="col-md-4">
                                 <h4>Διαθεσιμότητα</h4>
 
-                                <p>Συχνότητα συνεισφοράς: {{
+                                <p><strong>Συχνότητα συνεισφοράς:</strong> {{
                                     $volunteer->availabilityFrequencies->description }}</p>
 
-                                <p>Χρόνοι συνεισφοράς:
+                                <p><strong>Χρόνοι συνεισφοράς:</strong>
                                     @if($volunteer->availabilityTimes!=null ||
                                     sizeof($volunteer->availabilityTimes)!=0)
                                     @foreach($volunteer->availabilityTimes as $availabilityTime)
@@ -190,7 +190,6 @@
         <div class="panel panel-white">
             <div class="panel-body">
                 <h3>Comments</h3>
-
             </div>
         </div>
     </div>

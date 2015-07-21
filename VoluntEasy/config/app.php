@@ -199,6 +199,7 @@ return [
 		'View'      => 'Illuminate\Support\Facades\View',
         'Html'      => 'Illuminate\Html\HtmlFacade',
         'Form'      => 'Illuminate\Html\FormFacade',
+        'Carbon'      => 'Carbon\Carbon',
         'SoftDeletes' => 'Illuminate\Database\Eloquent\SoftDeletes',
         'Debugbar'  => 'Barryvdh\Debugbar\Facade',
         'ActionService' => 'App\Services\Facades\ActionService',

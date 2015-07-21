@@ -139,7 +139,6 @@ class VolunteerService {
         }
 
         return $volunteer;
-
     }
 
 
