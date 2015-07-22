@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Services\Facades\VolunteerService;
 use Faker\Factory;
@@ -26,7 +27,7 @@ class TestController extends Controller {
 
         //  return VolunteerService::volunteersByStatus(2);
 
-        return Volunteer::pending();
+        return Volunteer::skata();
 
         return '';
     }

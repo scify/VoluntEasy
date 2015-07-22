@@ -129,13 +129,15 @@ class VolunteerService {
                 if ($step->statuses[0]->status->description == 'Incomplete')
                     $incompleteCount++;
             }
-            if ($incompleteCount == 0)
-                 $unit->status = 'Available';
+            if ($incompleteCount == 0 && sizeof($volunteer->actions) == 0)
+                $unit->status = 'Available';
+            else if ($incompleteCount == 0 && sizeof($volunteer->actions) > 0) {
 
-            else
+                $unit->status = 'Active';
+            } else
                 $unit->status = 'Pending';
 
-         //   $unit->status = 'Pending';
+            //   $unit->status = 'Pending';
         }
 
         return $volunteer;
@@ -184,6 +186,49 @@ class VolunteerService {
         }
 
         return $volunteers;
+    }
+
+
+    /**
+     * Get the volunteer units and their actions,
+     * only if the user is assigned to any of the units' actions.
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function fullProfile($id) {
+
+
+        $volunteer = Volunteer::where('id', $id)
+            ->with('gender', 'identificationType', 'driverLicenceType',
+                    'educationLevel', 'languages.level', 'languages.language', '
+                    interests', 'workStatus', 'availabilityTimes', 'availabilityFrequencies', 'actions')
+            ->with(['units.steps.statuses' => function ($query) use ($id) {
+                $query->where('volunteer_id', $id)->with('status');
+            }])
+            ->with('units.children', 'units.actions')
+            ->first();
+
+
+        /*
+        $volunteer = Volunteer::where('id', $id)->has('actions')->first();
+
+        $actionIds = $volunteer->actions->lists('id');
+
+        $volunteer = Volunteer::where('id', $id)
+            ->with('gender', 'identificationType', 'driverLicenceType',
+                'educationLevel', 'languages.level', 'languages.language',
+                'interests', 'workStatus', 'availabilityTimes', 'availabilityFrequencies')
+            ->with(['units.actions' => function ($query) use ($actionIds) {
+                $query->whereIn('id', $actionIds);
+            }])
+            ->with('units.children')
+            ->with(['units.steps.statuses' => function ($query) use ($id) {
+                $query->where('volunteer_id', $id)->with('status');
+            }])
+            ->first();
+*/
+        return $volunteer;
     }
 
 

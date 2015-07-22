@@ -56,7 +56,6 @@
 			<div class="cd-timeline-content">
 				<h2>Title of section 5</h2>
 				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum.</p>
-                <img src="assets/images/crop.jpg" alt="">
 				<span class="cd-date">Feb 18</span>
 			</div> <!-- cd-timeline-content -->
 		</div> <!-- cd-timeline-block -->

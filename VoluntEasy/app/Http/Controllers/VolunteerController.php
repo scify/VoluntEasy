@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Requests\VolunteerRequest;
+use App\Models\Action;
 use App\Models\Descriptions\AvailabilityFrequencies;
 use App\Models\Descriptions\AvailabilityTime;
 use App\Models\Descriptions\CommunicationMethod;
@@ -182,7 +183,7 @@ class VolunteerController extends Controller {
      */
     public function show($id) {
         $volunteer = Volunteer::where('id', $id)->with('gender', 'identificationType', 'driverLicenceType',
-            'educationLevel', 'languages.level', 'languages.language', 'interests', 'workStatus', 'availabilityTimes', 'availabilityFrequencies')
+            'educationLevel', 'languages.level', 'languages.language', 'interests', 'workStatus', 'availabilityTimes', 'availabilityFrequencies', 'actions')
             ->where('id', $id)->with(['units.steps.statuses' => function ($query) use ($id) {
                 $query->where('volunteer_id', $id)->with('status');
             }])->with('units.children', 'units.actions')->first();
@@ -396,16 +397,15 @@ class VolunteerController extends Controller {
         return \Redirect::route('volunteer/one', ['id' => $id]);
     }
 
-
     /**
      * Add a volunteer to a unit
      * and also create the steps that are needed (status set to incomplete)
      *
-     * @param $id
+     * @return mixed
      */
     public function addToUnit() {
 
-        $unit = Unit::with('steps')->find(\Request::get('unit_id'));
+        $unit = Unit::with('steps')->find(\Request::get('assign_id'));
         $volunteer = Volunteer::with('steps.status')->find(\Request::get('volunteer_id'));
 
         //check if the steps already exist
@@ -426,6 +426,28 @@ class VolunteerController extends Controller {
 
             $unit->volunteers()->attach($volunteer);
         }
+
+        //also find the parent unit and remove the volunteer from it
+        if(\Request::get('parent_unit_id')!='') {
+            $parentUnit = Unit::find(\Request::get('parent_unit_id'));
+            $parentUnit->volunteers()->detach($volunteer->id);
+        }
+
+        return $volunteer->id;
+    }
+
+    /**
+     * Add a volunteer to a certain action
+     *
+     * @return mixed
+     */
+    public function addToAction() {
+
+        $action = Action::find(\Request::get('assign_id'));
+        $volunteer = Volunteer::find(\Request::get('volunteer_id'));
+
+        $action->volunteers()->attach($volunteer);
+
         return $volunteer->id;
     }
 

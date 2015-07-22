@@ -20,7 +20,7 @@
                             <a href="{{ url('volunteers/edit/'.$volunteer->id) }}" class="btn btn-success"><i
                                     class="fa fa-edit"></i> Επεξεργασία</a>
                             <a href="{{ url('volunteers/delete/'.$volunteer->id) }}" class="btn btn-danger"><i
-                                    class="fa fa-edit"></i> Διαγραφή</a>
+                                    class="fa fa-trash"></i> Διαγραφή</a>
                     </div>
                 </div>
                 <ul class="nav nav-tabs" role="tablist">

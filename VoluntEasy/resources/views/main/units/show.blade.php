@@ -24,7 +24,7 @@
                         <a href="{{ url('units/edit/'.$active->id) }}" class="btn btn-success"><i
                                 class="fa fa-edit"></i> Επεξεργασία</a>
                         <a href="{{ url('units/delete/'.$active->id) }}" class="btn btn-danger"><i
-                                class="fa fa-edit"></i> Διαγραφή</a>
+                                class="fa fa-trash"></i> Διαγραφή</a>
                     </div>
                     @endif
                 </div>

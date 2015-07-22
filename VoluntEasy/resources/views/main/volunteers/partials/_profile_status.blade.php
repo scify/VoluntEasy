@@ -21,7 +21,7 @@
                     <tr>
                         <th>Οργανωτική Μονάδα</th>
                         <th>Κατάσταση</th>
-                        <th>Ημ. Ισχύος</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -33,11 +33,27 @@
                             <span class="status pending">Υπό ένταξη</span>
                             @elseif($unit->status=='Available')
                             <span class="status available">Διαθέσιμος</span>
+                            @elseif($unit->status=='Active')
+                            <span class="status available">Ενεργός</span>
                             @else
-                             dsa
                             @endif
                         </td>
-                        <td></td>
+                        <td>
+                            @if($unit->status=='Active')
+                            @foreach($volunteer->actions as $action)
+                            @if($action->unit_id==$unit->id)
+                            <p>Δράση <strong><a href="{{ url('actions/one/'.$action->id) }}">{{ $action->description
+                                }}</a></strong><br/>
+                                <small>{{ $action->start_date }} - {{ $action->end_date }}</small>
+                            </p>
+                            <p>Δράση <strong><a href="{{ url('actions/one/'.$action->id) }}">{{ $action->description
+                                }}</a></strong><br/>
+                                <small>{{ $action->start_date }} - {{ $action->end_date }}</small>
+                            </p>
+                            @endif
+                            @endforeach
+                            @endif
+                        </td>
                     </tr>
                     @endforeach
                     </tbody>
@@ -62,15 +78,30 @@
                         <th>Βήμα 1</th>
                         <th>Βήμα 2</th>
                         <th>Βήμα 3</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
+
+                    {{-- For each volunteer unit, show its steps and their statuses --}}
+
                     @foreach($volunteer->units as $unit)
                     <tr>
                         <td>{{ $unit->description }}</td>
                         @foreach($unit->steps as $i => $step)
                         <td>
+
+                            @if($step->type=='Assignment')
+                            @if(sizeof($unit->children)>0)
+                            <span class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">Ανάθεση σε μονάδα</span>
+                            @elseif(sizeof($unit->actions)>0)
+                            <span class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">Ανάθεση σε δράση</span>
+                            @endif
+                            @else
                             <span class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">{{ $step->description }}</span>
+                            @endif
+
+
                             @if(($i==0 && $step->statuses[0]->status->description=='Incomplete') || ($i>0 &&
                             $unit->steps[$i-1]->statuses[0]->status->description=='Complete' &&
                             $step->statuses[0]->status->description=='Incomplete'))
@@ -78,7 +109,7 @@
                                     data-target="#step-{{ $step->statuses[0]->id }}">
                                 <i class="fa fa-2x fa-edit"></i>
                             </button>
-                            @elseif($step->statuses[0]->status->description=='Complete' && $step->type!='Assignment')
+                            @elseif($step->statuses[0]->status->description=='Complete')
                             <button type="button" class="btn btn-default btn-xs" data-toggle="modal"
                                     data-target="#step-{{ $step->statuses[0]->id }}">
                                 <i class="fa fa-2x fa-info-circle"></i>
@@ -88,6 +119,10 @@
 
                         </td>
                         @endforeach
+                        <td>
+                            <a href="{{url('/')}}" data-toggle="tooltip"
+                               data-placement="bottom" title="Αφαίρεση από τη μονάδα"><i class="fa fa-remove fa-2x"></i></a>
+                        </td>
                     </tr>
                     @endforeach
                     </tbody>
@@ -140,38 +175,51 @@
     //and complete step
     $(".assignToUnit").click(function () {
         var id = $(this).attr('data-id');
+        parent_unit_id = '';
+
+        //check if the assignment is to a unit or to an action
+        if ($('#unitSelect-' + id).length > 0) {
+            comments = $('#unitSelect-' + id + ' option:selected').text();
+            url = $("body").attr('data-url') + '/volunteers/addToUnit';
+            assign_id = $('#unitSelect-' + id).val();
+            parent_unit_id = $('#unitSelect-' + id).attr('data-parent');
+        }
+        else if ($('#actionSelect-' + id).length > 0) {
+            comments = $('#actionSelect-' + id + ' option:selected').text();
+            url = $("body").attr('data-url') + '/volunteers/addToAction';
+            assign_id = $('#actionSelect-' + id).val();
+        }
 
         var stepStatus = {
             'id': id,
-            'comments': '',
+            'comments': comments,
             'status': 'Complete'
         };
 
         $.when(changeStepStatus(stepStatus))
-                .then(function () {
-                    var data = {
-                        'volunteer_id': $(this).attr('data-volunteer-id'),
-                        'unit_id': $('#unitSelect').val()
+                .then(function (volunteer_id) {
+                    var step = {
+                        'volunteer_id': volunteer_id,
+                        'assign_id': assign_id,
+                        'parent_unit_id': parent_unit_id
                     };
 
                     $.ajax({
-                        url: $("body").attr('data-url') + '/volunteers/addToUnit',
+                        url: url,
                         method: 'POST',
-                        data: data,
+                        data: step,
                         headers: {
                             'X-CSRF-Token': $('meta[name="_token"]').attr('content')
                         },
                         success: function (data) {
-                            //    console.log(data);
-                            window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
+                            /* window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;*/
                         }
                     });
                 });
     });
 
+    //change the step status
     function changeStepStatus(stepStatus) {
-
-        console.log(stepStatus);
 
         return $.ajax({
             url: $("body").attr('data-url') + '/volunteers/stepStatus/update',

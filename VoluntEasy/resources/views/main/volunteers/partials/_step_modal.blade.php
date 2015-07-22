@@ -76,19 +76,32 @@
 
                 @elseif($step->type=='Assignment')
                 <!-- Assignment step -->
+                @if($step->statuses[0]->status->description=='Incomplete')
 
                 @if(sizeof($unit->children)>0)
-                    {!! Form::formInput('unitSelect', 'Ανάθεση στη μονάδα*:', $errors, ['class' => 'form-control',
-                    'type' => 'select', 'value' => $unit->children->lists('description', 'id')]) !!}
-                    <p class="text-right">
-                        <small><em>*Μπορείτε να αναθέσετε τον εθελοντή μόνο στις άμεσες υπομονάδες της μονάδας σας.</em>
-                        </small>
-                    </p>
+
+                {!! Form::formInput('', 'Ανάθεση στη μονάδα*:', $errors, ['class' => 'form-control',
+                'type' => 'select', 'id' => 'unitSelect-'.$step->statuses[0]->id, 'value' =>
+                $unit->children->lists('description', 'id'), 'data-parent' => $unit->id]) !!}
+                <p class="text-right">
+                    <small><em>*Μπορείτε να αναθέσετε τον εθελοντή μόνο στις άμεσες υπομονάδες της μονάδας σας.</em>
+                    </small>
+                </p>
+
                 @elseif(sizeof($unit->actions)>0)
 
                 {!! Form::formInput('actionSelect', 'Ανάθεση στη δράση:', $errors, ['class' => 'form-control',
-                'type' => 'select', 'value' => $unit->actions->lists('description', 'id')]) !!}
+                'type' => 'select', 'id' => 'actionSelect-'.$step->statuses[0]->id, 'value' =>
+                $unit->actions->lists('description', 'id')]) !!}
 
+                @endif
+                @else
+
+                @if(sizeof($unit->children)>0)
+                <p>Ανατέθηκε στη μονάδα <strong>{{ $step->statuses[0]->comments}}</strong>.</p>
+                @elseif(sizeof($unit->actions)>0)
+                <p>Ανατέθηκε στη δράση <strong>{{ $step->statuses[0]->comments}}</strong>.</p>
+                @endif
                 @endif
                 @endif
             </div>
@@ -99,12 +112,13 @@
                 <button type="button" class="btn btn-primary saveStep" data-id="{{ $step->statuses[0]->id }}">
                     Αποθήκευση
                 </button>
-                <button type="button" class="btn btn-success completeStep" data-id="{{ $step->statuses[0]->id }}">
+                <button type="button" class="btn btn-success completeStep" data-id="{{ $step->statuses[0]->id }}"
+                        data-type="{{ $step->type }}">
                     Ολοκλήρωση
                 </button>
                 @else
                 <button type="button" class="btn btn-success assignToUnit" data-id="{{ $step->statuses[0]->id }}"
-                        data-volunteer-id="{{ $volunteer->id }}">
+                        data-volunteer-id="{{ $volunteer->id }}" data-type="{{ $step->type }}">
                     Ολοκλήρωση
                 </button>
                 @endif
