@@ -127,10 +127,22 @@ class Volunteer extends User {
      * @return array
      */
     public function scopeAvailable() {
-        $volunteers = Volunteer::has('units.steps')->whereHas('steps.status', function ($query) {
-            $query->where('id', 1); //not ready, where count=3?
-        });
+        $tmp = Volunteer::has('units.steps')->whereHas('steps.status', function ($query) {
+            $query->where('id', 1);
+        })->whereDoesntHave('actions')->get();
 
+        $volunteers = [];
+        foreach ($tmp as $volunteer) {
+            foreach ($volunteer->units as $unit) {
+                $incompleteCount = 0;
+                foreach ($unit->steps as $step) {
+                    if ($step->statuses[0]->status->description == 'Incomplete')
+                        $incompleteCount++;
+                }
+                if ($incompleteCount == 0)
+                    array_push($volunteers, $volunteer);
+            }
+        }
         return $volunteers;
     }
 

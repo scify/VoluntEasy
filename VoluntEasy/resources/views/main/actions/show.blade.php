@@ -18,6 +18,15 @@
                 <div class="row">
                     <div class="col-md-8">
                         <h2 id="unitDescription">{{$action->description}}</h2>
+                        <p><small>
+                            @foreach($branch as $key => $unit)
+                            @if($key < sizeof($branch)-1)
+                            <a href="{{ url('units/one/'.$unit->id) }}">{{ $unit->description }}</a> <i class="fa fa-angle-right"></i>
+                            @else
+                            <a href="{{ url('units/one/'.$unit->id) }}">{{ $unit->description }}</a>
+                            @endif
+                            @endforeach
+                        </small> </p>
                     </div>
                     @if(in_array($action->unit->id, $userUnits))
                     <div class="col-md-4 text-right">

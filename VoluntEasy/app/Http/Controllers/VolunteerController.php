@@ -182,17 +182,13 @@ class VolunteerController extends Controller {
      * @return Response
      */
     public function show($id) {
-        $volunteer = Volunteer::where('id', $id)->with('gender', 'identificationType', 'driverLicenceType',
-            'educationLevel', 'languages.level', 'languages.language', 'interests', 'workStatus', 'availabilityTimes', 'availabilityFrequencies', 'actions')
-            ->where('id', $id)->with(['units.steps.statuses' => function ($query) use ($id) {
-                $query->where('volunteer_id', $id)->with('status');
-            }])->with('units.children', 'units.actions')->first();
+        $volunteer = VolunteerService::fullProfile($id);
 
 
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
 
 
-       // return $volunteer;
+      //  return $volunteer;
 
         return view("main.volunteers.show", compact('volunteer'));
     }
@@ -391,9 +387,10 @@ class VolunteerController extends Controller {
                 ]));
             }
             $volunteer->steps()->saveMany($steps);
-
-            $rootUnit->volunteers()->attach($id);
         }
+
+        $rootUnit->volunteers()->attach($id);
+
         return \Redirect::route('volunteer/one', ['id' => $id]);
     }
 
@@ -423,8 +420,6 @@ class VolunteerController extends Controller {
                 ]));
             }
             $volunteer->steps()->saveMany($steps);
-
-            $unit->volunteers()->attach($volunteer);
         }
 
         //also find the parent unit and remove the volunteer from it
@@ -432,6 +427,8 @@ class VolunteerController extends Controller {
             $parentUnit = Unit::find(\Request::get('parent_unit_id'));
             $parentUnit->volunteers()->detach($volunteer->id);
         }
+
+        $unit->volunteers()->attach($volunteer);
 
         return $volunteer->id;
     }

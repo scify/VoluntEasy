@@ -78,6 +78,11 @@ span.status.pending{
     color:#fff;
     background-color:#f2ca4c;
 }
+span.status.active{
+    padding:3px;
+    color:#fff;
+    background-color:#12AFCB;
+}
 
 /*** jOrgChart overrides ***/
 .jOrgChart .line{

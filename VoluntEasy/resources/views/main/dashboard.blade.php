@@ -13,7 +13,7 @@
                 <div class="panel info-box panel-white">
                             <div class="panel-body">
                                 <div class="info-box-stats">
-                                    <p class="counter"><a href="{{ url('volunteers/new') }}">{{ $newVolunteers }}</a></p>
+                                    <p class="counter"><a href="{{ url('volunteers/new') }}">{{ $new }}</a></p>
                                     <span class="info-box-title">ΥΠΟ ΕΝΤΑΞΗ ΕΘΕΛΟΝΤΕΣ</span>
                                 </div>
                                 <div class="info-box-icon">
@@ -39,7 +39,7 @@
                 <div class="panel info-box panel-white">
                     <div class="panel-body">
                         <div class="info-box-stats">
-                            <p class="counter">{{ $availableVolunteers }} / {{ $activeVolunteers }}</p>
+                            <p class="counter">{{ $available }} / {{ $active }}</p>
                             <span class="info-box-title">ΔΙΑΘΕΣΙΜΟΙ / ΕΝΕΡΓΟΙ ΕΘΕΛΟΝΤΕΣ</span>
                         </div>
                         <div class="info-box-icon">

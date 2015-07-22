@@ -34,16 +34,12 @@ class HomeController extends Controller
      */
     public function mainIndex()
     {
-        $availableVolunteers = Volunteer::all()->count();
-        $activeVolunteers = 0;
+        $available = Volunteer::available()->get()->count();
+        $active = Volunteer::active()->count();
+        $new = Volunteer::unassigned()->count();
         $actions = Action::all()->count();
 
-        $volunteers = Volunteer::unassigned();
-        $newVolunteers = 0;
-        if($volunteers!=null)
-            $newVolunteers = $volunteers->count();
-
-        return view('main.dashboard', compact('availableVolunteers', 'activeVolunteers', 'newVolunteers', 'actions'));
+        return view('main.dashboard', compact('available', 'active', 'new', 'actions'));
     }
 
 }

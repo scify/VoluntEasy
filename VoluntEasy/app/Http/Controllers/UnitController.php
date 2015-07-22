@@ -116,6 +116,8 @@ class UnitController extends Controller {
         $volunteerIds = VolunteerService::volunteerIds($active->volunteers);
 
 
+        $branch = UnitService::getBranchString($active);
+
         //if the request comes from ajax, return only a section of the needed code
         /* if (Request::ajax()) {
              $view = View::make('main.units.show')->with('active', $active);
@@ -123,7 +125,7 @@ class UnitController extends Controller {
          }
          */
 
-        return view("main.units.show", compact('active', 'actives', 'tree', 'type', 'volunteers', 'userUnits', 'volunteerIds'));
+        return view("main.units.show", compact('active', 'actives', 'tree', 'type', 'volunteers', 'userUnits', 'volunteerIds', 'branch'));
     }
 
     /**
@@ -171,7 +173,7 @@ class UnitController extends Controller {
      * @return Response
      */
     public function destroy($id) {
-        $unit = Unit::findOrFail($id)->with('actions', 'allChildren', 'users', 'volunteers');
+        $unit = Unit::with('actions', 'allChildren', 'users', 'volunteers')->findOrFail($id);
 
         //if the unit has actions, do not delete
         if (sizeof($unit->actions) > 0) {

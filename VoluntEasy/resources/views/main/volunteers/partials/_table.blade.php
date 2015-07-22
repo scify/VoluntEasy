@@ -6,7 +6,7 @@
         <th>Email</th>
         <th>Διεύθυνση</th>
         <th>Τηλέφωνο</th>
-        <th></th>
+        <th>Μονάδες</th>
         <th></th>
     </tr>
     </thead>
@@ -22,10 +22,20 @@
             @if($volunteer->city!=null || $volunteer->city!=""), {{ $volunteer->city }}@endif
             @if($volunteer->country!=null || $volunteer->country!=""), {{ $volunteer->country }}@endif
         </td>
-        <td>{{ $volunteer->tel }}</td>
+        <td>{{ $volunteer->cell_tel }}</td>
         <td>
             @if($root)
+            @if(sizeof($volunteer->units)==0)
             <a href="{{ url('volunteers/addToRootUnit/'.$volunteer->id) }}" class="btn btn-info">Ένταξη στη Μονάδα μου</a>
+            @else
+                @foreach($volunteer->units as $i => $unit)
+                    @if($i>0)
+                        , <a href="{{ url('units/one/'.$unit->id) }}">{{ $unit->description }}</a>
+                    @else
+                          <a href="{{ url('units/one/'.$unit->id) }}">{{ $unit->description }}</a>
+                    @endif
+                @endforeach
+            @endif
             @else
             <p>Επικοινωνήστε με τον αδμιν </p>
             @endif

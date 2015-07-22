@@ -1,6 +1,6 @@
 @if(sizeof($volunteer->units)==0)
 <div class="row">
-    <div class="col-12">
+    <div class="col-md-12">
         <div class="panel panel-default smallHeading">
             <div class="panel-body">
                 <h3>Ο εθελοντής δεν ανήκει σε καμία οργανωτική μονάδα ή δράση.</h3>
@@ -10,7 +10,7 @@
 </div>
 @else
 <div class="row">
-    <div class="col-12">
+    <div class="col-md-12">
         <div class="panel panel-default smallHeading">
             <div class="panel-heading ">
                 <h3 class="panel-title">Κατάσταση Εθελοντή</h3>
@@ -34,7 +34,7 @@
                             @elseif($unit->status=='Available')
                             <span class="status available">Διαθέσιμος</span>
                             @elseif($unit->status=='Active')
-                            <span class="status available">Ενεργός</span>
+                            <span class="status active">Ενεργός</span>
                             @else
                             @endif
                         </td>
@@ -42,10 +42,6 @@
                             @if($unit->status=='Active')
                             @foreach($volunteer->actions as $action)
                             @if($action->unit_id==$unit->id)
-                            <p>Δράση <strong><a href="{{ url('actions/one/'.$action->id) }}">{{ $action->description
-                                }}</a></strong><br/>
-                                <small>{{ $action->start_date }} - {{ $action->end_date }}</small>
-                            </p>
                             <p>Δράση <strong><a href="{{ url('actions/one/'.$action->id) }}">{{ $action->description
                                 }}</a></strong><br/>
                                 <small>{{ $action->start_date }} - {{ $action->end_date }}</small>
@@ -65,7 +61,7 @@
 
 
 <div class="row">
-    <div class="col-12">
+    <div class="col-md-12">
         <div class="panel panel-default smallHeading">
             <div class="panel-heading ">
                 <h3 class="panel-title">Εκκρεμότητες</h3>
@@ -154,7 +150,7 @@
             'status': 'Incomplete'
         };
 
-        changeStepStatus(stepStatus);
+        changeStepStatus(stepStatus, true);
 
     });
 
@@ -168,7 +164,7 @@
             'status': 'Complete'
         };
 
-        changeStepStatus(stepStatus);
+        changeStepStatus(stepStatus, true);
     });
 
     //assign volunteer to unit
@@ -196,7 +192,7 @@
             'status': 'Complete'
         };
 
-        $.when(changeStepStatus(stepStatus))
+        $.when(changeStepStatus(stepStatus, false))
                 .then(function (volunteer_id) {
                     var step = {
                         'volunteer_id': volunteer_id,
@@ -212,27 +208,36 @@
                             'X-CSRF-Token': $('meta[name="_token"]').attr('content')
                         },
                         success: function (data) {
-                            /* window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;*/
+                            window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
                         }
                     });
                 });
     });
 
     //change the step status
-    function changeStepStatus(stepStatus) {
+    function changeStepStatus(stepStatus, redirect) {
 
-        return $.ajax({
-            url: $("body").attr('data-url') + '/volunteers/stepStatus/update',
-            method: 'POST',
-            data: stepStatus,
-            headers: {
-                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-            },
-            success: function (data) {
-                //    console.log(data);
-                window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
-            }
-        });
+        if (redirect)
+            return $.ajax({
+                url: $("body").attr('data-url') + '/volunteers/stepStatus/update',
+                method: 'POST',
+                data: stepStatus,
+                headers: {
+                    'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+                },
+                success: function (data) {
+                    window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
+                }
+            });
+        else
+            return $.ajax({
+                url: $("body").attr('data-url') + '/volunteers/stepStatus/update',
+                method: 'POST',
+                data: stepStatus,
+                headers: {
+                    'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+                }
+            });
     }
 
 

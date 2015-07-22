@@ -18,6 +18,15 @@
                 <div class="row">
                     <div class="col-md-8">
                         <h2 id="unitDescription">{{$active->description}}</h2>
+                           <p><small>
+                               @foreach($branch as $i => $b)
+                                @if($i==0)
+                                    {{ $b }}
+                               @else
+                                    <i class="fa fa-angle-right"></i> {{ $b }}
+                               @endif
+                               @endforeach
+                           </small></p>
                     </div>
                     @if(in_array($active->id, $userUnits))
                     <div class="col-md-4 text-right">
@@ -86,7 +95,6 @@
 
 
 @include('main._modals._volunteers', ['volunteers' => $volunteers, 'active' => $active, 'volunteerIds' => $volunteerIds])
-
 
 
 @stop

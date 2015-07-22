@@ -1,7 +1,7 @@
 <?php namespace App\Services;
 
-use App\Models\Unit;
 use App\Models\Step as Step;
+use App\Models\Unit;
 use App\Services\Facades\SearchService as Search;
 use App\Services\Facades\UserService as UserServiceFacade;
 
@@ -47,6 +47,23 @@ class UnitService {
         $root = Unit::whereNull('parent_unit_id')->first();
 
         return $root;
+    }
+
+    /**
+     * Get the branhc of a unit in a string format
+     *
+     * @param $unit
+     * @return array
+     */
+    public function getBranchString($unit) {
+        $branchTmp = $this->getBranch($unit);
+
+
+        $branch = [];
+        foreach ($branchTmp as $i => $tmp) {
+          array_push($branch, $tmp->description);
+        }
+        return $branch;
     }
 
 
