@@ -52,6 +52,23 @@ class ActionController extends Controller {
      * @return Response
      */
     public function store(ActionRequest $request) {
+
+
+        //public function setStartDateTimeAttribute($value)
+        //{
+        //    $this->attributes['startDateTime'] = date("Y-m-d H:i:s", strtotime($value));
+        //}
+        //public function setEndDateTimeAttribute($value)
+        //{
+        //    $this->attributes['endDateTime'] = date("Y-m-d H:i:s", strtotime($value));
+        //}
+
+
+
+        //dd(\Carbon::createFromFormat('d/m/Y', $request->end_date)->toDateString());
+        //$request->end_date = \Carbon::createFromFormat('d/m/Y', $request->end_date)->toDateString();
+        $request['start_date'] = \Carbon::createFromFormat('d/m/Y', $request->start_date);
+        $request['end_date'] = \Carbon::createFromFormat('d/m/Y', $request->end_date);
         $action = Action::create($request->all());
 
         if ($request->ajax())
