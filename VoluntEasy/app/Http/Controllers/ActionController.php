@@ -75,7 +75,8 @@ class ActionController extends Controller {
         $volunteerIds = VolunteerService::volunteerIds($action->volunteers);
 
         //get all volunteers to show in select box
-        $volunteers = VolunteerService::permittedVolunteers();
+        $volunteers = VolunteerService::permittedAvailableVolunteers();
+       // $volunteers = VolunteerService::permittedVolunteers();
 
         $userUnits = UserService::userUnits();
 

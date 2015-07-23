@@ -185,11 +185,7 @@ class VolunteerController extends Controller {
     public function show($id) {
         $volunteer = VolunteerService::fullProfile($id);
 
-
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
-
-
-      / return $volunteer;
 
         return view("main.volunteers.show", compact('volunteer'));
     }
@@ -424,7 +420,7 @@ class VolunteerController extends Controller {
         }
 
         //also find the parent unit and remove the volunteer from it
-        if(\Request::get('parent_unit_id')!='') {
+        if (\Request::get('parent_unit_id') != '') {
             $parentUnit = Unit::find(\Request::get('parent_unit_id'));
             $parentUnit->volunteers()->detach($volunteer->id);
         }
@@ -458,28 +454,35 @@ class VolunteerController extends Controller {
      */
     public function updateStepStatus() {
 
-        $stepId = \Request::get('id');
+        $stepStatusId = \Request::get('id');
         $statusId = StepStatus::where('description', \Request::get('status'))->first()->id;
 
-        $stepStatus = VolunteerStepStatus::find($stepId);
+        $stepStatus = VolunteerStepStatus::find($stepStatusId);
         $stepStatus->comments = \Request::get('comments');
         $stepStatus->step_status_id = $statusId;
         $stepStatus->save();
 
         //if the last step is completed, then set the status of the volunteer to available
-        if(\Request::has('available') && \Request::get('available')){
+        if (\Request::has('available') && \Request::get('available')) {
 
             //retrieve the current unit with the volunteer
             //base on step id
-            $unit = Unit::with(['volunteers.steps' => function ($query) use ($stepId) {
-                $query->where('id', $stepId);
+            $volunteer = Volunteer::with(['unitsPivot.steps.statuses' => function ($query) use ($stepStatusId) {
+                $query->where('id', $stepStatusId);
             }])->first();
 
-            $unit = $unit->volunteers()->where('volunteer_id', $stepStatus->volunteer_id)->first();
+
+          //  return $volunteer;
+
+           // $unit = $unit->volunteers()->where('volunteer_id', $stepStatus->volunteer_id)->first();
 
             //set volunteer status to available and save
-            $unit->pivot->volunteer_status_id = VolunteerStatus::available();
-            $unit->pivot->save();
+            $volunteer->units[0]->pivot->volunteer_status_id = VolunteerStatus::available();
+            $volunteer->units[0]->pivot->save();
+
+           // return $volunteer->units[0]->pivot->save();
+
+
         }
 
         return $stepStatus->volunteer_id;

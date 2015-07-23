@@ -79,6 +79,11 @@ class Volunteer extends User {
         return $this->belongsToMany('App\Models\Unit', 'volunteer_unit_status');
     }
 
+    public function unitsPivot() {
+        return $this->belongsToMany('App\Models\Unit', 'volunteer_unit_status')->withPivot('volunteer_status_id');
+    }
+
+
     public function steps() {
         return $this->hasMany('App\Models\VolunteerStepStatus');
     }
@@ -110,20 +115,6 @@ class Volunteer extends User {
         })->get();
 
         return $volunteers;
-
-        //might be deleted
-       /* $volunteers = Volunteer::has('units')->get();
-        $array = [];
-        foreach ($volunteers as $volunteer) {
-            $id = $volunteer->id;
-            $tmp = Volunteer::where('id', $id)->with(['units.steps.statuses' => function ($query) use ($id) {
-                $query->where('volunteer_id', $id)->with('status');
-            }])->first();
-
-            if ($tmp != null)
-                array_push($array, $tmp);
-        }
-        return $array;*/
     }
 
     /**
@@ -131,34 +122,18 @@ class Volunteer extends User {
      *
      * @return array
      */
-    public function scopeAvailable() {
+    public function scopeAvailable($q, $permitted = null) {
 
-        $volunteers = Volunteer::whereHas('units', function ($query) {
-            $query->where('volunteer_status_id', VolunteerStatus::available());
-        })->whereDoesntHave('actions')->get();
+        if ($permitted==null)
+            $volunteers = Volunteer::whereHas('units', function ($query) {
+                $query->where('volunteer_status_id', VolunteerStatus::available());
+            })->whereDoesntHave('actions')->get();
+        else
+            $volunteers = Volunteer::whereIn('id', $permitted)->whereHas('units', function ($query) {
+                $query->where('volunteer_status_id', VolunteerStatus::available());
+            })->whereDoesntHave('actions')->get();
 
         return $volunteers;
-
-
-        /*
-        $tmp = Volunteer::has('units')->whereHas('steps.status', function ($query) {
-            $query->where('id', 1);
-        })->whereDoesntHave('actions')->get();
-
-        $volunteers = [];
-        foreach ($tmp as $volunteer) {
-            foreach ($volunteer->units as $unit) {
-                $incompleteCount = 0;
-                foreach ($unit->steps as $step) {
-                    if ($step->statuses[0]->status->description == 'Incomplete')
-                        $incompleteCount++;
-                }
-                if ($incompleteCount == 0)
-                    array_push($volunteers, $volunteer);
-            }
-        }
-        return $volunteers;
-        */
     }
 
     /**
@@ -168,16 +143,11 @@ class Volunteer extends User {
      */
     public function scopeActive() {
 
-       $volunteers = Volunteer::whereHas('units', function ($query) {
+        $volunteers = Volunteer::whereHas('units', function ($query) {
             $query->where('volunteer_status_id', VolunteerStatus::active());
         })->has('actions')->get();
 
         return $volunteers;
-
-        /*
-        $volunteers = Volunteer::has('actions');
-
-        return $volunteers;*/
     }
 
     /**

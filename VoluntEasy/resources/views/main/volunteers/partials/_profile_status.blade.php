@@ -199,7 +199,7 @@
                         'parent_unit_id': parent_unit_id
                     };
 
-                    $.ajax({
+                   $.ajax({
                         url: url,
                         method: 'POST',
                         data: step,
@@ -207,7 +207,7 @@
                             'X-CSRF-Token': $('meta[name="_token"]').attr('content')
                         },
                         success: function (data) {
-                            window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
+                           window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
                         }
                     });
 
