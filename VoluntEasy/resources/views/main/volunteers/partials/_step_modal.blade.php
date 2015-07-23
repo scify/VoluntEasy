@@ -78,8 +78,12 @@
                 <!-- Assignment step -->
                 @if($step->statuses[0]->status->description=='Incomplete')
 
-                @if(sizeof($unit->children)>0)
+                @if(sizeof($unit->actions)>0)
 
+                {!! Form::formInput('actionSelect', 'Ανάθεση στη δράση:', $errors, ['class' => 'form-control',
+                'type' => 'select', 'id' => 'actionSelect-'.$step->statuses[0]->id, 'value' =>
+                $unit->actions->lists('description', 'id')]) !!}
+                @else
                 {!! Form::formInput('', 'Ανάθεση στη μονάδα*:', $errors, ['class' => 'form-control',
                 'type' => 'select', 'id' => 'unitSelect-'.$step->statuses[0]->id, 'value' =>
                 $unit->children->lists('description', 'id'), 'data-parent' => $unit->id]) !!}
@@ -87,12 +91,6 @@
                     <small><em>*Μπορείτε να αναθέσετε τον εθελοντή μόνο στις άμεσες υπομονάδες της μονάδας σας.</em>
                     </small>
                 </p>
-
-                @elseif(sizeof($unit->actions)>0)
-
-                {!! Form::formInput('actionSelect', 'Ανάθεση στη δράση:', $errors, ['class' => 'form-control',
-                'type' => 'select', 'id' => 'actionSelect-'.$step->statuses[0]->id, 'value' =>
-                $unit->actions->lists('description', 'id')]) !!}
 
                 @endif
                 @else

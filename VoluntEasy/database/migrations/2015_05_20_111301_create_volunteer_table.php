@@ -127,6 +127,8 @@ class CreateVolunteerTable extends Migration {
             $table->increments('id');
             $table->integer('action_id')->unsigned();
             $table->foreign('action_id')->references('id')->on('actions');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
             $table->timestamps();
@@ -259,6 +261,7 @@ class CreateVolunteerTable extends Migration {
     public function down() {
         Schema::dropIfExists('volunteer_unit_history');
         Schema::dropIfExists('volunteer_unit_status');
+        Schema::dropIfExists('actions_volunteers_history');
         // Schema::dropIfExists('volunteer_action_history');
         // Schema::dropIfExists('volunteer_action_status');
         Schema::dropIfExists('volunteer_statuses');

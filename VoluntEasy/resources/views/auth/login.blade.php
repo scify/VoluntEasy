@@ -3,7 +3,7 @@
 <html>
     <head>
         <!-- Title -->
-        <title>{{trans('default.title')}} | {{trans($lang.'logIn')}} </title>
+        <title>{{trans($lang.'title')}}| {{trans($lang.'logIn')}} </title>
 
         @include('template.default.headerIncludes')
     </head>

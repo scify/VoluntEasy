@@ -34,7 +34,7 @@ class HomeController extends Controller
      */
     public function mainIndex()
     {
-        $available = Volunteer::available()->get()->count();
+        $available = Volunteer::available()->count();
         $active = Volunteer::active()->count();
         $new = Volunteer::unassigned()->count();
         $actions = Action::all()->count();
