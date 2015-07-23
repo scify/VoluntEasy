@@ -27,7 +27,9 @@ class TestController extends Controller {
 
         //  return VolunteerService::volunteersByStatus(2);
 
-        return Volunteer::skata();
+        $vol = Volunteer::available();
+
+        return $vol;
 
         return '';
     }

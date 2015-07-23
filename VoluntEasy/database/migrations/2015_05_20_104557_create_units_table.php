@@ -55,6 +55,7 @@ class CreateUnitsTable extends Migration {
 			$table->foreign('unit_id')->references('id')->on('units');
 			$table->string('description', 300);
 			$table->string('comments', 300)->nullable();
+            $table->string('type');
 			$table->smallInteger('step_order');
             $table->timestamps();
             $table->softDeletes();

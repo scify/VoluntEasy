@@ -15,6 +15,7 @@ use App\Models\Descriptions\Language;
 use App\Models\Descriptions\LanguageLevel;
 use App\Models\Descriptions\MaritalStatus;
 use App\Models\Descriptions\StepStatus;
+use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Descriptions\WorkStatus;
 use App\Models\Unit;
 use App\Models\Volunteer;
@@ -188,7 +189,7 @@ class VolunteerController extends Controller {
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
 
 
-      //  return $volunteer;
+      / return $volunteer;
 
         return view("main.volunteers.show", compact('volunteer'));
     }
@@ -389,7 +390,7 @@ class VolunteerController extends Controller {
             $volunteer->steps()->saveMany($steps);
         }
 
-        $rootUnit->volunteers()->attach($id);
+        $rootUnit->volunteers()->attach($volunteer, ['volunteer_status_id' => VolunteerStatus::pending()]);
 
         return \Redirect::route('volunteer/one', ['id' => $id]);
     }
@@ -428,7 +429,7 @@ class VolunteerController extends Controller {
             $parentUnit->volunteers()->detach($volunteer->id);
         }
 
-        $unit->volunteers()->attach($volunteer);
+        $unit->volunteers()->attach($volunteer, ['volunteer_status_id' => VolunteerStatus::pending()]);
 
         return $volunteer->id;
     }
@@ -448,17 +449,40 @@ class VolunteerController extends Controller {
         return $volunteer->id;
     }
 
+    /**
+     * For a current step, set the status to available.
+     * If the current step is the last step (we assume assignment right now),
+     * then also change the volunteer's unit's status to available.
+     *
+     * @return mixed
+     */
     public function updateStepStatus() {
 
+        $stepId = \Request::get('id');
         $statusId = StepStatus::where('description', \Request::get('status'))->first()->id;
 
-        $stepStatus = VolunteerStepStatus::find(\Request::get('id'));
+        $stepStatus = VolunteerStepStatus::find($stepId);
         $stepStatus->comments = \Request::get('comments');
         $stepStatus->step_status_id = $statusId;
         $stepStatus->save();
 
-        return $stepStatus->volunteer_id;
+        //if the last step is completed, then set the status of the volunteer to available
+        if(\Request::has('available') && \Request::get('available')){
 
+            //retrieve the current unit with the volunteer
+            //base on step id
+            $unit = Unit::with(['volunteers.steps' => function ($query) use ($stepId) {
+                $query->where('id', $stepId);
+            }])->first();
+
+            $unit = $unit->volunteers()->where('volunteer_id', $stepStatus->volunteer_id)->first();
+
+            //set volunteer status to available and save
+            $unit->pivot->volunteer_status_id = VolunteerStatus::available();
+            $unit->pivot->save();
+        }
+
+        return $stepStatus->volunteer_id;
     }
 
 }

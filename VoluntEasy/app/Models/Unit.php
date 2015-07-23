@@ -32,9 +32,8 @@ class Unit extends Model {
     }
 
     public function volunteers() {
-        return $this->belongsToMany('App\Models\Volunteer', 'units_volunteers');
+        return $this->belongsToMany('App\Models\Volunteer', 'volunteer_unit_status');
     }
-
 
     /**
      * Get the unit's parent unit

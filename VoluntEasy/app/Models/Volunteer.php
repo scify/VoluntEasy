@@ -1,6 +1,8 @@
 <?php namespace App\Models;
 
 
+use App\Models\Descriptions\VolunteerStatus;
+
 class Volunteer extends User {
 
     /**
@@ -74,7 +76,7 @@ class Volunteer extends User {
     }
 
     public function units() {
-        return $this->belongsToMany('App\Models\Unit', 'units_volunteers');
+        return $this->belongsToMany('App\Models\Unit', 'volunteer_unit_status');
     }
 
     public function steps() {
@@ -98,18 +100,22 @@ class Volunteer extends User {
 
     /**
      * Get pending volunteers.
-     * To be refactored, don't judge me.
      *
      * @return mixed
      */
     public function scopePending() {
-        $volunteers = Volunteer::has('units')->get();
 
+        $volunteers = Volunteer::whereHas('units', function ($query) {
+            $query->where('volunteer_status_id', VolunteerStatus::pending());
+        })->get();
+
+        return $volunteers;
+
+        //might be deleted
+       /* $volunteers = Volunteer::has('units')->get();
         $array = [];
-
         foreach ($volunteers as $volunteer) {
             $id = $volunteer->id;
-
             $tmp = Volunteer::where('id', $id)->with(['units.steps.statuses' => function ($query) use ($id) {
                 $query->where('volunteer_id', $id)->with('status');
             }])->first();
@@ -117,8 +123,7 @@ class Volunteer extends User {
             if ($tmp != null)
                 array_push($array, $tmp);
         }
-
-        return $array;
+        return $array;*/
     }
 
     /**
@@ -127,7 +132,16 @@ class Volunteer extends User {
      * @return array
      */
     public function scopeAvailable() {
-        $tmp = Volunteer::has('units.steps')->whereHas('steps.status', function ($query) {
+
+        $volunteers = Volunteer::whereHas('units', function ($query) {
+            $query->where('volunteer_status_id', VolunteerStatus::available());
+        })->whereDoesntHave('actions')->get();
+
+        return $volunteers;
+
+
+        /*
+        $tmp = Volunteer::has('units')->whereHas('steps.status', function ($query) {
             $query->where('id', 1);
         })->whereDoesntHave('actions')->get();
 
@@ -144,6 +158,7 @@ class Volunteer extends User {
             }
         }
         return $volunteers;
+        */
     }
 
     /**
@@ -152,9 +167,17 @@ class Volunteer extends User {
      * @return mixed
      */
     public function scopeActive() {
-        $volunteers = Volunteer::has('actions');
+
+       $volunteers = Volunteer::whereHas('units', function ($query) {
+            $query->where('volunteer_status_id', VolunteerStatus::active());
+        })->has('actions')->get();
 
         return $volunteers;
+
+        /*
+        $volunteers = Volunteer::has('actions');
+
+        return $volunteers;*/
     }
 
     /**

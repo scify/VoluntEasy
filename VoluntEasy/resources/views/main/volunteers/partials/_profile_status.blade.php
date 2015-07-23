@@ -86,17 +86,15 @@
                         <td>{{ $unit->description }}</td>
                         @foreach($unit->steps as $i => $step)
                         <td>
-
                             @if($step->type=='Assignment')
-                            @if(sizeof($unit->children)>0)
-                            <span class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">Ανάθεση σε μονάδα</span>
-                            @elseif(sizeof($unit->actions)>0)
+                            @if(sizeof($unit->actions)>0)
                             <span class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">Ανάθεση σε δράση</span>
+                            @else
+                            <span class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">Ανάθεση σε μονάδα</span>
                             @endif
                             @else
                             <span class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">{{ $step->description }}</span>
                             @endif
-
 
                             @if(($i==0 && $step->statuses[0]->status->description=='Incomplete') || ($i>0 &&
                             $unit->steps[$i-1]->statuses[0]->status->description=='Complete' &&
@@ -189,7 +187,8 @@
         var stepStatus = {
             'id': id,
             'comments': comments,
-            'status': 'Complete'
+            'status': 'Complete',
+            'available': true
         };
 
         $.when(changeStepStatus(stepStatus, false))
@@ -211,6 +210,7 @@
                             window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
                         }
                     });
+
                 });
     });
 
