@@ -35,8 +35,8 @@ class CreateUnitsTable extends Migration {
 			$table->string('description', 300);
 			$table->string('comments', 300);
             $table->string('email')->nullable();
-            $table->timestamp('start_date');
-			$table->timestamp('end_date');
+            $table->date('start_date');
+			$table->date('end_date');
 			$table->timestamps();
 			$table->softDeletes();
 		});
