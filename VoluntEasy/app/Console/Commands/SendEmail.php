@@ -40,15 +40,36 @@ class SendEmail extends Command {
 	 */
 	public function fire()
 	{
-        //$end_date = \DB::table('actions')->select('end_date')->get();
-        $end_dates = Action::where('end_date', '>', Carbon::now()->addDays(7));
-        //dd($end_dates);
+        /*
+         * MAIL
+        */
 
+        /* Get all end dates from actions table. */
+        /* TODO: check where() clause to check date. */
+        $end_dates = \DB::table('actions')->select('end_date', 'description')->get();
 
-        foreach($end_dates as $action_end_date)
-        {
+        $week_check = Carbon::now()->addDays(7)->format('Y-m-d');
+        $date_now = Carbon::now()->format('Y-m-d');
 
-            dd($action_end_date);
+        /* TODO: Use `continue;` to check if action->end_date < date(now) */
+        foreach($end_dates as $action_end_date) {
+            /* Find if an action end_date has already passed. If yes, do nothing.
+             * If not, check if action ends in 7 days to fire mail questionnaires
+             * to volunteers */
+            if ($date_now > $action_end_date->end_date) {
+                /* debug msg. */
+                echo $action_end_date->description . " found a past action\n";
+                continue;
+            } else {
+                if (strcmp($action_end_date->end_date, $week_check) === 0) {
+                    /* debug msg. TODO: remove. */
+                    echo $action_end_date->end_date . " dates match for action " . $action_end_date->description ."\n";
+                } else {
+                    /* debug msg. TODO: remove. */
+                    echo $action_end_date->end_date . " dates do not match for action " . $action_end_date->description . "\n";
+                    /* continue; */
+                }
+            }
         }
 
         /* Test: get all volunteers and parse emails with var_dump. */
