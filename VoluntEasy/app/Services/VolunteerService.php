@@ -105,10 +105,17 @@ class VolunteerService {
         $volunteers = $this->permittedVolunteers();
         $permittedVolunteersIds = [];
 
-        foreach ($volunteers as $volunteer)
-            array_push($permittedVolunteersIds, $volunteer->id);
+        foreach ($volunteers as $i => $volunteer)
+            $permittedVolunteersIds[$i] = intval($volunteer->id);
 
         return $permittedVolunteersIds;
+    }
+
+    public function permittedAvailableVolunteers() {
+       //dd($this->permittedVolunteersIds());
+
+        $volunteers = Volunteer::available($this->permittedVolunteersIds());
+        return $volunteers;
     }
 
 
@@ -201,14 +208,29 @@ class VolunteerService {
 
         $volunteer = Volunteer::where('id', $id)
             ->with('gender', 'identificationType', 'driverLicenceType',
-                    'educationLevel', 'languages.level', 'languages.language',
-                    'interests', 'workStatus', 'availabilityTimes', 'availabilityFrequencies', 'actions')
+                'educationLevel', 'languages.level', 'languages.language',
+                'interests', 'workStatus', 'availabilityTimes', 'availabilityFrequencies', 'actions')
             ->with(['units.steps.statuses' => function ($query) use ($id) {
                 $query->where('volunteer_id', $id)->with('status');
             }])
             ->with('units.children', 'units.actions')
             ->first();
 
+
+        //this is basically a hack.
+        //in the front end we want to display a list of the available units
+        //that the volunteer can be assigned to, that is the unit's children + the unit itself.
+        //so we create an array holding all the units info.
+        foreach ($volunteer->units as $unit) {
+            $children = [];
+
+            $children[$unit->id] = $unit->description;
+
+            foreach ($unit->children as $child) {
+                $children[$child->id] = $child->description;
+            }
+            $unit->availableUnits = $children;
+        }
 
         /*
         $volunteer = Volunteer::where('id', $id)->has('actions')->first();

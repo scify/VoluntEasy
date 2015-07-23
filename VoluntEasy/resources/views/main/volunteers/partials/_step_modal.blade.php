@@ -85,8 +85,7 @@
                 $unit->actions->lists('description', 'id')]) !!}
                 @else
                 {!! Form::formInput('', 'Ανάθεση στη μονάδα*:', $errors, ['class' => 'form-control',
-                'type' => 'select', 'id' => 'unitSelect-'.$step->statuses[0]->id, 'value' =>
-                $unit->children->lists('description', 'id'), 'data-parent' => $unit->id]) !!}
+                'type' => 'select', 'id' => 'unitSelect-'.$step->statuses[0]->id, 'value' =>$unit->availableUnits, 'data-parent' => $unit->id]) !!}
                 <p class="text-right">
                     <small><em>*Μπορείτε να αναθέσετε τον εθελοντή μόνο στις άμεσες υπομονάδες της μονάδας σας.</em>
                     </small>
