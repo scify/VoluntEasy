@@ -15,9 +15,7 @@ use App\Models\Descriptions\Language;
 use App\Models\Descriptions\LanguageLevel;
 use App\Models\Descriptions\MaritalStatus;
 use App\Models\Descriptions\StepStatus;
-use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Descriptions\WorkStatus;
-use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Models\VolunteerAvailabilityTime;
 use App\Models\VolunteerLanguage;
@@ -187,6 +185,8 @@ class VolunteerController extends Controller {
 
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
 
+        //return $volunteer;
+
         return view("main.volunteers.show", compact('volunteer'));
     }
 
@@ -314,7 +314,6 @@ class VolunteerController extends Controller {
                 ]);
 
                 array_push($languages_array, $volLanguage);
-            } else {
             }
         }
         $volunteer->languages()->saveMany($languages_array);
@@ -358,37 +357,17 @@ class VolunteerController extends Controller {
 
     /**
      * Add a volunteer to the root unit
-     * and also create the steps that are needed (status set to incomplete)
+     * when the user is admin.
      *
      * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function addToRootUnit($id) {
 
-        $rootUnit = UnitService::getRoot();
-        $rootUnit->load('steps');
-
-        $volunteer = Volunteer::where('id', $id)->with('steps.status')->first();
-
-        //check if the steps already exist
-        if (sizeof(array_diff($rootUnit->steps->lists('id'), $volunteer->steps->lists('step_id')))) {
-
-            $incompleteStatus = StepStatus::where('description', 'Incomplete')->first();
-
-            //for each step of the unit, create a step, set its status to incomplete
-            //and assign to volunteer
-            $steps = [];
-            foreach ($rootUnit->steps as $step) {
-                array_push($steps, new VolunteerStepStatus([
-                    'step_id' => $step->id,
-                    'step_status_id' => $incompleteStatus->id
-                ]));
-            }
-            $volunteer->steps()->saveMany($steps);
-        }
-
-        $rootUnit->volunteers()->attach($volunteer, ['volunteer_status_id' => VolunteerStatus::pending()]);
-
-        return \Redirect::route('volunteer/one', ['id' => $id]);
+        if (VolunteerService::addToRouteUnit($id))
+            return \Redirect::route('volunteer/one', ['id' => $id]);
+        else
+            return response()->view('errors.550', [], 550);
     }
 
     /**
@@ -399,35 +378,11 @@ class VolunteerController extends Controller {
      */
     public function addToUnit() {
 
-        $unit = Unit::with('steps')->find(\Request::get('assign_id'));
-        $volunteer = Volunteer::with('steps.status')->find(\Request::get('volunteer_id'));
+        $unitId = \Request::get('assign_id');
+        $parentUnitId = \Request::get('parent_unit_id');
+        $volunteerId = \Request::get('volunteer_id');
 
-        //check if the steps already exist
-        if (sizeof(array_diff($unit->steps->lists('id'), $volunteer->steps->lists('step_id')))) {
-
-            $incompleteStatus = StepStatus::where('description', 'Incomplete')->first();
-
-            //for each step of the unit, create a step, set its status to incomplete
-            //and assign to volunteer
-            $steps = [];
-            foreach ($unit->steps as $step) {
-                array_push($steps, new VolunteerStepStatus([
-                    'step_id' => $step->id,
-                    'step_status_id' => $incompleteStatus->id
-                ]));
-            }
-            $volunteer->steps()->saveMany($steps);
-        }
-
-        //also find the parent unit and remove the volunteer from it
-        if (\Request::get('parent_unit_id') != '') {
-            $parentUnit = Unit::find(\Request::get('parent_unit_id'));
-            $parentUnit->volunteers()->detach($volunteer->id);
-        }
-
-        $unit->volunteers()->attach($volunteer, ['volunteer_status_id' => VolunteerStatus::pending()]);
-
-        return $volunteer->id;
+        return VolunteerService::addToUnit($unitId, $parentUnitId, $volunteerId);
     }
 
     /**
@@ -446,44 +401,17 @@ class VolunteerController extends Controller {
     }
 
     /**
-     * For a current step, set the status to available.
-     * If the current step is the last step (we assume assignment right now),
-     * then also change the volunteer's unit's status to available.
+     * Update the step status to the given status (Complete, Incomplete)
      *
      * @return mixed
      */
     public function updateStepStatus() {
 
         $stepStatusId = \Request::get('id');
-        $statusId = StepStatus::where('description', \Request::get('status'))->first()->id;
+        $status = \Request::get('status');
+        $comments = \Request::get('comments');
 
-        $stepStatus = VolunteerStepStatus::find($stepStatusId);
-        $stepStatus->comments = \Request::get('comments');
-        $stepStatus->step_status_id = $statusId;
-        $stepStatus->save();
-
-        //if the last step is completed, then set the status of the volunteer to available
-        if (\Request::has('available') && \Request::get('available')) {
-
-            //retrieve the current unit with the volunteer
-            //base on step id
-            $volunteer = Volunteer::with(['unitsPivot.steps.statuses' => function ($query) use ($stepStatusId) {
-                $query->where('id', $stepStatusId);
-            }])->first();
-
-
-          //  return $volunteer;
-
-           // $unit = $unit->volunteers()->where('volunteer_id', $stepStatus->volunteer_id)->first();
-
-            //set volunteer status to available and save
-            $volunteer->units[0]->pivot->volunteer_status_id = VolunteerStatus::available();
-            $volunteer->units[0]->pivot->save();
-
-           // return $volunteer->units[0]->pivot->save();
-
-
-        }
+        $stepStatus = VolunteerService::updateStepStatus($stepStatusId, $status, $comments);
 
         return $stepStatus->volunteer_id;
     }

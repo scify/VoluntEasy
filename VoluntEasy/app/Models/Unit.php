@@ -12,8 +12,6 @@ class Unit extends Model {
     protected $fillable = ['description', 'comments', 'level',
         'user_id', 'parent_unit_id', 'start_date', 'end_date'];
 
-    public $status = '';
-
     /**
      * Retrieve the users associated with the unit
      *

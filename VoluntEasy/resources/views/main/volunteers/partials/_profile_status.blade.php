@@ -187,8 +187,7 @@
         var stepStatus = {
             'id': id,
             'comments': comments,
-            'status': 'Complete',
-            'available': true
+            'status': 'Complete'
         };
 
         $.when(changeStepStatus(stepStatus, false))

@@ -59,8 +59,12 @@
                 'stepTextarea-'.$step->statuses[0]->id, 'value' => $step->statuses[0]->comments]) !!}
                 @else
                 <h4>Σχόλια:</h4>
-                {{ $step->statuses[0]->comments }}
-                @endif
+                     @if($step->statuses[0]->comments==null || $step->statuses[0]->comments=='')
+                     <p>-</p>
+                     @else
+                    <p>{{ $step->statuses[0]->comments }}</p>
+                    @endif
+                    @endif
 
                 @elseif($step->type=='Interview')
                 <!-- Interview step -->
@@ -71,7 +75,11 @@
                 'stepTextarea-'.$step->statuses[0]->id, 'value' => $step->statuses[0]->comments]) !!}
                 @else
                 <h4>Σχόλια:</h4>
-                {{ $step->statuses[0]->comments }}
+                    @if($step->statuses[0]->comments==null || $step->statuses[0]->comments=='')
+                     <p>-</p>
+                    @else
+                    <p>{{ $step->statuses[0]->comments }}</p>
+                    @endif
                 @endif
 
                 @elseif($step->type=='Assignment')
@@ -93,11 +101,10 @@
 
                 @endif
                 @else
-
-                @if(sizeof($unit->children)>0)
-                <p>Ανατέθηκε στη μονάδα <strong>{{ $step->statuses[0]->comments}}</strong>.</p>
-                @elseif(sizeof($unit->actions)>0)
+                @if(sizeof($unit->actions)>0)
                 <p>Ανατέθηκε στη δράση <strong>{{ $step->statuses[0]->comments}}</strong>.</p>
+                @else
+                <p>Ανατέθηκε στη μονάδα <strong>{{ $step->statuses[0]->comments}}</strong>.</p>
                 @endif
                 @endif
                 @endif
