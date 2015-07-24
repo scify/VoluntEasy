@@ -125,6 +125,10 @@ class VolunteerController extends Controller {
             'comments' => intval(\Input::get('comments')),
         ));
 
+        /* Solve mySql problem regarding date format. Postgres works fine, while mySql stores date
+         * as 0000-00-00. Solve using Carbon. */
+        $volunteer->birth_date = \Carbon::createFromFormat('d/m/Y', $volunteer->birth_date)->toDateString();
+
         $volunteer->save();
 
         $unit = UnitService::getRoot();

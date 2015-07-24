@@ -262,17 +262,17 @@ class CreateVolunteerTable extends Migration {
     public function down() {
         Schema::dropIfExists('volunteer_unit_history');
         Schema::dropIfExists('volunteer_unit_status');
-        Schema::dropIfExists('actions_volunteers_history');
         // Schema::dropIfExists('volunteer_action_history');
         // Schema::dropIfExists('volunteer_action_status');
-        Schema::dropIfExists('volunteer_statuses');
         Schema::dropIfExists('volunteer_step_history');
         Schema::dropIfExists('volunteer_step_status');
+        Schema::dropIfExists('volunteer_statuses');
         Schema::dropIfExists('volunteer_languages');
         Schema::dropIfExists('language_levels');
         Schema::dropIfExists('languages');
         Schema::dropIfExists('volunteer_interests');
         Schema::dropIfExists('interests');
+        Schema::dropIfExists('actions_volunteers_history');
         Schema::dropIfExists('actions_volunteers');
         Schema::dropIfExists('units_volunteers');
         Schema::dropIfExists('volunteer_availability_times');
