@@ -95,7 +95,7 @@
                                         <li role="presentation" class="divider"></li>
                                         <li role="presentation"><a href="template%20parts/lock-screen.html"><i class="fa fa-lock"></i>{{trans($lang.'lockScreen')}}</a>
                                         </li>
-                                        <li role="presentation"><a href="template%20parts/login.html"><i class="fa fa-sign-out m-r-xs"></i>{{trans($lang.'logOut')}}</a></li>
+                                        <li role="presentation"><a href="{!! url('auth/logout') !!}"><i class="fa fa-sign-out m-r-xs"></i>{{trans($lang.'logOut')}}</a></li>
                                     </ul>
                                 </li>
                                 <!---/Profile--->
