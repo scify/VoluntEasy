@@ -44,6 +44,10 @@
                     </div>
                     <div class="tab-pane fade in" id="tab2">
                         @include('main.volunteers.partials._profile_status')
+                        @include('main.volunteers.partials._profile_pending')
+                        @if($available>0)
+                        @include('main.volunteers.partials._profile_available')
+                        @endif
                     </div>
                     <div class="tab-pane fade in" id="tab3" style="background-color: rgb(233, 237, 242);">
                         @include('main.volunteers.partials._timeline')

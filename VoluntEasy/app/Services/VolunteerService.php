@@ -1,11 +1,14 @@
 <?php namespace App\Services;
 
+use App\Models\Descriptions\StepStatus;
 use App\Models\Descriptions\VolunteerStatus;
+use App\Models\Unit;
 use App\Models\User;
 use App\Models\Volunteer;
+use App\Models\VolunteerStepStatus;
 use App\Services\Facades\SearchService as Search;
 use App\Services\Facades\UnitService as UnitServiceFacade;
-use App\Services\Facades\UserService;
+use App\Services\Facades\UserService as UserServiceFacade;
 
 class VolunteerService {
 
@@ -178,9 +181,7 @@ class VolunteerService {
                 $volunteers = Volunteer::active()->lists('id');
                 break;
             case '4':
-                $volunteers = Volunteer::whereHas('steps.status', function ($query) {
-                    $query->where('id', 4);
-                })->lists('id');
+                $volunteers = Volunteer::blacklisted();
                 break;
             case '5':
                 $volunteers = Volunteer::unassigned()->lists('id');
@@ -200,7 +201,6 @@ class VolunteerService {
      */
     public function fullProfile($id) {
 
-
         $volunteer = Volunteer::where('id', $id)
             ->with('gender', 'identificationType', 'driverLicenceType',
                 'educationLevel', 'languages.level', 'languages.language',
@@ -213,7 +213,7 @@ class VolunteerService {
 
 
         //this is basically a hack.
-        //in the front end we want to display a list of the available units
+        //in the front end we want to display a list of the available units for each unit
         //that the volunteer can be assigned to, that is the unit's children + the unit itself.
         //so we create an array holding all the units info.
         foreach ($volunteer->units as $unit) {
@@ -227,24 +227,16 @@ class VolunteerService {
             $unit->availableUnits = $children;
         }
 
-        /*
-        $volunteer = Volunteer::where('id', $id)->has('actions')->first();
+        //another hack, similar to the above.
+        //we also want to display all available units that the volunteer cna be assigned to.
+        //these are the units that the current user has access to
+        //minus the units that the volunteer is already assigned to.
+        $volunteer->units->lists('id');
 
-        $actionIds = $volunteer->actions->lists('id');
+        $availableUnits = Unit::whereIn('id', UserServiceFacade::userUnits())->whereNotIn('id', $volunteer->units->lists('id'))->lists('description', 'id');
 
-        $volunteer = Volunteer::where('id', $id)
-            ->with('gender', 'identificationType', 'driverLicenceType',
-                'educationLevel', 'languages.level', 'languages.language',
-                'interests', 'workStatus', 'availabilityTimes', 'availabilityFrequencies')
-            ->with(['units.actions' => function ($query) use ($actionIds) {
-                $query->whereIn('id', $actionIds);
-            }])
-            ->with('units.children')
-            ->with(['units.steps.statuses' => function ($query) use ($id) {
-                $query->where('volunteer_id', $id)->with('status');
-            }])
-            ->first();
-*/
+        $volunteer->availableUnits = $availableUnits;
+
         return $volunteer;
     }
 
@@ -260,7 +252,7 @@ class VolunteerService {
 
         if (UserService::isUserAdmin()) {
 
-            $rootUnit = UnitService::getRoot();
+            $rootUnit = UnitServiceFacade::getRoot();
             $rootUnit->load('steps');
 
             $volunteer = Volunteer::where('id', $id)->with('steps.status')->first();
@@ -283,6 +275,7 @@ class VolunteerService {
             }
 
             $rootUnit->volunteers()->attach($volunteer, ['volunteer_status_id' => VolunteerStatus::pending()]);
+
             return true;
         } else {
             return false;
@@ -303,12 +296,6 @@ class VolunteerService {
         $stepStatus->step_status_id = $statusId;
         $stepStatus->save();
 
-        /*
-        //if the last step is completed, then set the status of the volunteer to available
-        if (\Request::has('available') && \Request::get('available')) {
-
-        }*/
-
         return $stepStatus;
     }
 
@@ -318,11 +305,11 @@ class VolunteerService {
      *
      * @return mixed
      */
-    public function addToUnit($unitId, $parentUnitId, $volunteerId) {
+    public function addToUnit($unitId, $parentUnitId = null, $volunteerId) {
 
         //check if the user assigned the volunteer to his/her unit
         //or to a child unit
-        if ($unitId == $parentUnitId) {
+        if ($parentUnitId!=null && $unitId == $parentUnitId) {
             //if the volunteer is assigned to current unit, just change the status to available
 
             $volunteerStatus = VolunteerStatus::where('description', 'Available')->first()->id;

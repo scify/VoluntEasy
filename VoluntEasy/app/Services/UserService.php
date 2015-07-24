@@ -1,5 +1,6 @@
 <?php namespace App\Services;
 
+use App\Models\Unit;
 use App\Models\User;
 use App\Services\Facades\UnitService as UnitServiceFacade;
 
@@ -24,11 +25,21 @@ class UserService {
      * @return array
      */
     public function userUnitsIds(User $user) {
-        $user->units->load('allChildren');
 
-        $this->withChildren($user->units);
+        if (sizeof($this->isUserAdmin()) > 0) {
+            $units = Unit::all();
 
-        return $this->unitsIds;
+            $this->withChildren($units);
+
+            return $this->unitsIds;
+
+        } else {
+            $user->units->load('allChildren');
+
+            $this->withChildren($user->units);
+
+            return $this->unitsIds;
+        }
     }
 
 
@@ -44,7 +55,8 @@ class UserService {
                 $this->unitsIds[] = $unit->id;
                 $this->withChildren($unit->allChildren);
             } else {
-                $this->unitsIds[] = $unit->id;
+                if (!in_array($unit->id, $this->unitsIds))
+                    $this->unitsIds[] = $unit->id;
             }
         }
     }
@@ -71,7 +83,7 @@ class UserService {
      *
      * @return mixed
      */
-    public function isUserAdmin(){
+    public function isUserAdmin() {
         $root = UnitServiceFacade::getRoot();
 
         $users = User::unit($root->id)->where('id', \Auth::user()->id)->get();

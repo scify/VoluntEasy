@@ -14,12 +14,11 @@ use App\Models\Descriptions\Interests;
 use App\Models\Descriptions\Language;
 use App\Models\Descriptions\LanguageLevel;
 use App\Models\Descriptions\MaritalStatus;
-use App\Models\Descriptions\StepStatus;
+use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Descriptions\WorkStatus;
 use App\Models\Volunteer;
 use App\Models\VolunteerAvailabilityTime;
 use App\Models\VolunteerLanguage;
-use App\Models\VolunteerStepStatus;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\VolunteerService;
 use DB;
@@ -185,9 +184,20 @@ class VolunteerController extends Controller {
 
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
 
-        //return $volunteer;
+        //get the count of pending units, used in the front end
+        $pending = 0;
+        $available = 0;
+        foreach($volunteer->units as $unit){
+            if($unit->status=='Pending')
+                $pending++;
+            else if ($unit->status=='Available' || $unit->status=='Active')
+                $available++;
+        }
 
-        return view("main.volunteers.show", compact('volunteer'));
+
+       // return $volunteer;
+
+        return view("main.volunteers.show", compact('volunteer', 'pending', 'available'));
     }
 
     /**
@@ -364,7 +374,7 @@ class VolunteerController extends Controller {
      */
     public function addToRootUnit($id) {
 
-        if (VolunteerService::addToRouteUnit($id))
+        if (VolunteerService::addToRootUnit($id))
             return \Redirect::route('volunteer/one', ['id' => $id]);
         else
             return response()->view('errors.550', [], 550);
@@ -395,9 +405,25 @@ class VolunteerController extends Controller {
         $action = Action::find(\Request::get('assign_id'));
         $volunteer = Volunteer::find(\Request::get('volunteer_id'));
 
+        $availableStatus = VolunteerStatus::where('description', 'Active')->first()->id;
+
+        \DB::table('volunteer_unit_status')
+            ->where('volunteer_id', $volunteer->id)
+            ->where('unit_id', $action->unit_id)
+            ->update(['volunteer_status_id' => $availableStatus]);
+
         $action->volunteers()->attach($volunteer);
 
         return $volunteer->id;
+    }
+
+    public function detachFromUnit($volunteerId, $unitId){
+        $volunteer = Volunteer::findOrFail($volunteerId);
+
+        $volunteer->units()->detach($unitId);
+
+        return \Redirect::route('volunteer/one', ['id' => $volunteerId]);
+
     }
 
     /**

@@ -119,6 +119,8 @@ class Volunteer extends User {
 
     /**
      * Get available volunteers.
+     * Either get all of them or only those that the user
+     * is permitted to edit/assign
      *
      * @return array
      */
@@ -163,5 +165,16 @@ class Volunteer extends User {
         return $volunteers;
     }
 
+    /**
+     * Get blacklisted volunteers
+     *
+     * @return mixed
+     */
+    public function scopeBlacklisted() {
+
+        $volunteers = Volunteer::where('blacklisted', true);
+
+        return $volunteers;
+    }
 
 }
