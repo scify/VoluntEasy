@@ -60,6 +60,8 @@ Route::post('volunteers/store', 'VolunteerController@store');
 Route::post('volunteers/update', 'VolunteerController@update');
 Route::post('volunteers/stepStatus/update', 'VolunteerController@updateStepStatus');
 Route::post('volunteers/search', 'VolunteerController@search');
+Route::post('volunteers/blacklisted', 'VolunteerController@blacklisted');
+Route::post('volunteers/unblacklisted', 'VolunteerController@unBlacklisted');
 
 
 

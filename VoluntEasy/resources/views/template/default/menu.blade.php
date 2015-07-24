@@ -10,7 +10,7 @@
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="{{ Request::is('units') ? 'active' : '' }}"><a href="{{ url('units') }}">{{trans($lang.'showUnits')}}</a></li>
+                    <li class="{{ Request::is('units') || Request::is('units/one*') ? 'active' : '' }}"><a href="{{ url('units') }}">{{trans($lang.'showUnits')}}</a></li>
                     <li class="{{ Request::is('units/create') ? 'active' : '' }}"><a href="{{ url('units/create') }}">{{trans($lang.'createUnit')}}</a></li>
                 </ul>
             </li>
@@ -21,7 +21,7 @@
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="{{ Request::is('actions') ? 'active' : '' }}"><a href="{{ url('actions') }}">{{trans($lang.'showActions')}}</a></li>
+                    <li class="{{ Request::is('actions') || Request::is('actions/one*') ? 'active' : '' }}"><a href="{{ url('actions') }}">{{trans($lang.'showActions')}}</a></li>
                     <li class="{{ Request::is('actions/create') ? 'active' : '' }}"><a href="{{ url('actions/create') }}">{{trans($lang.'createAction')}}</a></li>
                 </ul>
             </li>
@@ -32,7 +32,7 @@
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="{{ Request::is('volunteers') ? 'active' : '' }}"><a href="{{url('volunteers')}}">{{trans($lang.'showVolunteers')}}</a></li>
+                    <li class="{{ Request::is('volunteers') || Request::is('volunteers/one*') ? 'active' : '' }}"><a href="{{url('volunteers')}}">{{trans($lang.'showVolunteers')}}</a></li>
                     <li class="{{ Request::is('volunteers/create') ? 'active' : '' }}"><a href="{{url('volunteers/create')}}">{{trans($lang.'createVolunteer')}}</a></li>
                     <li class="{{ Request::is('volunteers/create') ? 'active' : '' }}"><a href="#">{{trans($lang.'volunteerStatistcs')}}</a></li>
                 </ul>
@@ -44,7 +44,7 @@
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
-                    <li class="{{ Request::is('users') ? 'active' : '' }}"><a href="{{url('users')}}">{{trans($lang.'showUsers')}}</a></li>
+                    <li class="{{ Request::is('users')  || Request::is('users/one*') ? 'active' : '' }}"><a href="{{url('users')}}">{{trans($lang.'showUsers')}}</a></li>
                     <li class="{{ Request::is('users/create') ? 'active' : '' }}"><a href="{{url('users/create')}}">{{trans($lang.'createUser')}}</a></li>
                 </ul>
             </li>

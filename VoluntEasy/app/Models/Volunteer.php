@@ -172,7 +172,7 @@ class Volunteer extends User {
      */
     public function scopeBlacklisted() {
 
-        $volunteers = Volunteer::where('blacklisted', true);
+        $volunteers = Volunteer::where('blacklisted', true)->get();
 
         return $volunteers;
     }

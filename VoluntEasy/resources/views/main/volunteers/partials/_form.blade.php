@@ -294,6 +294,17 @@
             </div>
         </div>
     </div>
+    <!-- tab6 Comments -->
+    <div class="tab-pane fade" id="tab6">
+        <div class="row m-b-lg">
+            <div class="col-md-4">
+                <div class="form-group">
+                    {!! Form::formInput('comments', 'Σχόλια', $errors, ['class' => 'form-control', 'type' =>
+                    'textarea', 'placeholder' => 'Σχόλια σχετικά με τον εθελοντή']) !!}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {!! Form::submit('Καταχώρηση εθελοντή', ['class' => 'btn']) !!}

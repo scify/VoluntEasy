@@ -24,23 +24,29 @@
         </td>
         <td>{{ $volunteer->cell_tel }}</td>
         <td>
-            @if($root)
-            @if(sizeof($volunteer->units)==0)
-            <a href="{{ url('volunteers/addToRootUnit/'.$volunteer->id) }}" class="btn btn-info">Ένταξη στη Μονάδα μου</a>
+            @if($volunteer->blacklisted)
+            <span class="status blacklisted">Μη διαθέσιμος</span>
             @else
-                @foreach($volunteer->units as $i => $unit)
-                    @if($i>0)
-                        , <a href="{{ url('units/one/'.$unit->id) }}">{{ $unit->description }}</a>
+            @if($root && sizeof($volunteer->units)==0)
+                    <a href="{{ url('volunteers/addToRootUnit/'.$volunteer->id) }}" class="btn btn-info">Ένταξη στη Μονάδα μου</a>
+            @elseif(!$root && sizeof($volunteer->units)==0)
+            <p><em>Ο εθελοντής δεν έχει ανατεθεί σε καμία μονάδα</em></p>
+            @else
+               @foreach($volunteer->units as $i => $unit)
+                    @if($unit->status=='Pending')
+                    <span class="status pending" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι υπό ανάθεση στη μονάδα {{ $unit->description }}">{{ $unit->description }}</span>
+                    @elseif($unit->status=='Available')
+                    <span class="status available" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι διαθέσιμος στη μονάδα {{ $unit->description }}">{{ $unit->description }}</span>
+                    @elseif($unit->status=='Active')
+                    <span class="status active" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι ενεργός σε δράσεις στη μονάδα {{ $unit->description }}">{{ $unit->description }}</span>
                     @else
-                          <a href="{{ url('units/one/'.$unit->id) }}">{{ $unit->description }}</a>
                     @endif
-                @endforeach
-            @endif
-            @else
-            <p>Επικοινωνήστε με τον αδμιν </p>
-            @endif
+               @endforeach
+           @endif
+           @endif
         </td>
         <td>
+            @if(in_array($volunteer->id, $permittedVolunteers))
             <ul class="list-inline">
                 <li><a href="{{url('volunteers/edit/'.$volunteer->id)}}" data-toggle="tooltip"
                        data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit fa-2x"></i></a>
@@ -49,6 +55,7 @@
                        data-placement="bottom" title="Διαγραφή"><i class="fa fa-trash fa-2x"></i></a>
                 </li>
             </ul>
+            @endif
         </td>
     </tr>
     @endforeach

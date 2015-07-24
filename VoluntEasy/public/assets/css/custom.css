@@ -63,7 +63,7 @@ h3{font-weight: 400;}
     color:#22BAA0;
 }
 
-span.status.incomplete{
+span.status.incomplete, span.status.blacklisted{
     padding:3px;
     color:#fff;
     background-color:#f25656;

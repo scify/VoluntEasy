@@ -29,6 +29,8 @@
                         <li role="presentation"><a href="#tab5" data-toggle="tab"><i class="fa fa-clock-o m-r-xs"></i>Διαθεσιμότητα &
                             περιοχές ενδιαφερόντων</a>
                         </li>
+                        <li role="presentation"><a href="#tab6" data-toggle="tab"><i class="fa fa-file-text-o m-r-xs"></i>Σχόλια</a>
+                        </li>
                     </ul>
                     {!! Form::model($volunteer, ['id' => 'wizardForm', 'method' => 'POST', 'action' => ['VolunteerController@update', 'id' => $volunteer->id]]) !!}
                         @include('main.volunteers.partials._form', ['submitButtonText' => 'Αποθήκευση', 'volunteer' => $volunteer])

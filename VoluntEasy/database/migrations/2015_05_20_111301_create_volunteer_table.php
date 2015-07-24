@@ -192,6 +192,7 @@ class CreateVolunteerTable extends Migration {
             $table->integer('step_status_id')->unsigned();
             $table->foreign('step_status_id')->references('id')->on('step_statuses');
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('volunteer_step_history', function ($table) {

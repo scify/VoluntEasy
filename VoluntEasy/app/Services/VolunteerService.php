@@ -181,7 +181,7 @@ class VolunteerService {
                 $volunteers = Volunteer::active()->lists('id');
                 break;
             case '4':
-                $volunteers = Volunteer::blacklisted();
+                $volunteers = Volunteer::blacklisted()->lists('id');
                 break;
             case '5':
                 $volunteers = Volunteer::unassigned()->lists('id');
@@ -233,7 +233,7 @@ class VolunteerService {
         //minus the units that the volunteer is already assigned to.
         $volunteer->units->lists('id');
 
-        $availableUnits = Unit::whereIn('id', UserServiceFacade::userUnits())->whereNotIn('id', $volunteer->units->lists('id'))->lists('description', 'id');
+        $availableUnits = Unit::whereIn('id', UserServiceFacade::permittedUnits())->whereNotIn('id', $volunteer->units->lists('id'))->lists('description', 'id');
 
         $volunteer->availableUnits = $availableUnits;
 
@@ -250,7 +250,7 @@ class VolunteerService {
      */
     public function addToRootUnit($id) {
 
-        if (UserService::isUserAdmin()) {
+        if (UserServiceFacade::isUserAdmin()) {
 
             $rootUnit = UnitServiceFacade::getRoot();
             $rootUnit->load('steps');
@@ -287,7 +287,7 @@ class VolunteerService {
      *
      * @return mixed
      */
-    public function updateStepStatus($stepStatusId, $status, $comments){
+    public function updateStepStatus($stepStatusId, $status, $comments) {
         //the id of the status, either Complete or Incomplete
         $statusId = StepStatus::where('description', $status)->first()->id;
 
@@ -309,7 +309,7 @@ class VolunteerService {
 
         //check if the user assigned the volunteer to his/her unit
         //or to a child unit
-        if ($parentUnitId!=null && $unitId == $parentUnitId) {
+        if ($parentUnitId != null && $unitId == $parentUnitId) {
             //if the volunteer is assigned to current unit, just change the status to available
 
             $volunteerStatus = VolunteerStatus::where('description', 'Available')->first()->id;
@@ -374,7 +374,6 @@ class VolunteerService {
             $query = Volunteer::whereIn('id', $this->volunteersByStatus(\Input::get('status_id')));
         }
 
-
         foreach ($this->filters as $column => $filter) {
             if (\Input::has($column) && \Input::get($column) != "") {
                 $value = \Input::get($column);
@@ -409,7 +408,7 @@ class VolunteerService {
                                 if (!Search::notDropDown($value, $column)) {
                                     $id = \Input::get('unit_id');
                                     $query->whereHas('units', function ($query) use ($id) {
-                                        $query->where('id', $id);
+                                        $query->where('unit_id', $id);
                                     });
                                 }
                                 break;
@@ -421,11 +420,14 @@ class VolunteerService {
             }
         }
 
-
-        // dd($query);
-
         $result = $query->orderBy('name', 'ASC')->with('actions')->get();
         //  $result->setPath(\URL::to('/') . '/volunteers');
+
+
+        //get the status of each unit to display to the list
+        foreach ($result as $volunteer) {
+            $volunteer = VolunteerService::setStatusToUnits($volunteer);
+        }
 
         return $result;
     }

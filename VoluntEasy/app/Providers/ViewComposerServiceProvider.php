@@ -16,7 +16,6 @@ use App\Models\Unit;
 use App\Models\User;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -54,12 +53,12 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
             $volunteerStatuses = VolunteerStatus::all()->lists('description', 'id');
 
-            $maritalStatuses[0]='[- επιλέξτε -]';
-            $educationLevels[0]='[- επιλέξτε -]';
-            $genders[0]='[- επιλέξτε -]';
-            $units[0]='[- επιλέξτε -]';
-            $statuses[0]='[- επιλέξτε -]';
-            $statuses[5]='Νέος';
+            $maritalStatuses[0] = '[- επιλέξτε -]';
+            $educationLevels[0] = '[- επιλέξτε -]';
+            $genders[0] = '[- επιλέξτε -]';
+            $units[0] = '[- επιλέξτε -]';
+            $statuses[0] = '[- επιλέξτε -]';
+            $statuses[5] = 'Νέος';
             ksort($maritalStatuses);
             ksort($educationLevels);
             ksort($genders);
@@ -67,14 +66,14 @@ class ViewComposerServiceProvider extends ServiceProvider {
             ksort($statuses);
 
             $view->with('maritalStatuses', $maritalStatuses)
-                 ->with('identificationTypes', $identificationTypes)
-                 ->with('driverLicenseTypes', $driverLicenseTypes)
-                 ->with('languages', $languages)
-                 ->with('volunteerStatuses', $volunteerStatuses)
-                 ->with('educationLevels', $educationLevels)
-                 ->with('genders', $genders)
-                 ->with('statuses', $statuses)
-                 ->with('units', $units);
+                ->with('identificationTypes', $identificationTypes)
+                ->with('driverLicenseTypes', $driverLicenseTypes)
+                ->with('languages', $languages)
+                ->with('volunteerStatuses', $volunteerStatuses)
+                ->with('educationLevels', $educationLevels)
+                ->with('genders', $genders)
+                ->with('statuses', $statuses)
+                ->with('units', $units);
         });
 
 
@@ -83,9 +82,9 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $units = Unit::all()->lists('description', 'id');
             $users = User::all()->lists('name', 'id');
 
-            $units[0]='[- επιλέξτε -]';
+            $units[0] = '[- επιλέξτε -]';
             ksort($units);
-            $users[0]='[- επιλέξτε -]';
+            $users[0] = '[- επιλέξτε -]';
             ksort($users);
 
             $view->with('units', $units)->with('users', $users);
@@ -96,7 +95,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
             $units = Unit::all()->lists('description', 'id');
 
-            $units[0]='[- επιλέξτε -]';
+            $units[0] = '[- επιλέξτε -]';
             ksort($units);
 
             $view->with('units', $units);
@@ -114,10 +113,15 @@ class ViewComposerServiceProvider extends ServiceProvider {
         //We need to determine if the user is root
         View::composer('main.volunteers.partials._table', function ($view) {
             $root = false;
-            if(sizeof(UserService::isUserAdmin())>0)
+            if (sizeof(UserService::isUserAdmin()) > 0)
                 $root = true;
 
-            $view->with('root', $root);
+            //also get an array of the permittedVolunteer ids
+            $permittedVolunteers = UserService::permittedVolunteersIds();
+
+
+            $view->with('root', $root)
+                ->with('permittedVolunteers', $permittedVolunteers);
         });
     }
 

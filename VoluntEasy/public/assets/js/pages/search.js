@@ -7,7 +7,7 @@ $("#age-slider-range").slider({
     range: true,
     min: 0,
     max: 100,
-    values: [18, 50],
+    values: [10, 90],
     slide: function (event, ui) {
         $("#age").text(ui.values[0] + "-" + ui.values[1]);
         $("#age-range").val(ui.values[0] + "-" + ui.values[1]);

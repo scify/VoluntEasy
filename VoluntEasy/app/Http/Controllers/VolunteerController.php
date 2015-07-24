@@ -20,6 +20,7 @@ use App\Models\Volunteer;
 use App\Models\VolunteerAvailabilityTime;
 use App\Models\VolunteerLanguage;
 use App\Services\Facades\UnitService;
+use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
 use DB;
 use Illuminate\Support\Facades\View;
@@ -37,6 +38,11 @@ class VolunteerController extends Controller {
     public function index() {
         $volunteers = Volunteer::with('units', 'actions')->orderBy('name', 'ASC')->get();
         //$volunteers->setPath(\URL::to('/') . '/volunteers');
+
+        //get the status of each unit to display to the list
+        foreach($volunteers as $volunteer){
+            $volunteer = VolunteerService::setStatusToUnits($volunteer);
+        }
 
         return view('main.volunteers.list', compact('volunteers'));
     }
@@ -116,6 +122,7 @@ class VolunteerController extends Controller {
             'participation_actions' => \Input::get('participation_actions'),
             'participation_previous' => \Input::get('participation_previous'),
             'availability_freqs_id' => intval(\Input::get('availability_freqs_id')),
+            'comments' => intval(\Input::get('comments')),
         ));
 
         $volunteer->save();
@@ -194,10 +201,13 @@ class VolunteerController extends Controller {
                 $available++;
         }
 
+        $permitted=0;
+        if(in_array($volunteer->id, UserService::permittedVolunteersIds()))
+            $permitted=1;
 
        // return $volunteer;
 
-        return view("main.volunteers.show", compact('volunteer', 'pending', 'available'));
+        return view("main.volunteers.show", compact('volunteer', 'pending', 'available', 'permitted'));
     }
 
     /**
@@ -274,6 +284,7 @@ class VolunteerController extends Controller {
                 'participation_actions' => \Input::get('participation_actions'),
                 'participation_previous' => \Input::get('participation_previous'),
                 'availability_freqs_id' => intval(\Input::get('availability_freqs_id')),
+                'comments' => \Input::get('comments'),
             ));
 
         // update middle table relations
@@ -440,6 +451,38 @@ class VolunteerController extends Controller {
         $stepStatus = VolunteerService::updateStepStatus($stepStatusId, $status, $comments);
 
         return $stepStatus->volunteer_id;
+    }
+
+    /**
+     * Set volunteer status as blacklisted
+     *
+     * @return mixed
+     */
+    public function blacklisted() {
+
+        $volunteer = Volunteer::findOrFail(\Request::get('id'));
+
+        $volunteer->blacklisted = true;
+        $volunteer->comments = \Request::get('comments');
+        $volunteer->update();
+
+        return $volunteer->id;
+    }
+
+    /**
+     * Set volunteer status as blacklisted
+     *
+     * @return mixed
+     */
+    public function unBlacklisted() {
+
+        $volunteer = Volunteer::findOrFail(\Request::get('id'));
+
+        $volunteer->blacklisted = false;
+        $volunteer->comments = \Request::get('comments');
+        $volunteer->update();
+
+        return $volunteer->id;
     }
 
 }

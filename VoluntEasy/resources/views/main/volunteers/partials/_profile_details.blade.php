@@ -187,10 +187,68 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-white">
-            <div class="panel-body">
-                <h3>Comments</h3>
-            </div>
+       <h3>Σχόλια για τον εθελοντή</h3>
+       @if($volunteer->comments=='')
+          <p>Κανένα σχόλιο</p>
+       @else
+       <p>{{ $volunteer->comments }}</p>
+       @endif
+        @if(!$volunteer->blacklisted)
+        <div class="pull-right">
+            <small><a href="#" class="text-danger" data-toggle="modal" data-target="#blacklisted">Σήμανση εθελοντή ως μη διαθέσιμος</a></small>
         </div>
+        @endif
     </div>
 </div>
+
+@if(!$volunteer->blacklisted)
+<!-- Select unit modal -->
+<div class="modal fade" id="blacklisted">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Σήμανση εθελοντή ως μη διαθέσιμος</h4>
+            </div>
+            <div class="modal-body">
+               <p>Σε περίπτωση που θέλετε να επισημάνετε τον εθελοντή ως μη διαθέσιμο, ο εθελοντής θα σταματήσει να ανήκει σε οποιαδήποτε μονάδα και δράση άνηκε μέχρι στιγμής.</p>
+                {!! Form::formInput('comments', 'Σχόλια', $errors, ['class' => 'form-control', 'type' =>
+                'textarea', 'placeholder' => 'Σχόλια σχετικά με τον εθελοντή', 'value' => $volunteer->comments, 'id' => 'blacklistedComments']) !!}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
+                <button type="button" class="btn btn-danger blacklisted" data-volunteer-id="{{ $volunteer->id }}">Αποθήκευση
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+@endif
+
+
+@section('footerScripts')
+<script>
+
+    //change volunteer status to blacklisted
+    $(".blacklisted").click(function(){
+        $.ajax({
+            url: $("body").attr('data-url') + '/volunteers/blacklisted',
+            method: 'POST',
+            data: {
+                'id': $(this).attr('data-volunteer-id'),
+                'comments': $("#blacklistedComments").val()
+            },
+            headers: {
+                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+            },
+            success: function (data) {
+                window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
+            }
+        });
+    });
+
+</script>
+@append

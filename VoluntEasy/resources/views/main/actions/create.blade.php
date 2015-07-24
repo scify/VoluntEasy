@@ -39,9 +39,7 @@
         </div>
     </div>
     @endif
-
 </div>
-
 @stop
 
 

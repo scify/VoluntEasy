@@ -76,7 +76,7 @@
                 <div class="form-group">
                     <label for="age">Ηλικιακό Εύρος:</label>
                     <span id="age" style="font-weight:bold;"></span>
-                    {!! Form::hidden('age-range', '18-50', ['id' => 'age-range']) !!}
+                    {!! Form::hidden('age-range', '10-90', ['id' => 'age-range']) !!}
                     <div id="age-slider-range"></div>
                 </div>
             </div>

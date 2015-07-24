@@ -8,7 +8,7 @@
     @include('template.default.headerIncludes')
 </head>
 
- 
+
 <body class="page-header-fixed" data-url="{!! URL::to('/') !!}">
 <main class="page-content content-wrap">
     <!-- Navbar/TopBar -->
@@ -17,7 +17,7 @@
     <!--Side Menu--->
     @include('template.default.menu')
 
-    <div class="page-inner">
+    <div class="page-inner" >
         <!--Page Title & Breadcrumbs -->
         @include('template.default.pageTitle')
 

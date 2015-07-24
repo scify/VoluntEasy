@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Models\Unit;
 use App\Models\Volunteer;
+use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
 use Faker\Factory;
 
@@ -28,6 +29,8 @@ class TestController extends Controller {
         //  return VolunteerService::volunteersByStatus(2);
 
         $vol = Volunteer::available();
+
+        return UserService::permittedVolunteersIds();
 
         return $vol;
 
