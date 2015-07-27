@@ -30,7 +30,7 @@ class Unit extends Model {
     }
 
     public function volunteers() {
-        return $this->belongsToMany('App\Models\Volunteer', 'volunteer_unit_status');
+        return $this->belongsToMany('App\Models\Volunteer', 'volunteer_unit_status')->orderBy('name', 'asc');
     }
 
     /**

@@ -20,6 +20,8 @@ Route::post('users/delete/{id}', 'UserController@destroy');
 Route::post('users/update', 'UserController@update');
 Route::post('users/store', 'UserController@store');
 Route::post('users/units', 'UserController@addUnits');
+Route::post('users/search', 'UserController@search');
+
 
 
 ////////////////

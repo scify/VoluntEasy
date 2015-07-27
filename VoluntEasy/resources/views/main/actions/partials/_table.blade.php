@@ -7,6 +7,7 @@
         <th>Μονάδα</th>
         <th>Ημ. Έναρξης</th>
         <th>Ημ. Λήξης</th>
+        <th>Αριθμός Εθελοντών</th>
         <th></th>
     </tr>
     </thead>
@@ -15,10 +16,16 @@
     <tr>
         <td>{{ $action->id }}</td>
         <td><a href="{{ url('actions/one/'.$action->id) }}">{{ $action->description }}</a></td>
-        <td>{{ $action->comments }}</td>
+        <td>@if($action->comments==null || $action->comments=='')
+            -
+            @else
+            {{ $action->comments }}
+            @endif
+        </td>
         <td>{{ $action->unit->description }}</td>
         <td>{{ $action->start_date }}</td>
         <td>{{ $action->end_date }}</td>
+        <td><span class="status active">{{ sizeof($action->volunteers) }} Ενεργοί</span></td>
         <td>
             @if(in_array($action->unit->id, $userUnits))
             <ul class="list-inline">
@@ -35,4 +42,3 @@
     @endforeach
     </tbody>
 </table>
-{!! $actions->render() !!}

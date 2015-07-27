@@ -24,8 +24,13 @@ class ActionController extends Controller {
      * @return Response
      */
     public function index() {
-        $actions = Action::with('unit')->paginate(5);
-        $actions->setPath(\URL::to('/') . '/actions');
+        $actions = Action::with('unit', 'volunteers')->get();
+
+        foreach($actions as $action){
+            $action->unit->branch = UnitService::getBranchString($action->unit);
+        }
+
+       // $actions->setPath(\URL::to('/') . '/actions');
 
         $userUnits = UserService::userUnits();
 

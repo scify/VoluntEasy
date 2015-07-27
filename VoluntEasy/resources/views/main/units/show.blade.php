@@ -94,7 +94,7 @@
 </div>
 
 
-@include('main._modals._volunteers', ['volunteers' => $volunteers, 'active' => $active, 'volunteerIds' => $volunteerIds])
+@include('main._modals._volunteers', ['volunteers' => $volunteers, 'active' => $active, 'volunteerIds' => $active->volunteers->lists('id')])
 
 
 @stop

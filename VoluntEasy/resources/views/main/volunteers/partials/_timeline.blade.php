@@ -1,5 +1,7 @@
+@if(sizeof($timeline)==0)
+<h3>Το ιστορικό του εθελοντή είναι άδειο.</h3>
+@else
 <section id="cd-timeline" class="cd-container">
-
     @foreach($timeline as $timelineBlock)
 
     @if($timelineBlock->type=='action')
@@ -42,16 +44,18 @@
             @foreach($timelineBlock->unit->steps as $i => $step)
             @if($step->type=='Assignment')
             <p><span
-                    class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">Ανάθεση στη δράση/μονάδα <strong>{{ $step->statuses[0]->comments }}</strong></span>
-            @else
+                    class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">Ανάθεση στη δράση/μονάδα <strong>{{
+                $step->statuses[0]->comments }}</strong></span>
+                @else
+
             <p><span
                     class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">{{ $step->description }}</span>
                 <br/>
                 Σχόλια:
-                @if($step->statuses[0]->status->comments==null || $step->statuses[0]->comments=='')
+                @if($step->statuses[0]->comments==null || $step->statuses[0]->comments=='')
                 -
                 @else
-                {{ $step->statuses[0]->status->comments}}
+                {{ $step->statuses[0]->comments}}
                 @endif
             </p>
             @endif
@@ -69,3 +73,5 @@
 
 
 </section> <!-- cd-timeline -->
+
+@endif

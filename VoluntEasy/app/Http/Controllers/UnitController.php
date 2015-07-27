@@ -113,8 +113,6 @@ class UnitController extends Controller {
 
         $userUnits = UserService::userUnits();
         $volunteers = VolunteerService::permittedVolunteers();
-        $volunteerIds = VolunteerService::volunteerIds($active->volunteers);
-
 
         $branch = UnitService::getBranchString($active);
 
@@ -125,7 +123,7 @@ class UnitController extends Controller {
          }
          */
 
-        return view("main.units.show", compact('active', 'actives', 'tree', 'type', 'volunteers', 'userUnits', 'volunteerIds', 'branch'));
+        return view("main.units.show", compact('active', 'actives', 'tree', 'type', 'volunteers', 'userUnits', 'branch'));
     }
 
     /**
