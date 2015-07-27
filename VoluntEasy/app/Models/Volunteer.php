@@ -67,12 +67,12 @@ class Volunteer extends User {
         return $this->hasOne('App\Models\Descriptions\CommunicationMethod', 'id', 'comm_method_id');
     }
 
-    // public function actionHistories() {
-    //     return $this->hasMany('App\Models\VolunteerActionHistory');
-    // }
+     public function actionHistory() {
+        return $this->hasMany('App\Models\VolunteerActionHistory')->orderBy('created_at', 'desc');
+    }
 
-    public function stepHistories() {
-        return $this->hasMany('App\Models\VolunteerStepHistory');
+    public function unitHistory() {
+        return $this->hasMany('App\Models\VolunteerUnitHistory')->orderBy('created_at', 'desc');
     }
 
     public function units() {

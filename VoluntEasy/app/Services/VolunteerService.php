@@ -5,7 +5,9 @@ use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\Volunteer;
+use App\Models\VolunteerActionHistory;
 use App\Models\VolunteerStepStatus;
+use App\Models\VolunteerUnitHistory;
 use App\Services\Facades\SearchService as Search;
 use App\Services\Facades\UnitService as UnitServiceFacade;
 use App\Services\Facades\UserService as UserServiceFacade;
@@ -201,16 +203,14 @@ class VolunteerService {
      */
     public function fullProfile($id) {
 
-        $volunteer = Volunteer::where('id', $id)
-            ->with('gender', 'identificationType', 'driverLicenceType',
-                'educationLevel', 'languages.level', 'languages.language',
-                'interests', 'workStatus', 'availabilityTimes', 'availabilityFrequencies', 'actions')
+        $volunteer = Volunteer::with('gender', 'identificationType', 'driverLicenceType',
+            'educationLevel', 'languages.level', 'languages.language',
+            'interests', 'workStatus', 'availabilityTimes', 'availabilityFrequencies', 'actions')
             ->with(['units.steps.statuses' => function ($query) use ($id) {
                 $query->where('volunteer_id', $id)->with('status');
             }])
             ->with('units.children', 'units.actions')
-            ->first();
-
+            ->findOrFail($id);
 
         //this is basically a hack.
         //in the front end we want to display a list of the available units for each unit
@@ -238,6 +238,41 @@ class VolunteerService {
         $volunteer->availableUnits = $availableUnits;
 
         return $volunteer;
+    }
+
+    /**
+     * For a volunteer, get the info from the history tables
+     * and add them to an array to easily display the data at the front end
+     *
+     * @param $volunteerId
+     * @return array[]
+     */
+    public function timeline($volunteerId) {
+
+        $volunteer = Volunteer::with('actionHistory.action', 'actionHistory.user', 'unitHistory.user')
+            ->with(['unitHistory.unit.steps.statuses' => function ($query) use ($volunteerId) {
+                $query->where('volunteer_id', $volunteerId)->with('status');
+            }])
+            ->findOrFail($volunteerId);
+
+        $timeline = [];
+
+        foreach ($volunteer->actionHistory as $actionHistory) {
+            $actionHistory->type = 'action';
+            array_push($timeline, $actionHistory);
+        }
+
+        foreach ($volunteer->unitHistory as $unitHistory) {
+            $unitHistory->type = 'unit';
+            array_push($timeline, $unitHistory);
+        }
+
+        //sort the array by date
+        usort($timeline, function ($a, $b) {
+            return $a->created_at > $b->created_at ? -1 : 1;
+        });
+
+        return $timeline;
     }
 
 
@@ -275,6 +310,8 @@ class VolunteerService {
             }
 
             $rootUnit->volunteers()->attach($volunteer, ['volunteer_status_id' => VolunteerStatus::pending()]);
+
+            $this->unitHistory($volunteer->id, $rootUnit->id);
 
             return true;
         } else {
@@ -349,9 +386,50 @@ class VolunteerService {
             }
 
             $unit->volunteers()->attach($volunteer, ['volunteer_status_id' => VolunteerStatus::pending()]);
+
+            $this->unitHistory($volunteer->id, $unit->id);
         }
 
         return $volunteerId;
+    }
+
+
+    /**
+     * When assigning a volunteer to a unit,
+     * also save an entry to the history table
+     *
+     * @param $volunteerId
+     * @param $unitId
+     */
+    public function unitHistory($volunteerId, $unitId) {
+
+        $unitHistory = new VolunteerUnitHistory([
+            'volunteer_id' => $volunteerId,
+            'unit_id' => $unitId,
+            'user_id' => \Auth::user()->id,
+            'created' => \Carbon::now()
+        ]);
+
+        $unitHistory->save();
+    }
+
+    /**
+     * When assigning a volunteer to an action,
+     * also save an entry to the history table
+     *
+     * @param $volunteerId
+     * @param $actionId
+     */
+    public function actionHistory($volunteerId, $actionId) {
+
+        $actionHistory = new VolunteerActionHistory([
+            'volunteer_id' => $volunteerId,
+            'action_id' => $actionId,
+            'user_id' => \Auth::user()->id,
+            'created' => date('Y-m-d H:i:s')
+        ]);
+
+        $actionHistory->save();
     }
 
 

@@ -67,7 +67,7 @@
                         @include('main.volunteers.partials._profile_available')
                         @endif
                     </div>
-                    <div class="tab-pane fade in" id="tab3" style="background-color: rgb(233, 237, 242);">
+                    <div class="tab-pane fade in" id="tab3">
                         @include('main.volunteers.partials._timeline')
                     </div>
 

@@ -1,11 +1,14 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Models\Action;
 use App\Models\Unit;
 use App\Models\Volunteer;
+use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
 use Faker\Factory;
+use Symfony\Component\Yaml\Tests\A;
 
 /**
  * Class TestController
@@ -28,13 +31,17 @@ class TestController extends Controller {
 
         //  return VolunteerService::volunteersByStatus(2);
 
-        $vol = Volunteer::available();
+
+
+        return VolunteerService::timeline(12);
+
+      /*  $vol = Volunteer::available();
 
         return UserService::permittedVolunteersIds();
 
         return $vol;
 
-        return '';
+        return '';*/
     }
 
 
@@ -77,10 +84,32 @@ class TestController extends Controller {
                 'work_status_id' => $faker->numberBetween(1, 4),
                 'availability_freqs_id' => $faker->numberBetween(1, 3),
 
-
                 ]);
 
             $volunteer->save();
+        }
+
+        for ($i = 1; $i < 11; $i++) {
+            $unitIds = Unit::all()->lists('id');
+            $unit = new Unit([
+                'description' => $faker->colorName,
+                'parent_unit_id' => $faker->randomElement($unitIds)
+            ]);
+            $unit->save();
+
+            $unit->steps()->saveMany(UnitService::createSteps());
+        }
+
+        $leaves = Unit::whereDoesntHave('children')->lists('id');
+
+        for ($i = 0; $i < 5; $i++) {
+            $action = new Action([
+                'description' => $faker->tld,
+                'start_date' => $faker->dateTime(),
+                'end_date' => $faker->dateTime(),
+                'unit_id' => $faker->randomElement($leaves)
+            ]);
+            $action->save();
         }
 
         return 'Dummy data generated...';

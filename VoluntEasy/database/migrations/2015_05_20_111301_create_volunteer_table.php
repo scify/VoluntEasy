@@ -123,7 +123,7 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
         });
 
-        Schema::create('actions_volunteers_history', function ($table) {
+        Schema::create('volunteer_action_history', function ($table) {
             $table->increments('id');
             $table->integer('action_id')->unsigned();
             $table->foreign('action_id')->references('id')->on('actions');
@@ -131,6 +131,7 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
+            $table->date('created');
             $table->timestamps();
         });
 
@@ -246,10 +247,10 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
             $table->integer('unit_id')->unsigned();
             $table->foreign('unit_id')->references('id')->on('units');
-            $table->integer('previous_unit_status_id')->unsigned();
-            $table->foreign('previous_unit_status_id')->references('id')->on('volunteer_statuses');
-            $table->integer('new_unit_status_id')->unsigned();
-            $table->foreign('new_unit_status_id')->references('id')->on('volunteer_statuses');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->date('created');
+            $table->timestamps();
         });
 
     }
@@ -272,7 +273,7 @@ class CreateVolunteerTable extends Migration {
         Schema::dropIfExists('languages');
         Schema::dropIfExists('volunteer_interests');
         Schema::dropIfExists('interests');
-        Schema::dropIfExists('actions_volunteers_history');
+        Schema::dropIfExists('volunteer_action_history');
         Schema::dropIfExists('actions_volunteers');
         Schema::dropIfExists('units_volunteers');
         Schema::dropIfExists('volunteer_availability_times');

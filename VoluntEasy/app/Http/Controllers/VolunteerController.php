@@ -192,10 +192,11 @@ class VolunteerController extends Controller {
      */
     public function show($id) {
         $volunteer = VolunteerService::fullProfile($id);
+        $timeline = VolunteerService::timeline($id);
 
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
 
-        //get the count of pending units, used in the front end
+        //get the count of pending and available units, used in the front end
         $pending = 0;
         $available = 0;
         foreach($volunteer->units as $unit){
@@ -211,7 +212,7 @@ class VolunteerController extends Controller {
 
        // return $volunteer;
 
-        return view("main.volunteers.show", compact('volunteer', 'pending', 'available', 'permitted'));
+        return view("main.volunteers.show", compact('volunteer', 'pending', 'available', 'permitted', 'timeline'));
     }
 
     /**
@@ -429,6 +430,8 @@ class VolunteerController extends Controller {
 
         $action->volunteers()->attach($volunteer);
 
+        VolunteerService::actionHistory($volunteer->id, $action->id);
+
         return $volunteer->id;
     }
 
@@ -458,7 +461,9 @@ class VolunteerController extends Controller {
     }
 
     /**
-     * Set volunteer status as blacklisted
+     * Set volunteer status as blacklisted.
+     * When a volunteer is blacklisted,
+     * s/he is removed from all current actions and units.
      *
      * @return mixed
      */
@@ -469,6 +474,9 @@ class VolunteerController extends Controller {
         $volunteer->blacklisted = true;
         $volunteer->comments = \Request::get('comments');
         $volunteer->update();
+
+        $volunteer->actions()->detach();
+        $volunteer->units()->detach();
 
         return $volunteer->id;
     }

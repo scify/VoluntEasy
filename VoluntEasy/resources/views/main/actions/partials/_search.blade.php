@@ -34,3 +34,4 @@
             <button type="button" id="clear" class="btn btn-default"><i class="fa fa-remove"></i> Καθαρισμός</button>
         </div>
 </div>
+</div>

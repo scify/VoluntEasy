@@ -1,74 +1,71 @@
- <section id="cd-timeline" class="cd-container">
-		<div class="cd-timeline-block">
-			<div class="cd-timeline-img cd-success">
-                <i class="fa fa-tag"></i>
-			</div> <!-- cd-timeline-img -->
+<section id="cd-timeline" class="cd-container">
 
-			<div class="cd-timeline-content">
-				<h2>Title of section 1</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde? Iste voluptatibus minus veritatis qui ut.</p>
-				<span class="cd-date">Jan 14</span>
-			</div> <!-- cd-timeline-content -->
-		</div> <!-- cd-timeline-block -->
+    @foreach($timeline as $timelineBlock)
 
-		<div class="cd-timeline-block">
-			<div class="cd-timeline-img cd-danger">
-                <i class="fa fa-map-marker"></i>
-			</div> <!-- cd-timeline-img -->
+    @if($timelineBlock->type=='action')
 
-			<div class="cd-timeline-content">
-				<h2>Title of section 2</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde?</p>
-                <div id="map-canvas" style="height: 200px; width: 100%;"></div>
-				<span class="cd-date">Jan 18</span>
-			</div> <!-- cd-timeline-content -->
-		</div> <!-- cd-timeline-block -->
+    <div class="cd-timeline-block">
+        <div class="cd-timeline-img cd-primary">
+            <i class="fa fa-bookmark"></i>
+        </div>
+        <!-- cd-timeline-img -->
 
-		<div class="cd-timeline-block">
-			<div class="cd-timeline-img cd-info">
+        <div class="cd-timeline-content">
+            <h2>Ανάθεση στη δράση <strong>{{ $timelineBlock->action->description }}</strong></h2>
+
+            <!-- DUMMY STARS -->
+            <p><i class="fa fa-star"></i>
                 <i class="fa fa-star"></i>
-			</div> <!-- cd-timeline-img -->
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star-o"></i></p>
 
-			<div class="cd-timeline-content">
-				<h2>Title of section 3</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, obcaecati, quisquam id molestias eaque asperiores voluptatibus cupiditate error assumenda delectus odit similique earum voluptatem doloremque dolorem ipsam quae rerum quis. Odit, itaque, deserunt corporis vero ipsum nisi eius odio natus ullam provident pariatur temporibus quia eos repellat consequuntur perferendis enim amet quae quasi repudiandae sed quod veniam dolore possimus rem voluptatum eveniet eligendi quis fugiat aliquam sunt similique aut adipisci.</p>
-				<span class="cd-date">Jan 24</span>
-			</div> <!-- cd-timeline-content -->
-		</div> <!-- cd-timeline-block -->
+            <p>Διάρκεια δράσης: {{ $timelineBlock->action->start_date }} - {{ $timelineBlock->action->end_date }}</p>
+            <small class="pull-right">Η ανάθεση έγινε από το χρήστη {{ $timelineBlock->user->name }}</small>
 
-		<div class="cd-timeline-block">
-			<div class="cd-timeline-img cd-info">
-                <i class="fa fa-comments"></i>
-			</div> <!-- cd-timeline-img -->
+            <span class="cd-date">{{ Carbon::parse($timelineBlock->created_at)->format('d/m/Y') }}</span>
+        </div>
+        <!-- cd-timeline-content -->
+    </div>
 
-			<div class="cd-timeline-content">
-				<h2>Title of section 4</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde? Iste voluptatibus minus veritatis qui ut.</p>
-				<span class="cd-date">Feb 14</span>
-			</div> <!-- cd-timeline-content -->
-		</div> <!-- cd-timeline-block -->
+    @elseif($timelineBlock->type=='unit')
 
-		<div class="cd-timeline-block">
-			<div class="cd-timeline-img cd-warning">
-                <i class="fa fa-pencil-square-o"></i>
-			</div> <!-- cd-timeline-img -->
+    <div class="cd-timeline-block">
+        <div class="cd-timeline-img cd-success">
+            <i class="fa fa-home"></i>
+        </div>
+        <!-- cd-timeline-img -->
 
-			<div class="cd-timeline-content">
-				<h2>Title of section 5</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum.</p>
-				<span class="cd-date">Feb 18</span>
-			</div> <!-- cd-timeline-content -->
-		</div> <!-- cd-timeline-block -->
+        <div class="cd-timeline-content">
+            <h2>Ένταξη στη μονάδα <strong>{{ $timelineBlock->unit->description }}</strong></h2>
 
-		<div class="cd-timeline-block">
-			<div class="cd-timeline-img cd-primary">
-                <i class="fa fa-paperclip"></i>
-			</div> <!-- cd-timeline-img -->
+            @foreach($timelineBlock->unit->steps as $i => $step)
+            @if($step->type=='Assignment')
+            <p><span
+                    class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">Ανάθεση στη δράση/μονάδα <strong>{{ $step->statuses[0]->comments }}</strong></span>
+            @else
+            <p><span
+                    class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">{{ $step->description }}</span>
+                <br/>
+                Σχόλια:
+                @if($step->statuses[0]->status->comments==null || $step->statuses[0]->comments=='')
+                -
+                @else
+                {{ $step->statuses[0]->status->comments}}
+                @endif
+            </p>
+            @endif
+            @endforeach
 
-			<div class="cd-timeline-content">
-				<h2>Final Section</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, obcaecati, quisquam id molestias eaque asperiores voluptatibus cupiditate error assumenda delectus odit similique earum voluptatem doloremque dolorem ipsam quae rerum quis. Odit, itaque, deserunt corporis vero ipsum nisi eius odio natus ullam provident pariatur temporibus quia eos repellat consequuntur perferendis enim amet quae quasi repudiandae sed quod veniam dolore possimus rem voluptatum eveniet eligendi quis fugiat aliquam sunt similique aut adipisci.</p>
-				<span class="cd-date">Feb 26</span>
-			</div> <!-- cd-timeline-content -->
-		</div> <!-- cd-timeline-block -->
-	</section> <!-- cd-timeline -->
+            <small class="pull-right">Η ένταξη έγινε από το χρήστη {{ $timelineBlock->user->name }}</small>
+
+            <span class="cd-date">{{ Carbon::parse($timelineBlock->created_at)->format('d/m/Y') }}</span>
+        </div>
+        <!-- cd-timeline-content -->
+    </div>
+    @endif
+
+    @endforeach
+
+
+</section> <!-- cd-timeline -->
