@@ -33,5 +33,4 @@
     @endforeach
     </tbody>
 </table>
-{!! $units->render() !!}
 

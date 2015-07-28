@@ -4,6 +4,7 @@ use App\Http\Requests\ActionRequest as ActionRequest;
 use App\Models\Action;
 use App\Models\ActionVolunteerHistory;
 use App\Models\Unit;
+use App\Models\Volunteer;
 use App\Services\Facades\ActionService;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
@@ -26,11 +27,11 @@ class ActionController extends Controller {
     public function index() {
         $actions = Action::with('unit', 'volunteers')->get();
 
-        foreach($actions as $action){
+        foreach ($actions as $action) {
             $action->unit->branch = UnitService::getBranchString($action->unit);
         }
 
-       // $actions->setPath(\URL::to('/') . '/actions');
+        // $actions->setPath(\URL::to('/') . '/actions');
 
         $userUnits = UserService::userUnits();
 
@@ -83,9 +84,13 @@ class ActionController extends Controller {
         //get the volunteer ids in an array for the select box
         $volunteerIds = VolunteerService::volunteerIds($action->volunteers);
 
+        $unitId = $action->unit_id;
         //get all volunteers to show in select box
-        $volunteers = VolunteerService::permittedAvailableVolunteers();
-       // $volunteers = VolunteerService::permittedVolunteers();
+        //those should be the volunteers that belong to the same unit
+        //that the action belongs to
+        $volunteers = Volunteer::whereHas('units', function ($query) use ($unitId) {
+            $query->where('unit_id', $unitId);
+        })->orderBy('name', 'asc')->get();
 
         $userUnits = UserService::userUnits();
 
@@ -161,22 +166,6 @@ class ActionController extends Controller {
         return $view->renderSections()['table'];
     }
 
-
-
-
-
-// public function addUsers(Request $request) {
-//     $unit = Unit::findOrFail($request->get('id'));
-
-//     $unit->users()->sync($request->get('users'));
-
-//     $users = User::whereIn('id', $request->get('users'))->get();
-//     foreach ($users as $user) {
-//         NotificationService::addNotification($user->id, 1, 'you are added to Unit: '.$unit->description, "athensIndymedia", $user->id, $unit->id);
-//     }
-//     return $unit->id;
-// }
-
     /**
      * Sync the action volunteers with the db.
      *
@@ -194,15 +183,15 @@ class ActionController extends Controller {
             $oldVolunteersOfAction = $action->volunteers()->get()->lists('id');
 
             $action->volunteers()->sync($request->get('volunteers'));
+            $statusId = VolunteerStatus::active();
 
-            // add new volunteers to history
+            // create a history entry for each new volunteer
             foreach ($request->get('volunteers') as $volunteer) {
                 if (!in_array($volunteer, $oldVolunteersOfAction)) {
-                    $historyTable = new ActionVolunteerHistory;
-                    $historyTable->volunteer_id = $volunteer;
-                    $historyTable->action_id = $action->id;
-                    $historyTable->user_id = \Auth::user()->id;
-                    $historyTable->save();
+                    VolunteerService::actionHistory($volunteer, $action->id);
+
+                    //change unit status to active
+                    VolunteerService::changeUnitStatus($volunteer->id, $action->unit_id, $statusId);
                 }
             }
         }

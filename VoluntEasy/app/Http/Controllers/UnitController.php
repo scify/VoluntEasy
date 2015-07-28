@@ -1,10 +1,11 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests\UnitRequest as UnitRequest;
-use App\Models\Step;
+use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Unit as Unit;
 use App\Models\User;
 use App\Models\Volunteer;
+use App\Services\Facades\NotificationService as NotificationService;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
@@ -12,7 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
-use App\Services\Facades\NotificationService as NotificationService;
 
 class UnitController extends Controller {
     public function __construct() {
@@ -26,8 +26,8 @@ class UnitController extends Controller {
      * @return Response
      */
     public function index() {
-        $units = Unit::orderBy('description', 'ASC')->with('parent')->paginate(5);
-        $units->setPath(\URL::to('/') . '/units');
+        $units = Unit::orderBy('description', 'ASC')->with('parent')->get();
+        //$units->setPath(\URL::to('/') . '/units');
 
         $userUnits = UserService::userUnits();
 
@@ -61,7 +61,7 @@ class UnitController extends Controller {
             $type = 'root';
             return view("main.units.create_root", compact('type', 'users'));
         } else {
-          // $tree = Unit::whereNull('parent_unit_id')->with('allChildren')->first();
+            // $tree = Unit::whereNull('parent_unit_id')->with('allChildren')->first();
             $type = 'branch';
 
             return view("main.units.create_branch", compact('type', 'users'));
@@ -86,7 +86,7 @@ class UnitController extends Controller {
 
         foreach ($inputs as $id => $input) {
             if (preg_match('/user.*/', $id)) {
-               array_push($users, $input);
+                array_push($users, $input);
             }
         }
         $unit->users()->sync($users);
@@ -108,11 +108,35 @@ class UnitController extends Controller {
         $actives = [];
         array_push($actives, $active->id);
 
-        $tree = UnitService::getTree();
         $type = UnitService::type($active);
 
         $userUnits = UserService::userUnits();
-        $volunteers = VolunteerService::permittedVolunteers();
+
+        $unitId = $active->parent_unit_id;
+        $pendingStatus = VolunteerStatus::pending();
+
+        //get all volunteers to show in select box
+        //those should be the volunteers that belong to the parent unit
+        //of the unit we are viewing and their status is not pending
+        $volunteers = Volunteer::whereHas('units', function ($query) use ($unitId, $pendingStatus) {
+            $query->where('unit_id', $unitId)->where('volunteer_status_id', '<>', $pendingStatus);
+        })->orderBy('name', 'asc')->get();
+
+
+        $unitId = $active->id;
+        $currentVolunteers = [];
+        foreach ($active->volunteers as $volunteer) {
+            $volunteerId = $volunteer->id;
+            $volunteer = Volunteer::with(['units' => function ($query) use ($unitId, $volunteerId) {
+                $query->where('unit_id', $unitId)->with(['steps.statuses' => function ($query) use ($volunteerId) {
+                    $query->where('volunteer_id', $volunteerId)->with('status');
+                }]);
+            }])
+                ->findOrFail($volunteer->id);
+            array_push($currentVolunteers, $volunteer);
+        }
+
+        //return $currentVolunteers;
 
         $branch = UnitService::getBranchString($active);
 
@@ -123,7 +147,7 @@ class UnitController extends Controller {
          }
          */
 
-        return view("main.units.show", compact('active', 'actives', 'tree', 'type', 'volunteers', 'userUnits', 'branch'));
+        return view("main.units.show", compact('active', 'actives', 'type', 'volunteers', 'currentVolunteers', 'userUnits', 'branch'));
     }
 
     /**
@@ -244,13 +268,14 @@ class UnitController extends Controller {
 
         $users = User::whereIn('id', $request->get('users'))->get();
         foreach ($users as $user) {
-            NotificationService::addNotification($user->id, 1, 'you are added to Unit: '.$unit->description, "athensIndymedia", $user->id, $unit->id);
+            NotificationService::addNotification($user->id, 1, 'you are added to Unit: ' . $unit->description, "athensIndymedia", $user->id, $unit->id);
         }
         return $unit->id;
     }
 
     /**
      * Sync the unit volunteers with the db.
+     * Also add an entry to the unit history table
      *
      * @param Request $request
      * @return mixed
@@ -258,13 +283,15 @@ class UnitController extends Controller {
     public function addVolunteers(Request $request) {
         $unit = Unit::findOrFail($request->get('id'));
 
-                // return $unit->volunteers()->toArray();
+        $unit->volunteers()->detach();
 
+        // create a history entry for each new volunteer
+        foreach ($request->get('volunteers') as $volunteer) {
+            VolunteerService::addToUnit($unit->id, $unit->parent_unit_id, $volunteer);
 
-        $unit->volunteers()->sync($request->get('volunteers'));
+        }
 
         return $unit->id;
     }
-
 
 }

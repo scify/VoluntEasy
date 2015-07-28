@@ -81,6 +81,7 @@ class VolunteerService {
             $user = User::where('id', \Auth::user()->id)->with('units.children.volunteers')->first();
 
             //loop through each unit and its children and add the user ids to the array
+            //very klassy. will this be refactored? only the future will show...
             foreach ($user->units as $unit) {
                 if (sizeof($unit->children) > 0) {
                     foreach ($unit->children as $child) {
@@ -130,6 +131,8 @@ class VolunteerService {
      * Set the volunteer status of each unit.
      * We keep the volunteer status to the pivot table
      * 'volunteer_unit_status' to easily retrieve it.
+     * We set it to the json object array to easily display
+     * at the front end.
      *
      * @param $volunteer
      * @return mixed
@@ -150,23 +153,6 @@ class VolunteerService {
         return $volunteer;
     }
 
-    /**
-     * Change the volunteer's unit status.
-     * For example change to active f volunteer
-     * is assigned to an action
-     * or change back to available if volunteer is removed from action.
-     *
-     * @param $volunteerId
-     * @param $unitId
-     * @param $statusId
-     */
-    public function changeUnitStatus($volunteerId, $unitId, $statusId){
-
-        \DB::table('volunteer_unit_status')
-            ->where('volunteer_id', $volunteerId)
-            ->where('unit_id', $unitId)
-            ->update(['volunteer_status_id' => $statusId]);
-    }
 
     /**
      * Get volunteers based on a given status.
@@ -245,7 +231,7 @@ class VolunteerService {
         }
 
         //another hack, similar to the above.
-        //we also want to display all available units that the volunteer cna be assigned to.
+        //we also want to display all available units that the volunteer can be assigned to.
         //these are the units that the current user has access to
         //minus the units that the volunteer is already assigned to.
         $volunteer->units->lists('id');
@@ -294,6 +280,44 @@ class VolunteerService {
 
 
     /**
+     * Update the step status to the given status (Complete, Incomplete)
+     *
+     * @return mixed
+     */
+    public function updateStepStatus($stepStatusId, $status, $comments) {
+        //the id of the status, either Complete or Incomplete
+        $statusId = StepStatus::where('description', $status)->first()->id;
+
+        $stepStatus = VolunteerStepStatus::find($stepStatusId);
+        $stepStatus->comments = $comments;
+        $stepStatus->step_status_id = $statusId;
+        $stepStatus->save();
+
+        return $stepStatus;
+    }
+
+    /**
+     * Change the volunteer's unit status.
+     * For example change to active f volunteer
+     * is assigned to an action
+     * or change back to available if volunteer is removed from action.
+     *
+     * @param $volunteerId
+     * @param $unitId
+     * @param $statusId
+     */
+    public function changeUnitStatus($volunteerId, $unitId, $statusId) {
+
+        \DB::table('volunteer_unit_status')
+            ->where('volunteer_id', $volunteerId)
+            ->where('unit_id', $unitId)
+            ->update(['volunteer_status_id' => $statusId]);
+
+        return;
+    }
+
+
+    /**
      * Add a volunteer to the root unit
      * and also create the steps that are needed (status set to incomplete)
      *
@@ -336,22 +360,6 @@ class VolunteerService {
         }
     }
 
-    /**
-     * Update the step status to the given status (Complete, Incomplete)
-     *
-     * @return mixed
-     */
-    public function updateStepStatus($stepStatusId, $status, $comments) {
-        //the id of the status, either Complete or Incomplete
-        $statusId = StepStatus::where('description', $status)->first()->id;
-
-        $stepStatus = VolunteerStepStatus::find($stepStatusId);
-        $stepStatus->comments = $comments;
-        $stepStatus->step_status_id = $statusId;
-        $stepStatus->save();
-
-        return $stepStatus;
-    }
 
     /**
      * Add a volunteer to a unit
@@ -365,14 +373,13 @@ class VolunteerService {
         //or to a child unit
         if ($parentUnitId != null && $unitId == $parentUnitId) {
             //if the volunteer is assigned to current unit, just change the status to available
-
             $volunteerStatus = VolunteerStatus::where('description', 'Available')->first()->id;
 
-            \DB::table('volunteer_unit_status')
-                ->where('volunteer_id', $volunteerId)
-                ->where('unit_id', $unitId)
-                ->update(array('volunteer_status_id' => $volunteerStatus));
+            $this->changeUnitStatus($volunteerId, $unitId, $volunteerStatus);
         } else {
+            //get the pending volunteer status
+            $volunteerStatus = VolunteerStatus::where('description', 'Pending')->first()->id;
+
             //if the user is assigned to a child unit,
             //then detach from parent, attach to child unit and create the steps (set status to Incomplete)
 
@@ -394,6 +401,29 @@ class VolunteerService {
                     ]));
                 }
                 $volunteer->steps()->saveMany($steps);
+            } else {
+                //if the steps already exists, that means that the volunteer has already passed the steps
+                //and can be assigned directly to unit with the status available.
+
+                //TODO: CHECK THIS!!!
+                $unitId = $unit->id;
+                $volunteerId = $volunteer->id;
+
+                $volunteer = Volunteer::with(['units' => function ($query) use ($unitId, $volunteerId) {
+                    $query->where('unit_id', $unitId)->with(['steps.statuses' => function ($query) use ($volunteerId) {
+                        $query->where('volunteer_id', $volunteerId)->with('status');
+                    }]);
+                }])
+                    ->findOrFail($volunteer->id);
+
+                $pending = 0;
+                foreach ($volunteer->steps as $step) {
+                    if ($step->statuses[0]->status == 'Pending')
+                        $pending++;
+                }
+
+                if ($pending == 0)
+                    $volunteerStatus = VolunteerStatus::where('description', 'Available')->first()->id;
             }
 
             //also find the parent unit and remove the volunteer from it
@@ -402,7 +432,7 @@ class VolunteerService {
                 $parentUnit->volunteers()->detach($volunteer->id);
             }
 
-            $unit->volunteers()->attach($volunteer, ['volunteer_status_id' => VolunteerStatus::pending()]);
+            $unit->volunteers()->attach($volunteer, ['volunteer_status_id' => $volunteerStatus]);
 
             $this->unitHistory($volunteer->id, $unit->id);
         }
