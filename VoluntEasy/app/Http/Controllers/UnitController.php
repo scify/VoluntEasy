@@ -61,10 +61,10 @@ class UnitController extends Controller {
             $type = 'root';
             return view("main.units.create_root", compact('type', 'users'));
         } else {
-            $tree = Unit::whereNull('parent_unit_id')->with('allChildren')->first();
+          // $tree = Unit::whereNull('parent_unit_id')->with('allChildren')->first();
             $type = 'branch';
 
-            return view("main.units.create_branch", compact('tree', 'type', 'users'));
+            return view("main.units.create_branch", compact('type', 'users'));
             // return view("main.units.create_branch", compact('type', 'tree', 'userUnits'));
         }
     }

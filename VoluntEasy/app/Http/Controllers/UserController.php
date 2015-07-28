@@ -22,7 +22,7 @@ class UserController extends Controller {
      */
     public function index() {
         $users = User::with('units')->orderBy('name', 'ASC')->get();
-       // $users->setPath(\URL::to('/') . '/users');
+        // $users->setPath(\URL::to('/') . '/users');
         $permittedUsers = UserService::permittedUsersIds();
 
         return view("main.users.list", compact('users', 'permittedUsers'));
@@ -130,12 +130,13 @@ class UserController extends Controller {
      * @return mixed
      */
     public function search() {
-       /* $userUnits = UserService::userUnits();
-        $units = UnitService::search();
+        $permittedUsers = UserService::permittedUsersIds();
+        $users = UserService::search();
 
-        $view = View::make('main.units.list')->with('units', $units)->with('userUnits', $userUnits);
+
+        $view = \View::make('main.users.list')->with('users', $users)->with('permittedUsers', $permittedUsers);
         return $view->renderSections()['table'];
-       */
+
     }
 
 }

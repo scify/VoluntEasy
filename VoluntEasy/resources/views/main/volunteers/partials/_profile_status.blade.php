@@ -42,10 +42,24 @@
                             @if($unit->status=='Active')
                             @foreach($volunteer->actions as $action)
                             @if($action->unit_id==$unit->id)
-                            <p>Δράση <strong><a href="{{ url('actions/one/'.$action->id) }}">{{ $action->description
-                                }}</a></strong><br/>
-                                <small>{{ $action->start_date }} - {{ $action->end_date }}</small>
-                            </p>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <p>Δράση <strong><a href="{{ url('actions/one/'.$action->id) }}">{{
+                                        $action->description
+                                        }}</a></strong><br/>
+                                        <small>{{ $action->start_date }} - {{ $action->end_date }}</small>
+                                    </p>
+                                </div>
+                                <div class="col-md-5">
+                                    @if($permitted==1)
+                                    <a href="{{url('/volunteers/'.$volunteer->id.'/action/detach/'.$action->id)}}"
+                                       data-toggle="tooltip"
+                                       data-placement="bottom" title="Αφαίρεση από τη δράση"><i
+                                            class="fa fa-remove fa-2x"></i></a>
+                                    @endif
+                                </div>
+                            </div>
+
                             @endif
                             @endforeach
                             @endif

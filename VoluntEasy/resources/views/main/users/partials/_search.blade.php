@@ -1,13 +1,18 @@
 <div class="row">
     <div class="col-md-2">
         <div class="form-group">
-            {!! Form::formInput('description', 'Όνομα Μονάδας', $errors, ['class' => 'form-control input-sm search']) !!}
+            {!! Form::formInput('name', 'Όνομα', $errors, ['class' => 'form-control input-sm search']) !!}
         </div>
     </div>
     <div class="col-md-2">
         <div class="form-group">
-            {!! Form::formInput('parent_unit_id', 'Ανήκει στη μονάδα:', $errors, ['class' => 'form-control input-sm searchDropDown',
-            'type' => 'select']) !!}
+            {!! Form::formInput('email', 'Email', $errors, ['class' => 'form-control input-sm search']) !!}
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            {!! Form::formInput('unit_id', 'Υπεύθυνος στη μονάδα:', $errors, ['class' => 'form-control input-sm searchDropDown',
+            'type' => 'select', 'value' => $units]) !!}
         </div>
     </div>
 </div>

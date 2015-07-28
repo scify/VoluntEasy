@@ -70,9 +70,14 @@ $(document).ready(function () {
         title: 'Δεν είστε υπεύθυνος της μονάδας και δεν μπορείτε να την επιλέξετε.',
         placement: 'bottom'
     });
+
     $('.node.tooltips.parent.disabled').tooltip({
         title: 'Δεν μπορείτε να προσθέσετε δράση σε μονάδα που έχει υπομονάδες.',
         placement: 'bottom'
     });
 
+    $('.node.tooltips.leaf.hasActions.disabled').tooltip({
+        title: 'Δεν μπορείτε να προσθέσετε υπομονάδα σε μονάδα που έχει δράσεις.',
+        placement: 'bottom'
+    });
 });

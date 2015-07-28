@@ -15,7 +15,7 @@
         <div class="panel panel-white">
             <div class="panel-body">
                 <h4>Επιλέξτε τον πατέρα της οργανωτικής: <span class="star">*</span></h4>
-                @include('main.tree._tree', ['unit' => $tree, 'tooltips' => 'true'])
+                @include('main.tree._tree', ['tooltips' => 'true', 'creating' => 'unit'])
             </div>
         </div>
     </div>
@@ -52,8 +52,7 @@
 
     $("#tree").jOrgChart({
         chartElement: '#unitsTree',
-        chartClass: "jOrgChart actions",
-        actions: true
+        chartClass: "jOrgChart"
     });
 
 

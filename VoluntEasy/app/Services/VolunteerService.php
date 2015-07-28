@@ -150,6 +150,23 @@ class VolunteerService {
         return $volunteer;
     }
 
+    /**
+     * Change the volunteer's unit status.
+     * For example change to active f volunteer
+     * is assigned to an action
+     * or change back to available if volunteer is removed from action.
+     *
+     * @param $volunteerId
+     * @param $unitId
+     * @param $statusId
+     */
+    public function changeUnitStatus($volunteerId, $unitId, $statusId){
+
+        \DB::table('volunteer_unit_status')
+            ->where('volunteer_id', $volunteerId)
+            ->where('unit_id', $unitId)
+            ->update(['volunteer_status_id' => $statusId]);
+    }
 
     /**
      * Get volunteers based on a given status.

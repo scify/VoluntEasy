@@ -4,11 +4,26 @@ use App\Models\Unit;
 use App\Models\User;
 use App\Models\Volunteer;
 use App\Services\Facades\UnitService as UnitServiceFacade;
+use App\Services\Facades\SearchService as Search;
 
 
 class UserService {
 
     public $unitsIds = array();
+
+    /**
+     * This array holds the names of the filters that the user is able to search by.
+     * Filters correspond to column names.
+     * If a filter doesn't have an operator, a special action is required.
+     *
+     * @var array
+     */
+    private $filters = [
+        'name' => 'like%',
+        'email' => '=',
+        'unit_id' => '',
+    ];
+
 
     /**
      * Get the unit ids of the currently logged in user
@@ -119,7 +134,7 @@ class UserService {
 
         //user is admin/assigned to root
         if (sizeof($this->isUserAdmin()) > 0) {
-           $volunteers = Volunteer::all();
+            $volunteers = Volunteer::all();
             foreach ($volunteers as $volunteer)
                 array_push($permittedVolunteers, $volunteer);
         } else {
@@ -224,4 +239,49 @@ class UserService {
 
         return $permittedUsersIds;
     }
+
+    /**
+     * Dynamic search chains a lot of queries depending on the filters sent by the user.
+     *
+     * @return mixed
+     */
+    public function search() {
+
+        $query = User::select();
+
+        foreach ($this->filters as $column => $filter) {
+            if (\Input::has($column)) {
+                $value = \Input::get($column);
+                switch ($filter) {
+                    case '=':
+                        if (!Search::notDropDown($value, $column))
+                            $query->where($column, '=', $value);
+                        break;
+                    case 'like%':
+                        $query->where($column, 'like', $value . '%');
+                        break;
+                    case '':
+                        switch ($column) {
+                            case 'unit_id':
+                                if (!Search::notDropDown($value, $column)) {
+                                    $id = \Input::get('unit_id');
+                                    $query->whereHas('units', function ($query) use ($id) {
+                                        $query->where('id', $id);
+                                    });
+                                }
+                                break;
+
+                        }
+                    default:
+                        break;
+                }
+            }
+        }
+
+        $result = $query->orderBy('name', 'ASC')->with('units')->get();
+        //$result->setPath(\URL::to('/') . '/units');
+        return $result;
+    }
+
+
 }

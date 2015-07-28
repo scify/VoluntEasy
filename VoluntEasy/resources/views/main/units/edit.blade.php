@@ -14,7 +14,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-body">
-                @include('main.tree._tree', ['unit' => $tree, 'actives' => $actives])
+                @include('main.tree._tree', ['editing' => 'unit', 'actives' => $actives])
             </div>
         </div>
     </div>

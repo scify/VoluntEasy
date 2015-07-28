@@ -56,6 +56,7 @@ Route::get('volunteers/delete/{id}', 'VolunteerController@destroy');
 Route::get('volunteers/one/{id}', ['as' => 'volunteer/one', 'uses' => 'VolunteerController@show']);
 Route::get('volunteers/addToRootUnit/{id}',  'VolunteerController@addToRootUnit');
 Route::get('volunteers/{volunteerId}/unit/detach/{unitId}',  'VolunteerController@detachFromUnit');
+Route::get('volunteers/{volunteerId}/action/detach/{unitId}',  'VolunteerController@detachFromAction');
 Route::post('volunteers/addToUnit',  'VolunteerController@addToUnit');
 Route::post('volunteers/addToAction',  'VolunteerController@addToAction');
 Route::post('volunteers/store', 'VolunteerController@store');

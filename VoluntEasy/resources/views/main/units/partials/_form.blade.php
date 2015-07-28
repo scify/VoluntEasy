@@ -8,7 +8,7 @@
 @if($type=='root')
     {!! Form::hidden('level', 0) !!}
 @elseif($type=='branch' || $type=='leaf')
-    {!! Form::hidden('level', $tree->level+1) !!}
+    {!! Form::hidden('level', 0) !!}
     {!! Form::formInput('parent_unit_id', '', $errors, ['type' => 'hidden', 'id' => 'parent_unit_id']) !!}
 @endif
 @if($submitButtonText!='none')

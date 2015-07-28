@@ -101,6 +101,17 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with('units', $units);
         });
 
+        //Users Search Page requires all the following data for it's dropdowns etc.
+        View::composer('main.users.partials._search', function ($view) {
+
+            $units = Unit::all()->lists('description', 'id');
+
+            $units[0] = '[- επιλέξτε -]';
+            ksort($units);
+
+            $view->with('units', $units);
+        });
+
         //Data used for the tree
         View::composer('main.tree._tree', function ($view) {
             $tree = UnitService::getTree();

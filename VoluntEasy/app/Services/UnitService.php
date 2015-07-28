@@ -95,7 +95,7 @@ class UnitService {
      * @return mixed
      */
     public function getTree() {
-        $tree = Unit::whereNull('parent_unit_id')->with('allChildren')->first();
+        $tree = Unit::whereNull('parent_unit_id')->with('allChildren.actions')->first();
 
         return $tree;
     }
@@ -170,8 +170,8 @@ class UnitService {
             }
         }
 
-        $result = $query->orderBy('description', 'ASC')->with('parent')->paginate(5);
-        $result->setPath(\URL::to('/') . '/units');
+        $result = $query->orderBy('description', 'ASC')->with('parent')->get();
+        //$result->setPath(\URL::to('/') . '/units');
 
         return $result;
     }

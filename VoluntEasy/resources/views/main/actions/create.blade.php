@@ -16,7 +16,7 @@
         <div class="panel panel-white">
             <div class="panel-body">
                 <h4>Επιλέξτε σε ποια οργανωτική μονάδα ανήκει η δράση: <span class="star"></span></h4>
-                @include('main.tree._tree', ['tooltips' => 'true'])
+                @include('main.tree._tree', ['tooltips' => 'true', 'creating' => 'action'])
             </div>
         </div>
     </div>

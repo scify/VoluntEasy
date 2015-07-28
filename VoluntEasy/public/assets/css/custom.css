@@ -103,9 +103,10 @@ span.status.active{
 }
 .jOrgChart .node.action{
 	border-radius: 35%;
+    background-color: #3395C4;
 }
 .jOrgChart .node.action.active-node{
-    background-color: #08A7C3;
+    background-color: #1DB198;
 }
 .jOrgChart .node.disabled{
     background-color: #72829E;
@@ -119,6 +120,7 @@ span.status.active{
 }
 
 /* highlight only leaves */
+/*
 .jOrgChart.leaves .node{
 	background-color: #72829E;
 }
@@ -128,11 +130,9 @@ span.status.active{
 .jOrgChart.leaves .node.leaf.active-node{
 	background-color: #1DB198;
 }
-.jOrgChart .node.action{
-    background-color: #3395C4;
-}
-
+*/
 /* disable actions and units with actions */
+
 .jOrgChart.actions .node.hasActions, .jOrgChart .node.action.disabled, .jOrgChart .node.disabled{
 	background-color: #72829E;
 }

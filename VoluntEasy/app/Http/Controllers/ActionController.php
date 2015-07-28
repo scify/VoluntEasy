@@ -100,12 +100,11 @@ class ActionController extends Controller {
      */
     public function edit($id) {
         $action = Action::where('id', $id)->first();
-
-        $tree = UnitService::getTree();
+        $actives = [$action->id];
 
         $userUnits = UserService::userUnits();
 
-        return view('main.actions.edit', compact('action', 'tree', 'userUnits'));
+        return view('main.actions.edit', compact('action', 'actives', 'userUnits'));
     }
 
     /**

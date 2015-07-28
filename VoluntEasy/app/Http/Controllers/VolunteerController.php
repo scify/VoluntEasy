@@ -421,12 +421,10 @@ class VolunteerController extends Controller {
         $action = Action::find(\Request::get('assign_id'));
         $volunteer = Volunteer::find(\Request::get('volunteer_id'));
 
-        $availableStatus = VolunteerStatus::where('description', 'Active')->first()->id;
+        $statusId = VolunteerStatus::active();
 
-        \DB::table('volunteer_unit_status')
-            ->where('volunteer_id', $volunteer->id)
-            ->where('unit_id', $action->unit_id)
-            ->update(['volunteer_status_id' => $availableStatus]);
+        //change unit status to active
+        VolunteerService::changeUnitStatus($volunteer->id, $action->unit_id, $statusId);
 
         $action->volunteers()->attach($volunteer);
 
@@ -435,13 +433,43 @@ class VolunteerController extends Controller {
         return $volunteer->id;
     }
 
+    /**
+     * Remove volunteer from unit
+     *
+     * @param $volunteerId
+     * @param $unitId
+     * @return mixed
+     */
     public function detachFromUnit($volunteerId, $unitId){
         $volunteer = Volunteer::findOrFail($volunteerId);
 
         $volunteer->units()->detach($unitId);
 
         return \Redirect::route('volunteer/one', ['id' => $volunteerId]);
+    }
 
+    /**
+     * Remove volunteer from action
+     *
+     * @param $volunteerId
+     * @param $actionId
+     * @return mixed
+     */
+    public function detachFromAction($volunteerId, $actionId){
+
+        $action = Action::find($actionId);
+
+        $volunteer = Volunteer::findOrFail($volunteerId);
+
+        $statusId = VolunteerStatus::available();
+
+        //change unit status to active
+        VolunteerService::changeUnitStatus($volunteer->id, $action->unit_id, $statusId);
+
+        //detach from action
+        $volunteer->actions()->detach($actionId);
+
+        return \Redirect::route('volunteer/one', ['id' => $volunteerId]);
     }
 
     /**

@@ -45,17 +45,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div id="unitsTree"></div>
-                        <ul id="tree" style="display:none;">
-                            <li data-id="{{$active->id}}"
-                            {{ $active->id==$tree->id ? 'class=active-node' : '' }}><span
-                                class="description">{{$tree->description}}</span>
-                            <ul>
-                                @include('main.tree._branch_actives', ['unit' => $tree, 'actives' =>
-                                $actives])
-                            </ul>
-                            </li>
-                        </ul>
+                        @include('main.tree._tree', ['editing' => 'unit', 'actives' => $actives])
                     </div>
                 </div>
                 <div class="row">
