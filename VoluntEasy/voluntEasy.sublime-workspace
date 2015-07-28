@@ -76,18 +76,18 @@
 	"buffers":
 	[
 		{
-			"file": "resources/views/template/default/headerIncludes.blade.php",
+			"file": "database/migrations/2015_07_28_114740_create_rating_table.php",
 			"settings":
 			{
-				"buffer_size": 2827,
+				"buffer_size": 1533,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "resources/views/template/default/footer.blade.php",
+			"file": "database/migrations/2015_06_17_082620_add_actions_to_units_relation.php",
 			"settings":
 			{
-				"buffer_size": 75,
+				"buffer_size": 577,
 				"line_ending": "Unix"
 			}
 		}
@@ -175,21 +175,21 @@
 	"expanded_folders":
 	[
 		"/srv/http/VoluntEasy/VoluntEasy",
-		"/srv/http/VoluntEasy/VoluntEasy/config",
-		"/srv/http/VoluntEasy/VoluntEasy/resources",
-		"/srv/http/VoluntEasy/VoluntEasy/resources/lang",
-		"/srv/http/VoluntEasy/VoluntEasy/resources/lang/el",
-		"/srv/http/VoluntEasy/VoluntEasy/resources/lang/el/templates",
-		"/srv/http/VoluntEasy/VoluntEasy/resources/lang/en",
-		"/srv/http/VoluntEasy/VoluntEasy/resources/lang/en/templates",
-		"/srv/http/VoluntEasy/VoluntEasy/resources/lang/municipality",
-		"/srv/http/VoluntEasy/VoluntEasy/resources/lang/municipality/templates",
-		"/srv/http/VoluntEasy/VoluntEasy/resources/views",
-		"/srv/http/VoluntEasy/VoluntEasy/resources/views/template",
-		"/srv/http/VoluntEasy/VoluntEasy/resources/views/template/default"
+		"/srv/http/VoluntEasy/VoluntEasy/database",
+		"/srv/http/VoluntEasy/VoluntEasy/database/migrations"
 	],
 	"file_history":
 	[
+		"/srv/http/VoluntEasy/VoluntEasy/.gitignore",
+		"/srv/http/VoluntEasy/VoluntEasy/app/Http/routes.php",
+		"/srv/http/VoluntEasy/VoluntEasy/.env",
+		"/srv/http/VoluntEasy/VoluntEasy/config/database.php",
+		"/srv/http/VoluntEasy/VoluntEasy/app/Models/Descriptions/LanguageLevel.php",
+		"/srv/http/VoluntEasy/VoluntEasy/config/app.php",
+		"/srv/http/VoluntEasy/VoluntEasy/app/Models/VolunteerLanguage.php",
+		"/srv/http/VoluntEasy/VoluntEasy/app/Models/Volunteer.php",
+		"/srv/http/VoluntEasy/VoluntEasy/app/Models/Descriptions/Language.php",
+		"/srv/http/VoluntEasy/VoluntEasy/resources/views/template/default/headerIncludes.blade.php",
 		"/srv/http/VoluntEasy/VoluntEasy/resources/views/template/default/menu.blade.php",
 		"/srv/http/VoluntEasy/VoluntEasy/resources/lang/en/templates/menu.php",
 		"/srv/http/VoluntEasy/VoluntEasy/resources/lang/municipality/templates/menu.php",
@@ -203,8 +203,6 @@
 		"/srv/http/VoluntEasy/VoluntEasy/resources/lang/en/templates/topBar.php",
 		"/srv/http/VoluntEasy/VoluntEasy/resources/lang/municipality/templates/topBar.php",
 		"/srv/http/VoluntEasy/VoluntEasy/resources/lang/ekpizo/templates/topBar.php",
-		"/srv/http/VoluntEasy/VoluntEasy/app/Models/Volunteer.php",
-		"/srv/http/VoluntEasy/VoluntEasy/app/Http/routes.php",
 		"/srv/http/VoluntEasy/VoluntEasy/app/Models/Unit.php",
 		"/srv/http/VoluntEasy/VoluntEasy/bootstrap/app.php",
 		"/srv/http/VoluntEasy/VoluntEasy/resources/views/default.blade.php",
@@ -215,12 +213,10 @@
 		"/srv/http/VoluntEasy/VoluntEasy/resources/views/home.blade.php",
 		"/srv/http/VoluntEasy/VoluntEasy/resources/lang/el/home.php",
 		"/srv/http/VoluntEasy/VoluntEasy/resources/lang/en/home.php",
-		"/srv/http/VoluntEasy/VoluntEasy/config/app.php",
 		"/srv/http/VoluntEasy/VoluntEasy/resources/views/main/dashboard.blade.php",
 		"/srv/http/VoluntEasy/VoluntEasy/resources/lang/municipality/validation.php",
 		"/srv/http/VoluntEasy/VoluntEasy/resources/lang/municipality/passwords.php",
 		"/srv/http/VoluntEasy/VoluntEasy/resources/lang/municipality/pagination.php",
-		"/srv/http/VoluntEasy/VoluntEasy/.env",
 		"/srv/http/VoluntEasy/VoluntEasy/app/Models/Action.php",
 		"/srv/http/VoluntEasy/VoluntEasy/app/Services/NotificationService.php",
 		"/srv/http/VoluntEasy/VoluntEasy/app/Http/Controllers/NotificationController.php",
@@ -247,7 +243,6 @@
 		"/srv/http/VoluntEasy/VoluntEasy/database/migrations/2015_05_20_104557_create_units_table.php",
 		"/srv/http/VoluntEasy/VoluntEasy/app/Http/Controllers/TestController.php",
 		"/srv/http/VoluntEasy/VoluntEasy/config/mail.php",
-		"/srv/http/VoluntEasy/VoluntEasy/.gitignore",
 		"/home/dubdub/Desktop/KEY FOUND! [ 9A:CF:B3:B0:AB ]",
 		"/home/dubdub/crackme-03.csv",
 		"/home/dubdub/crackmeTest-01.cap",
@@ -312,16 +307,11 @@
 		"/home/dubdub/Desktop/CM/links",
 		"/srv/http/joincargo/vendor/swiftmailer/swiftmailer/lib/classes/Swift/Transport/StreamBuffer.php",
 		"/srv/http/joincargo/developerNotes",
-		"/srv/http/joincargo/app/commands/TransferRequest15minCheck.php",
-		"/srv/http/joincargo/app/config/database.php",
-		"/srv/http/joincargo/app/config/development/database.php",
-		"/srv/http/joincargo/app/lang/gr/home/forShippers.php",
-		"/srv/http/joincargo/app/models/MatchingManager.php",
-		"/srv/http/joincargo/mySqlDumps/regionsLocalBuckUp.sql"
+		"/srv/http/joincargo/app/commands/TransferRequest15minCheck.php"
 	],
 	"find":
 	{
-		"height": 42.0
+		"height": 60.0
 	},
 	"find_in_files":
 	{
@@ -338,6 +328,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"');\n",
+			"faker",
 			"$p",
 			"head",
 			"trans",
@@ -482,71 +474,52 @@
 			[
 				{
 					"buffer": 0,
-					"file": "resources/views/template/default/headerIncludes.blade.php",
+					"file": "database/migrations/2015_07_28_114740_create_rating_table.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2827,
+						"buffer_size": 1533,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1094,
-								1094
+								201,
+								201
 							]
 						],
 						"settings":
 						{
 							"BracketHighlighterBusy": false,
+							"auto_complete": false,
 							"bh_regions":
 							[
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
 								"bh_round",
 								"bh_round_center",
 								"bh_round_open",
 								"bh_round_close",
 								"bh_round_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
 								"bh_single_quote",
 								"bh_single_quote_center",
 								"bh_single_quote_open",
 								"bh_single_quote_close",
 								"bh_single_quote_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
 								"bh_curly",
 								"bh_curly_center",
 								"bh_curly_open",
 								"bh_curly_close",
 								"bh_curly_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
 								"bh_angle",
 								"bh_angle_center",
 								"bh_angle_open",
@@ -556,18 +529,129 @@
 								"bh_c_define_center",
 								"bh_c_define_open",
 								"bh_c_define_close",
-								"bh_c_define_content"
+								"bh_c_define_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content"
+							],
+							"function_name_status_row": 12,
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 160.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "database/migrations/2015_06_17_082620_add_actions_to_units_relation.php",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 577,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								276,
+								276
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content"
 							],
 							"function_name_status_row": 15,
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/Laravel Blade Highlighter/laravel-blade.tmLanguage",
-							"tab_size": 8,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.x": -0.0,
+						"translation.y": 60.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -581,106 +665,14 @@
 			]
 		},
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 1,
-					"file": "resources/views/template/default/footer.blade.php",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 75,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"BracketHighlighterBusy": false,
-							"bh_regions":
-							[
-								"bh_round",
-								"bh_round_center",
-								"bh_round_open",
-								"bh_round_close",
-								"bh_round_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_unmatched",
-								"bh_unmatched_center",
-								"bh_unmatched_open",
-								"bh_unmatched_close",
-								"bh_unmatched_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_angle",
-								"bh_angle_center",
-								"bh_angle_open",
-								"bh_angle_close",
-								"bh_angle_content",
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_single_quote",
-								"bh_single_quote_center",
-								"bh_single_quote_open",
-								"bh_single_quote_close",
-								"bh_single_quote_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content"
-							],
-							"function_name_status_row": 0,
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Laravel Blade Highlighter/laravel-blade.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],
 	"incremental_find":
 	{
-		"height": 30.0
+		"height": 28.0
 	},
 	"input":
 	{
@@ -718,7 +710,7 @@
 		"rows":
 		[
 			0.0,
-			0.905303030303,
+			0.92657856094,
 			1.0
 		]
 	},
@@ -739,7 +731,7 @@
 	"project": "voluntEasy.sublime-project",
 	"replace":
 	{
-		"height": 56.0
+		"height": 52.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -749,15 +741,43 @@
 		"selected_items":
 		[
 			[
+				"git",
+				".gitignore"
+			],
+			[
+				"rou",
+				"app/Http/routes.php"
+			],
+			[
+				".en",
+				".env"
+			],
+			[
+				"data",
+				"config/database.php"
+			],
+			[
+				"config/a",
+				"config/app.php"
+			],
+			[
+				"volunteerlanguage",
+				"app/Models/VolunteerLanguage.php"
+			],
+			[
+				"volunt",
+				"app/Models/Volunteer.php"
+			],
+			[
+				"lang",
+				"app/Models/Descriptions/Language.php"
+			],
+			[
 				"volun",
 				"app/Models/Volunteer.php"
 			],
 			[
 				"rout",
-				"app/Http/routes.php"
-			],
-			[
-				"rou",
 				"app/Http/routes.php"
 			],
 			[
@@ -981,21 +1001,6 @@
 			"hide_conflict": false,
 			"restore_index":
 			{
-				"17":
-				{
-					"group": 0,
-					"index": 0
-				},
-				"18":
-				{
-					"group": 0,
-					"index": 1
-				},
-				"19":
-				{
-					"group": 0,
-					"index": 2
-				}
 			},
 			"restore_layout":
 			{
@@ -1029,7 +1034,7 @@
 				"rows":
 				[
 					0.0,
-					0.92657856094,
+					0.905303030303,
 					1.0
 				]
 			}
