@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<?php  $lang = "auth/login."; ?> {{--  resource label path --}}
+<?php  $lang = "/default."; ?> {{--  resource label path --}}
 <html>
 <head>
     <!-- Title -->
-    <title>{{trans($lang.'title')}}</title>
+    <title>{{trans($lang.'volRating')}} | {{trans($lang.'title')}}</title>
 
     @include('template.default.headerIncludes')
 </head>
@@ -126,6 +126,7 @@
 
             $(".error-msg").css('visibility', 'hidden');
 
+            //send data to server to save the ratings
             $.ajax({
                 url: $("body").attr('data-url') + '/ratings/store',
                 method: 'POST',
@@ -140,8 +141,7 @@
                     'X-CSRF-Token': $('meta[name="_token"]').attr('content')
                 },
                 success: function (data) {
-                    console.log(data);
-                    // window.location.href = $("body").attr('data-url') + "/ratings/thankyou";
+                    window.location.href = $("body").attr('data-url') + "/ratings/thankyou";
                 }
             });
         }

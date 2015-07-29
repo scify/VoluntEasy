@@ -27,7 +27,6 @@ class RatingController extends Controller {
         $volunteer = Volunteer::findOrFail($volunteerId);
 
         return view('main.ratings.rate', compact('action', 'volunteer'));
-
     }
 
     /**
@@ -45,9 +44,11 @@ class RatingController extends Controller {
 
         $action = Action::findOrFail($actionId);
 
+        //TODO: check if email is null.
+        //well in that case, we should not even send an email.
         $email = 'aa@aa.gr';
 
-
+        //save the current rating to the db
         $volRating = new RatingVolunteerAction([
             'volunteer_id' => $volunteerId,
             'action_id' => $actionId,
@@ -61,6 +62,8 @@ class RatingController extends Controller {
 
         $rating = Rating::where('volunteer_id', $volunteerId)->first();
 
+        //check if a rating row already exists for a volunteer
+        //if it doesn't exist, create and save a new one
         if ($rating == null) {
             $rating = new Rating([
                 'volunteer_id' => $volunteerId,
@@ -74,6 +77,8 @@ class RatingController extends Controller {
 
             $rating->save();
         } else {
+            //if a rating row already exists, then add the rating to the rating sum
+            //for each attribute and increament the cound of the voters
             $rating->rating_attr1 += $atrr1;
             $rating->rating_attr2 += $atrr2;
             $rating->rating_attr3 += $atrr3;
@@ -87,14 +92,9 @@ class RatingController extends Controller {
         return $rating;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     * @return Response
-     */
-    public function show($id) {
-        //
+    public function thankyou() {
+        return view('main.ratings.thankyou');
+
     }
 
 }
