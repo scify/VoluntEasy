@@ -89,6 +89,15 @@ Route::get('steps/volunteer/{id}','StepController@volunteerSteps');
 
 
 
+////////////////
+//Rating Routes //
+////////////////
+Route::get('ratings/{volId}/{actionId}','RatingController@create');
+Route::post('ratings/store', 'RatingController@store');
+
+
+
+
 ////////////////////
 // Notifications //
 ////////////////////	
