@@ -25,20 +25,20 @@
         <td>{{ $volunteer->cell_tel }}</td>
         <td>
             @if($volunteer->blacklisted)
-            <span class="status blacklisted">Μη διαθέσιμος</span>
+            <div class="status blacklisted">Μη διαθέσιμος</div>
             @else
             @if($root && sizeof($volunteer->units)==0)
                     <a href="{{ url('volunteers/addToRootUnit/'.$volunteer->id) }}" class="btn btn-info">Ένταξη στη Μονάδα μου</a>
             @elseif(!$root && sizeof($volunteer->units)==0)
-            <p><em>Ο εθελοντής δεν έχει ανατεθεί σε καμία μονάδα</em></p>
+            <p>-</p>
             @else
                @foreach($volunteer->units as $i => $unit)
                     @if($unit->status=='Pending')
-                    <span class="status pending" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι υπό ανάθεση στη μονάδα {{ $unit->description }}">{{ $unit->description }}</span>
+                    <div class="status pending" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι υπό ανάθεση στη μονάδα {{ $unit->description }}">{{ $unit->description }}</div>
                     @elseif($unit->status=='Available')
-                    <span class="status available" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι διαθέσιμος στη μονάδα {{ $unit->description }}">{{ $unit->description }}</span>
+                    <div class="status available" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι διαθέσιμος στη μονάδα {{ $unit->description }}">{{ $unit->description }}</div>
                     @elseif($unit->status=='Active')
-                    <span class="status active" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι ενεργός σε δράσεις στη μονάδα {{ $unit->description }}">{{ $unit->description }}</span>
+                    <div class="status active" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι ενεργός σε δράσεις στη μονάδα {{ $unit->description }}">{{ $unit->description }}</div>
                     @else
                     @endif
                @endforeach
@@ -61,5 +61,4 @@
     @endforeach
     </tbody>
 </table>
-
 

@@ -215,6 +215,7 @@ class VolunteerService {
             ->with('units.children', 'units.actions')
             ->findOrFail($id);
 
+
         //this is basically a hack.
         //in the front end we want to display a list of the available units for each unit
         //that the volunteer can be assigned to, that is the unit's children + the unit itself.
@@ -380,14 +381,14 @@ class VolunteerService {
             //get the pending volunteer status
             $volunteerStatus = VolunteerStatus::where('description', 'Pending')->first()->id;
 
-            //if the user is assigned to a child unit,
-            //then detach from parent, attach to child unit and create the steps (set status to Incomplete)
-
+            //get the unit's steps and the volunteer steps
             $unit = Unit::with('steps')->findOrFail($unitId);
             $volunteer = Volunteer::with('steps.status')->findOrFail($volunteerId);
 
             //check if the steps already exist
-            if (sizeof(array_diff($unit->steps->lists('id'), $volunteer->steps->lists('step_id')))) {
+            //if they don't exist, then create the steps,
+            //and set their status to pending
+            if (sizeof(array_diff($unit->steps->lists('id'), $volunteer->steps->lists('step_id')))!=0) {
 
                 $incompleteStatus = StepStatus::where('description', 'Incomplete')->first();
 
@@ -400,40 +401,47 @@ class VolunteerService {
                         'step_status_id' => $incompleteStatus->id
                     ]));
                 }
+                //append the steps to the volunteer
                 $volunteer->steps()->saveMany($steps);
             } else {
                 //if the steps already exists, that means that the volunteer has already passed the steps
-                //and can be assigned directly to unit with the status available.
+                //and can be assigned directly to unit without creating steps
 
                 //TODO: CHECK THIS!!!
-                $unitId = $unit->id;
                 $volunteerId = $volunteer->id;
 
-                $volunteer = Volunteer::with(['units' => function ($query) use ($unitId, $volunteerId) {
-                    $query->where('unit_id', $unitId)->with(['steps.statuses' => function ($query) use ($volunteerId) {
-                        $query->where('volunteer_id', $volunteerId)->with('status');
-                    }]);
-                }])
-                    ->findOrFail($volunteer->id);
+                $steps = $unit->steps->lists('id');
 
+                $volunteer = Volunteer::with(['steps' => function ($query) use ($steps) {
+                    $query->whereIn('step_id', $steps)->with('status');
+                }])->findOrFail($volunteerId);
+
+
+                //check if there are any pending steps
                 $pending = 0;
                 foreach ($volunteer->steps as $step) {
-                    if ($step->statuses[0]->status == 'Pending')
+                    if ($step->status->description == 'Pending')
                         $pending++;
                 }
 
+                //if the volunteer has pending steps on that unit, then the status is pending
+                //else the status is available
                 if ($pending == 0)
                     $volunteerStatus = VolunteerStatus::where('description', 'Available')->first()->id;
             }
 
-            //also find the parent unit and remove the volunteer from it
-            if (\Request::get('parent_unit_id') != '') {
+            //if the user is assigned to a child unit, then detach it from its parent
+            if (\Request::has('parent_unit_id') && \Request::get('parent_unit_id') != '') {
                 $parentUnit = Unit::find(\Request::get('parent_unit_id'));
                 $parentUnit->volunteers()->detach($volunteer->id);
             }
 
+            //attach the volunteer to the unit with the appropriate status
+            //status can be either pending, if the volunteer has never completed the steps for that unit before
+            //or available, if the volunteer has completed the steps
             $unit->volunteers()->attach($volunteer, ['volunteer_status_id' => $volunteerStatus]);
 
+            //also add an entry to the history table
             $this->unitHistory($volunteer->id, $unit->id);
         }
 

@@ -33,7 +33,28 @@ class TestController extends Controller {
 
 
 
-        return VolunteerService::timeline(16);
+       // return VolunteerService::timeline(16);
+
+        $volunteerId=17;
+        $unitId = 1;
+
+        $unit = Unit::with('steps')->findOrFail($unitId);
+        $volunteer = Volunteer::with('steps.status')->findOrFail($volunteerId);
+
+        $volunteer = Volunteer::with(['units' => function ($query) use ($unitId, $volunteerId) {
+            $query->where('unit_id', $unitId)->with(['steps.statuses' => function ($query) use ($volunteerId) {
+                $query->where('volunteer_id', $volunteerId)->with('status');
+            }]);
+        }])->findOrFail($volunteerId);
+
+
+       $steps = $unit->steps->lists('id');
+
+        $volunteer = Volunteer::with(['steps' => function ($query) use ($steps) {
+            $query->whereIn('step_id', $steps)->with('status');
+        }])->findOrFail($volunteerId);
+
+        return $volunteer;
 
       /*  $vol = Volunteer::available();
 
@@ -68,7 +89,7 @@ class TestController extends Controller {
                 'birth_date' => $faker->dateTimeBetween('-70 years', '-15 years'),
                 'address' =>$faker->address,
                 'city' => $faker->city,
-                'country' => 'Ελλάδα',
+                'country' => 'Κύπρος',
                 'participation_reason' => $faker->paragraph,
                 'participation_previous' => $faker->paragraph,
                 'participation_actions' => $faker->paragraph,
@@ -88,7 +109,7 @@ class TestController extends Controller {
 
             $volunteer->save();
         }
-
+/*
         for ($i = 1; $i < 11; $i++) {
             $unitIds = Unit::all()->lists('id');
             $unit = new Unit([
@@ -111,7 +132,7 @@ class TestController extends Controller {
             ]);
             $action->save();
         }
-
+*/
         return 'Dummy data generated...';
 
     }

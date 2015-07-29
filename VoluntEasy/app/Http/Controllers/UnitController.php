@@ -133,10 +133,10 @@ class UnitController extends Controller {
                 }]);
             }])
                 ->findOrFail($volunteer->id);
+
+            $volunteer = VolunteerService::setStatusToUnits($volunteer);
             array_push($currentVolunteers, $volunteer);
         }
-
-        //return $currentVolunteers;
 
         $branch = UnitService::getBranchString($active);
 
