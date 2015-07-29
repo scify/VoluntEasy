@@ -136,16 +136,12 @@ Route::get('faker','TestController@faker');
 Route::get('units/branch/{id}','UnitController@branch');
 
 /** aris TESTing... **/
-use App\Models\ActionVolunteerHistory;
+use App\Models\Rating;
+use App\Models\Volunteer;
 Route::get('aris', function()
 {
-    if (!in_array(1, [2,3])) {        
-        $historyTable = ActionVolunteerHistory::where('volunteer_id',1)->where('action_id',1)->first();
-        $historyTable->action_id = 2;
-        return var_dump($historyTable->update());
-        // $historyTable->action_id = 1;
-        // $historyTable->save();
-    }
+    return Volunteer::with('actionRatings')->first();
+
     return '666';
 });
 

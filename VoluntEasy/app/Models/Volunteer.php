@@ -19,6 +19,10 @@ class Volunteer extends User {
         'home_tel', 'work_tel', 'cell_tel', 'fax', 'comm_method_id', 'specialty', 'department', 'computer_usage', 'availability_time', 'interests', 'blacklisted'];
 
 
+    ///////////////
+    // Relations //
+    ///////////////
+
     public function actions() {
         return $this->belongsToMany('App\Models\Action', 'actions_volunteers');
     }
@@ -83,10 +87,22 @@ class Volunteer extends User {
         return $this->belongsToMany('App\Models\Unit', 'volunteer_unit_status')->withPivot('volunteer_status_id');
     }
 
-
     public function steps() {
         return $this->hasMany('App\Models\VolunteerStepStatus');
     }
+
+    public function ratings() {
+        return $this->hasOne('App\Models\Rating');
+    }
+
+    public function actionRatings() {
+        return $this->hasOne('App\Models\RatingVolunteerAction');
+    }
+
+
+    //////////////////
+    // Query Scopes //
+    //////////////////
 
     /**
      * Get all the volunteers that are assigned to a unit.
