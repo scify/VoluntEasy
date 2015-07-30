@@ -15,14 +15,35 @@
         <div class="cd-timeline-content">
             <h2>Ανάθεση στη δράση <strong>{{ $timelineBlock->action->description }}</strong></h2>
 
-            <!-- DUMMY STARS -->
-            <p><i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star-o"></i></p>
-
             <p>Διάρκεια δράσης: {{ $timelineBlock->action->start_date }} - {{ $timelineBlock->action->end_date }}</p>
+
+            <!-- RATING STARS -->
+            @if($timelineBlock->action->rating!=null)
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Συνέπεια</h4>
+
+                    <div id="attr1" class="attribute rating"
+                         data-score="{{ $volunteer->ratings->rating_attr1 / $volunteer->ratings->rating_attr1_count }}"></div>
+                </div>
+                <div class="col-md-4">
+                    <h4>Στυλ</h4>
+
+                    <div id="attr2" class="attribute rating"
+                         data-score="{{ $volunteer->ratings->rating_attr2 / $volunteer->ratings->rating_attr2_count }}"></div>
+                </div>
+                <div class="col-md-4">
+                    <h4>Αγάπη για γάτες</h4>
+
+                    <div id="attr3" class="attribute rating"
+                         data-score="{{ $volunteer->ratings->rating_attr3 / $volunteer->ratings->rating_attr3_count }}"></div>
+                </div>
+            </div>
+            <p>Η αξιολόγηση έγινε από τον υπεύθυνο της δράσης (email: <a
+                    href="mailto:{{$timelineBlock->action->email}}">{{$timelineBlock->action->email}}</a>)</p>
+            @endif
+
+
             <small class="pull-right">Η ανάθεση έγινε από το χρήστη {{ $timelineBlock->user->name }}</small>
 
             <span class="cd-date">{{ Carbon::parse($timelineBlock->created_at)->format('d/m/Y') }}</span>
@@ -50,8 +71,8 @@
 
             <p><span
                     class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">{{ $step->description }}</span>
-                <br/>
-                Σχόλια:
+            </p>
+            <p> Σχόλια:
                 @if($step->statuses[0]->comments==null || $step->statuses[0]->comments=='')
                 -
                 @else
@@ -73,5 +94,18 @@
 
 
 </section> <!-- cd-timeline -->
-
 @endif
+
+@section('footerScripts')
+<script>
+    $('.attribute.rating').raty({
+        starOff: '{{ asset("assets/plugins/raty/lib/images/star-off.png")}}',
+        starOn: '{{ asset("assets/plugins/raty/lib/images/star-on.png")}}',
+        starHalf: '{{ asset("assets/plugins/raty/lib/images/star-half.png")}}',
+        readOnly: true,
+        score: function () {
+            return $(this).attr('data-score');
+        }
+    });
+</script>
+@append

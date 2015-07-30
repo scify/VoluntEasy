@@ -95,6 +95,7 @@ class RatingController extends Controller {
     public function thankyou() {
         return view('main.ratings.thankyou');
 
+
     }
 
 }

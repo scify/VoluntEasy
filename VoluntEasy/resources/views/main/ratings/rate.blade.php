@@ -48,19 +48,13 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-
                                             <h4>Συνέπεια</h4>
-
                                             <div id="attr1" class="attribute rating"></div>
-                                            <div class="form-group">
-                                            </div>
+
                                             <h4>Στυλ</h4>
-
                                             <div id="attr2" class="attribute rating"></div>
-                                            <div class="form-group">
-                                            </div>
-                                            <h4>Αγάπη για γάτες</h4>
 
+                                            <h4>Αγάπη για γάτες</h4>
                                             <div id="attr3" class="attribute rating"></div>
                                         </div>
                                         <div class="form-group">

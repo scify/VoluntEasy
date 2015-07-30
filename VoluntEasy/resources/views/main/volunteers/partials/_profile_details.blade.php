@@ -187,6 +187,22 @@
 
 <div class="row">
     <div class="col-md-12">
+     <h3>Αξιολόγηση Εθελοντή</h3>
+        <div class="row">
+            <div class="col-md-3">
+        <h4>Συνέπεια</h4>
+        <div id="attr1" class="attribute rating" data-score="{{ $volunteer->ratings->rating_attr1 / $volunteer->ratings->rating_attr1_count }}"></div>
+            </div>
+            <div class="col-md-3">
+                <h4>Στυλ</h4>
+                <div id="attr2" class="attribute rating" data-score="{{ $volunteer->ratings->rating_attr2 / $volunteer->ratings->rating_attr2_count }}"></div>
+               </div>
+            <div class="col-md-3">
+                <h4>Αγάπη για γάτες</h4>
+                <div id="attr3" class="attribute rating" data-score="{{ $volunteer->ratings->rating_attr3 / $volunteer->ratings->rating_attr3_count }}"></div>
+            </div>
+        </div>
+        <hr/>
        <h3>Σχόλια για τον εθελοντή</h3>
        @if($volunteer->comments=='')
           <p>Κανένα σχόλιο</p>
@@ -231,6 +247,18 @@
 
 @section('footerScripts')
 <script>
+
+    $('.attribute.rating').raty({
+        starOff: '{{ asset("assets/plugins/raty/lib/images/star-off.png")}}',
+        starOn: '{{ asset("assets/plugins/raty/lib/images/star-on.png")}}',
+        starHalf: '{{ asset("assets/plugins/raty/lib/images/star-half.png")}}',
+        readOnly: true,
+        score: function() {
+            return $(this).attr('data-score');
+        }
+    });
+
+
 
     //change volunteer status to blacklisted
     $(".blacklisted").click(function(){

@@ -210,7 +210,7 @@ class VolunteerController extends Controller {
         if(in_array($volunteer->id, UserService::permittedVolunteersIds()))
             $permitted=1;
 
-      // return $volunteer;
+       //return $timeline;
 
         return view("main.volunteers.show", compact('volunteer', 'pending', 'available', 'permitted', 'timeline'));
     }

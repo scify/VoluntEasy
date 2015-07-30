@@ -208,7 +208,7 @@ class VolunteerService {
 
         $volunteer = Volunteer::with('gender', 'identificationType', 'driverLicenceType',
             'educationLevel', 'languages.level', 'languages.language',
-            'interests', 'workStatus', 'availabilityTimes', 'availabilityFrequencies', 'actions')
+            'interests', 'workStatus', 'availabilityTimes', 'availabilityFrequencies', 'actions', 'ratings')
             ->with(['units.steps.statuses' => function ($query) use ($id) {
                 $query->where('volunteer_id', $id)->with('status');
             }])
@@ -256,6 +256,9 @@ class VolunteerService {
         $volunteer = Volunteer::with('actionHistory.action', 'actionHistory.user', 'unitHistory.user')
             ->with(['unitHistory.unit.steps.statuses' => function ($query) use ($volunteerId) {
                 $query->where('volunteer_id', $volunteerId)->with('status');
+            }])
+            ->with(['actionHistory.action.rating' => function ($query) use ($volunteerId) {
+                $query->where('volunteer_id', $volunteerId);
             }])
             ->findOrFail($volunteerId);
 
@@ -388,7 +391,7 @@ class VolunteerService {
             //check if the steps already exist
             //if they don't exist, then create the steps,
             //and set their status to pending
-            if (sizeof(array_diff($unit->steps->lists('id'), $volunteer->steps->lists('step_id')))!=0) {
+            if (sizeof(array_diff($unit->steps->lists('id'), $volunteer->steps->lists('step_id'))) != 0) {
 
                 $incompleteStatus = StepStatus::where('description', 'Incomplete')->first();
 
