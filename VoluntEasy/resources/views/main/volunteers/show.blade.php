@@ -15,14 +15,6 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-12 text-right">
-                        <a href="{{ url('volunteers/edit/'.$volunteer->id) }}" class="btn btn-success"><i
-                                class="fa fa-edit"></i> Επεξεργασία</a>
-                        <a href="{{ url('volunteers/delete/'.$volunteer->id) }}" class="btn btn-danger"><i
-                                class="fa fa-trash"></i> Διαγραφή</a>
-                    </div>
-                </div>
                 @if($volunteer->blacklisted)
                 <div class="row">
                     <div class="col-md-12">

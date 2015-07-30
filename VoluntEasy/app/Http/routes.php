@@ -88,14 +88,12 @@ Route::post('actions/search', 'ActionController@search');
 Route::get('steps/volunteer/{id}','StepController@volunteerSteps');
 
 
-
 ////////////////
 //Rating Routes //
 ////////////////
 Route::get('ratings/{volId}/{actionId}','RatingController@create');
 Route::get('ratings/thankyou','RatingController@thankyou');
 Route::post('ratings/store', 'RatingController@store');
-
 
 
 
@@ -127,6 +125,20 @@ Route::get('notifications','NotificationController@index');
 /////////////////
 Route::get('search/city','SearchController@city');
 Route::get('search/country','SearchController@country');
+
+
+
+/////////////////
+//API Routes //
+/////////////////
+Route::get('api/volunteers','Api\VolunteerApiController@all');
+
+
+
+
+
+
+
 
 
 ////////////////////////////////////////////

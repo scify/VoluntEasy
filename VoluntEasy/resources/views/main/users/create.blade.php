@@ -11,24 +11,27 @@
 @section('bodyContent')
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="panel panel-white">
+            <div class="panel-heading clearfix">
+                <h4 class="panel-title">Στοιχεία χρήστη</h4>
+
+                <div class="panel-control">
+                    <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
+                       class="panel-collapse" data-original-title="Expand/Collapse"><i class="icon-arrow-down"></i></a>
+                </div>
+            </div>
             <div class="panel-body">
-                {!! Form::open(['method' => 'POST', 'action' => ['UserController@store']]) !!}
-                @include('main.users.partials._form', ['submitButtonText' => 'Αποθήκευση'])
-                {!! Form::close() !!}
+                <div class="row">
+                    <div class="col-md-6">
+                        {!! Form::open(['method' => 'POST', 'action' => ['UserController@store']]) !!}
+                        @include('main.users.partials._form', ['submitButtonText' => 'Αποθήκευση'])
+                        {!! Form::close() !!}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-    <!--div class="col-md-12">
-        <div class="panel panel-white">
-            <div class="panel-body">
-                <h4>Επιλέξτε τις οργανωτικές στις οποίες είναι υπεύθυνος ο χρήστης:</h4>
-                @include('main.tree._tree', ['tooltips' => 'true'])
-            </div>
-        </div>
-    </div-->
 </div>
 
 @stop
@@ -42,17 +45,17 @@
         ulId: "#tree",
         children: true
     });
-/*
-    $(".node").click(function () {
-        if (!$(this).hasClass("disabled")) {
-            if ($(this).hasClass("active-node")) {
-                $("#unitDescriptions").append("<li id='unit-" + $(this).attr("data-id") + "'>" + $(this).find(".description").text() + "</li>");
-            }
-            else {
-                $("#unit-" + $(this).attr("data-id")).remove();
-            }
-        }
-    })
-*/
+    /*
+     $(".node").click(function () {
+     if (!$(this).hasClass("disabled")) {
+     if ($(this).hasClass("active-node")) {
+     $("#unitDescriptions").append("<li id='unit-" + $(this).attr("data-id") + "'>" + $(this).find(".description").text() + "</li>");
+     }
+     else {
+     $("#unit-" + $(this).attr("data-id")).remove();
+     }
+     }
+     })
+     */
 </script>
 @stop

@@ -188,6 +188,9 @@
 <div class="row">
     <div class="col-md-12">
      <h3>Αξιολόγηση Εθελοντή</h3>
+        @if($volunteer->ratings==null)
+       <p>Δεν έχει γίνει καμία αξιολόγηση για τον εθελοντή</p>
+        @else
         <div class="row">
             <div class="col-md-3">
         <h4>Συνέπεια</h4>
@@ -203,15 +206,26 @@
             </div>
         </div>
         <hr/>
+        @endif
        <h3>Σχόλια για τον εθελοντή</h3>
        @if($volunteer->comments=='')
           <p>Κανένα σχόλιο</p>
        @else
        <p>{{ $volunteer->comments }}</p>
        @endif
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <a href="{{ url('volunteers/edit/'.$volunteer->id) }}" class="btn btn-success"><i
+                        class="fa fa-edit"></i> Επεξεργασία</a>
+                <a href="{{ url('volunteers/delete/'.$volunteer->id) }}" class="btn btn-danger"><i
+                        class="fa fa-trash"></i> Διαγραφή</a>
+            </div>
+        </div>
         @if(!$volunteer->blacklisted)
-        <div class="pull-right">
-            <small><a href="#" class="text-danger" data-toggle="modal" data-target="#blacklisted">Σήμανση εθελοντή ως μη διαθέσιμος</a></small>
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <small><a href="#" class="text-danger" data-toggle="modal" data-target="#blacklisted">Σήμανση εθελοντή ως μη διαθέσιμος</a></small>
+            </div>
         </div>
         @endif
     </div>

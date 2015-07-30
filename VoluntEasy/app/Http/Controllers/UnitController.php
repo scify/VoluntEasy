@@ -103,8 +103,7 @@ class UnitController extends Controller {
      * @return Response
      */
     public function show($id) {
-        $active = Unit::findOrFail($id);
-        $active->load('actions', 'volunteers');
+        $active = Unit::with('actions', 'allActions', 'volunteers')->findOrFail($id);
         $actives = [];
         array_push($actives, $active->id);
 
@@ -112,42 +111,37 @@ class UnitController extends Controller {
 
         $userUnits = UserService::userUnits();
 
-        $unitId = $active->parent_unit_id;
+        $branch = UnitService::getBranchString($active);
+
+        $unitId = $active->id;
+        $parentUnitId = $active->parent_unit_id;
         $pendingStatus = VolunteerStatus::pending();
 
         //get all volunteers to show in select box
         //those should be the volunteers that belong to the parent unit
+        //or to the same unit
         //of the unit we are viewing and their status is not pending
-        $volunteers = Volunteer::whereHas('units', function ($query) use ($unitId, $pendingStatus) {
-            $query->where('unit_id', $unitId)->where('volunteer_status_id', '<>', $pendingStatus);
+        $allVolunteers = Volunteer::whereHas('units', function ($query) use ($unitId, $parentUnitId, $pendingStatus) {
+            $query->where('unit_id', $unitId)->orWhere('unit_id', $parentUnitId)->where('volunteer_status_id', '<>', $pendingStatus);
         })->orderBy('name', 'asc')->get();
 
-
         $unitId = $active->id;
-        $currentVolunteers = [];
+        $volunteers = [];
         foreach ($active->volunteers as $volunteer) {
             $volunteerId = $volunteer->id;
-            $volunteer = Volunteer::with(['units' => function ($query) use ($unitId, $volunteerId) {
+            $vol = Volunteer::with(['units' => function ($query) use ($unitId, $volunteerId) {
                 $query->where('unit_id', $unitId)->with(['steps.statuses' => function ($query) use ($volunteerId) {
                     $query->where('volunteer_id', $volunteerId)->with('status');
                 }]);
             }])
                 ->findOrFail($volunteer->id);
 
-            $volunteer = VolunteerService::setStatusToUnits($volunteer);
-            array_push($currentVolunteers, $volunteer);
+            $vol = VolunteerService::setStatusToUnits($vol);
+            array_push($volunteers, $vol);
         }
 
-        $branch = UnitService::getBranchString($active);
 
-        //if the request comes from ajax, return only a section of the needed code
-        /* if (Request::ajax()) {
-             $view = View::make('main.units.show')->with('active', $active);
-             return $view->renderSections()['details'];
-         }
-         */
-
-        return view("main.units.show", compact('active', 'actives', 'type', 'volunteers', 'currentVolunteers', 'userUnits', 'branch'));
+        return view("main.units.show", compact('active', 'actives', 'type', 'allVolunteers', 'volunteers', 'userUnits', 'branch'));
     }
 
     /**
@@ -288,7 +282,6 @@ class UnitController extends Controller {
         // create a history entry for each new volunteer
         foreach ($request->get('volunteers') as $volunteer) {
             VolunteerService::addToUnit($unit->id, $unit->parent_unit_id, $volunteer);
-
         }
 
         return $unit->id;

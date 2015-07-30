@@ -1,4 +1,3 @@
-<h3>Στοιχεία Χρήστη</h3>
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
@@ -15,12 +14,12 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            {!! Form::formInput('addr', 'Διεύθυνση:', $errors, ['class' => 'form-control']) !!}
+            {!! Form::formInput('addr', 'Διεύθυνση:', $errors, ['class' => 'form-control', 'required' => 'true']) !!}
         </div>
     </div>
     <div class="col-md-6">
         <div class="form-group">
-            {!! Form::formInput('tel', 'Τηλέφωνο:', $errors, ['class' => 'form-control']) !!}
+            {!! Form::formInput('tel', 'Τηλέφωνο:', $errors, ['class' => 'form-control', 'required' => 'true']) !!}
         </div>
     </div>
 </div>

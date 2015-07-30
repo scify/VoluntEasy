@@ -557,7 +557,7 @@ class VolunteerService {
         }
 
         $result = $query->orderBy('name', 'ASC')->with('actions')->get();
-        //  $result->setPath(\URL::to('/') . '/volunteers');
+        $result->setPath(\URL::to('/') . '/volunteers');
 
 
         //get the status of each unit to display to the list

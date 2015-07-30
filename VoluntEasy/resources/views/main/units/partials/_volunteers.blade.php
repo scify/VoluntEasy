@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12">
-        @if(sizeof($currentVolunteers)==0)
-        Δεν υπάρχουν εθελοντές στην οργανωτική μονάδα.
+        @if(sizeof($unit->volunteers)==0)
+        Δεν υπάρχουν εθελοντές.
         @else
         <table class="table table-striped">
             <thead>
@@ -15,7 +15,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach ($currentVolunteers as $volunteer)
+            @foreach ($unit->volunteers as $volunteer)
             <tr>
                 <td>{{ $volunteer->id }}</td>
                 <td><a href="{{ url('volunteers/one/'.$volunteer->id) }}">{{ $volunteer->name }} {{

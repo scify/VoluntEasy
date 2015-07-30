@@ -88,13 +88,13 @@ class ActionController extends Controller {
         //get all volunteers to show in select box
         //those should be the volunteers that belong to the same unit
         //that the action belongs to
-        $volunteers = Volunteer::whereHas('units', function ($query) use ($unitId) {
+        $allVolunteers = Volunteer::whereHas('units', function ($query) use ($unitId) {
             $query->where('unit_id', $unitId);
         })->orderBy('name', 'asc')->get();
 
         $userUnits = UserService::userUnits();
 
-        return view('main.actions.show', compact('action', 'volunteers', 'volunteerIds', 'userUnits', 'branch'));
+        return view('main.actions.show', compact('action', 'allVolunteers', 'volunteerIds', 'userUnits', 'branch'));
     }
 
     /**

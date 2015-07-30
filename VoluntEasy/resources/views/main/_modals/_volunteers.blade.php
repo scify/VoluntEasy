@@ -11,8 +11,8 @@
             <div class="modal-body">
                 <select class="js-states form-control" id="volunteerList" multiple="multiple" tabindex="-1"
                         style="display: none; width: 100%">
-                    @foreach($volunteers as $volunteer)
-                    <option value="{{ $volunteer->id }}" {{ in_array($volunteer->id, $volunteerIds) ? 'selected' : '' }}>{{$volunteer->name.' '.$volunteer->last_name}}</option>
+                    @foreach($allVolunteers as $volunteer)
+                    <option value="{{ $volunteer->id }}" {{ in_array($volunteer->id, $active->volunteers->lists('id')) ? 'selected' : '' }}>{{$volunteer->name.' '.$volunteer->last_name}}</option>
                     @endforeach
                 </select>
             </div>

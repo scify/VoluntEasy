@@ -71,7 +71,7 @@ $(document).ready(function () {
         placement: 'bottom'
     });
 
-    $('.node.tooltips.parent.disabled').tooltip({
+    $('.node.tooltips.parent.hasUnits.disabled').tooltip({
         title: 'Δεν μπορείτε να προσθέσετε δράση σε μονάδα που έχει υπομονάδες.',
         placement: 'bottom'
     });
@@ -80,4 +80,5 @@ $(document).ready(function () {
         title: 'Δεν μπορείτε να προσθέσετε υπομονάδα σε μονάδα που έχει δράσεις.',
         placement: 'bottom'
     });
+
 });

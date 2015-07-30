@@ -24,11 +24,12 @@
         <link href="{{ asset('assets/plugins/vertical-timeline/css/style.css')}}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('assets/plugins/raty/lib/jquery.raty.css')}}" rel="stylesheet" type="text/css"/>
 
-
         <!-- Theme Styles -->
         <link href="{{ asset('assets/css/modern.css')}}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('assets/css/themes/white.css')}}" class="theme-color" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('assets/css/custom.css')}}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('assets/plugins/data-tables/css/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css"/>
+
 
         <script src="{{ asset('assets/plugins/3d-bold-navigation/js/modernizr.js')}}"></script>
 

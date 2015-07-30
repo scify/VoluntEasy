@@ -16,7 +16,8 @@
                 <h4 class="panel-title">Αναζήτηση</h4>
             </div-->
             <div class="panel-body">
-                {!! Form::open(['method' => 'POST', 'action' => ['VolunteerController@search'], 'id' => 'searchForm']) !!}
+                {!! Form::open(['method' => 'POST', 'action' => ['VolunteerController@search'], 'id' => 'searchForm'])
+                !!}
                 @include('main.volunteers.partials._search')
                 {!! Form::close() !!}
             </div>
@@ -46,10 +47,11 @@
 
 @section('footerScripts')
 <script>
-    $(".delete").click(function(){
+
+    $(".delete").click(function () {
         if (confirm("Delete volunteer?") == true) {
             $.ajax({
-                url: $("body").attr('data-url') + '/volunteers/delete/'+$(this).attr('data-id'),
+                url: $("body").attr('data-url') + '/volunteers/delete/' + $(this).attr('data-id'),
                 method: 'GET',
                 headers: {
                     'X-CSRF-Token': $('#token').val()

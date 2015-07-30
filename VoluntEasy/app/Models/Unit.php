@@ -21,9 +21,24 @@ class Unit extends Model {
         return $this->belongsToMany('App\Models\User', 'units_users', 'unit_id', 'user_id');
     }
 
+    /**
+     * Show only the active actions (their end date is after current time)
+     *
+     * @return mixed
+     */
     public function actions() {
-        return $this->hasMany('App\Models\Action');
+        $now = date('Y-m-d');
+        return $this->hasMany('App\Models\Action')->where('end_date', '>', $now);
     }
+
+    /**
+     * Get all actions, active and past
+     * @return mixed
+     */
+    public function allActions() {
+        return $this->hasMany('App\Models\Action')->orderBy('end_date', 'desc');
+    }
+
 
     public function steps() {
         return $this->hasMany('App\Models\Step')->orderBy('step_order', 'asc');

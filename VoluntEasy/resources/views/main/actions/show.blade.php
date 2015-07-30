@@ -11,73 +11,77 @@
 
 @section('bodyContent')
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-white">
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-8">
-                        <h2 id="unitDescription">{{$action->description}}</h2>
-                        <p><small>
-                            @foreach($branch as $key => $unit)
-                            @if($key < sizeof($branch)-1)
-                            <a href="{{ url('units/one/'.$unit->id) }}">{{ $unit->description }}</a> <i class="fa fa-angle-right"></i>
-                            @else
-                            <a href="{{ url('units/one/'.$unit->id) }}">{{ $unit->description }}</a>
-                            @endif
-                            @endforeach
-                        </small> </p>
-                    </div>
-                    @if(in_array($action->unit->id, $userUnits))
-                    <div class="col-md-4 text-right">
-                        <a href="{{ url('actions/edit/'.$action->id) }}" class="btn btn-success"><i
-                                class="fa fa-edit"></i> Επεξεργασία</a>
-                        <a href="{{ url('actions/delete/'.$action->id) }}" class="btn btn-danger"><i
-                                class="fa fa-trash"></i> Διαγραφή</a>
-                    </div>
+
+<div class="panel panel-white tree">
+    <div class="panel-heading clearfix">
+        <h2 class="panel-title">Στοιχεία Δράσης</h2>
+
+        <div class="panel-control">
+            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="" class="panel-collapse"
+               data-original-title="Expand/Collapse"><i class="icon-arrow-down"></i></a>
+        </div>
+    </div>
+    <div class="panel-body" style="display: block;">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Δράση {{ $action->description }}</h3>
+                <p><small>
+                    @foreach($branch as $key => $unit)
+                    @if($key < sizeof($branch)-1)
+                    <a href="{{ url('units/one/'.$unit->id) }}">{{ $unit->description }}</a> <i class="fa fa-angle-right"></i>
+                    @else
+                    <a href="{{ url('units/one/'.$unit->id) }}">{{ $unit->description }}</a>
                     @endif
-                </div>
+                    @endforeach
+                </small> </p>
+                <p><strong>Περιγραφή:</strong> {{ $action->comments==null || $action->comments=='' ? '-' : $action->comments }}</p>
+                <p><strong>Διάρκεια:</strong> {{ $action->start_date }} - {{ $action->end_date }}</p>
+                <p><strong>Email Υπευθύνου:</strong> {{ $action->email==null || $action->email=='' ? '-' : $action->email }}</p>
+
                 <hr/>
-                <div class="row">
-                    <div class="col-md-6">
-                        @include('main.actions.partials._details', ['action' => $action])
-                    </div>
+                @if(in_array($action->unit->id, $userUnits))
+                <div class="text-right">
+                    <a href="{{ url('actions/edit/'.$action->id) }}" class="btn btn-success"><i
+                            class="fa fa-edit"></i> Επεξεργασία</a>
+                    <a href="{{ url('actions/delete/'.$action->id) }}" class="btn btn-danger"><i
+                            class="fa fa-trash"></i> Διαγραφή</a>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <hr/>
-                    </div>
-                </div>
+                @endif
             </div>
         </div>
     </div>
 </div>
 
+
+
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-white">
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-8">
-                        <h2>Εθελοντές</h2>
-                    </div>
-                    @if(in_array($action->unit->id, $userUnits))
-                    <div class="col-md-4 text-right">
-                        <button type="button" class="btn btn-success" data-toggle="modal"
-                                data-target="#volunteersModal"><i
-                                class="fa fa-leaf"></i> Προσθήκη Εθελοντών
-                        </button>
-                    </div>
-                    @endif
+            <div class="panel-heading clearfix">
+                <h4 class="panel-title">Εθελοντές</h4>
+
+                <div class="panel-control">
+                    <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
+                       class="panel-collapse" data-original-title="Expand/Collapse"><i class="icon-arrow-down"></i></a>
                 </div>
-                <hr/>
+            </div>
+            <div class="panel-body">
                 @include('main.units.partials._volunteers', ['unit' => $action])
+                @if(in_array($action->unit->id, $userUnits))
+                <div class="text-right">
+                    <button type="button" class="btn btn-success" data-toggle="modal"
+                            data-target="#volunteersModal"><i
+                            class="fa fa-leaf"></i> Προσθήκη Εθελοντών
+                    </button>
+                </div>
+                @endif
             </div>
         </div>
     </div>
 </div>
 
-@include('main._modals._volunteers', ['volunteers' => $volunteers, 'active' => $action])
+
+@include('main._modals._volunteers', ['active' => $action])
 
 
 @stop
@@ -108,7 +112,7 @@
             volunteers: volunteers
         };
 
-      //  console.log(volunteersUnits);
+        //  console.log(volunteersUnits);
 
         $.ajax({
             url: $("body").attr('data-url') + '/actions/volunteers',
@@ -118,7 +122,7 @@
                 'X-CSRF-Token': $('meta[name="_token"]').attr('content')
             },
             success: function (data) {
-            console.log(data);
+                console.log(data);
                 window.location.href = $("body").attr('data-url') + "/actions/one/" + data;
             }
         });
