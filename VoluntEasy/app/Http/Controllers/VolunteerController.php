@@ -46,7 +46,7 @@ class VolunteerController extends Controller {
 
         return view('main.volunteers.list', compact('volunteers'));
     }
-    
+
     /**
      * Display volunteer statistics
      *

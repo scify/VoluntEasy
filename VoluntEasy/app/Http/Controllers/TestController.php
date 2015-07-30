@@ -109,7 +109,7 @@ class TestController extends Controller {
 
             $volunteer->save();
         }
-/*
+
         for ($i = 1; $i < 11; $i++) {
             $unitIds = Unit::all()->lists('id');
             $unit = new Unit([
@@ -132,7 +132,7 @@ class TestController extends Controller {
             ]);
             $action->save();
         }
-*/
+
         return 'Dummy data generated...';
 
     }
