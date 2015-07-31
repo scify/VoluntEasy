@@ -3,6 +3,7 @@
 use App\Http\Requests\ActionRequest as ActionRequest;
 use App\Models\Action;
 use App\Models\ActionVolunteerHistory;
+use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Services\Facades\ActionService;
@@ -191,7 +192,7 @@ class ActionController extends Controller {
                     VolunteerService::actionHistory($volunteer, $action->id);
 
                     //change unit status to active
-                    VolunteerService::changeUnitStatus($volunteer->id, $action->unit_id, $statusId);
+                    VolunteerService::changeUnitStatus($volunteer, $action->unit_id, $statusId);
                 }
             }
         }

@@ -36,15 +36,15 @@ class VolunteerController extends Controller {
      * @return Response
      */
     public function index() {
-        $volunteers = Volunteer::with('units', 'actions')->orderBy('name', 'ASC')->get();
+     /*   $volunteers = Volunteer::with('units', 'actions')->orderBy('name', 'ASC')->get();
         //$volunteers->setPath(\URL::to('/') . '/volunteers');
 
         //get the status of each unit to display to the list
         foreach($volunteers as $volunteer){
             $volunteer = VolunteerService::setStatusToUnits($volunteer);
-        }
+        }*/
 
-        return view('main.volunteers.list', compact('volunteers'));
+        return view('main.volunteers.list_datatables');
     }
 
     /**
@@ -370,8 +370,10 @@ class VolunteerController extends Controller {
     public function search() {
         $volunteers = VolunteerService::search();
 
-        $view = View::make('main.volunteers.list')->with('volunteers', $volunteers);
-        return $view->renderSections()['table'];
+        return $volunteers;
+
+     /*   $view = View::make('main.volunteers.list')->with('volunteers', $volunteers);
+        return $view->renderSections()['table'];*/
     }
 
 

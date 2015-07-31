@@ -1,14 +1,11 @@
 <?php namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Volunteer;
-use App\Services\Facades\UserService;
-use App\Services\Facades\VolunteerService;
 
-class VolunteerApiController extends Controller{
-
+class UnitApiController extends Controller{
+/*
     public function all(){
-        $volunteers = Volunteer::with('units', 'actions')->orderBy('name', 'ASC')->get();
+        $units = Volunteer::with('units', 'actions')->orderBy('name', 'ASC')->get();
         //$volunteers->setPath(\URL::to('/') . '/volunteers');
 
         $permittedVolunteers = VolunteerService::permittedVolunteersIds();
@@ -17,6 +14,5 @@ class VolunteerApiController extends Controller{
 
         return [  "data" => $data ];
     }
-
-
+*/
 }

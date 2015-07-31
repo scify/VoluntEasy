@@ -28,7 +28,7 @@ class Unit extends Model {
      */
     public function actions() {
         $now = date('Y-m-d');
-        return $this->hasMany('App\Models\Action')->where('end_date', '>', $now);
+        return $this->hasMany('App\Models\Action')->where('end_date', '>=', $now);
     }
 
     /**

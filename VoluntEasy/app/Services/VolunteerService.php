@@ -10,6 +10,7 @@ use App\Models\VolunteerStepStatus;
 use App\Models\VolunteerUnitHistory;
 use App\Services\Facades\SearchService as Search;
 use App\Services\Facades\UnitService as UnitServiceFacade;
+use App\Services\Facades\UserService;
 use App\Services\Facades\UserService as UserServiceFacade;
 
 class VolunteerService {
@@ -490,6 +491,37 @@ class VolunteerService {
         $actionHistory->save();
     }
 
+    /**
+     * After adding the datatables plugin,
+     * we need to prepare the data before sending it to the client
+     * @param $volunteers
+     */
+    public function prepareForDataTable($volunteers) {
+        $permittedVolunteers = VolunteerService::permittedVolunteersIds();
+
+        $data = [];
+
+        //check if user is root
+        $root = false;
+        if (sizeof(UserService::isUserAdmin()) > 0)
+            $root = true;
+
+        //get the status of each unit to display to the list
+        //and also check if the current user is permitted to edit the volunteer
+        foreach ($volunteers as $volunteer) {
+            $volunteer = VolunteerService::setStatusToUnits($volunteer);
+            if (in_array($volunteer->id, $permittedVolunteers))
+                $volunteer->permitted = true;
+            else
+                $volunteer->permitted = -false;
+
+            if ($root && sizeof($volunteer->units) == 0)
+                $volunteer->assignToRoot = true;
+            else$volunteer->assignToRoot = false;
+
+            array_push($data, $volunteer);
+        }
+    }
 
     /**
      * Dynamic search chains a lot of queries depending on the filters sent by the user.
@@ -556,16 +588,21 @@ class VolunteerService {
             }
         }
 
-        $result = $query->orderBy('name', 'ASC')->with('actions')->get();
-        $result->setPath(\URL::to('/') . '/volunteers');
+        $result = $query->with('actions', 'units')->orderBy('name', 'ASC')->get();
+        // $result->setPath(\URL::to('/') . '/volunteers');
 
+        /*
+                //get the status of each unit to display to the list
+                foreach ($result as $volunteer) {
+                    $volunteer = VolunteerService::setStatusToUnits($volunteer);
+                }
 
-        //get the status of each unit to display to the list
-        foreach ($result as $volunteer) {
-            $volunteer = VolunteerService::setStatusToUnits($volunteer);
-        }
+                return $result;
+        */
 
-        return $result;
+        $data = $this->prepareForDataTable($result);
+
+        return ["data" => $data];
     }
 
 }

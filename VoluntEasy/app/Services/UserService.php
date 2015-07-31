@@ -98,7 +98,8 @@ class UserService {
 
 
     /**
-     *
+     *  Get an array of the permitted units
+     *  for each user
      *
      * @return array
      */

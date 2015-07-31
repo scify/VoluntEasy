@@ -47,29 +47,30 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $genders = Gender::all()->lists('description', 'id');
             $commMethod = CommunicationMethod::all()->lists('description', 'id');
             $educationLevels = EducationLevel::all()->lists('description', 'id');
-            $statuses = VolunteerStatus::all()->lists('description', 'id');
             $units = Unit::all()->lists('description', 'id');
 
-
-            $volunteerStatuses = VolunteerStatus::all()->lists('description', 'id');
 
             $maritalStatuses[0] = '[- επιλέξτε -]';
             $educationLevels[0] = '[- επιλέξτε -]';
             $genders[0] = '[- επιλέξτε -]';
             $units[0] = '[- επιλέξτε -]';
-            $statuses[0] = '[- επιλέξτε -]';
-            $statuses[5] = 'Νέος';
             ksort($maritalStatuses);
             ksort($educationLevels);
             ksort($genders);
             ksort($units);
-            ksort($statuses);
+
+            $statuses = [];
+            array_push($statuses, '[- επιλέξτε -]');
+            array_push($statuses, 'Υπό ένταξη');
+            array_push($statuses, 'Διαθέσιμος');
+            array_push($statuses, 'Ενεργός');
+            array_push($statuses, 'Ακατάλληλος');
+            array_push($statuses, 'Νέος');
 
             $view->with('maritalStatuses', $maritalStatuses)
                 ->with('identificationTypes', $identificationTypes)
                 ->with('driverLicenseTypes', $driverLicenseTypes)
                 ->with('languages', $languages)
-                ->with('volunteerStatuses', $volunteerStatuses)
                 ->with('educationLevels', $educationLevels)
                 ->with('genders', $genders)
                 ->with('statuses', $statuses)

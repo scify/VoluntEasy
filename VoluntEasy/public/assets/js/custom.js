@@ -14,8 +14,9 @@ $(document).ready(function () {
         $('.searchCheckbox').attr('checked', false);
     });
 
+
     //Submit the form through ajax.
-    //The result data is the html of the table.
+    //The result data should be reloaded to the datatable
     $('#searchForm').on('submit', function (event) {
         event.preventDefault();
 
@@ -28,12 +29,14 @@ $(document).ready(function () {
                 'X-CSRF-Token': $('meta[name="_token"]').attr('content')
             },
             success: function (data) {
-                $("#table").html(data);
-                console.log(data);
+                table.fnClearTable();
+                if (data.data.length > 0)
+                    table.fnAddData(data.data);
             }
         });
         return false; // prevent send form
     });
+
 
     /**
      * datepickers for the edit form
@@ -50,7 +53,7 @@ $(document).ready(function () {
     });
 
     //add restrictions: user should not be able to check
-    // an end_date after start_date and vice-versa
+    //an end_date after start_date and vice-versa
     $('.endDate').datepicker({
         language: 'el',
         format: 'dd/mm/yyyy',
@@ -80,5 +83,7 @@ $(document).ready(function () {
         title: 'Δεν μπορείτε να προσθέσετε υπομονάδα σε μονάδα που έχει δράσεις.',
         placement: 'bottom'
     });
+
+
 
 });
