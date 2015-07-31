@@ -521,6 +521,8 @@ class VolunteerService {
 
             array_push($data, $volunteer);
         }
+
+        return $data;
     }
 
     /**

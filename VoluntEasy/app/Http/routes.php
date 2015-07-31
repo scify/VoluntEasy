@@ -132,6 +132,8 @@ Route::get('search/country','SearchController@country');
 //API Routes //
 /////////////////
 Route::get('api/volunteers','Api\VolunteerApiController@all');
+Route::get('api/units','Api\UnitApiController@all');
+Route::get('api/users','Api\UserApiController@all');
 
 
 

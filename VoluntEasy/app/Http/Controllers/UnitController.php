@@ -26,12 +26,12 @@ class UnitController extends Controller {
      * @return Response
      */
     public function index() {
-        $units = Unit::orderBy('description', 'ASC')->with('parent')->get();
+       /* $units = Unit::orderBy('description', 'ASC')->with('parent')->get();
         //$units->setPath(\URL::to('/') . '/units');
 
         $userUnits = UserService::userUnits();
-
-        return view("main.units.list", compact('units', 'userUnits'));
+        */
+        return view("main.units.list");
     }
 
     /**
@@ -232,11 +232,9 @@ class UnitController extends Controller {
      * @return mixed
      */
     public function search() {
-        $userUnits = UserService::userUnits();
         $units = UnitService::search();
 
-        $view = View::make('main.units.list')->with('units', $units)->with('userUnits', $userUnits);
-        return $view->renderSections()['table'];
+        return $units;
     }
 
     public function rootUnit() {

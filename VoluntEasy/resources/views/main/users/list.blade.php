@@ -1,10 +1,10 @@
 @extends('default')
 
 @section('title')
-    Προβολή λίστας-Αναζήτηση
+Προβολή λίστας-Αναζήτηση
 @stop
 @section('pageTitle')
-    Προβολή λίστας-Αναζήτηση
+Προβολή λίστας-Αναζήτηση
 @stop
 
 @section('bodyContent')
@@ -28,12 +28,7 @@
                 <h4 class="panel-title">Χρήστες</h4>
             </div>
             <div class="panel-body">
-                @section('table')
                 @include('main.users.partials._table')
-                @endsection
-                <div id="table">
-                    @yield('table')
-                </div>
             </div>
         </div>
     </div>
@@ -43,13 +38,14 @@
 
 
 @section('footerScripts')
+//remove
 <input id="token" type="hidden" value="{{ csrf_token() }}">
 
 <script>
-    $(".delete").click(function(){
+    $(".delete").click(function () {
         if (confirm("Delete user?") == true) {
             $.ajax({
-                url: $("body").attr('data-url') + '/users/delete/'+$(this).attr('data-id'),
+                url: $("body").attr('data-url') + '/users/delete/' + $(this).attr('data-id'),
                 method: 'POST',
                 headers: {
                     'X-CSRF-Token': $('#token').val()

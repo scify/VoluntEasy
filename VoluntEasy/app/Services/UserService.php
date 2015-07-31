@@ -241,6 +241,19 @@ class UserService {
         return $permittedUsersIds;
     }
 
+    public function prepareForDataTable($users){
+        $permittedUsers = UserService::permittedUsersIds();
+
+        foreach($users as $user){
+            if(in_array($user->id, $permittedUsers))
+                $user->permitted=true;
+            else
+                $user->permitted=false;
+        }
+
+        return $users;
+    }
+
     /**
      * Dynamic search chains a lot of queries depending on the filters sent by the user.
      *
@@ -280,8 +293,10 @@ class UserService {
         }
 
         $result = $query->orderBy('name', 'ASC')->with('units')->get();
-        //$result->setPath(\URL::to('/') . '/units');
-        return $result;
+
+        $data = $this->prepareForDataTable($result);
+
+        return ["data" => $data];
     }
 
 

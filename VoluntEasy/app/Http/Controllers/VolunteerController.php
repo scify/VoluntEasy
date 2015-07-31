@@ -44,7 +44,7 @@ class VolunteerController extends Controller {
             $volunteer = VolunteerService::setStatusToUnits($volunteer);
         }*/
 
-        return view('main.volunteers.list_datatables');
+        return view('main.volunteers.list');
     }
 
     /**

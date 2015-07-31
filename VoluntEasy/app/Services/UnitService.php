@@ -4,6 +4,7 @@ use App\Models\Step as Step;
 use App\Models\Unit;
 use App\Services\Facades\SearchService as Search;
 use App\Services\Facades\UserService as UserServiceFacade;
+use App\Services\Facades\UserService;
 
 class UnitService {
 
@@ -127,6 +128,19 @@ class UnitService {
         return $steps;
     }
 
+    public function prepareForDataTable($units){
+        $userUnits = UserService::userUnits();
+
+        foreach($units as $unit){
+            if(in_array($unit->id, $userUnits))
+                $unit->permitted=true;
+            else
+                $units->permitted=false;
+        }
+
+        return $units;
+    }
+
 
     /**
      * Dynamic search chains a lot of queries depending on the filters sent by the user.
@@ -171,9 +185,10 @@ class UnitService {
         }
 
         $result = $query->orderBy('description', 'ASC')->with('parent')->get();
-        //$result->setPath(\URL::to('/') . '/units');
 
-        return $result;
+        $data = $this->prepareForDataTable($result);
+
+        return ["data" => $data];
     }
 
 

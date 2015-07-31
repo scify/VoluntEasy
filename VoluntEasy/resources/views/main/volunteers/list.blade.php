@@ -32,12 +32,7 @@
                 <h4 class="panel-title">Εθελοντές</h4>
             </div>
             <div class="panel-body">
-                @section('table')
-                @include('main.volunteers.partials._table', ['volunteers' => $volunteers])
-                @endsection
-                <div id="table">
-                    @yield('table')
-                </div>
+                @include('main.volunteers.partials._table')
             </div>
         </div>
     </div>
@@ -47,7 +42,7 @@
 
 @section('footerScripts')
 <script>
-
+    //check this
     $(".delete").click(function () {
         if (confirm("Delete volunteer?") == true) {
             $.ajax({

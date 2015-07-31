@@ -29,12 +29,7 @@
                 <h4 class="panel-title">Μονάδες</h4>
             </div>
             <div class="panel-body">
-                @section('table')
-                @include('main.units.partials._table', ['units' => $units])
-                @endsection
-                <div id="table">
-                    @yield('table')
-                </div>
+                @include('main.units.partials._table')
             </div>
         </div>
     </div>
