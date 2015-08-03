@@ -16,6 +16,7 @@
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
                 <h2 class="panel-title">Στοιχεία Μονάδας</h2>
+
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
                        class="panel-collapse" data-original-title="Expand/Collapse"><i class="icon-arrow-down"></i></a>
@@ -25,19 +26,27 @@
                 <div class="row">
                     <div class="col-md-4">
                         <h3>Μονάδα {{$active->description}}</h3>
+
                         <p><strong>Περιγραφή:</strong> {{$active->comments}}</p>
                     </div>
                     <div class="col-md-4">
                         @if(sizeof($active->users)==0)
                         <h3>Υπεύθυνοι Μονάδας:</h3>
+
                         <p>-</p>
                         @elseif(sizeof($active->users)==1)
                         <h3>Υπεύθυνος Μονάδας</h3>
                         <ul class="list-unstyled">
                             <li class="user-list">
-                                <div class="msg-img"><img src="{{ asset('assets/images/avatar4.png')}}" alt="" class="user-image-small"></div>
-                                <p class="msg-name"> <a href="{{ url('users/one/'.$active->users[0]->id) }}">{{$active->users[0]->name}}</a><p>
-                                <p class="msg-text"><i class="fa fa-envelope"></i> <a href="mail:to{{ $active->users[0]->email }}">{{ $active->users[0]->email }}</a> |
+                                <div class="msg-img"><img src="{{ asset('assets/images/avatar4.png')}}" alt=""
+                                                          class="user-image-small"></div>
+                                <p class="msg-name"><a href="{{ url('users/one/'.$active->users[0]->id) }}">{{$active->users[0]->name}}</a>
+
+                                <p>
+
+                                <p class="msg-text"><i class="fa fa-envelope"></i> <a
+                                        href="mail:to{{ $active->users[0]->email }}">{{ $active->users[0]->email }}</a>
+                                    |
                                     <i class="fa fa-home"></i> {{ $active->users[0]->addr }} |
                                     <i class="fa fa-phone"></i> {{ $active->users[0]->tel }}</p>
                             </li>
@@ -47,9 +56,14 @@
                         <ul class="list-unstyled">
                             @foreach($active->users as $user)
                             <li class="user-list">
-                                <div class="msg-img"><img src="{{ asset('assets/images/avatar4.png')}}" alt="" class="user-image-small"></div>
-                                <p class="msg-name"> <a href="{{ url('users/one/'.$user->id) }}">{{$user->name}}</a><p>
-                                <p class="msg-text"><i class="fa fa-envelope"></i> <a href="mail:to{{ $user->email }}">{{ $user->email }}</a> |
+                                <div class="msg-img"><img src="{{ asset('assets/images/avatar4.png')}}" alt=""
+                                                          class="user-image-small"></div>
+                                <p class="msg-name"><a href="{{ url('users/one/'.$user->id) }}">{{$user->name}}</a>
+
+                                <p>
+
+                                <p class="msg-text"><i class="fa fa-envelope"></i> <a href="mail:to{{ $user->email }}">{{
+                                    $user->email }}</a> |
                                     <i class="fa fa-home"></i> {{ $user->addr }} |
                                     <i class="fa fa-phone"></i> {{ $user->tel }}</p>
                             </li>
@@ -65,7 +79,10 @@
                         @else
                         <ul class="list-unstyled">
                             @foreach($active->actions as $action)
-                            <li><p class="user-list"><a href="{{ url('actions/one/'.$action->id) }}">{{$action->description}}</a> <small>{{ $action->start_date }} - {{ $action->end_date }}</small></p>
+                            <li>
+                                <p class="user-list"><a href="{{ url('actions/one/'.$action->id) }}">{{$action->description}}</a>
+                                    <small>{{ $action->start_date }} - {{ $action->end_date }}</small>
+                                </p>
                             </li>
                             @endforeach
                         </ul>
@@ -116,13 +133,22 @@
                 </div>
             </div>
             <div class="panel-body">
-                @include('main.units.partials._volunteers', ['unit' => $active])
+                <div class="row">
+                    <div class="col-md-12">
+                        @include('main.units.partials._volunteers', ['unit' => $active])
+                    </div>
+                </div>
                 @if(in_array($active->id, $userUnits))
-                <div class="text-right">
-                    <button type="button" class="btn btn-success" data-toggle="modal"
-                            data-target="#volunteersModal"><i
-                            class="fa fa-leaf"></i> Προσθήκη Εθελοντών
-                    </button>
+                <hr/>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-right">
+                            <button type="button" class="btn btn-success" data-toggle="modal"
+                                    data-target="#volunteersModal"><i
+                                    class="fa fa-leaf"></i> Προσθήκη Εθελοντών
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 @endif
             </div>
@@ -135,6 +161,7 @@
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
                 <h4 class="panel-title">Όλες οι δράσεις</h4>
+
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
                        class="panel-collapse" data-original-title="Expand/Collapse"><i class="icon-arrow-down"></i></a>
@@ -195,4 +222,4 @@
     });
 
 </script>
-@stop
+@append

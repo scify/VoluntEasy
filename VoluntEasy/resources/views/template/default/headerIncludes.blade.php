@@ -29,6 +29,7 @@
         <link href="{{ asset('assets/css/themes/white.css')}}" class="theme-color" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('assets/css/custom.css')}}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('assets/plugins/data-tables/css/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('assets/plugins/data-tables/extras/tabletools/css/dataTables.tableTools.min.css') }}" rel="stylesheet" type="text/css"/>
 
 
         <script src="{{ asset('assets/plugins/3d-bold-navigation/js/modernizr.js')}}"></script>

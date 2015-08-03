@@ -13,6 +13,13 @@
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-white">
+            <div class="panel-heading clearfix">
+                <h4 class="panel-title">Στοιχεία Χρήστη</h4>
+                <div class="panel-control">
+                    <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
+                       class="panel-collapse" data-original-title="Expand/Collapse"><i class="icon-arrow-down"></i></a>
+                </div>
+            </div>
             <div class="panel-body">
                 <div class="row m-b-lg">
                     <div class="col-md-2">
@@ -20,7 +27,7 @@
                             <img src="{{ asset('assets/images/avatar4.png')}}" alt="">
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-10">
                         <p class="lead">{{ $user->name }}</p>
                         <p><i class="fa fa-envelope"></i> <a href="mailto:{{ $user->email }}">{{ $user->email }}</a> |
                             <i class="fa fa-home"></i> {{ $user->addr }} |
@@ -37,7 +44,10 @@
                             </ul>
                         @endif
                     </div>
-                    <div class="col-md-4 text-right">
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-md-12 text-right">
                         @if(in_array($user->id, $permittedUsers))
                         <a href="{{ url('users/edit/'.$user->id) }}" class="btn btn-success"><i
                                 class="fa fa-edit"></i> Επεξεργασία</a>
@@ -46,9 +56,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
 </div>
 @stop

@@ -1,10 +1,10 @@
 @extends('default')
 
 @section('title')
-Προβολή λίστας-Αναζήτηση
+Προβολή Χρηστών
 @stop
 @section('pageTitle')
-Προβολή λίστας-Αναζήτηση
+Προβολή Χρηστών
 @stop
 
 @section('bodyContent')
@@ -38,9 +38,6 @@
 
 
 @section('footerScripts')
-//remove
-<input id="token" type="hidden" value="{{ csrf_token() }}">
-
 <script>
     $(".delete").click(function () {
         if (confirm("Delete user?") == true) {

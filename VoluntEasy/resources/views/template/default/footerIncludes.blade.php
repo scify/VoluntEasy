@@ -18,6 +18,7 @@
 <script src="{{ asset('assets/plugins/vertical-timeline/js/main.js')}}"></script>
 <script src="{{ asset('assets/plugins/raty/lib/jquery.raty.js')}}"></script>
 <script src="{{ asset('assets/plugins/data-tables/js/jquery.dataTables.js')}}"></script>
+<script src="{{ asset('assets/plugins/data-tables/extras/tabletools/js/dataTables.tableTools.min.js')}}"></script>
 <script src="{{ asset('assets/js/modern.js')}}"></script>
 <script src="{{ asset('assets/js/custom.js')}}"></script>
 <script src="{{ asset('assets/js/pages/dashboard.js')}}"></script>

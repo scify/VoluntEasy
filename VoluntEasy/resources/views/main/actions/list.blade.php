@@ -27,12 +27,7 @@
                 <h4 class="panel-title">Δράσεις</h4>
             </div>
             <div class="panel-body">
-                @section('table')
-                @include('main.actions.partials._table', ['actions' => $actions])
-                @endsection
-                <div id="table">
-                    @yield('table')
-                </div>
+                @include('main.actions.partials._table')
             </div>
         </div>
     </div>

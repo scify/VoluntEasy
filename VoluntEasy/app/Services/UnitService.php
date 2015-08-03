@@ -176,7 +176,6 @@ class UnitService {
                                     });
                                 }
                                 break;
-
                         }
                     default:
                         break;

@@ -2,8 +2,9 @@
 
 use App\Models\Action;
 use App\Services\Facades\SearchService as Search;
+use App\Services\Facades\UserService;
 
-class ActionService{
+class ActionService {
 
     /**
      * This array holds the names of the filters that the user is able to search by.
@@ -15,8 +16,23 @@ class ActionService{
         'unit_id' => '=',
         'start_date' => '>',
         'end_date' => '<',
+        'active_only' => '',
 
     ];
+
+
+    public function prepareForDataTable($actions) {
+        $userUnits = UserService::userUnits();
+
+        foreach ($actions as $action) {
+            if (in_array($action->unit->id, $userUnits))
+                $action->permitted = true;
+            else
+                $action->permitted = false;
+        }
+
+        return $actions;
+    }
 
 
     /**
@@ -53,18 +69,24 @@ class ActionService{
                         $value = date("Y-m-d", strtotime($value));
                         $query->where($column, '<', $value);
                         break;
+                    case '':
+                        switch ($column) {
+                            case 'active_only':
+                                $now = date('Y-m-d');
+                                $query->where('end_date', '>=', $now);
+                                break;
+                        }
                     default:
                         break;
                 }
             }
         }
 
-        $result = $query->orderBy('description', 'ASC')->paginate(5);
-      //  dd($query);
+        $result = $query->orderBy('description', 'ASC')->get();
 
-        $result->setPath(\URL::to('/').'/actions');
+        $data = $this->prepareForDataTable($result);
 
-        return $result;
+        return ["data" => $data];
     }
 
 }

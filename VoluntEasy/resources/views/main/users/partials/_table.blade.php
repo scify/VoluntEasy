@@ -35,7 +35,7 @@
                 //show user name with link
                 data: null, render: function (data, type, row) {
                 var html = '';
-                html += '<a href="' + $("body").attr('data-url') + '/units/one/' + data.id + '">' + data.name + '</a>';
+                html += '<a href="' + $("body").attr('data-url') + '/users/one/' + data.id + '">' + data.name + '</a>';
                 return html;
             }
             },
@@ -48,10 +48,10 @@
                 var html = '';
 
                 $.each(data.units, function (key, unit) {
-                    if(key==0)
-                    html += '<a href="' + $("body").attr('data-url') + '/units/one/' + unit.id + '">' + unit.description + '</a>';
+                    if (key == 0)
+                        html += '<a href="' + $("body").attr('data-url') + '/users/one/' + unit.id + '">' + unit.description + '</a>';
                     else
-                        html += ', <a href="' + $("body").attr('data-url') + '/units/one/' + unit.id + '">' + unit.description + '</a>';
+                        html += ', <a href="' + $("body").attr('data-url') + '/users/one/' + unit.id + '">' + unit.description + '</a>';
                 });
 
                 return html;
@@ -89,11 +89,32 @@
                 "next": "Επόμενη",
                 "previous": "Προηγούμενη"
             }
-        }
+        },
         //disable ordering at the last column (edit, delete buttons)
-        /* "aoColumnDefs": [
-         {'bSortable': false, 'aTargets': [0]}
-         ]*/
+        "aoColumnDefs": [
+            {'bSortable': false, 'aTargets': [6]}
+        ],
+        dom: 'T<"clear">lfrtip',
+        "tableTools": {
+            "sSwfPath": $("body").attr('data-url') + "/assets/plugins/data-tables/extras/tabletools/swf/copy_csv_xls_pdf.swf",
+            "aButtons": [
+                {
+                    "sExtends": "copy",
+                    "sButtonText": "Αντιγραφή"
+                },
+                {
+                    "sExtends": "print",
+                    "sButtonText": "Εκτύπωση"
+                },
+                {
+                    "sExtends": "csv",
+                    "sButtonText": "CSV"
+                },
+                {
+                    "sExtends": "xls"
+                }
+            ]
+        }
     });
 
 </script>

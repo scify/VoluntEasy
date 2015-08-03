@@ -161,10 +161,7 @@ class ActionController extends Controller {
     public function search() {
         $actions = ActionService::search();
 
-        $userUnits = UserService::userUnits();
-
-        $view = \View::make('main.actions.list')->with('actions', $actions)->with('userUnits', $userUnits);
-        return $view->renderSections()['table'];
+        return $actions;
     }
 
     /**

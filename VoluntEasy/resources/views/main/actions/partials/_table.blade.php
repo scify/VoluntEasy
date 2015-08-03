@@ -1,44 +1,111 @@
-<table class="table table-striped">
+<table id="actionsTable" class="display table table-striped data-table" cellspacing="0" width="100%">
     <thead>
     <tr>
+
         <th>#</th>
         <th>Περιγραφή</th>
         <th>Σχόλια</th>
         <th>Μονάδα</th>
         <th>Ημ. Έναρξης</th>
         <th>Ημ. Λήξης</th>
-        <th>Αριθμός Εθελοντών</th>
         <th></th>
     </tr>
     </thead>
-    <tbody>
-    @foreach ($actions as $action)
+
+    <tfoot>
     <tr>
-        <td>{{ $action->id }}</td>
-        <td><a href="{{ url('actions/one/'.$action->id) }}">{{ $action->description }}</a></td>
-        <td>@if($action->comments==null || $action->comments=='')
-            -
-            @else
-            {{ $action->comments }}
-            @endif
-        </td>
-        <td>{{ $action->unit->description }}</td>
-        <td>{{ $action->start_date }}</td>
-        <td>{{ $action->end_date }}</td>
-        <td><span class="status active">{{ sizeof($action->volunteers) }} Ενεργοί</span></td>
-        <td>
-            @if(in_array($action->unit->id, $userUnits))
-            <ul class="list-inline">
-                <li><a href="{{ url('actions/edit/'.$action->id) }}" data-toggle="tooltip"
-                       data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit fa-2x"></i></a>
-                </li>
-                <li><a href="{{ url('actions/delete/'.$action->id) }}" data-toggle="tooltip"
-                       data-placement="bottom" title="Διαγραφή"><i class="fa fa-trash fa-2x"></i></a>
-                </li>
-            </ul>
-            @endif
-        </td>
+
+        <th>#</th>
+        <th>Περιγραφή</th>
+        <th>Σχόλια</th>
+        <th>Μονάδα</th>
+        <th>Ημ. Έναρξης</th>
+        <th>Ημ. Λήξης</th>
+        <th></th>
     </tr>
-    @endforeach
-    </tbody>
+    </tfoot>
 </table>
+
+
+@section('footerScripts')
+<script>
+    var table = $('#actionsTable').dataTable({
+        "bFilter": false,
+        "ajax": $("body").attr('data-url') + '/api/actions',
+        "columns": [
+            {data: "id"},
+            {
+                //show action name with link
+                data: null, render: function (data, type, row) {
+                var html = '';
+                html += '<a href="' + $("body").attr('data-url') + '/actions/one/' + data.id + '">' + data.description + '</a>';
+                return html;
+            }
+            },
+            {data: "comments"},
+            {data: "unit.description"},
+            {data: "start_date"},
+            {data: "end_date"},
+            {
+                //if the user is permitted to edit/delete the volunteer,
+                //then show the appropriate buttons
+                data: null, render: function (data, type, row) {
+                var html = '';
+
+                if (data.permitted) {
+                    html = '<ul class="list-inline">';
+                    html += '<li><a href="' + $("body").attr('data-url') + '/actions/edit/' + data.id + '" data-toggle="tooltip"';
+                    html += 'data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit fa-2x"></i></a></li>';
+                    html += '<li><a href="' + $("body").attr('data-url') + '/actions/delete/' + data.id + '" class="delete" data-id="' + data.id + '" data-toggle="tooltip"';
+                    html += 'data-placement="bottom" title="Διαγραφή"><i class="fa fa-trash fa-2x"></i></a>';
+                    html += '</li></ul>';
+                }
+
+                return html;
+            }
+            }
+        ],
+        //custom text
+        "language": {
+            "lengthMenu": "_MENU_ γραμμές ανά σελίδα",
+            "zeroRecords": "Δεν υπάρχουν δράσεις",
+            "info": "Σελίδα _PAGE_ από _PAGES_",
+            "infoEmpty": "Δεν υπάρχουν δράσεις",
+            "infoFiltered": "(filtered from _MAX_ total records)",
+            "paginate": {
+                "first": "Πρώτη",
+                "last": "Τελευταία",
+                "next": "Επόμενη",
+                "previous": "Προηγούμενη"
+            }
+        },
+        //disable ordering at the last column (edit, delete buttons)
+        "aoColumnDefs": [
+            {'bSortable': false, 'aTargets': [6]}
+        ],
+        dom: 'T<"clear">lfrtip',
+        "tableTools": {
+            "sSwfPath": $("body").attr('data-url') + "/assets/plugins/data-tables/extras/tabletools/swf/copy_csv_xls_pdf.swf",
+            "aButtons": [
+                {
+                    "sExtends": "copy",
+                    "sButtonText": "Αντιγραφή"
+                },
+                {
+                    "sExtends": "print",
+                    "sButtonText": "Εκτύπωση"
+                },
+                {
+                    "sExtends": "csv",
+                    "sButtonText": "CSV"
+                },
+                {
+                    "sExtends": "xls"
+                }
+            ]
+        }
+    });
+
+</script>
+@append
+

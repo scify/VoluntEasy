@@ -1,32 +1,81 @@
-<div class="row">
-    <div class="col-md-12">
-        @if(sizeof($unit->allActions)==0)
-        Δεν υπάροχυν δράσεις στη μονάδα.
-        @else
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>Όνομα</th>
-                <th>Σχόλια</th>
-                <th>Ημ. Έναρξης</th>
-                <th>Ημ. Λήξης</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach ($unit->allActions as $action)
-            <tr>
-                <td>{{ $action->id }}</td>
-                <td><a href="{{ url('actions/one/'.$action->id) }}">{{ $action->description }}</a>
-                </td>
-                <td>{{ $action->description }}</td>
-                <td>{{ $action->start_date }}</td>
-                <td>{{ $action->end_date }}</td>
-            </tr>
-            @endforeach
-            </tbody>
-        </table>
-        @endif
-        <hr/>
-    </div>
-</div>
+<table id="actionsTable" class="display table table-striped data-table" cellspacing="0" width="100%" data-unit-id="{{ $unit->id }}">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Όνομα</th>
+        <th>Σχόλια</th>
+        <th>Ημ. Έναρξης</th>
+        <th>Ημ. Λήξης</th>
+    </tr>
+    </thead>
+
+    <tfoot>
+    <tr>
+        <th>#</th>
+        <th>Όνομα</th>
+        <th>Σχόλια</th>
+        <th>Ημ. Έναρξης</th>
+        <th>Ημ. Λήξης</th>
+    </tr>
+    </tfoot>
+</table>
+
+
+@section('footerScripts')
+<script>
+    var table = $('#actionsTable').dataTable({
+        "bFilter": false,
+        "ajax": $("body").attr('data-url') + '/api/units/' + $('#volunteersTable').attr('data-unit-id') + '/actions',
+        "columns": [
+            {data: "id"},
+            {
+                //concat first name with last name
+                data: null, render: function (data, type, row) {
+                return '<a href="' + $("body").attr('data-url') + '/actions/one/' + data.id + '">' + data.description+ '</a>';
+            }
+            },
+            {data: "comments"},
+            {data: "start_date"},
+            {data: "end_date"},
+
+
+        ],
+        //custom text
+        "language": {
+            "lengthMenu": "_MENU_ γραμμές ανά σελίδα",
+            "zeroRecords": "Δεν υπάρχουν εθελοντές",
+            "info": "Σελίδα _PAGE_ από _PAGES_",
+            "infoEmpty": "Δεν υπάρχουν εθελοντές",
+            "infoFiltered": "(filtered from _MAX_ total records)",
+            "paginate": {
+                "first": "Πρώτη",
+                "last": "Τελευταία",
+                "next": "Επόμενη",
+                "previous": "Προηγούμενη"
+            }
+        },
+        dom: 'T<"clear">lfrtip',
+        "tableTools": {
+            "sSwfPath": $("body").attr('data-url') + "/assets/plugins/data-tables/extras/tabletools/swf/copy_csv_xls_pdf.swf",
+            "aButtons": [
+                {
+                    "sExtends": "copy",
+                    "sButtonText": "Αντιγραφή"
+                },
+                {
+                    "sExtends": "print",
+                    "sButtonText": "Εκτύπωση"
+                },
+                {
+                    "sExtends": "csv",
+                    "sButtonText": "CSV"
+                },
+                {
+                    "sExtends": "xls"
+                }
+            ]
+        }
+    });
+
+</script>
+@append
