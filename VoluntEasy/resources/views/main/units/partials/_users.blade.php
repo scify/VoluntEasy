@@ -11,13 +11,4 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="form-group text-right">
-            @if(isset($unit))
-            <button class="btn btn-success" id="saveUsers" data-id="{{ $unit->id }}">Αποθήκευση</button>
-            @endif
-        </div>
-    </div>
-</div>
 

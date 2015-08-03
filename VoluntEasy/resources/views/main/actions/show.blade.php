@@ -23,35 +23,54 @@
     </div>
     <div class="panel-body" style="display: block;">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-4">
                 <h3>Δράση {{ $action->description }}</h3>
-                <p><small>
-                    @foreach($branch as $key => $unit)
-                    @if($key < sizeof($branch)-1)
-                    <a href="{{ url('units/one/'.$unit->id) }}">{{ $unit->description }}</a> <i class="fa fa-angle-right"></i>
-                    @else
-                    <a href="{{ url('units/one/'.$unit->id) }}">{{ $unit->description }}</a>
-                    @endif
-                    @endforeach
-                </small> </p>
-                <p><strong>Περιγραφή:</strong> {{ $action->comments==null || $action->comments=='' ? '-' : $action->comments }}</p>
-                <p><strong>Διάρκεια:</strong> {{ $action->start_date }} - {{ $action->end_date }}</p>
-                <p><strong>Email Υπευθύνου:</strong> {{ $action->email==null || $action->email=='' ? '-' : $action->email }}</p>
 
-                <hr/>
-                @if(in_array($action->unit->id, $userUnits))
-                <div class="text-right">
-                    <a href="{{ url('actions/edit/'.$action->id) }}" class="btn btn-success"><i
-                            class="fa fa-edit"></i> Επεξεργασία</a>
-                    <a href="{{ url('actions/delete/'.$action->id) }}" class="btn btn-danger"><i
-                            class="fa fa-trash"></i> Διαγραφή</a>
-                </div>
+                <p>
+                    <small>
+                        @foreach($branch as $key => $unit)
+                        @if($key < sizeof($branch)-1)
+                        <a href="{{ url('units/one/'.$unit->id) }}">{{ $unit->description }}</a> <i
+                            class="fa fa-angle-right"></i>
+                        @else
+                        <a href="{{ url('units/one/'.$unit->id) }}">{{ $unit->description }}</a>
+                        @endif
+                        @endforeach
+                    </small>
+                </p>
+                <p><strong>Περιγραφή:</strong> {{ $action->comments==null || $action->comments=='' ? '-' :
+                    $action->comments }}</p>
+
+                <p><strong>Διάρκεια:</strong> {{ $action->start_date }} - {{ $action->end_date }}</p>
+            </div>
+            <div class="col-md-4">
+                <h3>Στοιχεία Υπευθύνου</h3>
+                @if($action->name!=null && $action->name!='')
+                <ul class="list-unstyled">
+                    <li class="user-list">
+                        <p class="msg-name">{{$action->name}}</p>
+
+                        <p class="msg-text"><i class="fa fa-envelope"></i> <a href="mail:to{{ $action->email }}">{{
+                            $action->email }}</a> |
+                            <i class="fa fa-phone"></i> {{ $action->phone_number }}</p>
+                    </li>
+                </ul>
+                @else
+                <p>Δεν έχει οριστεί υπεύθυνος δράσης</p>
                 @endif
             </div>
+            <hr/>
+            @if(in_array($action->unit->id, $userUnits))
+            <div class="text-right">
+                <a href="{{ url('actions/edit/'.$action->id) }}" class="btn btn-success"><i
+                        class="fa fa-edit"></i> Επεξεργασία</a>
+                <a href="{{ url('actions/delete/'.$action->id) }}" class="btn btn-danger"><i
+                        class="fa fa-trash"></i> Διαγραφή</a>
+            </div>
+            @endif
         </div>
     </div>
 </div>
-
 
 
 <div class="row">
@@ -66,7 +85,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                @include('main.units.partials._volunteers', ['unit' => $action])
+                @include('main.actions.partials._volunteers')
                 @if(in_array($action->unit->id, $userUnits))
                 <div class="text-right">
                     <button type="button" class="btn btn-success" data-toggle="modal"

@@ -4,7 +4,7 @@
             {!! Form::formInput('description', 'Όνομα:', $errors, ['class' => 'form-control', 'required' => 'true']) !!}
         </div>
         <label>Επιλογή Υπευθύνου/ων:</label>
-        @include('main.units.partials._users', ['userIds' => [], 'users' => $users])
+        @include('main.units.partials._users')
     </div>
     <div class="col-md-6">
         <div class="form-group">

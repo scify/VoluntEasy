@@ -16,6 +16,7 @@ use App\Models\Descriptions\LanguageLevel;
 use App\Models\Descriptions\MaritalStatus;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Descriptions\WorkStatus;
+use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Models\VolunteerAvailabilityTime;
 use App\Models\VolunteerLanguage;
@@ -76,8 +77,10 @@ class VolunteerController extends Controller {
         $commMethod = CommunicationMethod::all()->lists('description', 'id');
         $edLevel = EducationLevel::all()->lists('description', 'id');
 
+        $units = Unit::all();
+
         return view('main.volunteers.create', compact('identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
-            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interests', 'genders', 'commMethod', 'edLevel'));
+            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interests', 'genders', 'commMethod', 'edLevel', 'units'));
     }
 
     /**
@@ -131,10 +134,6 @@ class VolunteerController extends Controller {
 
         $volunteer->save();
 
-        $unit = UnitService::getRoot();
-
-        $volunteer->units()->save($unit);
-
 //        // Save availability time from checkbox.
 //        $volunteer_availability = [
 //            'availability_time_id' => intval(\Input::get('availability_time')),
@@ -181,6 +180,17 @@ class VolunteerController extends Controller {
             }
         }
 
+        $inputs = $request->all();
+        $unitsExcludes = [];
+
+        foreach ($inputs as $id => $input) {
+            if (preg_match('/excludes-.*/', $id)) {
+                array_push($unitsExcludes, $input);
+            }
+        }
+
+        $volunteer->unitsExcludes()->sync($unitsExcludes);
+
         return \Redirect::route('volunteer/one', ['id' => $volunteer->id]);
     }
 
@@ -206,13 +216,14 @@ class VolunteerController extends Controller {
                 $available++;
         }
 
-        $permitted=0;
         if(in_array($volunteer->id, UserService::permittedVolunteersIds()))
-            $permitted=1;
+            $volunteer->permitted=true;
+        else
+            $volunteer->permitted=false;
 
        //return $volunteer;
 
-        return view("main.volunteers.show", compact('volunteer', 'pending', 'available', 'permitted', 'timeline'));
+        return view("main.volunteers.show", compact('volunteer', 'pending', 'available', 'timeline'));
     }
 
     /**

@@ -77,23 +77,27 @@
             {
                 // display unit statuses
                 data: null, render: function (data, type, row) {
-                var units = '';
+                var status = '';
 
-                //if the volunteer has not been assigned to root unit, display appropriate button
-                if (data.assignToRoot) {
-                    units = '<a href="' + $("body").attr('data-url') + '/volunteers/addToRootUnit/' + data.id + '" class="btn btn-info">Ένταξη στη μονάδα μου</a>';
-                }
+                if (data.blacklisted==1)
+                    status += '<div class="status blacklisted">Μη διαθέσιμος</div>';
                 else {
-                    $.each(data.units, function (index, unit) {
-                        if (unit.status == 'Pending')
-                            units += '<div class="status pending" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι υπό ανάθεση στη μονάδα ' + unit.description + '">' + unit.description + '</div>';
-                        else if (unit.status == 'Available')
-                            units += '<div class="status available" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι διαθέσιμος στη μονάδα ' + unit.description + '">' + unit.description + '</div>';
-                        else if (unit.status == 'Active')
-                            units += '<div class="status active" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι ενεργός σε δράσεις στη μονάδα ' + unit.description + '">' + unit.description + '</div>';
-                    });
+                    //if the volunteer has not been assigned to root unit, display appropriate button
+                    if (data.assignToRoot) {
+                        status = '<a href="' + $("body").attr('data-url') + '/volunteers/addToRootUnit/' + data.id + '" class="btn btn-info">Ένταξη στη μονάδα μου</a>';
+                    }
+                    else {
+                        $.each(data.units, function (index, unit) {
+                            if (unit.status == 'Pending')
+                                status += '<div class="status pending" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι υπό ανάθεση στη μονάδα ' + unit.description + '">' + unit.description + '</div>';
+                            else if (unit.status == 'Available')
+                                status += '<div class="status available" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι διαθέσιμος στη μονάδα ' + unit.description + '">' + unit.description + '</div>';
+                            else if (unit.status == 'Active')
+                                status += '<div class="status active" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι ενεργός σε δράσεις στη μονάδα ' + unit.description + '">' + unit.description + '</div>';
+                        });
+                    }
                 }
-                return units;
+                return status;
             }
             }, {
                 //if the user is permitted to edit/delete the volunteer,
@@ -134,7 +138,7 @@
         ],
         dom: 'T<"clear">lfrtip',
         "tableTools": {
-                "sSwfPath": $("body").attr('data-url') + "/assets/plugins/data-tables/extras/tabletools/swf/copy_csv_xls_pdf.swf",
+            "sSwfPath": $("body").attr('data-url') + "/assets/plugins/data-tables/extras/tabletools/swf/copy_csv_xls_pdf.swf",
             "aButtons": [
                 {
                     "sExtends": "copy",

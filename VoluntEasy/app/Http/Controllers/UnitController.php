@@ -177,6 +177,18 @@ class UnitController extends Controller {
     public function update(UnitRequest $request) {
         $unit = Unit::findOrFail($request->get('id'));
 
+        $inputs = $request->all();
+
+        $users = [];
+
+        foreach ($inputs as $id => $input) {
+            if (preg_match('/user.*/', $id)) {
+                array_push($users, $input);
+            }
+        }
+
+        $unit->users()->sync($users);
+
         $unit->update($request->all());
 
         return Redirect::route('unit/one', ['id' => $unit->id]);

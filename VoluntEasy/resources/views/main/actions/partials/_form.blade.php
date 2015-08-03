@@ -4,10 +4,13 @@
             {!! Form::formInput('description', 'Όνομα:', $errors, ['class' => 'form-control', 'id' =>
             'actionDescription', 'required' => 'true']) !!}
         </div>
-
         <div class="form-group">
-            {!! Form::formInput('email', 'Email:', $errors, ['class' => 'form-control', 'id' => 'actionEmail']) !!}
+            {!! Form::formInput('comments', 'Περιγραφή:', $errors, ['class' => 'form-control', 'type' => 'textarea',
+            'size' =>
+            '5x5', 'id' => 'actionComments', 'required' => 'true']) !!}
         </div>
+    </div>
+    <div class="col-md-6">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -22,18 +25,32 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    {!! Form::formInput('name', 'Όνομα υπευθύνου:', $errors, ['class' => 'form-control', 'id' =>
+                    'actionName']) !!}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {!! Form::formInput('email', 'Email:', $errors, ['class' => 'form-control', 'id' => 'actionEmail'])
+                    !!}
 
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {!! Form::formInput('phone_number', 'Τηλέφωνο:', $errors, ['class' => 'form-control', 'id' => 'actionPhone'])
+                    !!}
+
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-6">
-        <div class="form-group">
-            {!! Form::formInput('comments', 'Περιγραφή:', $errors, ['class' => 'form-control', 'type' => 'textarea',
-            'size' =>
-            '5x5', 'id' => 'actionComments', 'required' => 'true']) !!}
-        </div>
-        {!! Form::formInput('unit_id', null, $errors, ['type' => 'hidden', 'id' => 'unit_id']) !!}
-        <div class="form-group text-right">
-            {!! Form::submit($submitButtonText, ['class' => 'btn btn-success', 'id' => 'saveAction']) !!}
-        </div>
+    {!! Form::formInput('unit_id', null, $errors, ['type' => 'hidden', 'id' => 'unit_id']) !!}
+    <div class="form-group text-right">
+        {!! Form::submit($submitButtonText, ['class' => 'btn btn-success', 'id' => 'saveAction']) !!}
     </div>
 </div>
 

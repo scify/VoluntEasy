@@ -8,7 +8,7 @@
 @else
 <li data-id="{{ $unit['id'] }}"
     class="leaf {{ isset($editing) && $editing=='unit' && in_array($unit->id, $actives) ? 'active-node' : '' }}">
-    <span class="description">{{ $unit['id'].$unit['description']}}</span>
+    <span class="description">{{ $unit['description']}}</span>
     @if (sizeof($unit->actions) > 0)
     <ul>
         @foreach ($unit->actions as $action)

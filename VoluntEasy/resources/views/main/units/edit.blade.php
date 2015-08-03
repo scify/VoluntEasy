@@ -13,75 +13,47 @@
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-white">
+            <div class="panel-heading clearfix">
+                <h4 class="panel-title">Στοιχεία οργανωτικής μονάδας</h4>
+                <div class="panel-control">
+                    <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
+                       class="panel-collapse" data-original-title="Expand/Collapse"><i class="icon-arrow-down"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                {!! Form::model($active, ['method' => 'POST', 'action' => ['UnitController@update', 'id'
+                => $active->id,
+                'type' => $type]]) !!}
+                @include('main.units.partials._form', ['submitButtonText' => 'Αποθήκευση', 'unit' => $active])
+                <div class="form-group text-right">
+                    {!! Form::submit('Αποθήκευση', ['class' => 'btn btn-success']) !!}
+                </div>
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading clearfix">
+                <h4 class="panel-title">Επιλογή πατέρα οργανωτικής <span class="star">*</span></h4>
+
+                <div class="panel-control">
+                    <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
+                       class="panel-collapse" data-original-title="Expand/Collapse"><i class="icon-arrow-down"></i></a>
+                </div>
+            </div>
             <div class="panel-body">
                 @include('main.tree._tree', ['editing' => 'unit', 'actives' => $actives])
             </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="panel panel-white">
-            <div class="panel-body">
-                <div class="panel-group big" id="accordion" role="tablist" aria-multiselectable="true">
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingOne">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-                                   aria-expanded="true" aria-controls="collapseOne">
-                                    Στοιχεία Μονάδας
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
-                             aria-labelledby="headingOne">
-                            <div class="panel-body">
-                                {!! Form::model($active, ['method' => 'POST', 'action' => ['UnitController@update', 'id'
-                                => $active->id,
-                                'type' => $type]]) !!}
-                                @include('main.units.partials._form', ['submitButtonText' => 'Αποθήκευση', 'unit' => $active])
-                                {!! Form::close() !!}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingTwo">
-                            <h4 class="panel-title">
-                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"
-                                   aria-expanded="false" aria-controls="collapseTwo">
-                                    Υπεύθυνοι
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
-                             aria-labelledby="headingTwo">
-                            <div class="panel-body">
-                                @include('main.units.partials._users', ['unit' =>$active, 'users' => $users])
-                            </div>
-                        </div>
-                    </div>
-                    @if($type=='leaf')
-                    <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="headingThree">
-                            <h4 class="panel-title">
-                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion"
-                                   href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    Δράσεις
-                                </a>
-                            </h4>
-                        </div>
-                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
-                             aria-labelledby="headingThree">
-                            <div class="panel-body">
-                                @include('main.units.partials._actions', ['userIds' => $userIds])
-                            </div>
-                        </div>
-                    </div>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 @stop
+
 
 @section('footerScripts')
 <script>

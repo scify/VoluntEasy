@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Controller;
 use App\Models\Action;
+use App\Models\Volunteer;
 use App\Services\Facades\ActionService;
+use App\Services\Facades\VolunteerService;
 
 class ActionApiController extends Controller{
 
@@ -15,13 +17,18 @@ class ActionApiController extends Controller{
     }
 
     public function volunteers($id){
+        $unitId = Action::findOrFail($id)->unit_id;
+
         $volunteers = Volunteer::with(['actions' => function ($query) use ($id) {
             $query->where('action_id', $id);
+        }])->with(['units' => function ($query) use ($unitId) {
+            $query->where('unit_id', $unitId);
         }])->get();
 
         $data = [];
-        foreach($volunteers as $volunteer){
-            if(sizeof($volunteer->actions)>0) {
+        foreach ($volunteers as $volunteer) {
+            if (sizeof($volunteer->units) > 0) {
+                $volunteer = VolunteerService::setStatusToUnits($volunteer);
                 array_push($data, $volunteer);
             }
         }

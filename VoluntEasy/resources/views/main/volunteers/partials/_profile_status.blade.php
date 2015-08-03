@@ -51,7 +51,7 @@
                                     </p>
                                 </div>
                                 <div class="col-md-5">
-                                    @if($permitted==1)
+                                    @if($volunteer->permitted)
                                     <a href="{{url('/volunteers/'.$volunteer->id.'/action/detach/'.$action->id)}}"
                                        data-toggle="tooltip"
                                        data-placement="bottom" title="Αφαίρεση από τη δράση"><i

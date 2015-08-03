@@ -53,4 +53,4 @@
         autoclose: true
     });
 </script>
-@stop
+@append

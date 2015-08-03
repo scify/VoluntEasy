@@ -23,7 +23,7 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         {!! Form::open(['method' => 'POST', 'action' => ['ActionController@store']]) !!}
                         @include('main.actions.partials._form', ['submitButtonText' => 'Αποθήκευση'])
                         {!! Form::close() !!}
@@ -52,15 +52,6 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
 @stop
 
 

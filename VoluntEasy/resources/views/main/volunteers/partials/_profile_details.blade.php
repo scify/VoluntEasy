@@ -160,6 +160,19 @@
                                     {{ $availabilityTime->description }}
                                     @endforeach
                                     @endif
+
+
+                                    @if(sizeof($volunteer->unitsExcludes)>0)
+                                    <p><strong>Ο εθελοντής δε μπορεί να ενταχθεί στις μονάδες:</strong>
+                                        @foreach($volunteer->unitsExcludes as $i => $unit)
+                                        @if($i>0)
+                                        , {{ $unit->description }}
+                                        @else
+                                        {{ $unit->description }}
+                                        @endif
+                                        @endforeach
+                                    </p>
+                                 @endif
                             </div>
                             <div class="col-md-4">
                                 <h4>Ενδιαφέροντα</h4>

@@ -11,10 +11,10 @@
                         <div class="panel panel-default smallHeading">
                             <div class="panel-body">
                                 <h3>Ο εθελοντής δεν έχει καμία εκκρεμότητα.</h3>
-
+                                <hr/>
                                 <div class="row">
                                     <div class=col-md-12>
-                                        @if($permitted==1)
+                                        @if($volunteer->permitted)
                                         <button type="button" class="btn btn-info" data-toggle="modal"
                                                 data-target="#selectUnit">
                                             Ένταξη σε μονάδα
@@ -56,7 +56,8 @@
                             <span class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">{{ $step->description }}</span>
                             @endif
 
-                            @if($permitted==1 && (($i==0 && $step->statuses[0]->status->description=='Incomplete') ||
+                            @if($volunteer->permitted && (($i==0 &&
+                            $step->statuses[0]->status->description=='Incomplete') ||
                             ($i>0
                             && $unit->steps[$i-1]->statuses[0]->status->description=='Complete' &&
                             $step->statuses[0]->status->description=='Incomplete')))
@@ -75,7 +76,7 @@
                         </td>
                         @endforeach
                         <td>
-                            @if($permitted==1)
+                            @if($volunteer->permitted)
                             <a href="{{url('/volunteers/'.$volunteer->id.'/unit/detach/'.$unit->id)}}"
                                data-toggle="tooltip"
                                data-placement="bottom" title="Αφαίρεση από τη μονάδα"><i class="fa fa-remove fa-2x"></i></a>
@@ -89,7 +90,7 @@
                 <hr/>
                 <div class="row">
                     <div class="col-md-2">
-                        @if($permitted==1)
+                        @if($volunteer->permitted)
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#selectUnit">
                             Ένταξη σε μονάδα
                         </button>
@@ -196,7 +197,7 @@
             assign_id = unitSelect.val();
             parent_unit_id = unitSelect.attr('data-parent');
         }
-        else if (assignmentRadio.length > 0 && assignmentRadio.val() !='action') {
+        else if (assignmentRadio.length > 0 && assignmentRadio.val() != 'action') {
             comments = assignmentRadio.val();
             url = $("body").attr('data-url') + '/volunteers/addToUnit';
             assign_id = assignmentRadio.attr('data-unit-id');

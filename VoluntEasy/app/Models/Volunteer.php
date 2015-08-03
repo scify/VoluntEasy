@@ -71,7 +71,7 @@ class Volunteer extends User {
         return $this->hasOne('App\Models\Descriptions\CommunicationMethod', 'id', 'comm_method_id');
     }
 
-     public function actionHistory() {
+    public function actionHistory() {
         return $this->hasMany('App\Models\VolunteerActionHistory')->orderBy('created_at', 'desc');
     }
 
@@ -81,6 +81,10 @@ class Volunteer extends User {
 
     public function units() {
         return $this->belongsToMany('App\Models\Unit', 'volunteer_unit_status');
+    }
+
+    public function unitsExcludes() {
+        return $this->belongsToMany('App\Models\Unit', 'volunteers_units_excludes');
     }
 
     public function unitsPivot() {
@@ -128,7 +132,8 @@ class Volunteer extends User {
 
         $volunteers = Volunteer::whereHas('units', function ($query) {
             $query->where('volunteer_status_id', VolunteerStatus::pending());
-        })->get();
+        })->where('blacklisted', false)
+          ->get();
 
         return $volunteers;
     }
@@ -142,14 +147,14 @@ class Volunteer extends User {
      */
     public function scopeAvailable($q, $permitted = null) {
 
-        if ($permitted==null)
+        if ($permitted == null)
             $volunteers = Volunteer::whereHas('units', function ($query) {
                 $query->where('volunteer_status_id', VolunteerStatus::available());
-            })->whereDoesntHave('actions')->get();
+            })->whereDoesntHave('actions')->where('blacklisted', false)->get();
         else
             $volunteers = Volunteer::whereIn('id', $permitted)->whereHas('units', function ($query) {
                 $query->where('volunteer_status_id', VolunteerStatus::available());
-            })->whereDoesntHave('actions')->get();
+            })->whereDoesntHave('actions')->where('blacklisted', false)->get();
 
         return $volunteers;
     }
@@ -163,7 +168,7 @@ class Volunteer extends User {
 
         $volunteers = Volunteer::whereHas('units', function ($query) {
             $query->where('volunteer_status_id', VolunteerStatus::active());
-        })->has('actions')->get();
+        })->has('actions')->where('blacklisted', false)->get();
 
         return $volunteers;
     }
@@ -176,7 +181,7 @@ class Volunteer extends User {
      * @return mixed
      */
     public function scopeUnassigned() {
-        $volunteers = Volunteer::whereDoesntHave('units')->orderBy('name', 'ASC')->get();
+        $volunteers = Volunteer::whereDoesntHave('units')->where('blacklisted', false)->orderBy('name', 'ASC')->get();
 
         return $volunteers;
     }

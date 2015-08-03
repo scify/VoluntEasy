@@ -23,13 +23,11 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         {!! Form::open(['method' => 'POST', 'action' => ['UnitController@store', 'type' => 'branch'],
                         'id' =>
                         'createForm']) !!}
                         @include('main.units.partials._form', ['submitButtonText' => 'none', 'type' => 'branch'])
-
-
 
                         <div class="form-group text-right">
                             {!! Form::submit('Αποθήκευση', ['class' => 'btn btn-success']) !!}

@@ -1,4 +1,4 @@
-<table id="volunteersTable" class="display table table-striped data-table" cellspacing="0" width="100%" data-unit-id="{{ $unit->id }}">
+<table id="volunteersTable" class="display table table-striped data-table" cellspacing="0" width="100%" data-unit-id="{{ $action->id }}">
     <thead>
     <tr>
         <th>#</th>
@@ -27,7 +27,7 @@
 <script>
     var table = $('#volunteersTable').dataTable({
         "bFilter": false,
-        "ajax": $("body").attr('data-url') + '/api/units/' + $('#volunteersTable').attr('data-unit-id') + '/volunteers',
+        "ajax": $("body").attr('data-url') + '/api/actions/' + $('#volunteersTable').attr('data-unit-id') + '/volunteers',
         "columns": [
             {data: "id"},
             {

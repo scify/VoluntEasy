@@ -31,7 +31,7 @@
 
     @elseif(isset($actives))
     <li data-id="{{$tree->id}}"
-        class="root {{ isset($editing) && $editing=='action' && in_array($tree->id, $actives) ? 'active-node' : '' }}"><span class="description">{{$tree->description}}</span>
+        class="root {{ isset($editing) && $editing=='unit' && in_array($tree->id, $actives) ? 'active-node' : '' }}"><span class="description">{{$tree->description}}</span>
         <ul>
             @include('main.tree._branch_actives', ['unit' => $tree, 'actives' => $actives])
         </ul>

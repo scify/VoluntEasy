@@ -7,7 +7,7 @@
 <ul class="list-unstyled">
 <li class="user-list">
         <div class="msg-img"><img src="{{ asset('assets/images/avatar4.png')}}" alt="" class="user-image-small"></div>
-        <p class="msg-name"> <a href="{{ url('users/one/'.$active->users[0]->id) }}">{{$active->users[0]->name}}</a><p>
+        <p class="msg-name"> <a href="{{ url('users/one/'.$active->users[0]->id) }}">{{$active->users[0]->name}}</a></p>
         <p class="msg-text"><i class="fa fa-envelope"></i> <a href="mail:to{{ $active->users[0]->email }}">{{ $active->users[0]->email }}</a> |
             <i class="fa fa-home"></i> {{ $active->users[0]->addr }} |
             <i class="fa fa-phone"></i> {{ $active->users[0]->tel }}</p>

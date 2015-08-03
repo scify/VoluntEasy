@@ -43,7 +43,6 @@
                     href="mailto:{{$timelineBlock->action->email}}">{{$timelineBlock->action->email}}</a>)</p>
             @endif
 
-
             <small class="pull-right">Η ανάθεση έγινε από το χρήστη {{ $timelineBlock->user->name }}</small>
 
             <span class="cd-date">{{ Carbon::parse($timelineBlock->created_at)->format('d/m/Y') }}</span>
@@ -72,13 +71,10 @@
             <p><span
                     class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">{{ $step->description }}</span>
             </p>
-            <p> Σχόλια:
-                @if($step->statuses[0]->comments==null || $step->statuses[0]->comments=='')
-                -
-                @else
-                {{ $step->statuses[0]->comments}}
-                @endif
-            </p>
+            @if($step->statuses[0]->comments!=null || $step->statuses[0]->comments!='')
+            <p>Σχόλια: {{ $step->statuses[0]->comments}}</p>
+            @endif
+
             @endif
             @endforeach
 
