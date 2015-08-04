@@ -285,20 +285,6 @@
                     @endif
                     @endforeach
                 </div>
-                <div class="form-group">
-                    <p>Αποκλεισμός εθελοντή από τις παρακάτω μονάδες:</p>
-                    @foreach($units as $unit_id => $unit)
-                        @if (isset($volunteer) && in_array($unit_id, $volunteer->units->lists('id')) )
-                        {!! Form::formInput('interest' . $unit_id, $unit->description, $errors, ['class' => 'form-control',
-                        'type' => 'checkbox', 'value' => $unit_id, 'checked' => 'true']) !!}
-                        @else
-                        {!! Form::formInput('excludes-' . $unit_id, $unit->description , $errors, ['class' => 'form-control',
-                        'type' => 'checkbox', 'value' => $unit_id, 'checked' => 'false']) !!}
-                        @endif
-                    @endforeach
-                </div>
-            </div>
-            <div class="col-md-4">
                 <p>Περιοχές ενδιαφερόντων:</p>
                 @foreach($interests as $int_id => $interest)
                 <div class="form-group">
@@ -311,6 +297,22 @@
                     @endif
                 </div>
                 @endforeach
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <p>Αποκλεισμός εθελοντή από τις παρακάτω μονάδες:</p>
+                    @foreach($units as $unit_id => $unit)
+                    <div class="form-group">
+                        @if (isset($volunteer) && in_array($unit->id, $volunteer->unitsExcludes->lists('id')) )
+                        {!! Form::formInput('excludes-' . $unit->id, $unit->description, $errors, ['class' => 'form-control',
+                        'type' => 'checkbox', 'value' => $unit->id, 'checked' => 'true']) !!}
+                        @else
+                        {!! Form::formInput('excludes-' . $unit->id, $unit->description , $errors, ['class' => 'form-control',
+                        'type' => 'checkbox', 'value' => $unit->id, 'checked' => 'false']) !!}
+                        @endif
+                    </div>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>

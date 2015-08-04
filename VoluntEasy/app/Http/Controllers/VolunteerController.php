@@ -72,12 +72,12 @@ class VolunteerController extends Controller {
         $workStatuses = WorkStatus::all()->lists('description', 'id');
         $availabilityFreqs = AvailabilityFrequencies::all()->lists('description', 'id');
         $availabilityTimes = AvailabilityTime::all()->lists('description', 'id');
-        $interests = Interests::all()->lists('description', 'id');
+        $interests = Interests::orderBy('description', 'asc')->lists('description', 'id');
         $genders = Gender::all()->lists('description', 'id');
         $commMethod = CommunicationMethod::all()->lists('description', 'id');
         $edLevel = EducationLevel::all()->lists('description', 'id');
 
-        $units = Unit::all();
+        $units = Unit::orderBy('description', 'asc')->get();
 
         return view('main.volunteers.create', compact('identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
             'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interests', 'genders', 'commMethod', 'edLevel', 'units'));
@@ -203,7 +203,6 @@ class VolunteerController extends Controller {
     public function show($id) {
         $volunteer = VolunteerService::fullProfile($id);
         $timeline = VolunteerService::timeline($id);
-
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
 
         //get the count of pending and available units, used in the front end
@@ -233,7 +232,7 @@ class VolunteerController extends Controller {
      * @return Response
      */
     public function edit($volId) {
-        $volunteer = Volunteer::with('interests', 'availabilityTimes')->findOrFail($volId);
+        $volunteer = Volunteer::with('interests', 'availabilityTimes', 'unitsExcludes')->findOrFail($volId);
 
         $identificationTypes = IdentificationType::all()->lists('description', 'id');
         $driverLicenseTypes = DriverLicenceType::all()->lists('description', 'id');
@@ -243,15 +242,15 @@ class VolunteerController extends Controller {
         $workStatuses = WorkStatus::all()->lists('description', 'id');
         $availabilityFreqs = AvailabilityFrequencies::all()->lists('description', 'id');
         $availabilityTimes = AvailabilityTime::all()->lists('description', 'id');
-        $interests = Interests::all()->lists('description', 'id');
+        $interests = Interests::orderBy('description', 'asc')->lists('description', 'id');
         $genders = Gender::all()->lists('description', 'id');
         $commMethod = CommunicationMethod::all()->lists('description', 'id');
         $edLevel = EducationLevel::all()->lists('description', 'id');
 
+        $units = Unit::orderBy('description', 'asc')->get();
 
         return view('main.volunteers.edit', compact('volunteer', 'identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
-            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interests', 'genders', 'commMethod', 'edLevel'));
-
+            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interests', 'genders', 'commMethod', 'edLevel', 'units'));
     }
 
     /**
@@ -354,6 +353,17 @@ class VolunteerController extends Controller {
             }
         }
         $volunteer->languages()->saveMany($languages_array);
+
+        $units = Unit::all();
+
+        // Get selected units and save them to unitsExcludes
+        $units_excludes_array = [];
+        foreach ($units as $unit) {
+            if (\Input::has('excludes-'.$unit->id)) {
+                array_push($units_excludes_array, $unit->id);
+            }
+        }
+        $volunteer->unitsExcludes()->sync($units_excludes_array);
 
         return \Redirect::route('volunteer/one', ['id' => $volunteer->id]);
     }

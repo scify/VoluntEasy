@@ -12,7 +12,6 @@ use App\Services\Facades\VolunteerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\View;
 
 class UnitController extends Controller {
     public function __construct() {
@@ -26,11 +25,11 @@ class UnitController extends Controller {
      * @return Response
      */
     public function index() {
-       /* $units = Unit::orderBy('description', 'ASC')->with('parent')->get();
-        //$units->setPath(\URL::to('/') . '/units');
+        /* $units = Unit::orderBy('description', 'ASC')->with('parent')->get();
+         //$units->setPath(\URL::to('/') . '/units');
 
-        $userUnits = UserService::userUnits();
-        */
+         $userUnits = UserService::userUnits();
+         */
         return view("main.units.list");
     }
 
@@ -121,9 +120,14 @@ class UnitController extends Controller {
         //those should be the volunteers that belong to the parent unit
         //or to the same unit
         //of the unit we are viewing and their status is not pending
+        //and do not have the current unit marked as excluded
         $allVolunteers = Volunteer::whereHas('units', function ($query) use ($unitId, $parentUnitId, $pendingStatus) {
-            $query->where('unit_id', $unitId)->orWhere('unit_id', $parentUnitId)->where('volunteer_status_id', '<>', $pendingStatus);
-        })->orderBy('name', 'asc')->get();
+            $query->where('unit_id', $unitId)
+                ->orWhere('unit_id', $parentUnitId)
+                ->where('volunteer_status_id', '<>', $pendingStatus);
+        })->whereHas("unitsExcludes", function ($q) use($unitId) {
+            $q->where('unit_id', $unitId);
+        }, '<', 1)->orderBy('name', 'asc')->get();
 
         $unitId = $active->id;
         $volunteers = [];
@@ -133,14 +137,11 @@ class UnitController extends Controller {
                 $query->where('unit_id', $unitId)->with(['steps.statuses' => function ($query) use ($volunteerId) {
                     $query->where('volunteer_id', $volunteerId)->with('status');
                 }]);
-            }])
-                ->findOrFail($volunteer->id);
+            }])->findOrFail($volunteer->id);
 
             $vol = VolunteerService::setStatusToUnits($vol);
             array_push($volunteers, $vol);
         }
-
-
         return view("main.units.show", compact('active', 'actives', 'type', 'allVolunteers', 'volunteers', 'userUnits', 'branch'));
     }
 

@@ -79,7 +79,7 @@
                                                 email
                                                 υπευθύνου στη δράση {{ $action->description }} μέσω της πλατφόρμας
                                                 διαχείρισης
-                                                εθελονντών
+                                                εθελοντών
                                                 <strong>{{trans($lang.'title')}}</strong>.</em></small>
                                         </p>
 

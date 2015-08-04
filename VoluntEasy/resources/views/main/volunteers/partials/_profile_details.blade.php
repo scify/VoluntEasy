@@ -161,9 +161,8 @@
                                     @endforeach
                                     @endif
 
-
                                     @if(sizeof($volunteer->unitsExcludes)>0)
-                                    <p><strong>Ο εθελοντής δε μπορεί να ενταχθεί στις μονάδες:</strong>
+                                    <p><strong>Ο εθελοντής δεν μπορεί να ενταχθεί στις μονάδες:</strong>
                                         @foreach($volunteer->unitsExcludes as $i => $unit)
                                         @if($i>0)
                                         , {{ $unit->description }}

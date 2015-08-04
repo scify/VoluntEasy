@@ -10,8 +10,8 @@ use App\Models\VolunteerStepStatus;
 use App\Models\VolunteerUnitHistory;
 use App\Services\Facades\SearchService as Search;
 use App\Services\Facades\UnitService as UnitServiceFacade;
-use App\Services\Facades\UserService;
 use App\Services\Facades\UserService as UserServiceFacade;
+use App\Services\Facades\UserService;
 
 class VolunteerService {
 
@@ -222,23 +222,43 @@ class VolunteerService {
         //that the volunteer can be assigned to, that is the unit's children + the unit itself.
         //so we create an array holding all the units info.
         foreach ($volunteer->units as $unit) {
-            $children = [];
+            if (!in_array($unit->id, $volunteer->unitsExcludes->lists('id'))) {
+                $children = [];
 
-            $children[$unit->id] = $unit->description;
+                $children[$unit->id] = $unit->description;
 
-            foreach ($unit->children as $child) {
-                $children[$child->id] = $child->description;
+                foreach ($unit->children as $child) {
+                    if (!in_array($child->id, $volunteer->unitsExcludes->lists('id')))
+                        $children[$child->id] = $child->description;
+                }
+
+                $unit->availableUnits = $children;
             }
-            $unit->availableUnits = $children;
         }
 
         //another hack, similar to the above.
         //we also want to display all available units that the volunteer can be assigned to.
         //these are the units that the current user has access to
-        //minus the units that the volunteer is already assigned to.
-        $volunteer->units->lists('id');
+        //minus the units that the volunteer is already assigned to
+        //minus the units that the volunteer is excluded from
+        $unitsExcludes = $volunteer->unitsExcludes->lists('id');
 
-        $availableUnits = Unit::whereIn('id', UserServiceFacade::permittedUnits())->whereNotIn('id', $volunteer->units->lists('id'))->lists('description', 'id');
+        //the query
+        $user = User::with(['units' => function ($q) use ($unitsExcludes) {
+            $q->whereNotIn('id', $unitsExcludes)
+                ->with(['children' => function ($q) use ($unitsExcludes) {
+                    $q->whereNotIn('id', $unitsExcludes);
+                }]);
+        }])->findOrFail(\Auth::user()->id);
+
+        //create an array of the above json
+        $availableUnits = [];
+        foreach ($user->units as $unit) {
+            $availableUnits[$unit->id] = $unit->description;
+
+            foreach ($unit->children as $child)
+                $availableUnits[$child->id] = $child->description;
+        }
 
         $volunteer->availableUnits = $availableUnits;
 
