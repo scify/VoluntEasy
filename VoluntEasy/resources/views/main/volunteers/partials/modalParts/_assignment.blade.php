@@ -37,8 +37,8 @@
 
 
 @section('footerScripts')
-//disable/enable the actions dropdown
 <script>
+//disable/enable the actions dropdown
     $('input:radio[name="assignment"]').change(function () {
         if ($(this).val() == 'action') {
             $('#actionSelect-' + $(this).attr('data-id')).removeAttr('disabled');

@@ -7,7 +7,7 @@
     {-- We should also display some useful tooltips on hover. --}
 
     @if(isset($creating) && $creating=='unit')
-    <li data-id="{{$tree->id}}" class="root parent {{ isset($tooltips) && $tooltips==true ? 'tooltips' : ''}}"><span
+    <li data-id="{{$tree->id}}" class="root parent {{ in_array($tree->id, $userUnits) ? '' : 'disabled notAssigned' }} {{ isset($tooltips) && $tooltips==true ? 'tooltips' : ''}}"><span
             class="description">{{$tree->description}}</span>
         <ul>
             @include('main.tree._branch_actions', ['unit' => $tree])
@@ -31,7 +31,7 @@
 
     @elseif(isset($actives))
     <li data-id="{{$tree->id}}"
-        class="root {{ isset($editing) && $editing=='unit' && in_array($tree->id, $actives) ? 'active-node' : '' }}"><span class="description">{{$tree->description}}</span>
+        class="root {{ ((isset($editing) && $editing=='unit' && in_array($tree->id, $actives)) || in_array($tree->id, $actives)) ? 'active-node' : '' }}"><span class="description">{{$tree->description}}</span>
         <ul>
             @include('main.tree._branch_actives', ['unit' => $tree, 'actives' => $actives])
         </ul>

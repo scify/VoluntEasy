@@ -95,6 +95,12 @@ class UserController extends Controller {
         return Redirect::to('users');
     }
 
+    /**
+     * Assign user to multiple units
+     *
+     * @param Request $request
+     * @return mixed
+     */
     public function addUnits(Request $request) {
         $user = User::findOrFail($request->get('id'));
 

@@ -225,6 +225,7 @@
        @else
        <p>{{ $volunteer->comments }}</p>
        @endif
+       @if($volunteer->permitted)
         <div class="row">
             <div class="col-md-12 text-right">
                 <a href="{{ url('volunteers/edit/'.$volunteer->id) }}" class="btn btn-success"><i
@@ -233,7 +234,8 @@
                         class="fa fa-trash"></i> Διαγραφή</a>
             </div>
         </div>
-        @if(!$volunteer->blacklisted)
+        @endif
+        @if(!$volunteer->blacklisted && $volunteer->permitted)
         <div class="row">
             <div class="col-md-12 text-right">
                 <small><a href="#" class="text-danger" data-toggle="modal" data-target="#blacklisted">Σήμανση εθελοντή ως μη διαθέσιμος</a></small>

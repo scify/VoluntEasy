@@ -35,8 +35,8 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-2">
-        <div class="form-group ">
+    <div class="col-md-12">
+        <div class="form-group">
             <button type="submit" id="search" class="btn btn-default"><i class="fa fa-search"></i> Αναζήτηση</button>
             <button type="button" id="clear" class="btn btn-default"><i class="fa fa-remove"></i> Καθαρισμός</button>
         </div>

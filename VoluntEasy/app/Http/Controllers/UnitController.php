@@ -125,10 +125,12 @@ class UnitController extends Controller {
             $query->where('unit_id', $unitId)
                 ->orWhere('unit_id', $parentUnitId)
                 ->where('volunteer_status_id', '<>', $pendingStatus);
-        })->whereHas("unitsExcludes", function ($q) use($unitId) {
+        })->whereHas("unitsExcludes", function ($q) use ($unitId) {
             $q->where('unit_id', $unitId);
         }, '<', 1)->orderBy('name', 'asc')->get();
 
+        //get the volunteers that are assigned to current unit
+        //and their statuses
         $unitId = $active->id;
         $volunteers = [];
         foreach ($active->volunteers as $volunteer) {
@@ -181,14 +183,16 @@ class UnitController extends Controller {
         $inputs = $request->all();
 
         $users = [];
-
+dd(\Input::all());
         foreach ($inputs as $id => $input) {
-            if (preg_match('/user.*/', $id)) {
-                array_push($users, $input);
+            if (\Input::has('user-'.$id)) {
+                array_push($users, Input::get('user-'.$id));
             }
         }
 
         $unit->users()->sync($users);
+
+        dd($inputs);
 
         $unit->update($request->all());
 
@@ -272,9 +276,10 @@ class UnitController extends Controller {
         $unit->users()->sync($request->get('users'));
 
         $users = User::whereIn('id', $request->get('users'))->get();
-        foreach ($users as $user) {
-            NotificationService::addNotification($user->id, 1, 'you are added to Unit: ' . $unit->description, "athensIndymedia", $user->id, $unit->id);
-        }
+
+        //notify users
+        NotificationService::usersToUnit($users, $unit);
+
         return $unit->id;
     }
 

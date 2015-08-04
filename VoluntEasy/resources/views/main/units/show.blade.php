@@ -38,7 +38,7 @@
                         <h3>Υπεύθυνος Μονάδας</h3>
                         <ul class="list-unstyled">
                             <li class="user-list">
-                                <div class="msg-img"><img src="{{ asset('assets/images/avatar4.png')}}" alt=""
+                                <div class="msg-img"><img src="{{ asset('assets/images/default.png')}}" alt=""
                                                           class="user-image-small"></div>
                                 <p class="msg-name"><a href="{{ url('users/one/'.$active->users[0]->id) }}">{{$active->users[0]->name}}</a>
 
@@ -56,7 +56,7 @@
                         <ul class="list-unstyled">
                             @foreach($active->users as $user)
                             <li class="user-list">
-                                <div class="msg-img"><img src="{{ asset('assets/images/avatar4.png')}}" alt=""
+                                <div class="msg-img"><img src="{{ asset('assets/images/default.png')}}" alt=""
                                                           class="user-image-small"></div>
                                 <p class="msg-name"><a href="{{ url('users/one/'.$user->id) }}">{{$user->name}}</a>
 

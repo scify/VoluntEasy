@@ -87,7 +87,7 @@
                                         data-toggle="dropdown">
                                         <!-- Display the username -->
                                         <span class="user-name">{{{ isset(Auth::user()->name) ? Auth::user()->name : 'not logged in' }}}<i class="fa fa-angle-down"></i></span>
-                                        <img class="img-circle avatar" src="/assets/images/avatar1.png" width="40" height="40"
+                                        <img class="img-circle avatar" src="/assets/images/default.png" width="40" height="40"
                                          alt="">
                                     </a>
                                     <ul class="dropdown-menu dropdown-list" role="menu">

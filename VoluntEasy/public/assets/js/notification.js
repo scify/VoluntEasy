@@ -4,6 +4,7 @@ $(document).ready(function () {
     var notifications = [];
     var ring;
     var pagetitle = $('title').text();
+    var seconds = 4; //every xx seconds hit the server
 
     //set up the sound manager that will play  the ring sound
     soundManager.setup({
@@ -31,7 +32,7 @@ $(document).ready(function () {
                     stopBellNotification();
                 });
         }
-        timerLoop = setTimeout(timer, 1000000);
+        timerLoop = setTimeout(timer, seconds*1000);
     };
     timer();
 
