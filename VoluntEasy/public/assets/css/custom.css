@@ -88,8 +88,10 @@ div.status{
     display:inline-block;
     padding:3px;
     color:#fff;
-    margin-right:3px;
-    margin-bottom:3px;
+    margin-right:6px;
+    margin-bottom:6px;
+    width: 100px;
+    text-align: center;
 }
 div.status.incomplete, div.status.blacklisted{
     background-color:#f25656;

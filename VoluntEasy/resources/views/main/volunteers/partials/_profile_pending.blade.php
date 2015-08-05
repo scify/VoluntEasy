@@ -32,9 +32,9 @@
                     <thead>
                     <tr>
                         <th>Οργανωτική Μονάδα</th>
-                        <th>Βήμα 1</th>
-                        <th>Βήμα 2</th>
-                        <th>Βήμα 3</th>
+                        <th><small> Βήμα 1:</small> <br/> Επικοινωνία με εθελοντή</th>
+                        <th><small> Βήμα 2:</small> <br/> Συνέντευξη με εθελοντή</th>
+                        <th><small> Βήμα 3:</small> <br/> Ανάθεση σε δράση/μονάδα</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -47,33 +47,24 @@
                         <td>{{ $unit->description }}</td>
                         @foreach($unit->steps as $i => $step)
                         <td>
-                            @if($step->type=='Assignment')
-                            @if(sizeof($unit->actions)>0)
-                            <span class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">Ανάθεση σε δράση/μονάδα</span>
-                            @else
-                            <span class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">Ανάθεση σε μονάδα</span>
-                            @endif
-                            @else
-                            <span class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">{{ $step->description }}</span>
-                            @endif
-
-                            @if($volunteer->permitted && (($i==0 &&
-                            $step->statuses[0]->status->description=='Incomplete') ||
-                            ($i>0
-                            && $unit->steps[$i-1]->statuses[0]->status->description=='Complete' &&
+                            @if($volunteer->permitted && (($i==0 && $step->statuses[0]->status->description=='Incomplete') ||
+                            ($i>0 && $unit->steps[$i-1]->statuses[0]->status->description=='Complete' &&
                             $step->statuses[0]->status->description=='Incomplete')))
-                            <button type="button" class="btn btn-default btn-xs" data-toggle="modal"
+                            <button type="button" class="btn btn-danger btn-xs" data-toggle="modal"
                                     data-target="#step-{{ $step->statuses[0]->id }}">
-                                <i class="fa fa-2x fa-edit"></i>
+                                <i class="fa fa-edit"></i> Επεξεργασία
                             </button>
                             @elseif($step->statuses[0]->status->description=='Complete')
-                            <button type="button" class="btn btn-default btn-xs" data-toggle="modal"
+                            <button type="button" class="btn btn-success btn-xs" data-toggle="modal"
                                     data-target="#step-{{ $step->statuses[0]->id }}">
-                                <i class="fa fa-2x fa-info-circle"></i>
+                                <i class="fa fa-info-circle"></i> Προβολή
+                            </button>
+                            @else
+                            <button type="button" class="btn btn-danger disabled btn-xs">
+                                <i class="fa fa-edit"></i> Επεξεργασία
                             </button>
                             @endif
                             @include('main.volunteers.partials._step_modal', ['step' => $step])
-
                         </td>
                         @endforeach
                         <td>

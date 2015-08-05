@@ -21,8 +21,9 @@
                     <tr>
                         <th>Οργανωτική Μονάδα</th>
                         <th>Κατάσταση</th>
-                        <th></th>
-                        <th></th>
+                        <th>Δράσεις</th>
+                        <th class="text-center">Αφαίρεση από μονάδα</th>
+                        <th class="text-center">Ανάθεση σε δράση</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -31,11 +32,11 @@
                         <td>{{ $unit->description }}</td>
                         <td>
                             @if($unit->status=='Pending')
-                            <span class="status pending">Υπό ένταξη</span>
+                            <div class="status pending">Υπό ένταξη</div>
                             @elseif($unit->status=='Available')
-                            <span class="status available">Διαθέσιμος</span>
+                            <div class="status available">Διαθέσιμος</div>
                             @elseif($unit->status=='Active')
-                            <span class="status active">Ενεργός</span>
+                            <div class="status active">Ενεργός</div>
                             @else
                             @endif
                         </td>
@@ -53,19 +54,26 @@
                             </p>
                             @endif
                             @endforeach
+                            @else
+                            <p style="color:#aaa;"><em>Η μονάδα δεν έχει δράσεις</em></p>
                             @endif
                         </td>
-                        <td>
-                            @if($unit->status=='Available')
+                        <td class="text-center">
+                            @if($volunteer->permitted)
+                            <a href="{{url('/volunteers/'.$volunteer->id.'/unit/detach/'.$unit->id)}}" class="btn btn-danger btn-sm"><i
+                                    class="fa fa-remove fa-1x"></i></a>
+                            @endif
+
+
+                        </td>
+                        <td class="text-center">
                             @if(sizeof($unit->actions)>0 && $volunteer->permitted)
                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                                     data-target="#selectAction">
-                                <i class="fa fa-bookmark"></i> Ανάθεση σε δράση
+                                <i class="fa fa-bookmark"></i>
                             </button>
                             @include('main.volunteers.partials._actions_modal')
-                            @endif
-                            @endif
-                        </td>
+                            @endif</td>
                     </tr>
                     @endforeach
                     </tbody>
