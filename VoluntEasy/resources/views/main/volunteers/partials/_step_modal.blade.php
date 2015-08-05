@@ -43,7 +43,7 @@
                         Ολοκλήρωση
                     </button>
                     @else
-                    <button type="button" class="btn btn-success assignToUnit" data-id="{{ $step->statuses[0]->id }}"
+                    <button type="button" class="btn btn-success {{ sizeof($unit->actions)>0 ? 'assignToActionOrUnit' : 'assignToNextUnit'}}" data-id="{{ $step->statuses[0]->id }}"
                             data-volunteer-id="{{ $volunteer->id }}" data-type="{{ $step->type }}">
                         Ολοκλήρωση
                     </button>

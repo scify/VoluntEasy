@@ -32,7 +32,7 @@
                 var html = '';
                 html += '<a href="' + $("body").attr('data-url') + '/units/one/' + data.id + '">' + data.description + '</a>';
                 if (data.parent != null)
-                    html += '<br/><small>Ανήκει σε ' + data.parent.description + '</small>';
+                    html += '<br/><small>Ανήκει στη μονάδα ' + data.parent.description + '</small>';
 
                 return html;
             }

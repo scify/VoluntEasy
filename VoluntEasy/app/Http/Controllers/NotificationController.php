@@ -70,8 +70,6 @@ Class NotificationController extends Controller {
      * @return [boolean] [success status]
      */
     public function deactivateNotification($notificationId) {
-        $userId = \Auth::user()->id;
-
         if (NotificationService::deactivateNotification($notificationId)) {
             $status = 'success';
             $msg = 'notification is deactivated';
@@ -95,17 +93,7 @@ Class NotificationController extends Controller {
      * @return [collection] [a list with all the ]
      */
     public function checkForNotifications() {
-
         return $notificationsList = NotificationService::checkForNotifications();
-        /*
-                $response = array(
-                    'status' => 'success',
-                    'numberOfNotifications' => sizeof($notificationsList),
-                    'notificationsList' => $notificationsList,
-                );
-
-                return \Response::json($response);
-        */
     }
 
 }

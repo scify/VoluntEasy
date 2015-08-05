@@ -1,23 +1,40 @@
+//define the global namespace.
+window.scify = {}; //avoiding name space collusion
+
+//
+//(function($,undefined){
+//
+//
+//    function saveVolunteer(volunteerId)
+//    {
+//        if (volunteerId == undefined)
+//        {
+//            //save new
+//        }
+//        else
+//        {
+//            //edit
+//        }
+//    }
+//
+//
+//})(window.jquery);
+//
+
+
 $(document).ready(function () {
 
-    //init tooltips
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-    });
+    //todo: move all view handler to methods that have a nice name
 
-    /**
-     * clear button clears all search fields
-     */
-    $("#clear").click(function(){
+    var assignToolTips = function(){
+        $('[data-toggle="tooltip"]').tooltip();
+        },
+        handleSearchFormFieldsReset = function(){
         $(".search").val('');
         $(".searchDropDown").val('0');
         $('.searchCheckbox').attr('checked', false);
-    });
-
-
-    //Submit the form through ajax.
-    //The result data should be reloaded to the datatable
-    $('#searchForm').on('submit', function (event) {
+        },
+        submitSearchForm =  function (event) {
         event.preventDefault();
 
         $.ajax({
@@ -35,7 +52,12 @@ $(document).ready(function () {
             }
         });
         return false; // prevent send form
-    });
+    };
+
+
+    assignToolTips();
+    $("#clear").click(handleSearchFormFieldsReset); //event assignment or delegation
+    $('#searchForm').on('submit',submitSearchForm );    //Submit the form through ajax.    //The result data should be reloaded to the datatable
 
 
     /**

@@ -218,6 +218,7 @@ div.status.active{
     display: block;
     color: #a0a0a0;
     padding: 0 0 0 10px;
+    margin-top: -5px;
 }
 
 /* tasks list */

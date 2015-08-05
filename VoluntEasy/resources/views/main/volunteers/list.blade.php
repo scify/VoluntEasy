@@ -33,6 +33,8 @@
             </div>
             <div class="panel-body">
                 @include('main.volunteers.partials._table')
+                <hr/>
+                @include('main.volunteers.partials._legend')
             </div>
         </div>
     </div>

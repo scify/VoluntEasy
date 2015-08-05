@@ -137,7 +137,6 @@ return [
 		'Illuminate\View\ViewServiceProvider',
         'Illuminate\Html\HtmlServiceProvider',
         'Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider',
-        'Barryvdh\Debugbar\ServiceProvider',
 
 		/*
 		 * Application Service Providers...
@@ -201,7 +200,6 @@ return [
         'Form'      => 'Illuminate\Html\FormFacade',
         'Carbon'      => 'Carbon\Carbon',
         'SoftDeletes' => 'Illuminate\Database\Eloquent\SoftDeletes',
-        'Debugbar'  => 'Barryvdh\Debugbar\Facade',
         'ActionService' => 'App\Services\Facades\ActionService',
         'UnitService' => 'App\Services\Facades\UnitService',
         'UserService' => 'App\Services\Facades\UserService',

@@ -3,18 +3,18 @@
 use App\Models\Notification;
 
 /**
- * The PHP Class that will handle the buisnes logic for the Notification Engine
+ * The PHP Class that will handle the business logic for the Notification Engine
  * [basic methods] -> [add,remove,search]
  */
 class NotificationService {
 
-    /////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
     //   Notification Types Index                                                  //
-    //   1 = Volunteer is assigned to Unit (Unit-Users)                           //
+    //   1 = User is assigned to Unit (Unit-Users)                                //
     //   2 = Volunteer is deleted or unassigned (top Users)                      //
     //   3 = Volunteer is in the middle of actions period (parent Unit-Users)   //
     //   4 = action is expired ...   (parent Unit-Users)                       //
-    //   4 = Volunteer submitted the Questionnaire (parent Unit-Users)        //
+    //   5 = Volunteer submitted the Questionnaire (parent Unit-Users)        //
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -70,7 +70,7 @@ class NotificationService {
      * we deactivate and don't delete it for Data Mining reasons
      * @param [$notificationId] [a notifications instance Id we want to deactivate]
      *
-     * @return int [succes status]
+     * @return int [success status]
      */
     public function deactivateNotification($notificationId) {
         $notification = Notification::findOrFail($notificationId);
@@ -93,57 +93,52 @@ class NotificationService {
     public function checkForNotifications() {
         $userId = \Auth::user()->id;
 
-        $notificationObjectsList = Notification::whereStatus('active')->orWhere('status', 'alarmAndActive')
-            ->whereHas('user', function ($q) use ($userId) {
-                $q->whereId($userId);
+        $notifications = Notification::where('user_id', $userId)
+            ->where(function($query) {
+                return $query->where('status', 'active')
+                    ->orWhere('status', 'alarmAndActive');
+            })
+            ->orderBy('created_at', 'desc')->get();
 
-            })->orderBy('created_at', 'desc')->get();
+        foreach ($notifications as $notification) {
+            // humanized date with use of Carbon Date package
+            $notification['when'] = $notification->created_at->diffForHumans();
 
-
-        foreach ($notificationObjectsList as $notificationObject) {
-            // humanised date with Helper script
-            //$humanDateTime = new Helper;
-            //$notificationObject['when'] = $humanDateTime->dateDiff($notificationObject->created_at);
-
-            // hummanised date with use of Carbon Date package
-            $notificationObject['when'] = $notificationObject->created_at->diffForHumans();
-
-            unset($notificationObject['created_at']);
-            unset($notificationObject['updated_at']);
-
-            //URL::to('transferRequest', $booking->id),
-            //$temp = $notificationObject->created_at->diff(new \DateTime('now'));
+            unset($notification['created_at']);
+            unset($notification['updated_at']);
         }
 
-        return $notificationObjectsList;
+        return $notifications;
     }
-
 
 
     /**
      * Notify one user that s/he is assigned to a unit
      *
-     * @param $user
+     * @param $userId
      * @param $unit
      */
-    public function userToUnit($user, $unit) {
+    public function userToUnit($userId, $unit) {
 
-        $url = route('user/profile', ['id' => $user->id]);
+        $url = route('user/profile', ['id' => $userId]);
 
         //userId, type of notification, message, url, userId, unitId
-        NotificationService::addNotification($user->id, 1, $this->userToUnit . $unit->description, $url, $user->id, $unit->id);
+        NotificationService::addNotification($userId, 1, $this->userToUnit . $unit->description . '.', $url, $userId, $unit->id);
+
         return;
     }
 
     /**
      * Notify multiple users that they are assigned to a unit
      *
-     * @param $users
+     * @param $usersIds
      * @param $unit
      */
-    public function usersToUnit($users, $unit) {
-        foreach ($users as $user)
+    public function usersToUnit($usersIds, $unit) {
+
+        foreach ($usersIds as $user)
             $this->userToUnit($user, $unit);
         return;
+
     }
 }

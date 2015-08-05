@@ -2,7 +2,6 @@
 @if(sizeof($unit->actions)>0)
 
 <div class="form-group">
-
     <label>
         {!! Form::formInput('assignment', '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value' =>
         'action', 'checked' => 'true', 'data-id' => $step->statuses[0]->id]) !!} Ανάθεση στη δράση

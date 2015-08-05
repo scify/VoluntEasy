@@ -336,7 +336,7 @@ h5 {
 
 .badge.badge-default {
     background: #f1f1f1;
-    color: #aaa;
+    color: #34425A;
 }
 
 .badge.badge-primary {
@@ -2943,7 +2943,7 @@ tr.group:hover {
     padding: 3px 0 0 0;
     margin: 0px;
     float: left;
-    width: 148px;
+    width:210px;
 }
 
 .tasks li a .badge {

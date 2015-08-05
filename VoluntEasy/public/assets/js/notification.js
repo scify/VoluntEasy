@@ -19,7 +19,7 @@ $(document).ready(function () {
 
     /* every xx seconds check for notifications */
     var timerLoop;
-    var timer = function(){
+    var timer = function () {
         //if the notification dropdown is not open,
         // and the user is not currently viewing any tasks, do the following
         if (!$("#notificationsDropdown").hasClass("open")) {
@@ -32,7 +32,7 @@ $(document).ready(function () {
                     stopBellNotification();
                 });
         }
-        timerLoop = setTimeout(timer, seconds*1000);
+        timerLoop = setTimeout(timer, seconds * 1000);
     };
     timer();
 
@@ -52,7 +52,7 @@ $(document).ready(function () {
                     $("#notificationBadge").show();
 
                     //add a (1) to the title!
-                    $('title').text('('+data.length+') ' +pagetitle);
+                    $('title').text('(' + data.length + ') ' + pagetitle);
 
                     var html = '';
                     //loop through the notifications and draw the
@@ -61,12 +61,23 @@ $(document).ready(function () {
                         //console.log(notification.id);
 
                         var notifClass = (notification.status == 'active' ? 'white' : 'grey');
+                        var icon = '';
+
+                        //depending on the notification type, change the icon
+                        if (notification.type == "1") //user assigned to user
+                            icon = '<div class="task-icon badge badge-info"><i class="icon-home"></i></div>';
+                        else if(notification.type == "3") //action about to expire
+                            icon = '<div class="task-icon badge badge-warning"><i class="icon-calendar"></i></div>';
+                        else if(notification.type == "4") //action expired
+                            icon = '<div class="task-icon badge badge-danger"><i class="icon-calendar"></i></div>';
+                        else //default
+                            icon = '<div class="task-icon badge badge-info"><i class="icon-info"></i></div>';
+
 
                         //draw the <li> that holds all the notification info
-                        html += '<li class="' + notifClass + '"><a href="#">';
-                        html += '<div class="task-icon badge badge-info"><i class="icon-info"></i></div>';
-                        html += '<span class="badge badge-roundless badge-default pull-right">' + notification.when + '</span>';
-                        html += '<p class="task-details">' + notification.msg + '</p>';
+                        html += '<li class="' + notifClass + '"><a href="' + notification.url + '">';
+                        html += icon;
+                        html += '<p class="task-details">' + notification.msg + ' <small><em>(' + notification.when + ')</em></small></p>';
                         html += '</a></li>';
 
                         //notifications that have a status of 'alarmAndActive'
@@ -78,7 +89,7 @@ $(document).ready(function () {
                     });
 
                     //if there are alarmAndActive notifications, play a sound
-                    if(alarmActive.length>0)
+                    if (alarmActive.length > 0)
                         ring.play();
 
                     //append the <li>s to the <ul>

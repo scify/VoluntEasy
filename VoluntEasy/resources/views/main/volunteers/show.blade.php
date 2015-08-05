@@ -57,9 +57,9 @@
                         @include('main.volunteers.partials._profile_pending')
                         @endif
 
-                        @if($available>0)
+                        {{--@if($available>0)
                         @include('main.volunteers.partials._profile_available')
-                        @endif
+                        @endif --}}
                     </div>
                     <div class="tab-pane fade in" id="tab3">
                         @include('main.volunteers.partials._timeline')

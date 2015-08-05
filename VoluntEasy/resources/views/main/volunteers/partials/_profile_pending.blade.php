@@ -10,14 +10,15 @@
                     <div class="col-md-12">
                         <div class="panel panel-default smallHeading">
                             <div class="panel-body">
-                                <h3>Ο εθελοντής δεν έχει καμία εκκρεμότητα.</h3>
-                                <hr/>
                                 <div class="row">
-                                    <div class=col-md-12>
+                                    <div class="col-md-6">
+                                        <h4>Ο εθελοντής δεν έχει καμία εκκρεμότητα.</h4>
+                                    </div>
+                                    <div class="col-md-6 text-right">
                                         @if($volunteer->permitted)
                                         <button type="button" class="btn btn-info" data-toggle="modal"
                                                 data-target="#selectUnit">
-                                            Ένταξη σε μονάδα
+                                            <i class="fa fa-home"></i> Ένταξη σε μονάδα
                                         </button>
                                         @endif
                                     </div>
@@ -92,7 +93,7 @@
                     <div class="col-md-2">
                         @if($volunteer->permitted)
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#selectUnit">
-                            Ένταξη σε μονάδα
+                            <i class="fa fa-home"></i> Ένταξη σε μονάδα
                         </button>
                         @endif
                     </div>
@@ -182,63 +183,93 @@
         changeStepStatus(stepStatus, true);
     });
 
-    //assign volunteer to unit
-    //and complete step
-    $(".assignToUnit").click(function () {
-        var id = $(this).attr('data-id');
-        parent_unit_id = '';
-        unitSelect = $('#unitSelect-' + id);
-        assignmentRadio = $('input:radio[name="assignment"]:checked');
 
-        //check if the assignment is to a unit or to an action
-        if (unitSelect.length > 0) {
-            comments = $('#unitSelect-' + id + ' option:selected').text();
-            url = $("body").attr('data-url') + '/volunteers/addToUnit';
-            assign_id = unitSelect.val();
-            parent_unit_id = unitSelect.attr('data-parent');
-        }
-        else if (assignmentRadio.length > 0 && assignmentRadio.val() != 'action') {
-            comments = assignmentRadio.val();
-            url = $("body").attr('data-url') + '/volunteers/addToUnit';
-            assign_id = assignmentRadio.attr('data-unit-id');
-            parent_unit_id = assignmentRadio.attr('data-unit-id');
-        }
-        else if ($('#actionSelect-' + id).length > 0 || (assignmentRadio.length > 0 && assignmentRadio.val() == 'action')) {
-            comments = $('#actionSelect-' + id + ' option:selected').text();
-            url = $("body").attr('data-url') + '/volunteers/addToAction';
-            assign_id = $('#actionSelect-' + id).val();
-        }
+    //assign to a unit after completing step 3
+    $(".assignToNextUnit").click(function () {
+        var id = $(this).attr('data-id');
+        var unitSelect = $('#unitSelect-' + id);
 
         var stepStatus = {
             'id': id,
-            'comments': comments,
+            'comments': unitSelect.text(),
             'status': 'Complete'
         };
 
+        var step = {
+            'volunteer_id': $(this).attr('data-volunteer-id'),
+            'assign_id': unitSelect.val(),
+            'parent_unit_id': unitSelect.attr('data-parent')
+        };
 
         $.when(changeStepStatus(stepStatus, false))
-                .then(function (volunteer_id) {
-                    var step = {
-                        'volunteer_id': volunteer_id,
-                        'assign_id': assign_id,
-                        'parent_unit_id': parent_unit_id
-                    };
-
-                    $.ajax({
-                        url: url,
-                        method: 'POST',
-                        data: step,
-                        headers: {
-                            'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-                        },
-                        success: function (data) {
-                            window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
-                        }
-                    });
-
-                });
+                .then(assignToUnit(step));
     });
 
+
+    //assign to an action after completing step 3
+    $(".assignToAction").click(function () {
+        var id = $(this).attr('data-id');
+
+        var stepStatus = {
+            'id': id,
+            'comments': $('#actionSelect-' + id + ' option:selected').text(),
+            'status': 'Complete'
+        };
+
+        var step = {
+            'volunteer_id': $(this).attr('data-volunteer-id'),
+            'assign_id': $('#actionSelect-' + id).val(),
+            'parent_unit_id': ''
+        };
+
+        $.when(changeStepStatus(stepStatus, false))
+                .then(assignToAction(step));
+
+    });
+
+
+    //after completing step 3, the volunteer might be to unit
+    //that has actions. the user can assign the volunteer either to an action
+    //or keep thme to the unit they currently are.
+    $(".assignToActionOrUnit").click(function () {
+        var id = $(this).attr('data-id');
+        var assignmentRadio = $('input:radio[name="assignment"]:checked');
+        var stepStatus, step;
+
+        if (assignmentRadio.val() == 'unit') {
+            stepStatus = {
+                'id': id,
+                'comments': assignmentRadio.val(),
+                'status': 'Complete'
+            };
+
+            step = {
+                'volunteer_id': $(this).attr('data-volunteer-id'),
+                'assign_id': assignmentRadio.attr('data-unit-id'),
+                'parent_unit_id': assignmentRadio.attr('data-unit-id')
+            };
+
+            $.when(changeStepStatus(stepStatus, false))
+                    .then(assignToUnit(step));
+        } else {
+            stepStatus = {
+                'id': id,
+                'comments': $('#actionSelect-' + id + ' option:selected').text(),
+                'status': 'Complete'
+            };
+
+            step = {
+                'volunteer_id': $(this).attr('data-volunteer-id'),
+                'assign_id': $('#actionSelect-' + id).val(),
+                'parent_unit_id': ''
+            };
+
+            $.when(changeStepStatus(stepStatus, false))
+                    .then(assignToAction(step));
+        }
+    });
+
+    //moreUnits button
     $(".assignToMoreUnits").click(function () {
         var step = {
             'volunteer_id': $(this).attr('data-volunteer-id'),
@@ -246,24 +277,11 @@
             'parent_unit_id': ''
         };
 
-        $.ajax({
-            url: $("body").attr('data-url') + '/volunteers/addToUnit',
-            method: 'POST',
-            data: step,
-            headers: {
-                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-            },
-            success: function (data) {
-                window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
-            }
-        });
-
+        assignToUnit(step);
     });
-
 
     //change the step status
     function changeStepStatus(stepStatus, redirect) {
-
         if (redirect)
             return $.ajax({
                 url: $("body").attr('data-url') + '/volunteers/stepStatus/update',
@@ -286,5 +304,34 @@
                 }
             });
     }
+
+    function assignToUnit(step) {
+        return $.ajax({
+            url: $("body").attr('data-url') + '/volunteers/addToUnit',
+            method: 'POST',
+            data: step,
+            headers: {
+                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+            },
+            success: function (data) {
+                window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
+            }
+        });
+    }
+
+    function assignToAction(step) {
+        return $.ajax({
+            url: $("body").attr('data-url') + '/volunteers/addToAction',
+            method: 'POST',
+            data: step,
+            headers: {
+                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+            },
+            success: function (data) {
+                window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
+            }
+        });
+    }
+
 </script>
 @append

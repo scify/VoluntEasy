@@ -3,7 +3,6 @@
 use App\Http\Requests\UnitRequest as UnitRequest;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Unit as Unit;
-use App\Models\User;
 use App\Models\Volunteer;
 use App\Services\Facades\NotificationService as NotificationService;
 use App\Services\Facades\UnitService;
@@ -83,13 +82,18 @@ class UnitController extends Controller {
 
         $users = [];
 
-        foreach ($inputs as $id => $input) {
-            if (preg_match('/user.*/', $id)) {
-                array_push($users, $input);
-            }
+        //get the selected users from the select2 array
+        //and add them to an array
+        foreach (\Input::get('usersSelect') as $user) {
+            array_push($users, $user);
         }
+
+        //sync the selected users
         $unit->users()->sync($users);
 
+        NotificationService::usersToUnit($users, $unit);
+
+        //create the steps for each unit
         $unit->steps()->saveMany(UnitService::createSteps());
 
         return Redirect::route('unit/one', ['id' => $unit->id]);
@@ -129,6 +133,7 @@ class UnitController extends Controller {
             $q->where('unit_id', $unitId);
         }, '<', 1)->orderBy('name', 'asc')->get();
 
+
         //get the volunteers that are assigned to current unit
         //and their statuses
         $unitId = $active->id;
@@ -144,6 +149,7 @@ class UnitController extends Controller {
             $vol = VolunteerService::setStatusToUnits($vol);
             array_push($volunteers, $vol);
         }
+
         return view("main.units.show", compact('active', 'actives', 'type', 'allVolunteers', 'volunteers', 'userUnits', 'branch'));
     }
 
@@ -178,22 +184,29 @@ class UnitController extends Controller {
      * @return Response
      */
     public function update(UnitRequest $request) {
-        $unit = Unit::findOrFail($request->get('id'));
-
-        $inputs = $request->all();
+        $unit = Unit::with('users')->findOrFail($request->get('id'));
 
         $users = [];
-dd(\Input::all());
-        foreach ($inputs as $id => $input) {
-            if (\Input::has('user-'.$id)) {
-                array_push($users, Input::get('user-'.$id));
-            }
+        $newUsers = [];
+
+        //get the selected users from the select2 array
+        //and add them to an array
+        foreach (\Input::get('usersSelect') as $user) {
+            //get the new users' ids to notify them
+            if (!in_array($user, $unit->users->lists('id')))
+                array_push($newUsers, $user);
+
+            //keep the users in a list
+            array_push($users, $user);
         }
 
+        //sync the selected users
         $unit->users()->sync($users);
 
-        dd($inputs);
+        //notify only new users
+        NotificationService::usersToUnit($newUsers, $unit);
 
+        //update the unit
         $unit->update($request->all());
 
         return Redirect::route('unit/one', ['id' => $unit->id]);
@@ -275,10 +288,8 @@ dd(\Input::all());
 
         $unit->users()->sync($request->get('users'));
 
-        $users = User::whereIn('id', $request->get('users'))->get();
-
         //notify users
-        NotificationService::usersToUnit($users, $unit);
+        NotificationService::usersToUnit($request->get('users'), $unit);
 
         return $unit->id;
     }

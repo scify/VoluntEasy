@@ -22,6 +22,7 @@
                         <th>Οργανωτική Μονάδα</th>
                         <th>Κατάσταση</th>
                         <th></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -42,26 +43,27 @@
                             @if($unit->status=='Active')
                             @foreach($volunteer->actions as $action)
                             @if($action->unit_id==$unit->id)
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <p>Δράση <strong><a href="{{ url('actions/one/'.$action->id) }}">{{
-                                        $action->description
-                                        }}</a></strong><br/>
-                                        <small>{{ $action->start_date }} - {{ $action->end_date }}</small>
-                                    </p>
-                                </div>
-                                <div class="col-md-5">
-                                    @if($volunteer->permitted)
-                                    <a href="{{url('/volunteers/'.$volunteer->id.'/action/detach/'.$action->id)}}"
-                                       data-toggle="tooltip"
-                                       data-placement="bottom" title="Αφαίρεση από τη δράση"><i
-                                            class="fa fa-remove fa-2x"></i></a>
-                                    @endif
-                                </div>
-                            </div>
-
+                            <p>Δράση <strong><a href="{{ url('actions/one/'.$action->id) }}">{{
+                                $action->description
+                                }}</a></strong>
+                                <small>({{ $action->start_date }} - {{ $action->end_date }})</small>
+                                <br/>
+                                <small><a href="{{url('/volunteers/'.$volunteer->id.'/action/detach/'.$action->id)}}"><i
+                                        class="fa fa-remove fa-1x"></i> Αφαίρεση από τη δράση</a></small>
+                            </p>
                             @endif
                             @endforeach
+                            @endif
+                        </td>
+                        <td>
+                            @if($unit->status=='Available')
+                            @if(sizeof($unit->actions)>0 && $volunteer->permitted)
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                    data-target="#selectAction">
+                                <i class="fa fa-bookmark"></i> Ανάθεση σε δράση
+                            </button>
+                            @include('main.volunteers.partials._actions_modal')
+                            @endif
                             @endif
                         </td>
                     </tr>
