@@ -64,15 +64,16 @@ $(document).ready(function () {
                         var icon = '';
 
                         //depending on the notification type, change the icon
-                        if (notification.type == "1") //user assigned to user
-                            icon = '<div class="task-icon badge badge-info"><i class="icon-home"></i></div>';
-                        else if(notification.type == "3") //action about to expire
-                            icon = '<div class="task-icon badge badge-warning"><i class="icon-calendar"></i></div>';
-                        else if(notification.type == "4") //action expired
-                            icon = '<div class="task-icon badge badge-danger"><i class="icon-calendar"></i></div>';
+                        if (notification.type_id == "1") //user assigned to user
+                            icon = '<div class="task-icon badge badge-info"><i class="fa fa-home"></i></div>';
+                        else if(notification.type_id == "2") //new volunteer
+                            icon = '<div class="task-icon badge badge-success"><i class="fa fa-leaf"></i></div>';
+                        else if(notification.type_id == "3") //action about to expire
+                            icon = '<div class="task-icon badge badge-warning"><i class="fa fa-calendar"></i></div>';
+                        else if(notification.type_id == "4") //action expired
+                            icon = '<div class="task-icon badge badge-danger"><i class="fa fa-calendar"></i></div>';
                         else //default
-                            icon = '<div class="task-icon badge badge-info"><i class="icon-info"></i></div>';
-
+                            icon = '<div class="task-icon badge badge-info"><i class="fa fa-info"></i></div>';
 
                         //draw the <li> that holds all the notification info
                         html += '<li class="' + notifClass + '"><a href="' + notification.url + '">';

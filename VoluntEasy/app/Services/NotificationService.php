@@ -1,6 +1,7 @@
 <?php namespace App\Services;
 
 use App\Models\Notification;
+use App\Models\Unit;
 
 /**
  * The PHP Class that will handle the business logic for the Notification Engine
@@ -9,16 +10,19 @@ use App\Models\Notification;
 class NotificationService {
 
     //////////////////////////////////////////////////////////////////////////////////
-    //   Notification Types Index                                                  //
-    //   1 = User is assigned to Unit (Unit-Users)                                //
-    //   2 = Volunteer is deleted or unassigned (top Users)                      //
-    //   3 = Volunteer is in the middle of actions period (parent Unit-Users)   //
-    //   4 = action is expired ...   (parent Unit-Users)                       //
-    //   5 = Volunteer submitted the Questionnaire (parent Unit-Users)        //
+    //   Notification Types Index                                                   //
+    //   1 = User is assigned to Unit (Unit-Users)                                 //
+    //   2 = Volunteer is assigned to unit (volunteers-units)                     //
+    //   3 = Volunteer is deleted or unassigned                                  //
+    //   4 = Volunteer is in the middle of actions period (parent Unit-Users)   //
+    //   5 = action is expired ...   (parent Unit-Users)                       //
+    //   6 = Volunteer submitted the Questionnaire (parent Unit-Users)        //
     ///////////////////////////////////////////////////////////////////////////
 
 
+    /** Messages **/
     private $userToUnit = 'Είστε υπεύθυνος της μονάδας ';
+    private $newVolunteer = 'Ένας νέος εθελοντής ανατέθηκε στη μονάδα ';
 
 
     /**
@@ -94,7 +98,7 @@ class NotificationService {
         $userId = \Auth::user()->id;
 
         $notifications = Notification::where('user_id', $userId)
-            ->where(function($query) {
+            ->where(function ($query) {
                 return $query->where('status', 'active')
                     ->orWhere('status', 'alarmAndActive');
             })
@@ -139,6 +143,25 @@ class NotificationService {
         foreach ($usersIds as $user)
             $this->userToUnit($user, $unit);
         return;
+
+    }
+
+    /**
+     * Notify all the users that are attached to a unit
+     * that a new volunteer has been assigned to the unit.
+     *
+     * @param $volunteerId
+     * @param $unitId
+     */
+    public function newVolunteer($volunteerId, $unitId) {
+
+        $url = route('volunteer/profile', ['id' => $volunteerId]);
+
+        $unit = Unit::with('users')->findOrFail($unitId);
+
+        foreach ($unit->users as $user) {
+            NotificationService::addNotification($user->id, 2, $this->newVolunteer . $unit->description . '.', $url, $user->id, $unit->id);
+        }
 
     }
 }

@@ -10,7 +10,7 @@ use App\Models\Descriptions\DriverLicenceType;
 use App\Models\Descriptions\EducationLevel;
 use App\Models\Descriptions\Gender;
 use App\Models\Descriptions\IdentificationType;
-use App\Models\Descriptions\Interests;
+use App\Models\Descriptions\Interest;
 use App\Models\Descriptions\Language;
 use App\Models\Descriptions\LanguageLevel;
 use App\Models\Descriptions\MaritalStatus;
@@ -20,7 +20,6 @@ use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Models\VolunteerAvailabilityTime;
 use App\Models\VolunteerLanguage;
-use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
 use DB;
@@ -72,11 +71,10 @@ class VolunteerController extends Controller {
         $workStatuses = WorkStatus::all()->lists('description', 'id');
         $availabilityFreqs = AvailabilityFrequencies::all()->lists('description', 'id');
         $availabilityTimes = AvailabilityTime::all()->lists('description', 'id');
-        $interests = Interests::orderBy('description', 'asc')->lists('description', 'id');
+        $interests = Interest::orderBy('category', 'asc')->lists('description', 'id');
         $genders = Gender::all()->lists('description', 'id');
         $commMethod = CommunicationMethod::all()->lists('description', 'id');
         $edLevel = EducationLevel::all()->lists('description', 'id');
-
         $units = Unit::orderBy('description', 'asc')->get();
 
         return view('main.volunteers.create', compact('identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
@@ -134,12 +132,6 @@ class VolunteerController extends Controller {
 
         $volunteer->save();
 
-//        // Save availability time from checkbox.
-//        $volunteer_availability = [
-//            'availability_time_id' => intval(\Input::get('availability_time')),
-//        ];
-//
-//        $volunteer->availabilityTimes()->sync($volunteer_availability);
         $availability_times = AvailabilityTime::all();
 
         $availability_array = [];
@@ -151,7 +143,7 @@ class VolunteerController extends Controller {
 
         $volunteer->availabilityTimes()->sync($availability_array);
 
-        $interests = Interests::all();
+        $interests = Interest::all();
 
         // Get interests selected and pass values to volunteer_interests table.
         $interest_array = [];
@@ -191,7 +183,7 @@ class VolunteerController extends Controller {
 
         $volunteer->unitsExcludes()->sync($unitsExcludes);
 
-        return \Redirect::route('volunteer/one', ['id' => $volunteer->id]);
+        return \Redirect::route('volunteer/profile', ['id' => $volunteer->id]);
     }
 
     /**
@@ -202,6 +194,7 @@ class VolunteerController extends Controller {
      */
     public function show($id) {
         $volunteer = VolunteerService::fullProfile($id);
+        //return $volunteer;
         $timeline = VolunteerService::timeline($id);
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
 
@@ -220,7 +213,6 @@ class VolunteerController extends Controller {
         else
             $volunteer->permitted=false;
 
-       //return $volunteer;
 
         return view("main.volunteers.show", compact('volunteer', 'pending', 'available', 'timeline'));
     }
@@ -242,7 +234,7 @@ class VolunteerController extends Controller {
         $workStatuses = WorkStatus::all()->lists('description', 'id');
         $availabilityFreqs = AvailabilityFrequencies::all()->lists('description', 'id');
         $availabilityTimes = AvailabilityTime::all()->lists('description', 'id');
-        $interests = Interests::orderBy('description', 'asc')->lists('description', 'id');
+        $interests = Interest::orderBy('description', 'asc')->lists('description', 'id');
         $genders = Gender::all()->lists('description', 'id');
         $commMethod = CommunicationMethod::all()->lists('description', 'id');
         $edLevel = EducationLevel::all()->lists('description', 'id');
@@ -365,7 +357,7 @@ class VolunteerController extends Controller {
         }
         $volunteer->unitsExcludes()->sync($units_excludes_array);
 
-        return \Redirect::route('volunteer/one', ['id' => $volunteer->id]);
+        return \Redirect::route('volunteer/profile', ['id' => $volunteer->id]);
     }
 
     /**
@@ -414,7 +406,7 @@ class VolunteerController extends Controller {
     public function addToRootUnit($id) {
 
         if (VolunteerService::addToRootUnit($id))
-            return \Redirect::route('volunteer/one', ['id' => $id]);
+            return \Redirect::route('volunteer/profile', ['id' => $id]);
         else
             return response()->view('errors.550', [], 550);
     }
@@ -457,7 +449,7 @@ class VolunteerController extends Controller {
     }
 
     /**
-     * Remove volunteer from unit
+     * Remove volunteer from unit and form its actions
      *
      * @param $volunteerId
      * @param $unitId
@@ -465,10 +457,12 @@ class VolunteerController extends Controller {
      */
     public function detachFromUnit($volunteerId, $unitId){
         $volunteer = Volunteer::findOrFail($volunteerId);
+        $unit = Unit::with('actions')->findOrFail($unitId);
 
+        $volunteer->actions()->detach($unit->actions->lists('id'));
         $volunteer->units()->detach($unitId);
 
-        return \Redirect::route('volunteer/one', ['id' => $volunteerId]);
+        return \Redirect::route('volunteer/profile', ['id' => $volunteerId]);
     }
 
     /**
@@ -492,7 +486,7 @@ class VolunteerController extends Controller {
         //detach from action
         $volunteer->actions()->detach($actionId);
 
-        return \Redirect::route('volunteer/one', ['id' => $volunteerId]);
+        return \Redirect::route('volunteer/profile', ['id' => $volunteerId]);
     }
 
     /**
@@ -505,8 +499,9 @@ class VolunteerController extends Controller {
         $stepStatusId = \Request::get('id');
         $status = \Request::get('status');
         $comments = \Request::get('comments');
+        $assignTo = \Request::get('assignTo');
 
-        $stepStatus = VolunteerService::updateStepStatus($stepStatusId, $status, $comments);
+        $stepStatus = VolunteerService::updateStepStatus($stepStatusId, $status, $comments, $assignTo);
 
         return $stepStatus->volunteer_id;
     }

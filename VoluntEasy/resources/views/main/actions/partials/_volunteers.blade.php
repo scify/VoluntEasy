@@ -76,7 +76,7 @@
                 // display unit statuses
                 data: null, render: function (data, type, row) {
                 var status = '';
-console.log(data);
+
                 if (data.units[0].status == 'Pending')
                     status += '<div class="status pending">Υπό ανάθεση</div>';
                 else if (data.units[0].status == 'Available')

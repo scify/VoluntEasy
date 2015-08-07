@@ -87,6 +87,7 @@
             <div class="panel-body">
                 @include('main.actions.partials._volunteers')
                 @if(in_array($action->unit->id, $userUnits))
+                <hr/>
                 <div class="text-right">
                     <button type="button" class="btn btn-success" data-toggle="modal"
                             data-target="#volunteersModal"><i
@@ -131,8 +132,6 @@
             volunteers: volunteers
         };
 
-        //  console.log(volunteersUnits);
-
         $.ajax({
             url: $("body").attr('data-url') + '/actions/volunteers',
             method: 'POST',
@@ -147,4 +146,4 @@
         });
     });
 </script>
-@stop
+@append

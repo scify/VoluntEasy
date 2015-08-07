@@ -1,5 +1,5 @@
 <!-- Select unit modal -->
-<div class="modal fade" id="selectAction">
+<div class="modal fade text-left" id="{{$divId}}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,12 +9,12 @@
             </div>
             <div class="modal-body">
                 {!! Form::formInput('', 'Ανάθεση στη δράση:', $errors, ['class' => 'form-control',
-                'type' => 'select', 'value' => $unit->actions->lists('description', 'id'), 'id' => 'addToMoreActions']) !!}
+                'type' => 'select', 'value' => $unit->actions->lists('description', 'id'), 'id' => 'addToAction-'.$unit->id]) !!}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
-                <button type="button" class="btn btn-success"
-                        data-volunteer-id="{{ $volunteer->id }}">Αποθήκευση
+                <button type="button" class="btn btn-success assignToAction"
+                        data-volunteer-id="{{ $volunteer->id }}" data-unit-id="{{ $unit->id }}">Αποθήκευση
                 </button>
             </div>
         </div>

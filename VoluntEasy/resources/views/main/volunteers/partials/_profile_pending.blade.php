@@ -20,6 +20,8 @@
                                                 data-target="#selectUnit">
                                             <i class="fa fa-home"></i> Ένταξη σε μονάδα
                                         </button>
+                                        @include('main.volunteers.partials.modals._select_unit', ['units' =>
+                                        $volunteer->availableUnits, 'divId' => 'selectUnit'])
                                         @endif
                                     </div>
                                 </div>
@@ -32,10 +34,18 @@
                     <thead>
                     <tr>
                         <th>Οργανωτική Μονάδα</th>
-                        <th><small> Βήμα 1:</small> <br/> Επικοινωνία με εθελοντή</th>
-                        <th><small> Βήμα 2:</small> <br/> Συνέντευξη με εθελοντή</th>
-                        <th><small> Βήμα 3:</small> <br/> Ανάθεση σε δράση/μονάδα</th>
-                        <th></th>
+                        <th>
+                            <small> Βήμα 1:</small>
+                            <br/> Επικοινωνία με εθελοντή
+                        </th>
+                        <th>
+                            <small> Βήμα 2:</small>
+                            <br/> Συνέντευξη με εθελοντή
+                        </th>
+                        <th>
+                            <small> Βήμα 3:</small>
+                            <br/> Ανάθεση σε δράση/μονάδα
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -47,33 +57,27 @@
                         <td>{{ $unit->description }}</td>
                         @foreach($unit->steps as $i => $step)
                         <td>
-                            @if($volunteer->permitted && (($i==0 && $step->statuses[0]->status->description=='Incomplete') ||
+                            @if($volunteer->permitted && (($i==0 &&
+                            $step->statuses[0]->status->description=='Incomplete') ||
                             ($i>0 && $unit->steps[$i-1]->statuses[0]->status->description=='Complete' &&
                             $step->statuses[0]->status->description=='Incomplete')))
-                            <button type="button" class="btn btn-danger btn-xs" data-toggle="modal"
+                            <button type="button" class="btn btn-danger btn-sm width-110" data-toggle="modal"
                                     data-target="#step-{{ $step->statuses[0]->id }}">
                                 <i class="fa fa-edit"></i> Επεξεργασία
                             </button>
                             @elseif($step->statuses[0]->status->description=='Complete')
-                            <button type="button" class="btn btn-success btn-xs" data-toggle="modal"
+                            <button type="button" class="btn btn-success btn-sm  width-110" data-toggle="modal"
                                     data-target="#step-{{ $step->statuses[0]->id }}">
                                 <i class="fa fa-info-circle"></i> Προβολή
                             </button>
                             @else
-                            <button type="button" class="btn btn-danger disabled btn-xs">
+                            <button type="button" class="btn btn-danger disabled btn-sm width-110">
                                 <i class="fa fa-edit"></i> Επεξεργασία
                             </button>
                             @endif
-                            @include('main.volunteers.partials._step_modal', ['step' => $step])
+                            @include('main.volunteers.partials.modals._step', ['step' => $step, 'parentId' => $unit->id])
                         </td>
                         @endforeach
-                        <td>
-                            @if($volunteer->permitted)
-                            <a href="{{url('/volunteers/'.$volunteer->id.'/unit/detach/'.$unit->id)}}"
-                               data-toggle="tooltip"
-                               data-placement="bottom" title="Αφαίρεση από τη μονάδα"><i class="fa fa-remove fa-2x"></i></a>
-                            @endif
-                        </td>
                     </tr>
                     @endif
                     @endforeach
@@ -86,6 +90,8 @@
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#selectUnit">
                             <i class="fa fa-home"></i> Ένταξη σε μονάδα
                         </button>
+                        @include('main.volunteers.partials.modals._select_unit', ['units' => $volunteer->availableUnits,
+                        'divId' => 'selectUnit'])
                         @endif
                     </div>
                     <div class="col-md-10">
@@ -104,45 +110,6 @@
     </div>
 </div>
 
-<!-- Select unit modal -->
-<div class="modal fade" id="selectUnit">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Επιλογή μονάδας</h4>
-            </div>
-            <div class="modal-body">
-                @if(sizeof($volunteer->availableUnits)==0)
-                <p>Δεν υπάρχει διαθέσιμη μονάδα.</p>
-
-                <p class="text-right">
-                    <small><em>*Διαθέσιμες θεωρούνται οι άμεσες υπομονάδες σας στις οποίες δεν ανήκει ήδη ο
-                        εθελοντής.</em>
-                    </small>
-                </p>
-                @else
-                {!! Form::formInput('', 'Ανάθεση στη μονάδα*:', $errors, ['class' => 'form-control',
-                'type' => 'select', 'value' => $volunteer->availableUnits, 'id' => 'moreUnits']) !!}
-                <p class="text-right">
-                    <small><em>*Μπορείτε να αναθέσετε τον εθελοντή μόνο στις άμεσες υπομονάδες της μονάδας σας.</em>
-                    </small>
-                </p>
-                @endif
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
-                <button type="button" class="btn btn-success assignToMoreUnits"
-                        data-volunteer-id="{{ $volunteer->id }}">Αποθήκευση
-                </button>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
 
 @section('footerScripts')
 <script>
@@ -154,6 +121,7 @@
         var stepStatus = {
             'id': id,
             'comments': $('#stepTextarea-' + id).val(),
+            'assignTo': '',
             'status': 'Incomplete'
         };
 
@@ -168,6 +136,7 @@
         var stepStatus = {
             'id': id,
             'comments': $('#stepTextarea-' + id).val(),
+            'assignTo': '',
             'status': 'Complete'
         };
 
@@ -178,44 +147,49 @@
     //assign to a unit after completing step 3
     $(".assignToNextUnit").click(function () {
         var id = $(this).attr('data-id');
-        var unitSelect = $('#unitSelect-' + id);
 
-        var stepStatus = {
-            'id': id,
-            'comments': unitSelect.text(),
-            'status': 'Complete'
-        };
+        if (id != null) {
+            step = {
+                'volunteer_id': $(this).attr('data-volunteer-id'),
+                'assign_id': $('#unitSelect-' + id).val(),
+                'parent_unit_id': $(this).attr('data-parent')
+            };
 
-        var step = {
-            'volunteer_id': $(this).attr('data-volunteer-id'),
-            'assign_id': unitSelect.val(),
-            'parent_unit_id': unitSelect.attr('data-parent')
-        };
+            stepStatus = {
+                'id': id,
+                'comments': $('#unitSelect-' + id + ' option:selected').text(),
+                'assignTo': 'unit',
+                'status': 'Complete'
+            };
 
-        $.when(changeStepStatus(stepStatus, false))
-                .then(assignToUnit(step));
+            console.log(step);
+            console.log(stepStatus);
+            $.when(changeStepStatus(stepStatus, false))
+                    .then(assignToUnit(step));
+        }
+        else {
+            step = {
+                'volunteer_id': $(this).attr('data-volunteer-id'),
+                'assign_id': $('#moreUnits').val(),
+                'parent_unit_id': $(this).attr('data-parent')
+            };
+
+            console.log(step);
+            assignToUnit(step);
+        }
     });
 
 
     //assign to an action after completing step 3
     $(".assignToAction").click(function () {
-        var id = $(this).attr('data-id');
-
-        var stepStatus = {
-            'id': id,
-            'comments': $('#actionSelect-' + id + ' option:selected').text(),
-            'status': 'Complete'
-        };
-
         var step = {
             'volunteer_id': $(this).attr('data-volunteer-id'),
-            'assign_id': $('#actionSelect-' + id).val(),
+            'assign_id': $('#addToAction-' + $(this).attr('data-unit-id')).val(),
             'parent_unit_id': ''
         };
+        console.log(step);
 
-        $.when(changeStepStatus(stepStatus, false))
-                .then(assignToAction(step));
-
+         assignToAction(step);
     });
 
 
@@ -227,10 +201,31 @@
         var assignmentRadio = $('input:radio[name="assignment"]:checked');
         var stepStatus, step;
 
-        if (assignmentRadio.val() == 'unit') {
+        if (assignmentRadio.val() == 'action') {
+            stepStatus = {
+                'id': id,
+                'comments': $('#actionSelect-' + id + ' option:selected').text(),
+                'assignTo': 'action',
+                'status': 'Complete'
+            };
+
+            step = {
+                'volunteer_id': $(this).attr('data-volunteer-id'),
+                'assign_id': $('#actionSelect-' + id).val(),
+                'parent_unit_id': ''
+            };
+          /*  console.log('action');
+            console.log(stepStatus);
+            console.log(step);*/
+
+             $.when(changeStepStatus(stepStatus, false))
+             .then(assignToAction(step));
+
+        } else {
             stepStatus = {
                 'id': id,
                 'comments': assignmentRadio.val(),
+                'assignTo': 'unit',
                 'status': 'Complete'
             };
 
@@ -240,28 +235,17 @@
                 'parent_unit_id': assignmentRadio.attr('data-unit-id')
             };
 
-            $.when(changeStepStatus(stepStatus, false))
-                    .then(assignToUnit(step));
-        } else {
-            stepStatus = {
-                'id': id,
-                'comments': $('#actionSelect-' + id + ' option:selected').text(),
-                'status': 'Complete'
-            };
+          /*  console.log('unit');
+            console.log(stepStatus);
+            console.log(step);*/
 
-            step = {
-                'volunteer_id': $(this).attr('data-volunteer-id'),
-                'assign_id': $('#actionSelect-' + id).val(),
-                'parent_unit_id': ''
-            };
-
-            $.when(changeStepStatus(stepStatus, false))
-                    .then(assignToAction(step));
+             $.when(changeStepStatus(stepStatus, false))
+             .then(assignToUnit(step));
         }
     });
 
-    //moreUnits button
-    $(".assignToMoreUnits").click(function () {
+    //'entakis se monada' button
+    $(".assignToAnotherUnit").click(function () {
         var step = {
             'volunteer_id': $(this).attr('data-volunteer-id'),
             'assign_id': $('#moreUnits').val(),
@@ -305,6 +289,7 @@
                 'X-CSRF-Token': $('meta[name="_token"]').attr('content')
             },
             success: function (data) {
+                console.log(data);
                 window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
             }
         });

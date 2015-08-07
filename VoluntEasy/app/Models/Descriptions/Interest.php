@@ -3,7 +3,7 @@
 use Illuminate\Database\Eloquent\Model;
 
 
-class Interests extends Model {
+class Interest extends Model {
 
     /**
      * The database table used by the model.
@@ -12,7 +12,7 @@ class Interests extends Model {
      */
     protected $table = 'interests';
 
-    protected $fillable = ['description'];
+    protected $fillable = ['description', 'category'];
 
 
 }

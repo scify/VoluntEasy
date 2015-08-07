@@ -44,7 +44,7 @@
                     </button>
                     @else
                     <button type="button" class="btn btn-success {{ sizeof($unit->actions)>0 ? 'assignToActionOrUnit' : 'assignToNextUnit'}}" data-id="{{ $step->statuses[0]->id }}"
-                            data-volunteer-id="{{ $volunteer->id }}" data-type="{{ $step->type }}">
+                            data-volunteer-id="{{ $volunteer->id }}" data-type="{{ $step->type }}" {{ isset($parentId) ? 'data-parent='.$parentId : ''}}>
                         Ολοκλήρωση
                     </button>
                     @endif

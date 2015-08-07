@@ -4,7 +4,7 @@
         <th>#</th>
         <th>Όνομα</th>
         <th>Σχόλια</th>
-        <th></th>
+        <th>Ενέργειες</th>
     </tr>
     </thead>
 
@@ -13,7 +13,7 @@
         <th>#</th>
         <th>Όνομα</th>
         <th>Σχόλια</th>
-        <th></th>
+        <th>Ενέργειες</th>
     </tr>
     </tfoot>
 </table>
@@ -37,7 +37,12 @@
                 return html;
             }
             },
-            {data: "comments"},
+            {
+                //show only xx first characters of comments
+                data: null, render: function (data, type, row) {
+                return data.comments.substring(0, 50) + "...";
+            }
+            },
             {
                 //if the user is permitted to edit/delete the volunteer,
                 //then show the appropriate buttons
@@ -48,7 +53,7 @@
                     html = '<ul class="list-inline">';
                     html += '<li><a href="' + $("body").attr('data-url') + '/units/edit/' + data.id + '" data-toggle="tooltip"';
                     html += 'data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit fa-2x"></i></a></li>';
-                    html += '<li><a href="' + $("body").attr('data-url') + '/units/delete/' + data.id + '" class="delete" data-id="' + data.id + '" data-toggle="tooltip"';
+                    html += '<li><a href="#" class="delete skata" data-id="' + data.id + '" data-toggle="tooltip"';
                     html += 'data-placement="bottom" title="Διαγραφή"><i class="fa fa-trash fa-2x"></i></a>';
                     html += '</li></ul>';
                 }

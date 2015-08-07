@@ -47,7 +47,7 @@
                                 <i class="fa fa-2x fa-info-circle"></i>
                             </button>
                             @endif
-                            @include('main.volunteers.partials._step_modal', ['step' => $step])
+                            @include('main.volunteers.partials.modals._step', ['step' => $step])
 
                         </td>
                         @endforeach

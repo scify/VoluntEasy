@@ -1,13 +1,13 @@
-<table id="volunteersTable" class="display table table-striped data-table" cellspacing="0" width="100%">
+<table id="volunteersTable" class="display table table-striped table-condensed data-table" cellspacing="0" width="100%">
     <thead>
     <tr>
         <th>#</th>
         <th>Όνομα</th>
         <th>Email</th>
-        <th>Διεύθυνση</th>
+        <!--th>Διεύθυνση</th-->
         <th>Τηλέφωνο</th>
         <th>Μονάδες</th>
-        <th></th>
+        <th>Ενέργειες</th>
     </tr>
     </thead>
 
@@ -16,10 +16,10 @@
         <th>#</th>
         <th>Όνομα</th>
         <th>Email</th>
-        <th>Διεύθυνση</th>
+        <!--th>Διεύθυνση</th-->
         <th>Τηλέφωνο</th>
         <th>Μονάδες</th>
-        <th></th>
+        <th>Ενέργειες</th>
     </tr>
     </tfoot>
 </table>
@@ -44,22 +44,22 @@
                 return '<a href="mailto:' + data.email + '">' + data.email + '</a>';
             }
             },
-            {
-                //concat address with city, post box and country
-                data: null, render: function (data, type, row) {
-                var address = '';
-                if (data.address != null && data.address != '')
-                    address += data.address;
-                if (data.city != null && data.city != '')
-                    address += ', ' + data.city;
-                if (data.post_box != null && data.post_box != '')
-                    address += ', ' + data.post_box;
-                if (data.country != null && data.country != '')
-                    address += ', ' + data.country;
+            /*{
+             //concat address with city, post box and country
+             data: null, render: function (data, type, row) {
+             var address = '';
+             if (data.address != null && data.address != '')
+             address += data.address;
+             if (data.city != null && data.city != '')
+             address += ', ' + data.city;
+             if (data.post_box != null && data.post_box != '')
+             address += ', ' + data.post_box;
+             if (data.country != null && data.country != '')
+             address += ', ' + data.country;
 
-                return address;
-            }
-            },
+             return address;
+             }
+             },*/
             {
                 //concat all phones
                 data: null, render: function (data, type, row) {
@@ -67,9 +67,9 @@
                 if (data.cell_tel != null && data.cell_tel != '')
                     phones += data.cell_tel;
                 if (data.home_tel != null && data.home_tel != '')
-                    phones += '<br/>' + data.home_tel;
+                    phones += ', ' + data.home_tel;
                 if (data.work_tel != null && data.work_tel != '')
-                    phones += '<br/>' + data.work_tel;
+                    phones += ', ' + data.work_tel;
 
                 return phones;
             }
@@ -79,23 +79,23 @@
                 data: null, render: function (data, type, row) {
                 var status = '';
 
-                if (data.blacklisted==1)
+                if (data.blacklisted == 1)
                     status += '<div class="status blacklisted">Μη διαθέσιμος</div>';
                 else {
                     //if the volunteer has not been assigned to root unit, display appropriate button
-                    if (data.assignToRoot) {
-                        status = '<a href="' + $("body").attr('data-url') + '/volunteers/addToRootUnit/' + data.id + '" class="btn btn-info">Ένταξη στη μονάδα μου</a>';
-                    }
-                    else {
-                        $.each(data.units, function (index, unit) {
-                            if (unit.status == 'Pending')
-                                status += '<div class="status pending" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι υπό ανάθεση στη μονάδα ' + unit.description + '">' + unit.description + '</div>';
-                            else if (unit.status == 'Available')
-                                status += '<div class="status available" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι διαθέσιμος στη μονάδα ' + unit.description + '">' + unit.description + '</div>';
-                            else if (unit.status == 'Active')
-                                status += '<div class="status active" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι ενεργός σε δράσεις στη μονάδα ' + unit.description + '">' + unit.description + '</div>';
-                        });
-                    }
+                    /*  if (data.assignToRoot) {
+                     status = '<a href="' + $("body").attr('data-url') + '/volunteers/addToRootUnit/' + data.id + '" class="btn btn-info">Ένταξη στη μονάδα μου</a>';
+                     }
+                     else {*/
+                    $.each(data.units, function (index, unit) {
+                        if (unit.status == 'Pending')
+                            status += '<div class="status pending" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι υπό ανάθεση στη μονάδα ' + unit.description + '">' + unit.description + '</div>';
+                        else if (unit.status == 'Available')
+                            status += '<div class="status available" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι διαθέσιμος στη μονάδα ' + unit.description + '">' + unit.description + '</div>';
+                        else if (unit.status == 'Active')
+                            status += '<div class="status active" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι ενεργός σε δράσεις στη μονάδα ' + unit.description + '">' + unit.description + '</div>';
+                    });
+                    // }
                 }
                 return status;
             }
@@ -105,13 +105,22 @@
                 data: null, render: function (data, type, row) {
                     var html = '';
 
+
                     if (data.permitted) {
                         html = '<ul class="list-inline">';
                         html += '<li><a href="' + $("body").attr('data-url') + '/volunteers/edit/' + data.id + '" data-toggle="tooltip"';
                         html += 'data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit fa-2x"></i></a></li>';
                         html += '<li><a href="#" class="delete" data-id="' + data.id + '" data-toggle="tooltip"';
                         html += 'data-placement="bottom" title="Διαγραφή"><i class="fa fa-trash fa-2x"></i></a>';
-                        html += '</li></ul>';
+                        html += '</li>';
+
+                        //if the volunteer has not been assigned to root unit, display appropriate button
+                        if (data.assignToRoot) {
+                            html += '<li><a href="' + $("body").attr('data-url') + '/volunteers/addToRootUnit/' + data.id + '" data-toggle="tooltip"';
+                            html += 'data-placement="bottom" title="Ανάθεση στη μονάδα μου"><i class="fa fa-home fa-2x"></i></a></li>';
+                        }
+
+                        html += '</ul>';
                     }
 
                     return html;
@@ -134,7 +143,7 @@
         },
         //disable ordering at the last column (edit, delete buttons)
         "aoColumnDefs": [
-            {'bSortable': false, 'aTargets': [6]}
+            {'bSortable': false, 'aTargets': [5]}
         ],
         dom: 'T<"clear">lfrtip',
         "tableTools": {

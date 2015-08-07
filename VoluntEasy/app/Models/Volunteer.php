@@ -32,7 +32,7 @@ class Volunteer extends User {
     }
 
     public function interests() {
-        return $this->belongsToMany('App\Models\Descriptions\Interests', 'volunteer_interests', 'volunteer_id', 'interest_id')->orderBy('description', 'asc');
+        return $this->belongsToMany('App\Models\Descriptions\Interest', 'volunteer_interests', 'volunteer_id', 'interest_id')->orderBy('description', 'asc');
     }
 
     public function availabilityFrequencies() {

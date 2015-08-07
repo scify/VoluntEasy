@@ -64,7 +64,7 @@
             @foreach($timelineBlock->unit->steps as $i => $step)
             @if($step->type=='Assignment')
             <p><span
-                    class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">Ανάθεση στη δράση/μονάδα <strong>{{
+                    class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">Ανάθεση στη {{ $step->statuses[0]->assignedTo=='action' ? 'δράση' : 'μονάδα'}} <strong>{{
                 $step->statuses[0]->comments }}</strong></span>
                 @else
 

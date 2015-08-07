@@ -84,14 +84,16 @@ class UnitController extends Controller {
 
         //get the selected users from the select2 array
         //and add them to an array
-        foreach (\Input::get('usersSelect') as $user) {
-            array_push($users, $user);
+        if(\Input::has('userSelect')) {
+            foreach (\Input::get('usersSelect') as $user) {
+                array_push($users, $user);
+            }
+
+            //sync the selected users
+            $unit->users()->sync($users);
+
+            NotificationService::usersToUnit($users, $unit);
         }
-
-        //sync the selected users
-        $unit->users()->sync($users);
-
-        NotificationService::usersToUnit($users, $unit);
 
         //create the steps for each unit
         $unit->steps()->saveMany(UnitService::createSteps());
@@ -306,11 +308,12 @@ class UnitController extends Controller {
 
         $unit->volunteers()->detach();
 
-        // create a history entry for each new volunteer
-        foreach ($request->get('volunteers') as $volunteer) {
-            VolunteerService::addToUnit($unit->id, $unit->parent_unit_id, $volunteer);
+        if($request->has('volunteers')) {
+            // create a history entry for each new volunteer
+            foreach ($request->get('volunteers') as $volunteer) {
+                VolunteerService::addToUnit($unit->id, $unit->parent_unit_id, $volunteer);
+            }
         }
-
         return $unit->id;
     }
 

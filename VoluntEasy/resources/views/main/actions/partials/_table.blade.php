@@ -8,7 +8,7 @@
         <th>Μονάδα</th>
         <th>Ημ. Έναρξης</th>
         <th>Ημ. Λήξης</th>
-        <th></th>
+        <th>Ενέργειες</th>
     </tr>
     </thead>
 
@@ -21,7 +21,7 @@
         <th>Μονάδα</th>
         <th>Ημ. Έναρξης</th>
         <th>Ημ. Λήξης</th>
-        <th></th>
+        <th>Ενέργειες</th>
     </tr>
     </tfoot>
 </table>
@@ -42,7 +42,12 @@
                 return html;
             }
             },
-            {data: "comments"},
+            {
+                //show only xx first characters of comments
+                data: null, render: function (data, type, row) {
+                  return data.comments.substring(0,50) + "...";
+            }
+            },
             {data: "unit.description"},
             {data: "start_date"},
             {data: "end_date"},

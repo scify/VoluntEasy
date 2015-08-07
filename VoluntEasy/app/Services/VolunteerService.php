@@ -8,10 +8,11 @@ use App\Models\Volunteer;
 use App\Models\VolunteerActionHistory;
 use App\Models\VolunteerStepStatus;
 use App\Models\VolunteerUnitHistory;
+use App\Services\Facades\NotificationService;
 use App\Services\Facades\SearchService as Search;
 use App\Services\Facades\UnitService as UnitServiceFacade;
-use App\Services\Facades\UserService as UserServiceFacade;
 use App\Services\Facades\UserService;
+use App\Services\Facades\UserService as UserServiceFacade;
 
 class VolunteerService {
 
@@ -216,22 +217,21 @@ class VolunteerService {
             ->with('units.children', 'units.actions')
             ->findOrFail($id);
 
+        $unitsExcludes = $volunteer->unitsExcludes->lists('id');
+        $assignedUnits = $volunteer->units->lists('id');
 
         //this is basically a hack.
         //in the front end we want to display a list of the available units for each unit
-        //that the volunteer can be assigned to, that is the unit's children + the unit itself.
+        //that the volunteer can be assigned to, that is the unit's children
         //so we create an array holding all the units info.
         foreach ($volunteer->units as $unit) {
-            if (!in_array($unit->id, $volunteer->unitsExcludes->lists('id'))) {
+            if (!in_array($unit->id, $unitsExcludes)) {
                 $children = [];
 
-                $children[$unit->id] = $unit->description;
-
                 foreach ($unit->children as $child) {
-                    if (!in_array($child->id, $volunteer->unitsExcludes->lists('id')))
+                    if (!in_array($child->id, $unitsExcludes) && !in_array($child->id, $assignedUnits))
                         $children[$child->id] = $child->description;
                 }
-
                 $unit->availableUnits = $children;
             }
         }
@@ -241,23 +241,31 @@ class VolunteerService {
         //these are the units that the current user has access to
         //minus the units that the volunteer is already assigned to
         //minus the units that the volunteer is excluded from
-        $unitsExcludes = $volunteer->unitsExcludes->lists('id');
-
-        //the query
-        $user = User::with(['units' => function ($q) use ($unitsExcludes) {
-            $q->whereNotIn('id', $unitsExcludes)
-                ->with(['children' => function ($q) use ($unitsExcludes) {
-                    $q->whereNotIn('id', $unitsExcludes);
-                }]);
-        }])->findOrFail(\Auth::user()->id);
-
-        //create an array of the above json
         $availableUnits = [];
-        foreach ($user->units as $unit) {
-            $availableUnits[$unit->id] = $unit->description;
 
-            foreach ($unit->children as $child)
-                $availableUnits[$child->id] = $child->description;
+        //if the volunteer has no units, then
+        //the only available unit should be the root one.
+        if (sizeof($volunteer->units) == 0) {
+            $root = UnitServiceFacade::getRoot();
+            $availableUnits[$root->id] = $root->description;
+        } else {
+            //the query
+            $user = User::with(['units' => function ($q) use ($unitsExcludes, $assignedUnits) {
+                $q->whereNotIn('id', $unitsExcludes)->whereNotIn('id', $assignedUnits)
+                    ->with(['children' => function ($q) use ($unitsExcludes, $assignedUnits) {
+                        $q->whereNotIn('id', $unitsExcludes)
+                            ->whereNotIn('id', $assignedUnits);
+                    }]);
+            }])->findOrFail(\Auth::user()->id);
+
+            //create an array of the above json
+            $availableUnits = [];
+            foreach ($user->units as $unit) {
+                $availableUnits[$unit->id] = $unit->description;
+
+                foreach ($unit->children as $child)
+                    $availableUnits[$child->id] = $child->description;
+            }
         }
 
         $volunteer->availableUnits = $availableUnits;
@@ -274,12 +282,20 @@ class VolunteerService {
      */
     public function timeline($volunteerId) {
 
-        $volunteer = Volunteer::with('actionHistory.action', 'actionHistory.user', 'unitHistory.user')
-            ->with(['unitHistory.unit.steps.statuses' => function ($query) use ($volunteerId) {
-                $query->where('volunteer_id', $volunteerId)->with('status');
+
+        $volunteer = Volunteer::with('actionHistory.user')
+            ->with('unitHistory.user')
+            ->with(['actionHistory.action' => function ($query) use ($volunteerId) {
+                $query->withTrashed()->with(['rating' => function ($query) use ($volunteerId) {
+                    $query->where('volunteer_id', $volunteerId);
+                }]);
             }])
-            ->with(['actionHistory.action.rating' => function ($query) use ($volunteerId) {
-                $query->where('volunteer_id', $volunteerId);
+            ->with(['unitHistory.unit' => function ($query) use ($volunteerId) {
+                $query->withTrashed()->with(['steps' => function ($query) use ($volunteerId) {
+                    $query->withTrashed()->with(['statuses' => function ($query) use ($volunteerId) {
+                        $query->where('volunteer_id', $volunteerId)->with('status');
+                    }]);
+                }]);
             }])
             ->findOrFail($volunteerId);
 
@@ -309,12 +325,13 @@ class VolunteerService {
      *
      * @return mixed
      */
-    public function updateStepStatus($stepStatusId, $status, $comments) {
+    public function updateStepStatus($stepStatusId, $status, $comments, $assignTo) {
         //the id of the status, either Complete or Incomplete
         $statusId = StepStatus::where('description', $status)->first()->id;
 
         $stepStatus = VolunteerStepStatus::find($stepStatusId);
         $stepStatus->comments = $comments;
+        $stepStatus->assignedTo = $assignTo;
         $stepStatus->step_status_id = $statusId;
         $stepStatus->save();
 
@@ -388,7 +405,8 @@ class VolunteerService {
 
     /**
      * Add a volunteer to a unit
-     * and also create the steps that are needed (status set to incomplete)
+     * and also create the steps that are needed (status set to incomplete).
+     * Also send notifications to the users that are aasigned to that unit.
      *
      * @return mixed
      */
@@ -397,11 +415,14 @@ class VolunteerService {
         //check if the user assigned the volunteer to his/her unit
         //or to a child unit
         if ($parentUnitId != null && $unitId == $parentUnitId) {
+
             //if the volunteer is assigned to current unit, just change the status to available
             $volunteerStatus = VolunteerStatus::where('description', 'Available')->first()->id;
 
             $this->changeUnitStatus($volunteerId, $unitId, $volunteerStatus);
+
         } else {
+
             //get the pending volunteer status
             $volunteerStatus = VolunteerStatus::where('description', 'Pending')->first()->id;
 
@@ -427,7 +448,9 @@ class VolunteerService {
                 }
                 //append the steps to the volunteer
                 $volunteer->steps()->saveMany($steps);
+
             } else {
+
                 //if the steps already exists, that means that the volunteer has already passed the steps
                 //and can be assigned directly to unit without creating steps
 
@@ -468,6 +491,9 @@ class VolunteerService {
             //also add an entry to the history table
             $this->unitHistory($volunteer->id, $unit->id);
         }
+
+        //notify users about new volunteers
+        NotificationService::newVolunteer($volunteerId, $unitId);
 
         return $volunteerId;
     }

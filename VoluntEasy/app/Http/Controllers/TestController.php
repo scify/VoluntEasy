@@ -113,7 +113,8 @@ class TestController extends Controller {
         for ($i = 1; $i < 11; $i++) {
             $unitIds = Unit::all()->lists('id');
             $unit = new Unit([
-                'description' => $faker->colorName,
+                'description' => $faker->company,
+                'comments' => $faker->paragraph,
                 'parent_unit_id' => $faker->randomElement($unitIds)
             ]);
             $unit->save();
@@ -125,9 +126,10 @@ class TestController extends Controller {
 
         for ($i = 0; $i < 5; $i++) {
             $action = new Action([
-                'description' => $faker->tld,
+                'description' => $faker->colorName,
                 'start_date' => $faker->dateTime(),
                 'end_date' => $faker->dateTime(),
+                'comments' => $faker->paragraph,
                 'unit_id' => $faker->randomElement($leaves)
             ]);
             $action->save();

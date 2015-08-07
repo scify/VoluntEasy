@@ -57,10 +57,43 @@
 @stop
 
 
+
 @section('footerScripts')
-<script src="{{ asset('assets/js/pages/users/edit.js')}}"></script>
+<!--script src="{{ asset('assets/js/pages/users/edit.js')}}"></script>
 <script>
     var handler = new window.scify.editHandler("pink");
     handler.init();
+</script-->
+
+
+<script>
+    $("#tree").jOrgChart({
+        chartElement: '#unitsTree',
+        multiple: true,
+        ulId: "#tree",
+        children: true
+    });
+    $("#save").click(function () {
+        var activeLis = [];
+        $("#tree").find("li.active-node").each(function () {
+            activeLis.push($(this).attr('data-id'));
+        });
+        var userUnits = {
+            id: $(this).attr('data-user-id'),
+            units: activeLis
+        };
+        console.log(activeLis);
+        $.ajax({
+            url: $("body").attr('data-url') + '/users/units',
+            method: 'POST',
+            data: userUnits,
+            headers: {
+                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+            },
+            success: function (data) {
+                window.location.href = $("body").attr('data-url') + "/users/one/" + data;
+            }
+        });
+    })
 </script>
 @stop

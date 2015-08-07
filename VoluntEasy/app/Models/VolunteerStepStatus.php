@@ -13,7 +13,7 @@ class VolunteerStepStatus extends Model {
      */
     protected $table = 'volunteer_step_status';
 
-    protected $fillable = ['step_id', 'step_status_id'];
+    protected $fillable = ['step_id', 'step_status_id', 'assignTo'];
 
 
     public function step()

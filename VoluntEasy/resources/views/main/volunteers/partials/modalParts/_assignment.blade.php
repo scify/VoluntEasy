@@ -10,22 +10,28 @@
     'type' => 'select', 'id' => 'actionSelect-'.$step->statuses[0]->id, 'value' =>
     $unit->actions->lists('description', 'id')]) !!}
 </div>
-
 <div class="form-group">
     <label>
-        {!! Form::formInput('assignment', '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value' => $unit->description,
-        'checked' => 'false', 'data-id' => $step->statuses[0]->id, 'data-unit-id' => $unit->id]) !!} Ανάθεση στη μονάδα <strong>{{ $unit->description
-        }}</strong>
+        {!! Form::formInput('assignment', '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value' =>
+        $unit->description,
+        'checked' => 'false', 'data-id' => $step->statuses[0]->id, 'data-unit-id' => $unit->id]) !!} Ανάθεση στη μονάδα
+        <strong>{{ $unit->description
+            }}</strong>
     </label>
 </div>
+
 @else
+{{-- also add the parent unit to the available units --}}
+{{--*/ $availableUnitsWithParent = $unit->availableUnits /*--}}
+{{--*/ $availableUnitsWithParent[$unit->id] = $unit->description /*--}}
 {!! Form::formInput('', 'Ανάθεση στη μονάδα*:', $errors, ['class' => 'form-control',
-'type' => 'select', 'id' => 'unitSelect-'.$step->statuses[0]->id, 'value' => $unit->availableUnits, 'data-parent' => $unit->id]) !!}
+'type' => 'select', 'id' => 'unitSelect-'.$step->statuses[0]->id, 'value' => $availableUnitsWithParent, 'data-parent' => $unit->id]) !!}
 <p class="text-right">
     <small><em>*Μπορείτε να αναθέσετε τον εθελοντή μόνο στις άμεσες υπομονάδες της μονάδας σας.</em>
     </small>
 </p>
 @endif
+
 @else
 @if(sizeof($unit->actions)>0)
 <p>Ανατέθηκε στη δράση/μονάδα <strong>{{ $step->statuses[0]->comments}}</strong>.</p>
@@ -37,7 +43,7 @@
 
 @section('footerScripts')
 <script>
-//disable/enable the actions dropdown
+    //disable/enable the actions dropdown
     $('input:radio[name="assignment"]').change(function () {
         if ($(this).val() == 'action') {
             $('#actionSelect-' + $(this).attr('data-id')).removeAttr('disabled');
