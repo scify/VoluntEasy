@@ -320,4 +320,10 @@ class UnitController extends Controller {
         return $unit->id;
     }
 
+
+    public function wholeTree() {
+        $tree = UnitService::getTree();
+        $userUnits = UserService::userUnits();
+        return view("main.tree.tree", compact('tree', 'userUnits'));
+    }
 }

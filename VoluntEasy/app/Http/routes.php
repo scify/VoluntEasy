@@ -40,6 +40,7 @@ Route::post('units/volunteers', 'UnitController@addVolunteers');
 Route::post('units/search', 'UnitController@search');
 Route::post('units/results', 'UnitController@results');
 Route::get('rootUnit', 'UnitController@rootUnit');
+Route::get('wholeTree', 'UnitController@wholeTree');
 
 
 
