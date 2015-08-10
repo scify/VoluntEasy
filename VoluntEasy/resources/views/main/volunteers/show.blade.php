@@ -121,5 +121,21 @@
             }
         });
     });
+
+    //delete user and return to user list
+    function deleteVolunteer(id) {
+        if (confirm("Είτε σίγουροι ότι θέλετε να διαγράψετε τον εθελοντή;") == true) {
+            $.ajax({
+                url: $("body").attr('data-url') + '/volunteers/delete/' + id,
+                method: 'GET',
+                headers: {
+                    'X-CSRF-Token': $('#token').val()
+                },
+                success: function () {
+                    window.location = $("body").attr('data-url') + '/volunteers';
+                }
+            });
+        }
+    }
 </script>
 @append

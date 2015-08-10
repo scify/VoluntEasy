@@ -16,7 +16,7 @@ Route::get('users','UserController@index');
 Route::get('users/one/{id}', ['as' => 'user/profile', 'uses' => 'UserController@show']);
 Route::get('users/create', 'UserController@create');
 Route::get('users/edit/{id}', 'UserController@edit');
-Route::post('users/delete/{id}', 'UserController@destroy');
+Route::get('users/delete/{id}', 'UserController@destroy');
 Route::post('users/update', 'UserController@update');
 Route::post('users/store', 'UserController@store');
 Route::post('users/units', 'UserController@addUnits');

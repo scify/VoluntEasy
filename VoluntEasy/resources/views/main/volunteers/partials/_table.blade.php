@@ -108,21 +108,20 @@
 
                     if (data.permitted) {
                         html = '<ul class="list-inline">';
-                        html += '<li><a href="' + $("body").attr('data-url') + '/volunteers/edit/' + data.id + '" data-toggle="tooltip"';
-                        html += 'data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit fa-2x"></i></a></li>';
-                        html += '<li><a href="#" class="delete" data-id="' + data.id + '" data-toggle="tooltip"';
-                        html += 'data-placement="bottom" title="Διαγραφή"><i class="fa fa-trash fa-2x"></i></a>';
+                        html += '<li><a href="' + $("body").attr('data-url') + '/volunteers/edit/' + data.id + '" class=" btn btn-success" data-toggle="tooltip"';
+                        html += 'data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit"></i></a></li>';
+                        html += '<li><button class=" btn btn-danger" onclick="deleteVolunteer(' + data.id + ')" data-id="' + data.id + '" data-toggle="tooltip"';
+                        html += 'data-placement="bottom" title="Διαγραφή"><i class="fa fa-trash"></i></a>';
                         html += '</li>';
 
                         //if the volunteer has not been assigned to root unit, display appropriate button
                         if (data.assignToRoot) {
                             html += '<li><a href="' + $("body").attr('data-url') + '/volunteers/addToRootUnit/' + data.id + '" data-toggle="tooltip"';
-                            html += 'data-placement="bottom" title="Ανάθεση στη μονάδα μου"><i class="fa fa-home fa-2x"></i></a></li>';
+                            html += 'class=" btn btn-info" data-placement="bottom" title="Ανάθεση στη μονάδα μου"><i class="fa fa-home"></i></a></li>';
                         }
 
                         html += '</ul>';
                     }
-
                     return html;
                 }
             }
@@ -168,5 +167,20 @@
         }
     });
 
+
+    function deleteVolunteer(id) {
+        if (confirm("Είτε σίγουροι ότι θέλετε να διαγράψετε τον εθελοντή;") == true) {
+            $.ajax({
+                url: $("body").attr('data-url') + '/volunteers/delete/' + id,
+                method: 'GET',
+                headers: {
+                    'X-CSRF-Token': $('#token').val()
+                },
+                success: function () {
+                    location.reload();
+                }
+            });
+        }
+    }
 </script>
 @append

@@ -23,6 +23,7 @@ use App\Models\VolunteerLanguage;
 use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
 use DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 
 class VolunteerController extends Controller {
@@ -71,7 +72,7 @@ class VolunteerController extends Controller {
         $workStatuses = WorkStatus::all()->lists('description', 'id');
         $availabilityFreqs = AvailabilityFrequencies::all()->lists('description', 'id');
         $availabilityTimes = AvailabilityTime::all()->lists('description', 'id');
-        $interests = Interest::orderBy('category', 'asc')->lists('description', 'id');
+        $interests = Interest::orderBy('category', 'asc')->get();
         $genders = Gender::all()->lists('description', 'id');
         $commMethod = CommunicationMethod::all()->lists('description', 'id');
         $edLevel = EducationLevel::all()->lists('description', 'id');
@@ -234,7 +235,7 @@ class VolunteerController extends Controller {
         $workStatuses = WorkStatus::all()->lists('description', 'id');
         $availabilityFreqs = AvailabilityFrequencies::all()->lists('description', 'id');
         $availabilityTimes = AvailabilityTime::all()->lists('description', 'id');
-        $interests = Interest::orderBy('description', 'asc')->lists('description', 'id');
+        $interests = Interest::orderBy('category', 'asc')->get();
         $genders = Gender::all()->lists('description', 'id');
         $commMethod = CommunicationMethod::all()->lists('description', 'id');
         $edLevel = EducationLevel::all()->lists('description', 'id');
@@ -306,7 +307,7 @@ class VolunteerController extends Controller {
 
         $volunteer->availabilityTimes()->sync($availability_array);
 
-        $interests = Interests::all();
+        $interests = Interest::all();
 
         // Get interests selected and pass values to volunteer_interests table.
         $interest_array = [];
@@ -369,9 +370,27 @@ class VolunteerController extends Controller {
     public function destroy($id) {
         $volunteer = Volunteer::findOrFail($id);
 
+        //if the volunteer has units, do not delete
+        if (sizeof($volunteer->units) > 0) {
+            Session::flash('flash_message', 'Ο εθελοντής ανήκει σε οργανωτική μονάδα και δεν μπορεί να διαγραφεί.');
+            Session::flash('flash_type', 'alert-danger');
+
+            return;
+        }
+        //if the volunteer has actions, do not delete
+        if (sizeof($volunteer->actions) > 0) {
+            Session::flash('flash_message', 'Ο εθελοντής είναι ενεργός σε δράση και δεν μπορεί να διαγραφεί.');
+            Session::flash('flash_type', 'alert-danger');
+
+            return;
+        }
+
+        Session::flash('flash_message', 'Ο εθελοντής διαγράφηκε.');
+        Session::flash('flash_type', 'alert-success');
+
         $volunteer->delete();
 
-        return $id;
+        return;
     }
 
     /**

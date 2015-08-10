@@ -96,8 +96,8 @@
                 <div class="text-right">
                     <a href="{{ url('units/edit/'.$active->id) }}" class="btn btn-success"><i
                             class="fa fa-edit"></i> Επεξεργασία</a>
-                    <a href="{{ url('units/delete/'.$active->id) }}" class="btn btn-danger"><i
-                            class="fa fa-trash"></i> Διαγραφή</a>
+                    <button onclick="deleteUnit({{ $active->id }})" class="btn btn-danger"><i
+                            class="fa fa-trash"></i> Διαγραφή</button>
                 </div>
                 @endif
             </div>
@@ -220,6 +220,22 @@
             }
         });
     });
+
+    //delete a unit and redirect to unit list
+    function deleteUnit(id) {
+        if (confirm("Είτε σίγουροι ότι θέλετε να διαγράψετε τη μονάδα;") == true) {
+            $.ajax({
+                url: $("body").attr('data-url') + '/units/delete/' + id,
+                method: 'GET',
+                headers: {
+                    'X-CSRF-Token': $('#token').val()
+                },
+                success: function () {
+                    window.location = $("body").attr('data-url') + '/units';
+                }
+            });
+        }
+    }
 
 </script>
 @append

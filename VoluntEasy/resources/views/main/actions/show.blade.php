@@ -64,8 +64,8 @@
             <div class="text-right">
                 <a href="{{ url('actions/edit/'.$action->id) }}" class="btn btn-success"><i
                         class="fa fa-edit"></i> Επεξεργασία</a>
-                <a href="{{ url('actions/delete/'.$action->id) }}" class="btn btn-danger"><i
-                        class="fa fa-trash"></i> Διαγραφή</a>
+                <button onclick="deleteAction({{ $action->id }})" class="btn btn-danger"><i
+                        class="fa fa-trash"></i> Διαγραφή</button>
             </div>
             @endif
         </div>
@@ -145,5 +145,22 @@
             }
         });
     });
+
+
+    //delete action and redirect to action list
+    function deleteAction(id) {
+        if (confirm("Είτε σίγουροι ότι θέλετε να διαγράψετε τη δράση;") == true) {
+            $.ajax({
+                url: $("body").attr('data-url') + '/actions/delete/' + id,
+                method: 'GET',
+                headers: {
+                    'X-CSRF-Token': $('#token').val()
+                },
+                success: function () {
+                    window.location = $("body").attr('data-url') + '/actions';
+                }
+            });
+        }
+    }
 </script>
 @append

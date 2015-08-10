@@ -7,6 +7,7 @@ use App\Models\Descriptions\DriverLicenceType;
 use App\Models\Descriptions\EducationLevel;
 use App\Models\Descriptions\Gender;
 use App\Models\Descriptions\IdentificationType;
+use App\Models\Descriptions\Interest;
 use App\Models\Descriptions\Language;
 use App\Models\Descriptions\LanguageLevel;
 use App\Models\Descriptions\MaritalStatus;
@@ -47,16 +48,19 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $genders = Gender::all()->lists('description', 'id');
             $commMethod = CommunicationMethod::all()->lists('description', 'id');
             $educationLevels = EducationLevel::all()->lists('description', 'id');
+            $interests = Interest::orderBy('description', 'asc')->lists('description', 'id');
             $units = Unit::all()->lists('description', 'id');
 
 
             $maritalStatuses[0] = '[- επιλέξτε -]';
             $educationLevels[0] = '[- επιλέξτε -]';
             $genders[0] = '[- επιλέξτε -]';
+            $interests[0] = '[- επιλέξτε -]';
             $units[0] = '[- επιλέξτε -]';
             ksort($maritalStatuses);
             ksort($educationLevels);
             ksort($genders);
+            ksort($interests);
             ksort($units);
 
             $statuses = [];
@@ -74,6 +78,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
                 ->with('educationLevels', $educationLevels)
                 ->with('genders', $genders)
                 ->with('statuses', $statuses)
+                ->with('interests', $interests)
                 ->with('units', $units);
         });
 

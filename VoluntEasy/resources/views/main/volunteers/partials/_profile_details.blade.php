@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" xmlns="http://www.w3.org/1999/html">
     <div class="col-md-4">
         <p><strong>Όνομα:</strong> {{ $volunteer->name }}</p>
 
@@ -230,8 +230,8 @@
             <div class="col-md-12 text-right">
                 <a href="{{ url('volunteers/edit/'.$volunteer->id) }}" class="btn btn-success"><i
                         class="fa fa-edit"></i> Επεξεργασία</a>
-                <a href="{{ url('volunteers/delete/'.$volunteer->id) }}" class="btn btn-danger"><i
-                        class="fa fa-trash"></i> Διαγραφή</a>
+                <button class="btn btn-danger" onclick="deleteVolunteer({{$volunteer->id}})"><i
+                        class="fa fa-trash"></i> Διαγραφή</button>
             </div>
         </div>
         @endif

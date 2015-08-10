@@ -12,7 +12,7 @@ class SearchService {
      * Array to hold all the dropdowns of the ui
      * @var array
      */
-    private $dropDowns = ['marital_status_id', 'gender_id', 'education_level_id', 'unit_id', 'user_id', 'parent_unit_id', 'status_id'];
+    private $dropDowns = ['marital_status_id', 'gender_id', 'education_level_id', 'unit_id', 'user_id', 'parent_unit_id', 'status_id', 'interest_id'];
 
     /**
      * Dropdowns have an extra option that acts as a placeholder and has id=0.

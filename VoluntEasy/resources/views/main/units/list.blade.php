@@ -35,20 +35,3 @@
     </div>
 </div>
 @stop
-
-@section('footerScripts')
-<script>
-    $(".skata").click(function () {
-        console.log('click')
-        if (confirm("Delete unit?") == true) {
-            $.ajax({
-                url: $("body").attr('data-url') + '/unit/delete/' + $(this).attr('data-id'),
-                method: 'GET',
-                headers: {
-                    'X-CSRF-Token': $('#token').val()
-                }
-            });
-        }
-    });
-</script>
-@append

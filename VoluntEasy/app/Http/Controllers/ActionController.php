@@ -144,13 +144,15 @@ class ActionController extends Controller {
         if (sizeof($action->volunteers) > 0) {
             Session::flash('flash_message', 'Η δράση περιέχει εθελοντές και δεν μπορεί να διαγραφεί.');
             Session::flash('flash_type', 'alert-danger');
-
-            return Redirect::back();
+            return;
         }
+
+        Session::flash('flash_message', 'Η δράση διαγράφηκε.');
+        Session::flash('flash_type', 'alert-success');
 
         $action->delete();
 
-        return Redirect::to('actions');
+        return;
     }
 
     /**

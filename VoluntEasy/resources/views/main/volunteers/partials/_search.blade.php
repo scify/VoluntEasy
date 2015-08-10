@@ -24,6 +24,13 @@
     </div>
     <div class="col-md-2">
         <div class="form-group">
+            {!! Form::formInput('unit_id', 'Ανήκει στη μονάδα:', $errors, ['class' => 'form-control input-sm
+            searchDropDown',
+            'type' => 'select', 'value' => $units]) !!}
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
             {!! Form::formInput('my_volunteers', 'Μόνο οι εθελοντές μου', $errors, ['class' => 'form-control search searchCheckbox', 'type'
             => 'checkbox', 'value' => 'true', 'checked' => false]) !!}
         </div>
@@ -112,9 +119,9 @@
         <div class="row">
             <div class="col-md-2">
                 <div class="form-group">
-                    {!! Form::formInput('unit_id', 'Ανήκει στη μονάδα:', $errors, ['class' => 'form-control input-sm
+                    {!! Form::formInput('interest_id', 'Ενδιαφέροντα:', $errors, ['class' => 'form-control input-sm
                     searchDropDown',
-                    'type' => 'select', 'value' => $units]) !!}
+                    'type' => 'select', 'value' => $interests]) !!}
                 </div>
             </div>
             <div class="col-md-2">

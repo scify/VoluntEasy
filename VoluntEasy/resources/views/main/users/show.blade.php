@@ -51,7 +51,8 @@
                         @if(in_array($user->id, $permittedUsers))
                         <a href="{{ url('users/edit/'.$user->id) }}" class="btn btn-success"><i
                                 class="fa fa-edit"></i> Επεξεργασία</a>
-                        <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i> Διαγραφή</button>
+                        <button onclick="deleteUser({{ $user->id }})" class="btn btn-danger"><i
+                                class="fa fa-trash"></i> Διαγραφή</button>
                         @endif
                     </div>
                 </div>
@@ -84,5 +85,21 @@
         chartElement: '#unitsTree',
         disabled: true
     });
+
+    //delete user and return to user list
+    function deleteUser(id) {
+        if (confirm("Είτε σίγουροι ότι θέλετε να διαγράψετε το χρήστη;") == true) {
+            $.ajax({
+                url: $("body").attr('data-url') + '/users/delete/' + id,
+                method: 'GET',
+                headers: {
+                    'X-CSRF-Token': $('#token').val()
+                },
+                success: function () {
+                    window.location = $("body").attr('data-url') + '/users';
+                }
+            });
+        }
+    }
 </script>
 @stop

@@ -65,10 +65,12 @@
 
                 if (data.permitted) {
                     html = '<ul class="list-inline">';
-                    html += '<li><a href="' + $("body").attr('data-url') + '/users/edit/' + data.id + '" data-toggle="tooltip"';
-                    html += 'data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit fa-2x"></i></a></li>';
-                    html += '<li><a href="' + $("body").attr('data-url') + '/users/delete/' + data.id + '" class="delete" data-id="' + data.id + '" data-toggle="tooltip"';
-                    html += 'data-placement="bottom" title="Διαγραφή"><i class="fa fa-trash fa-2x"></i></a>';
+                    html += '<li><a href="' + $("body").attr('data-url') + '/users/edit/' + data.id + '" class="btn btn-success" data-toggle="tooltip"';
+                    html += 'data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit"></i></a></li>';
+                    if (data.name != 'admin') {
+                        html += '<li><button class="btn btn-danger" onclick="deleteUser(' + data.id + ')" data-id="' + data.id + '" data-toggle="tooltip"';
+                        html += 'data-placement="bottom" title="Διαγραφή"><i class="fa fa-trash"></i></button>';
+                    }
                     html += '</li></ul>';
                 }
 
@@ -116,6 +118,22 @@
             ]
         }
     });
+
+
+    function deleteUser(id) {
+        if (confirm("Είτε σίγουροι ότι θέλετε να διαγράψετε το χρήστη;") == true) {
+            $.ajax({
+                url: $("body").attr('data-url') + '/users/delete/' + id,
+                method: 'GET',
+                headers: {
+                    'X-CSRF-Token': $('#token').val()
+                },
+                success: function () {
+                    location.reload();
+                }
+            });
+        }
+    }
 
 </script>
 @append

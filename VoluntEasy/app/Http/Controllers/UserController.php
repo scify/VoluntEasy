@@ -7,6 +7,7 @@ use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller {
 
@@ -121,9 +122,20 @@ class UserController extends Controller {
     public function destroy($id) {
         $user = User::findOrFail($id);
 
+        //if the unit has users, do not delete
+        if (sizeof($user->units) > 0) {
+            Session::flash('flash_message', 'Ο χρήστης είναι υπεύθυνος σε μονάδες και δεν μπορεί να διαγραφεί.');
+            Session::flash('flash_type', 'alert-danger');
+
+            return;
+        }
+
         $user->delete();
 
-        return $id;
+        Session::flash('flash_message', 'Ο χρήστης διαγράφηκε.');
+        Session::flash('flash_type', 'alert-success');
+
+        return;
     }
 
     /**

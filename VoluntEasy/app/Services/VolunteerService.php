@@ -36,6 +36,7 @@ class VolunteerService {
         'unit_id' => '',
         'my_volunteers' => '',
         'status_id' => '',
+        'interest_id' => '',
 
     ];
 
@@ -540,7 +541,9 @@ class VolunteerService {
     /**
      * After adding the datatables plugin,
      * we need to prepare the data before sending it to the client
+     *
      * @param $volunteers
+     * @return mixed
      */
     public function prepareForDataTable($volunteers) {
         $permittedVolunteers = VolunteerService::permittedVolunteersIds();
@@ -625,6 +628,14 @@ class VolunteerService {
                                     $id = \Input::get('unit_id');
                                     $query->whereHas('units', function ($query) use ($id) {
                                         $query->where('unit_id', $id);
+                                    });
+                                }
+                                break;
+                            case 'interest_id':
+                                if (!Search::notDropDown($value, $column)) {
+                                    $id = \Input::get('interest_id');
+                                    $query->whereHas('interests', function ($query) use ($id) {
+                                        $query->where('interest_id', $id);
                                     });
                                 }
                                 break;
