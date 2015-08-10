@@ -4,7 +4,6 @@ use App\Models\Step as Step;
 use App\Models\Unit;
 use App\Services\Facades\SearchService as Search;
 use App\Services\Facades\UserService as UserServiceFacade;
-use App\Services\Facades\UserService;
 
 class UnitService {
 
@@ -129,7 +128,7 @@ class UnitService {
     }
 
     public function prepareForDataTable($units){
-        $userUnits = UserService::userUnits();
+        $userUnits = UserServiceFacade::userUnits();
 
         foreach($units as $unit){
             if(in_array($unit->id, $userUnits))
