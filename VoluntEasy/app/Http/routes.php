@@ -39,7 +39,6 @@ Route::post('units/users', 'UnitController@addUsers');
 Route::post('units/volunteers', 'UnitController@addVolunteers');
 Route::post('units/search', 'UnitController@search');
 Route::post('units/results', 'UnitController@results');
-Route::get('wholeTree', 'UnitController@wholeTree');
 Route::get('rootUnit', 'UnitController@rootUnit');
 
 
@@ -144,6 +143,8 @@ Route::group(array('prefix' => 'api'), function()
     Route::get('actions','Api\ActionApiController@all');
     Route::get('actions/{id}/volunteers','Api\ActionApiController@volunteers');
 
+    Route::get('tree', 'Api\TreeApiController@tree');
+
 });
 
 
@@ -169,6 +170,7 @@ Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 ////////////
 Route::get('test','TestController@test');
 Route::get('faker','TestController@faker');
+Route::get('boxytree','TestController@boxytree');
 
 /**  test remove */
 Route::get('units/branch/{id}','UnitController@branch');

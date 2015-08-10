@@ -1,6 +1,6 @@
 @foreach ($unit->allChildren as $unit)
 @if (sizeof($unit['allChildren']) > 0)
-<li data-id="{{ $unit['id'] }}" class="parent {{ (isset($creating) && $creating=='unit') ? 'disabled notAssigned' : '' }} {{ isset($creating) && $creating=='action' ? 'disabled hasUnits' : ''}} {{ isset($tooltips) && $tooltips==true ? 'tooltips' : ''}}"><span
+<li data-id="{{ $unit['id'] }}" class="parent {{ (isset($creating) && $creating=='unit') ? 'disabled notAssigned' : '' }} {{ isset($creating) && $creating=='action' ? 'disabled hasUnits' : ''}}  {{ isset($tooltips) && $tooltips==true ? 'tooltips' : ''}}"><span
         class="description">{{ $unit['description']}}</span>
     <ul>
         @include('main.tree._branch_actions', ['unit' => $unit])

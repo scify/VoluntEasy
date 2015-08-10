@@ -273,11 +273,6 @@ class UnitController extends Controller {
         return view('auth/rootUnit');
     }
 
-    public function wholeTree() {
-        $tree = UnitService::getTree();
-        $userUnits = UserService::userUnits();
-        return view("main.tree.tree", compact('tree', 'userUnits'));
-    }
 
     /**
      * Sync the users with the db.

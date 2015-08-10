@@ -178,6 +178,7 @@
         if ($childNodes.length > 1) {
             $nodeCell.attr("colspan", $childNodes.length * 2);
         }
+
         // Draw the node
         // Get the contents - any markup except li and ul allowed
         var $nodeContent = $node.clone()

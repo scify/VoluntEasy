@@ -72,6 +72,11 @@ class TestController extends Controller {
         return view("main.volunteers.list", compact('volunteers'));
     }
 
+    public function boxytree() {
+
+        return view("tests.boxytree");
+    }
+
 
     /**
      * generate some dummy data
