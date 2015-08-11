@@ -44,6 +44,9 @@ class SendEmail extends Command {
          * MAIL
         */
 
+        //TODO: use Action::expireInSevenDays()->get();
+
+
         /* Get all end dates from actions table. */
         /* TODO: check where() clause to check date. */
         $end_dates = \DB::table('actions')->select('end_date', 'description')->get();

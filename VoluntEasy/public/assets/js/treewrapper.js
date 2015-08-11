@@ -106,14 +106,18 @@
                     ul.append(li);
                 }
                 else if (child.actions.length > 0) {
+                    var actionUl = $('<ul/>');
                     $.each(child.actions, function (index, action) {
-                        actionLi = $('<li/>')
+                        console.log(action.id)
+                        var actionLi = $('<li/>')
                             .text(action.description)
                             .addClass('action')
                             .addClass(defineClasses(action, 'action'))
                             .attr('data-id', child.id);
-                        li.append(actionLi);
+                        actionUl.append(actionLi);
                     });
+                    li.append(actionUl);
+                    ul.append(li);
                 }
                 else {
                     li.addClass('leaf');

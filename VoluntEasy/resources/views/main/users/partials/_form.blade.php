@@ -28,6 +28,7 @@
         <div class="form-group">
             {!! Form::formInput('password', 'Κωδικός:', $errors, ['class' => 'form-control',
             'type' =>'password', 'required' => 'true']) !!}
+            <small class="help-block">Ο κωδικός πρέπει να έχει μήκος 6 χαρακτήρες.</small>
         </div>
     </div>
     <div class="col-md-6">

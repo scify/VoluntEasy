@@ -37,4 +37,13 @@ class Action extends Model {
     public function getEndDateAttribute() {
         return Carbon::parse($this->attributes['end_date'])->format('d/m/Y');
     }
+
+    public function scopeExpireToday(){
+        $now = date('Y-m-d');
+        return $this->where('end_date', '=', $now);
+    }
+
+    public function scopeExpireInSevenDays(){
+        return $this->where('end_date', '=', \Carbon::now()->addDays(7)->format('Y-m-d'));
+    }
 }
