@@ -68,7 +68,11 @@
 
     //initialize the tree
     var treewrapper = new Treewrapper({
-        create: 'unit'
+        create: 'unit',
+        active: {
+            type: 'unit',
+            id: $('#parent_unit_id').val()
+        }
     });
     treewrapper.init();
 
@@ -80,7 +84,7 @@
         console.log('aa')
         console.log( $(".node[data-id='" + $('#parent_unit_id').val() + "']"))
 
-        $(".node[data-id='" + $('#parent_unit_id').val() + "']").addClass('active-node');
+        $(".node").addClass('active-node');
     }
 
     //initialize user select

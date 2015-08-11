@@ -185,7 +185,10 @@
 <script>
     //initialize the tree
     var treewrapper = new Treewrapper({
-        active: $("#saveVolunteers").attr('data-id'),
+        active: {
+            type: 'unit',
+            id: $("#saveVolunteers").attr('data-id')
+        },
         disabled: true
     });
     treewrapper.init();
