@@ -19,7 +19,6 @@
         var opts = $.extend({}, $.fn.jOrgChart.defaults, options);
         var $appendTo = $(opts.chartElement);
 
-
         // build the tree
         $this = $(this);
         $container = $("<div class='" + opts.chartClass + "'/>");
@@ -101,10 +100,8 @@
         } // Drag and drop
 
 
+        //scify additions
         $('div.node').unbind('click').click(function () {
-
-            //console.log('clicky');
-
             if (!$(this).hasClass('disabled') && !opts.disabled) {
                 //console.log('not disabled');
                 if (opts.multiple && opts.children) {
@@ -112,6 +109,7 @@
                     if (!opts.disabled) {
                         if ($(this).hasClass('active-node')) {
                             $(this).removeClass('active-node');
+                            $(this).removeClass('assignTo');
 
                             $(this).closest('table').children().find('div.node').removeClass('active-node disabled');
 
@@ -119,6 +117,7 @@
                         }
                         else {
                             $(this).addClass('active-node');
+                            $(this).addClass('assignTo');
                             $(this).closest('table').children().find('div.node').addClass('active-node disabled');
                             $(this).removeClass('disabled');
 

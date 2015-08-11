@@ -36,7 +36,7 @@
                         <p>Επιλέξτε τις οργανωτικές μονάδες στις οποίες μπορεί να έχει πρόσβαση ο χρήστης.</p>
 
                         @if($tree!=null)
-                        @include('main.tree._tree', ['unit' => $tree, 'actives' => $actives])
+                        @include('main.tree._tree')
                     </div>
                 </div>
                 <div class="row">
@@ -57,7 +57,6 @@
 @stop
 
 
-
 @section('footerScripts')
 <!--script src="{{ asset('assets/js/pages/users/edit.js')}}"></script>
 <script>
@@ -67,15 +66,17 @@
 
 
 <script>
-    $("#tree").jOrgChart({
-        chartElement: '#unitsTree',
+    //initialize the tree
+    var treewrapper = new Treewrapper({
         multiple: true,
-        ulId: "#tree",
         children: true
     });
+    treewrapper.init();
+
     $("#save").click(function () {
         var activeLis = [];
-        $("#tree").find("li.active-node").each(function () {
+
+        $("#unitsTree").find(".node.assignTo").each(function () {
             activeLis.push($(this).attr('data-id'));
         });
         var userUnits = {
@@ -83,6 +84,7 @@
             units: activeLis
         };
         console.log(activeLis);
+
         $.ajax({
             url: $("body").attr('data-url') + '/users/units',
             method: 'POST',
@@ -96,4 +98,4 @@
         });
     })
 </script>
-@stop
+@append

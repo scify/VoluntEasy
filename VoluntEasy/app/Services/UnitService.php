@@ -95,7 +95,7 @@ class UnitService {
      * @return mixed
      */
     public function getTree() {
-        $tree = Unit::whereNull('parent_unit_id')->with('allChildren.actions')->first();
+        $tree = Unit::whereNull('parent_unit_id')->with('allChildren.allActions')->first();
 
         return $tree;
     }

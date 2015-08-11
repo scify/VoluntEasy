@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                @include('main.tree._tree', ['tooltips' => 'true', 'creating' => 'action'])
+                @include('main.tree._tree')
             </div>
         </div>
     </div>
@@ -58,6 +58,13 @@
 @section('footerScripts')
 <script>
 
+    //initialize the tree
+    var treewrapper = new Treewrapper({
+        create: 'action'
+    });
+    treewrapper.init();
+
+
     //if the user has clicked on a unit, but the submission returns errors,
     //the page gets reloaded and the active node is lost.
     //the value (unit id) stays in the hidden input so we can make it active again.
@@ -65,20 +72,5 @@
         $("#tree li[data-id='"+$('#unit_id').val()+"'").addClass('active-node');
     }
 
-
-    $("#tree").jOrgChart({
-        chartElement: '#unitsTree',
-        chartClass: "jOrgChart"
-    });
-
-
-    $(".node.leaf").click(function () {
-        if (!$(this).hasClass("disabled")) {
-            $("#unit_id").val($(this).attr("data-id"));
-        }
-    })
-
-
-
 </script>
-@stop
+@append

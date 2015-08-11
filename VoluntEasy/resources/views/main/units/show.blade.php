@@ -115,7 +115,7 @@
         </div>
     </div>
     <div class="panel-body" style="display: block;">
-        @include('main.tree._tree', ['editing' => 'unit', 'actives' => $actives])
+        @include('main.tree._tree')
 
     </div>
 </div>
@@ -183,11 +183,12 @@
 
 @section('footerScripts')
 <script>
-    $("#tree").jOrgChart({
-        chartElement: '#unitsTree',
+    //initialize the tree
+    var treewrapper = new Treewrapper({
+        active: $("#saveVolunteers").attr('data-id'),
         disabled: true
     });
-
+    treewrapper.init();
 
     //initialize user select
     $('#volunteerList').select2();

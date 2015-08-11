@@ -29,6 +29,7 @@
                     {!! Form::submit('Αποθήκευση', ['class' => 'btn btn-success']) !!}
                 </div>
                 {!! Form::close() !!}
+                {!! Form::hidden('unit_id', $active->id, ['id' => 'unit_id']) !!}
             </div>
         </div>
     </div>
@@ -47,7 +48,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                @include('main.tree._tree', ['editing' => 'unit', 'actives' => $actives])
+                @include('main.tree._tree')
             </div>
         </div>
     </div>
@@ -58,14 +59,17 @@
 @section('footerScripts')
 <script>
     //initialize the tree
-    $("#tree").jOrgChart({
-        chartElement: '#unitsTree',
+    var treewrapper = new Treewrapper({
+        active: {
+            type: 'unit',
+            id: $("#unit_id").val()
+        },
         disabled: true
     });
+    treewrapper.init();
 
     //initialize user select
     $('#userList').select2();
-
 
     // get the array of users selected and save them
     $("#saveUsers").click(function () {
@@ -160,4 +164,4 @@
      });
      })*/
 </script>
-@stop
+@append

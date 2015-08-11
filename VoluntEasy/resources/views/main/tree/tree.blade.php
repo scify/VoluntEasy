@@ -12,19 +12,7 @@ Tree
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-body">
-                @if($tree!=null)
-                <div id="unitsTree"></div>
-                <ul id="tree" style="display:none;">
-                    <li data-id="{{$tree->id}}" class="{{ in_array($tree->id, $userUnits) ? '' : 'disabled' }}"><span
-                        class="description">{{$tree->description}}</span>
-                    <ul>
-                        @include('main.tree._branch_actions', ['unit' => $tree, 'userUnits' => $userUnits])
-                    </ul>
-                    </li>
-                </ul>
-                @else
-                    <h3>Δεν υπάρχει καμία οργανωτική μονάδα.</h3>
-                @endif
+                @include('main.tree._tree')
             </div>
         </div>
     </div>
@@ -34,10 +22,12 @@ Tree
 
 @section('footerScripts')
 <script>
-    $("#tree").jOrgChart({
-        chartElement: '#unitsTree',
-        disabled: true
+
+    //initialize the tree
+    var treewrapper = new Treewrapper({
+        disabled:true
     });
+    treewrapper.init();
 
 </script>
-@stop
+@append

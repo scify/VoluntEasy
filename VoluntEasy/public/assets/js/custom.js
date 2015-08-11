@@ -26,38 +26,38 @@ $(document).ready(function () {
 
     //todo: move all view handler to methods that have a nice name
 
-    var assignToolTips = function(){
-        $('[data-toggle="tooltip"]').tooltip();
+    var assignToolTips = function () {
+            $('[data-toggle="tooltip"]').tooltip();
         },
-        handleSearchFormFieldsReset = function(){
-        $(".search").val('');
-        $(".searchDropDown").val('0');
-        $('.searchCheckbox').attr('checked', false);
+        handleSearchFormFieldsReset = function () {
+            $(".search").val('');
+            $(".searchDropDown").val('0');
+            $('.searchCheckbox').attr('checked', false);
         },
-        submitSearchForm =  function (event) {
-        event.preventDefault();
+        submitSearchForm = function (event) {
+            event.preventDefault();
 
-        $.ajax({
-            type: $(this).attr('method'),
-            url: $(this).attr('action'),
-            data: $(this).serialize(),
-            cache: false,
-            headers: {
-                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-            },
-            success: function (data) {
-                table.fnClearTable();
-                if (data.data.length > 0)
-                    table.fnAddData(data.data);
-            }
-        });
-        return false; // prevent send form
-    };
+            $.ajax({
+                type: $(this).attr('method'),
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                cache: false,
+                headers: {
+                    'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+                },
+                success: function (data) {
+                    table.fnClearTable();
+                    if (data.data.length > 0)
+                        table.fnAddData(data.data);
+                }
+            });
+            return false; // prevent send form
+        };
 
 
     assignToolTips();
     $("#clear").click(handleSearchFormFieldsReset); //event assignment or delegation
-    $('#searchForm').on('submit',submitSearchForm );    //Submit the form through ajax.    //The result data should be reloaded to the datatable
+    $('#searchForm').on('submit', submitSearchForm);    //Submit the form through ajax.    //The result data should be reloaded to the datatable
 
 
     /**
@@ -88,8 +88,6 @@ $(document).ready(function () {
     });
 
 
-
-
     /**
      * tooltips for the tree
      */
@@ -107,7 +105,6 @@ $(document).ready(function () {
         title: 'Δεν μπορείτε να προσθέσετε υπομονάδα σε μονάδα που έχει δράσεις.',
         placement: 'bottom'
     });
-
 
 
 });

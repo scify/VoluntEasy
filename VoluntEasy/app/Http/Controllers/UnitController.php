@@ -193,13 +193,15 @@ class UnitController extends Controller {
 
         //get the selected users from the select2 array
         //and add them to an array
-        foreach (\Input::get('usersSelect') as $user) {
-            //get the new users' ids to notify them
-            if (!in_array($user, $unit->users->lists('id')))
-                array_push($newUsers, $user);
+        if(\Input::has('userSelect')) {
+            foreach (\Input::get('usersSelect') as $user) {
+                //get the new users' ids to notify them
+                if (!in_array($user, $unit->users->lists('id')))
+                    array_push($newUsers, $user);
 
-            //keep the users in a list
-            array_push($users, $user);
+                //keep the users in a list
+                array_push($users, $user);
+            }
         }
 
         //sync the selected users

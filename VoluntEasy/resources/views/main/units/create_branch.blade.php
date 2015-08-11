@@ -46,13 +46,14 @@
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
                 <h4 class="panel-title">Επιλογή πατέρα οργανωτικής <span class="star">*</span></h4>
+
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
                        class="panel-collapse" data-original-title="Expand/Collapse"><i class="icon-arrow-down"></i></a>
                 </div>
             </div>
             <div class="panel-body">
-                @include('main.tree._tree', ['tooltips' => 'true', 'creating' => 'unit'])
+                @include('main.tree._tree')
             </div>
         </div>
     </div>
@@ -65,18 +66,22 @@
 @section('footerScripts')
 <script>
 
+    //initialize the tree
+    var treewrapper = new Treewrapper({
+        create: 'unit'
+    });
+    treewrapper.init();
+
+
     //if the user has clicked on a unit, but the submission returns errors,
     //the page gets reloaded and the active node is lost.
     //the value (unit id) stays in the hidden input so we can make it active again.
     if ($('#parent_unit_id').val() != '') {
-        $("#tree li[data-id='" + $('#parent_unit_id').val() + "']").addClass('active-node');
+        console.log('aa')
+        console.log( $(".node[data-id='" + $('#parent_unit_id').val() + "']"))
+
+        $(".node[data-id='" + $('#parent_unit_id').val() + "']").addClass('active-node');
     }
-
-    $("#tree").jOrgChart({
-        chartElement: '#unitsTree',
-        chartClass: "jOrgChart"
-    });
-
 
     //initialize user select
     $('#userList').select2();
@@ -98,11 +103,6 @@
 
     $("#parent_unit").val($("#parent_unit").attr("data-value"));
 
-    $(".node").click(function () {
-        if (!$(this).hasClass("disabled")) {
-            $("#parent_unit").val($(this).find(".description").text());
-            $("#parent_unit_id").val($(this).attr("data-id"));
-        }
-    })
+
 </script>
-@stop
+@append

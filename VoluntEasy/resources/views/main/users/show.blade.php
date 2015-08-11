@@ -51,8 +51,10 @@
                         @if(in_array($user->id, $permittedUsers))
                         <a href="{{ url('users/edit/'.$user->id) }}" class="btn btn-success"><i
                                 class="fa fa-edit"></i> Επεξεργασία</a>
+                        @if($user->name!='admin')
                         <button onclick="deleteUser({{ $user->id }})" class="btn btn-danger"><i
                                 class="fa fa-trash"></i> Διαγραφή</button>
+                        @endif
                         @endif
                     </div>
                 </div>
@@ -61,31 +63,10 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-white">
-            <div class="panel-heading clearfix">
-                <h2 class="panel-title">Δέντρο</h2>
-                <div class="panel-control">
-                    <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
-                       class="panel-collapse" data-original-title="Expand/Collapse"><i class="icon-arrow-down"></i></a>
-                </div>
-            </div>
-            <div class="panel-body">
-                       @include('main.tree._tree', ['actives' => $user->units->lists('id')])
-            </div>
-        </div>
-    </div>
-</div>
 @stop
 
 @section('footerScripts')
 <script>
-    $("#tree").jOrgChart({
-        chartElement: '#unitsTree',
-        disabled: true
-    });
-
     //delete user and return to user list
     function deleteUser(id) {
         if (confirm("Είτε σίγουροι ότι θέλετε να διαγράψετε το χρήστη;") == true) {
@@ -102,4 +83,4 @@
         }
     }
 </script>
-@stop
+@append

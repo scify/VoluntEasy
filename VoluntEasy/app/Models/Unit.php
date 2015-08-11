@@ -72,7 +72,7 @@ class Unit extends Model {
      * @return mixed
      */
     public function allChildren() {
-        return $this->children()->with('allChildren', 'actions');
+        return $this->children()->with('allChildren', 'actions', 'allActions');
     }
 
     /**
