@@ -19,6 +19,8 @@
 <script src="{{ asset('assets/plugins/raty/lib/jquery.raty.js')}}"></script>
 <script src="{{ asset('assets/plugins/data-tables/js/jquery.dataTables.js')}}"></script>
 <script src="{{ asset('assets/plugins/data-tables/extras/tabletools/js/dataTables.tableTools.min.js')}}"></script>
+<script src="{{ asset('assets/plugins/fullcalendar-2.3.2/fullcalendar.min.js')}}"></script>
+<script src="{{ asset('assets/plugins/fullcalendar-2.3.2/lang-all.js')}}"></script>
 <script src="{{ asset('assets/js/modern.js')}}"></script>
 <script src="{{ asset('assets/js/custom.js')}}"></script>
 <script src="{{ asset('assets/js/pages/dashboard.js')}}"></script>

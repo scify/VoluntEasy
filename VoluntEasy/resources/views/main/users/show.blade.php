@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <div class="col-md-10">
-                        <p class="lead">{{ $user->name }}</p>
+                        <p class="lead" id="userId" data-id="{{ $user->id }}">{{ $user->name }}</p>
                         <p><i class="fa fa-envelope"></i> <a href="mailto:{{ $user->email }}">{{ $user->email }}</a> |
                             <i class="fa fa-home"></i> {{ $user->addr }} |
                             <i class="fa fa-phone"></i> {{ $user->tel }}</p>
@@ -63,10 +63,40 @@
     </div>
 </div>
 
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-body">
+                <div class="row m-b-lg">
+                    <div class="col-md-12 ">
+                        <h3>Δέντρο</h3>
+                        @include('main.tree._tree')
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @stop
+
+
 
 @section('footerScripts')
 <script>
+
+    //initialize the tree
+    var treewrapper = new Treewrapper({
+        url: $("body").attr('data-url') + '/api/tree/activeUnits/' + $("#userId").attr('data-id'),
+        disabled: true,
+        withActions: false,
+        edit: 'user'
+    });
+    treewrapper.init();
+
+
     //delete user and return to user list
     function deleteUser(id) {
         if (confirm("Είτε σίγουροι ότι θέλετε να διαγράψετε το χρήστη;") == true) {

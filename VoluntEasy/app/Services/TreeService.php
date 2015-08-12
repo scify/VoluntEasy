@@ -34,18 +34,44 @@ class TreeService {
         else
             $parent->permitted = false;
 
-        if (sizeof($parent->allChildren) > 0) {
+        foreach ($parent->allChildren as $child) {
+            if (in_array($child->id, $this->userUnits))
+                $child->permitted = true;
+            else
+                $child->permitted = false;
 
-            foreach ($parent->allChildren as $child) {
-                if (in_array($child->id, $this->userUnits))
-                    $child->permitted = true;
-                else
-                    $child->permitted = false;
-
-                if (sizeof($child->allChildren) > 0)
-                    $this->setPermissions($child);
-            }
+            if (sizeof($child->allChildren) > 0)
+                $this->setPermissions($child);
         }
         return $parent;
+    }
+
+    public function setActives($userUnits, $parent, $active = null) {
+
+        if ($active != null) {
+            $parent->active = $active;
+        } else {
+            if (in_array($parent->id, $userUnits)) {
+                $active = true;
+                $parent->active = true;
+            } else
+                $parent->active = false;
+        }
+
+        foreach ($parent->allChildren as $child) {
+            if ($active != null)
+                $child->disabled = $active;
+            else {
+                if (in_array($child->id, $userUnits))
+                    $child->active = true;
+                else
+                    $child->active = false;
+            }
+            if (sizeof($child->allChildren) > 0)
+                $this->setActives($userUnits, $child, $active);
+        }
+        return $parent;
+
+
     }
 }

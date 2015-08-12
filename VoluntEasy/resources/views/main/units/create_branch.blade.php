@@ -81,9 +81,6 @@
     //the page gets reloaded and the active node is lost.
     //the value (unit id) stays in the hidden input so we can make it active again.
     if ($('#parent_unit_id').val() != '') {
-        console.log('aa')
-        console.log( $(".node[data-id='" + $('#parent_unit_id').val() + "']"))
-
         $(".node").addClass('active-node');
     }
 

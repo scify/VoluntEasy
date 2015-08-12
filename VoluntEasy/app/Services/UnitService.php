@@ -20,6 +20,8 @@ class UnitService {
         'user_id' => '',
     ];
 
+    private $parentIds = [];
+
     /**
      * Get the type of each unit.
      * If parent_unit_id is null, we have a root.
@@ -61,7 +63,7 @@ class UnitService {
 
         $branch = [];
         foreach ($branchTmp as $i => $tmp) {
-          array_push($branch, $tmp->description);
+            array_push($branch, $tmp->description);
         }
         return $branch;
     }
@@ -127,14 +129,32 @@ class UnitService {
         return $steps;
     }
 
-    public function prepareForDataTable($units){
+
+    /**
+     * For a a certain unit, get all the parent ids
+     * in an array
+     *
+     * @param $child
+     * @return array
+     */
+    public function parentIds($child) {
+
+        if ($child->allParents != null && sizeof($child->allParents) > 0) {
+            array_push($this->parentIds, $child->allParents->id);
+            $this->parentIds($child->allParents);
+        }
+        return $this->parentIds;
+    }
+
+
+    public function prepareForDataTable($units) {
         $userUnits = UserServiceFacade::userUnits();
 
-        foreach($units as $unit){
-            if(in_array($unit->id, $userUnits))
-                $unit->permitted=true;
+        foreach ($units as $unit) {
+            if (in_array($unit->id, $userUnits))
+                $unit->permitted = true;
             else
-                $units->permitted=false;
+                $units->permitted = false;
         }
 
         return $units;

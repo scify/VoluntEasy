@@ -37,9 +37,9 @@ class HomeController extends Controller
         $available = Volunteer::available()->count();
         $active = Volunteer::active()->count();
         $new = Volunteer::unassigned()->count();
-        $actions = Action::all()->count();
+        $actions = Action::active()->count();
 
-        return view('main.dashboard', compact('available', 'active', 'new', 'actions'));
+        return view('main.dashboard.dashboard', compact('available', 'active', 'new', 'actions'));
     }
 
 }

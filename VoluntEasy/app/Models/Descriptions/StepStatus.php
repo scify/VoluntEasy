@@ -8,4 +8,8 @@ class StepStatus extends Model {
 
     protected $fillable = ['description'];
 
+    public function scopeIncomplete(){
+        return $this->where('description', 'Incomplete')->first()->id;
+    }
+
 }

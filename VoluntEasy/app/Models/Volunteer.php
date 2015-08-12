@@ -168,7 +168,7 @@ class Volunteer extends User {
 
         $volunteers = Volunteer::whereHas('units', function ($query) {
             $query->where('volunteer_status_id', VolunteerStatus::active());
-        })->has('actions')->where('blacklisted', false)->get();
+        })->has('actions')->where('blacklisted', false)->with('actions')->get();
 
         return $volunteers;
     }

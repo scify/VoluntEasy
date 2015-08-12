@@ -22,8 +22,8 @@ class ActionApiController extends Controller {
         $volunteers = Volunteer::whereHas('actions', function ($q) use ($id) {
             $q->where('action_id', $id);
         })->with(['units' => function ($query) use ($unitId) {
-                $query->where('unit_id', $unitId);
-            }])->get();
+            $query->where('unit_id', $unitId);
+        }])->get();
 
         $data = [];
         foreach ($volunteers as $volunteer) {
@@ -34,6 +34,33 @@ class ActionApiController extends Controller {
         }
 
         return ["data" => $data];
+    }
+
+    /**
+     * Return the actions in a way that the calendar plugin
+     * can display them.
+     *
+     * @return array
+     */
+    public function calendar() {
+
+        $calendar = [];
+
+        $actions = Action::all();
+
+        foreach($actions as $action){
+            $tmp = ([
+                'title' => $action->description,
+                'start' => \Carbon::parse(\Carbon::createFromFormat('d/m/Y', $action->start_date))->format('Y-m-d'),
+                'end' => \Carbon::parse(\Carbon::createFromFormat('d/m/Y', $action->end_date))->format('Y-m-d'),
+                'description' => $action->comments
+            ]);
+
+            array_push($calendar, $tmp);
+        }
+
+        return $calendar;
+
     }
 
 }

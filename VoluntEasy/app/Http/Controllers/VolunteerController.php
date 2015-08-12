@@ -195,7 +195,6 @@ class VolunteerController extends Controller {
      */
     public function show($id) {
         $volunteer = VolunteerService::fullProfile($id);
-        //return $volunteer;
         $timeline = VolunteerService::timeline($id);
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
 
@@ -209,7 +208,10 @@ class VolunteerController extends Controller {
                 $available++;
         }
 
-        if(in_array($volunteer->id, UserService::permittedVolunteersIds()))
+        //chekc if the volunteer is permitted to be edited by the
+        //currently logged in user
+        $permittedVolunteers = UserService::permittedVolunteersIds();
+        if(in_array($volunteer->id, $permittedVolunteers))
             $volunteer->permitted=true;
         else
             $volunteer->permitted=false;

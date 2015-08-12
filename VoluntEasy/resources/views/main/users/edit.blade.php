@@ -35,7 +35,6 @@
 
                         <p>Επιλέξτε τις οργανωτικές μονάδες στις οποίες μπορεί να έχει πρόσβαση ο χρήστης.</p>
 
-                        @if($tree!=null)
                         @include('main.tree._tree')
                     </div>
                 </div>
@@ -46,9 +45,6 @@
                         </button>
                     </div>
                 </div>
-                @else
-                <h3>Δεν υπάρχουν οργανωτικές μονάδες.</h3>
-                @endif
             </div>
         </div>
     </div>
@@ -68,8 +64,11 @@
 <script>
     //initialize the tree
     var treewrapper = new Treewrapper({
+        url: $("body").attr('data-url') + '/api/tree/activeUnits/' + $("#save").attr('data-user-id'),
         multiple: true,
-        children: true
+        children: true,
+        withActions: false,
+        edit: 'user'
     });
     treewrapper.init();
 

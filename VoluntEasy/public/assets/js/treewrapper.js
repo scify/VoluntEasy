@@ -16,8 +16,8 @@
                 type: null,
                 id: null
             },
+            withActions: true,
             disabled: false
-
         }
 
         // Create options by extending defaults with the passed in arguments
@@ -32,6 +32,7 @@
             base.json = data;
             build.call(base);
 
+            //init the jOrgChart plugin
             $("#tree").jOrgChart({
                 chartElement: '#unitsTree',
                 chartClass: "jOrgChart",
@@ -40,7 +41,8 @@
                 multiple: base.options.multiple
             });
 
-            if(base.options.create=='unit') {
+            //add some listeners
+            if (base.options.create == 'unit') {
                 $(".node").click(function () {
                     if (!$(this).hasClass("disabled")) {
                         $("#parent_unit").val($(this).find(".description").text());
@@ -48,7 +50,8 @@
                     }
                 })
             }
-            else if(base.options.create=='action') {
+            //more listeners
+            else if (base.options.create == 'action') {
                 $(".node.leaf").click(function () {
                     if (!$(this).hasClass("disabled")) {
                         $("#unit_id").val($(this).attr("data-id"));
@@ -80,8 +83,7 @@
             .text(this.json.description)
             .addClass(defineClasses(this.json));
 
-
-        rootLi.append(drawBranch(this.json));
+        rootLi.append(drawBranch(this.json, this.options.withActions));
 
         this.ul.append(rootLi);
 
@@ -91,7 +93,7 @@
     /**
      * The recursive function that draws all the lis needed
      */
-    function drawBranch(parent) {
+    function drawBranch(parent, withActions) {
         var ul = $('<ul/>');
 
         if (parent.all_children.length > 0) {
@@ -102,13 +104,12 @@
                     .attr('data-id', child.id);
 
                 if (child.all_children.length > 0) {
-                    li.append(drawBranch(child));
+                    li.append(drawBranch(child, withActions));
                     ul.append(li);
                 }
-                else if (child.actions.length > 0) {
+                else if (child.actions.length > 0 && withActions) {
                     var actionUl = $('<ul/>');
                     $.each(child.actions, function (index, action) {
-                        console.log(action.id)
                         var actionLi = $('<li/>')
                             .text(action.description)
                             .addClass('action')
@@ -138,6 +139,9 @@
 
         var classString = '';
 
+        //if the user is creating a unit,
+        //disable the not permitted units and
+        //the units that have actions
         if (base.options.create == 'unit') {
             classString += 'tooltips ';
 
@@ -146,6 +150,9 @@
             else if (node.all_actions.length > 0)
                 classString += 'disabled hasActions ';
         }
+        //else if the user is creating an action,
+        //disable the not permitted units
+        //and the units that have subunits
         else if (base.options.create == 'action') {
             classString += 'tooltips ';
 
@@ -154,15 +161,31 @@
             else if (node.all_children.length > 0)
                 classString += 'disabled hasUnits ';
         }
+        //else if the user is creating/editing a user
+        //disable the not permitted units
+        //and set as active the units which the editable user
+        //is currently assigned to
+        else if (base.options.edit == 'user') {
+            classString += 'tooltips ';
 
-        if (base.options.active.type=='unit' && type=='unit') {
+            if (!node.permitted)
+                classString += 'disabled notPermitted ';
+
+            if (node.active != null && node.active)
+                classString += 'active-node assignTo ';
+            if (node.disabled != null && node.disabled)
+                classString += 'active-node disabled ';
+        }
+
+        if (base.options.active.type == 'unit' && type == 'unit') {
             if (node.id == base.options.active.id)
                 classString += 'active-node ';
         }
-       else if (base.options.active.type=='action' && type=='action') {
+        else if (base.options.active.type == 'action' && type == 'action') {
             if (node.id == base.options.active.id)
                 classString += 'active-node ';
         }
+
         return classString;
     }
 

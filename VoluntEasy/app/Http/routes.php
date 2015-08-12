@@ -14,6 +14,7 @@ Route::controllers([
 ////////////////
 Route::get('users','UserController@index');
 Route::get('users/one/{id}', ['as' => 'user/profile', 'uses' => 'UserController@show']);
+Route::get('users/one/{id}/tasks', ['as' => 'user/tasks', 'uses' => 'UserController@tasks']);
 Route::get('users/create', 'UserController@create');
 Route::get('users/edit/{id}', 'UserController@edit');
 Route::get('users/delete/{id}', 'UserController@destroy');
@@ -134,6 +135,7 @@ Route::get('search/country','SearchController@country');
 Route::group(array('prefix' => 'api'), function()
 {
     Route::get('volunteers','Api\VolunteerApiController@all');
+    Route::get('volunteers/{status}','Api\VolunteerApiController@status');
 
     Route::get('units','Api\UnitApiController@all');
     Route::get('units/{id}/volunteers','Api\UnitApiController@volunteers');
@@ -143,8 +145,10 @@ Route::group(array('prefix' => 'api'), function()
 
     Route::get('actions','Api\ActionApiController@all');
     Route::get('actions/{id}/volunteers','Api\ActionApiController@volunteers');
+    Route::get('actions/calendar','Api\ActionApiController@calendar');
 
     Route::get('tree', 'Api\TreeApiController@tree');
+    Route::get('tree/activeUnits/{id}', 'Api\TreeApiController@activeUnits');
 
 });
 

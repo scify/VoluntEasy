@@ -78,13 +78,11 @@ class UnitController extends Controller {
     public function store(UnitRequest $request) {
         $unit = Unit::create($request->all());
 
-        $inputs = $request->all();
-
         $users = [];
 
         //get the selected users from the select2 array
         //and add them to an array
-        if(\Input::has('userSelect')) {
+        if(\Input::has('usersSelect')) {
             foreach (\Input::get('usersSelect') as $user) {
                 array_push($users, $user);
             }
@@ -92,6 +90,7 @@ class UnitController extends Controller {
             //sync the selected users
             $unit->users()->sync($users);
 
+            //notify them
             NotificationService::usersToUnit($users, $unit);
         }
 
@@ -164,19 +163,14 @@ class UnitController extends Controller {
     public function edit($id) {
         $active = Unit::where('id', $id)->with('users', 'actions')->first();
 
-        $actives = [];
-        array_push($actives, $id);
-
         //display all the users in the front end
-        $users = UserService::permittedUsers();
+        $users = UserService::assignableUsersIds($id);
 
         $userIds = UserService::userIds($active->users);
 
-        $tree = UnitService::getTree();
-
         $type = UnitService::type($active);
 
-        return view("main.units.edit", compact('active', 'actives', 'tree', 'type', 'users', 'userIds'));
+        return view("main.units.edit", compact('active', 'type', 'users', 'userIds'));
     }
 
     /**
@@ -193,7 +187,7 @@ class UnitController extends Controller {
 
         //get the selected users from the select2 array
         //and add them to an array
-        if(\Input::has('userSelect')) {
+        if(\Input::has('usersSelect')) {
             foreach (\Input::get('usersSelect') as $user) {
                 //get the new users' ids to notify them
                 if (!in_array($user, $unit->users->lists('id')))

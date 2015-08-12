@@ -14,9 +14,13 @@ h3{font-weight: 400;}
 .panel-default .panel-heading{
 	background-color:#E9EDF2;
 }
-.small .panel .panel-heading, .panel.panel-default.smallHeading .panel-heading{
+.small .panel .panel-heading, .panel.smallHeading .panel-heading{
     padding:10px;
     height:35px;
+}
+
+.table-condensed>tbody>tr>td{
+    padding: 7px !important;
 }
 
 .modal-header{
@@ -227,3 +231,15 @@ div#unitsTree{overflow-x: auto;}
 /* tasks list */
 .tasks li.grey{ background-color: #E9EDF2; }
 .tasks li a:hover, .dropdown-menu li a:hover {background:none;}
+
+
+/* dashboard tables */
+.mini-panel table{
+    margin-top:10px;
+}
+.mini-panel .dataTables_paginate, .mini-panel .dataTables_info{
+    font-size:11px;
+}
+.mini-panel #calendar{
+    margin-top:10px;
+}

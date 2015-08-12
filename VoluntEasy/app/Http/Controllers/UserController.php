@@ -5,6 +5,7 @@ use App\Http\Requests\UserRequest as UserRequest;
 use App\Models\User as User;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
+use App\Services\Facades\VolunteerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -73,11 +74,7 @@ class UserController extends Controller {
     public function edit($id) {
         $user = User::where('id', $id)->with('units.allChildren')->first();
 
-        $tree = UnitService::getTree();
-
-        $actives = UserService::userUnitsIds($user);
-
-        return view("main.users.edit", compact('user', 'tree', 'actives'));
+        return view("main.users.edit", compact('user'));
     }
 
     /**
@@ -136,6 +133,24 @@ class UserController extends Controller {
         Session::flash('flash_type', 'alert-success');
 
         return;
+    }
+
+    /**
+     * Show the tasks for a user
+     *
+     * @param $id
+     * @return \Illuminate\View\View
+     */
+    public function tasks($id){
+        $user = User::with('units.volunteers')->get();
+
+        foreach($user->units as $unit){
+            foreach($unit->volunteers as $volunteer){
+                $volunteer = VolunteerService::fullProfile($volunteer);
+            }
+        }
+
+        return view("main.users.tasks", compact('user'));
     }
 
     /**

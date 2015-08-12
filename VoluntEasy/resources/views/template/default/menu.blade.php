@@ -4,8 +4,8 @@
     <div class="page-sidebar-inner slimscroll">
         <ul class="menu accordion-menu">
             <li class="droplink {{ Request::is('units*') ? 'active open' : '' }}">
-                <a class="waves-effect waves-button"><span
-                        class="menu-icon glyphicon glyphicon-home"></span>
+                <a class="waves-effect waves-button">
+                    <i class="fa fa-home fa-2x"></i>
                     <p>{{trans($lang.'units')}}</p>
                     <span class="arrow"></span>
                 </a>
@@ -16,7 +16,7 @@
             </li>
             <li class="droplink {{ Request::is('actions*') ? 'active open' : '' }}">
                 <a href="#" class="waves-effect waves-button">
-                    <span class="menu-icon glyphicon glyphicon-bookmark"></span>
+                    <i class="fa fa-bookmark fa-2x"></i>
                     <p>{{trans($lang.'actions')}}</p>
                     <span class="arrow"></span>
                 </a>
@@ -27,7 +27,7 @@
             </li>
             <li class="droplink {{ Request::is('volunteers*') ? 'active open' : '' }}">
                 <a href="#" class="waves-effect waves-button">
-                    <span class="menu-icon glyphicon glyphicon-leaf"></span>
+                    <i class="fa fa-leaf fa-2x"></i>
                     <p>{{trans($lang.'volunteers')}} <br><br></p>
                     <span class="arrow"></span>
                 </a>
@@ -39,7 +39,7 @@
             </li>
             <li class="droplink {{ Request::is('users*') ? 'active open' : '' }}">
                 <a href="#" class="waves-effect waves-button">
-                    <span class="menu-icon glyphicon glyphicon-user"></span>
+                    <i class="fa fa-user fa-2x"></i>
                     <p>{{trans($lang.'users')}}<br><br></p>
                     <span class="arrow"></span>
                 </a>
@@ -48,9 +48,15 @@
                     <li class="{{ Request::is('users/create') ? 'active' : '' }}"><a href="{{url('users/create')}}">{{trans($lang.'createUser')}}</a></li>
                 </ul>
             </li>
+            <li class=" {{ Request::is('*tasks*') ? 'active open' : '' }}">
+                <a href="{{ url('users/one/'.Auth::user()->id.'/tasks') }}" class="waves-effect waves-button">
+                    <i class="fa fa-tasks fa-2x"></i>
+                    <p>{{trans($lang.'tasks')}}</p>
+                </a>
+            </li>
             <li class=" {{ Request::is('wholeTree*') ? 'active open' : '' }}">
                 <a href="{{url('wholeTree')}}" class="waves-effect waves-button">
-                    <span class="menu-icon glyphicon glyphicon-tree-deciduous"></span>
+                    <i class="fa fa-tree fa-2x"></i>
                     <p>{{trans($lang.'tree')}}</p>
                 </a>
             </li>

@@ -557,7 +557,9 @@ class VolunteerService {
         //get the status of each unit to display to the list
         //and also check if the current user is permitted to edit the volunteer
         foreach ($volunteers as $volunteer) {
-            $volunteer = VolunteerService::setStatusToUnits($volunteer);
+
+            $volunteer = $this->setStatusToUnits($volunteer);
+
             if (in_array($volunteer->id, $permittedVolunteers))
                 $volunteer->permitted = true;
             else

@@ -8,7 +8,6 @@ use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
 use Faker\Factory;
-use Symfony\Component\Yaml\Tests\A;
 
 /**
  * Class TestController
@@ -20,23 +19,12 @@ use Symfony\Component\Yaml\Tests\A;
 class TestController extends Controller {
 
     public function test() {
-        /*  $tree = UnitService::getTree()->lists('id');
-
-          return $tree;
-  */
-
-        //return UserService::permittedUsersIds();
-
-        //  return VolunteerService::permittedVolunteersIds();
-
-        //  return VolunteerService::volunteersByStatus(2);
 
 
+        return UserService::permittedUsers();
 
-       // return VolunteerService::timeline(16);
 
-        return Action::expireInSevenDays()->get();
-
+        /*
         $volunteerId=17;
         $unitId = 1;
 
@@ -57,14 +45,8 @@ class TestController extends Controller {
         }])->findOrFail($volunteerId);
 
         return $volunteer;
+*/
 
-      /*  $vol = Volunteer::available();
-
-        return UserService::permittedVolunteersIds();
-
-        return $vol;
-
-        return '';*/
     }
 
 
@@ -94,7 +76,7 @@ class TestController extends Controller {
                 'last_name' => $faker->lastName,
                 'fathers_name' => $faker->firstNameMale,
                 'birth_date' => $faker->dateTimeBetween('-70 years', '-15 years'),
-                'address' =>$faker->address,
+                'address' => $faker->address,
                 'city' => $faker->city,
                 'country' => 'Κύπρος',
                 'participation_reason' => $faker->paragraph,
@@ -112,7 +94,7 @@ class TestController extends Controller {
                 'work_status_id' => $faker->numberBetween(1, 4),
                 'availability_freqs_id' => $faker->numberBetween(1, 3),
 
-                ]);
+            ]);
 
             $volunteer->save();
         }

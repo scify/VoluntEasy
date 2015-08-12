@@ -23,6 +23,7 @@
         <link href="{{ asset('assets/plugins/fullcalendar/fullcalendar.min.css')}}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('assets/plugins/vertical-timeline/css/style.css')}}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('assets/plugins/raty/lib/jquery.raty.css')}}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('assets/plugins/fullcalendar-2.3.2/fullcalendar.min.css')}}" rel="stylesheet" type="text/css"/>
 
         <!-- Theme Styles -->
         <link href="{{ asset('assets/css/modern.css')}}" rel="stylesheet" type="text/css"/>
