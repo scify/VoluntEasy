@@ -1,7 +1,9 @@
 
 .htaccess
 .idea
+.env
+.gitignore
 volunteasy.sublime-project
 volunteasy.sublime-workspace
-frontEnd/
-vendor/
+/frontEnd
+/vendor
