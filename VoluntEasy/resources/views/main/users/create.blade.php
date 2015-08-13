@@ -24,7 +24,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-6">
-                        {!! Form::open(['method' => 'POST', 'action' => ['UserController@store']]) !!}
+                        {!! Form::open(['method' => 'POST', 'action' => ['UserController@store'], 'files'=>true]) !!}
                         @include('main.users.partials._form', ['submitButtonText' => 'Αποθήκευση'])
                         {!! Form::close() !!}
                     </div>

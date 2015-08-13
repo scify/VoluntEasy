@@ -5,7 +5,6 @@ use App\Http\Requests\UserRequest as UserRequest;
 use App\Models\User as User;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
-use App\Services\Facades\VolunteerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -46,6 +45,20 @@ class UserController extends Controller {
 
         $user = User::create($request->all());
 
+        // getting all of the post data
+        $file = array('image' => \Input::file('image'));
+
+            // checking file is valid.
+            if (\Input::file('image')->isValid()) {
+                $destinationPath = public_path() . '/storage/uploads'; // upload path
+                $extension = \Input::file('image')->getClientOriginalExtension(); // getting image extension
+                $fileName = rand(11111, 99999) . '.' . $extension; // renameing image
+                \Input::file('image')->move($destinationPath, $fileName); // uploading file to given path
+                // sending back with message
+            } else {
+                return 'skata2';
+            }
+
         return Redirect::route('user/profile', ['id' => $user->id]);
     }
 
@@ -58,11 +71,13 @@ class UserController extends Controller {
     public function show($id) {
         $user = User::where('id', $id)->with('units')->first();
 
+        $isAdmin = UserService::isAdmin($id);
+
         $tree = UnitService::getTree();
 
         $permittedUsers = UserService::permittedUsersIds();
 
-        return view("main.users.show", compact('user', 'tree', 'permittedUsers'));
+        return view("main.users.show", compact('user', 'tree', 'permittedUsers', 'isAdmin'));
     }
 
     /**
@@ -141,15 +156,15 @@ class UserController extends Controller {
      * @param $id
      * @return \Illuminate\View\View
      */
-    public function tasks($id){
+    public function tasks($id) {
         $user = User::with('units.volunteers')->get();
 
-      /*  foreach($user->units as $unit){
-            foreach($unit->volunteers as $volunteer){
-                $volunteer = VolunteerService::fullProfile($volunteer);
-            }
-        }
-*/
+        /*  foreach($user->units as $unit){
+              foreach($unit->volunteers as $volunteer){
+                  $volunteer = VolunteerService::fullProfile($volunteer);
+              }
+          }
+  */
         return view("main.users.tasks", compact('user'));
     }
 

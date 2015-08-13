@@ -89,19 +89,20 @@ class UserService {
      *
      * @return mixed
      */
-    public function isUserAdmin() {
-        $root = UnitServiceFacade::getRoot();
+    public function isAdmin($userId = null) {
+        $rootId = UnitServiceFacade::getRoot()->id;
 
-        $users = User::unit($root->id)->where('id', \Auth::user()->id)->get();
+        if ($userId == null)
+            $userId = \Auth::user()->id;
 
-        return $users;
-    }
+        $user = User::whereHas('units', function ($q) use ($rootId) {
+            $q->where('id', $rootId);
+        })->find($userId);
 
-    public function isAdmin() {
-        if(sizeof($this->isUserAdmin())>0)
-            return true;
-        else
+        if ($user == null)
             return false;
+        else
+            return true;
     }
 
 
@@ -113,7 +114,7 @@ class UserService {
      */
     public function permittedUnits() {
 
-        if (sizeof($this->isUserAdmin()) > 0) {
+        if ($this->isAdmin()) {
             $units = Unit::all();
 
             $this->withChildren($units);
@@ -143,7 +144,7 @@ class UserService {
 
         //user is admin/assigned to root
         //so return all volunters
-        if (sizeof($this->isUserAdmin()) > 0) {
+        if ($this->isAdmin()) {
             $volunteers = Volunteer::all();
             foreach ($volunteers as $volunteer)
                 array_push($permittedVolunteers, $volunteer);
@@ -213,7 +214,7 @@ class UserService {
         $permittedUsers = [];
 
         //user is admin/assigned to root
-        if (sizeof($this->isUserAdmin()) > 0) {
+        if ($this->isAdmin()) {
             $users = User::all();
             foreach ($users as $user)
                 array_push($permittedUsers, $user);
@@ -317,6 +318,12 @@ class UserService {
                 $user->permitted = true;
             else
                 $user->permitted = false;
+
+            //check if user is admin
+            if ($this->isAdmin($user->id))
+                $user->isAdmin = true;
+            else
+                $user->isAdmin = false;
         }
 
         return $users;

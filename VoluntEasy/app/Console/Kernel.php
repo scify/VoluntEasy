@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel {
         'App\Console\Commands\CheckActions',
 	];
 
-    protected $filePath = '~/Projects/VoluntEasy/cron/';
+    protected $filePath = '~/Projects/cron';
 
 	/**
 	 * Define the application's command schedule.
@@ -30,8 +30,8 @@ class Kernel extends ConsoleKernel {
 				 ->hourly();
 
         $schedule->command('checkActions')
-            ->everyMinute()
-            ->sendOutputTo($this->filePath);
+            ->everyFiveMinutes();
+           /* ->sendOutputTo($this->filePath);*/
 	}
 
 }

@@ -22,7 +22,7 @@ class CheckActions extends Command {
      *
      * @var string
      */
-    protected $description = 'Display an inspiring quote';
+    protected $description = 'Find expired actions';
 
     /**
      * Execute the console command.
@@ -31,6 +31,11 @@ class CheckActions extends Command {
      */
     public function handle()
     {
-        $this->comment(PHP_EOL.Inspiring::quote().PHP_EOL);
+        $this->comment('I was here @ ' . \Carbon::now());
+
+        $expiredActions = Action::expiredYesterday()->get();
+
+        $this->comment($expiredActions);
+
     }
 }

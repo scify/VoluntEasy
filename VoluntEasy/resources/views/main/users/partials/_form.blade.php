@@ -39,6 +39,15 @@
     </div>
 </div>
 <div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            {!! Form::formInput('image', 'Ανέβασμα φωτογραφίας', $errors,  ['class' => 'form-control', 'type' => 'file']) !!}
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-md-12 text-right">
         <div class="form-group">
             {!! Form::submit($submitButtonText, ['class' => 'btn btn-success']) !!}

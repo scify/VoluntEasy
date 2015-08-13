@@ -85,6 +85,9 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
             case "hidden":
                 $text_html = Form::hidden($field, null, $attributes);
                 break;
+            case "file":
+                $text_html = Form::file($field, null, $attributes);
+                break;
             default:
                 $text_html = Form::text($field, null, $attributes);
         }

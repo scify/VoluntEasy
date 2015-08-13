@@ -130,7 +130,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
         //We need to determine if the user is root
         View::composer('main.volunteers.partials._table', function ($view) {
             $root = false;
-            if (sizeof(UserService::isUserAdmin()) > 0)
+            if (UserService::isAdmin())
                 $root = true;
 
             //also get an array of the permittedVolunteer ids

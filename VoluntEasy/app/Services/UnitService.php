@@ -52,6 +52,18 @@ class UnitService {
     }
 
     /**
+     * Check if current unit is root
+     *
+     * @return mixed
+     */
+    public function isRoot($unit) {
+        if($unit->parent_unit_id==null)
+            return true;
+        else
+            return false;
+    }
+
+    /**
      * Get the branhc of a unit in a string format
      *
      * @param $unit

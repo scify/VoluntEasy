@@ -20,6 +20,7 @@ class UserRequest extends Request {
                 'password' => 'required|confirmed|min:6',
                 'addr' => 'required|max:255',
                 'tel' => 'required|max:50',
+             //   'image' => 'image|max:100000'
             ];
         else
             return [
@@ -28,6 +29,7 @@ class UserRequest extends Request {
                 'password' => 'confirmed|min:6',
                 'addr' => 'required|max:255',
                 'tel' => 'required|max:50',
+                'image' => 'image|max:100000'
             ];
 	}
 
@@ -43,6 +45,9 @@ class UserRequest extends Request {
             'email.unique' => 'Το email χρησιμοποιείται ήδη.',
             'password.min' => 'Ο κωδικός πρέπει να έχει μήκος πάνω από 6 χαρακτήρες.',
             'password.confirmed' => 'Οι κωδικοί δεν είναι ίδιοι.',
+            'image.image' => 'Το αρχείο πρέπει να είναι εικόνα (jpeg, jpg, ή png).',
+            /*'image.mimes' => 'Το αρχείο πρέπει να είναι εικόνα (jpeg, jpg, ή png).',
+            'image.max' => 'Το αρχείο πρέπει να έχει μέγεθος μικρότερο από 1mb.',*/
         ];
     }
 

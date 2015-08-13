@@ -5,5 +5,5 @@
 .gitignore
 volunteasy.sublime-project
 volunteasy.sublime-workspace
-/frontEnd
-/vendor
+frontEnd
+vendor

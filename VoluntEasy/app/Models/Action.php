@@ -42,6 +42,10 @@ class Action extends Model {
         $now = date('Y-m-d');
         return $this->where('end_date', '=', $now);
     }
+    public function scopeExpiredYesterday(){
+        $yesterday = Carbon::yesterday();
+        return $this->where('end_date', '=', $yesterday);
+    }
 
     public function scopeExpireInSevenDays(){
         return $this->where('end_date', '=', \Carbon::now()->addDays(7)->format('Y-m-d'));

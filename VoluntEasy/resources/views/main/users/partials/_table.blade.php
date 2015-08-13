@@ -58,7 +58,7 @@
             }
             },
             {
-                //if the user is permitted to edit/delete the volunteer,
+                //if the user is permitted to edit/delete the users,
                 //then show the appropriate buttons
                 data: null, render: function (data, type, row) {
                 var html = '';
@@ -67,7 +67,7 @@
                     html = '<ul class="list-inline">';
                     html += '<li><a href="' + $("body").attr('data-url') + '/users/edit/' + data.id + '" class="btn btn-success" data-toggle="tooltip"';
                     html += 'data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit"></i></a></li>';
-                    if (data.name != 'admin') {
+                    if (!data.isAdmin) {
                         html += '<li><button class="btn btn-danger" onclick="deleteUser(' + data.id + ')" data-id="' + data.id + '" data-toggle="tooltip"';
                         html += 'data-placement="bottom" title="Διαγραφή"><i class="fa fa-trash"></i></button>';
                     }

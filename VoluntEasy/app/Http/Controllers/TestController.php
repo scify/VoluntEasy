@@ -21,7 +21,7 @@ class TestController extends Controller {
     public function test() {
 
 
-        return UserService::permittedUsers();
+        return UserService::isAdmin();
 
 
         /*

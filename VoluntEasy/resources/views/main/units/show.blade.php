@@ -27,7 +27,7 @@
                     <div class="col-md-4">
                         <h3>Μονάδα {{$active->description}}</h3>
 
-                        <p><strong>Περιγραφή:</strong> {{$active->comments}}</p>
+                        <p id="unitId" data-unit-id="{{ $active->id }}"><strong>Περιγραφή:</strong> {{$active->comments}}</p>
                     </div>
                     <div class="col-md-4">
                         @if(sizeof($active->users)==0)
@@ -96,8 +96,10 @@
                 <div class="text-right">
                     <a href="{{ url('units/edit/'.$active->id) }}" class="btn btn-success"><i
                             class="fa fa-edit"></i> Επεξεργασία</a>
+                    @if($active->parent_unit_id!=null)
                     <button onclick="deleteUnit({{ $active->id }})" class="btn btn-danger"><i
                             class="fa fa-trash"></i> Διαγραφή</button>
+                    @endif
                 </div>
                 @endif
             </div>
@@ -138,7 +140,7 @@
                         @include('main.units.partials._volunteers', ['unit' => $active])
                     </div>
                 </div>
-                @if(in_array($active->id, $userUnits))
+                {{--@if(in_array($active->id, $userUnits))
                 <hr/>
                 <div class="row">
                     <div class="col-md-12">
@@ -150,7 +152,7 @@
                         </div>
                     </div>
                 </div>
-                @endif
+                @endif --}}
             </div>
         </div>
     </div>
@@ -187,7 +189,7 @@
     var treewrapper = new Treewrapper({
         active: {
             type: 'unit',
-            id: $("#saveVolunteers").attr('data-id')
+            id: $("#unitId").attr('data-unit-id')
         },
         disabled: true
     });

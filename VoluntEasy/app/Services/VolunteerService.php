@@ -12,6 +12,7 @@ use App\Services\Facades\NotificationService;
 use App\Services\Facades\SearchService as Search;
 use App\Services\Facades\UnitService as UnitServiceFacade;
 use App\Services\Facades\UserService as UserServiceFacade;
+use App\Services\Facades\UserService;
 
 class VolunteerService {
 
@@ -368,7 +369,7 @@ class VolunteerService {
      */
     public function addToRootUnit($id) {
 
-        if (UserServiceFacade::isUserAdmin()) {
+        if ($this->isAdmin()) {
 
             $rootUnit = UnitServiceFacade::getRoot();
             $rootUnit->load('steps');
@@ -551,7 +552,7 @@ class VolunteerService {
 
         //check if user is root
         $root = false;
-        if (sizeof(UserServiceFacade::isUserAdmin()) > 0)
+        if (UserService::isAdmin())
             $root = true;
 
         //get the status of each unit to display to the list

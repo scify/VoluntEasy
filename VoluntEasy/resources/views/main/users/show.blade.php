@@ -51,7 +51,7 @@
                         @if(in_array($user->id, $permittedUsers))
                         <a href="{{ url('users/edit/'.$user->id) }}" class="btn btn-success"><i
                                 class="fa fa-edit"></i> Επεξεργασία</a>
-                        @if($user->name!='admin')
+                        @if(!$isAdmin)
                         <button onclick="deleteUser({{ $user->id }})" class="btn btn-danger"><i
                                 class="fa fa-trash"></i> Διαγραφή</button>
                         @endif

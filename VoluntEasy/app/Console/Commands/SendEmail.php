@@ -14,7 +14,7 @@ class SendEmail extends Command {
 	 *
 	 * @var string
 	 */
-	protected $name = 'TestEmail';
+	protected $name = 'testEmail';
 
 	/**
 	 * The console command description.

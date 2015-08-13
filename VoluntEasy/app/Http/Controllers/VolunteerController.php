@@ -101,7 +101,7 @@ class VolunteerController extends Controller {
             'marital_status_id' => intval(\Input::get('marital_status_id')),
             'children' => intval(\Input::get('children')),
             'address' => \Input::get('address'),
-            'post_box' => intval(\Input::get('post_box')),
+            'post_box' => \Input::get('post_box'),
             'city' => \Input::get('city'),
             'country' => \Input::get('country'),
             'live_in_curr_country' => intval(\Input::get('live_in_curr_country')),
@@ -124,7 +124,7 @@ class VolunteerController extends Controller {
             'participation_actions' => \Input::get('participation_actions'),
             'participation_previous' => \Input::get('participation_previous'),
             'availability_freqs_id' => intval(\Input::get('availability_freqs_id')),
-            'comments' => intval(\Input::get('comments')),
+            'comments' => \Input::get('comments')
         ));
 
         /* Solve mySql problem regarding date format. Postgres works fine, while mySql stores date
@@ -251,7 +251,6 @@ class VolunteerController extends Controller {
     /**
      * Update the specified resource in storage.
      *
-     * @param  int $id
      * @return Response
      */
     public function update(VolunteerRequest $request) {
@@ -271,7 +270,7 @@ class VolunteerController extends Controller {
                 'marital_status_id' => intval(\Input::get('marital_status_id')),
                 'children' => intval(\Input::get('children')),
                 'address' => \Input::get('address'),
-                'post_box' => intval(\Input::get('post_box')),
+                'post_box' => \Input::get('post_box'),
                 'city' => \Input::get('city'),
                 'country' => \Input::get('country'),
                 'live_in_curr_country' => intval(\Input::get('live_in_curr_country')),

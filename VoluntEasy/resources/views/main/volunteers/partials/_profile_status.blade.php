@@ -37,7 +37,8 @@
                     <tbody>
                     @foreach($volunteer->units as $unit)
                     <tr>
-                        <td class="col-md-2"><a href="{{ url('units/one/'.$unit->id) }}">{{ $unit->description }}</a></td>
+                        <td class="col-md-2"><a href="{{ url('units/one/'.$unit->id) }}">{{ $unit->description }}</a>
+                        </td>
                         <td class="col-md-2">
                             @if($unit->status=='Pending')
                             <div class="status pending width-110">Υπό ένταξη</div>
@@ -57,7 +58,8 @@
                                 }}</a></strong>
                                 <small>({{ $action->start_date }} - {{ $action->end_date }})</small>
                                 <br/>
-                                <small><a href="{{url('/volunteers/'.$volunteer->id.'/action/detach/'.$action->id)}}"><i
+                                <small><a href="#" class="removeFromAction" data-volunteer-id="{{ $volunteer->id }}"
+                                          data-action-id="{{ $action->id }}"><i
                                         class="fa fa-remove fa-1x"></i> Αφαίρεση από τη δράση</a></small>
                             </p>
                             @endif
@@ -91,8 +93,9 @@
                         </td>
                         <td class="text-center col-md-2">
                             @if($volunteer->permitted)
-                            <a href="{{url('/volunteers/'.$volunteer->id.'/unit/detach/'.$unit->id)}}"
-                               class="btn btn-danger btn-sm"><i
+                            <a href="#"
+                               class="btn btn-danger btn-sm removeFromUnit" data-volunteer-id="{{ $volunteer->id }}"
+                               data-unit-id="{{ $unit->id }}"><i
                                     class="fa fa-remove fa-1x"></i></a>
                             @endif
                         </td>
@@ -106,3 +109,48 @@
     </div>
 </div>
 
+@section('footerScripts')
+<script>
+
+    //display appropriate message before removing volunteer from action
+    $(".removeFromAction").click(function (event) {
+        event.preventDefault();
+        if (confirm("Είτε σίγουροι ότι θέλετε να αφαιρέσετε τον εθελοντή από τη δράση;") == true) {
+            volunteerId = $(this).attr('data-volunteer-id');
+            actionId = $(this).attr('data-action-id');
+
+            $.ajax({
+                url: $("body").attr('data-url') + '/volunteers/' + volunteerId + '/action/detach/' + actionId,
+                method: 'GET',
+                headers: {
+                    'X-CSRF-Token': $('#token').val()
+                },
+                success: function () {
+                    location.reload();
+                }
+            });
+        }
+    });
+
+    //display appropriate message before removing volunteer from unit
+    $(".removeFromUnit").click(function (event) {
+        event.preventDefault();
+        if (confirm("Είτε σίγουροι ότι θέλετε να αφαιρέσετε τον εθελοντή από τη μονάδα;") == true) {
+            volunteerId = $(this).attr('data-volunteer-id');
+            unitId = $(this).attr('data-unit-id');
+
+            $.ajax({
+                url: $("body").attr('data-url') + '/volunteers/' + volunteerId + '/unit/detach/' + unitId,
+                method: 'GET',
+                headers: {
+                    'X-CSRF-Token': $('#token').val()
+                },
+                success: function () {
+                    location.reload();
+                }
+            });
+        }
+    });
+
+</script>
+@append

@@ -81,7 +81,7 @@
 
         var rootLi = $('<li/>')
             .text(this.json.description)
-            .addClass(defineClasses(this.json));
+            .addClass(defineClasses(this.json, 'unit'));
 
         rootLi.append(drawBranch(this.json, this.options.withActions));
 
@@ -177,6 +177,8 @@
                 classString += 'active-node disabled ';
         }
 
+        //also check if a current unit/action is set
+        //then set it to active
         if (base.options.active.type == 'unit' && type == 'unit') {
             if (node.id == base.options.active.id)
                 classString += 'active-node ';

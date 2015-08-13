@@ -108,8 +108,6 @@ class UnitController extends Controller {
      */
     public function show($id) {
         $active = Unit::with('actions', 'allActions', 'volunteers')->findOrFail($id);
-        $actives = [];
-        array_push($actives, $active->id);
 
         $type = UnitService::type($active);
 
@@ -151,7 +149,7 @@ class UnitController extends Controller {
             array_push($volunteers, $vol);
         }
 
-        return view("main.units.show", compact('active', 'actives', 'type', 'allVolunteers', 'volunteers', 'userUnits', 'branch'));
+        return view("main.units.show", compact('active', 'type', 'allVolunteers', 'volunteers', 'userUnits', 'branch'));
     }
 
     /**
