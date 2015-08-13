@@ -13,7 +13,10 @@ class Kernel extends ConsoleKernel {
 	protected $commands = [
 		'App\Console\Commands\Inspire',
         'App\Console\Commands\SendEmail',
+        'App\Console\Commands\CheckActions',
 	];
+
+    protected $filePath = '~/Projects/VoluntEasy/cron/';
 
 	/**
 	 * Define the application's command schedule.
@@ -25,6 +28,10 @@ class Kernel extends ConsoleKernel {
 	{
 		$schedule->command('inspire')
 				 ->hourly();
+
+        $schedule->command('checkActions')
+            ->everyMinute()
+            ->sendOutputTo($this->filePath);
 	}
 
 }

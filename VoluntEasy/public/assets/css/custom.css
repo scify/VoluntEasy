@@ -243,3 +243,6 @@ div#unitsTree{overflow-x: auto;}
 .mini-panel #calendar{
     margin-top:10px;
 }
+.fc-day-grid-event{
+    background-color:#7a6fbe;
+}

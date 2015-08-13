@@ -144,12 +144,12 @@ class UserController extends Controller {
     public function tasks($id){
         $user = User::with('units.volunteers')->get();
 
-        foreach($user->units as $unit){
+      /*  foreach($user->units as $unit){
             foreach($unit->volunteers as $volunteer){
                 $volunteer = VolunteerService::fullProfile($volunteer);
             }
         }
-
+*/
         return view("main.users.tasks", compact('user'));
     }
 

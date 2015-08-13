@@ -5,6 +5,7 @@
         <th>#</th>
         <th>Όνομα</th>
         <th>Μονάδες</th>
+        <th>Εκκρεμότητες</th>
     </tr>
     </thead>
 
@@ -13,6 +14,7 @@
         <th>#</th>
         <th>Όνομα</th>
         <th>Μονάδες</th>
+        <th>Εκκρεμότητες</th>
     </tr>
     </tfoot>
 </table>
@@ -36,15 +38,26 @@
             }
             },
             {
-                //if the user is permitted to edit/delete the volunteer,
-                //then show the appropriate buttons
+                //show all the pending units
+                data: null, render: function (data, type, row) {
+                var units = '';
+
+                $.each(data.units, function (index, unit) {
+                    if (unit.status == 'Pending')
+                        units += '<p>' + unit.description + '</p>';
+                });
+
+                return units;
+            }
+            },
+            {
+                //show the current pending step for each unit
                 data: null, render: function (data, type, row) {
                 var status = '';
 
                 $.each(data.units, function (index, unit) {
-
-                    status += unit.description;
-                    status += ' (<small>Εκκρεμεί <em>' +unit.steps[0].description + '</em>)</small><br/>';
+                    if (unit.status == 'Pending')
+                        status += '<p>' + unit.steps[0].description + '</p>';
 
                 });
 

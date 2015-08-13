@@ -97,6 +97,13 @@ class UserService {
         return $users;
     }
 
+    public function isAdmin() {
+        if(sizeof($this->isUserAdmin())>0)
+            return true;
+        else
+            return false;
+    }
+
 
     /**
      *  Get an array of the permitted units

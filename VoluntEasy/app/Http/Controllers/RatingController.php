@@ -4,7 +4,6 @@ use App\Http\Requests;
 use App\Models\Action;
 use App\Models\Rating;
 use App\Models\RatingVolunteerAction;
-use App\Models\Volunteer;
 
 class RatingController extends Controller {
 
@@ -22,11 +21,12 @@ class RatingController extends Controller {
      *
      * @return Response
      */
-    public function create($volunteerId, $actionId) {
-        $action = Action::findOrFail($actionId);
-        $volunteer = Volunteer::findOrFail($volunteerId);
+    public function create($actionId) {
+        //TODO: check if there are any volunteers????
+        $action = Action::with('volunteers')->findOrFail($actionId);
+        // $volunteer = Volunteer::findOrFail($volunteerId);
 
-        return view('main.ratings.rate', compact('action', 'volunteer'));
+        return view('main.ratings.rate', compact('action'));
     }
 
     /**
@@ -35,67 +35,62 @@ class RatingController extends Controller {
      * @return Response
      */
     public function store() {
+
         $actionId = \Request::get('actionId');
-        $volunteerId = \Request::get('volunteerId');
+        $email = \Request::get('email');
+        $volunteers = \Request::get('volunteers');
 
-        $atrr1 = \Request::get('attr1');
-        $atrr2 = \Request::get('attr2');
-        $atrr3 = \Request::get('attr3');
 
-        $action = Action::findOrFail($actionId);
-
-        //TODO: check if email is null.
-        //well in that case, we should not even send an email.
+        //TODO: remove this
         $email = 'aa@aa.gr';
 
-        //save the current rating to the db
-        $volRating = new RatingVolunteerAction([
-            'volunteer_id' => $volunteerId,
-            'action_id' => $actionId,
-            'email' => $email,
-            'attr1' => $atrr1,
-            'attr2' => $atrr2,
-            'attr3' => $atrr3,
-        ]);
-
-                $volRating->save();
-
-        $rating = Rating::where('volunteer_id', $volunteerId)->first();
-
-        //check if a rating row already exists for a volunteer
-        //if it doesn't exist, create and save a new one
-        if ($rating == null) {
-            $rating = new Rating([
-                'volunteer_id' => $volunteerId,
-                'rating_attr1' => $atrr1,
-                'rating_attr2' => $atrr2,
-                'rating_attr3' => $atrr3,
-                'rating_attr1_count' => 1,
-                'rating_attr2_count' => 1,
-                'rating_attr3_count' => 1,
+        foreach ($volunteers as $volunteer) {
+            //save the current rating to the db
+            $volRating = new RatingVolunteerAction([
+                'volunteer_id' => $volunteer['id'],
+                'action_id' => $actionId,
+                'email' => $email,
+                'attr1' => $volunteer['attr1'],
+                'attr2' => $volunteer['attr2'],
+                'attr3' => $volunteer['attr3'],
             ]);
 
-            $rating->save();
-        } else {
-            //if a rating row already exists, then add the rating to the rating sum
-            //for each attribute and increament the cound of the voters
-            $rating->rating_attr1 += $atrr1;
-            $rating->rating_attr2 += $atrr2;
-            $rating->rating_attr3 += $atrr3;
-            $rating->rating_attr1_count++;
-            $rating->rating_attr2_count++;
-            $rating->rating_attr3_count++;
+            $volRating->save();
 
-            $rating->save();
+            $rating = Rating::where('volunteer_id', $volunteer['id'])->first();
+
+            //check if a rating row already exists for a volunteer
+            //if it doesn't exist, create and save a new one
+            if ($rating == null) {
+                $rating = new Rating([
+                    'volunteer_id' => $volunteer['id'],
+                    'rating_attr1' => $volunteer['attr1'],
+                    'rating_attr2' => $volunteer['attr2'],
+                    'rating_attr3' => $volunteer['attr3'],
+                    'rating_attr1_count' => 1,
+                    'rating_attr2_count' => 1,
+                    'rating_attr3_count' => 1,
+                ]);
+                $rating->save();
+
+            } else {
+                //if a rating row already exists, then add the rating to the rating sum
+                //for each attribute and increment the count of the voters
+                $rating->rating_attr1 += $volunteer['attr1'];
+                $rating->rating_attr2 += $volunteer['attr2'];
+                $rating->rating_attr3 += $volunteer['attr3'];
+                $rating->rating_attr1_count++;
+                $rating->rating_attr2_count++;
+                $rating->rating_attr3_count++;
+
+                $rating->save();
+            }
         }
-
-        return $rating;
+        return;
     }
 
     public function thankyou() {
         return view('main.ratings.thankyou');
-
-
     }
 
 }

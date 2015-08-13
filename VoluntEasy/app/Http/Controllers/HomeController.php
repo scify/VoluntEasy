@@ -2,6 +2,7 @@
 
 use App\Models\Action;
 use App\Models\Volunteer;
+use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
 
 class HomeController extends Controller
@@ -39,7 +40,9 @@ class HomeController extends Controller
         $new = Volunteer::unassigned()->count();
         $actions = Action::active()->count();
 
-        return view('main.dashboard.dashboard', compact('available', 'active', 'new', 'actions'));
+        $isAdmin = UserService::isAdmin();
+
+        return view('main.dashboard.dashboard', compact('available', 'active', 'new', 'actions', 'isAdmin'));
     }
 
 }

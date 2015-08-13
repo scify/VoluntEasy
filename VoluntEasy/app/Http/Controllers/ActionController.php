@@ -93,6 +93,13 @@ class ActionController extends Controller {
             $query->where('unit_id', $unitId);
         })->orderBy('name', 'asc')->get();
 
+        //check if action has expired
+        $now = date('Y-m-d');
+        $endDate = \Carbon::parse(\Carbon::createFromFormat('d/m/Y', $action->end_date))->format('Y-m-d');
+        $action->expired = false;
+        if($endDate < $now)
+            $action->expired = true;
+
         $userUnits = UserService::userUnits();
 
         return view('main.actions.show', compact('action', 'allVolunteers', 'volunteerIds', 'userUnits', 'branch'));

@@ -1,10 +1,11 @@
-<table id="availableVolunteersTable" class="display table table-striped table-condensed data-table" cellspacing="0"
+<table id="pendingVolunteersTable" class="display table table-striped table-condensed data-table" cellspacing="0"
        width="100%">
     <thead>
     <tr>
         <th>#</th>
         <th>Όνομα</th>
         <th>Μονάδες</th>
+        <th>Εκκρεμότητες</th>
     </tr>
     </thead>
 
@@ -13,6 +14,7 @@
         <th>#</th>
         <th>Όνομα</th>
         <th>Μονάδες</th>
+        <th>Εκκρεμότητες</th>
     </tr>
     </tfoot>
 </table>
@@ -20,11 +22,11 @@
 
 @section('footerScripts')
 <script>
-    var table = $('#availableVolunteersTable').dataTable({
+    var table = $('#pendingVolunteersTable').dataTable({
         "pageLength": 5,
         "bFilter": false,
         "bLengthChange": false,
-        "ajax": $("body").attr('data-url') + '/api/volunteers/available',
+        "ajax": $("body").attr('data-url') + '/api/volunteers/pending',
         "columns": [
             {data: "id"},
             {
@@ -36,21 +38,29 @@
             }
             },
             {
-                //show the available units
+                //show all the pending units
                 data: null, render: function (data, type, row) {
-                var status = '';
-                var count = 0;
+                var units = '';
 
                 $.each(data.units, function (index, unit) {
-                    if (unit.status == 'Available') {
-                        if (count == 0)
-                            status += '<a href="' + $("body").attr('data-url') + '/units/one/' + unit.id + '">' + unit.description + '</a>';
-                        else
-                            status += ', <a href="' + $("body").attr('data-url') + '/units/one/' + unit.id + '">' + unit.description + '</a>';
-
-                        count++;
-                    }
+                    if (unit.status == 'Pending')
+                        units += '<p>' + unit.description + '</p>';
                 });
+
+                return units;
+            }
+            },
+            {
+                //show the current pending step for each unit
+                data: null, render: function (data, type, row) {
+                var status = '';
+
+                $.each(data.units, function (index, unit) {
+                    if (unit.status == 'Pending')
+                        status += '<p>' + unit.steps[0].description + '</p>';
+
+                });
+
                 return status;
             }
             }
@@ -68,28 +78,28 @@
                 "next": ">",
                 "previous": "<"
             }
-        }/*,
-         dom: 'T<"clear">lfrtip',
-         "tableTools": {
-         "sSwfPath": $("body").attr('data-url') + "/assets/plugins/data-tables/extras/tabletools/swf/copy_csv_xls_pdf.swf",
-         "aButtons": [
-         {
-         "sExtends": "copy",
-         "sButtonText": "Αντιγραφή"
-         },
-         {
-         "sExtends": "print",
-         "sButtonText": "Εκτύπωση"
-         },
-         {
-         "sExtends": "csv",
-         "sButtonText": "CSV"
-         },
-         {
-         "sExtends": "xls"
-         }
-         ]
-         }*/
+        },
+        dom: 'T<"clear">lfrtip',
+        "tableTools": {
+            "sSwfPath": $("body").attr('data-url') + "/assets/plugins/data-tables/extras/tabletools/swf/copy_csv_xls_pdf.swf",
+            "aButtons": [
+                {
+                    "sExtends": "copy",
+                    "sButtonText": "Αντιγραφή"
+                },
+                {
+                    "sExtends": "print",
+                    "sButtonText": "Εκτύπωση"
+                },
+                {
+                    "sExtends": "csv",
+                    "sButtonText": "CSV"
+                },
+                {
+                    "sExtends": "xls"
+                }
+            ]
+        }
     });
 </script>
 @append

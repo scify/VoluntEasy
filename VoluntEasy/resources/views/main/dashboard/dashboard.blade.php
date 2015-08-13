@@ -13,7 +13,7 @@ Dashboard
             <div class="panel-body">
                 <div class="info-box-stats">
                     <p class="counter"><a href="{{ url('volunteers/new') }}">{{ $new }}</a></p>
-                    <span class="info-box-title">ΥΠΟ ΕΝΤΑΞΗ ΕΘΕΛΟΝΤΕΣ</span>
+                    <span class="info-box-title">ΝΕΟΙ ΕΘΕΛΟΝΤΕΣ</span>
                 </div>
                 <div class="info-box-icon">
                     <i class="fa fa-user"></i>
@@ -51,6 +51,7 @@ Dashboard
 
 
 <div class="row">
+    @if($isAdmin)
     <div class="col-md-6">
         <div class="panel panel-info smallHeading mini-panel">
             <div class="panel-heading clearfix ">
@@ -66,8 +67,8 @@ Dashboard
             </div>
         </div>
     </div>
-
-    <div class="col-md-6">
+    @endif
+    <div class="{{ $isAdmin ? 'col-md-6' : 'col-md-12' }} ">
         <div class="panel panel-warning smallHeading mini-panel">
             <div class="panel-heading clearfix">
                 <h4 class="panel-title">Υπό Ένταξη Εθελοντές</h4>
@@ -120,7 +121,7 @@ Dashboard
 
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-8">
         <div class="panel panel-default smallHeading mini-panel">
             <div class="panel-heading clearfix">
                 <h4 class="panel-title">Ημερολόγιο Δράσεων</h4>
@@ -136,6 +137,7 @@ Dashboard
                         @include('main.dashboard._calendar')
                     </div>
                     <div class="col-md-4">
+                    <div id="actionDetails"></div>
                     </div>
                 </div>
             </div>
