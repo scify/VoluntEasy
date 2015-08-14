@@ -45,19 +45,15 @@ class UserController extends Controller {
 
         $user = User::create($request->all());
 
-        // getting all of the post data
-        $file = array('image' => \Input::file('image'));
+        if (\Input::file('image')!=null) {
+            //get the image and upload it
+            $destinationPath = public_path() . '/assets/uploads'; // upload path
+            $extension = \Input::file('image')->getClientOriginalExtension(); // getting image extension
+            $fileName = $user->email . '.' . $extension; // rename image
+            \Input::file('image')->move($destinationPath, $fileName); // uploading file to given path
 
-            // checking file is valid.
-            if (\Input::file('image')->isValid()) {
-                $destinationPath = public_path() . '/storage/uploads'; // upload path
-                $extension = \Input::file('image')->getClientOriginalExtension(); // getting image extension
-                $fileName = rand(11111, 99999) . '.' . $extension; // renameing image
-                \Input::file('image')->move($destinationPath, $fileName); // uploading file to given path
-                // sending back with message
-            } else {
-                return 'skata2';
-            }
+           $user->update(['image_name' => $fileName]);
+        }
 
         return Redirect::route('user/profile', ['id' => $user->id]);
     }
@@ -105,7 +101,17 @@ class UserController extends Controller {
 
         $user->update($request->all());
 
-        return Redirect::to('users');
+        if (\Input::file('image')!=null) {
+            //get the image and upload it
+            $destinationPath = public_path() . '/assets/uploads'; // upload path
+            $extension = \Input::file('image')->getClientOriginalExtension(); // getting image extension
+            $fileName = $user->email . '.' . $extension; // rename image
+            \Input::file('image')->move($destinationPath, $fileName); // uploading file to given path
+
+            $user->update(['image_name' => $fileName]);
+        }
+
+        return Redirect::route('user/profile', ['id' => $user->id]);
     }
 
     /**

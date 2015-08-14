@@ -21,6 +21,8 @@
 <script src="{{ asset('assets/plugins/data-tables/extras/tabletools/js/dataTables.tableTools.min.js')}}"></script>
 <script src="{{ asset('assets/plugins/fullcalendar-2.3.2/fullcalendar.min.js')}}"></script>
 <script src="{{ asset('assets/plugins/fullcalendar-2.3.2/lang-all.js')}}"></script>
+<script src="{{ asset('assets/plugins/chartsjs/Chart.min.js')}}"></script>
+<script src="{{ asset('assets/plugins/birthdayPicker/jquery-birthday-picker.min.js')}}"></script>
 <script src="{{ asset('assets/js/modern.js')}}"></script>
 <script src="{{ asset('assets/js/custom.js')}}"></script>
 <script src="{{ asset('assets/js/pages/dashboard.js')}}"></script>

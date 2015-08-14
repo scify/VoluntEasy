@@ -3,7 +3,7 @@
 Αρχική
 @stop
 @section('pageTitle')
-Dashboard
+Αρχική
 @stop
 
 @section('bodyContent')
@@ -121,7 +121,7 @@ Dashboard
 
 
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-6">
         <div class="panel panel-default smallHeading mini-panel">
             <div class="panel-heading clearfix">
                 <h4 class="panel-title">Ημερολόγιο Δράσεων</h4>
@@ -132,14 +132,23 @@ Dashboard
                 </div>
             </div>
             <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-8">
-                        @include('main.dashboard._calendar')
-                    </div>
-                    <div class="col-md-4">
-                    <div id="actionDetails"></div>
-                    </div>
+                @include('main.dashboard._calendar')
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="panel panel-default smallHeading mini-panel">
+            <div class="panel-heading clearfix">
+                <h4 class="panel-title">Διάγραμμα Εθελοντών</h4>
+
+                <div class="panel-control">
+                    <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
+                       class="panel-collapse" data-original-title="Expand/Collapse"><i class="icon-arrow-down"></i></a>
                 </div>
+            </div>
+            <div class="panel-body">
+                @include('main.dashboard._donut')
             </div>
         </div>
     </div>

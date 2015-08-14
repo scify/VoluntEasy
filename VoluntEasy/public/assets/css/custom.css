@@ -201,6 +201,13 @@ div#unitsTree{overflow-x: auto;}
 .form-control.ui-autocomplete-input:-ms-input-placeholder {
     text-align:right;
 }
+.form-control.inline{
+    display: inline-block;
+    width: 30%;
+    margin-left: 2%;
+}
+
+.list-inline>li{ padding-right:0;}
 
 #age-slider-range{
     margin-top:10px;

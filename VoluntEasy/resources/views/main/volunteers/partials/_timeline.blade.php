@@ -78,14 +78,13 @@
             @endif
             @endforeach
 
-            <small class="pull-right">Η ένταξη έγινε από το χρήστη {{ $timelineBlock->user->name }}</small>
+            <p><small class="pull-right">Η ένταξη έγινε από το χρήστη {{ $timelineBlock->user->name }}</small></p>
 
             <span class="cd-date">{{ Carbon::parse($timelineBlock->created_at)->format('d/m/Y') }}</span>
         </div>
         <!-- cd-timeline-content -->
     </div>
     @endif
-
     @endforeach
 
 

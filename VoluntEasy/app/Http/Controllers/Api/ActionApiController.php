@@ -9,7 +9,7 @@ use App\Services\Facades\VolunteerService;
 class ActionApiController extends Controller {
 
     public function all() {
-        $actions = Action::with('unit', 'volunteers')->orderBy('description', 'ASC')->get();
+        $actions = Action::with('unit', 'volunteers')->orderBy('end_date', 'desc')->get();
 
         $data = ActionService::prepareForDataTable($actions);
 

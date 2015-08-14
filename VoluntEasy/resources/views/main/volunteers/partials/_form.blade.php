@@ -15,13 +15,19 @@
                 'true']) !!}
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="form-group">
-                        {!! Form::formInput('birth_date', 'Ημερομηνία Γέννησης:', $errors, ['class' => 'form-control',
-                        'id' => 'birth_date', 'required' => 'true']) !!}
+                        <label>Ημερομηνία Γέννησης: <span class="star">*</span></label>
+                        @if (isset($volunteer))
+                        <div class="birthdayPicker {{ $errors->has('date') || $errors->has('month') || $errors->has('year') ? 'has-error' : ''}}" id="birthdayPicker" data-default="{{ $volunteer->formattedBirthDate }}"></div>
+                        @else
+                        <div class="birthdayPicker {{ $errors->has('date') || $errors->has('month') || $errors->has('year') ? 'has-error' : ''}}"></div>
+                        @endif
                     </div>
                 </div>
-                <div class="col-md-6">
+            </div>
+            <div class="row">
+                <div class="col-md-12">
                     <div class="form-group">
                         @if (isset($volunteer))
                         {!! Form::formInput('gender_id', 'Φύλο:', $errors, ['class' => 'form-control', 'type' =>
@@ -374,20 +380,21 @@
                 'textarea', 'placeholder' => 'Σχόλια σχετικά με τον εθελοντή']) !!}
             </div>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-4">
             <div class="form-group">
                 <p>Αποκλεισμός εθελοντή από τις μονάδες:</p>
-                @foreach($units as $unit_id => $unit)
-                    @if (isset($volunteer) && in_array($unit->id, $volunteer->unitsExcludes->lists('id')) )
-                    {!! Form::formInput('excludes-' . $unit->id, $unit->description, $errors, ['class' =>
-                    'form-control',
-                    'type' => 'checkbox', 'value' => $unit->id, 'checked' => 'true']) !!}
-                    @else
-                    {!! Form::formInput('excludes-' . $unit->id, $unit->description , $errors, ['class' =>
-                    'form-control',
-                    'type' => 'checkbox', 'value' => $unit->id, 'checked' => 'false']) !!}
-                    @endif
-                @endforeach
+
+                <select class="js-states form-control" id="unitList" multiple="multiple" name="unitsSelect[]"
+                        tabindex="-1"
+                        style="display: none; width: 100%">
+
+                    @foreach($units as $unit_id => $unit)
+                    <option value="{{ $unit->id }}" name="unit-{{$unit->id}}"
+                    {{ isset($volunteer) && in_array($unit->id, $volunteer->unitsExcludes->lists('id')) ? 'selected' :
+                    '' }} >{{ $unit->description }}</option>
+
+                    @endforeach
+                </select>
             </div>
         </div>
     </div>
@@ -398,7 +405,31 @@
 
 @section('footerScripts')
 <script>
+
+    var defaultDate = $("#birthdayPicker").attr('data-default');
+
+    $(".birthdayPicker").birthdayPicker({
+        "monthFormat": "long",
+        "sizeClass": "form-control inline",
+        "defaultDate": defaultDate
+    });
+
     //initialize user select
-    $('#unitExcludes').select2();
+    $('#unitList').select2();
+
+    //make an input to send with the form
+    $('#unitList').on("select2:select", function (e) {
+        id = e.params.data.id;
+        input = '<input id="unit' + id + '" name="unit' + id + '" value="' + id + '" hidden/>';
+        $("#wizardForm").append(input);
+    });
+
+    //remove input when the option is unselected
+    $('#unitList').on("select2:unselect", function (e) {
+        id = e.params.data.id;
+        $("#unit" + id).remove();
+    });
+
+
 </script>
 @append

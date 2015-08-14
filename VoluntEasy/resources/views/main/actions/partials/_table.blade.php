@@ -31,6 +31,7 @@
 <script>
     var table = $('#actionsTable').dataTable({
         "bFilter": false,
+        "order": [[ 4, "desc" ]],
         "ajax": $("body").attr('data-url') + '/api/actions',
         "columns": [
             {data: "id"},

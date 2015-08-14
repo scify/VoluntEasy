@@ -44,13 +44,4 @@
 @stop
 
 
-@section('footerScripts')
-<script>
-    //datepickers for the edit form
-    $('#birth_date').datepicker({
-        language: 'el',
-        format: 'dd/mm/yyyy',
-        autoclose: true
-    });
-</script>
-@append
+

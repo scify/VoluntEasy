@@ -3,6 +3,7 @@
 use App\Http\Controllers\Controller;
 use App\Models\Descriptions\StepStatus;
 use App\Models\Volunteer;
+use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
 
 class VolunteerApiController extends Controller {
@@ -39,14 +40,19 @@ class VolunteerApiController extends Controller {
             foreach ($pending as $volunteer) {
                 $id = $volunteer->id;
                 $pendingStatus = StepStatus::incomplete();
+                $permittedUnits = UserService::permittedUnits();
 
-                $volunteer = Volunteer::with(['units.steps' => function ($query) use ($id, $pendingStatus) {
-                    $query->whereHas('statuses', function ($query) use ($id, $pendingStatus) {
-                        $query->where('volunteer_id', $id)->where('step_status_id', $pendingStatus);
-                    });
+                $volunteer = Volunteer::with(['units' => function ($q) use ($id, $pendingStatus, $permittedUnits) {
+                    $q->whereIn('unit_id', $permittedUnits)->with(['steps' => function ($query) use ($id, $pendingStatus) {
+                        $query->whereHas('statuses', function ($query) use ($id, $pendingStatus) {
+                            $query->where('volunteer_id', $id)->where('step_status_id', $pendingStatus);
+                        });
+
+                    }]);
                 }])->where('id', $id)->first();
 
-                array_push($volunteers, $volunteer);
+                if (sizeof($volunteer->units) > 0)
+                    array_push($volunteers, $volunteer);
             }
         }
         $permittedVolunteers = VolunteerService::permittedVolunteersIds();

@@ -15,7 +15,7 @@
         <div class="panel panel-white">
             <div class="panel-body">
                 {!! Form::model($user, ['method' => 'POST', 'action' => ['UserController@update', 'id'
-                => $user->id]]) !!}
+                => $user->id], 'files' => true]) !!}
                 @include('main.users.partials._form', ['submitButtonText' => 'Αποθήκευση', 'user' =>
                 $user])
                 {!! Form::close() !!}
@@ -73,16 +73,16 @@
     treewrapper.init();
 
     $("#save").click(function () {
-        var activeLis = [];
+        var activeNodes = [];
 
         $("#unitsTree").find(".node.assignTo").each(function () {
-            activeLis.push($(this).attr('data-id'));
+            activeNodes.push($(this).attr('data-id'));
         });
         var userUnits = {
             id: $(this).attr('data-user-id'),
-            units: activeLis
+            units: activeNodes
         };
-        console.log(activeLis);
+        console.log(activeNodes);
 
         $.ajax({
             url: $("body").attr('data-url') + '/users/units',

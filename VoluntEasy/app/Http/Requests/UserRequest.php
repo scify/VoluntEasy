@@ -4,23 +4,23 @@
 class UserRequest extends Request {
 
 
-	/**
-	 * Get the validation rules that apply to the request.
+    /**
+     * Get the validation rules that apply to the request.
      * If the id is null, return the validation rules for the create form,
      * else return the validation rules for the edit form.
-	 *
-	 * @return array
-	 */
-	public function rules()
-	{
-        if(Request::get('id')==null)
+     *
+     * @return array
+     */
+    public function rules() {
+
+        if (Request::get('id') == null)
             return [
                 'name' => 'required|max:255',
                 'email' => 'required|email|max:255|unique:users',
                 'password' => 'required|confirmed|min:6',
                 'addr' => 'required|max:255',
                 'tel' => 'required|max:50',
-             //   'image' => 'image|max:100000'
+                'image' => 'image'
             ];
         else
             return [
@@ -29,9 +29,9 @@ class UserRequest extends Request {
                 'password' => 'confirmed|min:6',
                 'addr' => 'required|max:255',
                 'tel' => 'required|max:50',
-                'image' => 'image|max:100000'
+                'image' => 'image'
             ];
-	}
+    }
 
 
     /**
@@ -39,8 +39,7 @@ class UserRequest extends Request {
      *
      * @return array
      */
-    public function messages()
-    {
+    public function messages() {
         return [
             'email.unique' => 'Το email χρησιμοποιείται ήδη.',
             'password.min' => 'Ο κωδικός πρέπει να έχει μήκος πάνω από 6 χαρακτήρες.',

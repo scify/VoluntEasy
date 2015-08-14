@@ -369,7 +369,7 @@ class VolunteerService {
      */
     public function addToRootUnit($id) {
 
-        if ($this->isAdmin()) {
+        if (UserServiceFacade::isAdmin()) {
 
             $rootUnit = UnitServiceFacade::getRoot();
             $rootUnit->load('steps');

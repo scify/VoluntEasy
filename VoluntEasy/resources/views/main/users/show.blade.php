@@ -24,7 +24,9 @@
                 <div class="row m-b-lg">
                     <div class="col-md-2">
                         <div class="profile-image-container user-image text-center">
-                            <img src="{{ asset('assets/images/default.png')}}" alt="">
+                            <img src="{{ ($user->image_name==null || $user->image_name=='') ?
+                                    asset('assets/images/default.png') : asset('assets/uploads/'.$user->image_name) }}"
+                                 alt="" class="user-image-small userImage">
                         </div>
                     </div>
                     <div class="col-md-10">
@@ -64,21 +66,22 @@
 </div>
 
 
-
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-white">
-            <div class="panel-body">
-                <div class="row m-b-lg">
-                    <div class="col-md-12 ">
-                        <h3>Δέντρο</h3>
-                        @include('main.tree._tree')
-                    </div>
-                </div>
-            </div>
+<div class="panel panel-white tree">
+    <div class="panel-heading clearfix">
+        <h2 class="panel-title">Δέντρο</h2>
+        <div class="panel-control">
+            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="" class="panel-collapse"
+               data-original-title="Expand/Collapse"><i class="icon-arrow-down"></i></a>
         </div>
     </div>
+    <div class="panel-body" style="display: block;">
+        <h4>Με πράσινο σημειώνονται οι μονάδες τις οποίες ο χρήστης μπορεί να επεξεργαστεί.</h4>
+
+        @include('main.tree._tree')
+
+    </div>
 </div>
+
 
 @stop
 

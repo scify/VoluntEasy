@@ -38,11 +38,13 @@ class HomeController extends Controller
         $available = Volunteer::available()->count();
         $active = Volunteer::active()->count();
         $new = Volunteer::unassigned()->count();
+        $pending = Volunteer::pending()->count();
+        $blacklisted = Volunteer::blacklisted()->count();
         $actions = Action::active()->count();
 
         $isAdmin = UserService::isAdmin();
 
-        return view('main.dashboard.dashboard', compact('available', 'active', 'new', 'actions', 'isAdmin'));
+        return view('main.dashboard.dashboard', compact('available', 'active', 'new', 'pending', 'blacklisted', 'actions', 'isAdmin'));
     }
 
 }

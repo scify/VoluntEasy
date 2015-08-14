@@ -86,7 +86,6 @@ class UnitController extends Controller {
             foreach (\Input::get('usersSelect') as $user) {
                 array_push($users, $user);
             }
-
             //sync the selected users
             $unit->users()->sync($users);
 

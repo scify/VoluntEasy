@@ -111,11 +111,12 @@
                             $(this).removeClass('active-node');
                             $(this).removeClass('assignTo');
 
-                            $(this).closest('table').children().find('div.node').removeClass('active-node disabled');
+                            $(this).closest('table').children().find('div.node').removeClass('active-node disabled assignTo');
 
                             $(opts.ulId + ' [data-id="' + $(this).attr('data-id') + '"]').removeClass("active-node");
                         }
                         else {
+                            $(this).closest('table').children().find('div.node').removeClass('assignTo');
                             $(this).addClass('active-node');
                             $(this).addClass('assignTo');
                             $(this).closest('table').children().find('div.node').addClass('active-node disabled');

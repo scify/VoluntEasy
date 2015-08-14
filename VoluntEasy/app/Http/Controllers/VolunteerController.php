@@ -24,7 +24,6 @@ use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
 use DB;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\View;
 
 class VolunteerController extends Controller {
     public function __construct() {
@@ -37,13 +36,13 @@ class VolunteerController extends Controller {
      * @return Response
      */
     public function index() {
-     /*   $volunteers = Volunteer::with('units', 'actions')->orderBy('name', 'ASC')->get();
-        //$volunteers->setPath(\URL::to('/') . '/volunteers');
+        /*   $volunteers = Volunteer::with('units', 'actions')->orderBy('name', 'ASC')->get();
+           //$volunteers->setPath(\URL::to('/') . '/volunteers');
 
-        //get the status of each unit to display to the list
-        foreach($volunteers as $volunteer){
-            $volunteer = VolunteerService::setStatusToUnits($volunteer);
-        }*/
+           //get the status of each unit to display to the list
+           foreach($volunteers as $volunteer){
+               $volunteer = VolunteerService::setStatusToUnits($volunteer);
+           }*/
 
         return view('main.volunteers.list');
     }
@@ -94,7 +93,6 @@ class VolunteerController extends Controller {
             'name' => \Input::get('name'),
             'last_name' => \Input::get('last_name'),
             'fathers_name' => \Input::get('fathers_name'),
-            'birth_date' => \Input::get('birth_date'),
             'identification_type_id' => intval(\Input::get('identification_type_id')),
             'identification_num' => \Input::get('identification_num'),
             'gender_id' => intval(\Input::get('gender_id')),
@@ -129,7 +127,10 @@ class VolunteerController extends Controller {
 
         /* Solve mySql problem regarding date format. Postgres works fine, while mySql stores date
          * as 0000-00-00. Solve using Carbon. */
-        $volunteer->birth_date = \Carbon::createFromFormat('d/m/Y', $volunteer->birth_date)->toDateString();
+        $birth = \Input::get('birth');
+        $birth_date = $birth['day'] . '/' . $birth['month'] . '/' . $birth['year'];
+
+        $volunteer->birth_date = \Carbon::createFromFormat('d/m/Y', $birth_date)->toDateString();
 
         $volunteer->save();
 
@@ -173,16 +174,18 @@ class VolunteerController extends Controller {
             }
         }
 
-        $inputs = $request->all();
-        $unitsExcludes = [];
 
-        foreach ($inputs as $id => $input) {
-            if (preg_match('/excludes-.*/', $id)) {
-                array_push($unitsExcludes, $input);
+        //get the selected users from the select2 array
+        //and add them to an array
+        if (\Input::has('unitsSelect')) {
+            $unitsExcludes = [];
+
+            foreach (\Input::get('unitsSelect') as $unit) {
+                array_push($unitsExcludes, $unit);
             }
-        }
 
-        $volunteer->unitsExcludes()->sync($unitsExcludes);
+            $volunteer->unitsExcludes()->sync($unitsExcludes);
+        }
 
         return \Redirect::route('volunteer/profile', ['id' => $volunteer->id]);
     }
@@ -201,20 +204,20 @@ class VolunteerController extends Controller {
         //get the count of pending and available units, used in the front end
         $pending = 0;
         $available = 0;
-        foreach($volunteer->units as $unit){
-            if($unit->status=='Pending')
+        foreach ($volunteer->units as $unit) {
+            if ($unit->status == 'Pending')
                 $pending++;
-            else if ($unit->status=='Available' || $unit->status=='Active')
+            else if ($unit->status == 'Available' || $unit->status == 'Active')
                 $available++;
         }
 
         //chekc if the volunteer is permitted to be edited by the
         //currently logged in user
         $permittedVolunteers = UserService::permittedVolunteersIds();
-        if(in_array($volunteer->id, $permittedVolunteers))
-            $volunteer->permitted=true;
+        if (in_array($volunteer->id, $permittedVolunteers))
+            $volunteer->permitted = true;
         else
-            $volunteer->permitted=false;
+            $volunteer->permitted = false;
 
 
         return view("main.volunteers.show", compact('volunteer', 'pending', 'available', 'timeline'));
@@ -244,6 +247,11 @@ class VolunteerController extends Controller {
 
         $units = Unit::orderBy('description', 'asc')->get();
 
+        //set the birthdate to properly display at the front-end
+        $birth_date = \Carbon::createFromFormat('d/m/Y', $volunteer->birth_date);
+        $birth_date = \Carbon::parse($birth_date)->format('m-d-Y');
+        $volunteer->formattedBirthDate = $birth_date;
+
         return view('main.volunteers.edit', compact('volunteer', 'identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
             'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interests', 'genders', 'commMethod', 'edLevel', 'units'));
     }
@@ -257,13 +265,16 @@ class VolunteerController extends Controller {
 
         $volunteer = Volunteer::findOrFail($request->get('id'));
 
+        $birth = \Input::get('birth');
+        $birth_date = $birth['day'] . '/' . $birth['month'] . '/' . $birth['year'];
+
         // update everything except middle table stuff
         $volunteer->update(
             array(
                 'name' => \Input::get('name'),
                 'last_name' => \Input::get('last_name'),
                 'fathers_name' => \Input::get('fathers_name'),
-                'birth_date' => \Input::get('birth_date'),
+                'birth_date' => \Carbon::createFromFormat('d/m/Y', $birth_date)->toDateString(),
                 'identification_type_id' => intval(\Input::get('identification_type_id')),
                 'identification_num' => \Input::get('identification_num'),
                 'gender_id' => intval(\Input::get('gender_id')),
@@ -295,6 +306,7 @@ class VolunteerController extends Controller {
                 'availability_freqs_id' => intval(\Input::get('availability_freqs_id')),
                 'comments' => \Input::get('comments'),
             ));
+
 
         // update middle table relations
         $availability_times = AvailabilityTime::all();
@@ -350,14 +362,20 @@ class VolunteerController extends Controller {
 
         $units = Unit::all();
 
-        // Get selected units and save them to unitsExcludes
-        $units_excludes_array = [];
-        foreach ($units as $unit) {
-            if (\Input::has('excludes-'.$unit->id)) {
-                array_push($units_excludes_array, $unit->id);
+        //get the selected users from the select2 array
+        //and add them to an array
+        if (\Input::has('unitsSelect')) {
+            $unitsExcludes = [];
+
+            foreach (\Input::get('unitsSelect') as $unit) {
+                array_push($unitsExcludes, $unit);
             }
+
+            $volunteer->unitsExcludes()->sync($unitsExcludes);
+            //return $unitsExcludes;
+        } else {
+            $volunteer->unitsExcludes()->detach();
         }
-        $volunteer->unitsExcludes()->sync($units_excludes_array);
 
         return \Redirect::route('volunteer/profile', ['id' => $volunteer->id]);
     }
@@ -405,8 +423,8 @@ class VolunteerController extends Controller {
 
         return $volunteers;
 
-     /*   $view = View::make('main.volunteers.list')->with('volunteers', $volunteers);
-        return $view->renderSections()['table'];*/
+        /*   $view = View::make('main.volunteers.list')->with('volunteers', $volunteers);
+           return $view->renderSections()['table'];*/
     }
 
 
@@ -475,7 +493,7 @@ class VolunteerController extends Controller {
      * @param $unitId
      * @return mixed
      */
-    public function detachFromUnit($volunteerId, $unitId){
+    public function detachFromUnit($volunteerId, $unitId) {
         $volunteer = Volunteer::findOrFail($volunteerId);
         $unit = Unit::with('actions')->findOrFail($unitId);
 
@@ -492,7 +510,7 @@ class VolunteerController extends Controller {
      * @param $actionId
      * @return mixed
      */
-    public function detachFromAction($volunteerId, $actionId){
+    public function detachFromAction($volunteerId, $actionId) {
 
         $action = Action::find($actionId);
 

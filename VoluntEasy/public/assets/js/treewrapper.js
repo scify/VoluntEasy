@@ -81,7 +81,8 @@
 
         var rootLi = $('<li/>')
             .text(this.json.description)
-            .addClass(defineClasses(this.json, 'unit'));
+            .addClass(defineClasses(this.json, 'unit'))
+            .attr("data-id", this.json.id);
 
         rootLi.append(drawBranch(this.json, this.options.withActions));
 
@@ -145,7 +146,7 @@
         if (base.options.create == 'unit') {
             classString += 'tooltips ';
 
-            if (!node.permitted)
+            if (!node.permitted )
                 classString += 'disabled notPermitted ';
             else if (node.all_actions.length > 0)
                 classString += 'disabled hasActions ';
@@ -156,7 +157,7 @@
         else if (base.options.create == 'action') {
             classString += 'tooltips ';
 
-            if (!node.permitted)
+            if (!node.permitted )
                 classString += 'disabled notPermitted ';
             else if (node.all_children.length > 0)
                 classString += 'disabled hasUnits ';
@@ -168,7 +169,7 @@
         else if (base.options.edit == 'user') {
             classString += 'tooltips ';
 
-            if (!node.permitted)
+            if (!node.permitted  && !base.options.disabled)
                 classString += 'disabled notPermitted ';
 
             if (node.active != null && node.active)

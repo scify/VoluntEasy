@@ -88,6 +88,11 @@ $(document).ready(function () {
     });
 
 
+    //default user image
+    $('img.userImage').one('error', function () {
+        this.src = '/assets/images/default.png';
+    });
+
     /**
      * tooltips for the tree
      */

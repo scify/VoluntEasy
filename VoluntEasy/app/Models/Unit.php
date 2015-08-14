@@ -36,7 +36,7 @@ class Unit extends Model {
      * @return mixed
      */
     public function allActions() {
-        return $this->hasMany('App\Models\Action')->orderBy('end_date', 'desc');
+        return $this->hasMany('App\Models\Action')->orderBy('end_date', 'asc');
     }
 
 

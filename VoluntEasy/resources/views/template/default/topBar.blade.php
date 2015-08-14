@@ -33,7 +33,6 @@
                                             <ul class="list-unstyled" id="notificationList">
                                             </ul>
                                         </li>
-                                        <li class="drop-all"><a href="{{ url('notifications') }}" class="text-center">{{trans($lang.'allNotifications')}}</a></li>
                                     </ul>
                                 </li>
                                 <!---/Notificasion Icon-->
@@ -44,7 +43,8 @@
                                         data-toggle="dropdown">
                                         <!-- Display the username -->
                                         <span class="user-name">{{{ isset(Auth::user()->name) ? Auth::user()->name : 'not logged in' }}}<i class="fa fa-angle-down"></i></span>
-                                        <img class="img-circle avatar" src="/assets/images/default.png" width="40" height="40"
+                                        <img class="img-circle avatar userImage" src="{{ (\Auth::user()->image_name==null || \Auth::user()->image_name=='') ?
+                                    asset('assets/images/default.png') : asset('assets/uploads/'.\Auth::user()->image_name) }}" width="40" height="40"
                                          alt="">
                                     </a>
                                     <ul class="dropdown-menu dropdown-list" role="menu">

@@ -103,6 +103,10 @@ class Volunteer extends User {
         return $this->hasOne('App\Models\RatingVolunteerAction');
     }
 
+    public function getBirthDateAttribute() {
+        return \Carbon::parse($this->attributes['birth_date'])->format('d/m/Y');
+    }
+
 
     //////////////////
     // Query Scopes //

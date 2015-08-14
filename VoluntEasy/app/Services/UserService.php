@@ -219,23 +219,20 @@ class UserService {
             foreach ($users as $user)
                 array_push($permittedUsers, $user);
         } else {
-            //get the user's units with their immediate children (first level)
-            //and their users
 
-            $userId = \Auth::user()->id;
+            $permittedUnits = $this->permittedUnits();
 
-            $user = User::where('id', $userId)->with('units.allChildren.users')->first();
+            $users = User::whereDoesntHave('units')
+                ->orWhereHas('units', function ($q) use ($permittedUnits) {
+                    $q->whereIn('id', $permittedUnits);
+                })
+                ->get();
 
-            foreach ($user->units as $unit)
-                $this->recursiveUsers($unit);
-
-            $permittedUsers = $this->permittedUsers;
-            //get the unassigned users
-            $unassigned = User::whereDoesntHave('units')->get();
-            foreach ($unassigned as $user)
-                array_push($permittedUsers, $user);
-
-
+            //remove currently logged in user
+            foreach($users as $user){
+                if($user->id!=\Auth::user()->id)
+                    array_push($permittedUsers, $user);
+            }
         }
         return $permittedUsers;
     }

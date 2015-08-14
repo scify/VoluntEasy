@@ -35,7 +35,7 @@ class UnitApiController extends Controller {
     }
 
     public function actions($id) {
-        $actions = Action::where('unit_id', $id)->get();
+        $actions = Action::where('unit_id', $id)->orderBy('start_date', 'desc')->get();
 
         $data = $actions;
         return ["data" => $data];

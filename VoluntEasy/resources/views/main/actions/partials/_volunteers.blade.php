@@ -78,7 +78,7 @@
                 var status = '';
 
                 if (data.units[0].status == 'Pending')
-                    status += '<div class="status pending">Υπό ανάθεση</div>';
+                    status += '<div class="status pending">Υπό ένταξη</div>';
                 else if (data.units[0].status == 'Available')
                     status += '<div class="status available">Διαθέσιμος</div>';
                 else if (data.units[0].status == 'Active')
@@ -124,6 +124,5 @@
             ]
         }
     });
-
 </script>
 @append

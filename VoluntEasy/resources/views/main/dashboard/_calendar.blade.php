@@ -14,7 +14,10 @@
             url: $("body").attr('data-url') + '/api/actions/calendar'
         },
         eventClick: function (calEvent, jsEvent, view) {
-            var html = '';
+
+
+
+          /*  var html = '';
             html += '<h3>Δράση ' + calEvent.title + '</h3>';
             html += '<p><strong>Μονάδα:</strong> ' + calEvent.unit + '</p>';
             html += '<p><strong>Περιγραφή Δράσης:</strong> ' + calEvent.description + '</p>';
@@ -33,7 +36,9 @@
             html += '<p><strong>Αριθμός Εθελοντών:</strong> ' + calEvent.volunteers + '</p>';
 
             $("#actionDetails").html(html);
+            */
         }
     });
+
 </script>
 @append
