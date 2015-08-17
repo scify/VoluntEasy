@@ -250,6 +250,7 @@ class UnitController extends Controller {
         }
 
         $unit->steps()->delete();
+        $unit->actions()->delete();
         $unit->delete();
 
         Session::flash('flash_message', 'Η οργανωτική μονάδα διαγράφηκε.');
