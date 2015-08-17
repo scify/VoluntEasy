@@ -104,6 +104,7 @@ class UserController extends Controller {
         if (\Input::file('image')!=null) {
             //get the image and upload it
             $destinationPath = public_path() . '/assets/uploads'; // upload path
+            dd($destinationPath);
             $extension = \Input::file('image')->getClientOriginalExtension(); // getting image extension
             $fileName = $user->email . '.' . $extension; // rename image
             \Input::file('image')->move($destinationPath, $fileName); // uploading file to given path
