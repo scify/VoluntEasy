@@ -14,12 +14,12 @@ class UnitRequest extends Request {
         if(Request::get('type')=='root')
             return [
                 'description' => 'required|max:300',
-                'comments' => 'required|max:300',
+                'comments' => 'max:300',
             ];
         else
             return [
                 'description' => 'required|max:300',
-                'comments' => 'required|max:300',
+                'comments' => 'max:300',
                 'parent_unit_id' => 'required'
             ];
 	}

@@ -2,7 +2,7 @@
        width="100%">
     <thead>
     <tr>
-        <th>#</th>
+        <th>ID</th>
         <th>Όνομα</th>
         <th>Μονάδες</th>
     </tr>
@@ -10,7 +10,7 @@
 
     <tfoot>
     <tr>
-        <th>#</th>
+        <th>ID</th>
         <th>Όνομα</th>
         <th>Μονάδες</th>
     </tr>

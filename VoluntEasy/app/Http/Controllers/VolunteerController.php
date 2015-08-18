@@ -95,6 +95,7 @@ class VolunteerController extends Controller {
             'fathers_name' => \Input::get('fathers_name'),
             'identification_type_id' => intval(\Input::get('identification_type_id')),
             'identification_num' => \Input::get('identification_num'),
+            'birth_date' => \Carbon::createFromFormat('d/m/Y', \Input::get('birth_date'))->toDateString(),
             'gender_id' => intval(\Input::get('gender_id')),
             'marital_status_id' => intval(\Input::get('marital_status_id')),
             'children' => intval(\Input::get('children')),
@@ -125,12 +126,6 @@ class VolunteerController extends Controller {
             'comments' => \Input::get('comments')
         ));
 
-        /* Solve mySql problem regarding date format. Postgres works fine, while mySql stores date
-         * as 0000-00-00. Solve using Carbon. */
-        $birth = \Input::get('birth');
-        $birth_date = $birth['day'] . '/' . $birth['month'] . '/' . $birth['year'];
-
-        $volunteer->birth_date = \Carbon::createFromFormat('d/m/Y', $birth_date)->toDateString();
 
         $volunteer->save();
 
@@ -247,11 +242,6 @@ class VolunteerController extends Controller {
 
         $units = Unit::orderBy('description', 'asc')->get();
 
-        //set the birthdate to properly display at the front-end
-        $birth_date = \Carbon::createFromFormat('d/m/Y', $volunteer->birth_date);
-        $birth_date = \Carbon::parse($birth_date)->format('m-d-Y');
-        $volunteer->formattedBirthDate = $birth_date;
-
         return view('main.volunteers.edit', compact('volunteer', 'identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
             'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interests', 'genders', 'commMethod', 'edLevel', 'units'));
     }
@@ -265,8 +255,9 @@ class VolunteerController extends Controller {
 
         $volunteer = Volunteer::findOrFail($request->get('id'));
 
-        $birth = \Input::get('birth');
-        $birth_date = $birth['day'] . '/' . $birth['month'] . '/' . $birth['year'];
+        //$volunteer->birth_date = \Carbon::createFromFormat('d/m/Y', $volunteer->birth_date)->toDateString();
+
+
 
         // update everything except middle table stuff
         $volunteer->update(
@@ -274,7 +265,7 @@ class VolunteerController extends Controller {
                 'name' => \Input::get('name'),
                 'last_name' => \Input::get('last_name'),
                 'fathers_name' => \Input::get('fathers_name'),
-                'birth_date' => \Carbon::createFromFormat('d/m/Y', $birth_date)->toDateString(),
+                'birth_date' => \Carbon::createFromFormat('d/m/Y', \Input::get('birth_date'))->toDateString(),
                 'identification_type_id' => intval(\Input::get('identification_type_id')),
                 'identification_num' => \Input::get('identification_num'),
                 'gender_id' => intval(\Input::get('gender_id')),

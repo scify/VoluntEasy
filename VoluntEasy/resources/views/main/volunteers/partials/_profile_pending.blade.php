@@ -146,7 +146,8 @@
 
     //assign to a unit after completing step 3
     $(".assignToNextUnit").click(function () {
-        var id = $(this).attr('data-id');
+        var id = $(this).attr('data-id'),
+            step, stepStatus;
 
         if (id != null) {
             step = {
@@ -164,8 +165,11 @@
 
             console.log(step);
             console.log(stepStatus);
-            $.when(changeStepStatus(stepStatus, false))
+
+
+           $.when(changeStepStatus(stepStatus, false))
                     .then(assignToUnit(step));
+
         }
         else {
             step = {
@@ -235,9 +239,10 @@
                 'parent_unit_id': assignmentRadio.attr('data-unit-id')
             };
 
-          /*  console.log('unit');
-            console.log(stepStatus);
-            console.log(step);*/
+              /* console.log('unit');
+                 console.log(stepStatus);
+                 console.log(step);
+             */
 
              $.when(changeStepStatus(stepStatus, false))
              .then(assignToUnit(step));
@@ -289,7 +294,7 @@
                 'X-CSRF-Token': $('meta[name="_token"]').attr('content')
             },
             success: function (data) {
-                console.log(data);
+               console.log(data);
                 window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
             }
         });

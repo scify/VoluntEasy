@@ -1,7 +1,6 @@
 <table id="actionsTable" class="display table table-striped data-table" cellspacing="0" width="100%" data-unit-id="{{ $unit->id }}">
     <thead>
     <tr>
-        <th>#</th>
         <th>Όνομα</th>
         <th>Σχόλια</th>
         <th>Ημ. Έναρξης</th>
@@ -11,7 +10,6 @@
 
     <tfoot>
     <tr>
-        <th>#</th>
         <th>Όνομα</th>
         <th>Σχόλια</th>
         <th>Ημ. Έναρξης</th>
@@ -28,7 +26,6 @@
         "order": [[ 3, "desc" ]],
         "ajax": $("body").attr('data-url') + '/api/units/' + $('#volunteersTable').attr('data-unit-id') + '/actions',
         "columns": [
-            {data: "id"},
             {
                 //concat first name with last name
                 data: null, render: function (data, type, row) {

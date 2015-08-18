@@ -217,7 +217,7 @@ class UnitController extends Controller {
         $unit = Unit::with('allActions', 'allChildren', 'users', 'volunteers')->findOrFail($id);
 
         //if the unit has actions, do not delete
-        if (sizeof($unit->actions) > 0) {
+        if (sizeof($unit->allActions) > 0) {
             Session::flash('flash_message', 'Η οργανωτική μονάδα περιέχει δράσεις και δεν μπορεί να διαγραφεί.');
             Session::flash('flash_type', 'alert-danger');
 
@@ -250,7 +250,6 @@ class UnitController extends Controller {
         }
 
         $unit->steps()->delete();
-        $unit->actions()->delete();
         $unit->delete();
 
         Session::flash('flash_message', 'Η οργανωτική μονάδα διαγράφηκε.');

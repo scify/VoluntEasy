@@ -14,7 +14,7 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            {!! Form::formInput('addr', 'Διεύθυνση:', $errors, ['class' => 'form-control', 'required' => 'true']) !!}
+            {!! Form::formInput('addr', 'Διεύθυνση:', $errors, ['class' => 'form-control']) !!}
         </div>
     </div>
     <div class="col-md-6">

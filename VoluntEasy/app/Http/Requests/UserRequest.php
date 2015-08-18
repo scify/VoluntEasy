@@ -18,7 +18,6 @@ class UserRequest extends Request {
                 'name' => 'required|max:255',
                 'email' => 'required|email|max:255|unique:users',
                 'password' => 'required|confirmed|min:6',
-                'addr' => 'required|max:255',
                 'tel' => 'required|max:50',
                 'image' => 'image'
             ];
@@ -27,7 +26,6 @@ class UserRequest extends Request {
                 'name' => 'required|max:255',
                 'email' => 'required|email|max:255',
                 'password' => 'confirmed|min:6',
-                'addr' => 'required|max:255',
                 'tel' => 'required|max:50',
                 'image' => 'image'
             ];

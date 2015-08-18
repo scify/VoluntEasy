@@ -228,11 +228,13 @@ class UserService {
                 })
                 ->get();
 
+
             //remove currently logged in user
-            foreach($users as $user){
-                if($user->id!=\Auth::user()->id)
+            foreach ($users as $user) {
+               // if ($user->id != \Auth::user()->id)
                     array_push($permittedUsers, $user);
             }
+
         }
         return $permittedUsers;
     }
@@ -311,6 +313,7 @@ class UserService {
         $permittedUsers = UserService::permittedUsersIds();
 
         foreach ($users as $user) {
+
             if (in_array($user->id, $permittedUsers))
                 $user->permitted = true;
             else

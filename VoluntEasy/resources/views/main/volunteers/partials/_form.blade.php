@@ -11,18 +11,12 @@
                 !!}
             </div>
             <div class="form-group">
-                {!! Form::formInput('fathers_name', 'Όνομα Πατέρα:', $errors, ['class' => 'form-control', 'required' =>
-                'true']) !!}
+                {!! Form::formInput('fathers_name', 'Όνομα Πατέρα:', $errors, ['class' => 'form-control']) !!}
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Ημερομηνία Γέννησης: <span class="star">*</span></label>
-                        @if (isset($volunteer))
-                        <div class="birthdayPicker {{ $errors->has('date') || $errors->has('month') || $errors->has('year') ? 'has-error' : ''}}" id="birthdayPicker" data-default="{{ $volunteer->formattedBirthDate }}"></div>
-                        @else
-                        <div class="birthdayPicker {{ $errors->has('date') || $errors->has('month') || $errors->has('year') ? 'has-error' : ''}}"></div>
-                        @endif
+                        {!! Form::formInput('birth_date', 'Ημερομηνία Γέννησης:', $errors, ['class' => 'form-control birthDate', 'id' => 'birth_date', 'required' => 'true']) !!}
                     </div>
                 </div>
             </div>
@@ -246,20 +240,17 @@
         <div class="col-md-4">
             <div class="form-group">
                 {!! Form::formInput('participation_actions', 'Εθελοντική οργάνωση', $errors, ['class' => 'form-control',
-                'type' => 'textarea', 'placeholder' => 'Εαν ανήκετε ή ανήκατε σε κάποιες εθελοντικές οργανώσεις ποιο
-                ήταν το αντικείμενο τους και για πόσο χρονικό διάστημα είχατε συμετοχή.']) !!}
+                'type' => 'textarea', 'placeholder' => 'Εαν ανήκετε ή ανήκατε σε κάποιες εθελοντικές οργανώσεις ποιο ήταν το αντικείμενο τους και για πόσο χρονικό διάστημα είχατε συμετοχή.']) !!}
             </div>
             <div class="form-group">
                 {!! Form::formInput('participation_previous', 'Εθελοντικές δράσεις', $errors, ['class' =>
-                'form-control', 'type' => 'textarea', 'placeholder' => 'Εαν έχετε πάρει μέρος σε εθελοντικές δράσεις στο
-                παρελθόν περιγράψτε ποιο ήταν/είναι το αντικείμενο.']) !!}
+                'form-control', 'type' => 'textarea', 'placeholder' => 'Εαν έχετε πάρει μέρος σε εθελοντικές δράσεις στο παρελθόν περιγράψτε ποιο ήταν/είναι το αντικείμενο.']) !!}
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 {!! Form::formInput('participation_reason', 'Λόγος συμμετοχής', $errors, ['class' => 'form-control',
-                'required' => 'true', 'type' => 'textarea', 'placeholder' => 'Περιγράψτε τους λόγους που θέλετε να
-                γίνετε εθελοντής.']) !!}
+                'required' => 'true', 'type' => 'textarea', 'placeholder' => 'Περιγράψτε τους λόγους που θέλετε να γίνετε εθελοντής.']) !!}
             </div>
         </div>
     </div>
@@ -400,19 +391,16 @@
     </div>
 </div>
 </div>
-
 {!! Form::submit('Καταχώρηση εθελοντή', ['class' => 'btn']) !!}
 
 @section('footerScripts')
 <script>
 
-    var defaultDate = $("#birthdayPicker").attr('data-default');
-
-    $(".birthdayPicker").birthdayPicker({
-        "monthFormat": "long",
-        "sizeClass": "form-control inline",
-        "defaultDate": defaultDate
-    });
+ $('#birth_date').datepicker({
+        language: 'el',
+        format: 'dd/mm/yyyy',
+        autoclose: true
+        });
 
     //initialize user select
     $('#unitList').select2();

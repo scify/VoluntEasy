@@ -75,7 +75,7 @@
                                 @if($volunteer->permitted && $unit->status=='Available' && sizeof($unit->actions)>0)
                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                                         data-target="#selectAction-unit{{$unit->id}}">
-                                    <i class="fa fa-bookmark"></i>
+                                    <i class="fa fa-bullseye"></i>
                                 </button>
                                 @include('main.volunteers.partials.modals._select_action', ['divId' =>
                                 'selectAction-unit'.$unit->id])

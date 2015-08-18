@@ -8,7 +8,7 @@
 
 @section('bodyContent')
 <div class="row">
-    <div class="col-lg-4 col-md-4">
+    <div class="col-lg-3 col-md-3">
         <div class="panel info-box panel-white">
             <div class="panel-body">
                 <div class="info-box-stats">
@@ -16,12 +16,38 @@
                     <span class="info-box-title">ΝΕΟΙ ΕΘΕΛΟΝΤΕΣ</span>
                 </div>
                 <div class="info-box-icon">
-                    <i class="fa fa-user"></i>
+                    <i class="fa fa-leaf"></i>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-4 col-md-4">
+    <div class="col-lg-3 col-md-3">
+            <div class="panel info-box panel-white">
+                <div class="panel-body">
+                    <div class="info-box-stats">
+                        <p class="counter">{{ $available }}</p>
+                        <span class="info-box-title">ΔΙΑΘΕΣΙΜΟΙ ΕΘΕΛΟΝΤΕΣ</span>
+                    </div>
+                    <div class="info-box-icon">
+                        <i class="fa fa-leaf"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+                <div class="panel info-box panel-white">
+                    <div class="panel-body">
+                        <div class="info-box-stats">
+                            <p class="counter">{{ $active }}</p>
+                            <span class="info-box-title">ΕΝΕΡΓΟΙ ΕΘΕΛΟΝΤΕΣ</span>
+                        </div>
+                        <div class="info-box-icon">
+                            <i class="fa fa-leaf"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    <div class="col-lg-3 col-md-3">
         <div class="panel info-box panel-white">
             <div class="panel-body">
                 <div class="info-box-stats">
@@ -29,20 +55,7 @@
                     <span class="info-box-title">ΕΝΕΡΓΕΣ ΔΡΑΣΕΙΣ</span>
                 </div>
                 <div class="info-box-icon">
-                    <i class="fa fa-bookmark"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4 col-md-4">
-        <div class="panel info-box panel-white">
-            <div class="panel-body">
-                <div class="info-box-stats">
-                    <p class="counter">{{ $available }} / {{ $active }}</p>
-                    <span class="info-box-title">ΔΙΑΘΕΣΙΜΟΙ / ΕΝΕΡΓΟΙ ΕΘΕΛΟΝΤΕΣ</span>
-                </div>
-                <div class="info-box-icon">
-                    <i class="fa fa-leaf"></i>
+                    <i class="fa fa-bullseye"></i>
                 </div>
             </div>
         </div>

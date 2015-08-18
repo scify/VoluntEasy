@@ -12,7 +12,37 @@
 @section('bodyContent')
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-2">
+    <div class="panel panel-white tree">
+        <div class="panel-body" style="display: block;">
+            <h3>{{ $volunteer->name }} {{ $volunteer->last_name }} </h3>
+            <h4>
+            @if($volunteer->gender_id==1)
+            <i class="fa fa-mars"></i>
+            @else
+            <i class="fa fa-venus"></i>
+            @endif
+             | {{ $volunteer->age }} ετών</h4>
+            <p><i class="fa fa-envelope"></i> <a href="mailto:{{ $volunteer->email }}">{{ $volunteer->email }}</a></p>
+
+            @if($volunteer->cell_tel!=null && $volunteer->cell_tel!='')
+            <p><i class="fa fa-phone"></i> {{ $volunteer->cell_tel }}</p>
+            @elseif($volunteer->home_tel!=null && $volunteer->home_tel!='')
+            <p><i class="fa fa-phone"></i> {{ $volunteer->home_tel }}</p>
+            @endif
+            @if($volunteer->city!=null && $volunteer->country!='')
+            <p><i class="fa fa-map-marker"></i>
+            {{ $volunteer->city }}{{ $volunteer->country }}
+            @endif
+            </p>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <div class="col-md-10">
         <div class="panel panel-white">
             <div class="panel-body">
                 @if($volunteer->blacklisted)

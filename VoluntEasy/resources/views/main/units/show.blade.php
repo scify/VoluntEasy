@@ -1,11 +1,11 @@
 @extends('default')
 
 @section('title')
-Προβολή Μονάδας
+Προβολή Οργανωτικής Μονάδας
 @stop
 
 @section('pageTitle')
-Προβολή Μονάδας
+Προβολή Οργανωτικής Μονάδας
 @stop
 
 

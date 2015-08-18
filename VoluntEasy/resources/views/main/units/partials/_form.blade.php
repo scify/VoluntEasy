@@ -10,7 +10,7 @@
         <div class="form-group">
             {!! Form::formInput('comments', 'Περιγραφή:', $errors, ['class' => 'form-control', 'type' => 'textarea',
             'size' =>
-            '5x5', 'required' => 'true']) !!}
+            '5x5']) !!}
         </div>
     </div>
 </div>

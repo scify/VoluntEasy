@@ -207,6 +207,10 @@ div#unitsTree{overflow-x: auto;}
     margin-left: 2%;
 }
 
+.tooltip{
+    z-index: 999999 !important;
+}
+
 .list-inline>li{ padding-right:0;}
 
 #age-slider-range{

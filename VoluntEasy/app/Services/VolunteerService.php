@@ -11,8 +11,8 @@ use App\Models\VolunteerUnitHistory;
 use App\Services\Facades\NotificationService;
 use App\Services\Facades\SearchService as Search;
 use App\Services\Facades\UnitService as UnitServiceFacade;
-use App\Services\Facades\UserService as UserServiceFacade;
 use App\Services\Facades\UserService;
+use App\Services\Facades\UserService as UserServiceFacade;
 
 class VolunteerService {
 
@@ -217,6 +217,14 @@ class VolunteerService {
             }])
             ->with('units.children', 'units.actions')
             ->findOrFail($id);
+
+        //get volunteer's age
+        //return \Carbon::parse($this->attributes['birth_date'])->format('d/m/Y');
+
+
+        $birth_date = \Carbon::createFromFormat('d/m/Y', $volunteer->birth_date);
+
+        $volunteer->age = \Carbon::createFromDate($birth_date->year, $birth_date->month, $birth_date->day)->age;
 
         $unitsExcludes = $volunteer->unitsExcludes->lists('id');
         $assignedUnits = $volunteer->units->lists('id');
@@ -491,10 +499,11 @@ class VolunteerService {
 
             //also add an entry to the history table
             $this->unitHistory($volunteer->id, $unit->id);
+
+            //notify users about new volunteers
+            NotificationService::newVolunteer($volunteerId, $unitId);
         }
 
-        //notify users about new volunteers
-        NotificationService::newVolunteer($volunteerId, $unitId);
 
         return $volunteerId;
     }

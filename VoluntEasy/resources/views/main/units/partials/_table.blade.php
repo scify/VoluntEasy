@@ -1,7 +1,6 @@
 <table id="unitsTable" class="display table table-striped data-table" cellspacing="0" width="100%">
     <thead>
     <tr>
-        <th>#</th>
         <th>Όνομα</th>
         <th>Σχόλια</th>
         <th>Ενέργειες</th>
@@ -10,7 +9,6 @@
 
     <tfoot>
     <tr>
-        <th>#</th>
         <th>Όνομα</th>
         <th>Σχόλια</th>
         <th>Ενέργειες</th>
@@ -25,7 +23,6 @@
         "bFilter": false,
         "ajax": $("body").attr('data-url') + '/api/units',
         "columns": [
-            {data: "id"},
             {
                 //show unit name with link
                 data: null, render: function (data, type, row) {
@@ -40,7 +37,10 @@
             {
                 //show only xx first characters of comments
                 data: null, render: function (data, type, row) {
-                return data.comments.substring(0, 50) + "...";
+                 if(data.comments.length>50)
+                                     return data.comments.substring(0,50) + "...";
+                                    else
+                                    return data.comments;
             }
             },
             {
@@ -81,7 +81,7 @@
         },
         //disable ordering at the last column (edit, delete buttons)
         "aoColumnDefs": [
-            {'bSortable': false, 'aTargets': [3]}
+            {'bSortable': false, 'aTargets': [2]}
         ],
         dom: 'T<"clear">lfrtip',
         "tableTools": {

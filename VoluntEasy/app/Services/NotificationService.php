@@ -97,19 +97,40 @@ class NotificationService {
     public function checkForNotifications() {
         $userId = \Auth::user()->id;
 
-        $notifications = Notification::where('user_id', $userId)
+        $actives = Notification::where('user_id', $userId)
             ->where(function ($query) {
-                return $query->where('status', 'active')
+                $query->where('status', 'active')
                     ->orWhere('status', 'alarmAndActive');
             })
             ->orderBy('created_at', 'desc')->get();
 
-        foreach ($notifications as $notification) {
-            // humanized date with use of Carbon Date package
-            $notification['when'] = $notification->created_at->diffForHumans();
+        //also get the first five inactive notifications
+        $firstFive = Notification::where('user_id', $userId)
+            ->where('status', 'inactive')
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
 
-            unset($notification['created_at']);
-            unset($notification['updated_at']);
+        $notifications = [];
+
+        foreach ($actives as $active) {
+            // humanized date with use of Carbon Date package
+            $active['when'] = $active->created_at->diffForHumans();
+
+            unset($active['created_at']);
+            unset($active['updated_at']);
+
+            array_push($notifications, $active);
+        }
+
+        foreach ($firstFive as $inactive) {
+            // humanized date with use of Carbon Date package
+            $inactive['when'] = $inactive->created_at->diffForHumans();
+
+            unset($inactive['created_at']);
+            unset($inactive['updated_at']);
+
+            array_push($notifications, $inactive);
         }
 
         return $notifications;

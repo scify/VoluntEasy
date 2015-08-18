@@ -44,7 +44,7 @@
                 <p><strong>Διάρκεια:</strong> {{ $action->start_date }} - {{ $action->end_date }}</p>
             </div>
             <div class="col-md-4">
-                <h3>Στοιχεία Υπευθύνου</h3>
+                <h3>Στοιχεία Υπευθύνου Δράσης</h3>
                 @if($action->name!=null && $action->name!='')
                 <ul class="list-unstyled">
                     <li class="user-list">

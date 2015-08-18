@@ -1,14 +1,8 @@
 <div class="row" xmlns="http://www.w3.org/1999/html">
     <div class="col-md-4">
-        <p><strong>Όνομα:</strong> {{ $volunteer->name }}</p>
-
-        <p><strong>Επώνυμο:</strong> {{ $volunteer->last_name }}</p>
-
         <p><strong>Όνομα πατέρα:</strong> {{ $volunteer->fathers_name }}</p>
 
         <p><strong>Ημ/νία γέννησης:</strong> {{ $volunteer->birth_date }}</p>
-
-        <p><strong>Φύλο:</strong> {{ $volunteer->gender->description }}</p>
     </div>
     <div class="col-md-4">
         <p><strong>Email:</strong> {{ $volunteer->email=='' ? '-' : $volunteer->email }} @if ($volunteer->comm_method_id==1) <i class="fa fa-star" data-toggle="tooltip" title="Προτιμώμενος τρόπος επικοινωνίας"></i> @endif </p>

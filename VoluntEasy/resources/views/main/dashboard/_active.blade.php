@@ -2,7 +2,7 @@
        width="100%">
     <thead>
     <tr>
-        <th>#</th>
+        <th>ID</th>
         <th>Όνομα</th>
         <th>Δράσεις</th>
     </tr>
@@ -10,7 +10,7 @@
 
     <tfoot>
     <tr>
-        <th>#</th>
+        <th>ID</th>
         <th>Όνομα</th>
         <th>Δράσεις</th>
     </tr>
@@ -50,6 +50,7 @@
             }
             }
         ],
+
         //custom text
         "language": {
             "lengthMenu": "_MENU_ γραμμές ανά σελίδα",

@@ -35,16 +35,16 @@
 
                 @if($step->statuses[0]->status->description=='Incomplete')
                     @if($step->type!='Assignment')
-                    <button type="button" class="btn btn-primary saveStep" data-id="{{ $step->statuses[0]->id }}">
+                    <button type="button" class="btn btn-primary saveStep" data-id="{{ $step->statuses[0]->id }}" data-toggle="tooltip" data-placement="bottom" title="Προσωρινή αποθήκευση σχολίων">
                         Αποθήκευση
                     </button>
                     <button type="button" class="btn btn-success completeStep" data-id="{{ $step->statuses[0]->id }}"
-                            data-type="{{ $step->type }}">
+                            data-type="{{ $step->type }}" data-toggle="tooltip" data-placement="bottom" title="Ολοκλήρωση βήματος">
                         Ολοκλήρωση
                     </button>
                     @else
                     <button type="button" class="btn btn-success {{ sizeof($unit->actions)>0 ? 'assignToActionOrUnit' : 'assignToNextUnit'}}" data-id="{{ $step->statuses[0]->id }}"
-                            data-volunteer-id="{{ $volunteer->id }}" data-type="{{ $step->type }}" {{ isset($parentId) ? 'data-parent='.$parentId : ''}}>
+                            data-volunteer-id="{{ $volunteer->id }}" data-type="{{ $step->type }}" {{ isset($parentId) ? 'data-parent='.$parentId : ''}}  data-toggle="tooltip" data-placement="bottom" title="Ολοκλήρωση βήματος">
                         Ολοκλήρωση
                     </button>
                     @endif

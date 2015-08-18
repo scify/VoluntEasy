@@ -8,7 +8,7 @@
 
     <div class="cd-timeline-block">
         <div class="cd-timeline-img cd-primary">
-            <i class="fa fa-bookmark"></i>
+            <i class="fa fa-bullseye"></i>
         </div>
         <!-- cd-timeline-img -->
 

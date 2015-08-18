@@ -1,10 +1,10 @@
 @extends('default')
 
 @section('title')
-Προβολή Μονάδων
+Προβολή Οργανωτικών Μονάδων
 @stop
 @section('pageTitle')
-Προβολή Μονάδων
+Προβολή Οργανωτικών Μονάδων
 @stop
 
 @section('bodyContent')

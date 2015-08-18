@@ -1,7 +1,7 @@
 <table id="newVolunteersTable" class="display table table-striped table-condensed data-table" cellspacing="0" width="100%">
     <thead>
     <tr>
-        <th>#</th>
+        <th>ID</th>
         <th>Όνομα</th>
         <th>Ενέργειες</th>
     </tr>
@@ -9,7 +9,7 @@
 
     <tfoot>
     <tr>
-        <th>#</th>
+        <th>ID</th>
         <th>Όνομα</th>
         <th>Ενέργειες</th>
     </tr>
@@ -61,6 +61,10 @@
                 }
             }
         ],
+        //disable ordering at the last column (edit, delete buttons)
+                "aoColumnDefs": [
+                    {'bSortable': false, 'aTargets': [2]}
+                ],
         //custom text
         "language": {
             "lengthMenu": "_MENU_ γραμμές ανά σελίδα",

@@ -1,7 +1,7 @@
 <table id="volunteersTable" class="display table table-striped data-table" cellspacing="0" width="100%" data-unit-id="{{ $action->id }}">
     <thead>
     <tr>
-        <th>#</th>
+        <th>ID</th>
         <th>Όνομα</th>
         <th>Email</th>
         <th>Διεύθυνση</th>
@@ -12,7 +12,7 @@
 
     <tfoot>
     <tr>
-        <th>#</th>
+        <th>ID</th>
         <th>Όνομα</th>
         <th>Email</th>
         <th>Διεύθυνση</th>

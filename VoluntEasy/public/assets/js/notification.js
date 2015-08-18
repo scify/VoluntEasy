@@ -43,16 +43,10 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 alarmActive = [];
+                actives = [];
                 notifications = [];
 
-                $(".notificationSum").text(data.length);
-
                 if (data.length > 0) {
-                    //there are new notifications
-                    $("#notificationBadge").show();
-
-                    //add a (1) to the title!
-                    $('title').text('(' + data.length + ') ' + pagetitle);
 
                     var html = '';
                     //loop through the notifications and draw the
@@ -60,7 +54,7 @@ $(document).ready(function () {
                     $.each(data, function (i, notification) {
                         //console.log(notification.id);
 
-                        var notifClass = (notification.status == 'active' ? 'white' : 'grey');
+                        var notifClass = (notification.status == 'alarmAndActive' ? 'grey' : 'white');
                         var icon = '';
 
                         //depending on the notification type, change the icon
@@ -86,12 +80,27 @@ $(document).ready(function () {
                         if (notification.status == 'alarmAndActive')
                             alarmActive.push(notification.id);
 
+                        if (notification.status == 'alarmAndActive' || notification.status == 'active')
+                            actives.push(notification.id);
+
                         notifications.push(notification.id);
                     });
 
                     //if there are alarmAndActive notifications, play a sound
-                    if (alarmActive.length > 0)
+                    if (alarmActive.length > 0) {
                         ring.play();
+                    }
+
+                    if(actives.length>0){
+                        $(".notificationSum").text(actives.length);
+
+                        //there are new notifications
+                        $("#notificationBadge").show();
+
+                        //add a (1) to the title!
+                        $('title').text('(' + actives.length + ') ' + pagetitle);
+                    }
+
 
                     //append the <li>s to the <ul>
                     $("#notificationList").html(html);

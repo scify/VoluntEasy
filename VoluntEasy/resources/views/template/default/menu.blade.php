@@ -3,6 +3,12 @@
 <div class="page-sidebar sidebar">
     <div class="page-sidebar-inner slimscroll">
         <ul class="menu accordion-menu">
+            <li class=" {{ Request::is('/') ? 'active open' : '' }}">
+                <a href="{{url('/')}}" class="waves-effect waves-button">
+                    <i class="fa fa-dashboard fa-2x"></i>
+                    <p>{{trans($lang.'dashboard')}}</p>
+                </a>
+            </li>
             <li class="droplink {{ Request::is('units*') ? 'active open' : '' }}">
                 <a class="waves-effect waves-button">
                     <i class="fa fa-home fa-2x"></i>
@@ -16,7 +22,7 @@
             </li>
             <li class="droplink {{ Request::is('actions*') ? 'active open' : '' }}">
                 <a href="#" class="waves-effect waves-button">
-                    <i class="fa fa-bookmark fa-2x"></i>
+                    <i class="fa fa-bullseye fa-2x"></i>
                     <p>{{trans($lang.'actions')}}</p>
                     <span class="arrow"></span>
                 </a>
@@ -34,7 +40,7 @@
                 <ul class="sub-menu">
                     <li class="{{ Request::is('volunteers') || Request::is('volunteers/one*') ? 'active' : '' }}"><a href="{{url('volunteers')}}">{{trans($lang.'showVolunteers')}}</a></li>
                     <li class="{{ Request::is('volunteers/create') ? 'active' : '' }}"><a href="{{url('volunteers/create')}}">{{trans($lang.'createVolunteer')}}</a></li>
-                    <li class="{{ Request::is('volunteers/create') ? 'active' : '' }}"><a href="#">{{trans($lang.'volunteerStatistcs')}}</a></li>
+                    <!--li class="{{ Request::is('volunteers/create') ? 'active' : '' }}"><a href="#">{{trans($lang.'volunteerStatistcs')}}</a></li-->
                 </ul>
             </li>
             <li class="droplink {{ Request::is('users*') ? 'active open' : '' }}">

@@ -1,7 +1,7 @@
 <table id="volunteersTable" class="display table table-striped table-condensed data-table" cellspacing="0" width="100%">
     <thead>
     <tr>
-        <th>#</th>
+        <th>ID</th>
         <th>Όνομα</th>
         <th>Email</th>
         <!--th>Διεύθυνση</th-->
@@ -13,7 +13,7 @@
 
     <tfoot>
     <tr>
-        <th>#</th>
+        <th>ID</th>
         <th>Όνομα</th>
         <th>Email</th>
         <!--th>Διεύθυνση</th-->
@@ -104,10 +104,12 @@
                 //then show the appropriate buttons
                 data: null, render: function (data, type, row) {
                     var html = '';
+                    html = '<ul class="list-inline">';
+                    html += '<li><a href="' + $("body").attr('data-url') + '/volunteers/one/' + data.id + '" class=" btn btn-primary" data-toggle="tooltip"';
+                    html += 'data-placement="bottom" title="Προβολή Προφίλ"><i class="fa fa-eye"></i></a></li>';
 
 
                     if (data.permitted) {
-                        html = '<ul class="list-inline">';
                         html += '<li><a href="' + $("body").attr('data-url') + '/volunteers/edit/' + data.id + '" class=" btn btn-success" data-toggle="tooltip"';
                         html += 'data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit"></i></a></li>';
                         html += '<li><button class=" btn btn-danger" onclick="deleteVolunteer(' + data.id + ')" data-id="' + data.id + '" data-toggle="tooltip"';
@@ -119,9 +121,10 @@
                             html += '<li><a href="' + $("body").attr('data-url') + '/volunteers/addToRootUnit/' + data.id + '" data-toggle="tooltip"';
                             html += 'class=" btn btn-info" data-placement="bottom" title="Ανάθεση στη μονάδα μου"><i class="fa fa-home"></i></a></li>';
                         }
-
-                        html += '</ul>';
                     }
+
+                    html += '</ul>';
+
                     return html;
                 }
             }

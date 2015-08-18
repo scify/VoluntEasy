@@ -28,8 +28,9 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    {!! Form::formInput('name', 'Όνομα υπευθύνου:', $errors, ['class' => 'form-control', 'id' =>
+                    {!! Form::formInput('name', 'Όνομα υπευθύνου δράσης:', $errors, ['class' => 'form-control', 'id' =>
                     'actionName']) !!}
+                    <small class="help-block">Ο υπεύθυνος δράσης δεν είναι απαραίτητο να είναι χρήστης του συστήματος</small>
                 </div>
             </div>
             <div class="col-md-6">

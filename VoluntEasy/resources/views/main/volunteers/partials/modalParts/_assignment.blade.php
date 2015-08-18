@@ -15,8 +15,7 @@
         {!! Form::formInput('assignment', '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value' =>
         $unit->description,
         'checked' => 'false', 'data-id' => $step->statuses[0]->id, 'data-unit-id' => $unit->id]) !!} Ανάθεση στη μονάδα
-        <strong>{{ $unit->description
-            }}</strong>
+        <strong>{{ $unit->description }}</strong> και χαρακτηρισμός εθελοντή ως διαθέσιμος
     </label>
 </div>
 

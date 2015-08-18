@@ -26,21 +26,18 @@ class VolunteerRequest extends Request {
 			return [
 				'name' => 'required',
 				'last_name' => 'required',
-				'fathers_name' => 'required',
-				'gender_id' => 'required',
+                'birth_date' => 'required',
+                'gender_id' => 'required',
 				'email' => 'required|email|unique:volunteers',
 				'education_level_id' => 'required',
 				'work_status_id' => 'required',
 				'participation_reason' => 'required',
-				'month' => 'required|min:1|max:12',
-				'day' => 'required|min:1|max:31',
-				'year' => 'required|min:1995',
 			];
 		else
 			return [
 				'name' => 'required',
 				'last_name' => 'required',
-				'fathers_name' => 'required',
+                'birth_date' => 'required',
 				'gender_id' => 'required',
 				'email' => 'required|email',
 				'education_level_id' => 'required',

@@ -1,7 +1,7 @@
 <table id="usersTable" class="display table table-striped data-table" cellspacing="0" width="100%">
     <thead>
     <tr>
-        <th>#</th>
+        <th>ID</th>
         <th>Όνομα</th>
         <th>Email</th>
         <th>Διεύθυνση</th>
@@ -12,7 +12,7 @@
     </thead>
     <tfoot>
     <tr>
-        <th>#</th>
+        <th>ID</th>
         <th>Όνομα</th>
         <th>Email</th>
         <th>Διεύθυνση</th>
@@ -49,9 +49,9 @@
 
                 $.each(data.units, function (key, unit) {
                     if (key == 0)
-                        html += '<a href="' + $("body").attr('data-url') + '/users/one/' + unit.id + '">' + unit.description + '</a>';
+                        html += '<a href="' + $("body").attr('data-url') + '/units/one/' + unit.id + '">' + unit.description + '</a>';
                     else
-                        html += ', <a href="' + $("body").attr('data-url') + '/users/one/' + unit.id + '">' + unit.description + '</a>';
+                        html += ', <a href="' + $("body").attr('data-url') + '/units/one/' + unit.id + '">' + unit.description + '</a>';
                 });
 
                 return html;

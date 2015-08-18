@@ -1,8 +1,6 @@
 <table id="actionsTable" class="display table table-striped data-table" cellspacing="0" width="100%">
     <thead>
     <tr>
-
-        <th>#</th>
         <th>Περιγραφή</th>
         <th>Σχόλια</th>
         <th>Μονάδα</th>
@@ -14,8 +12,6 @@
 
     <tfoot>
     <tr>
-
-        <th>#</th>
         <th>Περιγραφή</th>
         <th>Σχόλια</th>
         <th>Μονάδα</th>
@@ -34,7 +30,6 @@
         "order": [[ 4, "desc" ]],
         "ajax": $("body").attr('data-url') + '/api/actions',
         "columns": [
-            {data: "id"},
             {
                 //show action name with link
                 data: null, render: function (data, type, row) {
@@ -46,7 +41,10 @@
             {
                 //show only xx first characters of comments
                 data: null, render: function (data, type, row) {
-                  return data.comments.substring(0,50) + "...";
+                   if(data.comments.length>50)
+                     return data.comments.substring(0,50) + "...";
+                    else
+                    return data.comments;
             }
             },
             {data: "unit.description"},
@@ -87,7 +85,7 @@
         },
         //disable ordering at the last column (edit, delete buttons)
         "aoColumnDefs": [
-            {'bSortable': false, 'aTargets': [6]}
+            {'bSortable': false, 'aTargets': [5]}
         ],
         dom: 'T<"clear">lfrtip',
         "tableTools": {
