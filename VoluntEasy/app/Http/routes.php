@@ -135,7 +135,8 @@ Route::get('search/country','SearchController@country');
 Route::group(array('prefix' => 'api'), function()
 {
     Route::get('volunteers','Api\VolunteerApiController@all');
-    Route::get('volunteers/{status}','Api\VolunteerApiController@status');
+    Route::get('volunteers/status/{status}','Api\VolunteerApiController@status');
+    Route::get('volunteers/one/{id}','Api\VolunteerApiController@show');
 
     Route::get('units','Api\UnitApiController@all');
     Route::get('units/{id}/volunteers','Api\UnitApiController@volunteers');

@@ -12,50 +12,83 @@
 @section('bodyContent')
 
 <div class="row">
-    <div class="col-md-2">
-    <div class="panel panel-white tree">
-        <div class="panel-body" style="display: block;">
-            <h3>{{ $volunteer->name }} {{ $volunteer->last_name }} </h3>
-            <h4>
-            @if($volunteer->gender_id==1)
-            <i class="fa fa-mars"></i>
-            @else
-            <i class="fa fa-venus"></i>
-            @endif
-             | {{ $volunteer->age }} ετών</h4>
-            <p><i class="fa fa-envelope"></i> <a href="mailto:{{ $volunteer->email }}">{{ $volunteer->email }}</a></p>
-
-            @if($volunteer->cell_tel!=null && $volunteer->cell_tel!='')
-            <p><i class="fa fa-phone"></i> {{ $volunteer->cell_tel }}</p>
-            @elseif($volunteer->home_tel!=null && $volunteer->home_tel!='')
-            <p><i class="fa fa-phone"></i> {{ $volunteer->home_tel }}</p>
-            @endif
-            @if($volunteer->city!=null && $volunteer->country!='')
-            <p><i class="fa fa-map-marker"></i>
-            {{ $volunteer->city }}{{ $volunteer->country }}
-            @endif
-            </p>
-        </div>
-    </div>
-</div>
-
-
-
-
-    <div class="col-md-10">
+    <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-body">
                 @if($volunteer->blacklisted)
                 <div class="row">
                     <div class="col-md-12">
                         <h3 class="text-danger">Ο εθελοντής έχει επισημανθεί ως μη διαθέσιμος <br/>
-                        @if($volunteer->permitted)
-                        <small><a href="#" data-toggle="modal" data-target="#unblacklisted">Σήμανση εθελοντή ως διαθέσιμος</a></small>
-                        @endif
+                            @if($volunteer->permitted)
+                            <small><a href="#" data-toggle="modal" data-target="#unblacklisted">Σήμανση εθελοντή ως
+                                διαθέσιμος</a></small>
+                            @endif
                         </h3>
                     </div>
                 </div>
                 @endif
+
+                <div class="row bottom-margin">
+                    <div class="col-md-3">
+                        <h3>{{ $volunteer->name }} {{ $volunteer->last_name }} |
+                            @if($volunteer->gender_id==1)
+                            <i class="fa fa-mars"></i>
+                            @else
+                            <i class="fa fa-venus"></i>
+                            @endif
+                            | {{ $volunteer->age }} ετών</h3>
+
+                        <p><i class="fa fa-envelope"></i> <a href="mailto:{{ $volunteer->email }}">{{ $volunteer->email
+                            }}</a> @if ($volunteer->comm_method_id==1) <i class="fa fa-star" data-toggle="tooltip"
+                                                                          title="Προτιμώμενος τρόπος επικοινωνίας"></i>
+                            @endif
+
+                            @if($volunteer->cell_tel!=null && $volunteer->cell_tel!='')
+                            | <i class="fa fa-phone"></i> {{ $volunteer->cell_tel }} @if ($volunteer->comm_method_id==4)
+                            <i
+                                    class="fa fa-star" data-toggle="tooltip"
+                                    title="Προτιμώμενος τρόπος επικοινωνίας"></i>
+                            @endif
+                            @endif
+                            @if($volunteer->city!=null && $volunteer->country!='')
+                            | <i class="fa fa-map-marker"></i>
+                            {{ $volunteer->city }}, {{ $volunteer->country }}
+                            @endif
+                        </p>
+                    </div>
+                    <div class="col-md-4 pull-right">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h4>Συνέπεια</h4>
+                                @if(sizeof($volunteer->ratings)>0)
+                                <div id="attr1" class="attribute rating"
+                                     data-score="{{ $volunteer->ratings->rating_attr1 / $volunteer->ratings->rating_attr1_count }}"></div>
+                                @else
+                                <div id="attr1" class="attribute rating" data-score="0"></div>
+                                @endif
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Στυλ</h4>
+                                @if(sizeof($volunteer->ratings)>0)
+                                <div id="attr2" class="attribute rating"
+                                     data-score="{{ $volunteer->ratings->rating_attr2 / $volunteer->ratings->rating_attr2_count }}"></div>
+                                @else
+                                <div id="attr2" class="attribute rating" data-score="0"></div>
+                                @endif
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Αγάπη για γάτες</h4>
+                                @if(sizeof($volunteer->ratings)>0)
+                                <div id="attr3" class="attribute rating"
+                                     data-score="{{ $volunteer->ratings->rating_attr3 / $volunteer->ratings->rating_attr3_count }}"></div>
+                                @else
+                                <div id="attr1" class="attribute rating" data-score="0"></div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-md-12">
                         <ul class="nav nav-tabs" role="tablist">
@@ -113,19 +146,26 @@
                 <h4 class="modal-title">Σήμανση εθελοντή ως διαθέσιμος</h4>
             </div>
             <div class="modal-body">
-                <p>Σε περίπτωση που θέλετε να επισημάνετε τον εθελοντή ως διαθέσιμο, ο εθελοντής θα μπορεί να ενταχθεί ξανά σε δράσεις και μονάδες.</p>
+                <p>Σε περίπτωση που θέλετε να επισημάνετε τον εθελοντή ως διαθέσιμο, ο εθελοντής θα μπορεί να
+                    ενταχθεί
+                    ξανά σε δράσεις και μονάδες.</p>
                 {!! Form::formInput('comments', 'Σχόλια', $errors, ['class' => 'form-control', 'type' =>
-                'textarea', 'placeholder' => 'Σχόλια σχετικά με τον εθελοντή', 'value' => $volunteer->comments, 'id' => 'blacklistedComments']) !!}
+                'textarea', 'placeholder' => 'Σχόλια σχετικά με τον εθελοντή', 'value' => $volunteer->comments, 'id'
+                =>
+                'blacklistedComments']) !!}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
-                <button type="button" class="btn btn-danger unblacklisted" data-volunteer-id="{{ $volunteer->id }}">Αποθήκευση</button>
+                <button type="button" class="btn btn-danger unblacklisted" data-volunteer-id="{{ $volunteer->id }}">
+                    Αποθήκευση
+                </button>
             </div>
         </div>
         <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
-</div><!-- /.modal -->
+</div>
+<!-- /.modal -->
 @endif
 
 
@@ -135,7 +175,7 @@
 @section('footerScripts')
 <script>
     //change volunteer status to unblacklisted
-    $(".unblacklisted").click(function(){
+    $(".unblacklisted").click(function () {
         $.ajax({
             url: $("body").attr('data-url') + '/volunteers/unblacklisted',
             method: 'POST',

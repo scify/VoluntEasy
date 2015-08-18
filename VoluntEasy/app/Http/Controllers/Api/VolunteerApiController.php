@@ -62,5 +62,30 @@ class VolunteerApiController extends Controller {
         return ["data" => $data];
     }
 
+    public function show($id){
+        $volunteer = VolunteerService::fullProfile($id);
+        $volunteer = VolunteerService::setStatusToUnits($volunteer);
+
+        //get the count of pending and available units, used in the front end
+        $pending = 0;
+        $available = 0;
+        foreach ($volunteer->units as $unit) {
+            if ($unit->status == 'Pending')
+                $pending++;
+            else if ($unit->status == 'Available' || $unit->status == 'Active')
+                $available++;
+        }
+
+        //chekc if the volunteer is permitted to be edited by the
+        //currently logged in user
+        $permittedVolunteers = UserService::permittedVolunteersIds();
+        if (in_array($volunteer->id, $permittedVolunteers))
+            $volunteer->permitted = true;
+        else
+            $volunteer->permitted = false;
+
+        return $volunteer;
+    }
+
 
 }

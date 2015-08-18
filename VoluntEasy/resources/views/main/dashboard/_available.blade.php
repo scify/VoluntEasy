@@ -24,7 +24,7 @@
         "pageLength": 5,
         "bFilter": false,
         "bLengthChange": false,
-        "ajax": $("body").attr('data-url') + '/api/volunteers/available',
+        "ajax": $("body").attr('data-url') + '/api/volunteers/status/available',
         "columns": [
             {data: "id"},
             {

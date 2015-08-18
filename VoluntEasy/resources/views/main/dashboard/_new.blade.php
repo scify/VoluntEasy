@@ -23,7 +23,7 @@
         "pageLength": 5,
         "bFilter": false,
         "bLengthChange": false,
-        "ajax": $("body").attr('data-url') + '/api/volunteers/new',
+        "ajax": $("body").attr('data-url') + '/api/volunteers/status/new',
         "columns": [
             {data: "id"},
             {

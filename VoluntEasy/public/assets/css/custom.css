@@ -257,3 +257,10 @@ div#unitsTree{overflow-x: auto;}
 .fc-day-grid-event{
     background-color:#7a6fbe;
 }
+.tab-content{
+    border: 1px solid #ddd;
+    border-top: 0;
+}
+.row.bottom-margin{
+    margin-bottom:20px;
+}
