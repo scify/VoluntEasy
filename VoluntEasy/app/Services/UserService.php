@@ -122,7 +122,7 @@ class UserService {
             return $this->unitsIds;
 
         } else {
-            $user = User::with('units.allChildren')->findOrFail(\Auth::user()->id);
+            $user = User::with('units.allChildren')->find(\Auth::user()->id);
 
             $this->withChildren($user->units);
 

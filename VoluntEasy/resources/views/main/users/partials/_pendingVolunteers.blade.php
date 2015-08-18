@@ -26,7 +26,7 @@
         "pageLength": 5,
         "bFilter": false,
         "bLengthChange": false,
-        "ajax": $("body").attr('data-url') + '/api/volunteers/pending',
+        "ajax": $("body").attr('data-url') + '/api/volunteers/status/pending',
         "columns": [
             {data: "id"},
             {

@@ -12,8 +12,9 @@
 <script>
     $('#calendar').fullCalendar({
         header: {
-            left: 'prev,next today',
-            center: 'title'
+            left: '',
+            center: 'title',
+            right: 'prev,next today'
         },
         lang: 'el',
         editable: false,
