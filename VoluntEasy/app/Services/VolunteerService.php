@@ -560,7 +560,7 @@ class VolunteerService {
 
         //check if user is root
         $root = false;
-        if (UserService::isAdmin())
+        if (UserServiceFacade::isAdmin())
             $root = true;
 
         //get the status of each unit to display to the list
