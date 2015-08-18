@@ -11,7 +11,6 @@ use App\Models\VolunteerUnitHistory;
 use App\Services\Facades\NotificationService;
 use App\Services\Facades\SearchService as Search;
 use App\Services\Facades\UnitService as UnitServiceFacade;
-use App\Services\Facades\UserService;
 use App\Services\Facades\UserService as UserServiceFacade;
 
 class VolunteerService {
