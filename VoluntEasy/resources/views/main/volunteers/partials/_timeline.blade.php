@@ -56,8 +56,6 @@
         <div class="cd-timeline-img cd-success">
             <i class="fa fa-home"></i>
         </div>
-        <!-- cd-timeline-img -->
-
         <div class="cd-timeline-content">
             <h2>Ένταξη στη μονάδα <strong>{{ $timelineBlock->unit->description }}</strong></h2>
 
@@ -71,7 +69,7 @@
             <p><span
                     class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">{{ $step->description }}</span>
             </p>
-            @if($step->statuses[0]->comments!=null || $step->statuses[0]->comments!='')
+            @if(in_array($timelineBlock->unit->id, $userUnits) && ($step->statuses[0]->comments!=null && $step->statuses[0]->comments!=''))
             <p>Σχόλια: {{ $step->statuses[0]->comments}}</p>
             @endif
 

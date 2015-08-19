@@ -59,10 +59,12 @@ class UserService {
     public function withChildren($units) {
         foreach ($units as $unit) {
             if (sizeof($unit->allChildren) > 0) {
-                $this->unitsIds[] = $unit->id;
+                if (!in_array($unit->id, $this->unitsIds))
+                    $this->unitsIds[] = $unit->id;
                 $this->withChildren($unit->allChildren);
             } else {
-                $this->unitsIds[] = $unit->id;
+                if (!in_array($unit->id, $this->unitsIds))
+                    $this->unitsIds[] = $unit->id;
             }
         }
     }
@@ -231,8 +233,8 @@ class UserService {
 
             //remove currently logged in user
             foreach ($users as $user) {
-               // if ($user->id != \Auth::user()->id)
-                    array_push($permittedUsers, $user);
+                // if ($user->id != \Auth::user()->id)
+                array_push($permittedUsers, $user);
             }
 
         }

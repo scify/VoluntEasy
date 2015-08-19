@@ -50,8 +50,10 @@
                     </thead>
                     <tbody>
                     {{-- For each volunteer unit, show its steps and their statuses --}}
+                    {{-- (only if the user has permissions to that unit) --}}
 
                     @foreach($volunteer->units as $unit)
+                    @if(in_array($unit->id, $userUnits))
                     @if($unit->status=='Pending')
                     <tr>
                         <td>{{ $unit->description }}</td>
@@ -79,6 +81,7 @@
                         </td>
                         @endforeach
                     </tr>
+                    @endif
                     @endif
                     @endforeach
                     </tbody>

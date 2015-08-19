@@ -128,6 +128,19 @@ class VolunteerService {
         return $volunteers;
     }
 
+    /**
+     * Check if the volunteer is permitted to be edited by the
+     * currently logged in user
+     * @return bool
+     */
+    public function isPermitted($volunteerId){
+        $permittedVolunteers = UserServiceFacade::permittedVolunteersIds();
+        if (in_array($volunteerId, $permittedVolunteers))
+            return true;
+        else
+           return false;
+    }
+
 
     /**
      * Set the volunteer status of each unit.

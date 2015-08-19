@@ -29,7 +29,7 @@
                 @endif
 
                 <div class="row bottom-margin">
-                    <div class="col-md-3">
+                    <div class="col-md-5">
                         <h3>{{ $volunteer->name }} {{ $volunteer->last_name }} |
                             @if($volunteer->gender_id==1)
                             <i class="fa fa-mars"></i>
@@ -56,10 +56,10 @@
                             @endif
                         </p>
                     </div>
-                    <div class="col-md-4 pull-right">
+                    <div class="col-md-4 pull-right text-center">
                         <div class="row">
                             <div class="col-md-4">
-                                <h4>Συνέπεια</h4>
+                                <h5>Συνέπεια</h5>
                                 @if(sizeof($volunteer->ratings)>0)
                                 <div id="attr1" class="attribute rating"
                                      data-score="{{ $volunteer->ratings->rating_attr1 / $volunteer->ratings->rating_attr1_count }}"></div>
@@ -68,7 +68,7 @@
                                 @endif
                             </div>
                             <div class="col-md-4">
-                                <h4>Στυλ</h4>
+                                <h5>Στυλ</h5>
                                 @if(sizeof($volunteer->ratings)>0)
                                 <div id="attr2" class="attribute rating"
                                      data-score="{{ $volunteer->ratings->rating_attr2 / $volunteer->ratings->rating_attr2_count }}"></div>
@@ -77,12 +77,12 @@
                                 @endif
                             </div>
                             <div class="col-md-4">
-                                <h4>Αγάπη για γάτες</h4>
+                                <h5>Αγάπη για γάτες</h5>
                                 @if(sizeof($volunteer->ratings)>0)
                                 <div id="attr3" class="attribute rating"
                                      data-score="{{ $volunteer->ratings->rating_attr3 / $volunteer->ratings->rating_attr3_count }}"></div>
                                 @else
-                                <div id="attr1" class="attribute rating" data-score="0"></div>
+                                <div id="attr3" class="attribute rating" data-score="0"></div>
                                 @endif
                             </div>
                         </div>

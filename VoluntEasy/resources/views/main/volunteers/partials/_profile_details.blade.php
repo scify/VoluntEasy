@@ -1,6 +1,6 @@
 <div class="row" xmlns="http://www.w3.org/1999/html">
     <div class="col-md-4">
-        <p><strong>Όνομα πατέρα:</strong> {{ $volunteer->fathers_name }}</p>
+        <p><strong>Όνομα πατέρα:</strong> {{ $volunteer->fathers_name=='' ? '-' : $volunteer->fathers_name }}</p>
 
         <p><strong>Ημ/νία γέννησης:</strong> {{ $volunteer->birth_date }}</p>
         <p><strong>Τηλέφωνο εργασίας:</strong> {{ $volunteer->work_tel=='' ? '-' : $volunteer->work_tel
@@ -187,26 +187,6 @@
 
 <div class="row">
     <div class="col-md-12">
-     <h3>Αξιολόγηση Εθελοντή</h3>
-        @if($volunteer->ratings==null)
-       <p>Δεν έχει γίνει καμία αξιολόγηση για τον εθελοντή</p>
-        @else
-        <div class="row">
-            <div class="col-md-3">
-        <h4>Συνέπεια</h4>
-        <div id="attr1" class="attribute rating" data-score="{{ $volunteer->ratings->rating_attr1 / $volunteer->ratings->rating_attr1_count }}"></div>
-            </div>
-            <div class="col-md-3">
-                <h4>Στυλ</h4>
-                <div id="attr2" class="attribute rating" data-score="{{ $volunteer->ratings->rating_attr2 / $volunteer->ratings->rating_attr2_count }}"></div>
-               </div>
-            <div class="col-md-3">
-                <h4>Αγάπη για γάτες</h4>
-                <div id="attr3" class="attribute rating" data-score="{{ $volunteer->ratings->rating_attr3 / $volunteer->ratings->rating_attr3_count }}"></div>
-            </div>
-        </div>
-        <hr/>
-        @endif
        <h3>Σχόλια για τον εθελοντή</h3>
        @if($volunteer->comments=='')
           <p>Κανένα σχόλιο</p>

@@ -21,9 +21,11 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
+                @if(sizeof($units)>0)
                 <button type="button" class="btn btn-success assignToNextUnit"
                         data-volunteer-id="{{ $volunteer->id }}" {{ isset($parentId) ? 'data-parent='.$parentId : '' }}">Αποθήκευση
                 </button>
+                @endif
             </div>
         </div>
         <!-- /.modal-content -->

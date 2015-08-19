@@ -214,8 +214,9 @@ class VolunteerController extends Controller {
         else
             $volunteer->permitted = false;
 
+        $userUnits = UserService::userUnits();
 
-        return view("main.volunteers.show", compact('volunteer', 'pending', 'available', 'timeline'));
+        return view("main.volunteers.show", compact('volunteer', 'pending', 'available', 'timeline', 'userUnits'));
     }
 
     /**

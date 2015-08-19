@@ -1,11 +1,11 @@
 <div class="row" style="margin-top:10px;">
-    <div class="col-md-8">
+    <div class="col-md-6">
         <div>
             <canvas id="chart4" height="150"></canvas>
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div>
             <h4>Υπόμνημα</h4>
            <i class="fa fa-square" style="color:#12AFCB"></i> <span id="newVolunteers" data-volunteers="{{ $new }}">Νέοι Εθελοντές</span><br/>

@@ -92,7 +92,7 @@
                             </div>
                         </td>
                         <td class="text-center col-md-2">
-                            @if($volunteer->permitted)
+                            @if($volunteer->permitted && in_array($unit->id, $userUnits))
                             <a href="#"
                                class="btn btn-danger btn-sm removeFromUnit" data-volunteer-id="{{ $volunteer->id }}"
                                data-unit-id="{{ $unit->id }}"><i

@@ -40,7 +40,7 @@ class VolunteerApiController extends Controller {
             foreach ($pending as $volunteer) {
                 $id = $volunteer->id;
                 $pendingStatus = StepStatus::incomplete();
-                $permittedUnits = UserService::permittedUnits();
+                $permittedUnits = UserService::userUnits();
 
                 $volunteer = Volunteer::with(['units' => function ($q) use ($id, $pendingStatus, $permittedUnits) {
                     $q->whereIn('unit_id', $permittedUnits)->with(['steps' => function ($query) use ($id, $pendingStatus) {
@@ -51,7 +51,7 @@ class VolunteerApiController extends Controller {
                     }]);
                 }])->where('id', $id)->first();
 
-                if (sizeof($volunteer->units) > 0)
+                if (sizeof($volunteer->units) > 0 && VolunteerService::isPermitted($id))
                     array_push($volunteers, $volunteer);
             }
         }
