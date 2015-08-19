@@ -17,7 +17,7 @@ class ActionService {
         'start_date' => '>',
         'end_date' => '<',
         'active_only' => '',
-
+        'name' => '=',
     ];
 
 

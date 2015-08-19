@@ -59,16 +59,16 @@
                 <p>Δεν έχει οριστεί υπεύθυνος δράσης</p>
                 @endif
             </div>
-            <hr/>
-            @if(in_array($action->unit->id, $userUnits))
-            <div class="text-right">
-                <a href="{{ url('actions/edit/'.$action->id) }}" class="btn btn-success"><i
-                        class="fa fa-edit"></i> Επεξεργασία</a>
-                <button onclick="deleteAction({{ $action->id }})" class="btn btn-danger"><i
-                        class="fa fa-trash"></i> Διαγραφή</button>
-            </div>
-            @endif
         </div>
+        <hr/>
+        @if(in_array($action->unit->id, $userUnits))
+        <div class="text-right">
+            <a href="{{ url('actions/edit/'.$action->id) }}" class="btn btn-success"><i
+                    class="fa fa-edit"></i> Επεξεργασία</a>
+            <button onclick="deleteAction({{ $action->id }})" class="btn btn-danger"><i
+                    class="fa fa-trash"></i> Διαγραφή</button>
+        </div>
+        @endif
     </div>
 </div>
 

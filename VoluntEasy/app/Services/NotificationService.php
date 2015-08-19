@@ -91,18 +91,18 @@ class NotificationService {
      * !!! Notification Types Index on top of the page !!!
      * check if there is any active Notification for the specific User
      *
-     * @param [$userId] [the User]
-     * @return [collection] [a list with all the active notification for the user]
+     * @return [mixed] [a list with all the active notification for the user]
      */
     public function checkForNotifications() {
         $userId = \Auth::user()->id;
 
         $actives = Notification::where('user_id', $userId)
-            ->where(function ($query) {
-                $query->where('status', 'active')
-                    ->orWhere('status', 'alarmAndActive');
-            })
-            ->orderBy('created_at', 'desc')->get();
+                    ->where(function ($query) {
+                        $query->where('status', 'active')
+                              ->orWhere('status', 'alarmAndActive');
+                    })
+                    ->orderBy('created_at', 'desc')->get();
+
 
         //also get the first five inactive notifications
         $firstFive = Notification::where('user_id', $userId)

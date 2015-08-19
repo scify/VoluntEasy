@@ -150,6 +150,7 @@
         </div>
     </div>
 
+    @if( $new + $pending + $available + $active + $blacklisted > 0)
     <div class="col-md-6">
         <div class="panel panel-default smallHeading mini-panel">
             <div class="panel-heading clearfix">
@@ -165,5 +166,6 @@
             </div>
         </div>
     </div>
+    @endif
 </div>
 @stop

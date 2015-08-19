@@ -23,6 +23,7 @@
         </div>
     </div>
 </div>
+@if(!isset($user)  || (isset($user) && Auth::user()->id==$user->id))
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
@@ -38,10 +39,12 @@
         </div>
     </div>
 </div>
+@endif
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
-            {!! Form::formInput('image', 'Ανέβασμα φωτογραφίας', $errors,  ['class' => 'form-control', 'type' => 'file']) !!}
+            {!! Form::formInput('image', 'Ανέβασμα φωτογραφίας', $errors, ['class' => 'form-control', 'type' => 'file'])
+            !!}
 
         </div>
     </div>

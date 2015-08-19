@@ -103,7 +103,7 @@
                             @endif
                             <li role="presentation"><a href="#tab3" data-toggle="tab"
                                                        class="{{ $errors->has('participation_reason') ? 'tab has-error' : ''}}"><i
-                                    class="fa fa-file-o m-r-xs"></i>Ιστορικό δράσεων</a></li>
+                                    class="fa fa-file-o m-r-xs"></i>Ιστορικό</a></li>
                             <li></li>
                         </ul>
                     </div>

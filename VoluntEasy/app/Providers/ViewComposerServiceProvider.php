@@ -99,7 +99,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
         //Actions Search Page requires all the following data for it's dropdowns etc.
         View::composer('main.actions.partials._search', function ($view) {
 
-            $units = Unit::all()->lists('description', 'id');
+            $units = Unit::whereDoesntHave('children')->lists('description', 'id');
 
             $units[0] = '[- επιλέξτε -]';
             ksort($units);

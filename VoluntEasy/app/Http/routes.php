@@ -126,6 +126,7 @@ Route::get('notifications','NotificationController@index');
 /////////////////
 Route::get('search/city','SearchController@city');
 Route::get('search/country','SearchController@country');
+Route::get('search/actionUser','SearchController@actionUser');
 
 
 

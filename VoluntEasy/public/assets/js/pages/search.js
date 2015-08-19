@@ -28,3 +28,10 @@ $( "#country" ).autocomplete({
     source: $("body").attr('data-url') + '/search/country',
     minLength: 1
 });
+
+
+/*** Action user autocomplete ***/
+$( "#actionUser" ).autocomplete({
+    source: $("body").attr('data-url') + '/search/actionUser',
+    minLength: 2
+});

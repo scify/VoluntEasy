@@ -16,7 +16,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        {!! Form::formInput('birth_date', 'Ημερομηνία Γέννησης:', $errors, ['class' => 'form-control birthDate', 'id' => 'birth_date', 'required' => 'true']) !!}
+                        {!! Form::formInput('birth_date', 'Ημερομηνία Γέννησης:', $errors, ['class' => 'form-control
+                        birthDate', 'id' => 'birth_date', 'required' => 'true']) !!}
+                        <small class="help-block text-primary under18" style="display:none;">Ο εθελοντής είναι ανήλικος</small>
                     </div>
                 </div>
             </div>
@@ -390,17 +392,31 @@
         </div>
     </div>
 </div>
+<div class="row m-b-lg text-right">
+    <div class="col-md-12">
+        {!! Form::submit('Αποθήκευση', ['class' => 'btn btn-success']) !!}
+    </div>
 </div>
-{!! Form::submit('Καταχώρηση εθελοντή', ['class' => 'btn']) !!}
+</div>
 
 @section('footerScripts')
 <script>
 
- $('#birth_date').datepicker({
+    $('#birth_date').datepicker({
         language: 'el',
         format: 'dd/mm/yyyy',
         autoclose: true
-        });
+    }).on('changeDate', function (selected) {
+        var birthDate = new Date(selected.date.valueOf());
+        var today = new Date();
+        var age = today.getFullYear() - birthDate.getFullYear();
+        //display message that the volunteer is underage
+        if(age<18)
+            $(".under18").show();
+        else if(age>18)
+            $(".under18").hide();
+
+    });
 
     //initialize user select
     $('#unitList').select2();

@@ -2,7 +2,9 @@
 
 use App\Http\Requests;
 use App\Http\Requests\UserRequest as UserRequest;
+use App\Models\Unit;
 use App\Models\User as User;
+use App\Services\Facades\NotificationService;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
 use Illuminate\Http\Request;
@@ -127,6 +129,12 @@ class UserController extends Controller {
             $user->units()->detach();
         else
             $user->units()->sync($request->get('units'));
+
+        //notify user that they 're added to unit
+        foreach($request->get('units') as $unitId) {
+            $unit = Unit::find($unitId);
+            NotificationService::userToUnit($user->id, $unit);
+        }
 
         return $user->id;
     }

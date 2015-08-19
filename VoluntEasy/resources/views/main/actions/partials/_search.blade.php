@@ -34,6 +34,30 @@
         </div>
     </div>
 </div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <p><a href="#" id="showFilters">Περισσότερα Φίλτρα...</a></p>
+    </div>
+</div>
+
+
+<!-- More filters -->
+<div class="row" id="filters" style="display:none;">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    {!! Form::formInput('name', 'Όνομα Υπευθύνου Δράσης', $errors, ['class' => 'form-control input-sm search', 'id' =>
+                    'actionUser', 'placeholder' => '...']) !!}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
@@ -42,3 +66,13 @@
         </div>
     </div>
 </div>
+
+@section('footerScripts')
+<script src="{{ asset('assets/js/pages/search.js') }}"></script>
+
+<script>
+    $("#showFilters").click(function () {
+        $("#filters").toggle();
+    });
+</script>
+@append

@@ -460,28 +460,22 @@ class VolunteerService {
             } else {
 
                 //if the steps already exists, that means that the volunteer has already passed the steps
-                //and can be assigned directly to unit without creating steps
+                //and can be assigned directly to the unit without creating steps
 
-                //TODO: CHECK THIS!!!
                 $volunteerId = $volunteer->id;
+                $pending = StepStatus::incomplete();
 
                 $steps = $unit->steps->lists('id');
 
-                $volunteer = Volunteer::with(['steps' => function ($query) use ($steps) {
-                    $query->whereIn('step_id', $steps)->with('status');
+                $volunteer = Volunteer::with(['steps' => function ($query) use ($steps, $pending) {
+                    $query->whereIn('step_id', $steps)->whereHas('status', function ($q) use ($pending) {
+                        $q->where('step_status_id', $pending);
+                    });
                 }])->findOrFail($volunteerId);
-
-
-                //check if there are any pending steps
-                $pending = 0;
-                foreach ($volunteer->steps as $step) {
-                    if ($step->status->description == 'Pending')
-                        $pending++;
-                }
 
                 //if the volunteer has pending steps on that unit, then the status is pending
                 //else the status is available
-                if ($pending == 0)
+                if (sizeof($volunteer->steps) == 0)
                     $volunteerStatus = VolunteerStatus::where('description', 'Available')->first()->id;
             }
 
@@ -500,9 +494,11 @@ class VolunteerService {
             $this->unitHistory($volunteer->id, $unit->id);
 
             //notify users about new volunteers
-            NotificationService::newVolunteer($volunteerId, $unitId);
+            //only if the unit is not root unit
+            //(no need to notify the admin about his/her action.
+            if (!UnitServiceFacade::isRoot($unit))
+                NotificationService::newVolunteer($volunteerId, $unitId);
         }
-
 
         return $volunteerId;
     }

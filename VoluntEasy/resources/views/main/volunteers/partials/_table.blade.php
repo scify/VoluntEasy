@@ -44,22 +44,6 @@
                 return '<a href="mailto:' + data.email + '">' + data.email + '</a>';
             }
             },
-            /*{
-             //concat address with city, post box and country
-             data: null, render: function (data, type, row) {
-             var address = '';
-             if (data.address != null && data.address != '')
-             address += data.address;
-             if (data.city != null && data.city != '')
-             address += ', ' + data.city;
-             if (data.post_box != null && data.post_box != '')
-             address += ', ' + data.post_box;
-             if (data.country != null && data.country != '')
-             address += ', ' + data.country;
-
-             return address;
-             }
-             },*/
             {
                 //concat all phones
                 data: null, render: function (data, type, row) {

@@ -1,7 +1,8 @@
 $(document).ready(function () {
 
-    var alarmActive = [];
+    var alarmActives = [];
     var notifications = [];
+    var actives = [];
     var ring;
     var pagetitle = $('title').text();
     var seconds = 4; //every xx seconds hit the server
@@ -42,8 +43,8 @@ $(document).ready(function () {
             url: $("body").attr('data-url') + '/checkForNotifications',
             dataType: "json",
             success: function (data) {
-                alarmActive = [];
                 actives = [];
+                alarmActives = [];
                 notifications = [];
 
                 if (data.length > 0) {
@@ -54,7 +55,7 @@ $(document).ready(function () {
                     $.each(data, function (i, notification) {
                         //console.log(notification.id);
 
-                        var notifClass = (notification.status == 'alarmAndActive' ? 'grey' : 'white');
+                        var notifClass = (notification.status == 'alarmAndActive' || notification.status == 'active'? 'grey' : 'white');
                         var icon = '';
 
                         //depending on the notification type, change the icon
@@ -78,7 +79,7 @@ $(document).ready(function () {
                         //notifications that have a status of 'alarmAndActive'
                         //are kept to this array to be sent back to server
                         if (notification.status == 'alarmAndActive')
-                            alarmActive.push(notification.id);
+                            alarmActives.push(notification.id);
 
                         if (notification.status == 'alarmAndActive' || notification.status == 'active')
                             actives.push(notification.id);
@@ -87,7 +88,7 @@ $(document).ready(function () {
                     });
 
                     //if there are alarmAndActive notifications, play a sound
-                    if (alarmActive.length > 0) {
+                    if (alarmActives.length > 0) {
                         ring.play();
                     }
 
@@ -100,15 +101,15 @@ $(document).ready(function () {
                         //add a (1) to the title!
                         $('title').text('(' + actives.length + ') ' + pagetitle);
                     }
-
+                    else{
+                        $(".notificationSum").text(0);
+                        $("#notificationBadge").hide();
+                        $("#notificationList").html('');
+                        $('title').text(pagetitle);
+                    }
 
                     //append the <li>s to the <ul>
                     $("#notificationList").html(html);
-                }
-                else {
-                    $("#notificationBadge").hide();
-                    $("#notificationList").html('');
-                    $('title').text(pagetitle);
                 }
             }
         });
@@ -119,7 +120,7 @@ $(document).ready(function () {
      * send the id to server to change the status to 'active'
      */
     function stopBellNotification() {
-        $.each(alarmActive, function (i, id) {
+        $.each(alarmActives, function (i, id) {
             return $.ajax({
                 url: $("body").attr('data-url') + '/stopBellNotification/' + id,
                 method: "GET",
@@ -136,9 +137,8 @@ $(document).ready(function () {
      * to change their status to inactive.
      */
     $("#notificationBell").click(function () {
-
         if (!$("#notificationsDropdown").hasClass("open")) {
-            $.each(notifications, function (i, id) {
+            $.each(actives, function (i, id) {
                 return $.ajax({
                     url: $("body").attr('data-url') + '/deactivateNotification/' + id,
                     method: "GET",

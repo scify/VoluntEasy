@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Models\Action;
 use App\Models\Volunteer;
 
 /**
@@ -26,6 +27,15 @@ class SearchController extends Controller {
      */
     public function country() {
         return Volunteer::distinct()->where('country', 'like', \Request::get('term') . '%')->lists('country');
+    }
+
+    /**
+     * Action user autocomplete
+     *
+     * @return mixed
+     */
+    public function actionUser() {
+        return Action::distinct()->where('name', 'like', \Request::get('term') . '%')->lists('name');
     }
 
 }
