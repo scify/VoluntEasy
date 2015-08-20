@@ -56,7 +56,7 @@
                                 <p><strong>Σχολή:</strong> {{ $volunteer->department=='' ? '-' :
                                     $volunteer->department }}</p>
 
-                                <p><strong>Δίπλωμα οδήγησης:</strong> {{
+                                <p><strong>Δίπλωμα οδήγησης:</strong> {{ $volunteer->driver_license_type_id==null || $volunteer->driver_license_type_id=='' ? '' :
                                     $volunteer->driverLicenceType->description }}</p>
 
                                 <p><strong>Χρήση υπολογιστή:</strong> {{ $volunteer->computer_usage=='' ? 'Όχι' :
@@ -99,7 +99,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <p><strong>Εργασιακή κατάσταση:</strong> {{
+                                <p><strong>Εργασιακή κατάσταση:</strong> {{ $volunteer->work_status_id==null || $volunteer->work_status_id=='' ? '' :
                                     $volunteer->workStatus->description }}</p>
 
                                 <p><strong>Εργασία:</strong> {{ $volunteer->work_description=='' ? '-' :
@@ -138,7 +138,7 @@
                             <div class="col-md-4">
                                 <h4>Διαθεσιμότητα</h4>
 
-                                <p><strong>Συχνότητα συνεισφοράς:</strong> {{
+                                <p><strong>Συχνότητα συνεισφοράς:</strong> {{ $volunteer->availability_freqs_id==null || $volunteer->availability_freqs_id=='' ? '' :
                                     $volunteer->availabilityFrequencies->description }}</p>
 
                                 <p><strong>Χρόνοι συνεισφοράς:</strong>

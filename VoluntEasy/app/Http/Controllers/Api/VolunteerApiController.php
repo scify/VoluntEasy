@@ -139,95 +139,62 @@ class VolunteerApiController extends Controller {
             $volunteer->education_level_id = EducationLevel::where('description', \Input::get('Επίπεδο_εκπαίδευσης'))->first(['id'])->id;
             $volunteer->work_status_id = WorkStatus::where('description', \Input::get('Εργασιακή_κατάσταση'))->first(['id'])->id;
 
-
-
-
-            if (!\Input::has('Τύπος_Ταυτότητας') || \Input::get('Τύπος_Ταυτότητας') == ''){
+            $columnId = null;
+            if (!\Input::has('Τύπος_Ταυτότητας') || \Input::get('Τύπος_Ταυτότητας') != '') {
                 $result = IdentificationType::where('description', \Input::get('Τύπος_Ταυτότητας'))->first(['id']);
 
-                if($result == null || $result == '')
-                    $volunteer->identification_type_id = '';
-                else
-                    $volunteer->identification_type_id = $result->id;
+                if ($result != null || $result != '')
+                    $columnId = $result->id;
             }
+            $volunteer->identification_type_id = $columnId;
 
-
-            if (!\Input::has('Οικογενειακή_Κατάσταση') || \Input::get('Οικογενειακή_Κατάσταση') == ''){
+            $columnId = null;
+            if (!\Input::has('Οικογενειακή_Κατάσταση') || \Input::get('Οικογενειακή_Κατάσταση') != '') {
                 $result = MaritalStatus::where('description', \Input::get('Οικογενειακή_Κατάσταση'))->first(['id']);
 
-                if($result == null || $result == '')
-                    $volunteer->marital_status_id = '';
-                else
-                    $volunteer->marital_status_id = $result->id;
+                if ($result != null || $result != '')
+                    $columnId = $result->id;
             }
+            $volunteer->marital_status_id = $columnId;
 
-            if (!\Input::has('Τρόπος_επικοινωνίας') || \Input::get('Τρόπος_επικοινωνίας') == ''){
+            $columnId = null;
+            if (!\Input::has('Τρόπος_επικοινωνίας') || \Input::get('Τρόπος_επικοινωνίας') != '') {
                 $result = CommunicationMethod::where('description', \Input::get('Τρόπος_επικοινωνίας'))->first(['id']);
 
-                if($result == null || $result == '')
-                    $volunteer->comm_method_id = '';
-                else
-                    $volunteer->comm_method_id = $result->id;
+                if ($result != null || $result != '')
+                    $columnId = $result->id;
             }
+            $volunteer->comm_method_id = $columnId;
 
 
-            if (!\Input::has('Δίπλωμα_οδήγησης') || \Input::get('Δίπλωμα_οδήγησης') == ''){
+            $columnId = null;
+            if (!\Input::has('Δίπλωμα_οδήγησης') || \Input::get('Δίπλωμα_οδήγησης') != '') {
                 $result = DriverLicenceType::where('description', \Input::get('Δίπλωμα_οδήγησης'))->first(['id']);
 
-                if($result == null || $result == '')
-                    $volunteer->driver_license_type_id = '';
-                else
-                    $volunteer->driver_license_type_id = $result->id;
+                if ($result != null || $result != '')
+                    $columnId = $result->id;
             }
+            $volunteer->driver_license_type_id = $columnId;
 
 
-            if (!\Input::has('Συχνότητα_συνεισφοράς') || \Input::get('Συχνότητα_συνεισφοράς') == ''){
+            $columnId = null;
+            if (!\Input::has('Συχνότητα_συνεισφοράς') || \Input::get('Συχνότητα_συνεισφοράς') != '') {
                 $result = AvailabilityFrequencies::where('description', \Input::get('Συχνότητα_συνεισφοράς'))->first(['id']);
 
-                if($result == null || $result == '')
-                    $volunteer->availability_freqs_id = '';
-                else
-                    $volunteer->availability_freqs_id = $result->id;
+                if ($result != null || $result != '')
+                    $columnId = $result->id;
             }
+            $volunteer->availability_freqs_id = $columnId;
 
-
-/*
-
-            //The fields below are not required, and can either an empty string or sth from the db
-            if (!\Input::has('Τύπος_Ταυτότητας') || \Input::get('Τύπος_Ταυτότητας') == '')
-                $volunteer->identification_type_id = '';
-            else
-                $volunteer->identification_type_id = IdentificationType::where('description', \Input::get('Τύπος_Ταυτότητας'))->first(['id'])->id;
-
-            if (!\Input::has('Οικογενειακή_Κατάσταση') || \Input::get('Οικογενειακή_Κατάσταση') == '')
-                $volunteer->marital_status_id = '';
-            else
-                $volunteer->marital_status_id = MaritalStatus::where('description', \Input::get('Οικογενειακή_Κατάσταση'))->first(['id'])->id;
-
-            if (!\Input::has('Τρόπος_επικοινωνίας') || \Input::get('Τρόπος_επικοινωνίας') == '')
-                $volunteer->comm_method_id = '';
-            else
-                $volunteer->comm_method_id = CommunicationMethod::where('description', \Input::get('Τρόπος_επικοινωνίας'))->first(['id'])->id;
-
-            if (!\Input::has('Δίπλωμα_οδήγησης') || \Input::get('Δίπλωμα_οδήγησης') == '')
-                $volunteer->driver_license_type_id = '';
-            else
-                $volunteer->driver_license_type_id = DriverLicenceType::where('description', \Input::get('Δίπλωμα_οδήγησης'))->first(['id'])->id;
-
-            if (!\Input::has('Συχνότητα_συνεισφοράς') || \Input::get('Συχνότητα_συνεισφοράς') == '')
-                $volunteer->availability_freqs_id = '';
-            else
-                $volunteer->availability_freqs_id = AvailabilityFrequencies::where('description', \Input::get('Συχνότητα_συνεισφοράς'))->first(['id'])->id;
-*/
 
             if (\Input::get('Κάτοικος_Ελλάδας') == 'Είναι Κάτοικος Ελλάδας')
                 $volunteer->live_in_curr_country = 1;
             else
                 $volunteer->live_in_curr_country = 0;
 
+            //return $volunteer;
 
-            return $volunteer;
-            // $volunteer->save();
+             $volunteer->save();
 
             if (\Input::has('Ελληνικά')) {
                 $volunteer->languages()->save($this->createVolunteerLanguage('Ελληνικά', \Input::get('Ελληνικά'), $volunteer->id));
@@ -245,7 +212,6 @@ class VolunteerApiController extends Controller {
                 $volunteer->languages()->save($this->createVolunteerLanguage('Γερμανικά', \Input::get('Γερμανικά'), $volunteer->id));
             }
 
-
             if (\Input::has('Χρόνοι_συνεισφοράς')) {
                 $times = \Input::get('Χρόνοι_συνεισφοράς');
                 $availability_array = [];
@@ -255,7 +221,7 @@ class VolunteerApiController extends Controller {
                     array_push($availability_array, $availability_time);
                 }
 
-                // $volunteer->availabilityTimes()->sync($availability_array);
+                 $volunteer->availabilityTimes()->sync($availability_array);
             }
 
 
@@ -323,7 +289,8 @@ class VolunteerApiController extends Controller {
         if (!\Input::has('Φύλο'))
             return false;
 
-        if (!\Input::has('email') || \Input::get('email') == '' || !filter_var(\Input::get('email'), FILTER_VALIDATE_EMAIL))
+        $emails = Volunteer::where('email', \Input::get('email'))->get(['email']);
+        if (sizeof($emails)>0 || !\Input::has('email') || \Input::get('email') == '' || !filter_var(\Input::get('email'), FILTER_VALIDATE_EMAIL))
             return false;
 
         if (!\Input::has('Επίπεδο_εκπαίδευσης') || \Input::get('Επίπεδο_εκπαίδευσης') == 'select')

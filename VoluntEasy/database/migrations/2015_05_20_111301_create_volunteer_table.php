@@ -82,21 +82,21 @@ class CreateVolunteerTable extends Migration {
             $table->timestamps();
             $table->softDeletes();
 
-            $table->integer('gender_id')->unsigned();
+            $table->integer('gender_id')->unsigned()->nullable();
             $table->foreign('gender_id')->references('id')->on('genders')->onDelete('cascade');
-            $table->integer('education_level_id')->unsigned();
+            $table->integer('education_level_id')->unsigned()->nullable();
             $table->foreign('education_level_id')->references('id')->on('education_levels')->onDelete('cascade');
             $table->integer('comm_method_id')->unsigned()->nullable();
             $table->foreign('comm_method_id')->references('id')->on('comm_method')->onDelete('cascade');
-            $table->integer('identification_type_id')->unsigned();
+            $table->integer('identification_type_id')->unsigned()->nullable();
             $table->foreign('identification_type_id')->references('id')->on('identification_types')->onDelete('cascade');
             $table->integer('marital_status_id')->unsigned()->nullable();
             $table->foreign('marital_status_id')->references('id')->on('marital_statuses')->onDelete('cascade');
-            $table->integer('driver_license_type_id')->unsigned();
+            $table->integer('driver_license_type_id')->unsigned()->nullable();
             $table->foreign('driver_license_type_id')->references('id')->on('driver_license_types')->onDelete('cascade');
-            $table->integer('availability_freqs_id')->unsigned();
+            $table->integer('availability_freqs_id')->unsigned()->nullable();
             $table->foreign('availability_freqs_id')->references('id')->on('availability_freqs')->onDelete('cascade');
-            $table->integer('work_status_id')->unsigned();
+            $table->integer('work_status_id')->unsigned()->nullable();
             $table->foreign('work_status_id')->references('id')->on('work_statuses')->onDelete('cascade');
 
             $table->boolean('blacklisted')->default(false);
