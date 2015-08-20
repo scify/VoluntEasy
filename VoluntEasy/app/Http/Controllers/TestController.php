@@ -62,6 +62,10 @@ class TestController extends Controller {
     }
 
 
+    public function cityofathens() {
+        return view("tests.cityofathens");
+    }
+
     /**
      * generate some dummy data
      */

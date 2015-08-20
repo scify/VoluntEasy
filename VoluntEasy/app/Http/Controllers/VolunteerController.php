@@ -89,6 +89,8 @@ class VolunteerController extends Controller {
      */
     public function store(VolunteerRequest $request) {
 
+        dd(\Request::all());
+
         $volunteer = new Volunteer(array(
             'name' => \Input::get('name'),
             'last_name' => \Input::get('last_name'),

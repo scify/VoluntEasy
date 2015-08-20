@@ -138,6 +138,7 @@ Route::group(array('prefix' => 'api'), function()
     Route::get('volunteers','Api\VolunteerApiController@all');
     Route::get('volunteers/status/{status}','Api\VolunteerApiController@status');
     Route::get('volunteers/one/{id}','Api\VolunteerApiController@show');
+    Route::any('volunteers/store','Api\VolunteerApiController@store');
 
     Route::get('units','Api\UnitApiController@all');
     Route::get('units/{id}/volunteers','Api\UnitApiController@volunteers');
@@ -157,6 +158,7 @@ Route::group(array('prefix' => 'api'), function()
 
 
 
+Route::get('cityofathens', 'TestController@cityofathens');
 
 
 
