@@ -7,13 +7,9 @@
                         </a>
                     </div>
                     <div class="logo-box">
-                        <a href="{{url('/')}}" class="logo-text"><span>{{trans($lang.'title')}} </span></a>
+                        <img src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
                     </div>
                     <!-- Logo Box -->
-                    <div class="search-button">
-                        <a href="javascript:void(0);" class="waves-effect waves-button waves-classic show-search">
-                            <i class="fa fa-search"></i></a>
-                    </div>
                     <div class="topmenu-outer">
                         <div class="top-menu">
                             <ul class="nav navbar-nav navbar-right">

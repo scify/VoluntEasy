@@ -103,7 +103,7 @@ class VolunteerApiController extends Controller {
 
         // dd(\Request::all());
 
-        //first valdiate input
+        //first validate input
         if ($this->validateInput()) {
 
             $volunteer = new Volunteer(array(
@@ -111,7 +111,6 @@ class VolunteerApiController extends Controller {
                 'last_name' => \Input::get('Επώνυμο'),
                 'fathers_name' => \Input::get('Όνομα_Πατέρα'),
                 'identification_num' => \Input::get('Ταυτότητα'),
-                // 'birth_date' => \Carbon::createFromFormat('d/m/Y', \Input::get('birth_date'))->toDateString(),
                 'children' => intval(\Input::get('Τέκνα')),
                 'address' => \Input::get('Διεύθυνση'),
                 'post_box' => \Input::get('Τ_Κ'),
@@ -133,11 +132,29 @@ class VolunteerApiController extends Controller {
             ));
 
 
-            //The fields below are required and are checked with the validation method
             $volunteer->birth_date = \Carbon::createFromDate(\Input::get('Ημερομηνία_Γέννησης')['year'], \Input::get('Ημερομηνία_Γέννησης')['month'], \Input::get('Ημερομηνία_Γέννησης')['day']);
-            $volunteer->gender_id = Gender::where('description', \Input::get('Φύλο'))->first(['id'])->id;
-            $volunteer->education_level_id = EducationLevel::where('description', \Input::get('Επίπεδο_εκπαίδευσης'))->first(['id'])->id;
-            $volunteer->work_status_id = WorkStatus::where('description', \Input::get('Εργασιακή_κατάσταση'))->first(['id'])->id;
+
+
+            $gender = Gender::where('description', \Input::get('Φύλο'))->first(['id']);
+            if ($gender == null)
+                $volunteer->gender_id = 1;
+            else
+                $volunteer->gender_id = $gender->id;
+
+
+            $education_level = EducationLevel::where('description', \Input::get('Επίπεδο_εκπαίδευσης'))->first(['id']);
+            if ($education_level == null)
+                $volunteer->$education_level_id = 1;
+            else
+                $volunteer->education_level_id = $education_level->id;
+
+
+            $work_status = WorkStatus::where('description', \Input::get('Εργασιακή_κατάσταση'))->first(['id']);
+            if ($work_status == null)
+                $volunteer->$work_status_id = 1;
+            else
+                $volunteer->work_status_id = $work_status->id;
+
 
             $columnId = null;
             if (!\Input::has('Τύπος_Ταυτότητας') || \Input::get('Τύπος_Ταυτότητας') != '') {
@@ -148,6 +165,7 @@ class VolunteerApiController extends Controller {
             }
             $volunteer->identification_type_id = $columnId;
 
+
             $columnId = null;
             if (!\Input::has('Οικογενειακή_Κατάσταση') || \Input::get('Οικογενειακή_Κατάσταση') != '') {
                 $result = MaritalStatus::where('description', \Input::get('Οικογενειακή_Κατάσταση'))->first(['id']);
@@ -157,9 +175,13 @@ class VolunteerApiController extends Controller {
             }
             $volunteer->marital_status_id = $columnId;
 
+
             $columnId = null;
             if (!\Input::has('Τρόπος_επικοινωνίας') || \Input::get('Τρόπος_επικοινωνίας') != '') {
-                $result = CommunicationMethod::where('description', \Input::get('Τρόπος_επικοινωνίας'))->first(['id']);
+                if (\Input::get('Τρόπος_επικοινωνίας') == 'email')
+                    $result = CommunicationMethod::where('description', 'Ηλεκτρονικό ταχυδρομείο')->first(['id']);
+                else
+                    $result = CommunicationMethod::where('description', \Input::get('Τρόπος_επικοινωνίας'))->first(['id']);
 
                 if ($result != null || $result != '')
                     $columnId = $result->id;
@@ -192,8 +214,6 @@ class VolunteerApiController extends Controller {
             else
                 $volunteer->live_in_curr_country = 0;
 
-            //return $volunteer;
-
              $volunteer->save();
 
             if (\Input::has('Ελληνικά')) {
@@ -221,25 +241,13 @@ class VolunteerApiController extends Controller {
                     array_push($availability_array, $availability_time);
                 }
 
-                 $volunteer->availabilityTimes()->sync($availability_array);
+                $volunteer->availabilityTimes()->sync($availability_array);
             }
 
-
-            return $volunteer;
-
-            /*
-                πολιτισμός_και_εκπαίδευση:ΝΑΙ
-                περιβάλλον[ενημέρωση - ευαισθητοποίηση πολιτών σε περιβαλλοντικά θέματα]:ενημέρωση - ευαισθητοποίηση πολιτών σε περιβαλλοντικά θέματα
-                περιβάλλον[βάψιμο επιφανειών]:βάψιμο επιφανειών
-                κοινωνική_αλληλεγγύη[Κόμβος Αλληλεγγύης Πολιτών]:Κόμβος Αλληλεγγύης Πολιτών
-                κοινωνική_αλληλεγγύη[Παροχή φροντίδας ως εθελοντής γείτονας]:Παροχή φροντίδας ως εθελοντής γείτονας
-            */
-
+            return \Response::json($volunteer, 201);
         } else {
-            return 'error';
+            return \Response::json('Error in form fields', 409);
         }
-
-
     }
 
     /**
@@ -290,7 +298,7 @@ class VolunteerApiController extends Controller {
             return false;
 
         $emails = Volunteer::where('email', \Input::get('email'))->get(['email']);
-        if (sizeof($emails)>0 || !\Input::has('email') || \Input::get('email') == '' || !filter_var(\Input::get('email'), FILTER_VALIDATE_EMAIL))
+        if (sizeof($emails) > 0 || !\Input::has('email') || \Input::get('email') == '' || !filter_var(\Input::get('email'), FILTER_VALIDATE_EMAIL))
             return false;
 
         if (!\Input::has('Επίπεδο_εκπαίδευσης') || \Input::get('Επίπεδο_εκπαίδευσης') == 'select')

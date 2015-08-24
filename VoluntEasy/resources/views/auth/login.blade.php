@@ -14,7 +14,9 @@
                     <div class="row">
                         <div class="col-md-3 center">
                             <div class="login-box">
-                                <a href="{{ url('/') }}" class="logo-name text-lg text-center">{{trans($lang.'title')}}</a>
+                                <div class="text-center">
+                                <a href="{{ url('/') }}"><img src="{{ asset('assets/images/logo.png') }}"/></a>
+                                </div>
                                    @if (count($errors) > 0)
                                 		<div class="alert alert-danger">
                                 			<ul>

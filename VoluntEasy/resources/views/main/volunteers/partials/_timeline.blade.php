@@ -17,6 +17,8 @@
 
             <p>Διάρκεια δράσης: {{ $timelineBlock->action->start_date }} - {{ $timelineBlock->action->end_date }}</p>
 
+            {{-- Rating is not needed right now --}}
+            {{--
             <!-- RATING STARS -->
             @if($timelineBlock->action->rating!=null)
             <div class="row">
@@ -42,6 +44,7 @@
             <p>Η αξιολόγηση έγινε από τον υπεύθυνο της δράσης (email: <a
                     href="mailto:{{$timelineBlock->action->email}}">{{$timelineBlock->action->email}}</a>)</p>
             @endif
+            --}}
 
             <small class="pull-right">Η ανάθεση έγινε από το χρήστη {{ $timelineBlock->user->name }}</small>
 

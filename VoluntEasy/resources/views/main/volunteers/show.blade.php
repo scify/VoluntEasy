@@ -56,6 +56,8 @@
                             @endif
                         </p>
                     </div>
+                    {{-- Rating is not needed right now --}}
+                    {{--
                     <div class="col-md-4 pull-right text-center">
                         <div class="row">
                             <div class="col-md-4">
@@ -87,6 +89,7 @@
                             </div>
                         </div>
                     </div>
+                    --}}
                 </div>
 
                 <div class="row">

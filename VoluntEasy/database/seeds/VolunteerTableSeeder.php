@@ -44,7 +44,7 @@ class VolunteerTableSeeder extends Seeder {
 		    ['description' => 'Χωρίς δίπλωμα'],
 		    ['description' => 'Α κατηγορίας'],
 		    ['description' => 'A1 κατηγορίας'],
-		    ['description' => 'B κατηγορίας'],
+		    ['description' => 'Β κατηγορίας'],
 		    ['description' => 'Γ κατηγορίας'],
 		    ['description' => 'Γ+Ε κατηγορίας'],
 	    ];

@@ -112,6 +112,11 @@ class Volunteer extends User {
     // Query Scopes //
     //////////////////
 
+
+    public function scopeBirthday($query){
+
+    }
+
     /**
      * Get all the volunteers that are assigned to a unit.
      *

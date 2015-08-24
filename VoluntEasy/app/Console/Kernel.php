@@ -16,7 +16,6 @@ class Kernel extends ConsoleKernel {
         'App\Console\Commands\CheckActions',
 	];
 
-    protected $filePath = '~/Projects/cron';
 
 	/**
 	 * Define the application's command schedule.

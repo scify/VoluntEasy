@@ -9,8 +9,6 @@
             'size' =>
             '5x5', 'id' => 'actionComments', 'required' => 'true']) !!}
         </div>
-    </div>
-    <div class="col-md-6">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -25,26 +23,51 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="col-md-6">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     {!! Form::formInput('name', 'Όνομα υπευθύνου δράσης:', $errors, ['class' => 'form-control', 'id' =>
                     'actionName']) !!}
-                    <small class="help-block">Ο υπεύθυνος δράσης δεν είναι απαραίτητο να είναι χρήστης του συστήματος</small>
+                    <small class="help-block">Ο υπεύθυνος δράσης δεν είναι απαραίτητο να είναι χρήστης του συστήματος
+                    </small>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     {!! Form::formInput('email', 'Email:', $errors, ['class' => 'form-control', 'id' => 'actionEmail'])
                     !!}
-
                 </div>
             </div>
+        </div>
+        <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    {!! Form::formInput('phone_number', 'Τηλέφωνο:', $errors, ['class' => 'form-control', 'id' => 'actionPhone'])
+                    {!! Form::formInput('phone_number', 'Τηλέφωνο:', $errors, ['class' => 'form-control', 'id' =>
+                    'actionPhone'])
                     !!}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    {!! Form::formInput('questionnaire_volunteers_link', 'Σύνδεσμος αξιολόγησης εθελοντών:', $errors, ['class' =>
+                    'form-control', 'id' => 'volunteersQuestionnaire_link'])!!}
+                    <small class="help-block">Ο σύνδεσμος θα αποστέλλεται αυτόματα στον υπεύθυνο της δράσης μετά τη λήξη
+                        της δράσης.
+                    </small>
+                </div>
+            </div>
 
+            <div class="col-md-6">
+                <div class="form-group">
+                    {!! Form::formInput('questionnaire_action_link', 'Σύνδεσμος αξιολόγησης δράσης:', $errors, ['class' =>
+                    'form-control', 'id' => 'actionQuestionnaire_link'])!!}
+                    <small class="help-block">Ο σύνδεσμος θα αποστέλλεται αυτόματα στους εθελοντές της δράσης μετά τη λήξη
+                        της δράσης.
+                    </small>
                 </div>
             </div>
         </div>

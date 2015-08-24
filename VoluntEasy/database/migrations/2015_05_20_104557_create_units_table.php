@@ -37,6 +37,8 @@ class CreateUnitsTable extends Migration {
             $table->string('email')->nullable();
             $table->string('name')->nullable();
             $table->string('phone_number')->nullable();
+            $table->string('questionnaire_volunteers_link')->nullable();
+            $table->string('questionnaire_action_link')->nullable();
             $table->date('start_date');
 			$table->date('end_date');
 			$table->timestamps();
