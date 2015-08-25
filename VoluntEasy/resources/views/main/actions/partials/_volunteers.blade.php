@@ -1,4 +1,5 @@
-<table id="volunteersTable" class="display table table-striped data-table" cellspacing="0" width="100%" data-unit-id="{{ $action->id }}">
+<table id="volunteersTable" class="display table table-striped data-table" cellspacing="0" width="100%"
+       data-unit-id="{{ $action->id }}" data-expired="{{$action->expired}}">
     <thead>
     <tr>
         <th>ID</th>
@@ -6,7 +7,11 @@
         <th>Email</th>
         <th>Διεύθυνση</th>
         <th>Τηλέφωνο</th>
+        @if(!$action->expired)
         <th>Κατάσταση</th>
+        @else
+        <th></th>
+        @endif
     </tr>
     </thead>
 
@@ -17,7 +22,11 @@
         <th>Email</th>
         <th>Διεύθυνση</th>
         <th>Τηλέφωνο</th>
+        @if(!$action->expired)
         <th>Κατάσταση</th>
+        @else
+        <th></th>
+        @endif
     </tr>
     </tfoot>
 </table>
@@ -77,13 +86,15 @@
                 data: null, render: function (data, type, row) {
                 var status = '';
 
-                if (data.units[0].status == 'Pending')
-                    status += '<div class="status pending">Υπό ένταξη</div>';
-                else if (data.units[0].status == 'Available')
-                    status += '<div class="status available">Διαθέσιμος</div>';
-                else if (data.units[0].status == 'Active')
-                    status += '<div class="status active">Ενεργός</div>';
+                if ($("#volunteersTable").attr('data-expired') == 0) {
 
+                    if (data.units[0].status == 'Pending')
+                        status += '<div class="status pending">Υπό ένταξη</div>';
+                    else if (data.units[0].status == 'Available')
+                        status += '<div class="status available">Διαθέσιμος</div>';
+                    else if (data.units[0].status == 'Active')
+                        status += '<div class="status active">Ενεργός</div>';
+                }
                 return status;
             }
             }

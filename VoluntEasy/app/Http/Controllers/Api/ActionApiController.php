@@ -17,13 +17,30 @@ class ActionApiController extends Controller {
     }
 
     public function volunteers($id) {
-        $unitId = Action::findOrFail($id)->unit_id;
+        $action = Action::find($id);
 
-        $volunteers = Volunteer::whereHas('actions', function ($q) use ($id) {
-            $q->where('action_id', $id);
-        })->with(['units' => function ($query) use ($unitId) {
-            $query->where('unit_id', $unitId);
-        }])->get();
+        //check if action has expired
+        $now = date('Y-m-d');
+        $endDate = \Carbon::parse(\Carbon::createFromFormat('d/m/Y', $action->end_date))->format('Y-m-d');
+        $expired = false;
+        if ($endDate < $now)
+            $expired = true;
+
+        //if the action is expired, get the volunteers from the history table
+        if ($expired) {
+            $volunteers = Volunteer::whereHas('actionHistory', function ($q) use ($id){
+                $q->where('action_id', $id);
+            })->get();
+        }
+        else{
+            $unitId = Action::findOrFail($id)->unit_id;
+
+            $volunteers = Volunteer::whereHas('actions', function ($q) use ($id) {
+                $q->where('action_id', $id);
+            })->with(['units' => function ($query) use ($unitId) {
+                $query->where('unit_id', $unitId);
+            }])->get();
+        }
 
         $data = [];
         foreach ($volunteers as $volunteer) {

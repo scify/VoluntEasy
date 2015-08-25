@@ -93,6 +93,7 @@
             </div>
             <div class="panel-body">
                 @include('main.actions.partials._volunteers')
+
                 @if(in_array($action->unit->id, $userUnits) && !$action->expired)
                 <hr/>
                 <div class="text-right">

@@ -15,14 +15,13 @@ class VolunteerActionHistory extends Model {
     protected $fillable = ['volunteer_id', 'action_id', 'user_id', 'created'];
 
 
-
     public function action() {
         return $this->hasOne('App\Models\Action', 'id', 'action_id');
     }
 
-    public function user(){
+    public function user() {
         return $this->hasOne('App\Models\User', 'id', 'user_id');
     }
-    
+
 
 }

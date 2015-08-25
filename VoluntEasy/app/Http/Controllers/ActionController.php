@@ -78,7 +78,7 @@ class ActionController extends Controller {
      * @return Response
      */
     public function show($id) {
-        $action = Action::with('volunteers', 'unit')->findOrFail($id);
+        $action = Action::with('unit')->findOrFail($id);
 
         $branch = UnitService::getBranch(Unit::where('id', $action->unit->id)->with('actions')->first());
 
@@ -97,7 +97,7 @@ class ActionController extends Controller {
         $now = date('Y-m-d');
         $endDate = \Carbon::parse(\Carbon::createFromFormat('d/m/Y', $action->end_date))->format('Y-m-d');
         $action->expired = false;
-        if($endDate < $now)
+        if ($endDate < $now)
             $action->expired = true;
 
         $userUnits = UserService::userUnits();
