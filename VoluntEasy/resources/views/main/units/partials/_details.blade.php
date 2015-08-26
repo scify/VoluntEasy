@@ -6,7 +6,7 @@
 <h3>Υπεύθυνος Μονάδας</h3>
 <ul class="list-unstyled">
 <li class="user-list">
-        <div class="msg-img"><img src="{{ asset('assets/uploads/'.$user->image_name)}}" alt="" class="user-image-small userImage"></div>
+        <div class="msg-img"><img src="{{ asset('assets/uploads/users/'.$user->image_name)}}" alt="" class="user-image-small userImage"></div>
         <p class="msg-name"> <a href="{{ url('users/one/'.$active->users[0]->id) }}">{{$active->users[0]->name}}</a></p>
         <p class="msg-text"><i class="fa fa-envelope"></i> <a href="mail:to{{ $active->users[0]->email }}">{{ $active->users[0]->email }}</a> |
             <i class="fa fa-home"></i> {{ $active->users[0]->addr }} |
@@ -18,7 +18,7 @@
 <ul class="list-unstyled">
     @foreach($active->users as $user)
     <li class="user-list">
-        <div class="msg-img"><img src="{{ asset('assets/uploads/'.$user->image_name)}}" alt="" class="user-image-small userImage"></div>
+        <div class="msg-img"><img src="{{ asset('assets/uploads/users/'.$user->image_name)}}" alt="" class="user-image-small userImage"></div>
         <p class="msg-name"> <a href="{{ url('users/one/'.$user->id) }}">{{$user->name}}</a><p>
         <p class="msg-text"><i class="fa fa-envelope"></i> <a href="mail:to{{ $user->email }}">{{ $user->email }}</a> |
             <i class="fa fa-home"></i> {{ $user->addr }} |

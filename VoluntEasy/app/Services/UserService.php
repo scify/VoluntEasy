@@ -332,6 +332,24 @@ class UserService {
     }
 
     /**
+     * Store the user image
+     *
+     * @param $image
+     * @param $email
+     * @return string
+     */
+    public function storeImage($image, $email) {
+
+        //get the image and upload it
+        $destinationPath = public_path() . '/assets/uploads/users';
+        $extension = $image->getClientOriginalExtension(); // getting image extension
+        $fileName = $email . '.' . $extension; // rename image
+        $image->move($destinationPath, $fileName); // uploading file to given path
+
+        return $fileName;
+    }
+
+    /**
      * Dynamic search chains a lot of queries depending on the filters sent by the user.
      *
      * @return mixed

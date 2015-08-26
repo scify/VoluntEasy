@@ -25,7 +25,7 @@
                     <div class="col-md-2">
                         <div class="profile-image-container user-image text-center">
                             <img src="{{ ($user->image_name==null || $user->image_name=='') ?
-                                    asset('assets/images/default.png') : asset('assets/uploads/'.$user->image_name) }}"
+                                    asset('assets/images/default.png') : asset('assets/uploads/users/'.$user->image_name) }}"
                                  alt="" class="user-image-small userImage">
                         </div>
                     </div>

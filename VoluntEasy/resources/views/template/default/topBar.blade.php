@@ -40,7 +40,7 @@
                                         <!-- Display the username -->
                                         <span class="user-name">{{{ isset(Auth::user()->name) ? Auth::user()->name : 'not logged in' }}}<i class="fa fa-angle-down"></i></span>
                                         <img class="img-circle avatar userImage" src="{{ (\Auth::user()->image_name==null || \Auth::user()->image_name=='') ?
-                                    asset('assets/images/default.png') : asset('assets/uploads/'.\Auth::user()->image_name) }}" width="40" height="40"
+                                    asset('assets/images/default.png') : asset('assets/uploads/users/'.\Auth::user()->image_name) }}" width="40" height="40"
                                          alt="">
                                     </a>
                                     <ul class="dropdown-menu dropdown-list" role="menu">

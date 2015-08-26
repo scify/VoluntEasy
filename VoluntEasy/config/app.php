@@ -200,12 +200,17 @@ return [
         'Form'      => 'Illuminate\Html\FormFacade',
         'Carbon'      => 'Carbon\Carbon',
         'SoftDeletes' => 'Illuminate\Database\Eloquent\SoftDeletes',
+
+        /**
+         * Services created for the app
+         */
         'ActionService' => 'App\Services\Facades\ActionService',
         'UnitService' => 'App\Services\Facades\UnitService',
         'UserService' => 'App\Services\Facades\UserService',
         'SearchService' => 'App\Services\Facades\SearchService',
         'VolunteerService' => 'App\Services\Facades\VolunteerService',        
         'TreeService' => 'App\Services\Facades\TreeService',
+        'FileService' => 'App\Services\Facades\FileService',
     ],
 
 ];

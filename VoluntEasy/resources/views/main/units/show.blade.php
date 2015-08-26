@@ -41,7 +41,7 @@
                             <li class="user-list">
                                 <div class="msg-img">
                                     <img src="{{ ($active->users[0]->image_name==null || $active->users[0]->image_name=='') ?
-                                    asset('assets/images/default.png') : asset('assets/uploads/'.$active->users[0]->image_name) }}"
+                                    asset('assets/images/default.png') : asset('assets/uploads/users/'.$active->users[0]->image_name) }}"
                                          alt="" class="user-image-small userImage">
                                 </div>
                                 <p class="msg-name"><a href="{{ url('users/one/'.$active->users[0]->id) }}">{{$active->users[0]->name}}</a>
@@ -62,7 +62,7 @@
                             <li class="user-list">
                                 <div class="msg-img">
                                     <img src="{{ ($user->image_name==null || $user->image_name=='') ?
-                                    asset('assets/images/default.png') : asset('assets/uploads/'.$user->image_name) }}"
+                                    asset('assets/images/default.png') : asset('assets/uploads/users/'.$user->image_name) }}"
                                          alt="" class="user-image-small userImage">
 
                                     <p class="msg-name"><a href="{{ url('users/one/'.$user->id) }}">{{$user->name}}</a>

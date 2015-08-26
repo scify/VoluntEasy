@@ -2,18 +2,23 @@
 
 use App\Models\Descriptions\StepStatus;
 use App\Models\Descriptions\VolunteerStatus;
+use App\Models\File;
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\Volunteer;
 use App\Models\VolunteerActionHistory;
 use App\Models\VolunteerStepStatus;
 use App\Models\VolunteerUnitHistory;
+use App\Services\Facades\FileService;
 use App\Services\Facades\NotificationService;
 use App\Services\Facades\SearchService as Search;
 use App\Services\Facades\UnitService as UnitServiceFacade;
 use App\Services\Facades\UserService as UserServiceFacade;
 
 class VolunteerService {
+
+    //path
+    private $filePath = '';
 
     /**
      * This array holds the names of the filters that the user is able to search by.
@@ -133,12 +138,12 @@ class VolunteerService {
      * currently logged in user
      * @return bool
      */
-    public function isPermitted($volunteerId){
+    public function isPermitted($volunteerId) {
         $permittedVolunteers = UserServiceFacade::permittedVolunteersIds();
         if (in_array($volunteerId, $permittedVolunteers))
             return true;
         else
-           return false;
+            return false;
     }
 
 
@@ -223,7 +228,8 @@ class VolunteerService {
 
         $volunteer = Volunteer::with('gender', 'identificationType', 'driverLicenceType',
             'educationLevel', 'languages.level', 'languages.language',
-            'interests', 'workStatus', 'availabilityTimes', 'availabilityFrequencies', 'actions', 'ratings', 'unitsExcludes')
+            'interests', 'workStatus', 'availabilityTimes', 'availabilityFrequencies',
+            'actions', 'ratings', 'unitsExcludes', 'files')
             ->with(['units.steps.statuses' => function ($query) use ($id) {
                 $query->where('volunteer_id', $id)->with('status');
             }])
@@ -232,7 +238,6 @@ class VolunteerService {
 
         //get volunteer's age
         //return \Carbon::parse($this->attributes['birth_date'])->format('d/m/Y');
-
 
         $birth_date = \Carbon::createFromFormat('d/m/Y', $volunteer->birth_date);
 
@@ -322,11 +327,13 @@ class VolunteerService {
 
         $timeline = [];
 
+        //get info from the history tables
         foreach ($volunteer->actionHistory as $actionHistory) {
             $actionHistory->type = 'action';
             array_push($timeline, $actionHistory);
         }
 
+        //unit history table
         foreach ($volunteer->unitHistory as $unitHistory) {
             $unitHistory->type = 'unit';
             array_push($timeline, $unitHistory);
@@ -591,6 +598,39 @@ class VolunteerService {
         }
 
         return $data;
+    }
+
+    /**
+     * Store the files uploaded for the volunteer
+     *
+     * @param $files
+     * @param $id
+     */
+    public function storeFiles($files, $id) {
+        foreach ($files as $file) {
+            if($file!=null) {
+                $destinationPath = public_path() . '/assets/uploads/volunteers';
+                $fileName = $file->getClientOriginalName();
+
+                //check if file already exists
+                if (file_exists($destinationPath . '/' . $fileName)) {
+                    return false;
+                } else {
+
+                    $filename = FileService::storeFile($file, $fileName, $destinationPath);
+
+                    //create a row to the db to associate the file with the volunteer
+                    $dbFile = new File([
+                        'filename' => $fileName,
+                        'volunteer_id' => $id
+                    ]);
+
+                    $dbFile->save();
+                }
+            }
+        }
+
+        return FileService::storeFiles($files, $this->filePath);
     }
 
     /**

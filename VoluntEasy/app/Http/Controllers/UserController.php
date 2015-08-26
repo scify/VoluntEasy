@@ -47,14 +47,14 @@ class UserController extends Controller {
 
         $user = User::create($request->all());
 
-        if (\Input::file('image')!=null) {
-            //get the image and upload it
-            $destinationPath = public_path() . '/assets/uploads'; // upload path
-            $extension = \Input::file('image')->getClientOriginalExtension(); // getting image extension
-            $fileName = $user->email . '.' . $extension; // rename image
-            \Input::file('image')->move($destinationPath, $fileName); // uploading file to given path
+        //send email to notify user for new account
+        \Mail::send('emails.new_user', ['user' => $user], function ($message) use ($user) {
+            $message->to($user->email, $user->name)->subject('Welcome to VoluntEasy');
+        });
 
-           $user->update(['image_name' => $fileName]);
+        //store the user image
+        if (\Input::file('image') != null) {
+            $user->update(['image_name' => UserService::storeImage(\Input::file('image'), $user->email)]);
         }
 
         return Redirect::route('user/profile', ['id' => $user->id]);
@@ -99,18 +99,21 @@ class UserController extends Controller {
     public function update(UserRequest $request) {
         $user = User::findOrFail($request->get('id'));
 
-        $request['password'] = \Hash::make($request['password']);
+        if ($request['password'] != null && $request['password'] != '') {
+            $request['password'] = \Hash::make($request['password']);
+            $user->update($request->all());
+        } else {
+            $user->update([
+                'name' => $request['name'],
+                'email' => $request['email'],
+                'addr' => $request['addr'],
+                'tel' => $request['tel'],
+            ]);
+        }
 
-        $user->update($request->all());
-
-        if (\Input::file('image')!=null) {
-            //get the image and upload it
-            $destinationPath = public_path() . '/assets/uploads'; // upload path
-            $extension = \Input::file('image')->getClientOriginalExtension(); // getting image extension
-            $fileName = $user->email . '.' . $extension; // rename image
-            \Input::file('image')->move($destinationPath, $fileName); // uploading file to given path
-
-            $user->update(['image_name' => $fileName]);
+        //store the user image
+        if (\Input::file('image') != null) {
+            $user->update(['image_name' => UserService::storeImage(\Input::file('image'), $user->email)]);
         }
 
         return Redirect::route('user/profile', ['id' => $user->id]);
@@ -131,7 +134,7 @@ class UserController extends Controller {
             $user->units()->sync($request->get('units'));
 
         //notify user that they 're added to unit
-        foreach($request->get('units') as $unitId) {
+        foreach ($request->get('units') as $unitId) {
             $unit = Unit::find($unitId);
             NotificationService::userToUnit($user->id, $unit);
         }

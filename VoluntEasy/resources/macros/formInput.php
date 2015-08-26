@@ -86,7 +86,11 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
                 $text_html = Form::hidden($field, null, $attributes);
                 break;
             case "file":
-                $text_html = Form::file($field, null, $attributes);
+                if (array_key_exists('multiple', $attributes)) {
+                    $multiple = $attributes['multiple'] == 'true' ? 1 : 0;
+                    $attributes['multiple'] = $multiple;
+                }
+                $text_html = Form::file($field, $attributes);
                 break;
             default:
                 $text_html = Form::text($field, null, $attributes);

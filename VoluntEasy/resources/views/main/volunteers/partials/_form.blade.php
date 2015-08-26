@@ -14,16 +14,16 @@
                 {!! Form::formInput('fathers_name', 'Όνομα Πατέρα:', $errors, ['class' => 'form-control']) !!}
             </div>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="form-group">
                         {!! Form::formInput('birth_date', 'Ημερομηνία Γέννησης:', $errors, ['class' => 'form-control
                         birthDate', 'id' => 'birth_date', 'required' => 'true']) !!}
-                        <small class="help-block text-primary under18" style="display:none;">Ο εθελοντής είναι ανήλικος</small>
+                        <small class="help-block text-primary under18" style="display:none;">Ο εθελοντής είναι
+                            ανήλικος
+                        </small>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="form-group">
                         @if (isset($volunteer))
                         {!! Form::formInput('gender_id', 'Φύλο:', $errors, ['class' => 'form-control', 'type' =>
@@ -58,7 +58,7 @@
             <div class="form-group">
                 {!! Form::formInput('live_in_curr_country', 'Κάτοικος Ελλάδας', $errors, ['class' => 'form-control',
                 'type' => 'checkbox', 'value' => true, 'checked' => 'true']) !!} <em>(Αποεπιλέξτε εφόσον δε διαμένετε
-                μόνιμα στην Ελλάδα.)</em>
+                    μόνιμα στην Ελλάδα.)</em>
             </div>
         </div>
         <div class="col-md-4">
@@ -187,8 +187,8 @@
                 </div>
             </div>
             <div class="form-group">
-                {!! Form::formInput('additional_skills', 'Πρόσθετες ικανότητες, προσόντα και εμπειρία', $errors,
-                ['class' => 'form-control', 'type' => 'textarea']) !!}
+                {!! Form::formInput('additional_skills', 'Πρόσθετες ικανότητες, προσόντα και εμπειρία:', $errors,
+                ['class' => 'form-control', 'type' => 'textarea', 'size' => '2x5']) !!}
             </div>
         </div>
         <div class="col-md-6">
@@ -214,10 +214,9 @@
 
             <div class="form-group">
                 {!! Form::formInput('extra_lang', 'Άλλες γλώσσες', $errors, ['class' => 'form-control', 'type' =>
-                'textarea', 'placeholder' => 'Συμπληρώστε τις επιπλέον γλώσσες που γνωρίζετε και το επίπεδό σας']) !!}
+                'textarea', 'placeholder' => 'Συμπληρώστε τις επιπλέον γλώσσες που γνωρίζετε και το επίπεδό σας', 'size'
+                => '2x3']) !!}
             </div>
-            <br>
-            <br>
         </div>
     </div>
 </div>
@@ -235,24 +234,27 @@
                 @endif
             </div>
             <div class="form-group">
-                {!! Form::formInput('work_description', 'Εργασία', $errors, ['class' => 'form-control', 'type' =>
+                {!! Form::formInput('work_description', 'Εργασία:', $errors, ['class' => 'form-control', 'type' =>
                 'textarea', 'placeholder' => 'Περιγράψτε τη θέση σας στην παρούσα ή πιο πρόσφατη εργασία.']) !!}
             </div>
-        </div>
-        <div class="col-md-4">
+
             <div class="form-group">
-                {!! Form::formInput('participation_actions', 'Εθελοντική οργάνωση', $errors, ['class' => 'form-control',
-                'type' => 'textarea', 'placeholder' => 'Εαν ανήκετε ή ανήκατε σε κάποιες εθελοντικές οργανώσεις ποιο ήταν το αντικείμενο τους και για πόσο χρονικό διάστημα είχατε συμετοχή.']) !!}
-            </div>
-            <div class="form-group">
-                {!! Form::formInput('participation_previous', 'Εθελοντικές δράσεις', $errors, ['class' =>
-                'form-control', 'type' => 'textarea', 'placeholder' => 'Εαν έχετε πάρει μέρος σε εθελοντικές δράσεις στο παρελθόν περιγράψτε ποιο ήταν/είναι το αντικείμενο.']) !!}
+                {!! Form::formInput('participation_reason', 'Λόγος συμμετοχής:', $errors, ['class' => 'form-control',
+                'required' => 'true', 'type' => 'textarea', 'placeholder' => 'Περιγράψτε τους λόγους που θέλετε να
+                γίνετε εθελοντής.']) !!}
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                {!! Form::formInput('participation_reason', 'Λόγος συμμετοχής', $errors, ['class' => 'form-control',
-                'required' => 'true', 'type' => 'textarea', 'placeholder' => 'Περιγράψτε τους λόγους που θέλετε να γίνετε εθελοντής.']) !!}
+                {!! Form::formInput('participation_actions', 'Εθελοντική οργάνωση:', $errors, ['class' =>
+                'form-control',
+                'type' => 'textarea', 'placeholder' => 'Εαν ανήκετε ή ανήκατε σε κάποιες εθελοντικές οργανώσεις ποιο
+                ήταν το αντικείμενο τους και για πόσο χρονικό διάστημα είχατε συμετοχή.']) !!}
+            </div>
+            <div class="form-group">
+                {!! Form::formInput('participation_previous', 'Εθελοντικές δράσεις:', $errors, ['class' =>
+                'form-control', 'type' => 'textarea', 'placeholder' => 'Εαν έχετε πάρει μέρος σε εθελοντικές δράσεις στο
+                παρελθόν περιγράψτε ποιο ήταν/είναι το αντικείμενο.']) !!}
             </div>
         </div>
     </div>
@@ -260,107 +262,105 @@
 <!-- tab5 Διαθεσιμότητα. -->
 <div class="tab-pane fade" id="tab5">
     <div class="row m-b-lg">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="form-group">
-                    @if (isset($volunteer))
-                    {!! Form::formInput('availability_freqs_id', 'Συχνότητα συνεισφοράς:', $errors, ['class' =>
-                    'form-control', 'type' => 'select', 'value' => $availabilityFreqs, 'key' =>
-                    $volunteer->availability_freqs_id]) !!}
-                    @else
-                    {!! Form::formInput('availability_freqs_id', 'Συχνότητα συνεισφοράς:', $errors, ['class' =>
-                    'form-control', 'type' => 'select', 'value' => $availabilityFreqs]) !!}
-                    @endif
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <p>Χρόνοι συνεισφοράς:</p>
-                    @foreach($availabilityTimes as $a_t_id => $availability_time)
-                    @if (isset($volunteer) && in_array($a_t_id, $volunteer->availabilityTimes->lists('id')) )
-                    {!! Form::formInput('availability_time' . $a_t_id, $availability_time, $errors, ['class' =>
-                    'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'true']) !!}
-                    @else
-                    {!! Form::formInput('availability_time' . $a_t_id, $availability_time, $errors, ['class' =>
-                    'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
-                    @endif
-                    @endforeach
-                </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                @if (isset($volunteer))
+                {!! Form::formInput('availability_freqs_id', 'Συχνότητα συνεισφοράς:', $errors, ['class' =>
+                'form-control', 'type' => 'select', 'value' => $availabilityFreqs, 'key' =>
+                $volunteer->availability_freqs_id]) !!}
+                @else
+                {!! Form::formInput('availability_freqs_id', 'Συχνότητα συνεισφοράς:', $errors, ['class' =>
+                'form-control', 'type' => 'select', 'value' => $availabilityFreqs]) !!}
+                @endif
             </div>
         </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <p>Χρόνοι συνεισφοράς:</p>
+                @foreach($availabilityTimes as $a_t_id => $availability_time)
+                @if (isset($volunteer) && in_array($a_t_id, $volunteer->availabilityTimes->lists('id')) )
+                {!! Form::formInput('availability_time' . $a_t_id, $availability_time, $errors, ['class' =>
+                'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'true']) !!}
+                @else
+                {!! Form::formInput('availability_time' . $a_t_id, $availability_time, $errors, ['class' =>
+                'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
+                @endif
+                @endforeach
+            </div>
+        </div>
+    </div>
 
-        <div class="row">
-            <div class="col-md-4">
-                <p>Περιοχές ενδιαφερόντων:</p>
-                <h4>Πολιτισμός και Αθλητισμός</h4>
-                @foreach($interests as $int_id => $interest)
-                @if($interest->category=='Πολιτισμός και Αθλητισμός')
-                <div class="form-group">
-                    @if (isset($volunteer) && in_array($int_id, $volunteer->interests->lists('id')) )
-                    {!! Form::formInput('interest' . $interest->id, $interest->description , $errors, ['class' =>
-                    'form-control',
-                    'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'true']) !!}
-                    @else
-                    {!! Form::formInput('interest' . $interest->id, $interest->description, $errors, ['class' =>
-                    'form-control',
-                    'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'false']) !!}
-                    @endif
-                </div>
+    <div class="row m-b-lg">
+        <div class="col-md-4">
+            <p>Περιοχές ενδιαφερόντων:</p>
+            <h4>Πολιτισμός και Αθλητισμός</h4>
+            @foreach($interests as $int_id => $interest)
+            @if($interest->category=='Πολιτισμός και Αθλητισμός')
+            <div class="form-group">
+                @if (isset($volunteer) && in_array($int_id, $volunteer->interests->lists('id')) )
+                {!! Form::formInput('interest' . $interest->id, $interest->description , $errors, ['class' =>
+                'form-control',
+                'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'true']) !!}
+                @else
+                {!! Form::formInput('interest' . $interest->id, $interest->description, $errors, ['class' =>
+                'form-control',
+                'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'false']) !!}
                 @endif
-                @endforeach
-                <h4>Για το Παιδί</h4>
-                @foreach($interests as $int_id => $interest)
-                @if($interest->category=='Για το Παιδί')
-                <div class="form-group">
-                    @if (isset($volunteer) && in_array($int_id, $volunteer->interests->lists('id')) )
-                    {!! Form::formInput('interest' . $interest->id, $interest->description , $errors, ['class' =>
-                    'form-control',
-                    'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'true']) !!}
-                    @else
-                    {!! Form::formInput('interest' . $interest->id, $interest->description, $errors, ['class' =>
-                    'form-control',
-                    'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'false']) !!}
-                    @endif
-                </div>
-                @endif
-                @endforeach
             </div>
-            <div class="col-md-4">
-                <h4>Περιβάλλον</h4>
-                @foreach($interests as $int_id => $interest)
-                @if($interest->category=='Περιβάλλον')
-                <div class="form-group">
-                    @if (isset($volunteer) && in_array($int_id, $volunteer->interests->lists('id')) )
-                    {!! Form::formInput('interest' . $interest->id, $interest->description , $errors, ['class' =>
-                    'form-control',
-                    'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'true']) !!}
-                    @else
-                    {!! Form::formInput('interest' . $interest->id, $interest->description, $errors, ['class' =>
-                    'form-control',
-                    'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'false']) !!}
-                    @endif
-                </div>
+            @endif
+            @endforeach
+            <h4>Για το Παιδί</h4>
+            @foreach($interests as $int_id => $interest)
+            @if($interest->category=='Για το Παιδί')
+            <div class="form-group">
+                @if (isset($volunteer) && in_array($int_id, $volunteer->interests->lists('id')) )
+                {!! Form::formInput('interest' . $interest->id, $interest->description , $errors, ['class' =>
+                'form-control',
+                'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'true']) !!}
+                @else
+                {!! Form::formInput('interest' . $interest->id, $interest->description, $errors, ['class' =>
+                'form-control',
+                'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'false']) !!}
                 @endif
-                @endforeach
             </div>
-            <div class="col-md-4">
-                <h4>Διεύθυνση Κοινωνικής Αλληλεγγύης και Υγείας</h4>
-                @foreach($interests as $int_id => $interest)
-                @if($interest->category=='Διεύθυνση Κοινωνικής Αλληλεγγύης και Υγείας')
-                <div class="form-group">
-                    @if (isset($volunteer) && in_array($int_id, $volunteer->interests->lists('id')) )
-                    {!! Form::formInput('interest' . $interest->id, $interest->description , $errors, ['class' =>
-                    'form-control',
-                    'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'true']) !!}
-                    @else
-                    {!! Form::formInput('interest' . $interest->id, $interest->description, $errors, ['class' =>
-                    'form-control',
-                    'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'false']) !!}
-                    @endif
-                </div>
+            @endif
+            @endforeach
+        </div>
+        <div class="col-md-4">
+            <h4>Περιβάλλον</h4>
+            @foreach($interests as $int_id => $interest)
+            @if($interest->category=='Περιβάλλον')
+            <div class="form-group">
+                @if (isset($volunteer) && in_array($int_id, $volunteer->interests->lists('id')) )
+                {!! Form::formInput('interest' . $interest->id, $interest->description , $errors, ['class' =>
+                'form-control',
+                'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'true']) !!}
+                @else
+                {!! Form::formInput('interest' . $interest->id, $interest->description, $errors, ['class' =>
+                'form-control',
+                'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'false']) !!}
                 @endif
-                @endforeach
             </div>
+            @endif
+            @endforeach
+        </div>
+        <div class="col-md-4">
+            <h4>Διεύθυνση Κοινωνικής Αλληλεγγύης και Υγείας</h4>
+            @foreach($interests as $int_id => $interest)
+            @if($interest->category=='Διεύθυνση Κοινωνικής Αλληλεγγύης και Υγείας')
+            <div class="form-group">
+                @if (isset($volunteer) && in_array($int_id, $volunteer->interests->lists('id')) )
+                {!! Form::formInput('interest' . $interest->id, $interest->description , $errors, ['class' =>
+                'form-control',
+                'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'true']) !!}
+                @else
+                {!! Form::formInput('interest' . $interest->id, $interest->description, $errors, ['class' =>
+                'form-control',
+                'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'false']) !!}
+                @endif
+            </div>
+            @endif
+            @endforeach
         </div>
     </div>
 </div>
@@ -369,7 +369,7 @@
     <div class="row m-b-lg">
         <div class="col-md-4">
             <div class="form-group">
-                {!! Form::formInput('comments', 'Σχόλια', $errors, ['class' => 'form-control', 'type' =>
+                {!! Form::formInput('comments', 'Σχόλια:', $errors, ['class' => 'form-control', 'type' =>
                 'textarea', 'placeholder' => 'Σχόλια σχετικά με τον εθελοντή']) !!}
             </div>
         </div>
@@ -389,6 +389,33 @@
                     @endforeach
                 </select>
             </div>
+
+            @if(isset($volunteer))
+            <div class="form-group">
+                {!! Form::formInput('files[]', 'Ανέβασμα αρχείων:', $errors, ['class' => 'form-control', 'type' =>
+                'file', 'multiple' => 'true'])
+                !!}
+                <small class="help-blocκ">Μπορείτε να ανεβάσετε περισσότερα από 1 αρχεία</small>
+            </div>
+            <div class="form-group">
+                @if(sizeof($volunteer->files)>0)
+                <p>Ανεβασμένα αρχεία:</p>
+
+                <table class="table table-condensed table-bordered">
+
+                    @foreach($volunteer->files as $file)
+                    <tr>
+                        <td><i class="fa fa-file-o"></i> <a
+                                href="{{ asset('assets/uploads/volunteers/'.$file->filename) }}" target="_blank">{{
+                                $file->filename }}</a>
+                        </td>
+                    </tr>
+                    @endforeach
+
+                </table>
+                @endif
+            </div>
+            @endif
         </div>
     </div>
 </div>
@@ -401,7 +428,6 @@
 
 @section('footerScripts')
 <script>
-
     $('#birth_date').datepicker({
         language: 'el',
         format: 'dd/mm/yyyy',
@@ -411,9 +437,9 @@
         var today = new Date();
         var age = today.getFullYear() - birthDate.getFullYear();
         //display message that the volunteer is underage
-        if(age<18)
+        if (age < 18)
             $(".under18").show();
-        else if(age>18)
+        else if (age > 18)
             $(".under18").hide();
 
     });

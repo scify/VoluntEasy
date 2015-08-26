@@ -181,6 +181,47 @@
                     </div>
                 </div>
             </div>
+            @if($volunteer->permitted)
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingFour">
+                    <h4 class="panel-title">
+                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion"
+                           href="#collapseFour" aria-expanded="false"
+                           aria-controls="collapseFour">
+                            <i class="fa fa-file-o m-r-xs"></i>Αρχεία
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseFour" class="panel-collapse collapse" role="tabpanel"
+                     aria-labelledby="headingFour">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                               @if(sizeof($volunteer->files)>0)
+
+                                <table class="table table-condensed table-bordered">
+
+                                    @foreach($volunteer->files as $file)
+                                    <tr>
+                                        <td><p><i class="fa fa-file-o"></i> <a
+                                                href="{{ asset('assets/uploads/volunteers/'.$file->filename) }}" target="_blank">{{
+                                                $file->filename }}</a></p>
+                                        </td>
+                                        <td class="text-center"><button class="btn btn-danger btn-xs deleteFile" data-id="{{ $file->id }}"
+                                                    data-toggle="tooltip" data-placement="bottom" title="Διαγραφή"><i
+                                                    class="fa fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+
+                                </table>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
     </div>
 </div>
@@ -254,8 +295,6 @@
         }
     });
 
-
-
     //change volunteer status to blacklisted
     $(".blacklisted").click(function(){
         $.ajax({
@@ -272,6 +311,27 @@
                 window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
             }
         });
+    });
+
+
+    //delete a file
+    $(".deleteFile").click(function(){
+        console.log("clicky");
+
+        $.ajax({
+            url: $("body").attr('data-url') + '/volunteers/deleteFile',
+            method: 'POST',
+            data: {
+                'id': $(this).attr('data-id')
+            },
+            headers: {
+                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+            },
+            success: function (data) {
+                document.location.reload();
+            }
+        });
+
     });
 
 </script>

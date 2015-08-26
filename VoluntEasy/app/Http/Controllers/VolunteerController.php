@@ -16,6 +16,7 @@ use App\Models\Descriptions\LanguageLevel;
 use App\Models\Descriptions\MaritalStatus;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Descriptions\WorkStatus;
+use App\Models\File;
 use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Models\VolunteerAvailabilityTime;
@@ -198,7 +199,7 @@ class VolunteerController extends Controller {
         $timeline = VolunteerService::timeline($id);
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
 
-        //get the count of pending and available units, used in the front end
+            //get the count of pending and available units, used in the front end
         $pending = 0;
         $available = 0;
         foreach ($volunteer->units as $unit) {
@@ -228,7 +229,7 @@ class VolunteerController extends Controller {
      * @return Response
      */
     public function edit($volId) {
-        $volunteer = Volunteer::with('interests', 'availabilityTimes', 'unitsExcludes')->findOrFail($volId);
+        $volunteer = Volunteer::with('interests', 'availabilityTimes', 'unitsExcludes', 'files')->findOrFail($volId);
 
         $identificationTypes = IdentificationType::all()->lists('description', 'id');
         $driverLicenseTypes = DriverLicenceType::all()->lists('description', 'id');
@@ -257,9 +258,6 @@ class VolunteerController extends Controller {
     public function update(VolunteerRequest $request) {
 
         $volunteer = Volunteer::findOrFail($request->get('id'));
-
-        //$volunteer->birth_date = \Carbon::createFromFormat('d/m/Y', $volunteer->birth_date)->toDateString();
-
 
 
         // update everything except middle table stuff
@@ -370,6 +368,11 @@ class VolunteerController extends Controller {
         } else {
             $volunteer->unitsExcludes()->detach();
         }
+
+        //TODO: manage return false
+        //store files
+        if(sizeof(\Input::file('files')!=null && \Input::file('files'))>0)
+            VolunteerService::storeFiles(\Input::file('files'), $volunteer->id);
 
         return \Redirect::route('volunteer/profile', ['id' => $volunteer->id]);
     }
@@ -573,6 +576,23 @@ class VolunteerController extends Controller {
         $volunteer->update();
 
         return $volunteer->id;
+    }
+
+    /**
+     * Delete a volunteer's file from db and from filesystem
+     *
+     * @return mixed
+     */
+    public function deleteFile() {
+        $id = \Request::get('id');
+        $file = File::find($id);
+
+        $filename = public_path() . '/assets/uploads/volunteers/' . $file->filename;
+
+        unlink($filename);
+        $file->delete();
+
+        return $filename;
     }
 
 }
