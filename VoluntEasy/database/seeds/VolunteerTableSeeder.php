@@ -184,7 +184,8 @@ class VolunteerTableSeeder extends Seeder {
 	             ['id' => 1, 'description' => 'Pending'],
 	             ['id' => 2, 'description' => 'Available'],
 	             ['id' => 3, 'description' => 'Active'],
-	             ['id' => 4, 'description' => 'Blacklisted'],
+	             ['id' => 4, 'description' => 'Not available'],
+	             ['id' => 5, 'description' => 'Blacklisted'],
 	     ];
 
 	     DB::table('volunteer_statuses')->insert($statuses);

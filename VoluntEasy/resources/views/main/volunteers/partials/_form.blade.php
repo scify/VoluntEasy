@@ -262,6 +262,94 @@
 <!-- tab5 Διαθεσιμότητα. -->
 <div class="tab-pane fade" id="tab5">
     <div class="row m-b-lg">
+        <div class="col-md-6">
+            <p>Περιοχές ενδιαφερόντων:</p>
+
+            <table class="table table-condensed table-bordered">
+                <tr>
+                    <td>Πολιτισμός και Αθλητισμός</td>
+                    <td>@foreach($interests as $int_id => $interest)
+                        @if($interest->category=='Πολιτισμός και Αθλητισμός')
+                        <div class="form-group">
+                            @if (isset($volunteer) && in_array($int_id, $volunteer->interests->lists('id')) )
+                            {!! Form::formInput('interest' . $interest->id, $interest->description , $errors, ['class'
+                            =>
+                            'form-control',
+                            'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'true']) !!}
+                            @else
+                            {!! Form::formInput('interest' . $interest->id, $interest->description, $errors, ['class' =>
+                            'form-control',
+                            'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'false']) !!}
+                            @endif
+                        </div>
+                        @endif
+                        @endforeach
+                    </td>
+                </tr>
+                <tr>
+                    <td>Για το Παιδί</td>
+                    <td>@foreach($interests as $int_id => $interest)
+                        @if($interest->category=='Για το Παιδί')
+                        <div class="form-group">
+                            @if (isset($volunteer) && in_array($int_id, $volunteer->interests->lists('id')) )
+                            {!! Form::formInput('interest' . $interest->id, $interest->description , $errors, ['class'
+                            =>
+                            'form-control',
+                            'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'true']) !!}
+                            @else
+                            {!! Form::formInput('interest' . $interest->id, $interest->description, $errors, ['class' =>
+                            'form-control',
+                            'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'false']) !!}
+                            @endif
+                        </div>
+                        @endif
+                        @endforeach
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Περιβάλλον</td>
+                    <td> @foreach($interests as $int_id => $interest)
+                        @if($interest->category=='Περιβάλλον')
+                        <div class="form-group">
+                            @if (isset($volunteer) && in_array($int_id, $volunteer->interests->lists('id')) )
+                            {!! Form::formInput('interest' . $interest->id, $interest->description , $errors, ['class'
+                            =>
+                            'form-control',
+                            'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'true']) !!}
+                            @else
+                            {!! Form::formInput('interest' . $interest->id, $interest->description, $errors, ['class' =>
+                            'form-control',
+                            'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'false']) !!}
+                            @endif
+                        </div>
+                        @endif
+                        @endforeach
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Διεύθυνση Κοινωνικής Αλληλεγγύης και Υγείας</td>
+                    <td> @foreach($interests as $int_id => $interest)
+                        @if($interest->category=='Διεύθυνση Κοινωνικής Αλληλεγγύης και Υγείας')
+                        <div class="form-group">
+                            @if (isset($volunteer) && in_array($int_id, $volunteer->interests->lists('id')) )
+                            {!! Form::formInput('interest' . $interest->id, $interest->description , $errors, ['class'
+                            =>
+                            'form-control',
+                            'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'true']) !!}
+                            @else
+                            {!! Form::formInput('interest' . $interest->id, $interest->description, $errors, ['class' =>
+                            'form-control',
+                            'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'false']) !!}
+                            @endif
+                        </div>
+                        @endif
+                        @endforeach
+                    </td>
+                </tr>
+            </table>
+        </div>
         <div class="col-md-3">
             <div class="form-group">
                 @if (isset($volunteer))
@@ -289,80 +377,6 @@
             </div>
         </div>
     </div>
-
-    <div class="row m-b-lg">
-        <div class="col-md-4">
-            <p>Περιοχές ενδιαφερόντων:</p>
-            <h4>Πολιτισμός και Αθλητισμός</h4>
-            @foreach($interests as $int_id => $interest)
-            @if($interest->category=='Πολιτισμός και Αθλητισμός')
-            <div class="form-group">
-                @if (isset($volunteer) && in_array($int_id, $volunteer->interests->lists('id')) )
-                {!! Form::formInput('interest' . $interest->id, $interest->description , $errors, ['class' =>
-                'form-control',
-                'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'true']) !!}
-                @else
-                {!! Form::formInput('interest' . $interest->id, $interest->description, $errors, ['class' =>
-                'form-control',
-                'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'false']) !!}
-                @endif
-            </div>
-            @endif
-            @endforeach
-            <h4>Για το Παιδί</h4>
-            @foreach($interests as $int_id => $interest)
-            @if($interest->category=='Για το Παιδί')
-            <div class="form-group">
-                @if (isset($volunteer) && in_array($int_id, $volunteer->interests->lists('id')) )
-                {!! Form::formInput('interest' . $interest->id, $interest->description , $errors, ['class' =>
-                'form-control',
-                'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'true']) !!}
-                @else
-                {!! Form::formInput('interest' . $interest->id, $interest->description, $errors, ['class' =>
-                'form-control',
-                'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'false']) !!}
-                @endif
-            </div>
-            @endif
-            @endforeach
-        </div>
-        <div class="col-md-4">
-            <h4>Περιβάλλον</h4>
-            @foreach($interests as $int_id => $interest)
-            @if($interest->category=='Περιβάλλον')
-            <div class="form-group">
-                @if (isset($volunteer) && in_array($int_id, $volunteer->interests->lists('id')) )
-                {!! Form::formInput('interest' . $interest->id, $interest->description , $errors, ['class' =>
-                'form-control',
-                'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'true']) !!}
-                @else
-                {!! Form::formInput('interest' . $interest->id, $interest->description, $errors, ['class' =>
-                'form-control',
-                'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'false']) !!}
-                @endif
-            </div>
-            @endif
-            @endforeach
-        </div>
-        <div class="col-md-4">
-            <h4>Διεύθυνση Κοινωνικής Αλληλεγγύης και Υγείας</h4>
-            @foreach($interests as $int_id => $interest)
-            @if($interest->category=='Διεύθυνση Κοινωνικής Αλληλεγγύης και Υγείας')
-            <div class="form-group">
-                @if (isset($volunteer) && in_array($int_id, $volunteer->interests->lists('id')) )
-                {!! Form::formInput('interest' . $interest->id, $interest->description , $errors, ['class' =>
-                'form-control',
-                'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'true']) !!}
-                @else
-                {!! Form::formInput('interest' . $interest->id, $interest->description, $errors, ['class' =>
-                'form-control',
-                'type' => 'checkbox', 'value' => $interest->id, 'checked' => 'false']) !!}
-                @endif
-            </div>
-            @endif
-            @endforeach
-        </div>
-    </div>
 </div>
 <!-- tab6 Comments -->
 <div class="tab-pane fade" id="tab6">
@@ -383,7 +397,8 @@
 
                     @foreach($units as $unit_id => $unit)
                     <option value="{{ $unit->id }}" name="unit-{{$unit->id}}"
-                    {{ isset($volunteer) && in_array($unit->id, $volunteer->unitsExcludes->lists('id')) ? 'selected' :
+                    {{ isset($volunteer) && in_array($unit->id, $volunteer->unitsExcludes->lists('id')) ? 'selected'
+                    :
                     '' }} >{{ $unit->description }}</option>
 
                     @endforeach
@@ -395,7 +410,8 @@
                 {!! Form::formInput('files[]', 'Ανέβασμα αρχείων:', $errors, ['class' => 'form-control', 'type' =>
                 'file', 'multiple' => 'true'])
                 !!}
-                <small class="help-blocκ">Μπορείτε να ανεβάσετε περισσότερα από 1 αρχεία.</small><br/>
+                <small class="help-blocκ">Μπορείτε να ανεβάσετε περισσότερα από 1 αρχεία.</small>
+                <br/>
                 <small class="help-blocκ">Τα αρχεία δεν πρέπει να ξεπερνούν σε μέγεθος τα 10mb.</small>
             </div>
             <div class="form-group">

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFilesTable extends Migration {
+class VolunteerStatusDuration extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,11 +12,16 @@ class CreateFilesTable extends Migration {
 	 */
 	public function up()
 	{
-        Schema::create('volunteer_files', function ($table) {
+
+        Schema::create('volunteer_status_duration', function ($table) {
             $table->increments('id');
-            $table->string('filename');
+            $table->date('from_date')->nullable();
+            $table->date('to_date')->nullable();
+            $table->string('comments')->nullable();
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
+            $table->integer('status_id')->unsigned();
+            $table->foreign('status_id')->references('id')->on('volunteer_statuses');
             $table->timestamps();
         });
 	}
@@ -28,7 +33,7 @@ class CreateFilesTable extends Migration {
 	 */
 	public function down()
 	{
-        Schema::dropIfExists('volunteer_files');
+        Schema::dropIfExists('volunteer_status_duration');
 
     }
 

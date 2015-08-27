@@ -27,6 +27,12 @@ class VolunteerStatus extends Model {
         return $pendingStatus->id;
     }
 
+    public function scopeNotAvailable() {
+        $pendingStatus = VolunteerStatus::where('description', 'Not available')->first();
+
+        return $pendingStatus->id;
+    }
+
     public function scopeBlacklisted() {
         $pendingStatus = VolunteerStatus::where('description', 'Blacklisted')->first();
 

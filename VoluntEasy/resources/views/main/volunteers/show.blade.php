@@ -18,10 +18,22 @@
                 @if($volunteer->blacklisted)
                 <div class="row">
                     <div class="col-md-12">
-                        <h3 class="text-danger">Ο εθελοντής έχει επισημανθεί ως μη διαθέσιμος <br/>
+                        <h3 class="text-danger">Ο εθελοντής έχει επισημανθεί ως blacklisted <br/>
                             @if($volunteer->permitted)
                             <small><a href="#" data-toggle="modal" data-target="#unblacklisted">Σήμανση εθελοντή ως
                                 διαθέσιμος</a></small>
+                            @endif
+                        </h3>
+                    </div>
+                </div>
+                @endif
+                @if($volunteer->not_available)
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="text-danger">Ο εθελοντής έχει επισημανθεί ως μη διαθέσιμος <br/>
+                            @if($volunteer->permitted)
+                            <small><a href="#" data-toggle="modal" data-target="#unblacklisted">Σήμανση εθελοντή ως
+                                    διαθέσιμος</a></small>
                             @endif
                         </h3>
                     </div>

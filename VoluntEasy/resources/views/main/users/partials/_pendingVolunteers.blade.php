@@ -6,6 +6,7 @@
         <th>Όνομα</th>
         <th>Μονάδες</th>
         <th>Εκκρεμότητες</th>
+        <th>Ενέργειες</th>
     </tr>
     </thead>
 
@@ -15,6 +16,7 @@
         <th>Όνομα</th>
         <th>Μονάδες</th>
         <th>Εκκρεμότητες</th>
+        <th>Ενέργειες</th>
     </tr>
     </tfoot>
 </table>
@@ -62,6 +64,18 @@
                 });
 
                 return status;
+            }
+            },
+            {
+                //show the current pending step for each unit
+                data: null, render: function (data, type, row) {
+                var html = '';
+                html = '<ul class="list-inline">';
+                html += '<li><a href="' + $("body").attr('data-url') + '/volunteers/one/' + data.id + '" class=" btn btn-primary" data-toggle="tooltip"';
+                html += 'data-placement="bottom" title="Προβολή Προφίλ"><i class="fa fa-eye"></i></a></li>';
+                html += '</ul>';
+
+                return html;
             }
             }
         ],

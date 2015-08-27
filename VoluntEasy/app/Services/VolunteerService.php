@@ -236,6 +236,9 @@ class VolunteerService {
             ->with('units.children', 'units.actions')
             ->findOrFail($id);
 
+        if($volunteer->not_available)
+            $volunteer->load('notAvailableDuration');
+
         //get volunteer's age
         //return \Carbon::parse($this->attributes['birth_date'])->format('d/m/Y');
 

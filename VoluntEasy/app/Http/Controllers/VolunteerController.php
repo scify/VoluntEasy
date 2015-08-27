@@ -15,6 +15,7 @@ use App\Models\Descriptions\Language;
 use App\Models\Descriptions\LanguageLevel;
 use App\Models\Descriptions\MaritalStatus;
 use App\Models\Descriptions\VolunteerStatus;
+use App\Models\Descriptions\VolunteerStatusDuration;
 use App\Models\Descriptions\WorkStatus;
 use App\Models\File;
 use App\Models\Unit;
@@ -600,6 +601,48 @@ class VolunteerController extends Controller {
     }
 
     /**
+     * Set the volunteer status to not available
+     * for a period of time
+     *
+     * @return mixed
+     */
+    public function notAvailable() {
+
+        //first update the volunteer status -> set it to not available
+        $volunteer = Volunteer::findOrFail(\Request::get('id'));
+        $volunteer->not_available = true;
+        $volunteer->update();
+
+
+        //then add the comments and dates to the table
+        $statusId = VolunteerStatus::notAvailable();
+
+        //set the dates to an appropriate format
+        if(\Request::get('from')!='')
+            $from = \Carbon::createFromFormat('d/m/Y', \Request::get('from'))->toDateString();
+        else
+            $from = '';
+
+        if(\Request::get('to')!='')
+            $to = \Carbon::createFromFormat('d/m/Y', \Request::get('to'))->toDateString();
+        else
+            $to = '';
+
+        //create the obj and save it to db
+        $volunteer_status_duration = new VolunteerStatusDuration([
+            'volunteer_id' => \Request::get('id'),
+            'from_date' => $from,
+            'to_date' => $to,
+            'comments' => \Request::get('comments'),
+            'status_id' => $statusId,
+        ]);
+
+        $volunteer_status_duration->save();
+
+        return \Request::get('id');
+    }
+
+    /**
      * Delete a volunteer's file from db and from filesystem
      *
      * @return mixed
@@ -614,7 +657,7 @@ class VolunteerController extends Controller {
         if (file_exists($filename))
             unlink($filename);
 
-        //delete the row form the db
+        //delete the row from the db
         $file->delete();
 
         return $filename;

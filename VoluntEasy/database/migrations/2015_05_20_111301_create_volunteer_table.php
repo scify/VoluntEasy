@@ -100,6 +100,7 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('work_status_id')->references('id')->on('work_statuses')->onDelete('cascade');
 
             $table->boolean('blacklisted')->default(false);
+            $table->boolean('not_available')->default(false);
         });
 
         Schema::create('availability_time', function ($table) {

@@ -244,15 +244,66 @@
             </div>
         </div>
         @endif
+        @if($volunteer->permitted)
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <small><a href="#" class="text-danger" data-toggle="modal" data-target="#notAvailable">Σήμανση εθελοντή ως μη διαθέσιμος</a></small>
+            </div>
+        </div>
+        @endif
         @if(!$volunteer->blacklisted && $volunteer->permitted)
         <div class="row">
             <div class="col-md-12 text-right">
-                <small><a href="#" class="text-danger" data-toggle="modal" data-target="#blacklisted">Σήμανση εθελοντή ως μη διαθέσιμος</a></small>
+                <small><a href="#" class="text-danger" data-toggle="modal" data-target="#blacklisted">Σήμανση εθελοντή ως blacklisted</a></small>
             </div>
         </div>
         @endif
     </div>
 </div>
+
+@if(!$volunteer->blacklisted)
+<!-- Select unit modal -->
+<div class="modal fade" id="notAvailable">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Σήμανση εθελοντή ως μη διαθέσιμος</h4>
+            </div>
+            <div class="modal-body">
+               <p>Σε περίπτωση που ο εθελοντής δεν μπορεί να πάρει μέρος σε δράσεις για κάποιο χρονικό διάστημα, μπορείτε να τον επισημάνετε ως "Μη διαθέσιμο".</p>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        {!! Form::formInput('not_available_from', 'Από:', $errors, ['class' => 'form-control
+                        startDate', 'id' => 'not_available_from', 'required' => 'true']) !!}
+                        <small class="help-block text-danger" id="fillDateFrom" style="display:none;">Συμπληρώστε το πεδίο</small>
+                    </div>
+                    <div class="col-md-6">
+                        {!! Form::formInput('not_available_to', 'Εώς:', $errors, ['class' => 'form-control
+                        endDate', 'id' => 'not_available_to', 'required' => 'true']) !!}
+                        <small class="help-block text-danger" id="fillDateTo" style="display:none;">Συμπληρώστε το πεδίο</small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                    {!! Form::formInput('not_available_comments', 'Σχόλια:', $errors, ['class' => 'form-control', 'type' =>
+                    'textarea']) !!}
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
+                <button type="button" class="btn btn-danger notAvailable" data-volunteer-id="{{ $volunteer->id }}">Αποθήκευση
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div><!-- /.modal -->
+@endif
 
 @if(!$volunteer->blacklisted)
 <!-- Select unit modal -->
@@ -262,10 +313,10 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Σήμανση εθελοντή ως μη διαθέσιμος</h4>
+                <h4 class="modal-title">Σήμανση εθελοντή ως blacklisted</h4>
             </div>
             <div class="modal-body">
-               <p>Σε περίπτωση που θέλετε να επισημάνετε τον εθελοντή ως μη διαθέσιμο, ο εθελοντής θα σταματήσει να ανήκει σε οποιαδήποτε μονάδα και δράση ανήκει μέχρι στιγμής.</p>
+                <p>Σε περίπτωση που θέλετε να επισημάνετε τον εθελοντή ως blacklisted, ο εθελοντής θα σταματήσει να ανήκει σε οποιαδήποτε μονάδα και δράση ανήκει μέχρι στιγμής.</p>
                 {!! Form::formInput('comments', 'Σχόλια', $errors, ['class' => 'form-control', 'type' =>
                 'textarea', 'placeholder' => 'Σχόλια σχετικά με τον εθελοντή', 'value' => $volunteer->comments, 'id' => 'blacklistedComments']) !!}
             </div>
@@ -280,6 +331,7 @@
     <!-- /.modal-dialog -->
 </div><!-- /.modal -->
 @endif
+
 
 
 @section('footerScripts')
@@ -311,6 +363,47 @@
                 window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
             }
         });
+    });
+
+    //change volunteer status to not available
+    $(".notAvailable").click(function(){
+        var from = $("#not_available_from").val(),
+            to = $("#not_available_to").val(),
+            flag = true;
+
+        if(from == null || from == '') {
+            $("#fillDateFrom").show();
+            flag = false;
+        }
+        else
+            $("#fillDateFrom").hide();
+
+        if(to == null || to == '') {
+            $("#fillDateTo").show();
+            flag = false;
+        }
+        else
+            $("#fillDateTo").hide();
+
+        if(flag) {
+            $.ajax({
+                url: $("body").attr('data-url') + '/volunteers/notAvailable',
+                method: 'POST',
+                data: {
+                    'id': $(this).attr('data-volunteer-id'),
+                    'from': from,
+                    'to': to,
+                    'comments': $("#not_available_comments").val()
+                },
+                headers: {
+                    'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+                },
+                success: function (data) {
+                    console.log(data);
+                    // window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
+                }
+            });
+        }
     });
 
 
