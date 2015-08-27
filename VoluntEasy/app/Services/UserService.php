@@ -109,6 +109,21 @@ class UserService {
 
 
     /**
+     * Get the admins
+     *
+     * @return mixed
+     */
+    public function getAdmins() {
+        $rootId = UnitServiceFacade::getRoot()->id;
+
+        $users = User::whereHas('units', function ($q) use ($rootId) {
+            $q->where('id', $rootId);
+        })->get();
+
+        return $users;
+    }
+
+    /**
      *  Get an array of the permitted units
      *  for each user
      *

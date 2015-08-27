@@ -2,6 +2,7 @@
 
 use App\Models\Action as Action;
 use App\Models\Descriptions\VolunteerStatus;
+use App\Services\Facades\NotificationService;
 use App\Services\Facades\VolunteerService;
 use Illuminate\Console\Command;
 
@@ -44,12 +45,12 @@ class CheckActions extends Command {
 
         //dd(\Config::get('mail'));
 
+        //remove, just a check
         $execution_time = microtime();
 
         $expiredActions = Action::expiredYesterday()->with('volunteers')->get();
 
         $this->comment(sizeof($expiredActions) . ' expired actions');
-
 
         foreach ($expiredActions as $expired) {
 
@@ -98,7 +99,22 @@ class CheckActions extends Command {
                 $expired->volunteers()->detach();
                 $this->comment('Detached volunteers');
             }
+
+            //notify users that action has expired
+            NotificationService::actionExpired($expired->id);
+            $this->comment('Notified users about expired actions');
         }
+
+
+
+        $expireIn7DaysActions = Action::expireInSevenDays()->get();
+
+        //notify users about to expire actions
+        foreach($expireIn7DaysActions as $toExpire){
+            NotificationService::actionExpiresIn7Days($toExpire->id);
+        }
+        $this->comment('Notified users about to expire actions');
+
 
         $execution_time = microtime() - $execution_time;
         $this->comment('Took '.$execution_time.' sec');

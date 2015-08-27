@@ -1,7 +1,9 @@
 <?php namespace App\Services;
 
+use App\Models\Action;
 use App\Models\Notification;
 use App\Models\Unit;
+use App\Services\Facades\UserService;
 
 /**
  * The PHP Class that will handle the business logic for the Notification Engine
@@ -14,8 +16,8 @@ class NotificationService {
     //   1 = User is assigned to Unit (Unit-Users)                                 //
     //   2 = Volunteer is assigned to unit (volunteers-units)                     //
     //   3 = Volunteer is deleted or unassigned                                  //
-    //   4 = Volunteer is in the middle of actions period (parent Unit-Users)   //
-    //   5 = action is expired ...   (parent Unit-Users)                       //
+    //   4 = Action expires in 7 days                                           //
+    //   5 = Action expired yesterday                                          //
     //   6 = Volunteer submitted the Questionnaire (parent Unit-Users)        //
     ///////////////////////////////////////////////////////////////////////////
 
@@ -97,11 +99,11 @@ class NotificationService {
         $userId = \Auth::user()->id;
 
         $actives = Notification::where('user_id', $userId)
-                    ->where(function ($query) {
-                        $query->where('status', 'active')
-                              ->orWhere('status', 'alarmAndActive');
-                    })
-                    ->orderBy('created_at', 'desc')->get();
+            ->where(function ($query) {
+                $query->where('status', 'active')
+                    ->orWhere('status', 'alarmAndActive');
+            })
+            ->orderBy('created_at', 'desc')->get();
 
 
         //also get the first five inactive notifications
@@ -178,11 +180,55 @@ class NotificationService {
 
         $url = route('volunteer/profile', ['id' => $volunteerId]);
 
-        $unit = Unit::with('users')->findOrFail($unitId);
+        $unit = Unit::with('users')->find($unitId);
 
         foreach ($unit->users as $user) {
             NotificationService::addNotification($user->id, 2, $this->newVolunteer . $unit->description . '.', $url, $user->id, $unit->id);
         }
+    }
 
+    /**
+     * Notify the users of a unit that an action expired yesterday
+     *
+     * @param $actionId
+     */
+    public function actionExpired($actionId) {
+
+        $action = Action::find($actionId);
+        $unit = Unit::with('users')->find($action->unit_id);
+
+        $url = route('action/one', ['id' => $actionId]);
+
+        //notify the unit's users
+        foreach ($unit->users as $user) {
+            NotificationService::addNotification($user->id, 5, 'Η δράση ' . $action->description . ' έληξε στις ' . $action->end_date . '.', $url, $user->id, $action->id);
+        }
+
+        $admins = UserService::getAdmins();
+
+        //also notify all the admins
+        foreach ($admins as $admin) {
+            NotificationService::addNotification($admin->id, 5, 'Η δράση ' . $action->description . ' έληξε στις ' . $action->end_date . '.', $url, $admin->id, $action->id);
+        }
+    }
+
+    public function actionExpiresIn7Days($actionId) {
+
+        $action = Action::find($actionId);
+        $unit = Unit::with('users')->find($action->unit_id);
+
+        $url = route('action/one', ['id' => $actionId]);
+
+        //notify the unit's users
+        foreach ($unit->users as $user) {
+            NotificationService::addNotification($user->id, 6, 'Η δράση ' . $action->description . ' λήγει στις ' . $action->end_date . '.', $url, $user->id, $action->id);
+        }
+
+        $admins = UserService::getAdmins();
+
+        //also notify all the admins
+        foreach ($admins as $admin) {
+            NotificationService::addNotification($admin->id, 6, 'Η δράση ' . $action->description . ' λήγει στις ' . $action->end_date . '.', $url, $admin->id, $action->id);
+        }
     }
 }
