@@ -108,7 +108,13 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
 
     $msg_html = '';
 
-    if ($errors->has($field)) {
+
+    if($field == 'files[]') {
+           $field = 'files';
+    }
+
+    if ($errors->has($field) ) {
+
         //create the html for the p tag that will hold the error message
         $msg_html .= '<p class="help-block">';
         $msg_html .= $errors->first($field);
@@ -119,7 +125,9 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
             return '<div class="has-error">' . $text_html . $label_html . $msg_html . '</div>';
 
         return '<div class="has-error">' . $label_html . $text_html . $msg_html . '</div>';
+
     } else {
+
         if ($type == 'checkbox')
             return $text_html . $label_html . $msg_html;
 

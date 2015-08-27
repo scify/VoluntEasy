@@ -29,7 +29,7 @@
                         <li role="presentation"><a href="#tab5" data-toggle="tab"><i class="fa fa-clock-o m-r-xs"></i>Διαθεσιμότητα &
                             περιοχές ενδιαφερόντων</a>
                         </li>
-                        <li role="presentation"><a href="#tab6" data-toggle="tab" class="{{ $errors->has('files[]') ? 'tab has-error' : ''}}"><i class="fa fa-file-text-o m-r-xs"></i>Σχόλια & Αρχεία</a>
+                        <li role="presentation"><a href="#tab6" data-toggle="tab" class="{{ $errors->has('files') ? 'tab has-error' : ''}}"><i class="fa fa-file-text-o m-r-xs"></i>Σχόλια & Αρχεία</a>
                         </li>
                     </ul>
                     {!! Form::model($volunteer, ['id' => 'wizardForm', 'method' => 'POST', 'action' => ['VolunteerController@update', 'id' => $volunteer->id], 'files'=>true]) !!}

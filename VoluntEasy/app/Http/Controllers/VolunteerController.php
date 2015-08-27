@@ -199,7 +199,7 @@ class VolunteerController extends Controller {
         $timeline = VolunteerService::timeline($id);
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
 
-            //get the count of pending and available units, used in the front end
+        //get the count of pending and available units, used in the front end
         $pending = 0;
         $available = 0;
         foreach ($volunteer->units as $unit) {
@@ -258,7 +258,6 @@ class VolunteerController extends Controller {
     public function update(VolunteerRequest $request) {
 
         $volunteer = Volunteer::findOrFail($request->get('id'));
-
 
         // update everything except middle table stuff
         $volunteer->update(
@@ -369,10 +368,32 @@ class VolunteerController extends Controller {
             $volunteer->unitsExcludes()->detach();
         }
 
-        //TODO: manage return false
-        //store files
-        if(sizeof(\Input::file('files')!=null && \Input::file('files'))>0)
+
+        //check if files uploaded already exist
+        $files = \Input::file('files');
+
+        foreach ($files as $file) {
+            $filename = public_path() . '/assets/uploads/volunteers/' . $file->getClientOriginalName();
+
+            //if file already exists, redirect back with error message
+            if (file_exists($filename)) {
+                \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' υπάρχει ήδη.');
+                \Session::flash('flash_type', 'alert-danger');
+
+                return \Redirect::back();
+            }
+            //if file exceeds mazimum allowed size, redirect back with error message
+            if ($file->getSize() > 10000000) {
+                \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' ξεπερνά σε μέγεθος τα 10mb.');
+                \Session::flash('flash_type', 'alert-danger');
+
+                return \Redirect::back();
+            }
+        }
+
+        if ($files != null && sizeof($files) > 0)
             VolunteerService::storeFiles(\Input::file('files'), $volunteer->id);
+
 
         return \Redirect::route('volunteer/profile', ['id' => $volunteer->id]);
     }
@@ -589,7 +610,11 @@ class VolunteerController extends Controller {
 
         $filename = public_path() . '/assets/uploads/volunteers/' . $file->filename;
 
-        unlink($filename);
+        //if the file exists, delete it from the filesystem
+        if (file_exists($filename))
+            unlink($filename);
+
+        //delete the row form the db
         $file->delete();
 
         return $filename;

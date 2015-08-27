@@ -315,23 +315,23 @@
 
 
     //delete a file
-    $(".deleteFile").click(function(){
+    $(".deleteFile").click(function () {
         console.log("clicky");
-
-        $.ajax({
-            url: $("body").attr('data-url') + '/volunteers/deleteFile',
-            method: 'POST',
-            data: {
-                'id': $(this).attr('data-id')
-            },
-            headers: {
-                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-            },
-            success: function (data) {
-                document.location.reload();
-            }
-        });
-
+        if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε το αρχείο;")) {
+            $.ajax({
+                url: $("body").attr('data-url') + '/volunteers/deleteFile',
+                method: 'POST',
+                data: {
+                    'id': $(this).attr('data-id')
+                },
+                headers: {
+                    'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+                },
+                success: function (data) {
+                    document.location.reload();
+                }
+            });
+        }
     });
 
 </script>

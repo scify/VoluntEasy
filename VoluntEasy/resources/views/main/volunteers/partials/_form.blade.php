@@ -395,7 +395,8 @@
                 {!! Form::formInput('files[]', 'Ανέβασμα αρχείων:', $errors, ['class' => 'form-control', 'type' =>
                 'file', 'multiple' => 'true'])
                 !!}
-                <small class="help-blocκ">Μπορείτε να ανεβάσετε περισσότερα από 1 αρχεία</small>
+                <small class="help-blocκ">Μπορείτε να ανεβάσετε περισσότερα από 1 αρχεία.</small><br/>
+                <small class="help-blocκ">Τα αρχεία δεν πρέπει να ξεπερνούν σε μέγεθος τα 10mb.</small>
             </div>
             <div class="form-group">
                 @if(sizeof($volunteer->files)>0)

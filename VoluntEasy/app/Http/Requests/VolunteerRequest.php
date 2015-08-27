@@ -44,7 +44,6 @@ class VolunteerRequest extends Request {
                 'education_level_id' => 'required',
                 'work_status_id' => 'required',
                 'participation_reason' => 'required',
-                'files[]' => 'required|max:10000'
             ];
     }
 
@@ -54,11 +53,7 @@ class VolunteerRequest extends Request {
      * @return array
      */
     public function messages() {
-        return [
-            'files[].mimes' => 'Το αρχείο πρέπει να έχει κατάληξη .doc, .docx, .pdf.',
-            'files[].max' => 'Το αρχείο δεν πρέπει να ξεπερνά σε μέγεθος τα 10mb.',
-            'files[].required' => 'paparakia',
-        ];
+        return [];
     }
 
 }
