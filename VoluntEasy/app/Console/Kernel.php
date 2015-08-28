@@ -26,9 +26,9 @@ class Kernel extends ConsoleKernel {
 	protected function schedule(Schedule $schedule)
 	{
 		$schedule->command('inspire')
-				 ->hourly();
+				 ->everyFiveMinutes();
 
-        $schedule->command('checkActions')
+      /*  $schedule->command('checkActions')
             ->everyFiveMinutes();
            /* ->sendOutputTo($this->filePath);*/
 	}

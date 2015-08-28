@@ -211,6 +211,7 @@ return [
         'VolunteerService' => 'App\Services\Facades\VolunteerService',        
         'TreeService' => 'App\Services\Facades\TreeService',
         'FileService' => 'App\Services\Facades\FileService',
+        'CronService' => 'App\Services\Facades\CronService',
     ],
 
 ];

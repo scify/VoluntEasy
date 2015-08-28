@@ -2,6 +2,7 @@
 
 use App\Models\Descriptions\StepStatus;
 use App\Models\Descriptions\VolunteerStatus;
+use App\Models\Descriptions\VolunteerStatusDuration;
 use App\Models\File;
 use App\Models\Unit;
 use App\Models\User;
@@ -413,6 +414,25 @@ class VolunteerService {
         return;
     }
 
+    /**
+     * After the volunteer has the status of 'not available',
+     * s/he will be available to units/actions again.
+     *
+     * @param $durationId
+     * @return mixed
+     */
+    public function setVolunteerToAvailable($durationId){
+        $volunteer_status_duration = VolunteerStatusDuration::find($durationId);
+
+        $volunteer_status_duration->delete();
+
+        $volunteer = Volunteer::findOrFail($volunteer_status_duration->volunteer_id);
+
+        $volunteer->not_available = false;
+        $volunteer->update();
+
+        return $volunteer_status_duration->volunteer_id;
+    }
 
     /**
      * Add a volunteer to the root unit

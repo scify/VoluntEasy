@@ -651,16 +651,7 @@ class VolunteerController extends Controller {
      */
     public function available() {
 
-        $volunteer_status_duration = VolunteerStatusDuration::find(\Request::get('id'));
-
-        $volunteer_status_duration->delete();
-
-        $volunteer = Volunteer::findOrFail(\Request::get('id'));
-
-        $volunteer->not_available = false;
-        $volunteer->update();
-
-        return $volunteer->id;
+        return VolunteerService::setVolunteerToAvailable(\Request::get('id'));
     }
 
     /**
