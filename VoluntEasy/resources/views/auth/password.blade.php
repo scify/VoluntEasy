@@ -14,7 +14,9 @@
                     <div class="row">
                         <div class="col-md-3 center">
                             <div class="login-box">
-                                <a href="{{ url('main') }}" class="logo-name text-lg text-center">VoluntEasy</a>
+                                <div class="text-center">
+                                    <a href="{{ url('/') }}"><img src="{{ asset('assets/images/compact_logo.png') }}" class="logo"/></a>
+                                </div>
                                    @if (session('status'))
                                    		<div class="alert alert-success">
                                    			{{ session('status') }}

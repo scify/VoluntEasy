@@ -23,6 +23,7 @@ class VolunteerStatusDuration extends Migration {
             $table->integer('status_id')->unsigned();
             $table->foreign('status_id')->references('id')->on('volunteer_statuses');
             $table->timestamps();
+            $table->softDeletes();
         });
 	}
 

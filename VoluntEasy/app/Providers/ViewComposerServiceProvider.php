@@ -65,11 +65,12 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
             $statuses = [];
             array_push($statuses, '[- επιλέξτε -]');
+            array_push($statuses, 'Νέος');
             array_push($statuses, 'Υπό ένταξη');
             array_push($statuses, 'Διαθέσιμος');
             array_push($statuses, 'Ενεργός');
-            array_push($statuses, 'Ακατάλληλος');
-            array_push($statuses, 'Νέος');
+            array_push($statuses, 'Μη Διαθέσιμος');
+            array_push($statuses, 'Blacklisted');
 
             $view->with('maritalStatuses', $maritalStatuses)
                 ->with('identificationTypes', $identificationTypes)

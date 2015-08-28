@@ -107,6 +107,10 @@ class Volunteer extends User {
         return $this->hasOne('App\Models\RatingVolunteerAction');
     }
 
+    public function statusDuration() {
+        return $this->hasMany('App\Models\Descriptions\VolunteerStatusDuration');
+    }
+
     public function getBirthDateAttribute() {
         return \Carbon::parse($this->attributes['birth_date'])->format('d/m/Y');
     }
@@ -140,7 +144,7 @@ class Volunteer extends User {
 
         $volunteers = Volunteer::whereHas('units', function ($query) {
             $query->where('volunteer_status_id', VolunteerStatus::pending());
-        })->where('blacklisted', false)
+        })->where('blacklisted', false)->where('not_available', false)
           ->get();
 
         return $volunteers;
@@ -162,7 +166,7 @@ class Volunteer extends User {
         else
             $volunteers = Volunteer::whereIn('id', $permitted)->whereHas('units', function ($query) {
                 $query->where('volunteer_status_id', VolunteerStatus::available());
-            })->whereDoesntHave('actions')->where('blacklisted', false)->get();
+            })->whereDoesntHave('actions')->where('blacklisted', false)->where('not_available', false)->get();
 
         return $volunteers;
     }
@@ -176,7 +180,7 @@ class Volunteer extends User {
 
         $volunteers = Volunteer::whereHas('units', function ($query) {
             $query->where('volunteer_status_id', VolunteerStatus::active());
-        })->has('actions')->where('blacklisted', false)->with('actions')->get();
+        })->has('actions')->where('blacklisted', false)->where('not_available', false)->with('actions')->get();
 
         return $volunteers;
     }
@@ -189,7 +193,14 @@ class Volunteer extends User {
      * @return mixed
      */
     public function scopeUnassigned() {
-        $volunteers = Volunteer::whereDoesntHave('units')->where('blacklisted', false)->orderBy('name', 'ASC')->get();
+        $volunteers = Volunteer::whereDoesntHave('units')->where('blacklisted', false)->where('not_available', false)->orderBy('name', 'ASC')->get();
+
+        return $volunteers;
+    }
+
+    public function scopeNotAvailable() {
+
+        $volunteers = Volunteer::where('not_available', true)->get();
 
         return $volunteers;
     }

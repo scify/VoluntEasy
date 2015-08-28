@@ -195,22 +195,26 @@ class VolunteerService {
 
         switch ($statusId) {
             case '1':
+                $volunteers = Volunteer::unassigned()->lists('id');
+                break;
+            case '2':
                 $tmpArray = Volunteer::pending();
                 foreach ($tmpArray as $tmp)
                     array_push($volunteers, $tmp->id);
                 break;
-            case '2':
-                $volunteers = Volunteer::available()->lists('id'); //not ok
-                break;
             case '3':
-                $volunteers = Volunteer::active()->lists('id');
+                $volunteers = Volunteer::available()->lists('id');
                 break;
             case '4':
-                $volunteers = Volunteer::blacklisted()->lists('id');
+                $volunteers = Volunteer::active()->lists('id');
                 break;
             case '5':
-                $volunteers = Volunteer::unassigned()->lists('id');
+                $volunteers = Volunteer::notAvailable()->lists('id');
                 break;
+            case '6':
+                $volunteers = Volunteer::blacklisted()->lists('id');
+                break;
+
         }
 
         return $volunteers;
@@ -236,15 +240,35 @@ class VolunteerService {
             ->with('units.children', 'units.actions')
             ->findOrFail($id);
 
+        $volunteer->hideStatus=false;
+        //if the volunteer is not available, load the duration
         if($volunteer->not_available)
-            $volunteer->load('notAvailableDuration');
+            $volunteer->load('statusDuration.status');
+
+        foreach($volunteer->statusDuration as $duration){
+            if($duration->status->description == 'Not available'){
+                $volunteer->not_availableFrom = $duration->from_date;
+                $volunteer->not_availableTo = $duration->to_date;
+                $volunteer->not_availableComments = $duration->comments;
+                $volunteer->not_availableId = $duration->id;
+            }
+
+            //also, if the volunteer is not available
+            //and the current date is between that period, we should not display the current status
+            //or be able to assign the volunteer anywhere
+            $now = \Carbon::now();
+
+            $from = \Carbon::createFromFormat('d/m/Y', $volunteer->not_availableFrom);
+            $to = \Carbon::createFromFormat('d/m/Y', $volunteer->not_availableTo);
+
+            if($now->between($from, $to))
+                $volunteer->hideStatus = true;
+        }
 
         //get volunteer's age
-        //return \Carbon::parse($this->attributes['birth_date'])->format('d/m/Y');
-
         $birth_date = \Carbon::createFromFormat('d/m/Y', $volunteer->birth_date);
-
         $volunteer->age = \Carbon::createFromDate($birth_date->year, $birth_date->month, $birth_date->day)->age;
+
 
         $unitsExcludes = $volunteer->unitsExcludes->lists('id');
         $assignedUnits = $volunteer->units->lists('id');

@@ -212,11 +212,17 @@ class NotificationService {
         }
     }
 
+    /**
+     * Notify the users for actions that expire in 7 days
+     *
+     * @param $actionId
+     */
     public function actionExpiresIn7Days($actionId) {
 
         $action = Action::find($actionId);
         $unit = Unit::with('users')->find($action->unit_id);
 
+        //TODO: fix doesn't work
         $url = route('action/one', ['id' => $actionId]);
 
         //notify the unit's users

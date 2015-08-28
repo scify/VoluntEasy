@@ -244,7 +244,7 @@
             </div>
         </div>
         @endif
-        @if($volunteer->permitted)
+        @if(!$volunteer->blacklisted && !$volunteer->not_available && $volunteer->permitted)
         <div class="row">
             <div class="col-md-12 text-right">
                 <small><a href="#" class="text-danger" data-toggle="modal" data-target="#notAvailable">Σήμανση εθελοντή ως μη διαθέσιμος</a></small>
@@ -261,7 +261,7 @@
     </div>
 </div>
 
-@if(!$volunteer->blacklisted)
+@if(!$volunteer->blacklisted && !$volunteer->not_available && $volunteer->permitted)
 <!-- Select unit modal -->
 <div class="modal fade" id="notAvailable">
     <div class="modal-dialog">
@@ -305,7 +305,7 @@
 </div><!-- /.modal -->
 @endif
 
-@if(!$volunteer->blacklisted)
+@if(!$volunteer->blacklisted && $volunteer->permitted)
 <!-- Select unit modal -->
 <div class="modal fade" id="blacklisted">
     <div class="modal-dialog">
@@ -399,8 +399,7 @@
                     'X-CSRF-Token': $('meta[name="_token"]').attr('content')
                 },
                 success: function (data) {
-                    console.log(data);
-                    // window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
+                     window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
                 }
             });
         }

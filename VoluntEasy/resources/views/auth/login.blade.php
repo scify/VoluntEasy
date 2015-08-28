@@ -15,7 +15,7 @@
                         <div class="col-md-3 center">
                             <div class="login-box">
                                 <div class="text-center">
-                                <a href="{{ url('/') }}"><img src="{{ asset('assets/images/logo.png') }}"/></a>
+                                <a href="{{ url('/') }}"><img src="{{ asset('assets/images/compact_logo.png') }}" class="logo"/></a>
                                 </div>
                                    @if (count($errors) > 0)
                                 		<div class="alert alert-danger">
@@ -40,7 +40,6 @@
                                        <button type="submit" class="btn btn-success btn-block">{{trans($lang.'entrance')}}</button>
                                         <div class="form-group">
                                             <a href="{{ url('/password/email') }}" class="display-block text-center m-t-md text-sm">{{trans($lang.'forgotPass')}}</a>
-                                            <a href="{{ url('/auth/register') }}" class="display-block text-center m-t-md text-sm">{{trans($lang.'register')}}</a>
                                         </div>
                                    </form>
                             </div>

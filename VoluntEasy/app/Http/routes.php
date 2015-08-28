@@ -67,6 +67,7 @@ Route::post('volunteers/search', 'VolunteerController@search');
 Route::post('volunteers/blacklisted', 'VolunteerController@blacklisted');
 Route::post('volunteers/unblacklisted', 'VolunteerController@unBlacklisted');
 Route::post('volunteers/notAvailable', 'VolunteerController@notAvailable');
+Route::post('volunteers/available', 'VolunteerController@available');
 Route::post('volunteers/deleteFile', 'VolunteerController@deleteFile');
 
 

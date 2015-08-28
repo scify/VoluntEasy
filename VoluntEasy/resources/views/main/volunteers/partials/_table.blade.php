@@ -64,13 +64,10 @@
                 var status = '';
 
                 if (data.blacklisted == 1)
-                    status += '<div class="status blacklisted">Μη διαθέσιμος</div>';
+                    status += '<div class="status blacklisted">Blacklisted</div>';
+                else  if (data.not_available == 1)
+                    status += '<div class="status notavailable">Μη διαθέσιμος</div>';
                 else {
-                    //if the volunteer has not been assigned to root unit, display appropriate button
-                    /*  if (data.assignToRoot) {
-                     status = '<a href="' + $("body").attr('data-url') + '/volunteers/addToRootUnit/' + data.id + '" class="btn btn-info">Ένταξη στη μονάδα μου</a>';
-                     }
-                     else {*/
                     $.each(data.units, function (index, unit) {
                         if (unit.status == 'Pending')
                             status += '<div class="status pending" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι υπό ένταξη στη μονάδα ' + unit.description + '">' + unit.description + '</div>';
@@ -79,7 +76,6 @@
                         else if (unit.status == 'Active')
                             status += '<div class="status active" data-toggle="tooltip" data-placement="bottom" title="Ο εθελοντής είναι ενεργός σε δράσεις στη μονάδα ' + unit.description + '">' + unit.description + '</div>';
                     });
-                    // }
                 }
                 return status;
             }
@@ -101,7 +97,7 @@
                         html += '</li>';
 
                         //if the volunteer has not been assigned to root unit, display appropriate button
-                        if (data.assignToRoot && data.blacklisted!=1) {
+                        if (data.assignToRoot && data.blacklisted!=1 && data.not_available!=1) {
                             html += '<li><a href="' + $("body").attr('data-url') + '/volunteers/addToRootUnit/' + data.id + '" data-toggle="tooltip"';
                             html += 'class=" btn btn-info" data-placement="bottom" title="Ανάθεση στη μονάδα μου"><i class="fa fa-home"></i></a></li>';
                         }
