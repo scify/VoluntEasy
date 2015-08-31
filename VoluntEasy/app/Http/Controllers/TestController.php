@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Models\Action;
 use App\Models\Unit;
 use App\Models\Volunteer;
+use App\Services\Facades\NotificationService;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
@@ -20,9 +21,11 @@ class TestController extends Controller {
 
     public function test() {
 
+        $url = route('action/one', ['id' => 1]);
 
-        return UserService::isAdmin();
+        //return    $url;
 
+        return NotificationService::actionExpired(1);
 
         /*
         $volunteerId=17;

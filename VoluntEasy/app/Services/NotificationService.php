@@ -180,6 +180,8 @@ class NotificationService {
 
         $url = route('volunteer/profile', ['id' => $volunteerId]);
 
+        echo $url;
+
         $unit = Unit::with('users')->find($unitId);
 
         foreach ($unit->users as $user) {
@@ -193,11 +195,14 @@ class NotificationService {
      * @param $actionId
      */
     public function actionExpired($actionId) {
-
+/*
         $action = Action::find($actionId);
         $unit = Unit::with('users')->find($action->unit_id);
+*/
+        $url = route('volunteer/profile', ['id' => 1]);
 
-        $url = route('action/one', ['id' => $actionId]);
+        echo $url;
+        /*
 
         //notify the unit's users
         foreach ($unit->users as $user) {
@@ -210,6 +215,7 @@ class NotificationService {
         foreach ($admins as $admin) {
             NotificationService::addNotification($admin->id, 5, 'Η δράση ' . $action->description . ' έληξε στις ' . $action->end_date . '.', $url, $admin->id, $action->id);
         }
+*/
     }
 
     /**
@@ -223,7 +229,7 @@ class NotificationService {
         $unit = Unit::with('users')->find($action->unit_id);
 
         //TODO: fix doesn't work
-        $url = route('action/one', ['id' => $actionId]);
+        $url = route('action/one', ['id' => $action->id]);
 
         //notify the unit's users
         foreach ($unit->users as $user) {

@@ -1,7 +1,9 @@
 <?php namespace App\Services;
 
 use App\Models\Action;
+use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Volunteer;
+use App\Services\Facades\NotificationService as NotificationServiceFacade;
 use App\Services\Facades\VolunteerService as VolunteerServiceFacade;
 
 class CronService {
@@ -36,7 +38,7 @@ class CronService {
             foreach ($expired->volunteers as $volunteer) {
                 $statusId = VolunteerStatus::available();
 
-                VolunteerService::changeUnitStatus($volunteer->id, $expired->unit_id, $statusId);
+                VolunteerServiceFacade::changeUnitStatus($volunteer->id, $expired->unit_id, $statusId);
             }
 
             if (sizeof($expired->volunteers) > 0) {
@@ -45,10 +47,10 @@ class CronService {
             }
 
             //notify users that action has expired
-            NotificationService::actionExpired($expired->id);
+            NotificationServiceFacade::actionExpired($expired->id);
         }
 
-        return sizeof($expiredActions);
+        return $expiredActions;
     }
 
 
@@ -58,14 +60,12 @@ class CronService {
     public function toExpireActions() {
         $expireIn7DaysActions = Action::expireInSevenDays()->get();
 
-        $count = 0;
         //notify users about to expire actions
         foreach ($expireIn7DaysActions as $toExpire) {
-            NotificationService::actionExpiresIn7Days($toExpire->id);
-            $count++;
+            NotificationServiceFacade::actionExpiresIn7Days($toExpire->id);
         }
 
-        return $count;
+        return $expireIn7DaysActions;
     }
 
 
@@ -88,13 +88,11 @@ class CronService {
                 $now = \Carbon::now();
                 $to = \Carbon::createFromFormat('d/m/Y', $volunteer->statusDuration[0]->to_date);
 
-                 if ($now->diffInDays($to) == 0) {
+                //set as available again
+                 if ($now->diffInDays($to) == 1) {
                      VolunteerServiceFacade::setVolunteerToAvailable($volunteer->statusDuration[0]->id);
                      $count++;
                  }
-            }
-            else{
-                return 'meow';
             }
         }
 
