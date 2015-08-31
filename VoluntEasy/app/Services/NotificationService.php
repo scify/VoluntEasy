@@ -147,7 +147,7 @@ class NotificationService {
      */
     public function userToUnit($userId, $unit) {
 
-        $url = route('user/profile', ['id' => $userId]);
+        $url = '/users/one/'.$userId;
 
         //userId, type of notification, message, url, userId, unitId
         NotificationService::addNotification($userId, 1, $this->userToUnit . $unit->description . '.', $url, $userId, $unit->id);
@@ -178,9 +178,7 @@ class NotificationService {
      */
     public function newVolunteer($volunteerId, $unitId) {
 
-        $url = route('volunteer/profile', ['id' => $volunteerId]);
-
-        echo $url;
+        $url = '/volunteers/one/'.$volunteerId;
 
         $unit = Unit::with('users')->find($unitId);
 
@@ -195,14 +193,11 @@ class NotificationService {
      * @param $actionId
      */
     public function actionExpired($actionId) {
-/*
+
         $action = Action::find($actionId);
         $unit = Unit::with('users')->find($action->unit_id);
-*/
-        $url = route('volunteer/profile', ['id' => 1]);
 
-        echo $url;
-        /*
+        $url = '/actions/one/'.$actionId;
 
         //notify the unit's users
         foreach ($unit->users as $user) {
@@ -215,7 +210,7 @@ class NotificationService {
         foreach ($admins as $admin) {
             NotificationService::addNotification($admin->id, 5, 'Η δράση ' . $action->description . ' έληξε στις ' . $action->end_date . '.', $url, $admin->id, $action->id);
         }
-*/
+
     }
 
     /**
@@ -228,8 +223,7 @@ class NotificationService {
         $action = Action::find($actionId);
         $unit = Unit::with('users')->find($action->unit_id);
 
-        //TODO: fix doesn't work
-        $url = route('action/one', ['id' => $action->id]);
+        $url = '/actions/one/'.$actionId;
 
         //notify the unit's users
         foreach ($unit->users as $user) {

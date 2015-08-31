@@ -21,8 +21,6 @@ class TestController extends Controller {
 
     public function test() {
 
-        $url = route('action/one', ['id' => 1]);
-
         //return    $url;
 
         return NotificationService::actionExpired(1);

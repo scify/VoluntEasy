@@ -5,32 +5,27 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel {
 
-	/**
-	 * The Artisan commands provided by your application.
-	 *
-	 * @var array
-	 */
-	protected $commands = [
-		'App\Console\Commands\Inspire',
-        'App\Console\Commands\SendEmail',
+    /**
+     * The Artisan commands provided by your application.
+     *
+     * @var array
+     */
+    protected $commands = [
+        'App\Console\Commands\Inspire',
         'App\Console\Commands\CheckActions',
-	];
+    ];
 
 
-	/**
-	 * Define the application's command schedule.
-	 *
-	 * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-	 * @return void
-	 */
-	protected function schedule(Schedule $schedule)
-	{
-		$schedule->command('inspire')
-				 ->everyFiveMinutes();
+    /**
+     * Define the application's command schedule.
+     *
+     * @param  \Illuminate\Console\Scheduling\Schedule $schedule
+     * @return void
+     */
+    protected function schedule(Schedule $schedule) {
 
-      /*  $schedule->command('checkActions')
-            ->everyFiveMinutes();
-           /* ->sendOutputTo($this->filePath);*/
-	}
+          $schedule->command('checkActions')
+              ->hourly();
+    }
 
 }

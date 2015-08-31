@@ -55,21 +55,31 @@ $(document).ready(function () {
                     $.each(data, function (i, notification) {
                         //console.log(notification.id);
 
-                        var notifClass = (notification.status == 'alarmAndActive' || notification.status == 'active'? 'grey' : 'white');
+                        var notifClass = (notification.status == 'alarmAndActive' || notification.status == 'active' ? 'grey' : 'white');
                         var icon = '';
+                        var url = $("body").attr('data-url');
 
                         //depending on the notification type, change the icon
-                        if (notification.type_id == "1") //user assigned to user
+                        if (notification.type_id == "1") { //user assigned to unit
                             icon = '<div class="task-icon badge badge-info"><i class="fa fa-home"></i></div>';
-                        else if(notification.type_id == "2") //new volunteer
+                            url += notification.url;
+                        }
+                        else if (notification.type_id == "2") { //new volunteer
                             icon = '<div class="task-icon badge badge-success"><i class="fa fa-leaf"></i></div>';
-                        else if(notification.type_id == "4") //action about to expire
+                            url += notification.url;
+                        }
+                        else if (notification.type_id == "4") {//action about to expire
                             icon = '<div class="task-icon badge badge-warning"><i class="fa fa-calendar"></i></div>';
-                        else if(notification.type_id == "5") //action expired
+                            url += notification.url;
+                        }
+                        else if (notification.type_id == "5") {//action expired
                             icon = '<div class="task-icon badge badge-danger"><i class="fa fa-calendar"></i></div>';
-                        else //default
+                            url += notification.url;
+                        }
+                        else { //default
                             icon = '<div class="task-icon badge badge-info"><i class="fa fa-info"></i></div>';
-
+                            url += notification.url;
+                        }
                         //draw the <li> that holds all the notification info
                         html += '<li class="' + notifClass + '"><a href="' + notification.url + '">';
                         html += icon;
@@ -92,7 +102,7 @@ $(document).ready(function () {
                         ring.play();
                     }
 
-                    if(actives.length>0){
+                    if (actives.length > 0) {
                         $(".notificationSum").text(actives.length);
 
                         //there are new notifications
@@ -101,7 +111,7 @@ $(document).ready(function () {
                         //add a (1) to the title!
                         $('title').text('(' + actives.length + ') ' + pagetitle);
                     }
-                    else{
+                    else {
                         $(".notificationSum").text(0);
                         $("#notificationBadge").hide();
                         $("#notificationList").html('');
