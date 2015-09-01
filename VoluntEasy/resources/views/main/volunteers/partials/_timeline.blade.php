@@ -50,7 +50,6 @@
 
             <span class="cd-date">{{ Carbon::parse($timelineBlock->created_at)->format('d/m/Y') }}</span>
         </div>
-        <!-- cd-timeline-content -->
     </div>
 
     @elseif($timelineBlock->type=='unit')
@@ -83,7 +82,23 @@
 
             <span class="cd-date">{{ Carbon::parse($timelineBlock->created_at)->format('d/m/Y') }}</span>
         </div>
-        <!-- cd-timeline-content -->
+    </div>
+
+    @elseif($timelineBlock->type=='status')
+
+    <div class="cd-timeline-block">
+        <div class="cd-timeline-img cd-success">
+            <i class="fa fa-exclamation"></i>
+        </div>
+        <div class="cd-timeline-content">
+            <h4>Ο εθελοντής δεν ήταν διαθέσιμος το διάστημα {{ $timelineBlock->from_date}} - {{ $timelineBlock->to_date}}</h4>
+
+            @if($timelineBlock->comments!=null && $timelineBlock->comments!='')
+            <p>Σχόλια: {{ $timelineBlock->comments}}</p>
+            @endif
+
+            <span class="cd-date">{{ $timelineBlock->to_date }}</span>
+        </div>
     </div>
     @endif
     @endforeach

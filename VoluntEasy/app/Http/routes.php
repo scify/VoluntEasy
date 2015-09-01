@@ -132,6 +132,14 @@ Route::get('search/country','SearchController@country');
 Route::get('search/actionUser','SearchController@actionUser');
 
 
+////////////////
+//Reports Routes //
+////////////////
+Route::get('reports','ReportsController@index');
+Route::get('reports/idleVolunteers','ReportsController@idleVolunteers');
+
+
+
 
 /////////////////
 //API Routes //

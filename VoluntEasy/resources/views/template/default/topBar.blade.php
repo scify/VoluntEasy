@@ -7,13 +7,13 @@
                         </a>
                     </div>
                     <div class="logo-box">
-                        <img src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
+                       <img src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
                     </div>
                     <!-- Logo Box -->
                     <div class="topmenu-outer">
                         <div class="top-menu">
                             <ul class="nav navbar-nav navbar-right">
-                                <!---Notificasion Icon-->
+                                <!---Notification Icon-->
                                 <li class="dropdown" id="notificationsDropdown">
                                     <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic"
                                         data-toggle="dropdown" id="notificationBell"><i class="fa fa-bell"></i>
@@ -31,7 +31,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <!---/Notificasion Icon-->
+                                <!---/Notification Icon-->
 
                                 <!---Profile--->
                                 <li class="dropdown">

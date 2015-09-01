@@ -28,6 +28,7 @@ use DB;
 use Illuminate\Support\Facades\Session;
 
 class VolunteerController extends Controller {
+
     public function __construct() {
         $this->middleware('auth');
     }
@@ -195,13 +196,10 @@ class VolunteerController extends Controller {
      */
     public function show($id) {
         $volunteer = VolunteerService::fullProfile($id);
-
-       // return $volunteer;
-
-
         $timeline = VolunteerService::timeline($id);
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
 
+       // return $timeline;
         //get the count of pending and available units, used in the front end
         $pending = 0;
         $available = 0;

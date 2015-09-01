@@ -21,6 +21,7 @@ return [
 	'showUsers' => 'Προβολή Χρηστών',
 	'tree' => 'Δέντρο',
 	'tasks' => 'Οι εκκρεμότητές μου',
+	'reports' => 'Reports',
 
 
 	 

@@ -60,6 +60,13 @@
                     <p>{{trans($lang.'tasks')}}</p>
                 </a>
             </li>
+
+            <li class=" {{ Request::is('reports*') ? 'active open' : '' }}">
+                <a href="{{url('reports')}}" class="waves-effect waves-button">
+                    <i class="fa fa-bar-chart fa-2x"></i>
+                    <p>{{trans($lang.'reports')}}</p>
+                </a>
+            </li>
             <li class=" {{ Request::is('wholeTree*') ? 'active open' : '' }}">
                 <a href="{{url('wholeTree')}}" class="waves-effect waves-button">
                     <i class="fa fa-tree fa-2x"></i>

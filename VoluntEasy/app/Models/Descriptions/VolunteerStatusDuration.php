@@ -24,4 +24,5 @@ class VolunteerStatusDuration extends Model {
     public function getToDateAttribute() {
         return \Carbon::parse($this->attributes['to_date'])->format('d/m/Y');
     }
+
 }

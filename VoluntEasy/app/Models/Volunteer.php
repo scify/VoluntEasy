@@ -75,6 +75,10 @@ class Volunteer extends User {
         return $this->hasMany('App\Models\VolunteerActionHistory')->orderBy('created_at', 'desc');
     }
 
+    public function actionHistoryNewest() {
+        return $this->hasOne('App\Models\VolunteerActionHistory')->orderBy('created_at', 'desc');
+    }
+
     public function unitHistory() {
         return $this->hasMany('App\Models\VolunteerUnitHistory')->orderBy('created_at', 'desc');
     }
@@ -216,6 +220,32 @@ class Volunteer extends User {
 
         return $volunteers;
     }
+
+
+
+
+    /******     CORRECT SCOPES FIX     *****/
+
+
+
+    public function scopeAvailable2($q, $permitted = null) {
+
+        if ($permitted == null)
+            $q->whereHas('units', function ($query) {
+                $query->where('volunteer_status_id', VolunteerStatus::available());
+            })->whereDoesntHave('actions')->where('blacklisted', false);
+        else
+            $q->whereIn('id', $permitted)->whereHas('units', function ($query) {
+                $query->where('volunteer_status_id', VolunteerStatus::available());
+            })->whereDoesntHave('actions')->where('blacklisted', false)->where('not_available', false);
+    }
+
+
+
+
+
+
+
 
 
 }

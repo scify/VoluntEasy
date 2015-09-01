@@ -241,13 +241,13 @@ class VolunteerService {
             ->with('units.children', 'units.actions')
             ->findOrFail($id);
 
-        $volunteer->hideStatus=false;
+        $volunteer->hideStatus = false;
         //if the volunteer is not available, load the duration
-        if($volunteer->not_available)
+        if ($volunteer->not_available)
             $volunteer->load('statusDuration.status');
 
-        foreach($volunteer->statusDuration as $duration){
-            if($duration->status->description == 'Not available'){
+        foreach ($volunteer->statusDuration as $duration) {
+            if ($duration->status->description == 'Not available') {
                 $volunteer->not_availableFrom = $duration->from_date;
                 $volunteer->not_availableTo = $duration->to_date;
                 $volunteer->not_availableComments = $duration->comments;
@@ -262,7 +262,7 @@ class VolunteerService {
             $from = \Carbon::createFromFormat('d/m/Y', $volunteer->not_availableFrom);
             $to = \Carbon::createFromFormat('d/m/Y', $volunteer->not_availableTo);
 
-            if($now->between($from, $to))
+            if ($now->between($from, $to))
                 $volunteer->hideStatus = true;
         }
 
@@ -336,7 +336,6 @@ class VolunteerService {
      */
     public function timeline($volunteerId) {
 
-
         $volunteer = Volunteer::with('actionHistory.user')
             ->with('unitHistory.user')
             ->with(['actionHistory.action' => function ($query) use ($volunteerId) {
@@ -350,6 +349,9 @@ class VolunteerService {
                         $query->where('volunteer_id', $volunteerId)->with('status');
                     }]);
                 }]);
+            }])
+            ->with(['statusDuration' => function ($query) {
+                $query->withTrashed()->orderBy('from_date')->with('status');
             }])
             ->findOrFail($volunteerId);
 
@@ -365,6 +367,13 @@ class VolunteerService {
         foreach ($volunteer->unitHistory as $unitHistory) {
             $unitHistory->type = 'unit';
             array_push($timeline, $unitHistory);
+        }
+
+        //status duration
+        foreach ($volunteer->statusDuration as $statusHistory) {
+            $statusHistory->type = 'status';
+            $statusHistory->created_at = \Carbon::createFromFormat('d/m/Y', $statusHistory->to_date)->format('Y-m-d');
+            array_push($timeline, $statusHistory);
         }
 
         //sort the array by date
@@ -421,7 +430,7 @@ class VolunteerService {
      * @param $durationId
      * @return mixed
      */
-    public function setVolunteerToAvailable($durationId){
+    public function setVolunteerToAvailable($durationId) {
         $volunteer_status_duration = VolunteerStatusDuration::find($durationId);
 
         $volunteer_status_duration->delete();
@@ -655,7 +664,7 @@ class VolunteerService {
      */
     public function storeFiles($files, $id) {
         foreach ($files as $file) {
-            if($file!=null) {
+            if ($file != null) {
                 $destinationPath = public_path() . '/assets/uploads/volunteers';
                 $fileName = $file->getClientOriginalName();
 
