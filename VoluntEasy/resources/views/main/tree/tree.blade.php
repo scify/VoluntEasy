@@ -1,0 +1,33 @@
+@extends('default')
+
+@section('title')
+Tree
+@stop
+@section('pageTitle')
+Tree
+@stop
+
+@section('bodyContent')
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-body">
+                @include('main.tree._tree')
+            </div>
+        </div>
+    </div>
+</div>
+@stop
+
+
+@section('footerScripts')
+<script>
+
+    //initialize the tree
+    var treewrapper = new Treewrapper({
+        disabled:true
+    });
+    treewrapper.init();
+
+</script>
+@append

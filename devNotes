@@ -1,0 +1,19 @@
+
+// Init DB
+
+	sudo su - postgres     // conect as postgre default user
+	psql
+	create role voluntuser with login password 'pass';
+	create database volunteasy owner voluntuser;
+	grant ALL PRIVILEGES ON DATABASE volunteasy TO voluntuser;
+	\q    // exit
+
+	// after
+	psql -d volunteasy -U voluntuser -W
+
+
+// connect to remote DB
+ssh project_volunteasy@development1.scify.org
+
+ssh -NL 8118:localhost:5432 -p 222 user@server
+psql -h localhost -p 8118 -U voluntuser -d volunteasy
