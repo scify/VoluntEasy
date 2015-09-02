@@ -1,9 +1,15 @@
 <?php namespace App\Http\Controllers;
 
 
+use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Volunteer;
+use App\Services\Facades\VolunteerService;
 
 class ReportsController extends Controller{
+
+    private $volunteerStatuses;
+
+
 
     public function __construct() {
         $this->middleware('auth');
@@ -57,8 +63,71 @@ class ReportsController extends Controller{
      * @return mixed
      */
     public function volunteersByMonth(){
-        $volunteers = Volunteer::where( \DB::raw('MONTH(created_at)'), '=', 8 )->get();
+
+        $volunteerStatuses = VolunteerStatus::all()->lists('description', 'id');
+
+
+        return $volunteerStatuses;
+
+        $august = Volunteer::where(\DB::raw('MONTH(created_at)'), '=', 1 )
+            ->where(\DB::raw('YEAR(created_at)'), '=', date('Y') )
+            ->with('units')->get();
+
+        foreach($august as $volunteer){
+            $volunteer = VolunteerService::setStatusToUnits($volunteer);
+        }
+
+
+
+        $september = Volunteer::where(\DB::raw('MONTH(created_at)'), '=', 1 )
+            ->where(\DB::raw('YEAR(created_at)'), '=', date('Y') )
+            ->with('units')->get();
+
+        foreach($september as $volunteer){
+            $volunteer = VolunteerService::setStatusToUnits($volunteer);
+        }
+
+
+
+
+
+
+
+
+
+
+        $pending = VolunteerStatus::pending();
+        $available = VolunteerStatus::available();
+        $active = VolunteerStatus::active();
+        //new???
+
 
         return $volunteers;
     }
+
+
+
+
+
+
+
+    private function setStatusToUnits($volunteer) {
+
+        foreach ($volunteer->units as $unit) {
+
+            $statusId = VolunteerUnitStatus::where('volunteer_id', $volunteer->id)
+                ->where('unit_id', $unit->id)->first()->volunteer_status_id;
+
+            $unit->status = $this->volunteerStatuses[statusId];
+        }
+
+        return $volunteer;
+    }
+
+
+
+
+
+
+
 }

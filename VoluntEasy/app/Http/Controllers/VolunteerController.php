@@ -39,25 +39,9 @@ class VolunteerController extends Controller {
      * @return Response
      */
     public function index() {
-        /*   $volunteers = Volunteer::with('units', 'actions')->orderBy('name', 'ASC')->get();
-           //$volunteers->setPath(\URL::to('/') . '/volunteers');
-
-           //get the status of each unit to display to the list
-           foreach($volunteers as $volunteer){
-               $volunteer = VolunteerService::setStatusToUnits($volunteer);
-           }*/
-
         return view('main.volunteers.list');
     }
 
-    /**
-     * Display volunteer statistics
-     *
-     * @return \Illuminate\View\View
-     */
-    public function statistics() {
-        return view('main.volunteers.statistics');
-    }
 
     /**
      * Show the form for creating a new resource.

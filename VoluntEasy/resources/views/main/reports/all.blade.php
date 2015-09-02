@@ -9,10 +9,13 @@ Reports
 
 @section('bodyContent')
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
         <div class="panel panel-white">
             <div class="panel-body">
-                lala
+
+
+
+                @include('main.reports._volunteersByMonth')
 
             </div>
         </div>

@@ -241,6 +241,8 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('unit_id')->references('id')->on('units');
             $table->integer('volunteer_status_id')->unsigned();
             $table->foreign('volunteer_status_id')->references('id')->on('volunteer_statuses');
+            $table->softDeletes();
+            $table->timestamps();
         });
 
         Schema::create('volunteer_unit_history', function ($table) {

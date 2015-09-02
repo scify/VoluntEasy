@@ -15,6 +15,7 @@ use App\Services\Facades\NotificationService;
 use App\Services\Facades\SearchService as Search;
 use App\Services\Facades\UnitService as UnitServiceFacade;
 use App\Services\Facades\UserService as UserServiceFacade;
+use App\Models\VolunteerUnitStatus;
 
 class VolunteerService {
 
@@ -162,12 +163,10 @@ class VolunteerService {
 
         foreach ($volunteer->units as $unit) {
 
-            $statusId = \DB::table('volunteer_unit_status')
-                ->select('volunteer_status_id')
-                ->where('volunteer_id', $volunteer->id)
+            $statusId = VolunteerUnitStatus::where('volunteer_id', $volunteer->id)
                 ->where('unit_id', $unit->id)->first()->volunteer_status_id;
 
-            $status = VolunteerStatus::findOrFail($statusId)->description;
+            $status = VolunteerStatus::find($statusId)->description;
             $unit->status = $status;
         }
 
@@ -236,6 +235,7 @@ class VolunteerService {
             ->findOrFail($id);
 
         $volunteer->hideStatus = false;
+
         //if the volunteer is not available, load the duration
         if ($volunteer->not_available)
             $volunteer->load('statusDuration.status');
@@ -409,10 +409,10 @@ class VolunteerService {
      */
     public function changeUnitStatus($volunteerId, $unitId, $statusId) {
 
-        \DB::table('volunteer_unit_status')
-            ->where('volunteer_id', $volunteerId)
-            ->where('unit_id', $unitId)
-            ->update(['volunteer_status_id' => $statusId]);
+        $volunteerUnitStatus = VolunteerUnitStatus::where('volunteer_id', $volunteerId)
+            ->where('unit_id', $unitId)->first();
+
+        $volunteerUnitStatus->update(['volunteer_status_id' => $statusId]);
 
         return;
     }
