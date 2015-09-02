@@ -144,14 +144,12 @@ class Volunteer extends User {
      *
      * @return mixed
      */
-    public function scopePending() {
+    public function scopePending($query) {
 
-        $volunteers = Volunteer::whereHas('units', function ($query) {
+        $query->whereHas('units', function ($query) {
             $query->where('volunteer_status_id', VolunteerStatus::pending());
         })->where('blacklisted', false)->where('not_available', false)
           ->get();
-
-        return $volunteers;
     }
 
     /**
@@ -161,18 +159,16 @@ class Volunteer extends User {
      *
      * @return array
      */
-    public function scopeAvailable($q, $permitted = null) {
+    public function scopeAvailable($query, $permitted = null) {
 
         if ($permitted == null)
-            $volunteers = Volunteer::whereHas('units', function ($query) {
-                $query->where('volunteer_status_id', VolunteerStatus::available());
-            })->whereDoesntHave('actions')->where('blacklisted', false)->get();
-        else
-            $volunteers = Volunteer::whereIn('id', $permitted)->whereHas('units', function ($query) {
+            $query->whereHas('units', function ($query) {
                 $query->where('volunteer_status_id', VolunteerStatus::available());
             })->whereDoesntHave('actions')->where('blacklisted', false)->where('not_available', false)->get();
-
-        return $volunteers;
+        else
+            $query->whereIn('id', $permitted)->whereHas('units', function ($query) {
+                $query->where('volunteer_status_id', VolunteerStatus::available());
+            })->whereDoesntHave('actions')->where('blacklisted', false)->where('not_available', false)->get();
     }
 
     /**
@@ -180,13 +176,12 @@ class Volunteer extends User {
      *
      * @return mixed
      */
-    public function scopeActive() {
+    public function scopeActive($query) {
 
-        $volunteers = Volunteer::whereHas('units', function ($query) {
+        $query->whereHas('units', function ($query) {
             $query->where('volunteer_status_id', VolunteerStatus::active());
         })->has('actions')->where('blacklisted', false)->where('not_available', false)->with('actions')->get();
 
-        return $volunteers;
     }
 
     /**
@@ -196,17 +191,13 @@ class Volunteer extends User {
      *
      * @return mixed
      */
-    public function scopeUnassigned() {
-        $volunteers = Volunteer::whereDoesntHave('units')->where('blacklisted', false)->where('not_available', false)->orderBy('name', 'ASC')->get();
-
-        return $volunteers;
+    public function scopeUnassigned($query) {
+        $query->whereDoesntHave('units')->where('blacklisted', false)->where('not_available', false)->orderBy('name', 'ASC')->get();
     }
 
-    public function scopeNotAvailable() {
+    public function scopeNotAvailable($query) {
 
-        $volunteers = Volunteer::where('not_available', true)->get();
-
-        return $volunteers;
+        $query->where('not_available', true)->get();
     }
 
     /**
@@ -214,33 +205,10 @@ class Volunteer extends User {
      *
      * @return mixed
      */
-    public function scopeBlacklisted() {
+    public function scopeBlacklisted($query) {
 
-        $volunteers = Volunteer::where('blacklisted', true)->get();
-
-        return $volunteers;
+        $query->where('blacklisted', true);
     }
-
-
-
-
-    /******     CORRECT SCOPES FIX     *****/
-
-
-
-    public function scopeAvailable2($q, $permitted = null) {
-
-        if ($permitted == null)
-            $q->whereHas('units', function ($query) {
-                $query->where('volunteer_status_id', VolunteerStatus::available());
-            })->whereDoesntHave('actions')->where('blacklisted', false);
-        else
-            $q->whereIn('id', $permitted)->whereHas('units', function ($query) {
-                $query->where('volunteer_status_id', VolunteerStatus::available());
-            })->whereDoesntHave('actions')->where('blacklisted', false)->where('not_available', false);
-    }
-
-
 
 
 

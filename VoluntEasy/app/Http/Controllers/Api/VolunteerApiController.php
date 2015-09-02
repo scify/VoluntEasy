@@ -41,13 +41,13 @@ class VolunteerApiController extends Controller {
         $volunteers = [];
 
         if ($status == 'new')
-            $volunteers = Volunteer::unassigned();
+            $volunteers = Volunteer::unassigned()->get();
         else if ($status == 'active')
-            $volunteers = Volunteer::active();
+            $volunteers = Volunteer::active()->get();
         else if ($status == 'available')
-            $volunteers = Volunteer::available();
+            $volunteers = Volunteer::available()->get();
         else if ($status == 'pending') {
-            $pending = Volunteer::pending();
+            $pending = Volunteer::pending()->get();
 
             foreach ($pending as $volunteer) {
                 $id = $volunteer->id;
@@ -59,7 +59,6 @@ class VolunteerApiController extends Controller {
                         $query->whereHas('statuses', function ($query) use ($id, $pendingStatus) {
                             $query->where('volunteer_id', $id)->where('step_status_id', $pendingStatus);
                         });
-
                     }]);
                 }])->where('id', $id)->first();
 

@@ -137,6 +137,7 @@ Route::get('search/actionUser','SearchController@actionUser');
 ////////////////
 Route::get('reports','ReportsController@index');
 Route::get('reports/idleVolunteers','ReportsController@idleVolunteers');
+Route::get('reports/volunteersByMonth','ReportsController@volunteersByMonth');
 
 
 

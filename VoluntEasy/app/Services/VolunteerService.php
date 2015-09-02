@@ -192,33 +192,27 @@ class VolunteerService {
      */
     public function volunteersByStatus($statusId, $unitId = null) {
 
-        $volunteers = [];
-
         switch ($statusId) {
             case '1':
-                $volunteers = Volunteer::unassigned()->lists('id');
+                return Volunteer::unassigned();
                 break;
             case '2':
-                $tmpArray = Volunteer::pending();
-                foreach ($tmpArray as $tmp)
-                    array_push($volunteers, $tmp->id);
+                return Volunteer::pending();
                 break;
             case '3':
-                $volunteers = Volunteer::available()->lists('id');
+                return Volunteer::available();
                 break;
             case '4':
-                $volunteers = Volunteer::active()->lists('id');
+                return Volunteer::active();
                 break;
             case '5':
-                $volunteers = Volunteer::notAvailable()->lists('id');
+                return Volunteer::notAvailable();
                 break;
             case '6':
-                $volunteers = Volunteer::blacklisted()->lists('id');
+                return Volunteer::blacklisted();
                 break;
-
         }
 
-        return $volunteers;
     }
 
 
@@ -705,7 +699,7 @@ class VolunteerService {
 
 
         if (\Input::has('status_id') && !Search::notDropDown(\Input::get('status_id'), 'status_id')) {
-            $query = Volunteer::whereIn('id', $this->volunteersByStatus(\Input::get('status_id')));
+            $query = $this->volunteersByStatus(\Input::get('status_id'));
         }
 
         foreach ($this->filters as $column => $filter) {

@@ -28,11 +28,11 @@ class ReportsController extends Controller{
 
         //get the volunteers that are available to a unit, but
         //have not participated in any action
-        $withoutActions = Volunteer::whereDoesntHave('actionHistory')->available2()->get();
+        $withoutActions = Volunteer::whereDoesntHave('actionHistory')->available()->get();
 
         //get the volunteers that are available to the unit
         //and also get the last time they participated in an action
-        $idles = Volunteer::has('actionHistoryNewest')->with('actionHistoryNewest')->available2()->get()->toArray();
+        $idles = Volunteer::has('actionHistoryNewest')->with('actionHistoryNewest')->available()->get()->toArray();
 
 
         //sort the array by idlest
@@ -48,5 +48,17 @@ class ReportsController extends Controller{
 
         return $idles;
         return $withoutActions;
+    }
+
+
+    /**
+     * Get the volunteer status by month
+     *
+     * @return mixed
+     */
+    public function volunteersByMonth(){
+        $volunteers = Volunteer::where( \DB::raw('MONTH(created_at)'), '=', 8 )->get();
+
+        return $volunteers;
     }
 }
