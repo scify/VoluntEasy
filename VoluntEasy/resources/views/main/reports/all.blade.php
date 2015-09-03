@@ -13,9 +13,9 @@ Reports
         <div class="panel panel-white">
             <div class="panel-body">
 
+                <h1>Σελίδα υπό κατασκευή.</h1>
 
-
-                @include('main.reports._volunteersByMonth')
+                {{-- @include('main.reports._volunteersByMonth') --}}
 
             </div>
         </div>

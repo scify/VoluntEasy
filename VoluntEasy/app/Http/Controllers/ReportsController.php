@@ -67,7 +67,8 @@ class ReportsController extends Controller{
         $volunteerStatuses = VolunteerStatus::all()->lists('description', 'id');
 
 
-        return $volunteerStatuses;
+
+
 
         $august = Volunteer::where(\DB::raw('MONTH(created_at)'), '=', 1 )
             ->where(\DB::raw('YEAR(created_at)'), '=', date('Y') )
@@ -104,9 +105,6 @@ class ReportsController extends Controller{
 
         return $volunteers;
     }
-
-
-
 
 
 

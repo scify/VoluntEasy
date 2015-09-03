@@ -20,18 +20,22 @@ class CronService {
                 //first send emails to all the volunteers
                 foreach ($expired->volunteers as $volunteer) {
 
+                    /*
                     \Mail::send('emails.rate_action', ['volunteer' => $volunteer, 'action' => $expired], function ($message) use ($volunteer) {
                         $message->to($volunteer->email, $volunteer->name . ' ' . $volunteer->last_name)->subject('Test');
                     });
+                    */
                 }
             }
 
             if ($expired->questionnaire_volunteers_link != null && $expired->questionnaire_volunteers_link != '' && $expired->email != null && $expired->email != '') {
 
+                /*
                 //then send an email to the person responsible for the action
                 \Mail::send('emails.rate_volunteers', ['action' => $expired], function ($message) use ($expired) {
                     $message->to($expired->email, $expired->name)->subject('Test');
                 });
+                */
             }
 
             //for all volunteers, set their unit status to available
