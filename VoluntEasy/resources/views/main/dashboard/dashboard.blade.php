@@ -181,6 +181,9 @@
             <div class="panel-body">
                 <div class="info-box-stats">
                     <span>
+                        @if(sizeof($birthday)==0)
+                        <p>Κανένας εθελοντής δεν έχει γενέθλια σήμερα</p>
+                        @else
                         @foreach($birthday as $i => $volunteer)
                             @if($i==0)
                             <a href="{{ url('volunteers/one/'.$volunteer->id) }}">{{ $volunteer->name }} {{
@@ -190,6 +193,7 @@
                             $volunteer->last_name }}</a>  ({{ $volunteer->age  }})
                             @endif
                         @endforeach
+                        @endif
                     </span>
                 </div>
                 <div class="info-box-icon">
