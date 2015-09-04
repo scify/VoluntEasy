@@ -22,31 +22,31 @@
         </div>
     </div>
     <div class="col-lg-3 col-md-3">
-            <div class="panel info-box panel-white">
-                <div class="panel-body">
-                    <div class="info-box-stats">
-                        <p class="counter">{{ $available }}</p>
-                        <span class="info-box-title">ΔΙΑΘΕΣΙΜΟΙ ΕΘΕΛΟΝΤΕΣ</span>
-                    </div>
-                    <div class="info-box-icon">
-                        <i class="fa fa-leaf"></i>
-                    </div>
+        <div class="panel info-box panel-white">
+            <div class="panel-body">
+                <div class="info-box-stats">
+                    <p class="counter">{{ $available }}</p>
+                    <span class="info-box-title">ΔΙΑΘΕΣΙΜΟΙ ΕΘΕΛΟΝΤΕΣ</span>
+                </div>
+                <div class="info-box-icon">
+                    <i class="fa fa-leaf"></i>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-3">
-                <div class="panel info-box panel-white">
-                    <div class="panel-body">
-                        <div class="info-box-stats">
-                            <p class="counter">{{ $active }}</p>
-                            <span class="info-box-title">ΕΝΕΡΓΟΙ ΕΘΕΛΟΝΤΕΣ</span>
-                        </div>
-                        <div class="info-box-icon">
-                            <i class="fa fa-leaf"></i>
-                        </div>
-                    </div>
+    </div>
+    <div class="col-lg-3 col-md-3">
+        <div class="panel info-box panel-white">
+            <div class="panel-body">
+                <div class="info-box-stats">
+                    <p class="counter">{{ $active }}</p>
+                    <span class="info-box-title">ΕΝΕΡΓΟΙ ΕΘΕΛΟΝΤΕΣ</span>
+                </div>
+                <div class="info-box-icon">
+                    <i class="fa fa-leaf"></i>
                 </div>
             </div>
+        </div>
+    </div>
     <div class="col-lg-3 col-md-3">
         <div class="panel info-box panel-white">
             <div class="panel-body">
@@ -167,5 +167,37 @@
         </div>
     </div>
     @endif
+
+
+    <div class="col-md-6">
+        <div class="panel info-box panel-white">
+            <div class="panel-heading clearfix">
+                <h4 class="panel-title">Έχουν γενέθλια σήμερα</h4>
+                <div class="panel-control">
+                    <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
+                       class="panel-collapse" data-original-title="Expand/Collapse"><i class="icon-arrow-down"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="info-box-stats">
+                    <span>
+                        @foreach($birthday as $i => $volunteer)
+                            @if($i==0)
+                            <a href="{{ url('volunteers/one/'.$volunteer->id) }}">{{ $volunteer->name }} {{
+                                $volunteer->last_name }}</a> ({{ $volunteer->age  }})
+                            @else
+                            , <a href="{{ url('volunteers/one/'.$volunteer->id) }}">{{ $volunteer->name }} {{
+                            $volunteer->last_name }}</a>  ({{ $volunteer->age  }})
+                            @endif
+                        @endforeach
+                    </span>
+                </div>
+                <div class="info-box-icon">
+                    <i class="fa fa-birthday-cake"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 @stop
