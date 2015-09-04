@@ -3,31 +3,14 @@
 
 class MonthlyReport {
 
-    private $month;
-    private $volunteers;
+    public $month;
+    public $volunteers;
 
 
-    public function __construct($month, $volunteers = null) {
+    public function __construct($month) {
         $this->month = $month;
-        $this->volunteers = $volunteers;
+
+        $this->volunteers = 0;
     }
-
-
-    public function getMonth() {
-        return $this->month;
-    }
-
-    public function getVolunteers() {
-        return $this->volunteers;
-    }
-
-    public function setMonth($month) {
-        $this->month = $month;
-    }
-
-    public function setVolunteers($volunteers) {
-        $this->volunteers = $volunteers;
-    }
-
 
 }
