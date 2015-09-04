@@ -1,5 +1,18 @@
-<canvas id="chart2" height="150"></canvas>
-
+<div class="row">
+    <div class="col-md-12">
+        <canvas id="chart2" height="150"></canvas>
+    </div>
+</div>
+<div class="row top-margin">
+    <div class="col-md-12">
+        <div class="pull-right">
+            <i class="fa fa-square" style="color:#22BAA0;"></i> Διαθέσιμοι |
+            <i class="fa fa-square" style="color:#f2ca4c;"></i> Υπό ένταξη|
+            <i class="fa fa-square" style="color:#6a5fac;"></i> Ενεργοί |
+            <i class="fa fa-square" style="color:#12AFCB;"></i> Νέοι
+        </div>
+    </div>
+</div>
 
 @section('footerScripts')
 <script>
@@ -24,7 +37,7 @@
                         strokeColor: "#12AFCB",
                         highlightFill: "#12AFCB",
                         highlightStroke: "#12AFCB",
-                        data: result.active
+                        data: result.new
                     },
                     {
                         label: "Υπό Ένταξη",

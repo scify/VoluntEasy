@@ -2,17 +2,12 @@
 
 
 use App\Models\Descriptions\VolunteerStatus;
-use App\Models\DTO\MonthlyReport;
 use App\Models\Volunteer;
 use App\Models\VolunteerUnitStatus;
 
 class ReportsController extends Controller {
 
     private $volunteerStatuses;
-    private $available = [];
-    private $pending = [];
-    private $active = [];
-
 
     public function __construct() {
         $this->middleware('auth');
@@ -65,7 +60,6 @@ class ReportsController extends Controller {
      */
 
 
-
     public function volunteersByMonth() {
 
         $this->volunteerStatuses = VolunteerStatus::all()->lists('description', 'id');
@@ -76,6 +70,7 @@ class ReportsController extends Controller {
         $pending = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         $available = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         $active = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        $new = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
         $pendingVolunteers = Volunteer::pending()->with('unitsStatus')->get();
 
@@ -86,9 +81,9 @@ class ReportsController extends Controller {
                 $status = VolunteerUnitStatus::where('volunteer_id', $volunteer->id)
                     ->where('unit_id', $unit->id)->first();
 
-                if($status != null) {
+                if ($status != null) {
                     if ($this->volunteerStatuses[$status->volunteer_status_id] == 'Pending')
-                        $pending[$month-1]++;
+                        $pending[$month - 1]++;
                 }
             }
         }
@@ -103,9 +98,9 @@ class ReportsController extends Controller {
                 $status = VolunteerUnitStatus::where('volunteer_id', $volunteer->id)
                     ->where('unit_id', $unit->id)->first();
 
-                if($status != null) {
+                if ($status != null) {
                     if ($this->volunteerStatuses[$status->volunteer_status_id] == 'Available')
-                        $available[$month-1]++;
+                        $available[$month - 1]++;
                 }
             }
         }
@@ -119,40 +114,27 @@ class ReportsController extends Controller {
                 $status = VolunteerUnitStatus::where('volunteer_id', $volunteer->id)
                     ->where('unit_id', $unit->id)->first();
 
-                if($status != null) {
+                if ($status != null) {
                     if ($this->volunteerStatuses[$status->volunteer_status_id] == 'Active')
-                        $active[$month]++;
+                        $active[$month - 1]++;
                 }
             }
+        }
+
+        $allVolunteers = Volunteer::all();
+
+        foreach ($allVolunteers as $volunteer) {
+            $month = intval(date("m", strtotime($unit->created_at)));
+            $new[$month - 1]++;
         }
 
         return [
             'active' => $active,
             'available' => $available,
             'pending' => $pending,
+            'new' => $new,
         ];
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     /*
