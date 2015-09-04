@@ -182,7 +182,7 @@
                 <div class="info-box-stats">
                     <span>
                         @if(sizeof($birthday)==0)
-                        <p>Κανένας εθελοντής δεν έχει γενέθλια σήμερα</p>
+                        <span>Κανένας εθελοντής δεν έχει γενέθλια σήμερα</span>
                         @else
                         @foreach($birthday as $i => $volunteer)
                             @if($i==0)
