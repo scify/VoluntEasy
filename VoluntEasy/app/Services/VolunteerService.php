@@ -162,13 +162,13 @@ class VolunteerService {
     public function setStatusToUnits($volunteer) {
 
         foreach ($volunteer->units as $unit) {
-            $statusId = VolunteerUnitStatus::where('volunteer_id', $volunteer->id)
+            $statusId = \DB::table('volunteer_unit_status')
+                ->select('volunteer_status_id')
+                ->where('volunteer_id', $volunteer->id)
                 ->where('unit_id', $unit->id)->first()->volunteer_status_id;
-
-            $status = VolunteerStatus::find($statusId)->description;
+            $status = VolunteerStatus::findOrFail($statusId)->description;
             $unit->status = $status;
         }
-
         return $volunteer;
     }
 
@@ -509,8 +509,8 @@ class VolunteerService {
                 $volunteer->steps()->saveMany($steps);
             }
 
-            //$rootUnit->volunteers()->attach($volunteer, ['volunteer_status_id' => VolunteerStatus::pending()]);
-            $this->changeUnitStatus($volunteer->id, $rootUnit->id, VolunteerStatus::pending());
+            $rootUnit->volunteers()->attach($volunteer, ['volunteer_status_id' => VolunteerStatus::pending()]);
+           // $this->changeUnitStatus($volunteer->id, $rootUnit->id, VolunteerStatus::pending());
 
 
             $this->unitHistory($volunteer->id, $rootUnit->id);
@@ -598,8 +598,8 @@ class VolunteerService {
             //attach the volunteer to the unit with the appropriate status
             //status can be either pending, if the volunteer has never completed the steps for that unit before
             //or available, if the volunteer has completed the steps
-            //$unit->volunteers()->attach($volunteer, ['volunteer_status_id' => $volunteerStatus]);
-            $this->changeUnitStatus($volunteer->id, $unit->id, $volunteerStatus);
+            $unit->volunteers()->attach($volunteer, ['volunteer_status_id' => $volunteerStatus]);
+            //$this->changeUnitStatus($volunteer->id, $unit->id, $volunteerStatus);
 
             //also add an entry to the history table
             $this->unitHistory($volunteer->id, $unit->id);
