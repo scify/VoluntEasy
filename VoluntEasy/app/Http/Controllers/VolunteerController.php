@@ -183,7 +183,7 @@ class VolunteerController extends Controller {
         $timeline = VolunteerService::timeline($id);
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
 
-       // return $timeline;
+        // return $timeline;
         //get the count of pending and available units, used in the front end
         $pending = 0;
         $available = 0;
