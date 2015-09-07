@@ -5,33 +5,77 @@
 For installing Laravel, please refer to [Official Laravel installation
 guide](http://laravel.com/docs/5.0).
 
-After cloning the project with a simple `git clone
-https://github.com/scify/VoluntEasy.git`, type `cd VoluntEasy/VoluntEasy &&
-composer install` to install all dependencies.
+### Installing dependencies (assuming apache as web server and mysql as db):
 
-### Installing dependencies (assuming nginx as web server):
+In a nutchell (assuming debian-based OS), first install the dependencies needed:
 
-For Linux (Debian based):
+Note: php5 package installs apache2 as a dependency so we have no need to add
+it manually.
 
-`% sudo aptitude install nginx php5-fpm php5-mcrypt mcrypt`
+`% sudo aptitude install php5 php5-cli mcrypt php5-mcrypt mysql-server php5-mysql`
 
-For OpenBSD:
+Install composer according to official instructions (link above) and move binary to ~/bin:
 
-`% sudo pkg_add nginx php-fpm php-mcrypt mcrypt`
+`% curl -sS https://getcomposer.org/installer | php5 && mv composer.phar ~/bin`
 
-### Settings:
+Download Laravel installer via composer:
 
-For Linux:
+`% composer global require "laravel/installer=~1.1"`
+
+And add ~/.composer/vendor/bin to your $PATH. Example:
+
+```
+% cat ~/.profile
+[..snip..]
+LARAVEL=/home/username/.composer/vendor
+PATH=$PATH:$LARAVEL/bin
+```
+
+And source your .profile with `% source ~/.profile`
+
+After cloning the project with a simple `git clone https://github.com/scify/VoluntEasy.git`, type `cd VoluntEasy/VoluntEasy && composer install` to install all dependencies.
+
+### Apache configuration:
+
+```
+% cat /etc/apache2/sites-available/mysite.conf
+<VirtualHost *:80>
+	ServerName myapp.localhost.com
+	DocumentRoot "/path/to/VoluntEasy/VoluntEasy/public"
+	<Directory "/path/to/VoluntEasy/VoluntEasy/public">
+		AllowOverride all
+	</Directory>
+</VirtualHost>
+```
+
+Make the symbolic link:
+
+`% cd /etc/apache2/sites-enabled && sudo ln -s ../sites-available/mysite.conf`
+
+Enable mod_rewrite and restart apache:
+
+`% sudo a2enmod rewrite && sudo service apache2 restart`
+
+Fix permissions for storage directory:
+
+`% chmod -R 755 path/to/VoluntEasy/VoluntEasy/storage && chown -R www-data:www-data /path/to/VoluntEasy/VoluntEasy/storage`
+
+Test your setup with:
+
+`% php artisan serve`
+
+and navigate to localhost:8000.
+
+
+### Nginx configuration:
+
+Add additional the additional dependencies needed:
+
+`% sudo aptitude install nginx php5-fpm`
 
 Disable cgi.fix_pathinfo at /etc/php5/fpm/php.ini: `cgi.fix_pathinfo=0`
 
 `% sudo php5enmod mcrypt && sudo service php5-fpm restart`
-
-For OpenBSD:
-
-Disable cgi.fix_pathinfo at /etc/php-5.5.ini: `cgi.fix_pathinfo=0`
-
-`% sudo php5enmod mcrypt && sudo /etc/rc.d/php_fpm restart`
 
 Nginx server block:
 
@@ -60,23 +104,15 @@ server {
 }
 ```
 
-For Linux:
-
 `% sudo service nginx restart && sudo chmod -R 755 path/to/project/storage`
-
-For OpenBSD:
-
-`% sudo /etc/rc.d/nginx restart && sudo chmod -R 755 path/to/project/storage`
 
 And finally, set the group appropriately:
 
-`% sudo chown -R www-data storage`
+`% sudo chown -R www-data:www-data storage`
 
 *database instructions placeholder*
 
-Initialize the database with `php artisan migrate` and test the installation
-with `php artisan serve` and hit `localhost:8000/auth/register` at your browser
-of choice.
+Initialize the database with `php artisan migrate` and test the installation with `php artisan serve` and hit `localhost:8000/auth/register` at your browser of choice.
 
 After running migrations, it's time to create an initial user.
 
@@ -99,8 +135,7 @@ Verify login credentials by navigating at http://localhost/auth/login
 
 ### Mail setup
 
-Manual intervention required in this. You'll have to edit
-VoluntEasy/VoluntEasy/config/mail.php and set the global "From" Address from:
+Manual intervention required in this. You'll have to edit VoluntEasy/VoluntEasy/config/mail.php and set the global "From" Address from:
 
 ```
 'from' => ['address' => null, 'name' => null],
