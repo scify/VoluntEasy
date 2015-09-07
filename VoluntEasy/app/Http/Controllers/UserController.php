@@ -47,12 +47,12 @@ class UserController extends Controller {
 
         $user = User::create($request->all());
 
-        /*
+
         //send email to notify user for new account
         \Mail::send('emails.new_user', ['user' => $user], function ($message) use ($user) {
             $message->to($user->email, $user->name)->subject('Welcome to VoluntEasy');
         });
-        */
+
         //store the user image
         if (\Input::file('image') != null) {
             $user->update(['image_name' => UserService::storeImage(\Input::file('image'), $user->email)]);

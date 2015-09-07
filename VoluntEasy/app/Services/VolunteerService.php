@@ -10,12 +10,12 @@ use App\Models\Volunteer;
 use App\Models\VolunteerActionHistory;
 use App\Models\VolunteerStepStatus;
 use App\Models\VolunteerUnitHistory;
-use App\Services\Facades\FileService;
-use App\Services\Facades\NotificationService;
+use App\Models\VolunteerUnitStatus;
+use App\Services\Facades\FileService as FileServiceFacade;
+use App\Services\Facades\NotificationService as NotificationServiceFacade;
 use App\Services\Facades\SearchService as Search;
 use App\Services\Facades\UnitService as UnitServiceFacade;
 use App\Services\Facades\UserService as UserServiceFacade;
-use App\Models\VolunteerUnitStatus;
 
 class VolunteerService {
 
@@ -162,14 +162,13 @@ class VolunteerService {
     public function setStatusToUnits($volunteer) {
 
         foreach ($volunteer->units as $unit) {
-
-            $statusId = VolunteerUnitStatus::where('volunteer_id', $volunteer->id)
+            $statusId = \DB::table('volunteer_unit_status')
+                ->select('volunteer_status_id')
+                ->where('volunteer_id', $volunteer->id)
                 ->where('unit_id', $unit->id)->first()->volunteer_status_id;
-
-            $status = VolunteerStatus::find($statusId)->description;
+            $status = VolunteerStatus::findOrFail($statusId)->description;
             $unit->status = $status;
         }
-
         return $volunteer;
     }
 
@@ -398,6 +397,26 @@ class VolunteerService {
     }
 
     /**
+     * Create a unit status
+     *
+     * @param $volunteerId
+     * @param $unitId
+     * @param $statusId
+     */
+    public function addUnitStatus($volunteerId, $unitId, $statusId) {
+
+        $volunteerUnitStatus = new VolunteerUnitStatus([
+            'volunteer_id' => $volunteerId,
+            'unit_id' => $unitId,
+            'volunteer_status_id' => $statusId
+        ]);
+
+        $volunteerUnitStatus->save();
+
+        return;
+    }
+
+    /**
      * Change the volunteer's unit status.
      * For example change to active f volunteer
      * is assigned to an action
@@ -412,7 +431,27 @@ class VolunteerService {
         $volunteerUnitStatus = VolunteerUnitStatus::where('volunteer_id', $volunteerId)
             ->where('unit_id', $unitId)->first();
 
-        $volunteerUnitStatus->update(['volunteer_status_id' => $statusId]);
+        if ($volunteerUnitStatus == null)
+            $this->addUnitStatus($volunteerId, $unitId, $statusId);
+        else
+            $volunteerUnitStatus->update(['volunteer_status_id' => $statusId]);
+
+        return;
+    }
+
+    /**
+     * Delete a volunteer unit status (soft delete)
+     *
+     * @param $volunteerId
+     * @param $unitId
+     * @param $statusId
+     */
+    public function deleteUnitStatus($volunteerId, $unitId) {
+
+        $volunteerUnitStatus = VolunteerUnitStatus::where('volunteer_id', $volunteerId)
+            ->where('unit_id', $unitId)->first();
+
+        $volunteerUnitStatus->delete();
 
         return;
     }
@@ -471,6 +510,8 @@ class VolunteerService {
             }
 
             $rootUnit->volunteers()->attach($volunteer, ['volunteer_status_id' => VolunteerStatus::pending()]);
+           // $this->changeUnitStatus($volunteer->id, $rootUnit->id, VolunteerStatus::pending());
+
 
             $this->unitHistory($volunteer->id, $rootUnit->id);
 
@@ -551,14 +592,14 @@ class VolunteerService {
 
             //if the user is assigned to a child unit, then detach it from its parent
             if (\Request::has('parent_unit_id') && \Request::get('parent_unit_id') != '') {
-                $parentUnit = Unit::find(\Request::get('parent_unit_id'));
-                $parentUnit->volunteers()->detach($volunteer->id);
+                $this->deleteUnitStatus($volunteer->id, \Request::get('parent_unit_id'));
             }
 
             //attach the volunteer to the unit with the appropriate status
             //status can be either pending, if the volunteer has never completed the steps for that unit before
             //or available, if the volunteer has completed the steps
             $unit->volunteers()->attach($volunteer, ['volunteer_status_id' => $volunteerStatus]);
+            //$this->changeUnitStatus($volunteer->id, $unit->id, $volunteerStatus);
 
             //also add an entry to the history table
             $this->unitHistory($volunteer->id, $unit->id);
@@ -567,7 +608,7 @@ class VolunteerService {
             //only if the unit is not root unit
             //(no need to notify the admin about his/her action.
             if (!UnitServiceFacade::isRoot($unit))
-                NotificationService::newVolunteer($volunteerId, $unitId);
+                NotificationServiceFacade::newVolunteer($volunteerId, $unitId);
         }
 
         return $volunteerId;
@@ -667,7 +708,7 @@ class VolunteerService {
                     return false;
                 } else {
 
-                    $filename = FileService::storeFile($file, $fileName, $destinationPath);
+                    $filename = FileServiceFacade::storeFile($file, $fileName, $destinationPath);
 
                     //create a row to the db to associate the file with the volunteer
                     $dbFile = new File([
@@ -680,7 +721,7 @@ class VolunteerService {
             }
         }
 
-        return FileService::storeFiles($files, $this->filePath);
+        return FileServiceFacade::storeFiles($files, $this->filePath);
     }
 
     /**

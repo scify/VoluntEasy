@@ -183,7 +183,7 @@ class VolunteerController extends Controller {
         $timeline = VolunteerService::timeline($id);
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
 
-       // return $timeline;
+        // return $timeline;
         //get the count of pending and available units, used in the front end
         $pending = 0;
         $available = 0;
@@ -356,27 +356,30 @@ class VolunteerController extends Controller {
 
         //check if files uploaded already exist
         $files = \Input::file('files');
-
+        $flag = false;
         foreach ($files as $file) {
-            $filename = public_path() . '/assets/uploads/volunteers/' . $file->getClientOriginalName();
+            if($file!=null) {
+                $flag==true;
+                $filename = public_path() . '/assets/uploads/volunteers/' . $file->getClientOriginalName();
 
-            //if file already exists, redirect back with error message
-            if (file_exists($filename)) {
-                \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' υπάρχει ήδη.');
-                \Session::flash('flash_type', 'alert-danger');
+                //if file already exists, redirect back with error message
+                if (file_exists($filename)) {
+                    \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' υπάρχει ήδη.');
+                    \Session::flash('flash_type', 'alert-danger');
 
-                return \Redirect::back();
-            }
-            //if file exceeds mazimum allowed size, redirect back with error message
-            if ($file->getSize() > 10000000) {
-                \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' ξεπερνά σε μέγεθος τα 10mb.');
-                \Session::flash('flash_type', 'alert-danger');
+                    return \Redirect::back();
+                }
+                //if file exceeds mazimum allowed size, redirect back with error message
+                if ($file->getSize() > 10000000) {
+                    \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' ξεπερνά σε μέγεθος τα 10mb.');
+                    \Session::flash('flash_type', 'alert-danger');
 
-                return \Redirect::back();
+                    return \Redirect::back();
+                }
             }
         }
 
-        if ($files != null && sizeof($files) > 0)
+        if ($files != null && sizeof($files) > 0 && $flag == true)
             VolunteerService::storeFiles(\Input::file('files'), $volunteer->id);
 
 
@@ -602,12 +605,12 @@ class VolunteerController extends Controller {
         $statusId = VolunteerStatus::notAvailable();
 
         //set the dates to an appropriate format
-        if(\Request::get('from')!='')
+        if (\Request::get('from') != '')
             $from = \Carbon::createFromFormat('d/m/Y', \Request::get('from'))->toDateString();
         else
             $from = '';
 
-        if(\Request::get('to')!='')
+        if (\Request::get('to') != '')
             $to = \Carbon::createFromFormat('d/m/Y', \Request::get('to'))->toDateString();
         else
             $to = '';

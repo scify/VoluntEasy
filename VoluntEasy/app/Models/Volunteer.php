@@ -95,6 +95,10 @@ class Volunteer extends User {
         return $this->belongsToMany('App\Models\Unit', 'volunteer_unit_status')->withPivot('volunteer_status_id');
     }
 
+    public function unitsStatus() {
+        return $this->hasMany('App\Models\VolunteerUnitStatus')->withTrashed();
+    }
+
     public function steps() {
         return $this->hasMany('App\Models\VolunteerStepStatus');
     }
