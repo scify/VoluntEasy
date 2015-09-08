@@ -49,11 +49,12 @@ class SendEmail extends Command {
 
         /* Get all end dates from actions table. */
         /* TODO: check where() clause to check date. */
-        $end_dates = \DB::table('actions')->select('end_date', 'description')->get();
+        $end_dates = \DB::table('actions')->select('id', 'end_date', 'description', 'questionnaire_volunteers_link', 'questionnaire_action_link')->get();
 
         $week_check = Carbon::now()->addDays(7)->format('Y-m-d');
         $date_now = Carbon::now()->format('Y-m-d');
 
+        /* TODO: Bring check 'if action ends in 7 days' up to be evaluate first. */
         /* TODO: Use `continue;` to check if action->end_date < date(now) */
         foreach($end_dates as $action_end_date) {
             /* Find if an action end_date has already passed. If yes, do nothing.
@@ -67,6 +68,33 @@ class SendEmail extends Command {
                 if (strcmp($action_end_date->end_date, $week_check) === 0) {
                     /* debug msg. TODO: remove. */
                     echo $action_end_date->end_date . " dates match for action " . $action_end_date->description ."\n";
+                    echo "\nVOLUNTEERS ARE: " . "\n";
+                    /* Grab the questionnaire link and insert into $data array. */
+                    $data = array('questionnaire' => $action_end_date->questionnaire_action_link);
+                    \Mail::queue('emails.test', $data, function($message)
+                    {
+                        /* Join actions_volunteers with volunteers to check volunteers that belong to action. */
+                        $mailqueue= \DB::table('actions_volunteers')->join('volunteers', 'actions_volunteers.id', '=', 'volunteers.id')->get();
+                        $message->from('test@scify.org', 'Mr Test');
+                        foreach($mailqueue as $notify_users)
+                        {
+                            $message->to($notify_users->email)->subject('Test subject');
+                        }
+                    });
+                    /* Raw Mail testing. */
+//                        \Mail::raw('This is text', function($message)
+//                        {
+//                            $mailqueue= \DB::table('actions_volunteers')->join('volunteers', 'actions_volunteers.id', '=', 'volunteers.id')->get();
+//                            $message->from('test@scify.org', 'ACK');
+//                            foreach($mailqueue as $notify_volunteers)
+//                            {
+//                            $message->to($notify_volunteers->email)->subject('email test');
+//                            }
+//                        });
+
+//                        echo "  " . $notify_volunteers->email . "\n";
+                    // Get all volunteers mail from action
+
                 } else {
                     /* debug msg. TODO: remove. */
                     echo $action_end_date->end_date . " dates do not match for action " . $action_end_date->description . "\n";
@@ -75,13 +103,6 @@ class SendEmail extends Command {
             }
         }
 
-        /* Test: get all volunteers and parse emails with var_dump. */
-        $volunteer_email_array = \DB::table('volunteers')->get();
-
-        foreach($volunteer_email_array as $vol_email)
-        {
-            var_dump($vol_email->email);
-        }
 	}
 
 	/**
