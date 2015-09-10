@@ -49,7 +49,7 @@ class SendEmail extends Command {
 
         /* Get all end dates from actions table. */
         /* TODO: check where() clause to check date. */
-        $end_dates = \DB::table('actions')->select('id', 'end_date', 'email', 'description', 'questionnaire_volunteers_link', 'questionnaire_action_link')->get();
+        $end_dates = \DB::table('actions')->select('id', 'start_date', 'end_date', 'email', 'description', 'questionnaire_volunteers_link', 'questionnaire_action_link')->get();
 
         $week_check = Carbon::now()->addDays(7)->format('Y-m-d');
         $date_now = Carbon::now()->format('Y-m-d');
@@ -58,43 +58,46 @@ class SendEmail extends Command {
             /* Find if an action end_date has already passed. If yes, do nothing.
              * If not, check if action ends in 7 days to fire mail questionnaires
              * to volunteers */
-            if ($date_now > $action_end_date->end_date) {
-                continue;
-            } else {
-                if (strcmp($action_end_date->end_date, $week_check) === 0) {
-                    /* Notify whoever's responsible for the action to fill questionnaire. */
+            if (strcmp($action_end_date->end_date, $week_check) === 0) {
+                /* Notify whoever's responsible for the action to fill questionnaire. */
+                $data = array(
+                    'questionnaire' => $action_end_date->questionnaire_volunteers_link,
+                    'username' => $action_end_date->email,
+                    'usermail' => $action_end_date->email
+                );
+                $action_mail = $action_end_date->email;
+                \Mail::send('emails.test', $data, function($message) use ($data)
+                {
+                    $message->from('test@scify.org', 'Action notification test');
+                    $message->to($data['usermail'])->subject('Action about to expire!');
+                });
+
+                /* Join actions_volunteers with volunteers to check volunteers that belong to expiring action. */
+                $mailqueue= \DB::table('actions_volunteers')->join('volunteers', 'actions_volunteers.id', '=', 'volunteers.id')->get();
+                foreach($mailqueue as $notify_users)
+                {
+                    /* Grab all things needed to pass to email view. */
                     $data = array(
-                        'questionnaire' => $action_end_date->questionnaire_volunteers_link,
-                        'username' => $action_end_date->email,
-                        'usermail' => $action_end_date->email
+                        'questionnaire' => $action_end_date->questionnaire_action_link,
+                        'username' => $notify_users->name,
+                        'usermail' => $notify_users->email
                     );
-                    $action_mail = $action_end_date->email;
-                    \Mail::send('emails.test', $data, function($message) use ($data)
+                    \Mail::queue('emails.test', $data, function($message) use ($data)
                     {
-                        $message->from('test@scify.org', 'Action notification test');
-                        $message->to($data['usermail'])->subject('Action about to expire!');
+                        $message->from('test@scify.org', 'Me Test');
+                        $message->to($data['usermail'])->subject('Testing subject');
                     });
-
-                    /* Join actions_volunteers with volunteers to check volunteers that belong to expiring action. */
-                    $mailqueue= \DB::table('actions_volunteers')->join('volunteers', 'actions_volunteers.id', '=', 'volunteers.id')->get();
-                    foreach($mailqueue as $notify_users)
-                    {
-                        /* Grab all things needed to pass to email view. */
-                        $data = array(
-                            'questionnaire' => $action_end_date->questionnaire_action_link,
-                            'username' => $notify_users->name,
-                            'usermail' => $notify_users->email
-                        );
-                        \Mail::queue('emails.test', $data, function($message) use ($data)
-                        {
-                            $message->from('test@scify.org', 'Me Test');
-                            $message->to($data['usermail'])->subject('Testing subject');
-                        });
-                    }
-
-                } else {
-                    continue;
                 }
+
+            } else {
+                /* TODO: Handle actions that have a duration less than 7 days.
+                 *       For those, send notifications 2 days after start_date.
+                 *       To handle actions that span more than 7 days, a time will come that they will end in two days.
+                 *       To bypass, just
+                 *       elsif (<2-day clause> && strcmp($action_end_date->end_date, $week_check) !== 0)
+                 *       to make sure we won't send the same email twice.
+                 * */
+                continue;
             }
         }
 
