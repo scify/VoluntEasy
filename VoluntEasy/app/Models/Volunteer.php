@@ -153,7 +153,7 @@ class Volunteer extends User {
         $query->whereHas('units', function ($query) {
             $query->where('volunteer_status_id', VolunteerStatus::pending());
         })->where('blacklisted', false)->where('not_available', false)
-          ->get();
+            ->get();
     }
 
     /**
@@ -213,11 +213,6 @@ class Volunteer extends User {
 
         $query->where('blacklisted', true);
     }
-
-
-
-
-
 
 
 }

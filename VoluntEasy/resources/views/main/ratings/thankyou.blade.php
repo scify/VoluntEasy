@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<?php  $lang = "/default."; ?> {{--  resource label path --}}
+<?php $lang = "/default."; ?> {{--  resource label path --}}
 <html>
 <head>
     <!-- Title -->
@@ -17,16 +17,31 @@
                         <div class="panel-body">
                             <div class="login-box">
                                 <a href="{{ url('/') }}"
-                                   class="logo-name text-lg text-center">{{trans($lang.'title')}}</a>
+                                   class="logo-name text-lg text-center"> <img
+                                        src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
+                                </a>
 
-                                <h3 class="text-center">Αξιολόγηση εθελοντή </h3>
+                                <h3 class="text-center">Αξιολόγηση εθελοντών</h3>
                                 <hr/>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <h3>Η αξιολόγηση καταχωρήθηκε με επιτυχία. Ευχαριστούμε.</h3>
-                                </div>
                                     </div>
+                                </div>
                                 <hr/>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p>
+                                            <small><em>Λάβατε αυτό το ερωτηματολόγιο επειδή το email σας δηλώθηκε ως
+                                                    email
+                                                    υπευθύνου στη δράση {{ $action->description }} μέσω της πλατφόρμας
+                                                    διαχείρισης
+                                                    εθελοντών
+                                                    <strong>{{trans($lang.'title')}}</strong>.</em></small>
+                                        </p>
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

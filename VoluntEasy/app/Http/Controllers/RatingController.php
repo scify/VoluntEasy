@@ -86,11 +86,14 @@ class RatingController extends Controller {
                 $rating->save();
             }
         }
-        return;
+
+        return $actionId;
     }
 
-    public function thankyou() {
-        return view('main.ratings.thankyou');
+    public function thankyou($actionId) {
+        $action = Action::find($actionId);
+
+        return view('main.ratings.thankyou', compact('action'));
     }
 
 }

@@ -43,6 +43,7 @@ class VolunteerService {
         'my_volunteers' => '',
         'status_id' => '',
         'interest_id' => '',
+        'rating_id' => '',
 
     ];
 
@@ -160,7 +161,6 @@ class VolunteerService {
      * @return mixed
      */
     public function setStatusToUnits($volunteer) {
-
         foreach ($volunteer->units as $unit) {
             $statusId = \DB::table('volunteer_unit_status')
                 ->select('volunteer_status_id')
@@ -169,6 +169,7 @@ class VolunteerService {
             $status = VolunteerStatus::findOrFail($statusId)->description;
             $unit->status = $status;
         }
+
         return $volunteer;
     }
 
@@ -511,7 +512,7 @@ class VolunteerService {
             }
 
             $rootUnit->volunteers()->attach($volunteer, ['volunteer_status_id' => VolunteerStatus::pending()]);
-           // $this->changeUnitStatus($volunteer->id, $rootUnit->id, VolunteerStatus::pending());
+            // $this->changeUnitStatus($volunteer->id, $rootUnit->id, VolunteerStatus::pending());
 
 
             $this->unitHistory($volunteer->id, $rootUnit->id);
@@ -595,7 +596,7 @@ class VolunteerService {
             if (\Request::has('parent_unit_id') && \Request::get('parent_unit_id') != '') {
                 $parentUnit = Unit::find(\Request::get('parent_unit_id'));
                 $parentUnit->volunteers()->detach($volunteer->id);
-               // $this->deleteUnitStatus($volunteer->id, \Request::get('parent_unit_id'));
+                // $this->deleteUnitStatus($volunteer->id, \Request::get('parent_unit_id'));
             }
 
             //attach the volunteer to the unit with the appropriate status
@@ -686,7 +687,7 @@ class VolunteerService {
 
             if ($root && sizeof($volunteer->units) == 0)
                 $volunteer->assignToRoot = true;
-            else$volunteer->assignToRoot = false;
+            else $volunteer->assignToRoot = false;
 
             array_push($data, $volunteer);
         }
@@ -733,6 +734,7 @@ class VolunteerService {
      * @return mixed
      */
     public function search() {
+        $ratingId = -1;
 
         if (\Input::has('my_volunteers')) {
             $permittedVolunteersIds = $this->permittedVolunteersIds();
@@ -792,25 +794,56 @@ class VolunteerService {
                                     });
                                 }
                                 break;
+                            case 'rating_id':
+                                if (!Search::notDropDown($value, $column)) {
+                                    $ratingId = \Input::get('rating_id');
+                                }
+                                break;
                         }
                     default:
-                        //  dd('default switch');
                         break;
                 }
             }
         }
 
-        $result = $query->with('actions', 'units')->orderBy('name', 'ASC')->get();
-        // $result->setPath(\URL::to('/') . '/volunteers');
+        $result = $query->with('actions', 'units', 'ratings')->orderBy('name', 'ASC')->get();
 
-        /*
-                //get the status of each unit to display to the list
-                foreach ($result as $volunteer) {
-                    $volunteer = VolunteerService::setStatusToUnits($volunteer);
-                }
+        //get the total rating for each attribute
+        foreach ($result as $volunteer) {
+            if ($volunteer->ratings != null) {
+                $volunteer->rating_attr1 = $volunteer->ratings->rating_attr1 / $volunteer->ratings->rating_attr1_count;
+                $volunteer->rating_attr2 = $volunteer->ratings->rating_attr2 / $volunteer->ratings->rating_attr2_count;
+                $volunteer->rating_attr3 = $volunteer->ratings->rating_attr3 / $volunteer->ratings->rating_attr3_count;
+            } else {
+                $volunteer->rating_attr1 = 0;
+                $volunteer->rating_attr2 = 0;
+                $volunteer->rating_attr3 = 0;
+            }
+        }
 
-                return $result;
-        */
+        //sort by rating
+        if ($ratingId != -1) {
+            switch ($ratingId) {
+                case '1':
+                    $result = $result->sortBy('rating_attr1');
+                    break;
+                case '2':
+                    $result = $result->sortByDesc('rating_attr1');
+                    break;
+                case '3':
+                    $result = $result->sortBy('rating_attr2');
+                    break;
+                case '4':
+                    $result = $result->sortByDesc('rating_attr2');
+                    break;
+                case '5':
+                    $result = $result->sortBy('rating_attr3');
+                    break;
+                case '6':
+                    $result = $result->sortByDesc('rating_attr3');
+                    break;
+            }
+        }
 
         $data = $this->prepareForDataTable($result);
 

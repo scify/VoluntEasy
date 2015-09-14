@@ -63,6 +63,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             ksort($interests);
             ksort($units);
 
+            //create the statuses dropdown
             $statuses = [];
             array_push($statuses, '[- επιλέξτε -]');
             array_push($statuses, 'Νέος');
@@ -72,6 +73,17 @@ class ViewComposerServiceProvider extends ServiceProvider {
             array_push($statuses, 'Μη Διαθέσιμος');
             array_push($statuses, 'Blacklisted');
 
+            //create the ratings dropdown
+            //TODO: change descriptions
+            $ratings = [];
+            array_push($ratings, '[- επιλέξτε -]');
+            array_push($ratings, 'Συνέπεια αύξουσα');
+            array_push($ratings, 'Συνέπεια φθίνουσα');
+            array_push($ratings, 'Στυλ αύξουσα');
+            array_push($ratings, 'Στυλ φθίνουσα');
+            array_push($ratings, 'Αγάπη για γάτες αύξουσα');
+            array_push($ratings, 'Αγάπη για γάτες φθίνουσα');
+
             $view->with('maritalStatuses', $maritalStatuses)
                 ->with('identificationTypes', $identificationTypes)
                 ->with('driverLicenseTypes', $driverLicenseTypes)
@@ -80,6 +92,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
                 ->with('genders', $genders)
                 ->with('statuses', $statuses)
                 ->with('interests', $interests)
+                ->with('ratings', $ratings)
                 ->with('units', $units);
         });
 

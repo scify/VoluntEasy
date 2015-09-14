@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<?php  $lang = "/default."; ?> {{--  resource label path --}}
+<?php $lang = "/default."; ?> {{--  resource label path --}}
 <html>
 <head>
     <!-- Title -->
@@ -17,7 +17,9 @@
                         <div class="panel-body">
                             <div class="login-box">
                                 <a href="{{ url('/') }}"
-                                   class="logo-name text-lg text-center">{{trans($lang.'title')}}</a>
+                                   class="logo-name text-lg text-center"> <img
+                                        src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
+                                </a>
 
                                 <h3 class="text-center">Αξιολόγηση εθελοντών για τη δράση {{ $action->description
                                     }} </h3>
@@ -30,20 +32,7 @@
                                         <h4>Όνομα Εθελοντή: {{ $volunteer->name}} {{ $volunteer->last_name }}</h4>
 
                                         <p><i class="fa fa-envelope"></i> <a href="mailto:{{ $volunteer->email }}">{{
-                                            $volunteer->email }}</a> <br/>
-                                            <i class="fa fa-home"></i> {{ $volunteer->address=='' ? '-' :
-                                            $volunteer->address
-                                            }}{{
-                                            $volunteer->city=='' ? '' : ', '.$volunteer->city }}{{
-                                            $volunteer->post_box==''
-                                            ? '' : ', '.$volunteer->post_box }}{{ $volunteer->country=='' ? '' : ',
-                                            '.$volunteer->country }} <br/>
-                                            @if($volunteer->cell_tel!=null && $volunteer->cell_tel!='') <i
-                                                    class="fa fa-phone"></i> {{ $volunteer->cell_tel }} <br/>@endif
-                                            @if($volunteer->home_tel!=null && $volunteer->home_tel!='') <i
-                                                    class="fa fa-phone"></i> {{ $volunteer->home_tel }} <br/>@endif
-                                            @if($volunteer->work_tel!=null && $volunteer->work_tel!='') <i
-                                                    class="fa fa-phone"></i> {{ $volunteer->work_tel }} <br/>@endif
+                                                $volunteer->email }}</a> <br/>
                                         </p>
                                     </div>
                                     <div class="col-md-4">
@@ -72,7 +61,7 @@
                                         <div class="text-center error-msg" style="visibility:hidden">
                                             <div class="col-md-12">
                                                 <p class="text-danger"><em>Παρακαλώ αξιολογήστε όλους τους
-                                                    εθελοντές</em></p>
+                                                        εθελοντές</em></p>
                                             </div>
                                         </div>
                                         <div class="form-group text-right">
@@ -88,11 +77,11 @@
                                     <div class="col-md-12">
                                         <p>
                                             <small><em>Λάβατε αυτό το ερωτηματολόγιο επειδή το email σας δηλώθηκε ως
-                                                email
-                                                υπευθύνου στη δράση {{ $action->description }} μέσω της πλατφόρμας
-                                                διαχείρισης
-                                                εθελοντών
-                                                <strong>{{trans($lang.'title')}}</strong>.</em></small>
+                                                    email
+                                                    υπευθύνου στη δράση {{ $action->description }} μέσω της πλατφόρμας
+                                                    διαχείρισης
+                                                    εθελοντών
+                                                    <strong>{{trans($lang.'title')}}</strong>.</em></small>
                                         </p>
 
                                     </div>
@@ -119,9 +108,9 @@
 
     $("#saveRating").click(function () {
         var sendRatings = false,
-                volunteers = [],
-                ratings = [],
-                id, attr1, attr2, attr3;
+            volunteers = [],
+            ratings = [],
+            id, attr1, attr2, attr3;
 
 
         $(".attribute.rating").each(function (index) {
@@ -172,7 +161,7 @@
                     'X-CSRF-Token': $('meta[name="_token"]').attr('content')
                 },
                 success: function (data) {
-                    window.location.href = $("body").attr('data-url') + "/ratings/thankyou";
+                    window.location.href = $("body").attr('data-url') + "/ratings/thankyou/" + data;
                 }
             });
         }

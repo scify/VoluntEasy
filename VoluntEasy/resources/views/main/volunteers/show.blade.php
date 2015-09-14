@@ -43,8 +43,7 @@
                             @endif
                         </p>
                     </div>
-                    {{-- Rating is not needed right now --}}
-                    {{--
+                    {{-- Ratings--}}
                     <div class="col-md-4 pull-right text-center">
                         <div class="row">
                             <div class="col-md-4">
@@ -76,7 +75,6 @@
                             </div>
                         </div>
                     </div>
-                    --}}
                 </div>
 
                 @if($volunteer->blacklisted)

@@ -47,8 +47,20 @@ $(document).ready(function () {
                 },
                 success: function (data) {
                     table.fnClearTable();
-                    if (data.data.length > 0)
+                    if (data.data.length > 0) {
                         table.fnAddData(data.data);
+                        $('.attribute.rating').raty({
+                            starOff: '/assets/plugins/raty/lib/images/star-off.png',
+                            starOn: '/assets/plugins/raty/lib/images/star-on.png',
+                            starHalf: '/assets/plugins/raty/lib/images/star-half.png',
+                            readOnly: true,
+                            score: function () {
+                                console.log('raty');
+                                return $(this).attr('data-score');
+                            }
+                        });
+                    }
+
                 }
             });
             return false; // prevent send form
@@ -110,6 +122,5 @@ $(document).ready(function () {
         title: 'Δεν μπορείτε να προσθέσετε υπομονάδα σε μονάδα που έχει δράσεις.',
         placement: 'bottom'
     });
-
 
 });

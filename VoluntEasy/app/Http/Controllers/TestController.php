@@ -4,9 +4,7 @@ use App\Http\Requests;
 use App\Models\Action;
 use App\Models\Unit;
 use App\Models\Volunteer;
-use App\Services\Facades\NotificationService;
 use App\Services\Facades\UnitService;
-use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
 use Faker\Factory;
 
@@ -21,33 +19,34 @@ class TestController extends Controller {
 
     public function test() {
 
-        //return    $url;
+        $result = Volunteer::with('actions', 'units', 'ratings')->orderBy('name', 'ASC')->get();
 
-        return NotificationService::actionExpired(1);
+        //get the total rating for each attribute
+        foreach ($result as $volunteer) {
+            if ($volunteer->ratings != null) {
+                $volunteer->rating_attr1 = $volunteer->ratings->rating_attr1 / $volunteer->ratings->rating_attr1_count;
+                $volunteer->rating_attr2 = $volunteer->ratings->rating_attr2 / $volunteer->ratings->rating_attr2_count;
+                $volunteer->rating_attr3 = $volunteer->ratings->rating_attr3 / $volunteer->ratings->rating_attr3_count;
+            } else {
+                $volunteer->rating_attr1 = 0;
+                $volunteer->rating_attr2 = 0;
+                $volunteer->rating_attr3 = 0;
+            }
+        }
 
-        /*
-        $volunteerId=17;
-        $unitId = 1;
+        $array = $result->toArray();
+        //return $array;
 
-        $unit = Unit::with('steps')->findOrFail($unitId);
-        $volunteer = Volunteer::with('steps.status')->findOrFail($volunteerId);
-
-        $volunteer = Volunteer::with(['units' => function ($query) use ($unitId, $volunteerId) {
-            $query->where('unit_id', $unitId)->with(['steps.statuses' => function ($query) use ($volunteerId) {
-                $query->where('volunteer_id', $volunteerId)->with('status');
-            }]);
-        }])->findOrFail($volunteerId);
+        usort($array, function ($a, $b) {
+            return $a['rating_attr1'] > $b['rating_attr1'] ? -1 : 1;
+        });
 
 
-       $steps = $unit->steps->lists('id');
+        $result = $result->sortBy('rating_attr1');
 
-        $volunteer = Volunteer::with(['steps' => function ($query) use ($steps) {
-            $query->whereIn('step_id', $steps)->with('status');
-        }])->findOrFail($volunteerId);
+        $data = VolunteerService::prepareForDataTable($result);
 
-        return $volunteer;
-*/
-
+        return $data;
     }
 
 
