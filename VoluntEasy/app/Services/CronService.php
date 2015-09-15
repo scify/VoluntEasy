@@ -8,7 +8,7 @@ use App\Services\Facades\VolunteerService as VolunteerServiceFacade;
 
 class CronService {
 
-    public function expiredActions(){
+    public function expiredActions() {
 
         $expiredActions = Action::expiredYesterday()->with('volunteers')->get();
 
@@ -59,17 +59,35 @@ class CronService {
 
 
     /**
-     * notify users about to expire actions
+     * Notify users about to expire actions
      */
     public function toExpireActions() {
-        $expireIn7DaysActions = Action::expireInSevenDays()->get();
 
-        //notify users about to expire actions
-        foreach ($expireIn7DaysActions as $toExpire) {
-            NotificationServiceFacade::actionExpiresIn7Days($toExpire->id);
+        //get all the active actions
+        $actives = Action::active()->get();
+        $count = 0;
+
+        foreach ($actives as $action) {
+
+            //get the start, end dates in Carbon format
+            $startDate = \Carbon::createFromFormat('d/m/Y', $action->start_date);
+            $endDate = \Carbon::createFromFormat('d/m/Y', $action->end_date);
+
+            //calculate the duration of the action and get the half of it
+            //since we want to notify the user when the action is halfway
+            $durationHalf = intval($endDate->diffInDays($startDate) / 2);
+
+            $now = \Carbon::now();
+
+            //if the time is right (that is if today is the same day as
+            //start_date + durationHalf, notify the users
+            if ($startDate->addDays($durationHalf)->diffInDays($now) == 0) {
+                NotificationServiceFacade::actionWillExpire($action->id);
+                $count++;
+            }
         }
 
-        return $expireIn7DaysActions;
+        return $count;
     }
 
 
@@ -80,26 +98,27 @@ class CronService {
      */
     public function notAvailableVolunteers() {
 
-        //TODO: refactor asap, fix query scopes
-        $notAvailableVolunteers = Volunteer::notAvailable();
-        $notAvailableVolunteers->load('statusDuration.status');
+        $notAvailableVolunteers = Volunteer::notAvailable()->get();
         $count = 0;
 
-        foreach ($notAvailableVolunteers as $volunteer) {
+        if (sizeof($notAvailableVolunteers) > 0) {
+            $notAvailableVolunteers->load('statusDuration.status');
 
-            if(sizeof($volunteer->statusDuration)>0) {
+            foreach ($notAvailableVolunteers as $volunteer) {
 
-                $now = \Carbon::now();
-                $to = \Carbon::createFromFormat('d/m/Y', $volunteer->statusDuration[0]->to_date);
+                if (sizeof($volunteer->statusDuration) > 0) {
 
-                //set as available again
-                 if ($now->diffInDays($to) == 1) {
-                     VolunteerServiceFacade::setVolunteerToAvailable($volunteer->statusDuration[0]->id);
-                     $count++;
-                 }
+                    $now = \Carbon::now();
+                    $to = \Carbon::createFromFormat('d/m/Y', $volunteer->statusDuration[0]->to_date);
+
+                    //set as available again
+                    if ($now->diffInDays($to) == 1) {
+                        VolunteerServiceFacade::setVolunteerToAvailable($volunteer->statusDuration[0]->id);
+                        $count++;
+                    }
+                }
             }
         }
-
         return $count;
     }
 

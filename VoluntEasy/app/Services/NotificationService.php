@@ -218,7 +218,7 @@ class NotificationService {
      *
      * @param $actionId
      */
-    public function actionExpiresIn7Days($actionId) {
+    public function actionWillExpire($actionId) {
 
         $action = Action::find($actionId);
         $unit = Unit::with('users')->find($action->unit_id);
