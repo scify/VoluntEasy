@@ -20,10 +20,11 @@ class VolunteerRequest extends Request {
      */
     public function rules() {
 
-        /* if(Request::has('files[]') && Request::get('files[]')!=null)
-             VolunteerService::storeFiles(Request::get('files[]'));
-        */
-        if (Request::get('id') == null)
+        if (Request::get('id') == null) {
+            /*
+                        if(Request::has('files[]') && Request::get('files[]')!=null)
+                            VolunteerService::storeFiles(Request::get('files[]'));
+            */
             return [
                 'name' => 'required',
                 'last_name' => 'required',
@@ -34,7 +35,7 @@ class VolunteerRequest extends Request {
                 'work_status_id' => 'required',
                 'participation_reason' => 'required',
             ];
-        else
+        } else
             return [
                 'name' => 'required',
                 'last_name' => 'required',

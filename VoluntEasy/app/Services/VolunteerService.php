@@ -700,6 +700,7 @@ class VolunteerService {
      *
      * @param $files
      * @param $id
+     * @return boolean
      */
     public function storeFiles($files, $id) {
         foreach ($files as $file) {
@@ -716,7 +717,7 @@ class VolunteerService {
 
                     //create a row to the db to associate the file with the volunteer
                     $dbFile = new File([
-                        'filename' => $fileName,
+                        'filename' => $filename,
                         'volunteer_id' => $id
                     ]);
 
@@ -725,7 +726,7 @@ class VolunteerService {
             }
         }
 
-        return FileServiceFacade::storeFiles($files, $this->filePath);
+       // return FileServiceFacade::storeFiles($files, $this->filePath);
     }
 
     /**

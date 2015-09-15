@@ -402,7 +402,6 @@
                 </select>
             </div>
 
-            @if(isset($volunteer))
             <div class="form-group">
                 {!! Form::formInput('files[]', 'Ανέβασμα αρχείων:', $errors, ['class' => 'form-control', 'type' =>
                 'file', 'multiple' => 'true'])
@@ -411,6 +410,7 @@
                 <br/>
                 <small class="help-blocκ">Τα αρχεία δεν πρέπει να ξεπερνούν σε μέγεθος τα 10mb.</small>
             </div>
+            @if(isset($volunteer))
             <div class="form-group">
                 @if(sizeof($volunteer->files)>0)
                 <p>Ανεβασμένα αρχεία:</p>

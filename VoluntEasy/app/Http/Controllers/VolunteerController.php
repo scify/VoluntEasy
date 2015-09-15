@@ -169,6 +169,37 @@ class VolunteerController extends Controller {
             $volunteer->unitsExcludes()->sync($unitsExcludes);
         }
 
+
+        //check if files uploaded already exist
+        $files = \Input::file('files');
+        $flag = false;
+
+        foreach ($files as $file) {
+            if ($file != null) {
+                $flag = true;
+                $filename = public_path() . '/assets/uploads/volunteers/' . $file->getClientOriginalName();
+
+                //if file already exists, redirect back with error message
+                if (file_exists($filename)) {
+                    \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' υπάρχει ήδη.');
+                    \Session::flash('flash_type', 'alert-danger');
+
+                    return \Redirect::back();
+                }
+                //if file exceeds mazimum allowed size, redirect back with error message
+                if ($file->getSize() > 10000000) {
+                    \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' ξεπερνά σε μέγεθος τα 10mb.');
+                    \Session::flash('flash_type', 'alert-danger');
+
+                    return \Redirect::back();
+                }
+            }
+        }
+
+        if ($files != null && sizeof($files) > 0 && $flag == true)
+            VolunteerService::storeFiles(\Input::file('files'), $volunteer->id);
+
+
         return \Redirect::route('volunteer/profile', ['id' => $volunteer->id]);
     }
 
@@ -183,7 +214,7 @@ class VolunteerController extends Controller {
         $timeline = VolunteerService::timeline($id);
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
 
-       // return $volunteer;
+        // return $volunteer;
         // return $timeline;
         //get the count of pending and available units, used in the front end
         $pending = 0;
@@ -358,9 +389,10 @@ class VolunteerController extends Controller {
         //check if files uploaded already exist
         $files = \Input::file('files');
         $flag = false;
+
         foreach ($files as $file) {
-            if($file!=null) {
-                $flag==true;
+            if ($file != null) {
+                $flag = true;
                 $filename = public_path() . '/assets/uploads/volunteers/' . $file->getClientOriginalName();
 
                 //if file already exists, redirect back with error message
@@ -370,7 +402,8 @@ class VolunteerController extends Controller {
 
                     return \Redirect::back();
                 }
-                //if file exceeds mazimum allowed size, redirect back with error message
+
+                //if file exceeds maximum allowed size, redirect back with error message
                 if ($file->getSize() > 10000000) {
                     \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' ξεπερνά σε μέγεθος τα 10mb.');
                     \Session::flash('flash_type', 'alert-danger');
@@ -379,6 +412,7 @@ class VolunteerController extends Controller {
                 }
             }
         }
+
 
         if ($files != null && sizeof($files) > 0 && $flag == true)
             VolunteerService::storeFiles(\Input::file('files'), $volunteer->id);
