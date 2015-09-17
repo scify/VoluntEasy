@@ -43,8 +43,10 @@
                             @endif
                         </p>
                     </div>
+
                     {{-- Ratings--}}
-                   {{-- <div class="col-md-4 pull-right text-center">
+                    {{--
+                    <div class="col-md-4 pull-right text-center">
                         <div class="row">
                             <div class="col-md-4">
                                 <h5>Συνέπεια</h5>
@@ -93,9 +95,12 @@
                 @if($volunteer->not_available)
                 <div class="row">
                     <div class="col-md-12">
-                        <h4 class="text-danger">Ο εθελοντής έχει επισημανθεί ως μη διαθέσιμος για το διάστημα <strong>{{ $volunteer->not_availableFrom}} - {{ $volunteer->not_availableTo}}</strong> <br/>
+                        <h4 class="text-danger">Ο εθελοντής έχει επισημανθεί ως μη διαθέσιμος για το διάστημα <strong>{{
+                                $volunteer->not_availableFrom}} - {{ $volunteer->not_availableTo}}</strong> <br/>
                             @if($volunteer->permitted)
-                            <small><a href="#" data-toggle="modal" data-target="#notAvailableInfo">Πληροφορίες</a></small> |
+                            <small><a href="#" data-toggle="modal" data-target="#notAvailableInfo">Πληροφορίες</a>
+                            </small>
+                            |
                             <small><a href="#" data-toggle="modal" data-target="#available">Σήμανση εθελοντή ως
                                     διαθέσιμος</a></small>
                             @endif
@@ -149,7 +154,6 @@
 </div>
 
 
-
 @if($volunteer->not_available)
 <div class="modal fade" id="available">
     <div class="modal-dialog">
@@ -160,14 +164,15 @@
                 <h4 class="modal-title">Σήμανση εθελοντή ως διαθέσιμος</h4>
             </div>
             <div class="modal-body">
-                 {!! Form::formInput('notAvailableComments', 'Σχόλια', $errors, ['class' => 'form-control', 'type' =>
+                {!! Form::formInput('notAvailableComments', 'Σχόλια', $errors, ['class' => 'form-control', 'type' =>
                 'textarea', 'value' => $volunteer->not_availableComments, 'id'
                 =>
                 'notAvailableComments']) !!}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
-                <button type="button" class="btn btn-success available" data-volunteer-id="{{ $volunteer->id }}"  data-status-duration-id="{{ $volunteer->not_availableId }}">
+                <button type="button" class="btn btn-success available" data-volunteer-id="{{ $volunteer->id }}"
+                        data-status-duration-id="{{ $volunteer->not_availableId }}">
                     Αποθήκευση
                 </button>
             </div>
@@ -187,14 +192,15 @@
                 <h4 class="modal-title">Πληροφορίες διαθεσιμότητας</h4>
             </div>
             <div class="modal-body">
-                <p>Μη διαθέσιμος από <strong>{{ $volunteer->not_availableFrom }}</strong> έως <strong>{{ $volunteer->not_availableTo }}</strong></p>
+                <p>Μη διαθέσιμος από <strong>{{ $volunteer->not_availableFrom }}</strong> έως <strong>{{
+                        $volunteer->not_availableTo }}</strong></p>
 
                 <p>Σχόλια<br/>
-                @if($volunteer->not_availableComments==null || $volunteer->not_availableComments=='')
-                <em>Κανένα σχόλιο</em>
-                @else
-                {{ $volunteer->not_availableComments }}
-                @endif
+                    @if($volunteer->not_availableComments==null || $volunteer->not_availableComments=='')
+                    <em>Κανένα σχόλιο</em>
+                    @else
+                    {{ $volunteer->not_availableComments }}
+                    @endif
                 </p>
             </div>
             <div class="modal-footer">
@@ -207,7 +213,6 @@
 </div>
 <!-- /.modal -->
 @endif
-
 
 
 @if($volunteer->blacklisted)
