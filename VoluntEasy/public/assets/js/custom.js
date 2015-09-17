@@ -49,7 +49,7 @@ $(document).ready(function () {
                     table.fnClearTable();
                     if (data.data.length > 0) {
                         table.fnAddData(data.data);
-                        $('.attribute.rating').raty({
+                      /*  $('.attribute.rating').raty({
                             starOff: '/assets/plugins/raty/lib/images/star-off.png',
                             starOn: '/assets/plugins/raty/lib/images/star-on.png',
                             starHalf: '/assets/plugins/raty/lib/images/star-half.png',
@@ -58,7 +58,7 @@ $(document).ready(function () {
                                 console.log('raty');
                                 return $(this).attr('data-score');
                             }
-                        });
+                        });*/
                     }
 
                 }

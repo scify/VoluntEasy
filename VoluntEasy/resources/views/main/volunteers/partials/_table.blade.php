@@ -137,7 +137,7 @@
         },
         //disable ordering at the last column (edit, delete buttons)
         "aoColumnDefs": [
-            {'bSortable': false, 'aTargets': [5]}
+            {'bSortable': false, 'aTargets': [4]}
         ],
         "aaSorting": [],
         dom: 'T<"clear">lfrtip',
@@ -160,7 +160,7 @@
                     "sExtends": "xls"
                 }
             ]
-        },
+        }/*,
         "fnInitComplete": function (oSettings, json) {
             $('.attribute.rating').raty({
                 starOff: '{{ asset("assets/plugins/raty/lib/images/star-off.png")}}',
@@ -172,7 +172,7 @@
                     return $(this).attr('data-score');
                 }
             });
-        }
+        }*/
     });
 
 
