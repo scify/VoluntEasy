@@ -7,7 +7,7 @@
         <!--th>Διεύθυνση</th-->
         <!--th>Τηλέφωνο</th-->
         <th>Μονάδες</th>
-        <th>Αξιολόγηση</th>
+        <!--th>Αξιολόγηση</th-->
         <th>Ενέργειες</th>
     </tr>
     </thead>
@@ -20,7 +20,7 @@
         <!--th>Διεύθυνση</th-->
         <!--th>Τηλέφωνο</th-->
         <th>Μονάδες</th>
-        <th>Αξιολόγηση</th>
+        <!--th>Αξιολόγηση</th-->
         <th>Ενέργειες</th>
     </tr>
     </tfoot>
@@ -70,7 +70,7 @@
                 return status;
             }
             },
-            {
+            /*{
                 //show volunteer rating
                 data: null, render: function (data, type, row) {
 
@@ -90,7 +90,7 @@
 
                 return ratings;
             }
-            },
+            },*/
             {
                 //if the user is permitted to edit/delete the volunteer,
                 //then show the appropriate buttons

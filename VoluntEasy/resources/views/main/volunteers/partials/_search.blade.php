@@ -124,13 +124,14 @@
                     'type' => 'select', 'value' => $interests]) !!}
                 </div>
             </div>
-            <div class="col-md-2">
+            {{--  <div class="col-md-2">
                 <div class="form-group">
                     {!! Form::formInput('rating_id', 'Αξιολόγηση:', $errors, ['class' => 'form-control input-sm
                     searchDropDown',
                     'type' => 'select', 'value' => $ratings]) !!}
                 </div>
             </div>
+            --}}
             <div class="col-md-2">
             </div>
             <div class="col-md-2">

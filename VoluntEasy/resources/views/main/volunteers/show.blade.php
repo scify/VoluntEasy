@@ -44,7 +44,7 @@
                         </p>
                     </div>
                     {{-- Ratings--}}
-                    <div class="col-md-4 pull-right text-center">
+                   {{-- <div class="col-md-4 pull-right text-center">
                         <div class="row">
                             <div class="col-md-4">
                                 <h5>Συνέπεια</h5>
@@ -76,6 +76,7 @@
                         </div>
                     </div>
                 </div>
+                --}}
 
                 @if($volunteer->blacklisted)
                 <div class="row">
