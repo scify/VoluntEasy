@@ -21,8 +21,9 @@ use App\Services\Facades\VolunteerService;
 class VolunteerApiController extends Controller {
 
     public function all() {
-        $volunteers = Volunteer::with('units', 'actions', 'ratings')->orderBy('name', 'ASC')->get();
+        $volunteers = Volunteer::with('units', 'actions')->orderBy('name', 'ASC')->get();
 
+/*
         //get the total rating for each attribute
         foreach ($volunteers as $volunteer) {
             if ($volunteer->ratings != null) {
@@ -35,7 +36,7 @@ class VolunteerApiController extends Controller {
                 $volunteer->rating_attr3 = 0;
             }
         }
-
+*/
         $permittedVolunteers = VolunteerService::permittedVolunteersIds();
 
         $data = VolunteerService::prepareForDataTable($volunteers);

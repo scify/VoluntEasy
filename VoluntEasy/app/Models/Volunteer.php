@@ -107,9 +107,11 @@ class Volunteer extends User {
         return $this->hasMany('App\Models\File');
     }
 
+    /*
     public function ratings() {
         return $this->hasOne('App\Models\Rating');
     }
+    */
 
     public function actionRatings() {
         return $this->hasOne('App\Models\RatingVolunteerAction');

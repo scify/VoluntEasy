@@ -26,6 +26,7 @@
                                 <h5 class="text-center">Διάρκεια Δράσης: {{ $action->start_date }} - {{
                                     $action->end_date }}</h5>
                                 <hr/>
+                                @if(sizeof($action->volunteers)>0)
                                 @foreach($action->volunteers as $volunteer)
                                 <div class="row">
                                     <div class="col-md-8">
@@ -37,21 +38,13 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <h4>Συνέπεια</h4>
 
-                                            <div id="volunteer{{ $volunteer->id }}-attr1"
+                                            @foreach($ratingAttributes as $attribute)
+                                            <h4>{{ $attribute->description }}</h4>
+
+                                            <div id="volunteer{{ $volunteer->id }}-attr{{ $attribute->id }}"
                                                  class="attribute rating" data-volunteer-id="{{$volunteer->id}}"></div>
-
-                                            <h4>Στυλ</h4>
-
-                                            <div id="volunteer{{ $volunteer->id }}-attr2"
-                                                 class="attribute rating" data-volunteer-id="{{$volunteer->id}}"></div>
-
-                                            <h4>Αγάπη για γάτες</h4>
-
-                                            <div id="volunteer{{ $volunteer->id }}-attr3"
-                                                 class="attribute rating last"
-                                                 data-volunteer-id="{{$volunteer->id}}"></div>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
@@ -72,6 +65,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                @else
+                                <p>Δεν υπάρχουν εθελοντές προς αξιολόγηση.</p>
+                                @endif
                                 <hr/>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -83,7 +79,6 @@
                                                     εθελοντών
                                                     <strong>{{trans($lang.'title')}}</strong>.</em></small>
                                         </p>
-
                                     </div>
                                 </div>
                             </div>
@@ -142,6 +137,8 @@
                 });
             }
         });
+
+        sendRatings = false;
 
 
         console.log(sendRatings);

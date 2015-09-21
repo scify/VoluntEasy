@@ -88,25 +88,45 @@ class VolunteerTableSeeder extends Seeder {
         // Interest categories.
         DB::table('interest_categories')->delete();
 
+        /*
         $interest_categories = [
             ['description' => 'Πολιτισμός και Αθλητισμός'],
             ['description' => 'Για το Παιδί'],
             ['description' => 'Περιβάλλον'],
             ['description' => 'Διεύθυνση Κοινωνικής Αλληλεγγύης και Υγείας'],
         ];
+        */
 
+        //ekpizo
+        $interest_categories = [
+            ['description' => 'Γενικά ενδιαφέροντα'],
+        ];
         DB::table('interest_categories')->insert($interest_categories);
 
 
 	    // Volunteer interests.
 	    DB::table('interests')->delete();
-        
+
+        $cat_general = \App\Models\Descriptions\InterestCategory::where('description', 'Γενικά ενδιαφέροντα')->first()->id;
+
+        $interests = [
+            ['category_id' => $cat_general, 'description' => 'Διεξαγωγή ερευνών'],
+            ['category_id' => $cat_general, 'description' => 'Νομική υποστήριξη καταναλωτών'],
+            ['category_id' => $cat_general, 'description' => 'Μεταφράσεις'],
+            ['category_id' => $cat_general, 'description' => 'Κειμενογράφηση'],
+            ['category_id' => $cat_general, 'description' => 'Γραφιστικά'],
+            ['category_id' => $cat_general, 'description' => 'Οργάνωση Εκδηλώσεων'],
+            ['category_id' => $cat_general, 'description' => 'Επικοινωνία/Social media'],
+        ];
+
+
+        /*
         $cat_politismos = \App\Models\Descriptions\InterestCategory::where('description', 'Πολιτισμός και Αθλητισμός')->first()->id;
         $cat_paidi = \App\Models\Descriptions\InterestCategory::where('description', 'Για το Παιδί')->first()->id;
         $cat_perivallon = \App\Models\Descriptions\InterestCategory::where('description', 'Περιβάλλον')->first()->id;
         $cat_ygeia = \App\Models\Descriptions\InterestCategory::where('description', 'Διεύθυνση Κοινωνικής Αλληλεγγύης και Υγείας')->first()->id;
-        
-        
+        */
+        /*
 	    $interests = [
             ['category_id' => $cat_politismos, 'description' => 'Πολιτιστικά προγράμματα'],
             ['category_id' => $cat_politismos, 'description' => 'Αθλητικά προγράμματα'],
@@ -134,7 +154,7 @@ class VolunteerTableSeeder extends Seeder {
 		    ['category_id' => $cat_ygeia,  'description' => 'Επιδοματική Πολιτική – Κοινωνική Ασφάλιση'],
 		    ['category_id' => $cat_ygeia,  'description' => 'Οργάνωση & Λειτουργία'],
 	    ];
-
+        */
 	    DB::table('interests')->insert($interests);
 
 	    // Genders.

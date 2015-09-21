@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Models\Action;
+use App\Models\Descriptions\RatingAttribute;
 use App\Models\Rating;
 use App\Models\RatingVolunteerAction;
 
@@ -24,9 +25,9 @@ class RatingController extends Controller {
     public function create($actionId) {
         //TODO: check if there are any volunteers????
         $action = Action::with('volunteers')->findOrFail($actionId);
-        // $volunteer = Volunteer::findOrFail($volunteerId);
+        $ratingAttributes = RatingAttribute::all();
 
-        return view('main.ratings.rate', compact('action'));
+        return view('main.ratings.rate', compact('action', 'ratingAttributes'));
     }
 
     /**
