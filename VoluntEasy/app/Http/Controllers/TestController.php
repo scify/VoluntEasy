@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Models\Action;
+use App\Models\Descriptions\InterestCategory;
 use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Services\Facades\UnitService;
@@ -19,34 +20,9 @@ class TestController extends Controller {
 
     public function test() {
 
-        $result = Volunteer::with('actions', 'units', 'ratings')->orderBy('name', 'ASC')->get();
+        $interests = InterestCategory::with('interests')->get();
 
-        //get the total rating for each attribute
-        foreach ($result as $volunteer) {
-            if ($volunteer->ratings != null) {
-                $volunteer->rating_attr1 = $volunteer->ratings->rating_attr1 / $volunteer->ratings->rating_attr1_count;
-                $volunteer->rating_attr2 = $volunteer->ratings->rating_attr2 / $volunteer->ratings->rating_attr2_count;
-                $volunteer->rating_attr3 = $volunteer->ratings->rating_attr3 / $volunteer->ratings->rating_attr3_count;
-            } else {
-                $volunteer->rating_attr1 = 0;
-                $volunteer->rating_attr2 = 0;
-                $volunteer->rating_attr3 = 0;
-            }
-        }
-
-        $array = $result->toArray();
-        //return $array;
-
-        usort($array, function ($a, $b) {
-            return $a['rating_attr1'] > $b['rating_attr1'] ? -1 : 1;
-        });
-
-
-        $result = $result->sortBy('rating_attr1');
-
-        $data = VolunteerService::prepareForDataTable($result);
-
-        return $data;
+        return $interests;
     }
 
 

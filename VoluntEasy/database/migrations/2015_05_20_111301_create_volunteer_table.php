@@ -143,10 +143,16 @@ class CreateVolunteerTable extends Migration {
             $table->foreign('unit_id')->references('id')->on('units')->onDelete('cascade');
         });
 
+        Schema::create('interest_categories', function ($table) {
+            $table->increments('id');
+            $table->text('description', 100);
+        });
+
         Schema::create('interests', function ($table) {
             $table->increments('id');
-            $table->text('category', 100);
             $table->text('description', 100);
+            $table->integer('category_id')->unsigned();
+            $table->foreign('category_id')->references('id')->on('interest_categories');
         });
 
         Schema::create('volunteer_interests', function ($table) {
@@ -277,6 +283,7 @@ class CreateVolunteerTable extends Migration {
         Schema::dropIfExists('languages');
         Schema::dropIfExists('volunteer_interests');
         Schema::dropIfExists('interests');
+        Schema::dropIfExists('interest_categories');
         Schema::dropIfExists('volunteer_action_history');
         Schema::dropIfExists('actions_volunteers');
         Schema::dropIfExists('units_volunteers');

@@ -11,6 +11,7 @@ use App\Models\Descriptions\EducationLevel;
 use App\Models\Descriptions\Gender;
 use App\Models\Descriptions\IdentificationType;
 use App\Models\Descriptions\Interest;
+use App\Models\Descriptions\InterestCategory;
 use App\Models\Descriptions\Language;
 use App\Models\Descriptions\LanguageLevel;
 use App\Models\Descriptions\MaritalStatus;
@@ -58,14 +59,14 @@ class VolunteerController extends Controller {
         $workStatuses = WorkStatus::all()->lists('description', 'id');
         $availabilityFreqs = AvailabilityFrequencies::all()->lists('description', 'id');
         $availabilityTimes = AvailabilityTime::all()->lists('description', 'id');
-        $interests = Interest::orderBy('category', 'asc')->get();
+        $interestCategories = InterestCategory::with('interests')->get();
         $genders = Gender::all()->lists('description', 'id');
         $commMethod = CommunicationMethod::all()->lists('description', 'id');
         $edLevel = EducationLevel::all()->lists('description', 'id');
         $units = Unit::orderBy('description', 'asc')->get();
 
         return view('main.volunteers.create', compact('identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
-            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interests', 'genders', 'commMethod', 'edLevel', 'units'));
+            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'units'));
     }
 
     /**
@@ -256,7 +257,7 @@ class VolunteerController extends Controller {
         $workStatuses = WorkStatus::all()->lists('description', 'id');
         $availabilityFreqs = AvailabilityFrequencies::all()->lists('description', 'id');
         $availabilityTimes = AvailabilityTime::all()->lists('description', 'id');
-        $interests = Interest::orderBy('category', 'asc')->get();
+        $interestCategories = InterestCategory::with('interests')->get();
         $genders = Gender::all()->lists('description', 'id');
         $commMethod = CommunicationMethod::all()->lists('description', 'id');
         $edLevel = EducationLevel::all()->lists('description', 'id');
@@ -264,7 +265,7 @@ class VolunteerController extends Controller {
         $units = Unit::orderBy('description', 'asc')->get();
 
         return view('main.volunteers.edit', compact('volunteer', 'identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
-            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interests', 'genders', 'commMethod', 'edLevel', 'units'));
+            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'units'));
     }
 
     /**

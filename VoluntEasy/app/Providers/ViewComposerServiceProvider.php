@@ -48,6 +48,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $genders = Gender::all()->lists('description', 'id');
             $commMethod = CommunicationMethod::all()->lists('description', 'id');
             $educationLevels = EducationLevel::all()->lists('description', 'id');
+            //$interests = Interest::orderBy('description', 'asc')->lists('description', 'id');
             $interests = Interest::orderBy('description', 'asc')->lists('description', 'id');
             $units = Unit::all()->lists('description', 'id');
 

@@ -12,7 +12,10 @@ class Interest extends Model {
      */
     protected $table = 'interests';
 
-    protected $fillable = ['description', 'category'];
+    protected $fillable = ['description'];
 
 
+    public function category() {
+        return $this->hasOne('App\Models\Descriptions\InterestCategory', 'id', 'category_id');
+    }
 }
