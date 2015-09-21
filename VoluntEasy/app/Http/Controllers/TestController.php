@@ -17,6 +17,23 @@ use Faker\Factory;
  */
 class TestController extends Controller {
 
+
+    /**
+     * Experimenting on interface binding
+     *
+     * @return mixed
+     */
+    public function experiment(){
+
+
+        $result =  \App::make('App\Services\Experiment\VolunteerInterface');
+
+
+        return $result->hello();
+    }
+
+
+
     public function test() {
 
         $result = Volunteer::with('actions', 'units', 'ratings')->orderBy('name', 'ASC')->get();

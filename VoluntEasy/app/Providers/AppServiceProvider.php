@@ -29,6 +29,13 @@ class AppServiceProvider extends ServiceProvider {
 			'Illuminate\Contracts\Auth\Registrar',
 			'App\Services\Registrar'
         );
+
+
+        $this->app->bind(
+            'App\Services\Experiment\VolunteerInterface',
+            'App\Services\Experiment\EkpizoVolunteer'
+        );
+
 	}
 
 }

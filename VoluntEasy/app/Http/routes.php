@@ -175,9 +175,6 @@ Route::get('cityofathens', 'TestController@cityofathens');
 
 
 
-//ready to start experimenting...
-
-
 
 ////////////////////////////////////////////
 // Log Viewer                             //
@@ -192,6 +189,7 @@ Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 Route::get('test','TestController@test');
 Route::get('faker','TestController@faker');
 Route::get('boxytree','TestController@boxytree');
+Route::get('experiment','TestController@experiment');
 
 /**  test remove */
 Route::get('units/branch/{id}','UnitController@branch');
