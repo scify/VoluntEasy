@@ -1,6 +1,7 @@
 <?php namespace App\Services;
 
 use App\Models\Action;
+use App\Models\Rating\ActionRating;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Volunteer;
 use App\Services\Facades\NotificationService as NotificationServiceFacade;
@@ -28,14 +29,25 @@ class CronService {
                 }
             }
 
-            if ($expired->questionnaire_volunteers_link != null && $expired->questionnaire_volunteers_link != '' && $expired->email != null && $expired->email != '') {
+            //if ($expired->questionnaire_volunteers_link != null && $expired->questionnaire_volunteers_link != '' && $expired->email != null && $expired->email != '') {
+            if ($expired->email != null && $expired->email != '') {
 
-                /*
+                $token = str_random(30);
+                //create a new action rating
+                //with the action id, the email and the token
+                $actionRating = new ActionRating([
+                    "action_id" => $expired->id,
+                    "email" => $expired->email,
+                    "token" => $token,
+                ]);
+
+                $actionRating->save();
+
                 //then send an email to the person responsible for the action
-                \Mail::send('emails.rate_volunteers', ['action' => $expired], function ($message) use ($expired) {
+
+                \Mail::send('emails.rate_volunteers', ['action' => $expired, 'token' => $token], function ($message) use ($expired) {
                     $message->to($expired->email, $expired->name)->subject('Test');
                 });
-                */
             }
 
             //for all volunteers, set their unit status to available

@@ -11,69 +11,33 @@ class CreateRatingTable extends Migration {
      */
     public function up() {
 
-        //OLD RATING SYSTEM
-        /*
-            Schema::create('rating_volunteer_action', function(Blueprint $table)
-            {
-                $table->increments('id');
-
-                $table->integer('volunteer_id')->unsigned();
-                $table->foreign('volunteer_id')->references('id')->on('volunteers');
-
-                $table->integer('action_id')->unsigned();
-                $table->foreign('action_id')->references('id')->on('actions');
-
-                $table->string('email');
-
-                // $string = str_random(30);
-                $table->string('token',30);
-
-                $table->integer('attr1')->default(0);
-                $table->integer('attr2')->default(0);
-                $table->integer('attr3')->default(0);
-                $table->timestamps();
-
-                $table->index('volunteer_id');
-            });
-
-            Schema::create('ratings', function($table)
-            {
-                $table->increments('id');
-                $table->integer('volunteer_id')->unsigned();
-                $table->foreign('volunteer_id')->references('id')->on('volunteers');
-
-                $table->integer('rating_attr1')->default(0);
-                $table->integer('rating_attr1_count')->default(0);
-                $table->integer('rating_attr2')->default(0);
-                $table->integer('rating_attr2_count')->default(0);
-                $table->integer('rating_attr3')->default(0);
-                $table->integer('rating_attr3_count')->default(0);
-
-                $table->timestamps();
-            });
-        */
-
-
-        //refactoring ratings
-
-
         //the rating descriptions, i.e. Συνέπεια, Ομαδικότητα etc
         Schema::create('rating_attributes', function ($table) {
             $table->increments('id');
             $table->string('description', 100);
         });
 
-        //table to keep the ratings that each user makes for a volunteer
-        Schema::create('rating_volunteer_action', function ($table) {
+        //table to keep the token that is send to each upeu8unos
+        Schema::create('action_ratings', function ($table) {
             $table->increments('id');
             $table->string('email');
-            $table->string('token', 30);
-
-            $table->integer('volunteer_id')->unsigned();
-            $table->foreign('volunteer_id')->references('id')->on('volunteers');
+            $table->string('token', 30)->nullable();
+            $table->boolean('rated')->default(0);
 
             $table->integer('action_id')->unsigned();
             $table->foreign('action_id')->references('id')->on('actions');
+
+            $table->timestamps();
+        });
+
+        //table to keep the ratings that each user makes for a volunteer
+        Schema::create('volunteer_action_ratings', function ($table) {
+            $table->increments('id');
+
+            $table->integer('volunteer_id')->unsigned();
+            $table->foreign('volunteer_id')->references('id')->on('volunteers');
+            $table->integer('action_rating_id')->unsigned();
+            $table->foreign('action_rating_id')->references('id')->on('action_ratings');
 
             $table->timestamps();
             $table->index('volunteer_id');
@@ -87,8 +51,8 @@ class CreateRatingTable extends Migration {
             $table->integer('rating_attribute_id')->unsigned();
             $table->foreign('rating_attribute_id')->references('id')->on('rating_attributes');
 
-            $table->integer('rating_volunteer_action_id')->unsigned();
-            $table->foreign('rating_volunteer_action_id')->references('id')->on('rating_volunteer_action');
+            $table->integer('volunteer_action_rating_id')->unsigned();
+            $table->foreign('volunteer_action_rating_id')->references('id')->on('volunteer_action_ratings');
         });
     }
 
@@ -100,6 +64,7 @@ class CreateRatingTable extends Migration {
     public function down() {
         Schema::dropIfExists('ratings');
         Schema::dropIfExists('rating_attributes');
-        Schema::dropIfExists('rating_volunteer_action');
+        Schema::dropIfExists('volunteer_action_ratings');
+        Schema::dropIfExists('action_ratings');
     }
 }

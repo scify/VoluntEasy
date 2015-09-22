@@ -193,19 +193,6 @@ Route::get('test','TestController@test');
 Route::get('faker','TestController@faker');
 Route::get('boxytree','TestController@boxytree');
 
-/**  test remove */
-Route::get('units/branch/{id}','UnitController@branch');
-
-/** aris TESTing... **/
-use App\Models\Rating;
-use App\Models\Volunteer;
-Route::get('aris', function()
-{
-    return Volunteer::with('actionRatings')->first();
-
-    return '666';
-});
-
 
 
 // Display all SQL executed in Eloquent

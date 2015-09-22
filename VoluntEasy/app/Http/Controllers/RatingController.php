@@ -2,9 +2,9 @@
 
 use App\Http\Requests;
 use App\Models\Action;
-use App\Models\Descriptions\RatingAttribute;
-use App\Models\Rating;
-use App\Models\RatingVolunteerAction;
+use App\Models\Rating\Rating;
+use App\Models\Rating\RatingAttribute;
+use App\Models\Rating\VolunteerActionRating;
 
 class RatingController extends Controller {
 
@@ -23,10 +23,8 @@ class RatingController extends Controller {
      * @return Response
      */
     public function create($actionId) {
-        //TODO: check if there are any volunteers????
         $action = Action::with('volunteers')->findOrFail($actionId);
         $ratingAttributes = RatingAttribute::all();
-
         return view('main.ratings.rate', compact('action', 'ratingAttributes'));
     }
 
@@ -41,7 +39,32 @@ class RatingController extends Controller {
         $email = \Request::get('email');
         $volunteers = \Request::get('volunteers');
 
+        return ($volunteers);
 
+        //for each volunteer, we have to create an entry to the
+        //volunteer_action_ratings table
+        foreach($volunteers as $volunteer) {
+
+            $volunteerActionRating = new VolunteerActionRating([
+                'volunteer_id' => $volunteer->id,
+                'action_rating_id' => $actionRating
+            ]);
+
+            $volunteerActionRating->save();
+
+            //then for every rating attribute, we must save the rating
+            foreach($volunteer->ratings as $rating){
+
+                $rating = new Rating([
+                    'rating' => $rating->rating,
+                    'rating_attribute_id' => $rating->attrId,
+                    'volunteer_action_rating_id' => $volunteerActionRating->id,
+                ]);
+            }
+        }
+
+
+        /*
         //TODO: remove this
         $email = 'aa@aa.gr';
 
@@ -88,6 +111,7 @@ class RatingController extends Controller {
             }
         }
 
+        */
         return $actionId;
     }
 

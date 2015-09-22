@@ -1,4 +1,4 @@
-<?php namespace App\Models\Descriptions;
+<?php namespace App\Models\Rating;
 
 use Illuminate\Database\Eloquent\Model;
 

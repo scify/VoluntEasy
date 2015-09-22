@@ -39,11 +39,13 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
 
-                                            @foreach($ratingAttributes as $attribute)
+                                            @foreach($ratingAttributes as $key => $attribute)
                                             <h4>{{ $attribute->description }}</h4>
 
                                             <div id="volunteer{{ $volunteer->id }}-attr{{ $attribute->id }}"
-                                                 class="attribute rating" data-volunteer-id="{{$volunteer->id}}"></div>
+                                                 class="attribute rating {{ $key == 0 ? 'first' : '' }}"
+                                                 data-volunteer-id="{{$volunteer->id}}"
+                                                 data-attr-id="{{$attribute->id}}"></div>
                                             @endforeach
                                         </div>
                                     </div>
@@ -108,43 +110,38 @@
             id, attr1, attr2, attr3;
 
 
-        $(".attribute.rating").each(function (index) {
+        //first check that all stars are filled
+        if (validate()) {
 
-            id = $(this).attr('data-volunteer-id');
+            //for each star, do the following
+            $(".attribute.rating").each(function (index) {
 
-            if ($(this).raty('score') == undefined) {
-                $(".error-msg").css('visibility', 'visible');
-                sendRatings = false;
-                return false;
-            }
-            else {
-                $(".error-msg").css('visibility', 'hidden');
-                sendRatings = true;
-                if ($(this).attr('id') == 'volunteer' + id + '-attr1')
-                    attr1 = $(this).raty('score');
-                else if ($(this).attr('id') == 'volunteer' + id + '-attr2')
-                    attr2 = $(this).raty('score');
-                else if ($(this).attr('id') == 'volunteer' + id + '-attr3')
-                    attr3 = $(this).raty('score');
-            }
+                //set the volunteer id
+                id = $(this).attr('data-volunteer-id');
 
-            if ($(this).hasClass('last')) {
-                volunteers.push({
-                    id: id,
-                    attr1: attr1,
-                    attr2: attr2,
-                    attr3: attr3
+                //if this is the first star, add a new entry to the volunteers' array
+                if ($(this).hasClass('first'))
+                    volunteers.push({
+                        id: id,
+                        ratings: []
+                    });
+
+                //get the appropriate volunteer
+                var tmp = $.grep(volunteers, function (e) {
+                    return e.id == id;
                 });
-            }
-        });
 
-        sendRatings = false;
+                //set the score
+                tmp[0].ratings.push({
+                    attrId: $(this).attr("data-attr-id"),
+                    rating: $(this).raty("score")
+                });
+            });
 
 
-        console.log(sendRatings);
-        console.log(volunteers);
+          //  console.log(volunteers);
 
-        if (sendRatings) {
+
             //send data to server to save the ratings
             $.ajax({
                 url: $("body").attr('data-url') + '/ratings/store',
@@ -158,12 +155,35 @@
                     'X-CSRF-Token': $('meta[name="_token"]').attr('content')
                 },
                 success: function (data) {
-                    window.location.href = $("body").attr('data-url') + "/ratings/thankyou/" + data;
+                    console.log(data);
+
+                   // window.location.href = $("body").attr('data-url') + "/ratings/thankyou/" + data;
                 }
             });
-        }
 
+        }
     });
+
+
+    //check that all volunteers has been rated before sending the form
+    function validate() {
+        var count = 0;
+
+        $(".attribute.rating").each(function (index) {
+            if ($(this).raty('score') == undefined) {
+                $(".error-msg").css('visibility', 'visible');
+                return false;
+            }
+            else {
+                count++;
+            }
+        });
+
+        if (count == $(".attribute.rating").length) {
+            $(".error-msg").css('visibility', 'hidden');
+            return true;
+        }
+    }
 </script>
 
 

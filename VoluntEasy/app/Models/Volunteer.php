@@ -113,9 +113,9 @@ class Volunteer extends User {
     }
     */
 
-    public function actionRatings() {
+    /*public function actionRatings() {
         return $this->hasOne('App\Models\RatingVolunteerAction');
-    }
+    }*/
 
     public function statusDuration() {
         return $this->hasMany('App\Models\Descriptions\VolunteerStatusDuration');

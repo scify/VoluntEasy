@@ -20,9 +20,9 @@ class TestController extends Controller {
 
     public function test() {
 
-        $interests = InterestCategory::with('interests')->get();
 
-        return $interests;
+        return view("app_emails.rate_volunteers");
+
     }
 
 

@@ -227,7 +227,7 @@ class VolunteerController extends Controller {
                 $available++;
         }
 
-        //chekc if the volunteer is permitted to be edited by the
+        //check if the volunteer is permitted to be edited by the
         //currently logged in user
         $permittedVolunteers = UserService::permittedVolunteersIds();
         if (in_array($volunteer->id, $permittedVolunteers))
