@@ -39,27 +39,28 @@ class RatingController extends Controller {
         $email = \Request::get('email');
         $volunteers = \Request::get('volunteers');
 
-        return ($volunteers);
+        //return ($volunteers);
 
         //for each volunteer, we have to create an entry to the
         //volunteer_action_ratings table
         foreach($volunteers as $volunteer) {
 
             $volunteerActionRating = new VolunteerActionRating([
-                'volunteer_id' => $volunteer->id,
-                'action_rating_id' => $actionRating
+                'volunteer_id' => $volunteer['id'],
+                'action_rating_id' => 2
             ]);
 
             $volunteerActionRating->save();
 
             //then for every rating attribute, we must save the rating
-            foreach($volunteer->ratings as $rating){
-
+            foreach($volunteer['ratings'] as $rating){
                 $rating = new Rating([
-                    'rating' => $rating->rating,
-                    'rating_attribute_id' => $rating->attrId,
+                    'rating' => $rating['rating'],
+                    'rating_attribute_id' => $rating['attrId'],
                     'volunteer_action_rating_id' => $volunteerActionRating->id,
                 ]);
+
+                $rating->save();
             }
         }
 

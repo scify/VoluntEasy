@@ -333,8 +333,8 @@ class VolunteerService {
         $volunteer = Volunteer::with('actionHistory.user')
             ->with('unitHistory.user')
             ->with(['actionHistory.action' => function ($query) use ($volunteerId) {
-                $query->withTrashed()->with(['rating' => function ($query) use ($volunteerId) {
-                    $query->where('volunteer_id', $volunteerId);
+                $query->withTrashed()->with(['ratings.volunteerRatings' => function ($query) use ($volunteerId) {
+                    $query->where('volunteer_id', $volunteerId)->with('ratings');
                 }]);
             }])
             ->with(['unitHistory.unit' => function ($query) use ($volunteerId) {

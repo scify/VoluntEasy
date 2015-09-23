@@ -19,7 +19,7 @@
 
             {{-- Rating is not needed right now --}}
             <!-- RATING STARS -->
-            @if($timelineBlock->action->rating!=null)
+            {{--@if($timelineBlock->action->ratings!=null)
             <div class="row">
                 <div class="col-md-4">
                     <h4>Συνέπεια</h4>
@@ -43,7 +43,7 @@
             <p>Η αξιολόγηση έγινε από τον υπεύθυνο της δράσης (email: <a
                     href="mailto:{{$timelineBlock->action->email}}">{{$timelineBlock->action->email}}</a>)</p>
             @endif
-
+            --}}
             <small class="pull-right">Η ανάθεση έγινε από το χρήστη {{ $timelineBlock->user->name }}</small>
 
             <span class="cd-date">{{ Carbon::parse($timelineBlock->created_at)->format('d/m/Y') }}</span>

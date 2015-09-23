@@ -21,8 +21,8 @@ class Action extends Model {
         return $this->belongsToMany('App\Models\Volunteer', 'actions_volunteers');
     }
 
-    public function rating() {
-        return $this->hasOne('App\Models\RatingVolunteerAction');
+    public function ratings() {
+        return $this->hasMany('App\Models\Rating\ActionRating', 'action_id', 'id');
     }
 
     /**
@@ -42,6 +42,7 @@ class Action extends Model {
         $now = date('Y-m-d');
         return $this->where('end_date', '=', $now);
     }
+
     public function scopeExpiredYesterday(){
         $yesterday = Carbon::yesterday();
         return $this->where('end_date', '=', $yesterday);

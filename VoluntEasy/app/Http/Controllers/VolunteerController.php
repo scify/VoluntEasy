@@ -213,6 +213,7 @@ class VolunteerController extends Controller {
     public function show($id) {
         $volunteer = VolunteerService::fullProfile($id);
         $timeline = VolunteerService::timeline($id);
+        return $timeline;
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
 
         // return $volunteer;

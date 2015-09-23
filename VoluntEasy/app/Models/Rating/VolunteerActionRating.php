@@ -11,7 +11,7 @@ class VolunteerActionRating extends Model {
 
     public function ratings()
     {
-        return $this->hasOne('App\Models\Rating\Rating', 'volunteer_action_rating', 'id');
+        return $this->hasOne('App\Models\Rating\Rating', 'volunteer_action_rating_id', 'id');
     }
 
     public function volunteer()

@@ -53,6 +53,8 @@ class CreateRatingTable extends Migration {
 
             $table->integer('volunteer_action_rating_id')->unsigned();
             $table->foreign('volunteer_action_rating_id')->references('id')->on('volunteer_action_ratings');
+
+            $table->timestamps();
         });
     }
 
