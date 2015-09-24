@@ -17,7 +17,7 @@ class UserRequest extends Request {
             return [
                 'name' => 'required|max:255',
                 'email' => 'required|email|max:255|unique:users',
-                'password' => 'required|confirmed|min:6',
+                'password' => 'required|confirmed|min:8',
                 'tel' => 'required|max:50',
                 'image' => 'image'
             ];
@@ -25,7 +25,7 @@ class UserRequest extends Request {
             return [
                 'name' => 'required|max:255',
                 'email' => 'required|email|max:255',
-                'password' => 'confirmed|min:6',
+                'password' => 'confirmed|min:8',
                 'tel' => 'required|max:50',
                 'image' => 'image'
             ];

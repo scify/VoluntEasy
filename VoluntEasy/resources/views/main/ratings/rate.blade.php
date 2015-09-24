@@ -12,76 +12,93 @@
     <div class="page-inner">
         <div id="main-wrapper">
             <div class="row">
-                <div class="col-md-5 center">
+                <div class="col-md-6 center">
                     <div class="panel panel-white">
                         <div class="panel-body">
-                            <div class="login-box">
+                            <div class=" text-center">
                                 <a href="{{ url('/') }}"
-                                   class="logo-name text-lg text-center"> <img
+                                   class="logo-name text-lg"> <img
                                         src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
                                 </a>
-
-                                <h3 class="text-center">Αξιολόγηση εθελοντών για τη δράση {{ $action->description
-                                    }} </h3>
-                                <h5 class="text-center">Διάρκεια Δράσης: {{ $action->start_date }} - {{
-                                    $action->end_date }}</h5>
-                                <hr/>
-                                @if(sizeof($action->volunteers)>0)
-                                @foreach($action->volunteers as $volunteer)
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <h4>Όνομα Εθελοντή: {{ $volunteer->name}} {{ $volunteer->last_name }}</h4>
-
-                                        <p><i class="fa fa-envelope"></i> <a href="mailto:{{ $volunteer->email }}">{{
-                                                $volunteer->email }}</a> <br/>
-                                        </p>
+                            </div>
+                            <h3 class="text-center">Αξιολόγηση εθελοντών για τη δράση {{ $action->description
+                                }} </h3>
+                            <h5 class="text-center">Διάρκεια Δράσης: {{ $action->start_date }} - {{
+                                $action->end_date }}</h5>
+                            <hr/>
+                            @if(sizeof($action->volunteers)>0)
+                            @foreach($action->volunteers as $i => $volunteer)
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3>Όνομα Εθελοντή: {{ $volunteer->name}} {{ $volunteer->last_name }}</h3>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
+                            </div>
+                            <div class="row">
+                                @foreach($ratingAttributes as $key => $attribute)
+                                <div class="col-md-3">
+                                    <div class="form-group">
 
-                                            @foreach($ratingAttributes as $key => $attribute)
-                                            <h4>{{ $attribute->description }}</h4>
+                                        <span><strong>{{ $attribute->description }}</strong></span>
 
-                                            <div id="volunteer{{ $volunteer->id }}-attr{{ $attribute->id }}"
-                                                 class="attribute rating {{ $key == 0 ? 'first' : '' }}"
-                                                 data-volunteer-id="{{$volunteer->id}}"
-                                                 data-attr-id="{{$attribute->id}}"></div>
-                                            @endforeach
-                                        </div>
+                                        <div id="volunteer{{ $volunteer->id }}-attr{{ $attribute->id }}"
+                                             class="attribute rating {{ $key == 0 ? 'first' : '' }}"
+                                             data-volunteer-id="{{$volunteer->id}}"
+                                             data-attr-id="{{$attribute->id}}"></div>
                                     </div>
                                 </div>
                                 @endforeach
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="text-center error-msg" style="visibility:hidden">
-                                            <div class="col-md-12">
-                                                <p class="text-danger"><em>Παρακαλώ αξιολογήστε όλους τους
-                                                        εθελοντές</em></p>
-                                            </div>
-                                        </div>
-                                        <div class="form-group text-right">
-                                            <button class="btn btn-sm" id="saveRating"
-                                                    data-action-id="{{ $action->id }}"
-                                                    data-email="{{ $action->email }}">Καταχώρηση
-                                            </button>
-                                        </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        {!! Form::formInput('comments', 'Σχόλια:', $errors, ['class' => 'form-control',
+                                        'type' =>
+                                        'textarea', 'size' => '2x5']) !!}
                                     </div>
                                 </div>
-                                @else
-                                <p>Δεν υπάρχουν εθελοντές προς αξιολόγηση.</p>
-                                @endif
-                                <hr/>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <p>
-                                            <small><em>Λάβατε αυτό το ερωτηματολόγιο επειδή το email σας δηλώθηκε ως
-                                                    email
-                                                    υπευθύνου στη δράση {{ $action->description }} μέσω της πλατφόρμας
-                                                    διαχείρισης
-                                                    εθελοντών
-                                                    <strong>{{trans($lang.'title')}}</strong>.</em></small>
-                                        </p>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {!! Form::formInput('name', 'Όνομα:', $errors, ['class' => 'form-control',
+                                        'required' => 'true']) !!}
+                                        {!! Form::formInput('name', 'Όνομα:', $errors, ['class' => 'form-control',
+                                        'required' => 'true']) !!}
                                     </div>
+                                </div>
+                            </div>
+                            @if($i!=sizeof($action->volunteers)-1)
+                            <hr/>
+                            @endif
+                            @endforeach
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="text-center error-msg" style="visibility:hidden">
+                                        <div class="col-md-12">
+                                            <p class="text-danger"><em>Παρακαλώ αξιολογήστε όλους τους
+                                                    εθελοντές</em></p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group text-right">
+                                        <button class="btn btn-sm" id="saveRating"
+                                                data-action-id="{{ $action->id }}"
+                                                data-email="{{ $action->email }}">Καταχώρηση
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            @else
+                            <p>Δεν υπάρχουν εθελοντές προς αξιολόγηση.</p>
+                            @endif
+                            <hr/>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>
+                                        <small><em>Λάβατε αυτό το ερωτηματολόγιο επειδή το email σας δηλώθηκε ως
+                                                email
+                                                υπευθύνου στη δράση {{ $action->description }} μέσω της πλατφόρμας
+                                                διαχείρισης
+                                                εθελοντών
+                                                <strong>{{trans($lang.'title')}}</strong>.</em></small>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -139,7 +156,7 @@
             });
 
 
-          //  console.log(volunteers);
+            //  console.log(volunteers);
 
 
             //send data to server to save the ratings
@@ -157,7 +174,7 @@
                 success: function (data) {
                     console.log(data);
 
-                   // window.location.href = $("body").attr('data-url') + "/ratings/thankyou/" + data;
+                    // window.location.href = $("body").attr('data-url') + "/ratings/thankyou/" + data;
                 }
             });
 
