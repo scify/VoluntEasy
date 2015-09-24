@@ -334,7 +334,7 @@ class VolunteerService {
             ->with('unitHistory.user')
             ->with(['actionHistory.action' => function ($query) use ($volunteerId) {
                 $query->withTrashed()->with(['ratings.volunteerRatings' => function ($query) use ($volunteerId) {
-                    $query->where('volunteer_id', $volunteerId)->with('ratings');
+                    $query->where('volunteer_id', $volunteerId)->with('ratings.attribute');
                 }]);
             }])
             ->with(['unitHistory.unit' => function ($query) use ($volunteerId) {
@@ -355,6 +355,33 @@ class VolunteerService {
         foreach ($volunteer->actionHistory as $actionHistory) {
             $actionHistory->type = 'action';
             array_push($timeline, $actionHistory);
+
+            //send ratings array in a more human form
+            foreach ($actionHistory->action->ratings as $key => $rating) {
+
+                //if there are not ratings, remove the rating from the array
+                if (sizeof($rating->volunteerRatings) == 0) {
+                    unset($actionHistory->action->ratings[$key]);
+                } else {
+                    foreach ($rating->volunteerRatings as $volunteerRating) {
+                        $ratings = [];
+
+                        foreach ($volunteerRating->ratings as $r) {
+                            array_push($ratings, [
+                                'attribute' => $r->attribute->description,
+                                'rating' => $r->rating
+                            ]);
+                        }
+
+                        $rating->ratings = $ratings;
+                        unset($rating->token);
+                    }
+                    unset($rating->volunteerRatings);
+                    unset($actionHistory->action->ratings);
+
+                    $actionHistory->action->rating = $ratings;
+                }
+            }
         }
 
         //unit history table
@@ -726,7 +753,7 @@ class VolunteerService {
             }
         }
 
-       // return FileServiceFacade::storeFiles($files, $this->filePath);
+        // return FileServiceFacade::storeFiles($files, $this->filePath);
     }
 
     /**

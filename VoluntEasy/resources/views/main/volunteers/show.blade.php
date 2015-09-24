@@ -119,7 +119,10 @@
                             @endif
                             <li role="presentation"><a href="#tab3" data-toggle="tab"
                                                        class="{{ $errors->has('participation_reason') ? 'tab has-error' : ''}}"><i
-                                        class="fa fa-file-o m-r-xs"></i>Ιστορικό</a></li>
+                                        class="fa fa-bullseye m-r-xs"></i>Συμμετοχή σε δράσεις</a></li>
+                            <li role="presentation"><a href="#tab4" data-toggle="tab"
+                                                       class="{{ $errors->has('participation_reason') ? 'tab has-error' : ''}}"><i
+                                        class="fa fa-history m-r-xs"></i>Ιστορικό</a></li>
                         </ul>
                     </div>
                 </div>
@@ -140,6 +143,10 @@
                         @endif --}}
                     </div>
                     <div class="tab-pane fade in" id="tab3">
+                        @include('main.volunteers.partials._profile_actions')
+                    </div>
+
+                    <div class="tab-pane fade in" id="tab4">
                         @include('main.volunteers.partials._timeline')
                     </div>
                 </div>

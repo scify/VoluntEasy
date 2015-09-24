@@ -8,7 +8,6 @@ class ActionRating extends Model {
 
     protected $fillable = ['action_id', 'email', 'token'];
 
-
     public function volunteerRatings()
     {
         return $this->hasMany('App\Models\Rating\VolunteerActionRating', 'action_rating_id', 'id');

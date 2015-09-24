@@ -213,11 +213,9 @@ class VolunteerController extends Controller {
     public function show($id) {
         $volunteer = VolunteerService::fullProfile($id);
         $timeline = VolunteerService::timeline($id);
-        return $timeline;
+            //return $timeline;
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
 
-        // return $volunteer;
-        // return $timeline;
         //get the count of pending and available units, used in the front end
         $pending = 0;
         $available = 0;
@@ -238,7 +236,14 @@ class VolunteerController extends Controller {
 
         $userUnits = UserService::userUnits();
 
-        return view("main.volunteers.show", compact('volunteer', 'pending', 'available', 'timeline', 'userUnits'));
+
+        $actionsCount = 0;
+        foreach($timeline as $block){
+            if($block->type=='action')
+                $actionsCount++;
+        }
+
+        return view("main.volunteers.show", compact('volunteer', 'pending', 'available', 'timeline', 'userUnits', 'actionsCount'));
     }
 
     /**
