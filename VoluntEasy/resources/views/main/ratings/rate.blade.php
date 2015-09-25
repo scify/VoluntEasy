@@ -12,7 +12,7 @@
     <div class="page-inner">
         <div id="main-wrapper">
             <div class="row">
-                <div class="col-md-6 center">
+                <div class="col-md-5 center">
                     <div class="panel panel-white">
                         <div class="panel-body">
                             <div class=" text-center">
@@ -27,64 +27,103 @@
                                 $action->end_date }}</h5>
                             <hr/>
                             @if(sizeof($action->volunteers)>0)
-                            @foreach($action->volunteers as $i => $volunteer)
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h3>Όνομα Εθελοντή: {{ $volunteer->name}} {{ $volunteer->last_name }}</h3>
-                                    </div>
-                            </div>
-                            <div class="row">
-                                @foreach($ratingAttributes as $key => $attribute)
-                                <div class="col-md-3">
-                                    <div class="form-group">
 
-                                        <span><strong>{{ $attribute->description }}</strong></span>
+                            <div id="rootwizard">
+                                <ul>
+                                    @foreach($action->volunteers as $i => $volunteer)
+                                    <li data-volunteer-id="{{ $volunteer->id }}"><a href="#tab{{ $volunteer->id }}"
+                                                                                    data-toggle="tab">{{
+                                            $volunteer->name}} {{
+                                            $volunteer->last_name }}</a></li>
+                                    @endforeach
+                                </ul>
 
-                                        <div id="volunteer{{ $volunteer->id }}-attr{{ $attribute->id }}"
-                                             class="attribute rating {{ $key == 0 ? 'first' : '' }}"
-                                             data-volunteer-id="{{$volunteer->id}}"
-                                             data-attr-id="{{$attribute->id}}"></div>
-                                    </div>
-                                </div>
-                                @endforeach
-                            </div>
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <div class="form-group">
-                                        {!! Form::formInput('comments', 'Σχόλια:', $errors, ['class' => 'form-control',
-                                        'type' =>
-                                        'textarea', 'size' => '2x5']) !!}
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        {!! Form::formInput('name', 'Όνομα:', $errors, ['class' => 'form-control',
-                                        'required' => 'true']) !!}
-                                        {!! Form::formInput('name', 'Όνομα:', $errors, ['class' => 'form-control',
-                                        'required' => 'true']) !!}
-                                    </div>
-                                </div>
-                            </div>
-                            @if($i!=sizeof($action->volunteers)-1)
-                            <hr/>
-                            @endif
-                            @endforeach
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="text-center error-msg" style="visibility:hidden">
-                                        <div class="col-md-12">
-                                            <p class="text-danger"><em>Παρακαλώ αξιολογήστε όλους τους
-                                                    εθελοντές</em></p>
+                                <form id="wizardForm">
+                                    <div class="tab-content" style="border:none;">
+
+                                        @foreach($action->volunteers as $i => $volunteer)
+                                        <div class="tab-pane {{ $i==0 ? 'active' : ''}}"
+                                             id="tab{{ $volunteer->id }}">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        {!! Form::formInput('comments', 'Σχόλια:', $errors, ['class' =>
+                                                        'form-control volunteerRating comments',
+                                                        'type' =>
+                                                        'textarea', 'size' => '2x5', 'data-volunteer-id' =>
+                                                        $volunteer->id ]) !!}
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12"><p>Σημειώστε τις ώρες που απασχολήθηκε ο
+                                                                εθελοντής στη δράση.</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                {!! Form::formInput('hours', 'Ώρες:', $errors, ['class'
+                                                                =>
+                                                                'form-control volunteerRating hours',
+                                                                'data-volunteer-id' => $volunteer->id]) !!}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                {!! Form::formInput('minutes', 'Λεπτά:', $errors,
+                                                                ['class'
+                                                                => 'form-control volunteerRating minutes',
+                                                                'data-volunteer-id' => $volunteer->id]) !!}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    @foreach($ratingAttributes as $key => $attribute)
+                                                    <div class="form-group">
+
+                                                        <span><strong>{{ $attribute->description }}</strong></span>
+
+                                                        <div id="volunteer{{ $volunteer->id }}-attr{{ $attribute->id }}"
+                                                             class="attribute rating volunteerRating"
+                                                             data-volunteer-id="{{$volunteer->id}}"
+                                                             data-attr-id="{{$attribute->id}}"></div>
+                                                    </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group text-right">
-                                        <button class="btn btn-sm" id="saveRating"
-                                                data-action-id="{{ $action->id }}"
-                                                data-email="{{ $action->email }}">Καταχώρηση
-                                        </button>
-                                    </div>
-                                </div>
+                                        @endforeach
+
+
+                                        <div class="tab-pane fade" id="tab4">
+                                            <h2 class="no-s">Thank You !</h2>
+                                        </div>
+
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="text-center error-msg" style="visibility:hidden">
+                                                    <div class="col-md-12">
+                                                        <p class="text-danger"><em>Παρακαλώ αξιολογήστε τον
+                                                                εθελοντή</em></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <ul class="pager wizard">
+                                                <li class="previous"><a href="#" class="btn btn-default">Προηγούμενος
+                                                        εθελοντής</a>
+                                                </li>
+                                                <li class="next"><a href="#" class="btn btn-default">Επόμενος
+                                                        εθελοντής</a></li>
+                                                <li class="next finish" style="display:none;"><a href="javascript:;">Καταχώρηση</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                </form>
                             </div>
+
+
                             @else
                             <p>Δεν υπάρχουν εθελοντές προς αξιολόγηση.</p>
                             @endif
@@ -114,79 +153,128 @@
 <!-- Page Content -->
 @include('template.default.footerIncludes')
 
+<script src="{{ asset('assets/plugins/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js')}}"></script>
+<script src="{{ asset('assets/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
 <script>
     $('.attribute.rating').raty({
         starOff: '{{ asset("assets/plugins/raty/lib/images/star-off.png")}}',
         starOn: '{{ asset("assets/plugins/raty/lib/images/star-on.png")}}'
     });
 
-    $("#saveRating").click(function () {
-        var sendRatings = false,
-            volunteers = [],
-            ratings = [],
-            id, attr1, attr2, attr3;
 
+    //keep an array with all the volunteers ids
+    var volunteerIds = [];
+    var ratingFlag = false;
 
-        //first check that all stars are filled
-        if (validate()) {
+    //wizard properties
+    $('#rootwizard').bootstrapWizard({
+        'tabClass': 'nav nav-pills',
+        'onNext': function (tab, navigation, index) {
+            var volunteerId = tab.attr('data-volunteer-id');
 
-            //for each star, do the following
-            $(".attribute.rating").each(function (index) {
+            console.log("validate(volunteerId) " + !validate(volunteerId))
 
-                //set the volunteer id
-                id = $(this).attr('data-volunteer-id');
+            if (!validate(volunteerId)) {
+                ratingFlag = false;
+                console.log('error')
+                return false;
+            }
+            else
+                ratingFlag = true;
+        },
+        'onTabClick': function (tab, navigation, index) {
+            var volunteerId = tab.attr('data-volunteer-id');
 
-                //if this is the first star, add a new entry to the volunteers' array
-                if ($(this).hasClass('first'))
-                    volunteers.push({
-                        id: id,
-                        ratings: []
-                    });
+            if (!validate(volunteerId))
+                return false;
+        },
+        onTabShow: function (tab, navigation, index) {
+            var volunteerId = tab.attr('data-volunteer-id');
 
-                //get the appropriate volunteer
-                var tmp = $.grep(volunteers, function (e) {
-                    return e.id == id;
-                });
+            //check if the id already exists in the array
+            if ($.inArray(volunteerId, volunteerIds) == -1)
+                volunteerIds.push(volunteerId);
 
-                //set the score
-                tmp[0].ratings.push({
-                    attrId: $(this).attr("data-attr-id"),
-                    rating: $(this).raty("score")
-                });
-            });
+            var $total = navigation.find('li').length;
+            var $current = index + 1;
 
-
-            //  console.log(volunteers);
-
-
-            //send data to server to save the ratings
-            $.ajax({
-                url: $("body").attr('data-url') + '/ratings/store',
-                method: 'POST',
-                data: {
-                    volunteers: volunteers,
-                    actionId: $(this).attr('data-action-id'),
-                    email: $(this).attr('email')
-                },
-                headers: {
-                    'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-                },
-                success: function (data) {
-                    console.log(data);
-
-                    // window.location.href = $("body").attr('data-url') + "/ratings/thankyou/" + data;
-                }
-            });
-
+            // If it's the last tab then hide the last button and show the finish instead
+            if ($current >= $total) {
+                $('#rootwizard').find('.pager .next').hide();
+                $('#rootwizard').find('.pager .finish').show();
+                $('#rootwizard').find('.pager .finish').removeClass('disabled');
+            } else {
+                $('#rootwizard').find('.pager .next').show();
+                $('#rootwizard').find('.pager .finish').hide();
+            }
         }
     });
 
 
-    //check that all volunteers has been rated before sending the form
-    function validate() {
-        var count = 0;
+    //when the finish button is pressed,
+    //submit the data to the server
+    $('#rootwizard .finish').click(function () {
 
-        $(".attribute.rating").each(function (index) {
+        console.log(ratingFlag);
+        if (ratingFlag) {
+            var volunteers = [];
+            var ratings = [];
+
+            $.each(volunteerIds, function (key, value) {
+                ratings = [];
+
+                //get the ratings for each volunteer in an array
+                $.each($(".attribute.rating.volunteerRating[data-volunteer-id='" + value + "']"), function (key, value) {
+                    ratings.push($(this).raty("score"));
+                });
+
+                volunteers.push({
+                    id: value,
+                    ratings: ratings,
+                    comments: $('.comments[data-volunteer-id="' + value + '"]').val(),
+                    hours: $('.hours[data-volunteer-id="' + value + '"]').val(),
+                    minutes: $('.minutes[data-volunteer-id="' + value + '"]').val()
+                });
+            });
+
+            console.log(volunteers);
+
+            /*
+             //send data to server to save the ratings
+             $.ajax({
+             url: $("body").attr('data-url') + '/ratings/store',
+             method: 'POST',
+             data: {
+             volunteers: volunteers,
+             actionId: $(this).attr('data-action-id'),
+             email: $(this).attr('email')
+             },
+             headers: {
+             'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+             },
+             success: function (data) {
+             console.log(data);
+
+             // window.location.href = $("body").attr('data-url') + "/ratings/thankyou/" + data;
+             }
+             });
+
+             */
+        }
+        else {
+            return false;
+        }
+
+
+    });
+
+
+    //check that all volunteers has been rated before sending the form
+    function validate(volunteerId) {
+        var count = 0;
+        var volunteerAttributes = $(".attribute.rating[data-volunteer-id='" + volunteerId + "']");
+
+        volunteerAttributes.each(function (index) {
             if ($(this).raty('score') == undefined) {
                 $(".error-msg").css('visibility', 'visible');
                 return false;
@@ -196,11 +284,12 @@
             }
         });
 
-        if (count == $(".attribute.rating").length) {
+        if (count == volunteerAttributes.length) {
             $(".error-msg").css('visibility', 'hidden');
             return true;
         }
     }
+
 </script>
 
 
