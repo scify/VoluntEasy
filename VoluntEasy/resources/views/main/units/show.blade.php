@@ -240,7 +240,7 @@
 
     //delete a unit and redirect to unit list
     function deleteUnit(id) {
-        if (confirm("Είτε σίγουροι ότι θέλετε να διαγράψετε τη μονάδα;") == true) {
+        if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε τη μονάδα;") == true) {
             $.ajax({
                 url: $("body").attr('data-url') + '/units/delete/' + id,
                 method: 'GET',

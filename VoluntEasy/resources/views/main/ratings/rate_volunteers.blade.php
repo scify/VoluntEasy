@@ -21,8 +21,8 @@
                                         src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
                                 </a>
                             </div>
-                            <h3 class="text-center">Αξιολόγηση εθελοντών για τη δράση {{ $action->description
-                                }} </h3>
+                            <h3 class="text-center">Αξιολόγηση εθελοντών για τη δράση <span id="actionInformation" data-action-id="{{ $action->id }}" data-email="{{ $action->email }}" data-action-rating-id="{{ $actionRatingId }}">{{ $action->description
+                                }}</span> </h3>
                             <h5 class="text-center">Διάρκεια Δράσης: {{ $action->start_date }} - {{
                                 $action->end_date }}</h5>
                             <hr/>
@@ -31,8 +31,10 @@
                             <div id="rootwizard">
                                 <ul>
                                     @foreach($action->volunteers as $i => $volunteer)
-                                    <li data-volunteer-id="{{ $volunteer->id }}"><a href="#tab{{ $volunteer->id }}"
-                                                                                    data-toggle="tab">{{
+                                    <li data-volunteer-id="{{ $volunteer->id }}"
+                                        class="{{ $i == sizeof($action->volunteers)-1 ? 'last' : '' }}"><a
+                                            href="#tab{{ $volunteer->id }}"
+                                            data-toggle="tab">{{
                                             $volunteer->name}} {{
                                             $volunteer->last_name }}</a></li>
                                     @endforeach
@@ -172,15 +174,16 @@
         'onNext': function (tab, navigation, index) {
             var volunteerId = tab.attr('data-volunteer-id');
 
-            console.log("validate(volunteerId) " + !validate(volunteerId))
-
             if (!validate(volunteerId)) {
                 ratingFlag = false;
-                console.log('error')
                 return false;
             }
             else
                 ratingFlag = true;
+
+            //if we are at the last tab, and there are no errors, then send the ratigns to the server
+            if (ratingFlag && tab.hasClass('last'))
+                sendRatings();
         },
         'onTabClick': function (tab, navigation, index) {
             var volunteerId = tab.attr('data-volunteer-id');
@@ -213,61 +216,48 @@
 
     //when the finish button is pressed,
     //submit the data to the server
-    $('#rootwizard .finish').click(function () {
+    function sendRatings() {
+        var volunteers = [];
+        var ratings = [];
 
-        console.log(ratingFlag);
-        if (ratingFlag) {
-            var volunteers = [];
-            var ratings = [];
+        $.each(volunteerIds, function (key, value) {
+            ratings = [];
 
-            $.each(volunteerIds, function (key, value) {
-                ratings = [];
-
-                //get the ratings for each volunteer in an array
-                $.each($(".attribute.rating.volunteerRating[data-volunteer-id='" + value + "']"), function (key, value) {
-                    ratings.push($(this).raty("score"));
-                });
-
-                volunteers.push({
-                    id: value,
-                    ratings: ratings,
-                    comments: $('.comments[data-volunteer-id="' + value + '"]').val(),
-                    hours: $('.hours[data-volunteer-id="' + value + '"]').val(),
-                    minutes: $('.minutes[data-volunteer-id="' + value + '"]').val()
+            //get the ratings for each volunteer in an array
+            $.each($(".attribute.rating.volunteerRating[data-volunteer-id='" + value + "']"), function (key, value) {
+                ratings.push({
+                    attrId: $(this).attr('data-attr-id'),
+                    rating: $(this).raty("score")
                 });
             });
 
-            console.log(volunteers);
+            volunteers.push({
+                id: value,
+                ratings: ratings,
+                comments: $('.comments[data-volunteer-id="' + value + '"]').val(),
+                hours: $('.hours[data-volunteer-id="' + value + '"]').val(),
+                minutes: $('.minutes[data-volunteer-id="' + value + '"]').val()
+            });
+        });
 
-            /*
-             //send data to server to save the ratings
-             $.ajax({
-             url: $("body").attr('data-url') + '/ratings/store',
-             method: 'POST',
-             data: {
-             volunteers: volunteers,
-             actionId: $(this).attr('data-action-id'),
-             email: $(this).attr('email')
-             },
-             headers: {
-             'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-             },
-             success: function (data) {
-             console.log(data);
-
-             // window.location.href = $("body").attr('data-url') + "/ratings/thankyou/" + data;
-             }
-             });
-
-             */
-        }
-        else {
-            return false;
-        }
-
-
-    });
-
+        //send data to server to save the ratings
+        $.ajax({
+            url: $("body").attr('data-url') + '/ratings/store',
+            method: 'POST',
+            data: {
+                volunteers: volunteers,
+                actionId: $("#actionInformation").attr('data-action-id'),
+                email: $("#actionInformation").attr('data-email'),
+                actionRatingId: $("#actionInformation").attr('data-action-rating-id')
+            },
+            headers: {
+                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+            },
+            success: function (data) {
+                window.location.href = $("body").attr('data-url') + "/ratings/thankyou/" + data;
+            }
+        });
+    }
 
     //check that all volunteers has been rated before sending the form
     function validate(volunteerId) {

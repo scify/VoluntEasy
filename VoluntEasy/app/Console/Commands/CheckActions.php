@@ -52,7 +52,7 @@ class CheckActions extends Command {
 
         //remove
         $this->comment(sizeof($expired) . '  actions expired yesterday');
-        $this->comment($toExpire . '  actions expire in 7 days');
+        $this->comment($toExpire . '  actions about to expire');
         $this->comment($notAvailablle . '  volunteers made available');
 
 

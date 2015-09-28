@@ -1,4 +1,5 @@
 <!doctype html>
+<?php $lang = "/default."; ?> {{--  resource label path --}}
 <html>
 <head>
     <meta name="viewport" content="width=device-width">
@@ -190,8 +191,9 @@
                                 <h4>Πλατφόρμα Διαχείρισης Εθελοντών</h4>
                             </center>
 
-                            <p></p>
-                            <p><a href="http://twitter.com/leemunroe">Follow @leemunroe on Twitter</a></p>
+                            <p>Αγαπητέ {{ $action->name }},</p>
+                            <p>Παρακαλούμε συμπληρώστε το ερωτηματολόγιο που ακολουθεί σχετικά με τους εθελοντές που συμμετείχαν στη δράση {{ $action->description }}.</p>
+                            <p><a href="{{ URL::to('/') }}/ratings/action/{{ $token }}">{{ URL::to('/') }}/ratings/action/{{ $token }}</a></p>
                         </td>
                     </tr>
                 </table>
@@ -202,7 +204,6 @@
         <td></td>
     </tr>
 </table>
-<!-- /body -->
 
 <!-- footer -->
 <table class="footer-wrap">
@@ -214,10 +215,12 @@
                 <table>
                     <tr>
                         <td align="center">
-                            <p>Don't like these annoying emails? <a href="#">
-                                    <unsubscribe>Unsubscribe</unsubscribe>
-                                </a>.
-                            </p>
+                            <p><em>Λάβατε αυτό το ερωτηματολόγιο επειδή το email σας δηλώθηκε ως
+                                    email
+                                    υπευθύνου στη δράση {{ $action->description }} μέσω της πλατφόρμας
+                                    διαχείρισης
+                                    εθελοντών
+                                    <strong>{{trans($lang.'title')}}</strong>.</em></p>
                         </td>
                     </tr>
                 </table>
@@ -228,7 +231,7 @@
     </tr>
 </table>
 <!-- /footer -->
-
+<!-- /body -->
 </body>
 </html>
 

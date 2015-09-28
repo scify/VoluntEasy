@@ -95,7 +95,7 @@ Route::get('steps/volunteer/{id}','StepController@volunteerSteps');
 ////////////////
 //Rating Routes //
 ////////////////
-Route::get('ratings/action/{actionId}','RatingController@create');
+Route::get('ratings/action/{token}','RatingController@create');
 Route::get('ratings/thankyou/{actionId}','RatingController@thankyou');
 Route::post('ratings/store', 'RatingController@store');
 

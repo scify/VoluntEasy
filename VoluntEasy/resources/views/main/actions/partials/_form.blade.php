@@ -7,7 +7,7 @@
         <div class="form-group">
             {!! Form::formInput('comments', 'Περιγραφή:', $errors, ['class' => 'form-control', 'type' => 'textarea',
             'size' =>
-            '5x5', 'id' => 'actionComments', 'required' => 'true']) !!}
+            '5x5', 'id' => 'actionComments']) !!}
         </div>
         <div class="row">
             <div class="col-md-6">
@@ -47,27 +47,6 @@
                     {!! Form::formInput('phone_number', 'Τηλέφωνο:', $errors, ['class' => 'form-control', 'id' =>
                     'actionPhone'])
                     !!}
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    {!! Form::formInput('questionnaire_volunteers_link', 'Σύνδεσμος αξιολόγησης εθελοντών:', $errors, ['class' =>
-                    'form-control', 'id' => 'volunteersQuestionnaire_link'])!!}
-                    <small class="help-block">Ο σύνδεσμος θα αποστέλλεται αυτόματα στον υπεύθυνο της δράσης μετά τη λήξη
-                        της δράσης.
-                    </small>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="form-group">
-                    {!! Form::formInput('questionnaire_action_link', 'Σύνδεσμος αξιολόγησης δράσης:', $errors, ['class' =>
-                    'form-control', 'id' => 'actionQuestionnaire_link'])!!}
-                    <small class="help-block">Ο σύνδεσμος θα αποστέλλεται αυτόματα στους εθελοντές της δράσης μετά τη λήξη
-                        της δράσης.
-                    </small>
                 </div>
             </div>
         </div>

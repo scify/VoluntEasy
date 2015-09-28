@@ -112,7 +112,7 @@
 
 
     function deleteAction(id) {
-        if (confirm("Είτε σίγουροι ότι θέλετε να διαγράψετε τη δράση;") == true) {
+        if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε τη δράση;") == true) {
             $.ajax({
                 url: $("body").attr('data-url') + '/actions/delete/' + id,
                 method: 'GET',

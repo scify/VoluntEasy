@@ -2,9 +2,11 @@
 
 use App\Http\Requests;
 use App\Models\Action;
+use App\Models\Rating\ActionRating;
 use App\Models\Rating\Rating;
 use App\Models\Rating\RatingAttribute;
 use App\Models\Rating\VolunteerActionRating;
+use App\Models\Volunteer;
 
 class RatingController extends Controller {
 
@@ -22,10 +24,30 @@ class RatingController extends Controller {
      *
      * @return Response
      */
-    public function create($actionId) {
-        $action = Action::with('volunteers')->findOrFail($actionId);
-        $ratingAttributes = RatingAttribute::all();
-        return view('main.ratings.rate', compact('action', 'ratingAttributes'));
+    public function create($token) {
+
+        $actionRating = ActionRating::where('token', $token)->firstOrFail();
+        $actionId = $actionRating->action_id;
+        $action = Action::findOrFail($actionId);
+
+        //first check if the user that requested the rating has already rated the action
+        if (!$actionRating->rated) {
+
+            //since the action has expired, and the volunteers are detached from it (a.k.a no rows at the pivot table)
+            //we can easily retrieve the volunteers from the history tables
+            $volunteers = Volunteer::whereHas('actionHistory', function ($q) use ($actionId) {
+                $q->where('action_id', $actionId);
+            })->get();
+
+            $action->volunteers = $volunteers;
+
+            $ratingAttributes = RatingAttribute::all();
+            $actionRatingId = $actionRating->id;
+
+            return view('main.ratings.rate_volunteers', compact('action', 'ratingAttributes', 'actionRatingId'));
+        } else {
+            return view('main.ratings.rated_already', compact('action'));
+        }
     }
 
     /**
@@ -34,85 +56,41 @@ class RatingController extends Controller {
      * @return Response
      */
     public function store() {
-
         $actionId = \Request::get('actionId');
-        $email = \Request::get('email');
+        $actionRatingId = \Request::get('actionRatingId');
         $volunteers = \Request::get('volunteers');
-
-        //return ($volunteers);
 
         //for each volunteer, we have to create an entry to the
         //volunteer_action_ratings table
-        foreach($volunteers as $volunteer) {
+        foreach ($volunteers as $volunteer) {
 
             $volunteerActionRating = new VolunteerActionRating([
                 'volunteer_id' => $volunteer['id'],
-                'action_rating_id' => 2
+                'action_rating_id' => $actionRatingId,
+                'comments' => $volunteer['comments'],
+                'hours' => intval($volunteer['hours']),
+                'minutes' => intval($volunteer['minutes']),
             ]);
 
-            $volunteerActionRating->save();
+             $volunteerActionRating->save();
 
             //then for every rating attribute, we must save the rating
-            foreach($volunteer['ratings'] as $rating){
+            foreach ($volunteer['ratings'] as $rating) {
                 $rating = new Rating([
                     'rating' => $rating['rating'],
                     'rating_attribute_id' => $rating['attrId'],
                     'volunteer_action_rating_id' => $volunteerActionRating->id,
                 ]);
 
-                $rating->save();
+                 $rating->save();
             }
         }
 
+        //set the action rating as rated
+        $actionRating = ActionRating::find($actionRatingId);
+        $actionRating->update(['rated' => true]);
+        return $actionRating;
 
-        /*
-        //TODO: remove this
-        $email = 'aa@aa.gr';
-
-        foreach ($volunteers as $volunteer) {
-            //save the current rating to the db
-            $volRating = new RatingVolunteerAction([
-                'volunteer_id' => $volunteer['id'],
-                'action_id' => $actionId,
-                'email' => $email,
-                'attr1' => $volunteer['attr1'],
-                'attr2' => $volunteer['attr2'],
-                'attr3' => $volunteer['attr3'],
-            ]);
-
-            $volRating->save();
-
-            $rating = Rating::where('volunteer_id', $volunteer['id'])->first();
-
-            //check if a rating row already exists for a volunteer
-            //if it doesn't exist, create and save a new one
-            if ($rating == null) {
-                $rating = new Rating([
-                    'volunteer_id' => $volunteer['id'],
-                    'rating_attr1' => $volunteer['attr1'],
-                    'rating_attr2' => $volunteer['attr2'],
-                    'rating_attr3' => $volunteer['attr3'],
-                    'rating_attr1_count' => 1,
-                    'rating_attr2_count' => 1,
-                    'rating_attr3_count' => 1,
-                ]);
-                $rating->save();
-
-            } else {
-                //if a rating row already exists, then add the rating to the rating sum
-                //for each attribute and increment the count of the voters
-                $rating->rating_attr1 += $volunteer['attr1'];
-                $rating->rating_attr2 += $volunteer['attr2'];
-                $rating->rating_attr3 += $volunteer['attr3'];
-                $rating->rating_attr1_count++;
-                $rating->rating_attr2_count++;
-                $rating->rating_attr3_count++;
-
-                $rating->save();
-            }
-        }
-
-        */
         return $actionId;
     }
 

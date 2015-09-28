@@ -46,10 +46,12 @@
 
                         </td>
                         <td class="col-md-5">
+                            @if(sizeof($block->action->ratings)>0)
                             @foreach($block->action->rating as $r)
                                 <span id="attr1" class="attribute rating" data-score="{{ $r['rating'] }}"></span>
                                 <small><span> {{ $r['attribute'] }} </span></small><br/>
                             @endforeach
+                            @endif
                         </td>
                     </tr>
                     @endif
@@ -68,7 +70,7 @@
     //display appropriate message before removing volunteer from action
     $(".removeFromAction").click(function (event) {
         event.preventDefault();
-        if (confirm("Είτε σίγουροι ότι θέλετε να αφαιρέσετε τον εθελοντή από τη δράση;") == true) {
+        if (confirm("Είστε σίγουροι ότι θέλετε να αφαιρέσετε τον εθελοντή από τη δράση;") == true) {
             volunteerId = $(this).attr('data-volunteer-id');
             actionId = $(this).attr('data-action-id');
 
@@ -88,7 +90,7 @@
     //display appropriate message before removing volunteer from unit
     $(".removeFromUnit").click(function (event) {
         event.preventDefault();
-        if (confirm("Είτε σίγουροι ότι θέλετε να αφαιρέσετε τον εθελοντή από τη μονάδα;") == true) {
+        if (confirm("Είστε σίγουροι ότι θέλετε να αφαιρέσετε τον εθελοντή από τη μονάδα;") == true) {
             volunteerId = $(this).attr('data-volunteer-id');
             unitId = $(this).attr('data-unit-id');
 

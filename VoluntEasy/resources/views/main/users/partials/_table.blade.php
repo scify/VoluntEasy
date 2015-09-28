@@ -121,7 +121,7 @@
 
 
     function deleteUser(id) {
-        if (confirm("Είτε σίγουροι ότι θέλετε να διαγράψετε το χρήστη;") == true) {
+        if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε το χρήστη;") == true) {
             $.ajax({
                 url: $("body").attr('data-url') + '/users/delete/' + id,
                 method: 'GET',

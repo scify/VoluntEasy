@@ -42,13 +42,6 @@
                     $action->comments }}</p>
 
                 <p><strong>Διάρκεια:</strong> {{ $action->start_date }} - {{ $action->end_date }}</p>
-
-                @if($action->questionnaire_volunteers_link!=null && $action->questionnaire_volunteers_link!='')
-                <p><strong>Σύνδεσμος αξιολόγησης εθελοντών:</strong> <a href="{{ $action->questionnaire_volunteers_link }}" target="_blank">{{ $action->questionnaire_volunteers_link }}</a></p>
-                @endif
-                @if($action->questionnaire_action_link!=null && $action->questionnaire_action_link!='')
-                <p><strong>Σύνδεσμος αξιολόγησης δράσης:</strong> <a href="{{ $action->questionnaire_action_link }}" target="_blank">{{ $action->questionnaire_action_link }}</a></p>
-                @endif
             </div>
             <div class="col-md-4">
                 <h3>Στοιχεία Υπευθύνου Δράσης</h3>
@@ -157,7 +150,7 @@
 
     //delete action and redirect to action list
     function deleteAction(id) {
-        if (confirm("Είτε σίγουροι ότι θέλετε να διαγράψετε τη δράση;") == true) {
+        if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε τη δράση;") == true) {
             $.ajax({
                 url: $("body").attr('data-url') + '/actions/delete/' + id,
                 method: 'GET',

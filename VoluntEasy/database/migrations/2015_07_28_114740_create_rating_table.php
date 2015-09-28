@@ -34,6 +34,8 @@ class CreateRatingTable extends Migration {
         Schema::create('volunteer_action_ratings', function ($table) {
             $table->increments('id');
             $table->string('comments', 300)->nullable();
+            $table->integer('hours')->nullable();
+            $table->integer('minutes')->nullable();
 
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');

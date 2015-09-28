@@ -177,7 +177,7 @@
 
 
     function deleteVolunteer(id) {
-        if (confirm("Είτε σίγουροι ότι θέλετε να διαγράψετε τον εθελοντή;") == true) {
+        if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε τον εθελοντή;") == true) {
             $.ajax({
                 url: $("body").attr('data-url') + '/volunteers/delete/' + id,
                 method: 'GET',

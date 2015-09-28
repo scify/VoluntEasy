@@ -6,7 +6,7 @@ class VolunteerActionRating extends Model {
     
     protected $table = 'volunteer_action_ratings';
 
-    protected $fillable = ['volunteer_id', 'action_rating_id'];
+    protected $fillable = ['volunteer_id', 'action_rating_id', 'hours', 'minutes', 'comments'];
 
 
     public function ratings()

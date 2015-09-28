@@ -1,8 +1,8 @@
 <?php namespace App\Services;
 
 use App\Models\Action;
-use App\Models\Rating\ActionRating;
 use App\Models\Descriptions\VolunteerStatus;
+use App\Models\Rating\ActionRating;
 use App\Models\Volunteer;
 use App\Services\Facades\NotificationService as NotificationServiceFacade;
 use App\Services\Facades\VolunteerService as VolunteerServiceFacade;
@@ -29,8 +29,13 @@ class CronService {
                 }
             }
 
-            //if ($expired->questionnaire_volunteers_link != null && $expired->questionnaire_volunteers_link != '' && $expired->email != null && $expired->email != '') {
-            if ($expired->email != null && $expired->email != '') {
+            //check if there are any action ratings with the same email for the action
+            //(that means that there is already a link for the action and the user)
+            $actionRatings = ActionRating::where('email', $expired->email)->where('action_id', $expired->id)->get();
+
+            //we should only send an email if we haven't already sent one,
+            //and if the required data is provided (the email)
+            if ($expired->email != null && $expired->email != '' && sizeof($actionRatings) < 1) {
 
                 $token = str_random(30);
                 //create a new action rating
@@ -45,8 +50,8 @@ class CronService {
 
                 //then send an email to the person responsible for the action
 
-                \Mail::send('emails.rate_volunteers', ['action' => $expired, 'token' => $token], function ($message) use ($expired) {
-                    $message->to($expired->email, $expired->name)->subject('Test');
+                \Mail::send('app_emails.rate_volunteers', ['action' => $expired, 'token' => $token], function ($message) use ($expired) {
+                    $message->to($expired->email, $expired->name)->subject('[VoluntEasy] Αξιολόγηση εθελοντών');
                 });
             }
 

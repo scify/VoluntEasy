@@ -113,7 +113,7 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
            $field = 'files';
     }
 
-    if ($errors->has($field) ) {
+    if ($errors!=null && $errors->has($field) ) {
 
         //create the html for the p tag that will hold the error message
         $msg_html .= '<p class="help-block">';
