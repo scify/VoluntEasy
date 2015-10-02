@@ -172,3 +172,13 @@ MAIL_PORT=587
 MAIL_USERNAME=myname@gmail.com
 MAIL_PASSWORD=mypass
 ```
+
+### Command scheduling
+
+As of now, a background job performs a search for actions that are going to expire in seven days and sends a questionnaire link to all the subscribed volunteers. While the job exists, because it resides on `artisan`, you will need to add a cronjob entry for this.
+Something like
+```
+% crontab -l
+0 1 * * * php /path/to/artisan schedule:run 1>> /dev/null 2>&1
+```
+will suffice.
