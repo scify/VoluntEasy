@@ -213,8 +213,13 @@ class VolunteerController extends Controller {
     public function show($id) {
         $volunteer = VolunteerService::fullProfile($id);
         $timeline = VolunteerService::timeline($id);
-            //return $timeline;
+
+        return $timeline;
+
+
+
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
+        $totalWorkingHours = VolunteerService::totalWorkingHours($timeline);
 
         //get the count of pending and available units, used in the front end
         $pending = 0;
@@ -238,12 +243,12 @@ class VolunteerController extends Controller {
 
 
         $actionsCount = 0;
-        foreach($timeline as $block){
-            if($block->type=='action')
+        foreach ($timeline as $block) {
+            if ($block->type == 'action')
                 $actionsCount++;
         }
 
-        return view("main.volunteers.show", compact('volunteer', 'pending', 'available', 'timeline', 'userUnits', 'actionsCount'));
+        return view("main.volunteers.show", compact('volunteer', 'pending', 'available', 'timeline', 'userUnits', 'actionsCount', 'totalWorkingHours'));
     }
 
     /**
@@ -545,7 +550,10 @@ class VolunteerController extends Controller {
         $volunteer = Volunteer::findOrFail($volunteerId);
         $unit = Unit::with('actions')->findOrFail($unitId);
 
-        $volunteer->actions()->detach($unit->actions->lists('id'));
+        //check if the unit has any actions, then detach the volunteer from them
+        if (sizeof($unit->actions) > 0)
+            $volunteer->actions()->detach($unit->actions->lists('id'));
+
         $volunteer->units()->detach($unitId);
 
         return \Redirect::route('volunteer/profile', ['id' => $volunteerId]);

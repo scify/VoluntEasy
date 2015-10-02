@@ -60,6 +60,9 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
             case "textarea":
                 $text_html = Form::textarea($field, $value, $attributes);
                 break;
+            case "number":
+                $text_html = Form::input('number', $field, $value, $attributes);
+                break;
             case "select":
                 if (array_key_exists('key', $attributes)) {
                     $key = $attributes['key'];

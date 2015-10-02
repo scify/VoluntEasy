@@ -35,7 +35,7 @@ class CronService {
 
             //we should only send an email if we haven't already sent one,
             //and if the required data is provided (the email)
-            if ($expired->email != null && $expired->email != '' && sizeof($actionRatings) < 1) {
+            if ($expired->email != null && $expired->email != '' /*&& ($actionRatings == null || sizeof($actionRatings) == 0)*/) {
 
                 $token = str_random(30);
                 //create a new action rating

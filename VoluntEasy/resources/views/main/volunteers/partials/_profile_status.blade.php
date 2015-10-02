@@ -135,6 +135,7 @@
     //display appropriate message before removing volunteer from unit
     $(".removeFromUnit").click(function (event) {
         event.preventDefault();
+        console.log($(this).attr('data-unit-id'))
         if (confirm("Είστε σίγουροι ότι θέλετε να αφαιρέσετε τον εθελοντή από τη μονάδα;") == true) {
             volunteerId = $(this).attr('data-volunteer-id');
             unitId = $(this).attr('data-unit-id');
@@ -149,6 +150,7 @@
                     location.reload();
                 }
             });
+
         }
     });
 

@@ -350,22 +350,20 @@ class VolunteerService {
             ->findOrFail($volunteerId);
 
         $timeline = [];
-
+$test = [];
         //get info from the history tables
         foreach ($volunteer->actionHistory as $actionHistory) {
             $actionHistory->type = 'action';
             array_push($timeline, $actionHistory);
 
-            //send ratings array in a more human form
+            //send ratings array in a more readable form
             foreach ($actionHistory->action->ratings as $key => $rating) {
-
                 //if there are not ratings, remove the rating from the array
                 if (sizeof($rating->volunteerRatings) == 0) {
                     unset($actionHistory->action->ratings[$key]);
                 } else {
                     foreach ($rating->volunteerRatings as $volunteerRating) {
                         $ratings = [];
-
                         foreach ($volunteerRating->ratings as $r) {
                             array_push($ratings, [
                                 'attribute' => $r->attribute->description,
@@ -374,16 +372,28 @@ class VolunteerService {
                         }
 
                         $rating->ratings = $ratings;
+                        $hours = $volunteerRating->hours;
+                        $minutes = $volunteerRating->minutes;
+                        $comments = $volunteerRating->comments;
+
+                        $actionHistory->action->rating = $ratings;
+                        $actionHistory->action->rating_hours = $hours;
+                        $actionHistory->action->rating_minutes = $minutes;
+                        $actionHistory->action->rating_comments = $comments;
+
                         unset($rating->token);
                     }
+
                     unset($rating->volunteerRatings);
                     unset($actionHistory->action->ratings);
-
-                    $actionHistory->action->rating = $ratings;
                 }
+                array_push($test, $actionHistory->action);
             }
         }
 
+        //return $test;
+
+        return $actionHistory;
         //unit history table
         foreach ($volunteer->unitHistory as $unitHistory) {
             $unitHistory->type = 'unit';
@@ -403,6 +413,38 @@ class VolunteerService {
         });
 
         return $timeline;
+    }
+
+    /**
+     * For a volunteer, we should be able to calculate
+     * the total hours s/he was in all the actions s/he participated in.
+     *
+     * @param $timeline
+     * @return mixed
+     */
+    public function totalWorkingHours($timeline) {
+        $totalHours = 0;
+        $totalMinutes = 0;
+
+        //for each timeline block, loop and check it's type
+        //if it's an action that has been rated, we can keep
+        //the hours and minutes
+        foreach ($timeline as $block) {
+            if ($block->type == "action" && isset($block->action->rating_hours)) {
+                $totalHours += $block->action->rating_hours;
+                $totalMinutes += $block->action->rating_minutes;
+            }
+        }
+
+        if ($totalHours != 0 && $totalMinutes != 0) {
+            if ($totalMinutes > 59) {
+                $totalHours += int($totalHours / 60);
+                $totalMinutes = $totalMinutes % 60;
+            }
+
+        }
+
+        return ['hours' => $totalHours, 'minutes' => $totalMinutes];
     }
 
 

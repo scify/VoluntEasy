@@ -45,14 +45,16 @@
             </div>
             <div class="col-md-4">
                 <h3>Στοιχεία Υπευθύνου Δράσης</h3>
-                @if($action->name!=null && $action->name!='')
+                @if($action->email!=null && $action->email!='')
                 <ul class="list-unstyled">
                     <li class="user-list">
                         <p class="msg-name">{{$action->name}}</p>
 
                         <p class="msg-text"><i class="fa fa-envelope"></i> <a href="mail:to{{ $action->email }}">{{
-                            $action->email }}</a> |
-                            <i class="fa fa-phone"></i> {{ $action->phone_number }}</p>
+                                $action->email }}</a>
+                            @if($action->phone_number!=null || $action->phone_number!='')
+                            |<i class="fa fa-phone"></i> {{ $action->phone_number }}</p>
+                            @endif
                     </li>
                 </ul>
                 @else
@@ -66,7 +68,8 @@
             <a href="{{ url('actions/edit/'.$action->id) }}" class="btn btn-success"><i
                     class="fa fa-edit"></i> Επεξεργασία</a>
             <button onclick="deleteAction({{ $action->id }})" class="btn btn-danger"><i
-                    class="fa fa-trash"></i> Διαγραφή</button>
+                    class="fa fa-trash"></i> Διαγραφή
+            </button>
         </div>
         @endif
     </div>

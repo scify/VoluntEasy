@@ -1,5 +1,6 @@
 <body>
-Hello <?php echo $volunteer->name ?>!!
+
+Hello {{ $volunteer->name}}!!
 <p>Pls rate the action</p>
 
 

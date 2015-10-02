@@ -89,7 +89,6 @@ class RatingController extends Controller {
         //set the action rating as rated
         $actionRating = ActionRating::find($actionRatingId);
         $actionRating->update(['rated' => true]);
-        return $actionRating;
 
         return $actionId;
     }

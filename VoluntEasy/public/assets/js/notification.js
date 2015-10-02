@@ -81,7 +81,7 @@ $(document).ready(function () {
                             url += notification.url;
                         }
                         //draw the <li> that holds all the notification info
-                        html += '<li class="' + notifClass + '"><a href="' + notification.url + '">';
+                        html += '<li class="' + notifClass + '"><a href="' + $("body").attr('data-url') + notification.url + '">';
                         html += icon;
                         html += '<p class="task-details">' + notification.msg + ' <small><em>(' + notification.when + ')</em></small></p>';
                         html += '</a></li>';

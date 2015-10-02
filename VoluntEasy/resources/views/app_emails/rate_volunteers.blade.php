@@ -191,9 +191,14 @@
                                 <h4>Πλατφόρμα Διαχείρισης Εθελοντών</h4>
                             </center>
 
+                            @if($action->name!=null && $action->name!='')
                             <p>Αγαπητέ {{ $action->name }},</p>
-                            <p>Παρακαλούμε συμπληρώστε το ερωτηματολόγιο που ακολουθεί σχετικά με τους εθελοντές που συμμετείχαν στη δράση {{ $action->description }}.</p>
-                            <p><a href="{{ URL::to('/') }}/ratings/action/{{ $token }}">{{ URL::to('/') }}/ratings/action/{{ $token }}</a></p>
+                            @endif
+                            <p>Παρακαλούμε συμπληρώστε το ερωτηματολόγιο που ακολουθεί σχετικά με τους εθελοντές που
+                                συμμετείχαν στη δράση {{ $action->description }}.</p>
+
+                            <p><a href="{{ URL::to('/') }}/ratings/action/{{ $token }}">{{ URL::to('/')
+                                    }}/ratings/action/{{ $token }}</a></p>
                         </td>
                     </tr>
                 </table>

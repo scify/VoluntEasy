@@ -21,8 +21,11 @@
                                         src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
                                 </a>
                             </div>
-                            <h3 class="text-center">Αξιολόγηση εθελοντών για τη δράση <span id="actionInformation" data-action-id="{{ $action->id }}" data-email="{{ $action->email }}" data-action-rating-id="{{ $actionRatingId }}">{{ $action->description
-                                }}</span> </h3>
+                            <h3 class="text-center">Αξιολόγηση εθελοντών για τη δράση <span id="actionInformation"
+                                                                                            data-action-id="{{ $action->id }}"
+                                                                                            data-email="{{ $action->email }}"
+                                                                                            data-action-rating-id="{{ $actionRatingId }}">{{ $action->description
+                                }}</span></h3>
                             <h5 class="text-center">Διάρκεια Δράσης: {{ $action->start_date }} - {{
                                 $action->end_date }}</h5>
                             <hr/>
@@ -107,8 +110,7 @@
                                             <div class="col-md-12">
                                                 <div class="text-center error-msg" style="visibility:hidden">
                                                     <div class="col-md-12">
-                                                        <p class="text-danger"><em>Παρακαλώ αξιολογήστε τον
-                                                                εθελοντή</em></p>
+                                                        <p class="text-danger"><em class="error-msg-text"></em></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -181,7 +183,7 @@
             else
                 ratingFlag = true;
 
-            //if we are at the last tab, and there are no errors, then send the ratigns to the server
+            //if we are at the last tab, and there are no errors, then send the ratings to the server
             if (ratingFlag && tab.hasClass('last'))
                 sendRatings();
         },
@@ -259,29 +261,42 @@
         });
     }
 
-    //check that all volunteers has been rated before sending the form
+    //check that all volunteers have been rated before sending the form
     function validate(volunteerId) {
         var count = 0;
         var volunteerAttributes = $(".attribute.rating[data-volunteer-id='" + volunteerId + "']");
+        var hours = $("input.hours[data-volunteer-id='" + volunteerId + "']").val();
+        var minutes = $("input.minutes[data-volunteer-id='" + volunteerId + "']").val();
 
         volunteerAttributes.each(function (index) {
             if ($(this).raty('score') == undefined) {
+                $(".error-msg .error-msg-text").text('Παρακαλώ αξιολογήστε τον εθελοντή');
                 $(".error-msg").css('visibility', 'visible');
-                return false;
             }
-            else {
+            else
                 count++;
-            }
         });
+
+        if (hours != '' && !$.isNumeric(hours)) {
+            $(".error-msg .error-msg-text").text('Παρακαλώ εισάγετε μόνο αριθμούς στις ώρες συμμετοχής');
+            $(".error-msg").css('visibility', 'visible');
+            return false;
+        }
+
+        if (minutes != '' && !$.isNumeric(minutes)) {
+            $(".error-msg .error-msg-text").text('Παρακαλώ εισάγετε μόνο αριθμούς στις ώρες συμμετοχής');
+            $(".error-msg").css('visibility', 'visible');
+            return false;
+        }
 
         if (count == volunteerAttributes.length) {
             $(".error-msg").css('visibility', 'hidden');
             return true;
         }
+        else
+            return false;
     }
 
 </script>
-
-
 </body>
 </html>

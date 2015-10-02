@@ -21,7 +21,19 @@ class TestController extends Controller {
     public function test() {
 
 
-        return view("app_emails.rate_volunteers");
+        $volunteer = Volunteer::findOrFail(11);
+        $unit = Unit::with('actions')->findOrFail(5);
+
+        return $unit->actions->lists('id');
+
+        $volunteer->actions()->detach($unit->actions->lists('id'));
+        $volunteer->units()->detach($unitId);
+
+
+
+
+
+       // return view("app_emails.rate_volunteers");
 
     }
 

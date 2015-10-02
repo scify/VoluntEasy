@@ -24,33 +24,56 @@
                     <thead>
                     <tr>
                         <th>Δράση</th>
-                        <th>Υπέυθυνος</th>
+                        <th>Υπεύθυνος</th>
                         <th>Διάρκεια</th>
                         <th>'Ωρες απασχόλησης</th>
                         <th>Αξιολόγηση</th>
+                        <th>Σχόλια</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($timeline as $block)
                     @if($block->type=='action')
                     <tr>
-                        <td class="col-md-2"><a href="{{ url('actions/one/'.$block->action->id) }}">{{ $block->action->description }}</a>
+                        <td class="col-md-2"><a href="{{ url('actions/one/'.$block->action->id) }}">{{
+                                $block->action->description }}</a>
                         </td>
                         <td class="col-md-3">
-                            {{ $block->action->name }} | <i class="fa fa-envelope"></i> {{ $block->action->email }}  | <i class="fa fa-phone"></i> {{ $block->action->phone_number }}
+                            {{ $block->action->name }}
+                            @if($block->action->email!=null && $block->action->email!='')| <i
+                                class="fa fa-envelope"></i> <a href="mailto:{{ $block->action->email }}">{{
+                                $block->action->email }}</a>
+                            @endif
+                            @if($block->action->phone_number!=null && $block->action->phone_number!='')
+                            | <i class="fa fa-phone"></i> {{ $block->action->phone_number }}
+                            @endif
                         </td>
                         <td class="col-md-2">
                             {{ $block->action->start_date }} - {{ $block->action->end_date }}
                         </td>
                         <td class="col-md-2">
-
+                            @if(sizeof($block->action->rating_hours)!=null)
+                            {{ $block->action->rating_hours }}:{{ $block->action->rating_minutes }}
+                            @else
+                            <p style="color:#aaa;"><em>Δεν έχουν σημειωθεί ώρες απασχόλησης</em></p>
+                            @endif
                         </td>
                         <td class="col-md-5">
                             @if(sizeof($block->action->ratings)>0)
                             @foreach($block->action->rating as $r)
-                                <span id="attr1" class="attribute rating" data-score="{{ $r['rating'] }}"></span>
-                                <small><span> {{ $r['attribute'] }} </span></small><br/>
+                            <span id="attr1" class="attribute rating" data-score="{{ $r['rating'] }}"></span>
+                            <small><span> {{ $r['attribute'] }} </span></small>
+                            <br/>
                             @endforeach
+                            @else
+                            <p style="color:#aaa;"><em>Δεν έχει γίνει αξιολόγηση</em></p>
+                            @endif
+                        </td>
+                        <td class="col-md-2">
+                            @if($block->action->rating_comments!=null && $block->action->rating_comments!='')
+                            {{ $block->action->rating_comments }}
+                            @else
+                            <p style="color:#aaa;"><em>Δεν υπάρχουν σχόλια</em></p>
                             @endif
                         </td>
                     </tr>
@@ -58,54 +81,10 @@
                     @endforeach
                     </tbody>
                 </table>
+                <hr/>
+                <h3 class="text-right">Συνολικές ώρες απασχόλησης: <strong>{{ $totalWorkingHours['hours'] }} ώρες, {{ $totalWorkingHours['minutes'] }} λεπτά</strong></h3>
                 @endif
             </div>
         </div>
     </div>
 </div>
-
-@section('footerScripts')
-<script>
-
-    //display appropriate message before removing volunteer from action
-    $(".removeFromAction").click(function (event) {
-        event.preventDefault();
-        if (confirm("Είστε σίγουροι ότι θέλετε να αφαιρέσετε τον εθελοντή από τη δράση;") == true) {
-            volunteerId = $(this).attr('data-volunteer-id');
-            actionId = $(this).attr('data-action-id');
-
-            $.ajax({
-                url: $("body").attr('data-url') + '/volunteers/' + volunteerId + '/action/detach/' + actionId,
-                method: 'GET',
-                headers: {
-                    'X-CSRF-Token': $('#token').val()
-                },
-                success: function () {
-                    location.reload();
-                }
-            });
-        }
-    });
-
-    //display appropriate message before removing volunteer from unit
-    $(".removeFromUnit").click(function (event) {
-        event.preventDefault();
-        if (confirm("Είστε σίγουροι ότι θέλετε να αφαιρέσετε τον εθελοντή από τη μονάδα;") == true) {
-            volunteerId = $(this).attr('data-volunteer-id');
-            unitId = $(this).attr('data-unit-id');
-
-            $.ajax({
-                url: $("body").attr('data-url') + '/volunteers/' + volunteerId + '/unit/detach/' + unitId,
-                method: 'GET',
-                headers: {
-                    'X-CSRF-Token': $('#token').val()
-                },
-                success: function () {
-                    location.reload();
-                }
-            });
-        }
-    });
-
-</script>
-@append

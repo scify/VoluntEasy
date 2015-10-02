@@ -43,15 +43,15 @@ class UserController extends Controller {
      * @return Response
      */
     public function store(UserRequest $request) {
-        $request['password'] = \Hash::make($request['password']);
 
-        $user = User::create($request->all());
+        // $user = User::create($request->all());
 
-
-        //send email to notify user for new account
-        \Mail::send('emails.new_user', ['user' => $user], function ($message) use ($user) {
-            $message->to($user->email, $user->name)->subject('Welcome to VoluntEasy');
-        });
+        /*
+                //send email to notify user for new account
+                \Mail::send('emails.new_user', ['user' => $user], function ($message) use ($user) {
+                    $message->to($user->email, $user->name)->subject('Welcome to VoluntEasy');
+                });
+        */
 
         //store the user image
         if (\Input::file('image') != null) {

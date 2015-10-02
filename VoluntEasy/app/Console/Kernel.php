@@ -13,7 +13,6 @@ class Kernel extends ConsoleKernel {
     protected $commands = [
         'App\Console\Commands\Inspire',
         'App\Console\Commands\CheckActions',
-        'App\Console\Commands\SendEmail',
     ];
 
 

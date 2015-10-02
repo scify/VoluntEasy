@@ -42,6 +42,9 @@
                                             <a href="{{ url('/password/email') }}" class="display-block text-center m-t-md text-sm">{{trans($lang.'forgotPass')}}</a>
                                         </div>
                                    </form>
+
+                                {{-- eeagrants logo only for ekpizo --}}
+                                @include('auth._ekpizo_eeagrants')
                             </div>
                         </div>
                     </div><!-- Row -->

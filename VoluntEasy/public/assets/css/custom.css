@@ -280,3 +280,7 @@ div#unitsTree{overflow-x: auto;}
 .text-grey{
     color:#aaa;
 }
+
+.dropdown-menu li a i{
+    margin-right:0;
+}
