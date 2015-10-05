@@ -39,39 +39,41 @@
                                 $block->action->description }}</a>
                         </td>
                         <td class="col-md-3">
-                            {{ $block->action->name }}
-                            @if($block->action->email!=null && $block->action->email!='')| <i
+                            @if($block->action->name!=null && $block->action->name!='')
+                                {{ $block->action->name }} <br/>
+                            @endif
+                            @if($block->action->email!=null && $block->action->email!='') <i
                                 class="fa fa-envelope"></i> <a href="mailto:{{ $block->action->email }}">{{
                                 $block->action->email }}</a>
                             @endif
                             @if($block->action->phone_number!=null && $block->action->phone_number!='')
-                            | <i class="fa fa-phone"></i> {{ $block->action->phone_number }}
+                            <i class="fa fa-phone"></i> {{ $block->action->phone_number }}
                             @endif
                         </td>
                         <td class="col-md-2">
                             {{ $block->action->start_date }} - {{ $block->action->end_date }}
                         </td>
                         <td class="col-md-2">
-                            @if(sizeof($block->action->rating_hours)!=null)
-                            {{ $block->action->rating_hours }}:{{ $block->action->rating_minutes }}
+                            @if(sizeof($block->action->ratings)>0)
+                            {{ $block->action->ratings[0]->volunteerRatings[0]->hours<10 ? '0'.$block->action->ratings[0]->volunteerRatings[0]->hours : $block->action->ratings[0]->volunteerRatings[0]->hours }}:{{ $block->action->ratings[0]->volunteerRatings[0]->minutes<10 ? '0'.$block->action->ratings[0]->volunteerRatings[0]->minutes : $block->action->ratings[0]->volunteerRatings[0]->minutes }}
                             @else
                             <p style="color:#aaa;"><em>Δεν έχουν σημειωθεί ώρες απασχόλησης</em></p>
                             @endif
                         </td>
                         <td class="col-md-5">
                             @if(sizeof($block->action->ratings)>0)
-                            @foreach($block->action->rating as $r)
-                            <span id="attr1" class="attribute rating" data-score="{{ $r['rating'] }}"></span>
-                            <small><span> {{ $r['attribute'] }} </span></small>
-                            <br/>
-                            @endforeach
+                                @foreach($block->action->ratings[0]->volunteerRatings[0]->ratings as $i => $rating)
+                                            <span class="attribute rating" data-score="{{ $rating->rating }}"></span>
+                                            <small><span> {{ $rating->attribute->description }} </span></small>
+                                            <br/>
+                                @endforeach
                             @else
-                            <p style="color:#aaa;"><em>Δεν έχει γίνει αξιολόγηση</em></p>
+                                <p style="color:#aaa;"><em>Δεν έχει γίνει αξιολόγηση</em></p>
                             @endif
                         </td>
                         <td class="col-md-2">
-                            @if($block->action->rating_comments!=null && $block->action->rating_comments!='')
-                            {{ $block->action->rating_comments }}
+                            @if(sizeof($block->action->ratings)>0)
+                            {{ $block->action->ratings[0]->volunteerRatings[0]->comments }}
                             @else
                             <p style="color:#aaa;"><em>Δεν υπάρχουν σχόλια</em></p>
                             @endif
@@ -82,7 +84,7 @@
                     </tbody>
                 </table>
                 <hr/>
-                <h3 class="text-right">Συνολικές ώρες απασχόλησης: <strong>{{ $totalWorkingHours['hours'] }} ώρες, {{ $totalWorkingHours['minutes'] }} λεπτά</strong></h3>
+                 <h3 class="text-right">Συνολικές ώρες απασχόλησης: <strong>{{ $totalWorkingHours['hours'] }} ώρες, {{ $totalWorkingHours['minutes'] }} λεπτά</strong></h3>
                 @endif
             </div>
         </div>

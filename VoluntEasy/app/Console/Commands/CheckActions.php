@@ -40,8 +40,6 @@ class CheckActions extends Command {
      */
     public function handle() {
 
-        //dd(\Config::get('mail'));
-
         //remove, just a check
         $execution_time = microtime();
 

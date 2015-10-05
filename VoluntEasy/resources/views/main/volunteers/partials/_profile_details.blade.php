@@ -234,6 +234,18 @@
        @else
        <p>{{ $volunteer->comments }}</p>
        @endif
+        <h3>Συνολική αξιολόγηση εθελοντή</h3>
+            @foreach($totalRatings as $rating)
+                @if($rating['count']!=0)
+                <span id="attr1" class="attribute rating" data-score="{{ $rating['totalRating'] / $rating['count'] }}"></span>
+                <small><span> {{ $rating['description'] }}</span></small>
+                <br/>
+                @else
+                <span id="attr1" class="attribute rating" data-score="0"></span>
+                <small><span> {{ $rating['description'] }}</span></small>
+                <br/>
+                @endif
+            @endforeach
        @if($volunteer->permitted)
         <div class="row">
             <div class="col-md-12 text-right">

@@ -350,12 +350,15 @@ class VolunteerService {
             ->findOrFail($volunteerId);
 
         $timeline = [];
-$test = [];
+        $test = [];
+
+
         //get info from the history tables
         foreach ($volunteer->actionHistory as $actionHistory) {
             $actionHistory->type = 'action';
             array_push($timeline, $actionHistory);
 
+            /*
             //send ratings array in a more readable form
             foreach ($actionHistory->action->ratings as $key => $rating) {
                 //if there are not ratings, remove the rating from the array
@@ -386,14 +389,14 @@ $test = [];
 
                     unset($rating->volunteerRatings);
                     unset($actionHistory->action->ratings);
+                    array_push($test, $actionHistory->action);
                 }
-                array_push($test, $actionHistory->action);
-            }
+            }*/
         }
+
 
         //return $test;
 
-        return $actionHistory;
         //unit history table
         foreach ($volunteer->unitHistory as $unitHistory) {
             $unitHistory->type = 'unit';
@@ -426,22 +429,22 @@ $test = [];
         $totalHours = 0;
         $totalMinutes = 0;
 
+
         //for each timeline block, loop and check it's type
         //if it's an action that has been rated, we can keep
         //the hours and minutes
         foreach ($timeline as $block) {
-            if ($block->type == "action" && isset($block->action->rating_hours)) {
-                $totalHours += $block->action->rating_hours;
-                $totalMinutes += $block->action->rating_minutes;
+            if ($block->type == "action" && isset($block->action->ratings)) {
+                $totalHours += $block->action->ratings[0]->volunteerRatings[0]->hours;
+                $totalMinutes += $block->action->ratings[0]->volunteerRatings[0]->minutes;
             }
         }
 
         if ($totalHours != 0 && $totalMinutes != 0) {
             if ($totalMinutes > 59) {
-                $totalHours += int($totalHours / 60);
+                $totalHours += intval($totalMinutes / 60);
                 $totalMinutes = $totalMinutes % 60;
             }
-
         }
 
         return ['hours' => $totalHours, 'minutes' => $totalMinutes];

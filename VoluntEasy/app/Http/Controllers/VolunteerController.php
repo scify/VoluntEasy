@@ -23,6 +23,7 @@ use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Models\VolunteerAvailabilityTime;
 use App\Models\VolunteerLanguage;
+use App\Services\Facades\RatingService;
 use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
 use DB;
@@ -113,7 +114,6 @@ class VolunteerController extends Controller {
             'availability_freqs_id' => intval(\Input::get('availability_freqs_id')),
             'comments' => \Input::get('comments')
         ));
-
 
         $volunteer->save();
 
@@ -213,13 +213,9 @@ class VolunteerController extends Controller {
     public function show($id) {
         $volunteer = VolunteerService::fullProfile($id);
         $timeline = VolunteerService::timeline($id);
-
-        return $timeline;
-
-
-
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
         $totalWorkingHours = VolunteerService::totalWorkingHours($timeline);
+        $totalRatings = RatingService::totalVolunteerRating($timeline);
 
         //get the count of pending and available units, used in the front end
         $pending = 0;
@@ -248,7 +244,7 @@ class VolunteerController extends Controller {
                 $actionsCount++;
         }
 
-        return view("main.volunteers.show", compact('volunteer', 'pending', 'available', 'timeline', 'userUnits', 'actionsCount', 'totalWorkingHours'));
+        return view("main.volunteers.show", compact('volunteer', 'pending', 'available', 'timeline', 'userUnits', 'actionsCount', 'totalRatings', 'totalWorkingHours'));
     }
 
     /**

@@ -205,13 +205,14 @@ return [
          * Services created for the app
          */
         'ActionService' => 'App\Services\Facades\ActionService',
+        'CronService' => 'App\Services\Facades\CronService',
+        'FileService' => 'App\Services\Facades\FileService',
+        'RatingService' => 'App\Services\Facades\RatingService',
+        'SearchService' => 'App\Services\Facades\SearchService',
+        'TreeService' => 'App\Services\Facades\TreeService',
         'UnitService' => 'App\Services\Facades\UnitService',
         'UserService' => 'App\Services\Facades\UserService',
-        'SearchService' => 'App\Services\Facades\SearchService',
-        'VolunteerService' => 'App\Services\Facades\VolunteerService',        
-        'TreeService' => 'App\Services\Facades\TreeService',
-        'FileService' => 'App\Services\Facades\FileService',
-        'CronService' => 'App\Services\Facades\CronService',
+        'VolunteerService' => 'App\Services\Facades\VolunteerService',
     ],
 
 ];

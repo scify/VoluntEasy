@@ -43,41 +43,6 @@
                             @endif
                         </p>
                     </div>
-                    {{-- Ratings--}}
-                   {{-- <div class="col-md-4 pull-right text-center">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h5>Συνέπεια</h5>
-                                @if(sizeof($volunteer->ratings)>0)
-                                <div id="attr1" class="attribute rating"
-                                     data-score="{{ $volunteer->ratings->rating_attr1 / $volunteer->ratings->rating_attr1_count }}"></div>
-                                @else
-                                <div id="attr1" class="attribute rating" data-score="0"></div>
-                                @endif
-                            </div>
-                            <div class="col-md-4">
-                                <h5>Στυλ</h5>
-                                @if(sizeof($volunteer->ratings)>0)
-                                <div id="attr2" class="attribute rating"
-                                     data-score="{{ $volunteer->ratings->rating_attr2 / $volunteer->ratings->rating_attr2_count }}"></div>
-                                @else
-                                <div id="attr2" class="attribute rating" data-score="0"></div>
-                                @endif
-                            </div>
-                            <div class="col-md-4">
-                                <h5>Αγάπη για γάτες</h5>
-                                @if(sizeof($volunteer->ratings)>0)
-                                <div id="attr3" class="attribute rating"
-                                     data-score="{{ $volunteer->ratings->rating_attr3 / $volunteer->ratings->rating_attr3_count }}"></div>
-                                @else
-                                <div id="attr3" class="attribute rating" data-score="0"></div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                --}}
-
                 @if($volunteer->blacklisted)
                 <div class="row">
                     <div class="col-md-12">
