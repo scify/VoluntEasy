@@ -22,32 +22,35 @@ class AuthController extends Controller {
 
     protected $redirectPath = '/ ';
 
+    private $configuration;
+
     /**
      * Create a new authentication controller instance.
      *
      * @param  \Illuminate\Contracts\Auth\Guard $auth
      * @param  \Illuminate\Contracts\Auth\Registrar $registrar
-     * @return void
      */
     public function __construct(Guard $auth, Registrar $registrar) {
         $this->auth = $auth;
         $this->registrar = $registrar;
+
+        //get an instance of the configuration interface
+        $this->configuration = \App::make('Interfaces\ConfigurationInterface');
 
         $this->middleware('guest', ['except' => 'getLogout']);
     }
 
 
     /**
-     * View the login page
+     * View the login page.
+     * We override the getLogin() of the trait in order to retrieve
+     * the path needed to display the footer logos at the login page
      *
      * @return \Illuminate\View\View
      */
     public function getLogin() {
 
-        $interface = \App::make('Interfaces\VoluntEasyConfigurationInterface');
-
-        $footerLogoPath = $interface->getPartialLoginFooterPath();
-        //$ = $interface->getPartialLoginFooterPath();
+        $footerLogoPath = $this->configuration->getPartialLoginFooterPath();
 
         return view('auth/login', compact('footerLogoPath'));
     }

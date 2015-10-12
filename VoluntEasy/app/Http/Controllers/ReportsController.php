@@ -7,17 +7,18 @@ use App\Models\VolunteerUnitStatus;
 
 class ReportsController extends Controller {
 
+    private $reportsService;
     private $volunteerStatuses;
 
     public function __construct() {
         $this->middleware('auth');
+        $this->reportsService =  \App::make('Interfaces\ReportsInterface');
     }
 
 
     public function index() {
 
-
-        return view('main.reports.all');
+        return view($this->reportsService->getViewPath());
     }
 
     /**
@@ -58,164 +59,48 @@ class ReportsController extends Controller {
      *
      * @return mixed
      */
-
-
     public function volunteersByMonth() {
 
-        $this->volunteerStatuses = VolunteerStatus::all()->lists('description', 'id');
-
-        //this should be dynamic
-        $currentYear = date('Y');
-
-        $pending = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        $available = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        $active = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        $new = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-
-        $pendingVolunteers = Volunteer::pending()->with('unitsStatus')->get();
-
-        foreach ($pendingVolunteers as $volunteer) {
-            foreach ($volunteer->units as $unit) {
-                $month = intval(date("m", strtotime($unit->created_at)));
-
-                $status = VolunteerUnitStatus::where('volunteer_id', $volunteer->id)
-                    ->where('unit_id', $unit->id)->first();
-
-                if ($status != null) {
-                    if ($this->volunteerStatuses[$status->volunteer_status_id] == 'Pending')
-                        $pending[$month - 1]++;
-                }
-            }
-        }
-
-
-        $availableVolunteers = Volunteer::available()->with('unitsStatus')->get();
-
-        foreach ($availableVolunteers as $volunteer) {
-            foreach ($volunteer->units as $unit) {
-                $month = intval(date("m", strtotime($unit->created_at)));
-
-                $status = VolunteerUnitStatus::where('volunteer_id', $volunteer->id)
-                    ->where('unit_id', $unit->id)->first();
-
-                if ($status != null) {
-                    if ($this->volunteerStatuses[$status->volunteer_status_id] == 'Available')
-                        $available[$month - 1]++;
-                }
-            }
-        }
-
-        $activeVolunteers = Volunteer::active()->with('unitsStatus')->get();
-
-        foreach ($activeVolunteers as $volunteer) {
-            foreach ($volunteer->units as $unit) {
-                $month = intval(date("m", strtotime($unit->created_at)));
-
-                $status = VolunteerUnitStatus::where('volunteer_id', $volunteer->id)
-                    ->where('unit_id', $unit->id)->first();
-
-                if ($status != null) {
-                    if ($this->volunteerStatuses[$status->volunteer_status_id] == 'Active')
-                        $active[$month - 1]++;
-                }
-            }
-        }
-
-        $allVolunteers = Volunteer::all();
-
-        foreach ($allVolunteers as $volunteer) {
-            $month = intval(date("m", strtotime($unit->created_at)));
-            $new[$month - 1]++;
-        }
-
-        return [
-            'active' => $active,
-            'available' => $available,
-            'pending' => $pending,
-            'new' => $new,
-        ];
+       return $this->reportsService->volunteersByMonth();
     }
 
+    /**
+     * Get the volunteer status by sex
+     *
+     * @return mixed
+     */
+    public function volunteersBySex() {
 
-    /*
-    public function volunteersByMonth() {
-
-        $this->volunteerStatuses = VolunteerStatus::all()->lists('description', 'id');
-
-        //this should be dynamic
-        $currentYear = date('Y');
-
-
-        $pendingVolunteers = Volunteer::pending()->with('unitsStatus')->get();
-
-        for ($i = 1; $i < 13; $i++) {
-            $monthlyReport = new MonthlyReport($i);
-            $this->pending[$i] = $monthlyReport;
-        }
-
-        foreach ($pendingVolunteers as $volunteer) {
-            foreach ($volunteer->units as $unit) {
-                $month = intval(date("m", strtotime($unit->created_at)));
-
-                $status = VolunteerUnitStatus::where('volunteer_id', $volunteer->id)
-                    ->where('unit_id', $unit->id)->first();
-
-                if($status != null) {
-                    if ($this->volunteerStatuses[$status->volunteer_status_id] == 'Pending')
-                        $this->pending[$month]->volunteers++;
-                }
-            }
-        }
-
-
-        $availableVolunteers = Volunteer::available()->with('unitsStatus')->get();
-
-        for ($i = 1; $i < 13; $i++) {
-            $monthlyReport = new MonthlyReport($i);
-            $this->available[$i] = $monthlyReport;
-        }
-
-        foreach ($availableVolunteers as $volunteer) {
-            foreach ($volunteer->units as $unit) {
-                $month = intval(date("m", strtotime($unit->created_at)));
-
-                $status = VolunteerUnitStatus::where('volunteer_id', $volunteer->id)
-                    ->where('unit_id', $unit->id)->first();
-
-                if($status != null) {
-                    if ($this->volunteerStatuses[$status->volunteer_status_id] == 'Pending')
-                        $this->available[$month]->volunteers++;
-                }
-            }
-        }
-
-        $activeVolunteers = Volunteer::active()->with('unitsStatus')->get();
-
-        for ($i = 1; $i < 13; $i++) {
-            $monthlyReport = new MonthlyReport($i);
-            $this->active[$i] = $monthlyReport;
-        }
-
-        foreach ($activeVolunteers as $volunteer) {
-            foreach ($volunteer->units as $unit) {
-                $month = intval(date("m", strtotime($unit->created_at)));
-
-                $status = VolunteerUnitStatus::where('volunteer_id', $volunteer->id)
-                    ->where('unit_id', $unit->id)->first();
-
-                if($status != null) {
-                    if ($this->volunteerStatuses[$status->volunteer_status_id] == 'Pending')
-                        $this->active[$month]->volunteers++;
-                }
-            }
-        }
-
-        return [
-            'active' => $this->active,
-            'available' => $this->available,
-            'pending' => $this->pending,
-        ];
+        return $this->reportsService->volunteersBySex();
     }
-*/
 
+    /**
+     * Get the volunteer status by city
+     *
+     * @return mixed
+     */
+    public function volunteersByCity() {
+
+        return $this->reportsService->volunteersByCity();
+    }
+
+    /**
+     * Get the volunteer status by age group
+     *
+     * @return mixed
+     */
+    public function volunteersByAgeGroup() {
+
+        return $this->reportsService->volunteersByAgeGroup();
+    }
+
+    /**
+     * Get the volunteer status by education level
+     *
+     * @return mixed
+     */
+    public function volunteersByEducationLevel() {
+
+        return $this->reportsService->volunteersByEducationLevel();
+    }
 }

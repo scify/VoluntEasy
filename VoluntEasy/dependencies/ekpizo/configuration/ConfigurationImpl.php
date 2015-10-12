@@ -1,9 +1,9 @@
 <?php namespace Dependencies\ekpizo\configuration;
 
 
-use Interfaces\VoluntEasyConfigurationInterface;
+use Interfaces\ConfigurationInterface;
 
-class VoluntEasyConfigurationImpl implements VoluntEasyConfigurationInterface {
+class ConfigurationImpl implements ConfigurationInterface {
 
 
     function getPartialLoginFooterPath() {

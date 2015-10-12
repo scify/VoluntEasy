@@ -43,7 +43,9 @@
                                         </div>
                                    </form>
                             </div>
-                            @include($footerLogoPath)
+                            @if($footerLogoPath!=null && $footerLogoPath!='')
+                                @include($footerLogoPath)
+                            @endif
                         </div>
                     </div><!-- Row -->
                 </div><!-- Main Wrapper -->

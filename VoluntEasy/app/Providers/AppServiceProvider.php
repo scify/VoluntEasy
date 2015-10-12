@@ -30,9 +30,16 @@ class AppServiceProvider extends ServiceProvider {
 			'App\Services\Registrar'
         );
 
+        //bind the configuration
         $this->app->bind(
-            'Interfaces\VoluntEasyConfigurationInterface',
-            'Dependencies\ekpizo\configuration\VoluntEasyConfigurationImpl'
+            'Interfaces\ConfigurationInterface',
+            'Dependencies\ekpizo\configuration\ConfigurationImpl'
+        );
+
+        //bind the report service
+        $this->app->bind(
+            'Interfaces\ReportsInterface',
+            'Dependencies\ekpizo\services\ReportsService'
         );
 
 	}

@@ -139,6 +139,10 @@ Route::get('search/actionUser','SearchController@actionUser');
 Route::get('reports','ReportsController@index');
 Route::get('reports/idleVolunteers','ReportsController@idleVolunteers');
 Route::get('reports/volunteersByMonth','ReportsController@volunteersByMonth');
+Route::get('reports/volunteersBySex','ReportsController@volunteersBySex');
+Route::get('reports/volunteersByAgeGroup','ReportsController@volunteersByAgeGroup');
+Route::get('reports/volunteersByCity','ReportsController@volunteersByCity');
+Route::get('reports/volunteersByEducationLevel','ReportsController@volunteersByEducationLevel');
 
 
 
