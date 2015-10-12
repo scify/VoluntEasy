@@ -7,6 +7,7 @@ Route::controllers([
     'password' => 'Auth\PasswordController',
 ]);
 
+//Route::get('auth/login','Auth\AuthController@login');
 
  
 ////////////////

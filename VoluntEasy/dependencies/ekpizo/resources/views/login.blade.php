@@ -43,7 +43,7 @@
                                         </div>
                                    </form>
                             </div>
-                            @include($footerLogoPath)
+                            @include('template.default.footerIncludes')
                         </div>
                     </div><!-- Row -->
                 </div><!-- Main Wrapper -->

@@ -30,10 +30,9 @@ class AppServiceProvider extends ServiceProvider {
 			'App\Services\Registrar'
         );
 
-
         $this->app->bind(
-            'App\Services\Experiment\VolunteerInterface',
-            'App\Services\Experiment\EkpizoVolunteer'
+            'Interfaces\VoluntEasyConfigurationInterface',
+            'Dependencies\ekpizo\configuration\VoluntEasyConfigurationImpl'
         );
 
 	}
