@@ -29,6 +29,19 @@ class AppServiceProvider extends ServiceProvider {
 			'Illuminate\Contracts\Auth\Registrar',
 			'App\Services\Registrar'
         );
+
+        //bind the configuration
+        $this->app->bind(
+            'Interfaces\ConfigurationInterface',
+            'Dependencies\ekpizo\configuration\ConfigurationImpl'
+        );
+
+        //bind the report service
+        $this->app->bind(
+            'Interfaces\ReportsInterface',
+            'Dependencies\ekpizo\services\ReportsService'
+        );
+
 	}
 
 }

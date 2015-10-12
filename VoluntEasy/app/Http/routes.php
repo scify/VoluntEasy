@@ -7,6 +7,7 @@ Route::controllers([
     'password' => 'Auth\PasswordController',
 ]);
 
+//Route::get('auth/login','Auth\AuthController@login');
 
  
 ////////////////
@@ -138,6 +139,10 @@ Route::get('search/actionUser','SearchController@actionUser');
 Route::get('reports','ReportsController@index');
 Route::get('reports/idleVolunteers','ReportsController@idleVolunteers');
 Route::get('reports/volunteersByMonth','ReportsController@volunteersByMonth');
+Route::get('reports/volunteersBySex','ReportsController@volunteersBySex');
+Route::get('reports/volunteersByAgeGroup','ReportsController@volunteersByAgeGroup');
+Route::get('reports/volunteersByCity','ReportsController@volunteersByCity');
+Route::get('reports/volunteersByEducationLevel','ReportsController@volunteersByEducationLevel');
 
 
 
@@ -176,9 +181,6 @@ Route::get('cityofathens', 'TestController@cityofathens');
 
 
 
-
-
-
 ////////////////////////////////////////////
 // Log Viewer                             //
 // Route to view logs in a more human way //
@@ -192,6 +194,7 @@ Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 Route::get('test','TestController@test');
 Route::get('faker','TestController@faker');
 Route::get('boxytree','TestController@boxytree');
+Route::get('experiment','TestController@experiment');
 
 
 

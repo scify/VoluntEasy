@@ -43,6 +43,41 @@
                             @endif
                         </p>
                     </div>
+                    {{-- Ratings--}}
+                    {{--
+                    <div class="col-md-4 pull-right text-center">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h5>Συνέπεια</h5>
+                                @if(sizeof($volunteer->ratings)>0)
+                                <div id="attr1" class="attribute rating"
+                                     data-score="{{ $volunteer->ratings->rating_attr1 / $volunteer->ratings->rating_attr1_count }}"></div>
+                                @else
+                                <div id="attr1" class="attribute rating" data-score="0"></div>
+                                @endif
+                            </div>
+                            <div class="col-md-4">
+                                <h5>Στυλ</h5>
+                                @if(sizeof($volunteer->ratings)>0)
+                                <div id="attr2" class="attribute rating"
+                                     data-score="{{ $volunteer->ratings->rating_attr2 / $volunteer->ratings->rating_attr2_count }}"></div>
+                                @else
+                                <div id="attr2" class="attribute rating" data-score="0"></div>
+                                @endif
+                            </div>
+                            <div class="col-md-4">
+                                <h5>Αγάπη για γάτες</h5>
+                                @if(sizeof($volunteer->ratings)>0)
+                                <div id="attr3" class="attribute rating"
+                                     data-score="{{ $volunteer->ratings->rating_attr3 / $volunteer->ratings->rating_attr3_count }}"></div>
+                                @else
+                                <div id="attr3" class="attribute rating" data-score="0"></div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                --}}
                 @if($volunteer->blacklisted)
                 <div class="row">
                     <div class="col-md-12">
@@ -58,9 +93,12 @@
                 @if($volunteer->not_available)
                 <div class="row">
                     <div class="col-md-12">
-                        <h4 class="text-danger">Ο εθελοντής έχει επισημανθεί ως μη διαθέσιμος για το διάστημα <strong>{{ $volunteer->not_availableFrom}} - {{ $volunteer->not_availableTo}}</strong> <br/>
+                        <h4 class="text-danger">Ο εθελοντής έχει επισημανθεί ως μη διαθέσιμος για το διάστημα <strong>{{
+                                $volunteer->not_availableFrom}} - {{ $volunteer->not_availableTo}}</strong> <br/>
                             @if($volunteer->permitted)
-                            <small><a href="#" data-toggle="modal" data-target="#notAvailableInfo">Πληροφορίες</a></small> |
+                            <small><a href="#" data-toggle="modal" data-target="#notAvailableInfo">Πληροφορίες</a>
+                            </small>
+                            |
                             <small><a href="#" data-toggle="modal" data-target="#available">Σήμανση εθελοντή ως
                                     διαθέσιμος</a></small>
                             @endif
@@ -122,7 +160,6 @@
 </div>
 
 
-
 @if($volunteer->not_available)
 <div class="modal fade" id="available">
     <div class="modal-dialog">
@@ -133,14 +170,15 @@
                 <h4 class="modal-title">Σήμανση εθελοντή ως διαθέσιμος</h4>
             </div>
             <div class="modal-body">
-                 {!! Form::formInput('notAvailableComments', 'Σχόλια', $errors, ['class' => 'form-control', 'type' =>
+                {!! Form::formInput('notAvailableComments', 'Σχόλια', $errors, ['class' => 'form-control', 'type' =>
                 'textarea', 'value' => $volunteer->not_availableComments, 'id'
                 =>
                 'notAvailableComments']) !!}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
-                <button type="button" class="btn btn-success available" data-volunteer-id="{{ $volunteer->id }}"  data-status-duration-id="{{ $volunteer->not_availableId }}">
+                <button type="button" class="btn btn-success available" data-volunteer-id="{{ $volunteer->id }}"
+                        data-status-duration-id="{{ $volunteer->not_availableId }}">
                     Αποθήκευση
                 </button>
             </div>
@@ -160,14 +198,15 @@
                 <h4 class="modal-title">Πληροφορίες διαθεσιμότητας</h4>
             </div>
             <div class="modal-body">
-                <p>Μη διαθέσιμος από <strong>{{ $volunteer->not_availableFrom }}</strong> έως <strong>{{ $volunteer->not_availableTo }}</strong></p>
+                <p>Μη διαθέσιμος από <strong>{{ $volunteer->not_availableFrom }}</strong> έως <strong>{{
+                        $volunteer->not_availableTo }}</strong></p>
 
                 <p>Σχόλια<br/>
-                @if($volunteer->not_availableComments==null || $volunteer->not_availableComments=='')
-                <em>Κανένα σχόλιο</em>
-                @else
-                {{ $volunteer->not_availableComments }}
-                @endif
+                    @if($volunteer->not_availableComments==null || $volunteer->not_availableComments=='')
+                    <em>Κανένα σχόλιο</em>
+                    @else
+                    {{ $volunteer->not_availableComments }}
+                    @endif
                 </p>
             </div>
             <div class="modal-footer">
@@ -180,7 +219,6 @@
 </div>
 <!-- /.modal -->
 @endif
-
 
 
 @if($volunteer->blacklisted)

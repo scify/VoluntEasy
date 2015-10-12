@@ -46,6 +46,9 @@
                                 {{-- eeagrants logo only for ekpizo --}}
                                 @include('auth._ekpizo_eeagrants')
                             </div>
+                            @if($footerLogoPath!=null && $footerLogoPath!='')
+                                @include($footerLogoPath)
+                            @endif
                         </div>
                     </div><!-- Row -->
                 </div><!-- Main Wrapper -->
