@@ -434,7 +434,7 @@ class VolunteerService {
         //if it's an action that has been rated, we can keep
         //the hours and minutes
         foreach ($timeline as $block) {
-            if ($block->type == "action" && isset($block->action->ratings)) {
+            if ($block->type == "action" && isset($block->action->ratings) && sizeof($block->action->ratings)>0) {
                 $totalHours += $block->action->ratings[0]->volunteerRatings[0]->hours;
                 $totalMinutes += $block->action->ratings[0]->volunteerRatings[0]->minutes;
             }

@@ -3,7 +3,7 @@
 
 use Interfaces\ConfigurationInterface;
 
-class ConfigurationImpl implements ConfigurationInterface {
+class Configuration implements ConfigurationInterface {
 
 
     function getPartialLoginFooterPath() {

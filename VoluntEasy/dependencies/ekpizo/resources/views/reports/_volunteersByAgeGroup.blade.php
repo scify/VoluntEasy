@@ -1,44 +1,59 @@
 <div class="row">
     <div class="col-md-12">
-        <canvas id="volunteersByEducationLevel" height="150"></canvas>
+        <canvas id="volunteersByAgeGroup" height="150"></canvas>
     </div>
 </div>
 <div class="col-md-12">
     <div>
         <h4>Υπόμνημα</h4>
-        <div class="educationChartLegend"></div>
+
+        <div class="ageChartLegend"></div>
     </div>
 </div>
 
 @section('footerScripts')
 <script>
 
+
     //when page loads -> ajax call to retrieve volunteers
     //create the appropriate obj, then init the chart
 
     $.ajax({
-        url: $("body").attr('data-url') + "/reports/volunteersByEducationLevel",
+        url: $("body").attr('data-url') + "/reports/volunteersByAgeGroup",
         method: 'GET',
         success: function (result) {
 
             var data = [];
             $.each(result, function (key, value) {
-                colorPair = Colors.random();
+
+                if (value.ageGroup == '<18')
+                    color = 'turqoise';
+                if (value.ageGroup == '18-24')
+                    color = 'purple';
+                if (value.ageGroup == '25-34')
+                    color = 'green';
+                if (value.ageGroup == '35-49')
+                    color = 'yellow';
+                if (value.ageGroup == '50-64')
+                    color = 'pink';
+                if (value.ageGroup == '>65')
+                    color = 'orange';
+
                 data.push({
                     value: value.count,
-                    color: Colors.pairs[colorPair][0],
-                    highlight: Colors.pairs[colorPair][1],
-                    label: value.description
+                    color: Colors.pairs[color][0],
+                    highlight: Colors.pairs[color][1],
+                    label: value.ageGroup
                 });
 
                 //append the legend
-                if(key>0)
-                    $(".educationChartLegend").append(' | <i class="fa fa-square" style="color:' + Colors.pairs[colorPair][0] + ';"></i> ' + value.description);
+                if (key > 0)
+                    $(".ageChartLegend").append(' | <i class="fa fa-square" style="color:' + Colors.pairs[color][0] + ';"></i> ' + value.ageGroup);
                 else
-                    $(".educationChartLegend").append('<i class="fa fa-square" style="color:' + Colors.pairs[colorPair][0] + ';"></i> ' + value.description);
+                    $(".ageChartLegend").append('<i class="fa fa-square" style="color:' + Colors.pairs[color][0] + ';"></i> ' + value.ageGroup);
             });
 
-            var ctx = document.getElementById("volunteersByEducationLevel").getContext("2d");
+            var ctx = document.getElementById("volunteersByAgeGroup").getContext("2d");
 
             var myPieChart = new Chart(ctx).Pie(data, {
                 segmentShowStroke: true,
@@ -48,7 +63,7 @@
                 animationEasing: "linear",
                 animateRotate: true,
                 animateScale: false,
-                responsive: true,
+                responsive: true
             });
 
         }

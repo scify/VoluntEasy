@@ -3,11 +3,10 @@
         <canvas id="volunteersByCity" height="150"></canvas>
     </div>
 </div>
-<div class="col-md-6">
+<div class="col-md-12">
     <div>
         <h4>Υπόμνημα</h4>
-        <i class="fa fa-square" style="color:#12AFCB"></i> Άνδρες |
-        <i class="fa fa-square" style="color:#7a6fbe"></i> Γυναίκες
+        <div class="cityChartLegend"></div>
     </div>
 </div>
 
@@ -32,6 +31,12 @@
                     highlight: Colors.pairs[colorPair][1],
                     label: value.city
                 });
+
+                //append the legend
+                if(key>0)
+                    $(".cityChartLegend").append(' | <i class="fa fa-square" style="color:' + Colors.pairs[colorPair][0] + ';"></i> ' + value.city);
+                else
+                    $(".cityChartLegend").append('<i class="fa fa-square" style="color:' + Colors.pairs[colorPair][0] + ';"></i> ' + value.city);
             });
 
             var ctx = document.getElementById("volunteersByCity").getContext("2d");
@@ -52,10 +57,10 @@
 
 
     /*
-    * since we don't know how many cities the db will have,
-    * we generate some random colors+hightlights in order to
-    * make the chart pretty.
-    * */
+     * since we don't know how many cities the db will have,
+     * we generate some random colors+hightlights in order to
+     * make the chart pretty.
+     * */
     Colors = {};
     Colors.pairs = {
         turqoise: ["#12AFCB", "#30E0FF"],
@@ -63,7 +68,6 @@
         green: ["#22BAA0", "#48FFE0"],
         purple: ["#7a6fbe", "#BAAEFF"],
         red: ["#f25656", "#FF7474"],
-        purple: ["#800080", "#800080"],
         orange: ["#D95232", "#E0745B"],
         lightblue: ["#4BF", "#69C8FF"],
         pink: ["#D97AA5", "#E094B7"],

@@ -21,4 +21,9 @@ interface ReportsInterface{
 
     function volunteersByEducationLevel();
 
+    function volunteerHoursByAction();
+
+  //  function volunteerHoursByMonth();
+
+
 }

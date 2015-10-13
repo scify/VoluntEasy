@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider {
         //bind the configuration
         $this->app->bind(
             'Interfaces\ConfigurationInterface',
-            'Dependencies\ekpizo\configuration\ConfigurationImpl'
+            'Dependencies\ekpizo\configuration\Configuration'
         );
 
         //bind the report service

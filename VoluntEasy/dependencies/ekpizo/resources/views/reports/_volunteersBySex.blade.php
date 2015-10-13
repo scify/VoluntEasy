@@ -3,7 +3,7 @@
         <canvas id="volunteersBySex" height="150"></canvas>
     </div>
 </div>
-<div class="col-md-6">
+<div class="col-md-12">
     <div>
         <h4>Υπόμνημα</h4>
         <i class="fa fa-square" style="color:#12AFCB"></i> Άνδρες |

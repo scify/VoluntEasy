@@ -35,16 +35,13 @@
                                             <input type="password" class="form-control" name="password" placeholder="Password" />
                                         </div>
                                         <div class="form-group">
-                                        			<label><input type="checkbox" name="remember"> {{trans($lang.'remember')}}</label>
+                                        	<label><input type="checkbox" name="remember"> {{trans($lang.'remember')}}</label>
                                         </div>
                                        <button type="submit" class="btn btn-success btn-block">{{trans($lang.'entrance')}}</button>
                                         <div class="form-group">
                                             <a href="{{ url('/password/email') }}" class="display-block text-center m-t-md text-sm">{{trans($lang.'forgotPass')}}</a>
                                         </div>
                                    </form>
-
-                                {{-- eeagrants logo only for ekpizo --}}
-                                @include('auth._ekpizo_eeagrants')
                             </div>
                             @if($footerLogoPath!=null && $footerLogoPath!='')
                                 @include($footerLogoPath)

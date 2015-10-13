@@ -84,6 +84,7 @@ class ReportsController extends Controller {
         return $this->reportsService->volunteersByCity();
     }
 
+
     /**
      * Get the volunteer status by age group
      *
@@ -102,5 +103,15 @@ class ReportsController extends Controller {
     public function volunteersByEducationLevel() {
 
         return $this->reportsService->volunteersByEducationLevel();
+    }
+
+    /**
+     * Get the volunteer hours by action
+     *
+     * @return mixed
+     */
+    public function volunteerHoursByAction() {
+
+        return $this->reportsService->volunteerHoursByAction();
     }
 }
