@@ -9,6 +9,7 @@ use App\Models\Descriptions\CommunicationMethod;
 use App\Models\Descriptions\DriverLicenceType;
 use App\Models\Descriptions\EducationLevel;
 use App\Models\Descriptions\Gender;
+use App\Models\Descriptions\HowYouLearned;
 use App\Models\Descriptions\IdentificationType;
 use App\Models\Descriptions\Interest;
 use App\Models\Descriptions\InterestCategory;
@@ -31,8 +32,11 @@ use Illuminate\Support\Facades\Session;
 
 class VolunteerController extends Controller {
 
+    private $configuration;
+
     public function __construct() {
         $this->middleware('auth');
+        $this->configuration =  \App::make('Interfaces\ConfigurationInterface');
     }
 
     /**
@@ -64,10 +68,13 @@ class VolunteerController extends Controller {
         $genders = Gender::all()->lists('description', 'id');
         $commMethod = CommunicationMethod::all()->lists('description', 'id');
         $edLevel = EducationLevel::all()->lists('description', 'id');
+        $howYouLearned = HowYouLearned::all()->lists('description', 'id');
         $units = Unit::orderBy('description', 'asc')->get();
 
+        $formPartial = $this->configuration->getVolunteerFormPath();
+
         return view('main.volunteers.create', compact('identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
-            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'units'));
+            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'units', 'howYouLearned', 'formPartial'));
     }
 
     /**
@@ -267,12 +274,13 @@ class VolunteerController extends Controller {
         $interestCategories = InterestCategory::with('interests')->get();
         $genders = Gender::all()->lists('description', 'id');
         $commMethod = CommunicationMethod::all()->lists('description', 'id');
+        $howYouLearned = HowYouLearned::all()->lists('description', 'id');
         $edLevel = EducationLevel::all()->lists('description', 'id');
 
         $units = Unit::orderBy('description', 'asc')->get();
 
         return view('main.volunteers.edit', compact('volunteer', 'identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
-            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'units'));
+            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'units', 'howYouLearned'));
     }
 
     /**

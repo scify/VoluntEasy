@@ -41,7 +41,5 @@ class AppServiceProvider extends ServiceProvider {
             'Interfaces\ReportsInterface',
             'Dependencies\ekpizo\services\ReportsService'
         );
-
 	}
-
 }

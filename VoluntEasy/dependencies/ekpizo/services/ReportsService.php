@@ -232,37 +232,62 @@ class ReportsService implements ReportsInterface {
 
         $dbactions = Action::with('ratings.volunteerRatings.volunteer')->get();
 
+      //  return $dbactions;
+
+
         $actions = [];
         foreach ($dbactions as $action) {
 
             $volunteers = [];
+            //get only the actions that have ratings
             if (sizeof($action->ratings) > 0) {
-                foreach ($action->ratings[0]->volunteerRatings as $volunteer) {
 
-                    $hours = 0;
-                    $minutes = 0;
+                foreach ($action->ratings as $rating) {
+                    if($rating->rated) {
 
-                    if ($volunteer->hours > 9)
-                        $hours = $volunteer->hours;
-                    else
-                        $hours = '0'.$volunteer->hours;
+                        $totalHours = 0;
+                        $totalMinutes = 0;
 
-                    if ($volunteer->minutes > 9)
-                        $minutes = $volunteer->minutes;
-                    else
-                        $minutes = '0'.$volunteer->minutes;
+                        foreach ($rating->volunteerRatings as $volunteer) {
 
-                    array_push($volunteers, [
-                        'id' => $volunteer->volunteer->id,
-                        'name' => $volunteer->volunteer->name . ' ' . $volunteer->volunteer->last_name,
-                        'hours' => $hours.':'.$minutes,
-                    ]);
+                            $hours = 0;
+                            $minutes = 0;
+
+
+                            if ($volunteer->hours > 9)
+                                $hours = $volunteer->hours;
+                            else
+                                $hours = '0' . $volunteer->hours;
+
+                            if ($volunteer->minutes > 9)
+                                $minutes = $volunteer->minutes;
+                            else
+                                $minutes = '0' . $volunteer->minutes;
+
+                            $totalHours += $volunteer->hours;
+                            $totalMinutes += $volunteer->minutes;
+
+                            array_push($volunteers, [
+                                'id' => $volunteer->volunteer->id,
+                                'name' => $volunteer->volunteer->name . ' ' . $volunteer->volunteer->last_name,
+                                'hours' => $hours . ':' . $minutes,
+                            ]);
+                        }
+                    }
+                }
+
+                if ($totalHours != 0 && $totalMinutes != 0) {
+                    if ($totalMinutes > 59) {
+                        $totalHours += intval($totalMinutes / 60);
+                        $totalMinutes = $totalMinutes % 60;
+                    }
                 }
 
                 array_push($actions, [
                     'id' => $action->id,
                     'description' => $action->description,
-                    'volunteers' => $volunteers
+                    'volunteers' => $volunteers,
+                    'totalHours' => $totalHours.':'.$totalMinutes
                 ]);
             }
         }

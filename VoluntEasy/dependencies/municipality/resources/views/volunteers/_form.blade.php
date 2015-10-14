@@ -81,12 +81,6 @@
                         $errors, ['class' => 'form-control']) !!}
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        {!! Form::formInput('afm', 'Α.Φ.Μ.:',
-                        $errors, ['class' => 'form-control']) !!}
-                    </div>
-                </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
@@ -302,82 +296,6 @@
                 'form-control', 'type' => 'select', 'value' => $availabilityFreqs]) !!}
                 @endif
             </div>
-
-
-            <table class="table table-condensed table-bordered">
-                <thead>
-                    <th>Ημέρα</th>
-                    <th>Πρωί</th>
-                    <th>Μεσημέρι</th>
-                    <th>Απόγευμα</th>
-                </thead>
-                <tr>
-                    <td>Δευτέρα</td>
-                     @foreach($availabilityTimes as $a_t_id => $availability_time)
-                    <td class="text-center">
-                        {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' =>
-                        'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
-                    </td>
-                        @endforeach
-                </tr>
-                <tr>
-                    <td>Τρίτη</td>
-                    @foreach($availabilityTimes as $a_t_id => $availability_time)
-                    <td class="text-center">
-                        {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' =>
-                        'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
-                    </td>
-                    @endforeach
-                </tr>
-                <tr>
-                    <td>Τετάρτη</td>
-                    @foreach($availabilityTimes as $a_t_id => $availability_time)
-                    <td class="text-center">
-                        {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' =>
-                        'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
-                    </td>
-                    @endforeach
-                </tr>
-                <tr>
-                    <td>Πέμπτη</td>
-                    @foreach($availabilityTimes as $a_t_id => $availability_time)
-                    <td class="text-center">
-                        {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' =>
-                        'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
-                    </td>
-                    @endforeach
-                </tr>
-                <tr>
-                    <td>Παρασκεύη</td>
-                    @foreach($availabilityTimes as $a_t_id => $availability_time)
-                    <td class="text-center">
-                        {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' =>
-                        'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
-                    </td>
-                    @endforeach
-                </tr>
-                <tr>
-                    <td>Σαββατο</td>
-                    @foreach($availabilityTimes as $a_t_id => $availability_time)
-                    <td class="text-center">
-                        {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' =>
-                        'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
-                    </td>
-                    @endforeach
-                </tr>
-                <tr>
-                    <td>Κυριακή</td>
-                    @foreach($availabilityTimes as $a_t_id => $availability_time)
-                    <td class="text-center">
-                        {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' =>
-                        'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
-                    </td>
-                    @endforeach
-                </tr>
-            </table>
-
-
-
         </div>
         <div class="col-md-3">
             <div class="form-group">

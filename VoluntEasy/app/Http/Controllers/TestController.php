@@ -2,7 +2,9 @@
 
 use App\Http\Requests;
 use App\Models\Action;
+use App\Models\Descriptions\Interest;
 use App\Models\Descriptions\InterestCategory;
+use App\Models\Rating\RatingAttribute;
 use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Services\Facades\UnitService;
@@ -34,20 +36,19 @@ class TestController extends Controller {
 
     public function test() {
 
+        $configuration = \App::make('Interfaces\ConfigurationInterface');
 
-        $volunteer = Volunteer::findOrFail(11);
-        $unit = Unit::with('actions')->findOrFail(5);
+        //DB::table('users')->delete();
 
-        return $unit->actions->lists('id');
+        $json = \File::get($configuration->getRatingsJsonPath());
 
-        $volunteer->actions()->detach($unit->actions->lists('id'));
-        $volunteer->units()->detach($unitId);
+        $ratings = json_decode($json);
 
-
-
-
-
-       // return view("app_emails.rate_volunteers");
+        foreach($ratings as $rating){
+           RatingAttribute::create([
+                'description' => $rating->description
+            ]);
+        }
 
     }
 

@@ -117,9 +117,6 @@ console.log(data);
                 {
                     "sExtends": "csv",
                     "sButtonText": "CSV"
-                },
-                {
-                    "sExtends": "xls"
                 }
             ]
         }

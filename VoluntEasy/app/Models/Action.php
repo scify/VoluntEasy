@@ -56,4 +56,9 @@ class Action extends Model {
         $now = date('Y-m-d');
         return $this->where('end_date', '>=', $now);
     }
+
+    public function scopeInactive(){
+        $now = date('Y-m-d');
+        return $this->where('end_date', '<', $now);
+    }
 }

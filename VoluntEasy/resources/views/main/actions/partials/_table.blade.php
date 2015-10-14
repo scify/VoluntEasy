@@ -102,9 +102,6 @@
                 {
                     "sExtends": "csv",
                     "sButtonText": "CSV"
-                },
-                {
-                    "sExtends": "xls"
                 }
             ]
         }

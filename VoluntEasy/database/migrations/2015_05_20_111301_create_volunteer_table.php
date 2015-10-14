@@ -28,8 +28,8 @@ class CreateVolunteerTable extends Migration {
         Schema::create('availability_freqs', function ($table) {
             $table->increments('id');
             $table->string('description', 100);
+            $table->timestamps();
         });
-
 
         Schema::create('work_statuses', function ($table) {
             $table->increments('id');
@@ -63,6 +63,7 @@ class CreateVolunteerTable extends Migration {
             $table->string('city', 300)->nullable();
             $table->string('country', 300)->nullable();
             $table->string('post_box')->nullable();
+            $table->string('afm', 100)->nullable();
             $table->string('participation_reason', 300);
             $table->string('participation_previous', 400)->nullable();
             $table->string('participation_actions', 400)->nullable();
@@ -146,6 +147,7 @@ class CreateVolunteerTable extends Migration {
         Schema::create('interest_categories', function ($table) {
             $table->increments('id');
             $table->text('description', 100);
+            $table->timestamps();
         });
 
         Schema::create('interests', function ($table) {
@@ -153,6 +155,7 @@ class CreateVolunteerTable extends Migration {
             $table->text('description', 100);
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('interest_categories');
+            $table->timestamps();
         });
 
         Schema::create('volunteer_interests', function ($table) {

@@ -15,6 +15,7 @@ class CreateRatingTable extends Migration {
         Schema::create('rating_attributes', function ($table) {
             $table->increments('id');
             $table->string('description', 100);
+            $table->timestamps();
         });
 
         //table to keep the token that is send to each upeu8unos

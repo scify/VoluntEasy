@@ -12,7 +12,7 @@ class Interest extends Model {
      */
     protected $table = 'interests';
 
-    protected $fillable = ['description'];
+    protected $fillable = ['description', 'category_id'];
 
 
     public function category() {

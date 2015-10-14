@@ -51,17 +51,6 @@ class VolunteerTableSeeder extends Seeder {
 
 	    DB::table('driver_license_types')->insert($license_types);
 
-	    // Availability frequency messages.
-	    DB::table('availability_freqs')->delete();
-
-	    $frequencies = [
-		    ['description' => '1-2 φορές την εβδομάδα'],
-		    ['description' => '1-2 φορές το δεκαπενθήμερο'],
-		    ['description' => '1-2 φορές τον μήνα'],
-	    ];
-
-	    DB::table('availability_freqs')->insert($frequencies);
-
 	    // Work status messages.
 	    DB::table('work_statuses')->delete();
 
@@ -85,77 +74,6 @@ class VolunteerTableSeeder extends Seeder {
 
 	    DB::table('availability_time')->insert($availability);
 
-        // Interest categories.
-        DB::table('interest_categories')->delete();
-
-        /*
-        $interest_categories = [
-            ['description' => 'Πολιτισμός και Αθλητισμός'],
-            ['description' => 'Για το Παιδί'],
-            ['description' => 'Περιβάλλον'],
-            ['description' => 'Διεύθυνση Κοινωνικής Αλληλεγγύης και Υγείας'],
-        ];
-        */
-
-        //ekpizo
-        $interest_categories = [
-            ['description' => 'Γενικά ενδιαφέροντα'],
-        ];
-        DB::table('interest_categories')->insert($interest_categories);
-
-
-	    // Volunteer interests.
-	    DB::table('interests')->delete();
-
-        $cat_general = \App\Models\Descriptions\InterestCategory::where('description', 'Γενικά ενδιαφέροντα')->first()->id;
-
-        $interests = [
-            ['category_id' => $cat_general, 'description' => 'Διεξαγωγή ερευνών'],
-            ['category_id' => $cat_general, 'description' => 'Νομική υποστήριξη καταναλωτών'],
-            ['category_id' => $cat_general, 'description' => 'Μεταφράσεις'],
-            ['category_id' => $cat_general, 'description' => 'Κειμενογράφηση'],
-            ['category_id' => $cat_general, 'description' => 'Γραφιστικά'],
-            ['category_id' => $cat_general, 'description' => 'Οργάνωση Εκδηλώσεων'],
-            ['category_id' => $cat_general, 'description' => 'Επικοινωνία/Social media'],
-        ];
-
-
-        /*
-        $cat_politismos = \App\Models\Descriptions\InterestCategory::where('description', 'Πολιτισμός και Αθλητισμός')->first()->id;
-        $cat_paidi = \App\Models\Descriptions\InterestCategory::where('description', 'Για το Παιδί')->first()->id;
-        $cat_perivallon = \App\Models\Descriptions\InterestCategory::where('description', 'Περιβάλλον')->first()->id;
-        $cat_ygeia = \App\Models\Descriptions\InterestCategory::where('description', 'Διεύθυνση Κοινωνικής Αλληλεγγύης και Υγείας')->first()->id;
-        */
-        /*
-	    $interests = [
-            ['category_id' => $cat_politismos, 'description' => 'Πολιτιστικά προγράμματα'],
-            ['category_id' => $cat_politismos, 'description' => 'Αθλητικά προγράμματα'],
-            ['category_id' => $cat_politismos, 'description' => 'Προγράμματα δημιουργικής έκφρασης παιδιών και ενηλίκων'],
-
-            ['category_id' => $cat_paidi, 'description' => 'Κοινωνικό Φροντιστήριο'],
-            ['category_id' => $cat_paidi, 'description' => 'Απογευματινές Δράσεις σε Σχολεία'],
-
-            ['category_id' => $cat_perivallon, 'description' => 'Ενημέρωση/ευαισθητοποίηση πολιτών σε περιβαλλοντικά θέματα'],
-            ['category_id' => $cat_perivallon, 'description' => 'Καθαρισμός δημοσίου χώρου'],
-            ['category_id' => $cat_perivallon, 'description' => 'Βάψιμο επιφανειών'],
-            ['category_id' => $cat_perivallon, 'description' => 'Antigraffiti'],
-            ['category_id' => $cat_perivallon, 'description' => 'Δεντροφύτευση'],
-
-		    ['category_id' => $cat_ygeia,  'description' => 'Λέσχες Φιλίας'],
-		    ['category_id' => $cat_ygeia,  'description' => 'Δημοτικά ιατρεία'],
-		    ['category_id' => $cat_ygeia,  'description' => 'Κοινωνική εργασία'],
-		    ['category_id' => $cat_ygeia,  'description' => 'Δομές αντιμετώπισης της Φτώχειας'],
-		    ['category_id' => $cat_ygeia,  'description' => 'Κέντρο Υποδοχής και Αλληλεγγύης Δήμου Αθηναίων (ΚΥΑΔΑ)'],
-		    ['category_id' => $cat_ygeia,  'description' => 'Καταπολέμηση εξαρτήσεων'],
-		    ['category_id' => $cat_ygeia,  'description' => 'Κοινωνική κατοικία'],
-		    ['category_id' => $cat_ygeia,  'description' => 'Αμέα'],
-		    ['category_id' => $cat_ygeia,  'description' => 'Ισότητα των φύλων'],
-		    ['category_id' => $cat_ygeia,  'description' => 'Μετανάστες/Πρόσφυγες'],
-		    ['category_id' => $cat_ygeia,  'description' => 'Επιδοματική Πολιτική – Κοινωνική Ασφάλιση'],
-		    ['category_id' => $cat_ygeia,  'description' => 'Οργάνωση & Λειτουργία'],
-	    ];
-        */
-	    DB::table('interests')->insert($interests);
 
 	    // Genders.
 	    DB::table('genders')->delete();

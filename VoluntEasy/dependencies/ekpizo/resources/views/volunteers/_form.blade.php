@@ -315,7 +315,7 @@
                     <td>Δευτέρα</td>
                      @foreach($availabilityTimes as $a_t_id => $availability_time)
                     <td class="text-center">
-                        {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' =>
+                        {!! Form::formInput('Δευτέρα' . $a_t_id, '', $errors, ['class' =>
                         'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
                     </td>
                         @endforeach
@@ -324,7 +324,7 @@
                     <td>Τρίτη</td>
                     @foreach($availabilityTimes as $a_t_id => $availability_time)
                     <td class="text-center">
-                        {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' =>
+                        {!! Form::formInput('Τρίτη' . $a_t_id, '', $errors, ['class' =>
                         'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
                     </td>
                     @endforeach
@@ -333,7 +333,7 @@
                     <td>Τετάρτη</td>
                     @foreach($availabilityTimes as $a_t_id => $availability_time)
                     <td class="text-center">
-                        {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' =>
+                        {!! Form::formInput('Τετάρτη' . $a_t_id, '', $errors, ['class' =>
                         'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
                     </td>
                     @endforeach
@@ -342,7 +342,7 @@
                     <td>Πέμπτη</td>
                     @foreach($availabilityTimes as $a_t_id => $availability_time)
                     <td class="text-center">
-                        {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' =>
+                        {!! Form::formInput('Πέμπτη' . $a_t_id, '', $errors, ['class' =>
                         'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
                     </td>
                     @endforeach
@@ -351,7 +351,7 @@
                     <td>Παρασκεύη</td>
                     @foreach($availabilityTimes as $a_t_id => $availability_time)
                     <td class="text-center">
-                        {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' =>
+                        {!! Form::formInput('Παρασκεύη' . $a_t_id, '', $errors, ['class' =>
                         'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
                     </td>
                     @endforeach
@@ -360,7 +360,7 @@
                     <td>Σαββατο</td>
                     @foreach($availabilityTimes as $a_t_id => $availability_time)
                     <td class="text-center">
-                        {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' =>
+                        {!! Form::formInput('Σαββατο' . $a_t_id, '', $errors, ['class' =>
                         'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
                     </td>
                     @endforeach
@@ -369,7 +369,7 @@
                     <td>Κυριακή</td>
                     @foreach($availabilityTimes as $a_t_id => $availability_time)
                     <td class="text-center">
-                        {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' =>
+                        {!! Form::formInput('Κυριακή' . $a_t_id, '', $errors, ['class' =>
                         'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
                     </td>
                     @endforeach

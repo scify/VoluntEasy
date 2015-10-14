@@ -1,8 +1,4 @@
-<div class="row  bottom-margin">
-    <div class="col-md-3 pull-right">
-        <div id="actionsdDropDown"></div>
-    </div>
-</div>
+<div class="pull-right" id="actionsdDropDown"></div>
 <table id="hoursByAction" class="display table table-striped table-condensed data-table" cellspacing="0"
        width="100%">
     <thead>
@@ -94,24 +90,6 @@
                 var api = this.api(), data;
                 // Update footer
                 $(api.column(2).footer()).html('Συνολικές ώρες: ' + totalHours);
-            },
-            dom: 'T<"clear">lfrtip',
-            "tableTools": {
-                "sSwfPath": $("body").attr('data-url') + "/assets/plugins/data-tables/extras/tabletools/swf/copy_csv_xls_pdf.swf",
-                "aButtons": [
-                    {
-                        "sExtends": "copy",
-                        "sButtonText": "Αντιγραφή"
-                    },
-                    {
-                        "sExtends": "print",
-                        "sButtonText": "Εκτύπωση"
-                    },
-                    {
-                        "sExtends": "csv",
-                        "sButtonText": "CSV"
-                    }
-                ]
             }
         });
     }

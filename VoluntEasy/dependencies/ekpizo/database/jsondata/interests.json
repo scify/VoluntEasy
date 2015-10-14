@@ -1,0 +1,16 @@
+{
+    "categories": [
+        {
+            "description": "Γενικά ενδιαφέροντα",
+            "interests": [
+                {"description": "Διεξαγωγή ερευνών"},
+                {"description": "Νομική υποστήριξη καταναλωτών"},
+                {"description": "Μεταφράσεις"},
+                {"description": "Κειμενογράφηση"},
+                {"description": "Γραφιστικά"},
+                {"description": "Οργάνωση Εκδηλώσεων"},
+                {"description": "Επικοινωνία/Social media"}
+            ]
+        }
+    ]
+}

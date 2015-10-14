@@ -23,19 +23,30 @@
 
             var data = [];
             $.each(result, function (key, value) {
-                colorPair = Colors.random();
+
+                if (value.description == 'Γυμνάσιο')
+                    color = 'orange';
+                if (value.description == 'Λύκειο')
+                    color = 'pink';
+                if (value.description == 'Ανώτερη')
+                    color = 'lightblue';
+                if (value.description == 'Ανώτατη')
+                    color = 'green';
+                if (value.description == 'Μεταπτυχιακά')
+                    color = 'yellow';
+
                 data.push({
                     value: value.count,
-                    color: Colors.pairs[colorPair][0],
-                    highlight: Colors.pairs[colorPair][1],
+                    color: Colors.pairs[color][0],
+                    highlight: Colors.pairs[color][1],
                     label: value.description
                 });
 
                 //append the legend
                 if(key>0)
-                    $(".educationChartLegend").append(' | <i class="fa fa-square" style="color:' + Colors.pairs[colorPair][0] + ';"></i> ' + value.description);
+                    $(".educationChartLegend").append(' | <i class="fa fa-square" style="color:' + Colors.pairs[color][0] + ';"></i> ' + value.description);
                 else
-                    $(".educationChartLegend").append('<i class="fa fa-square" style="color:' + Colors.pairs[colorPair][0] + ';"></i> ' + value.description);
+                    $(".educationChartLegend").append('<i class="fa fa-square" style="color:' + Colors.pairs[color][0] + ';"></i> ' + value.description);
             });
 
             var ctx = document.getElementById("volunteersByEducationLevel").getContext("2d");
