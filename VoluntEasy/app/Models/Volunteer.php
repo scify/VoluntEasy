@@ -39,6 +39,10 @@ class Volunteer extends User {
         return $this->hasOne('App\Models\Descriptions\AvailabilityFrequencies', 'id', 'availability_freqs_id');
     }
 
+    public function availabilityDays() {
+        return $this->hasMany('App\Models\Descriptions\AvailabilityDay', 'availability_day_id', 'id');
+    }
+
     public function driverLicenceType() {
         return $this->hasOne('App\Models\Descriptions\DriverLicenceType', 'id', 'driver_license_type_id');
     }

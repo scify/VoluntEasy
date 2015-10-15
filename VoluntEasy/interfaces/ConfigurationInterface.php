@@ -8,16 +8,12 @@
 interface ConfigurationInterface {
 
 
-    /**
-     * Get the path for the footer logos partial view
-     * displayed at the login page
-     *
-     * @return mixed
-     */
+    /*** Paths for the views ***/
     function getPartialLoginFooterPath();
 
     function getVolunteerFormPath();
 
+    /*** Paths for the json files ***/
     function getInterestsJsonPath();
 
     function getRatingsJsonPath();

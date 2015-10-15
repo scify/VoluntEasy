@@ -41,5 +41,11 @@ class AppServiceProvider extends ServiceProvider {
             'Interfaces\ReportsInterface',
             'Dependencies\ekpizo\services\ReportsService'
         );
+
+        //bind the volunteer service
+        $this->app->bind(
+            'Interfaces\VolunteerInterface',
+            'Dependencies\ekpizo\services\VolunteerService'
+        );
 	}
 }
