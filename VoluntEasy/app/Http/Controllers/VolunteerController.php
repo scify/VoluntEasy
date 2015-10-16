@@ -73,10 +73,29 @@ class VolunteerController extends Controller {
         $howYouLearned = HowYouLearned::all()->lists('description', 'id');
         $units = Unit::orderBy('description', 'asc')->get();
 
-        $formPartial = $this->configuration->getVolunteerFormPath();
+        $viewPath = $this->configuration->getViewsPath().'._form';
+
+
+        $maritalStatuses[0] = '[- επιλέξτε -]';
+        $edLevel[0] = '[- επιλέξτε -]';
+        $genders[0] = '[- επιλέξτε -]';
+        $identificationTypes[0] = '[- επιλέξτε -]';
+        $driverLicenseTypes[0] = '[- επιλέξτε -]';
+        $workStatuses[0] = '[- επιλέξτε -]';
+        $availabilityFreqs[0] = '[- επιλέξτε -]';
+        $howYouLearned[0] = '[- επιλέξτε -]';
+        ksort($maritalStatuses);
+        ksort($edLevel);
+        ksort($genders);
+        ksort($identificationTypes);
+        ksort($driverLicenseTypes);
+        ksort($workStatuses);
+        ksort($availabilityFreqs);
+        ksort($howYouLearned);
+
 
         return view('main.volunteers.create', compact('identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
-            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'units', 'howYouLearned', 'formPartial'));
+            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'units', 'howYouLearned', 'viewPath'));
     }
 
     /**
@@ -86,16 +105,6 @@ class VolunteerController extends Controller {
      * @return Response
      */
     public function store() {
-
-        $saved = $this->volunteerService->save();
-
-        if($saved['failed'])
-            return redirect()->back()->withErrors($saved['messages'])->withInput();
-
-        return $saved;
-
-
-
 
         //check if files uploaded already exist
         $files = \Input::file('files');
@@ -111,23 +120,29 @@ class VolunteerController extends Controller {
                     \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' υπάρχει ήδη.');
                     \Session::flash('flash_type', 'alert-danger');
 
-                    return \Redirect::back();
+                    return \Redirect::back()->withInput();
                 }
                 //if file exceeds mazimum allowed size, redirect back with error message
                 if ($file->getSize() > 10000000) {
                     \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' ξεπερνά σε μέγεθος τα 10mb.');
                     \Session::flash('flash_type', 'alert-danger');
 
-                    return \Redirect::back();
+                    return \Redirect::back()->withInput();
                 }
             }
         }
 
+        $saved = $this->volunteerService->save();
+
+        if($saved['failed'])
+            return redirect()->back()->withErrors($saved['messages'])->withInput();
+
+
         if ($files != null && sizeof($files) > 0 && $flag == true)
-            VolunteerService::storeFiles(\Input::file('files'), $volunteer->id);
+            VolunteerService::storeFiles(\Input::file('files'), $saved['id']);
 
 
-        return \Redirect::route('volunteer/profile', ['id' => $volunteer->id]);
+        return \Redirect::route('volunteer/profile', ['id' => $saved['id']]);
     }
 
     /**
@@ -170,7 +185,10 @@ class VolunteerController extends Controller {
                 $actionsCount++;
         }
 
-        return view("main.volunteers.show", compact('volunteer', 'pending', 'available', 'timeline', 'userUnits', 'actionsCount', 'totalRatings', 'totalWorkingHours'));
+        $viewPath = $this->configuration->getViewsPath().'.show';
+        $partialsPath = $this->configuration->getPartialsPath();
+
+        return view($viewPath, compact('volunteer', 'pending', 'available', 'timeline', 'userUnits', 'actionsCount', 'totalRatings', 'totalWorkingHours', 'partialsPath'));
     }
 
     /**
@@ -180,7 +198,7 @@ class VolunteerController extends Controller {
      * @return Response
      */
     public function edit($volId) {
-        $volunteer = Volunteer::with('interests', 'availabilityTimes', 'unitsExcludes', 'files')->findOrFail($volId);
+        $volunteer = Volunteer::with('interests', 'availabilityTimes', 'availabilityDays', 'unitsExcludes', 'files')->findOrFail($volId);
 
         $identificationTypes = IdentificationType::all()->lists('description', 'id');
         $driverLicenseTypes = DriverLicenceType::all()->lists('description', 'id');
@@ -198,8 +216,10 @@ class VolunteerController extends Controller {
 
         $units = Unit::orderBy('description', 'asc')->get();
 
+        $viewPath = $this->configuration->getViewsPath().'._form';
+
         return view('main.volunteers.edit', compact('volunteer', 'identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
-            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'units', 'howYouLearned'));
+            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'units', 'howYouLearned', 'viewPath'));
     }
 
     /**
@@ -207,119 +227,9 @@ class VolunteerController extends Controller {
      *
      * @return Response
      */
-    public function update(VolunteerRequest $request) {
+    public function update() {
 
-        $volunteer = Volunteer::findOrFail($request->get('id'));
-
-        // update everything except middle table stuff
-        $volunteer->update(
-            array(
-                'name' => \Input::get('name'),
-                'last_name' => \Input::get('last_name'),
-                'fathers_name' => \Input::get('fathers_name'),
-                'birth_date' => \Carbon::createFromFormat('d/m/Y', \Input::get('birth_date'))->toDateString(),
-                'identification_type_id' => intval(\Input::get('identification_type_id')),
-                'identification_num' => \Input::get('identification_num'),
-                'gender_id' => intval(\Input::get('gender_id')),
-                'marital_status_id' => intval(\Input::get('marital_status_id')),
-                'children' => intval(\Input::get('children')),
-                'address' => \Input::get('address'),
-                'post_box' => \Input::get('post_box'),
-                'city' => \Input::get('city'),
-                'country' => \Input::get('country'),
-                'live_in_curr_country' => intval(\Input::get('live_in_curr_country')),
-                'home_tel' => \Input::get('home_tel'),
-                'work_tel' => \Input::get('work_tel'),
-                'cell_tel' => \Input::get('cell_tel'),
-                'fax' => \Input::get('fax'),
-                'email' => \Input::get('email'),
-                'comm_method_id' => intval(\Input::get('comm_method_id')),
-                'education_level_id' => intval(\Input::get('education_level_id')),
-                'specialty' => \Input::get('specialty'),
-                'department' => \Input::get('department'),
-                'driver_license_type_id' => intval(\Input::get('driver_license_type_id')),
-                'computer_usage' => intval(\Input::get('computer_usage')),
-                'additional_skills' => \Input::get('additional_skills'),
-                'extra_lang' => \Input::get('extra_lang'),
-                'work_status_id' => intval(\Input::get('work_status_id')),
-                'work_description' => \Input::get('work_description'),
-                'participation_reason' => \Input::get('participation_reason'),
-                'participation_actions' => \Input::get('participation_actions'),
-                'participation_previous' => \Input::get('participation_previous'),
-                'availability_freqs_id' => intval(\Input::get('availability_freqs_id')),
-                'comments' => \Input::get('comments'),
-            ));
-
-
-        // update middle table relations
-        $availability_times = AvailabilityTime::all();
-
-        $availability_array = [];
-        foreach ($availability_times as $availability_time) {
-            if (\Input::has('availability_time' . $availability_time->id)) {
-                array_push($availability_array, $availability_time->id);
-            }
-        }
-
-        $volunteer->availabilityTimes()->sync($availability_array);
-
-        $interests = Interest::all();
-
-        // Get interests selected and pass values to volunteer_interests table.
-        $interest_array = [];
-        foreach ($interests as $interest) {
-            if (\Input::has('interest' . $interest->id)) {
-                array_push($interest_array, $interest->id);
-            }
-        }
-        $volunteer->interests()->sync($interest_array);
-
-        //Save languages + levels
-        $volunteerLanguages = $volunteer->languages()->get();
-
-        foreach ($volunteerLanguages as $language) {
-            if (\Input::has('lang' . $language->language_id)) {
-                $language->language_level_id = \Input::get('lang' . $language->language_id);
-                $language->save();
-            }
-        }
-
-        $languages = Language::all();
-        $languages_array = [];
-        //Get all languages, and check if they are selected
-        foreach ($languages as $language) {
-            $langId = \Input::has('lang' . $language->id);
-
-            if ($langId && !in_array($language->id, $volunteerLanguages->lists('language_id'))) {
-                //create a new VolunteerLanguage
-                $volLanguage = new VolunteerLanguage([
-                    'volunteer_id' => $volunteer->id,
-                    'language_id' => $language->id,
-                    'language_level_id' => \Input::get('lang' . $language->id)
-                ]);
-
-                array_push($languages_array, $volLanguage);
-            }
-        }
-        $volunteer->languages()->saveMany($languages_array);
-
-        $units = Unit::all();
-
-        //get the selected users from the select2 array
-        //and add them to an array
-        if (\Input::has('unitsSelect')) {
-            $unitsExcludes = [];
-
-            foreach (\Input::get('unitsSelect') as $unit) {
-                array_push($unitsExcludes, $unit);
-            }
-
-            $volunteer->unitsExcludes()->sync($unitsExcludes);
-            //return $unitsExcludes;
-        } else {
-            $volunteer->unitsExcludes()->detach();
-        }
-
+        $volunteer = Volunteer::findOrFail(\Request::get('id'));
 
         //check if files uploaded already exist
         $files = \Input::file('files');
@@ -348,10 +258,14 @@ class VolunteerController extends Controller {
             }
         }
 
+        $saved = $this->volunteerService->update($volunteer);
+
+        if($saved['failed'])
+            return redirect()->back()->withErrors($saved['messages'])->withInput();
+
 
         if ($files != null && sizeof($files) > 0 && $flag == true)
             VolunteerService::storeFiles(\Input::file('files'), $volunteer->id);
-
 
         return \Redirect::route('volunteer/profile', ['id' => $volunteer->id]);
     }

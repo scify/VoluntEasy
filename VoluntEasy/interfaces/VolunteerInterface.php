@@ -5,4 +5,6 @@ interface VolunteerInterface{
 
     function save();
 
+    function update($volunteer);
+
 }

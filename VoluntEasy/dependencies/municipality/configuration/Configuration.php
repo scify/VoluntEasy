@@ -6,12 +6,12 @@ use Interfaces\ConfigurationInterface;
 class Configuration implements ConfigurationInterface {
 
 
-    function getPartialLoginFooterPath() {
-        return '';
+    function getViewsPath() {
+        return 'municipality.resources.views.volunteers';
     }
 
-    function getVolunteerFormPath() {
-        return 'municipality.resources.views.volunteers._form';
+    function getPartialsPath() {
+        return 'municipality.resources.views.volunteers.partials';
     }
 
     function getInterestsJsonPath(){

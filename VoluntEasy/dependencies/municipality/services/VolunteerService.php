@@ -8,4 +8,8 @@ class VolunteerService implements VolunteerInterface{
     function save() {
         // TODO: Implement save() method.
     }
+
+    function update($volunteer) {
+        // TODO: Implement update() method.
+    }
 }

@@ -50,7 +50,7 @@ class AuthController extends Controller {
      */
     public function getLogin() {
 
-        $footerLogoPath = $this->configuration->getPartialLoginFooterPath();
+        $footerLogoPath = $this->configuration->getViewPath().'._login_footer';
 
         return view('auth/login', compact('footerLogoPath'));
     }

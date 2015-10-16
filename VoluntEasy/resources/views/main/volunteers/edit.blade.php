@@ -33,7 +33,7 @@
                         </li>
                     </ul>
                     {!! Form::model($volunteer, ['id' => 'wizardForm', 'method' => 'POST', 'action' => ['VolunteerController@update', 'id' => $volunteer->id], 'files'=>true]) !!}
-                        @include('main.volunteers.partials._form', ['submitButtonText' => 'Αποθήκευση', 'volunteer' => $volunteer])
+                        @include($viewPath, ['submitButtonText' => 'Αποθήκευση', 'volunteer' => $volunteer])
                     {!! Form::close() !!}
                 </div>
             </div>

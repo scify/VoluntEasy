@@ -34,6 +34,16 @@ class VolunteerAddons extends Migration {
             $table->string('comments', 300);
             $table->timestamps();
         });
+
+
+        Schema::table('volunteers', function($table)
+        {
+            $table->integer('how_you_learned_id')->unsigned()->nullable();
+            $table->foreign('how_you_learned_id')->references('id')->on('how_you_learned')->onDelete('cascade');
+
+        });
+
+
     }
 
 	/**
@@ -46,6 +56,11 @@ class VolunteerAddons extends Migration {
         Schema::dropIfExists('volunteer_availability_days');
         Schema::dropIfExists('availability_days');
         Schema::dropIfExists('how_you_learned');
+
+        Schema::table('volunteers', function($table)
+        {
+            $table->dropColumn('how_you_learned_id');
+        });
 	}
 
 }

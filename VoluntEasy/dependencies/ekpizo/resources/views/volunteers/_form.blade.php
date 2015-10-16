@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="form-group">
-                {!! Form::formInput('city', 'Πόλη:', $errors, ['class' => 'form-control']) !!}
+                {!! Form::formInput('city', 'Πόλη:', $errors, ['class' => 'form-control', 'required' => 'true']) !!}
             </div>
             <div class="form-group">
                 {!! Form::formInput('country', 'Χώρα:', $errors, ['class' => 'form-control']) !!}
@@ -122,7 +122,7 @@
                 {!! Form::formInput('work_tel', 'Τηλέφωνο Εργασίας:', $errors, ['class' => 'form-control']) !!}
             </div>
             <div class="form-group">
-                {!! Form::formInput('cell_tel', 'Κινητό:', $errors, ['class' => 'form-control']) !!}
+                {!! Form::formInput('cell_tel', 'Κινητό:', $errors, ['class' => 'form-control', 'required' => 'true']) !!}
             </div>
         </div>
         <div class="col-md-4">
@@ -298,8 +298,7 @@
         <div class="form-group">
             @if (isset($volunteer))
             {!! Form::formInput('availability_freqs_id', 'Συχνότητα συνεισφοράς:', $errors, ['class' =>
-            'form-control', 'type' => 'select', 'value' => $availabilityFreqs, 'key' =>
-            $volunteer->availability_freqs_id]) !!}
+            'form-control', 'type' => 'select', 'value' => $availabilityFreqs, 'key' => $volunteer->availability_freqs_id]) !!}
             @else
             {!! Form::formInput('availability_freqs_id', 'Συχνότητα συνεισφοράς:', $errors, ['class' =>
             'form-control', 'type' => 'select', 'value' => $availabilityFreqs]) !!}
@@ -319,8 +318,16 @@
                         <td>Δευτέρα</td>
                         @foreach($availabilityTimes as $a_t_id => $availability_time)
                         <td class="text-center">
+                            <?php $checked = 'false' ?>
+                            @if (isset($volunteer))
+                            @foreach($volunteer->availabilityDays as $day)
+                                @if($day->day == 'Δευτέρα' && $day->time == $availability_time)
+                                   <?php $checked = 'true' ?>
+                                @endif
+                            @endforeach
+                            @endif
                             {!! Form::formInput('Δευτέρα[]', '', $errors, ['class' =>
-                            'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
+                            'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => $checked]) !!}
                         </td>
                         @endforeach
                     </tr>
@@ -328,8 +335,16 @@
                         <td>Τρίτη</td>
                         @foreach($availabilityTimes as $a_t_id => $availability_time)
                         <td class="text-center">
+                            <?php $checked = 'false' ?>
+                            @if (isset($volunteer))
+                            @foreach($volunteer->availabilityDays as $day)
+                                @if($day->day == 'Τρίτη' && $day->time == $availability_time)
+                                  <?php $checked = 'true' ?>
+                                @endif
+                            @endforeach
+                            @endif
                             {!! Form::formInput('Τρίτη[]', '', $errors, ['class' =>
-                            'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
+                            'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => $checked]) !!}
                         </td>
                         @endforeach
                     </tr>
@@ -337,8 +352,16 @@
                         <td>Τετάρτη</td>
                         @foreach($availabilityTimes as $a_t_id => $availability_time)
                         <td class="text-center">
+                            <?php $checked = 'false' ?>
+                            @if (isset($volunteer))
+                            @foreach($volunteer->availabilityDays as $day)
+                                @if($day->day == 'Τετάρτη' && $day->time == $availability_time)
+                                      <?php $checked = 'true' ?>
+                                @endif
+                            @endforeach
+                            @endif
                             {!! Form::formInput('Τετάρτη[]', '', $errors, ['class' =>
-                            'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
+                            'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => $checked]) !!}
                         </td>
                         @endforeach
                     </tr>
@@ -346,8 +369,16 @@
                         <td>Πέμπτη</td>
                         @foreach($availabilityTimes as $a_t_id => $availability_time)
                         <td class="text-center">
+                            <?php $checked = 'false' ?>
+                            @if (isset($volunteer))
+                            @foreach($volunteer->availabilityDays as $day)
+                                @if($day->day == 'Πέμπτη' && $day->time == $availability_time)
+                                   <?php $checked = 'true' ?>
+                                @endif
+                            @endforeach
+                            @endif
                             {!! Form::formInput('Πέμπτη[]', '', $errors, ['class' =>
-                            'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
+                            'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => $checked]) !!}
                         </td>
                         @endforeach
                     </tr>
@@ -355,8 +386,16 @@
                         <td>Παρασκεύη</td>
                         @foreach($availabilityTimes as $a_t_id => $availability_time)
                         <td class="text-center">
+                            <?php $checked = 'false' ?>
+                            @if (isset($volunteer))
+                            @foreach($volunteer->availabilityDays as $day)
+                                @if($day->day == 'Παρασκεύη' && $day->time == $availability_time)
+                                    <?php $checked = 'true' ?>
+                                @endif
+                            @endforeach
+                            @endif
                             {!! Form::formInput('Παρασκεύη[]', '', $errors, ['class' =>
-                            'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
+                            'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => $checked]) !!}
                         </td>
                         @endforeach
                     </tr>
@@ -364,8 +403,16 @@
                         <td>Σαββατο</td>
                         @foreach($availabilityTimes as $a_t_id => $availability_time)
                         <td class="text-center">
+                            <?php $checked = 'false' ?>
+                            @if (isset($volunteer))
+                            @foreach($volunteer->availabilityDays as $day)
+                                @if($day->day == 'Σαββατο' && $day->time == $availability_time)
+                                     <?php $checked = 'true' ?>
+                                @endif
+                            @endforeach
+                            @endif
                             {!! Form::formInput('Σαββατο[]', '', $errors, ['class' =>
-                            'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
+                            'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => $checked]) !!}
                         </td>
                         @endforeach
                     </tr>
@@ -373,8 +420,16 @@
                         <td>Κυριακή</td>
                         @foreach($availabilityTimes as $a_t_id => $availability_time)
                         <td class="text-center">
+                            <?php $checked = 'false' ?>
+                            @if (isset($volunteer))
+                            @foreach($volunteer->availabilityDays as $day)
+                                @if($day->day == 'Κυριακή' && $day->time == $availability_time)
+                                    <?php $checked = 'true' ?>
+                                @endif
+                            @endforeach
+                            @endif
                             {!! Form::formInput('Κυριακή[]', '', $errors, ['class' =>
-                            'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
+                            'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => $checked]) !!}
                         </td>
                         @endforeach
                     </tr>
@@ -410,7 +465,7 @@
                 @if (isset($volunteer))
                 {!! Form::formInput('howYouLearned', 'Πως μάθατε για εμάς;', $errors, ['class' =>
                 'form-control', 'type' => 'select', 'value' => $howYouLearned, 'key' =>
-                $volunteer->marital_status_id]) !!}
+                $volunteer->how_you_learned_id]) !!}
                 @else
                 {!! Form::formInput('howYouLearned', 'Πως μάθατε για εμάς;', $errors, ['class' =>
                 'form-control', 'type' => 'select', 'value' => $howYouLearned]) !!}
@@ -522,6 +577,14 @@
             $("#daysTable").fadeIn();
         }
     });
+
+
+    var freqsId = $("#availability_freqs_id option:selected").val();
+    if(freqsId==2 || freqsId==3 || freqsId==4){
+        $("#dailyFrequencies").hide();
+        $("#daysTable").fadeIn();
+    }
+
 
 
 </script>

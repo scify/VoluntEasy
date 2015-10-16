@@ -34,7 +34,7 @@
                 </ul>
 
                 {!! Form::open(['id' => 'wizardForm', 'method' => 'POST', 'action' => ['VolunteerController@store'], 'files'=>true]) !!}
-                    @include($formPartial, ['submitButtonText' => 'Αποθήκευση'])
+                    @include($viewPath, ['submitButtonText' => 'Αποθήκευση'])
                 {!! Form::close() !!}
 
             </div>

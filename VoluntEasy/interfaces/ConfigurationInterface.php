@@ -7,11 +7,10 @@
  */
 interface ConfigurationInterface {
 
-
     /*** Paths for the views ***/
-    function getPartialLoginFooterPath();
+    function getViewsPath();
 
-    function getVolunteerFormPath();
+    function getPartialsPath();
 
     /*** Paths for the json files ***/
     function getInterestsJsonPath();

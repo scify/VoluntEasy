@@ -6,7 +6,6 @@ use App\Models\Descriptions\EducationLevel;
 use App\Models\Descriptions\Gender;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Volunteer;
-use App\Models\VolunteerActionHistory;
 use App\Models\VolunteerUnitStatus;
 use Interfaces\ReportsInterface;
 
@@ -46,13 +45,12 @@ class ReportsService implements ReportsInterface {
                             $years[$year]['new'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                             $years[$year]['active'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                             $years[$year]['available'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                        } else
-                            $years[$year]['pending'][$month - 1]++;
+                        }
+                        $years[$year]['pending'][$month - 1]++;
                     }
                 }
             }
         }
-
 
         $availableVolunteers = Volunteer::available()->with('unitsStatus')->get();
 
@@ -71,8 +69,8 @@ class ReportsService implements ReportsInterface {
                             $years[$year]['new'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                             $years[$year]['active'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                             $years[$year]['available'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                        } else
-                            $years[$year]['available'][$month - 1]++;
+                        }
+                        $years[$year]['available'][$month - 1]++;
                     }
                 }
             }
@@ -95,8 +93,8 @@ class ReportsService implements ReportsInterface {
                             $years[$year]['new'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                             $years[$year]['active'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                             $years[$year]['available'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                        } else
-                            $years[$year]['active'][$month - 1]++;
+                        }
+                        $years[$year]['active'][$month - 1]++;
                     }
                 }
             }
@@ -104,17 +102,21 @@ class ReportsService implements ReportsInterface {
 
         $allVolunteers = Volunteer::all();
 
+        $vols = [];
+
         foreach ($allVolunteers as $volunteer) {
             $month = intval(date("m", strtotime($volunteer->created_at)));
             $year = (date("Y", strtotime($volunteer->created_at)));
+
 
             if (!array_key_exists($year, $years)) {
                 $years[$year]['pending'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                 $years[$year]['new'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                 $years[$year]['active'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                 $years[$year]['available'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-            } else
-                $years[$year]['new'][$month - 1]++;
+            }
+
+            $years[$year]['new'][$month - 1]++;
         }
 
         return ($years);
@@ -232,7 +234,7 @@ class ReportsService implements ReportsInterface {
 
         $dbactions = Action::with('ratings.volunteerRatings.volunteer')->get();
 
-      //  return $dbactions;
+        //  return $dbactions;
 
 
         $actions = [];
@@ -243,7 +245,7 @@ class ReportsService implements ReportsInterface {
             if (sizeof($action->ratings) > 0) {
 
                 foreach ($action->ratings as $rating) {
-                    if($rating->rated) {
+                    if ($rating->rated) {
 
                         $totalHours = 0;
                         $totalMinutes = 0;
@@ -287,7 +289,7 @@ class ReportsService implements ReportsInterface {
                     'id' => $action->id,
                     'description' => $action->description,
                     'volunteers' => $volunteers,
-                    'totalHours' => $totalHours.':'.$totalMinutes
+                    'totalHours' => $totalHours . ':' . $totalMinutes
                 ]);
             }
         }

@@ -227,7 +227,7 @@ class VolunteerService {
         $volunteer = Volunteer::with('gender', 'identificationType', 'driverLicenceType',
             'educationLevel', 'languages.level', 'languages.language',
             'interests', 'workStatus', 'availabilityTimes', 'availabilityFrequencies',
-            'actions', 'unitsExcludes', 'files')
+            'availabilityDays', 'actions', 'unitsExcludes', 'files', 'howYouLearned')
             ->with(['units.steps.statuses' => function ($query) use ($id) {
                 $query->where('volunteer_id', $id)->with('status');
             }])
@@ -797,8 +797,6 @@ class VolunteerService {
                 }
             }
         }
-
-        // return FileServiceFacade::storeFiles($files, $this->filePath);
     }
 
     /**
