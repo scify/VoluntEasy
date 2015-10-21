@@ -7,7 +7,7 @@ class Configuration implements ConfigurationInterface {
 
 
     function getViewsPath() {
-        return 'municipality.resources.views.volunteers';
+        return 'municipality.resources.views';
     }
 
     function getPartialsPath() {

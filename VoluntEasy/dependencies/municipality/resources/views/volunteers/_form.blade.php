@@ -302,10 +302,10 @@
                 <p>Χρόνοι συνεισφοράς:</p>
                 @foreach($availabilityTimes as $a_t_id => $availability_time)
                 @if (isset($volunteer) && in_array($a_t_id, $volunteer->availabilityTimes->lists('id')) )
-                {!! Form::formInput('availability_time' . $a_t_id, $availability_time, $errors, ['class' =>
+                {!! Form::formInput('availability_time[]' . $a_t_id, $availability_time, $errors, ['class' =>
                 'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'true']) !!}
                 @else
-                {!! Form::formInput('availability_time' . $a_t_id, $availability_time, $errors, ['class' =>
+                {!! Form::formInput('availability_time[]' . $a_t_id, $availability_time, $errors, ['class' =>
                 'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
                 @endif
                 @endforeach

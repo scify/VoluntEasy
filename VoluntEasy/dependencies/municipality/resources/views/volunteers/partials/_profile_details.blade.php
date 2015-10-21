@@ -1,4 +1,4 @@
-<div class="row" xmlns="http://www.w3.org/1999/html">
+<div class="row">
     <div class="col-md-4">
         <p><strong>Όνομα πατέρα:</strong> {{ $volunteer->fathers_name=='' ? '-' : $volunteer->fathers_name }}</p>
 
@@ -11,7 +11,7 @@
         <p><strong>Φαξ:</strong> {{ $volunteer->fax=='' ? '-' : $volunteer->fax }}</p>
 
     </div>
-    <div class="col-md-4">
+   <div class="col-md-4">
         <p><strong>Διεύθυνση:</strong> {{ $volunteer->address=='' ? '-' : $volunteer->address }}{{
             $volunteer->city=='' ? '' : ', '.$volunteer->city }}{{ $volunteer->post_box==''
             ? '' : ', '.$volunteer->post_box }}{{ $volunteer->country=='' ? '' : ',
@@ -20,7 +20,8 @@
 
         <p><strong>Κάτοικος Ελλάδας:</strong> {{ $volunteer->live_in_curr_country=='' ? 'Όχι' : 'Ναι' }}</p>
 
-        <p><strong>Τύπος ταυτότητας:</strong> {{ $volunteer->identificationType->description }}</p>
+        <p><strong>Τύπος ταυτότητας:</strong> {{ $volunteer->identification_type_id==null || $volunteer->identification_type_id=='' ? '' :
+            $volunteer->identificationType->description }}</p>
 
         <p><strong>Αριθμός Α.Δ.Τ./Διαβατηρίου/Άδειας Παραμονής:</strong> {{
             $volunteer->identification_num=='' ? '-' : $volunteer->identification_num }}</p>
@@ -47,7 +48,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-4">
-                                <p><strong>Επίπεδο εκπαίδευσης:</strong> {{
+                                <p><strong>Επίπεδο εκπαίδευσης:</strong>  {{ $volunteer->education_level_id==null || $volunteer->education_level_id=='' ? '' :
                                     $volunteer->educationLevel->description }}</p>
 
                                 <p><strong>Ειδικότητα:</strong> {{ $volunteer->specialty=='' ? '-' :
@@ -198,9 +199,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                @if(sizeof($volunteer->files)>0)
-
                                 <table class="table table-condensed table-bordered">
-
                                     @foreach($volunteer->files as $file)
                                     <tr>
                                         <td><p><i class="fa fa-file-o"></i> <a
@@ -213,7 +212,6 @@
                                         </td>
                                     </tr>
                                     @endforeach
-
                                 </table>
                                 @endif
                             </div>

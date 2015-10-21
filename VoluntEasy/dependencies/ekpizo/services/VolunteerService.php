@@ -134,7 +134,8 @@ class VolunteerService implements VolunteerInterface {
         $weekDays = ['Δευτέρα', 'Τρίτη', 'Τετάρτη', 'Πέμπτη', 'Παρασκευή', 'Σάββατο', 'Κυριακή'];
 
         if ($volunteer->availability_freqs_id == "1") {
-            $volunteer->availabilityTimes()->sync([$volunteer->availability_freqs_id]);
+            if (isset($volunteerRequest['availability_time']) && sizeof($volunteerRequest['availability_time']) > 0)
+                $volunteer->availabilityTimes()->sync($volunteerRequest['availability_time']);
         } else {
 
             $days = [];
@@ -257,8 +258,10 @@ class VolunteerService implements VolunteerInterface {
         $weekDays = ['Δευτέρα', 'Τρίτη', 'Τετάρτη', 'Πέμπτη', 'Παρασκευή', 'Σάββατο', 'Κυριακή'];
 
         if ($volunteer->availability_freqs_id == "1") {
-            $volunteer->availabilityTimes()->sync($volunteer->availability_freqs_id);
-            $volunteer->availabilityDays()->dissociate();
+            if (isset($volunteerRequest['availability_time']) && sizeof($volunteerRequest['availability_time']) > 0)
+                $volunteer->availabilityTimes()->sync($volunteerRequest['availability_time']);
+            else
+                $volunteer->availabilityTimes()->detach();
         } else {
             $volunteer->availabilityDays()->detach();
 

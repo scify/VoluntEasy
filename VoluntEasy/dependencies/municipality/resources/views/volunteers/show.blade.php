@@ -135,7 +135,7 @@
                         @include($partialsPath.'._profile_details')
                     </div>
                     <div class="tab-pane fade in" id="tab2">
-                        @include('main.volunteers.partials._profile_status')
+                        @include($partialsPath.'._profile_status')
 
                         @if(!$volunteer->blacklisted && isset($volunteer->hideStatus) && !$volunteer->hideStatus)
                         @include($partialsPath.'._profile_pending')
@@ -150,7 +150,7 @@
                     </div>
 
                     <div class="tab-pane fade in" id="tab4">
-                        @include($partialsPath.'.partials._timeline')
+                        @include($partialsPath.'._timeline')
                     </div>
                 </div>
             </div>

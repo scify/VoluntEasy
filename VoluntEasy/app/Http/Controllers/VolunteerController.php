@@ -73,8 +73,7 @@ class VolunteerController extends Controller {
         $howYouLearned = HowYouLearned::all()->lists('description', 'id');
         $units = Unit::orderBy('description', 'asc')->get();
 
-        $viewPath = $this->configuration->getViewsPath().'._form';
-
+        $viewPath = $this->configuration->getViewsPath().'.volunteers._form';
 
         $maritalStatuses[0] = '[- επιλέξτε -]';
         $edLevel[0] = '[- επιλέξτε -]';
@@ -92,7 +91,6 @@ class VolunteerController extends Controller {
         ksort($workStatuses);
         ksort($availabilityFreqs);
         ksort($howYouLearned);
-
 
         return view('main.volunteers.create', compact('identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
             'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'units', 'howYouLearned', 'viewPath'));
@@ -185,7 +183,7 @@ class VolunteerController extends Controller {
                 $actionsCount++;
         }
 
-        $viewPath = $this->configuration->getViewsPath().'.show';
+        $viewPath = $this->configuration->getViewsPath().'.volunteers.show';
         $partialsPath = $this->configuration->getPartialsPath();
 
         return view($viewPath, compact('volunteer', 'pending', 'available', 'timeline', 'userUnits', 'actionsCount', 'totalRatings', 'totalWorkingHours', 'partialsPath'));
@@ -216,7 +214,24 @@ class VolunteerController extends Controller {
 
         $units = Unit::orderBy('description', 'asc')->get();
 
-        $viewPath = $this->configuration->getViewsPath().'._form';
+        $maritalStatuses[0] = '[- επιλέξτε -]';
+        $edLevel[0] = '[- επιλέξτε -]';
+        $genders[0] = '[- επιλέξτε -]';
+        $identificationTypes[0] = '[- επιλέξτε -]';
+        $driverLicenseTypes[0] = '[- επιλέξτε -]';
+        $workStatuses[0] = '[- επιλέξτε -]';
+        $availabilityFreqs[0] = '[- επιλέξτε -]';
+        $howYouLearned[0] = '[- επιλέξτε -]';
+        ksort($maritalStatuses);
+        ksort($edLevel);
+        ksort($genders);
+        ksort($identificationTypes);
+        ksort($driverLicenseTypes);
+        ksort($workStatuses);
+        ksort($availabilityFreqs);
+        ksort($howYouLearned);
+
+        $viewPath = $this->configuration->getViewsPath().'.volunteers._form';
 
         return view('main.volunteers.edit', compact('volunteer', 'identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
             'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'units', 'howYouLearned', 'viewPath'));

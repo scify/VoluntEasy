@@ -104,4 +104,12 @@ class ReportsService implements ReportsInterface {
     function volunteersByEducationLeve() {
         // TODO: Implement volunteersByEducationLeve() method.
     }
+
+    function volunteersByEducationLevel() {
+        // TODO: Implement volunteersByEducationLevel() method.
+    }
+
+    function volunteerHoursByAction() {
+        // TODO: Implement volunteerHoursByAction() method.
+    }
 }

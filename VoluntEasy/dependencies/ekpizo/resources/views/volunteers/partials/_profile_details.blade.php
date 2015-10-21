@@ -186,13 +186,15 @@
                                 sizeof($volunteer->interests)==0)
                                 <p><em>Δεν έχει δηλωθεί κανένα ενδιαφέρον.</em></p>
                                 @else
+                                <p>
                                 @foreach($volunteer->interests as $i => $interest)
                                     @if($i==0)
-                                    <p>{{ $interest->description }}
+                                    {{ $interest->description }}
                                     @else
-                                    , {{ $interest->description }}</p>
+                                    , {{ $interest->description }}
                                     @endif
                                 @endforeach
+                                </p>
                                 @endif
                                 @if($volunteer->additional_skills!=null ||
                                 $volunteer->additional_skills!='')
