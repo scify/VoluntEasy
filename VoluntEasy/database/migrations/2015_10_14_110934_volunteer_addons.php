@@ -55,12 +55,6 @@ class VolunteerAddons extends Migration {
 	{
         Schema::dropIfExists('volunteer_availability_days');
         Schema::dropIfExists('availability_days');
-        Schema::dropIfExists('how_you_learned');
-
-        Schema::table('volunteers', function($table)
-        {
-            $table->dropColumn('how_you_learned_id');
-        });
 	}
 
 }

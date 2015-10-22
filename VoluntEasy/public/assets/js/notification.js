@@ -163,4 +163,19 @@ $(document).ready(function () {
             $(this).addClass("open")
         }
     });
+
+
+    var logoCounter = 0;
+    $(".navbar .logo-box img").click(function(){
+        logoCounter++;
+        if(logoCounter>10){
+            $("#easterEgg").show();
+        }
+    })
+
+    $("#easterEgg").click(function(){
+        $("#easterEgg").hide();
+        logoCounter=0;
+    })
+
 });

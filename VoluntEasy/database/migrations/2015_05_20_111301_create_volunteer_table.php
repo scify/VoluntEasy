@@ -301,6 +301,7 @@ class CreateVolunteerTable extends Migration {
         Schema::dropIfExists('driver_license_types');
         Schema::dropIfExists('marital_statuses');
         Schema::dropIfExists('identification_types');
+        Schema::dropIfExists('how_you_learned');
 
     }
 

@@ -1,0 +1,14 @@
+{
+    "categories": [
+        {
+            "description": "Γενικά ενδιαφέροντα",
+            "interests": [
+                {"description": "test"},
+                {"description": "test"},
+                {"description": "test"},
+                {"description": "Οργάνωση Εκδηλώσεων"},
+                {"description": "Επικοινωνία/Social media"}
+            ]
+        }
+    ]
+}

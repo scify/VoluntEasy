@@ -1,11 +1,11 @@
 <?php
 
+use App\Models\Descriptions\AvailabilityFrequencies;
+use App\Models\Descriptions\HowYouLearned;
+use App\Models\Descriptions\Interest;
+use App\Models\Descriptions\InterestCategory;
+use App\Models\Rating\RatingAttribute;
 use Illuminate\Database\Seeder;
-use \App\Models\Descriptions\InterestCategory;
-use \App\Models\Descriptions\Interest;
-use \App\Models\Rating\RatingAttribute;
-use \App\Models\Descriptions\AvailabilityFrequencies;
-use \App\Models\Descriptions\HowYouLearned;
 
 class DescriptionsTableSeeder extends Seeder {
 
@@ -31,71 +31,83 @@ class DescriptionsTableSeeder extends Seeder {
 
     private function addInterests() {
 
-        \DB::table('interests')->delete();
-        \DB::table('interest_categories')->delete();
+        if (!empty($this->configuration->getInterestsJsonPath()) && file_exists($this->configuration->getInterestsJsonPath())) {
+            \DB::table('interests')->delete();
+            \DB::table('interest_categories')->delete();
 
-        $json = \File::get($this->configuration->getInterestsJsonPath());
+            $json = \File::get($this->configuration->getInterestsJsonPath());
 
-        $array = json_decode($json);
-        $categories = $array->categories;
+            $array = json_decode($json);
+            $categories = $array->categories;
 
-        foreach ($categories as $category) {
-            $cat = InterestCategory::create([
-                'description' => $category->description
-            ]);
-
-
-            foreach ($category->interests as $interest) {
-                $int = Interest::create([
-                    'category_id' => $cat->id,
-                    'description' => $interest->description
+            foreach ($categories as $category) {
+                $cat = InterestCategory::create([
+                    'description' => $category->description
                 ]);
+
+
+                foreach ($category->interests as $interest) {
+                    $int = Interest::create([
+                        'category_id' => $cat->id,
+                        'description' => $interest->description
+                    ]);
+                }
+
             }
         }
     }
 
     private function addRatings() {
 
-        \DB::table('ratings')->delete();
+        if (!empty($this->configuration->getRatingsJsonPath()) && file_exists($this->configuration->getRatingsJsonPath())) {
 
-        $json = \File::get($this->configuration->getRatingsJsonPath());
+            \DB::table('ratings')->delete();
 
-        $ratings = json_decode($json);
+            $json = \File::get($this->configuration->getRatingsJsonPath());
 
-        foreach($ratings as $rating){
-            RatingAttribute::create([
-                'description' => $rating->description
-            ]);
+            $ratings = json_decode($json);
+
+            foreach ($ratings as $rating) {
+                RatingAttribute::create([
+                    'description' => $rating->description
+                ]);
+            }
         }
     }
 
     private function addAvailabilityFrequencies() {
 
-        \DB::table('availability_freqs')->delete();
+        if (!empty($this->configuration->getAvailabilityFrequenciesJsonPath()) && file_exists($this->configuration->getAvailabilityFrequenciesJsonPath())) {
 
-        $json = \File::get($this->configuration->getAvailabilityFrequenciesJsonPath());
+            \DB::table('availability_freqs')->delete();
 
-        $freqs = json_decode($json);
+            $json = \File::get($this->configuration->getAvailabilityFrequenciesJsonPath());
 
-        foreach($freqs as $freq){
-            AvailabilityFrequencies::create([
-                'description' => $freq->description
-            ]);
+            $freqs = json_decode($json);
+
+            foreach ($freqs as $freq) {
+                AvailabilityFrequencies::create([
+                    'description' => $freq->description
+                ]);
+            }
         }
     }
 
     private function addHowYouLearned() {
 
-        \DB::table('how_you_learned')->delete();
+        if (!empty($this->configuration->getHowYouLearnedJsonPath()) && file_exists($this->configuration->getHowYouLearnedJsonPath())) {
 
-        $json = \File::get($this->configuration->getHowYouLearnedJsonPath());
+            \DB::table('how_you_learned')->delete();
 
-        $hows = json_decode($json);
+            $json = \File::get($this->configuration->getHowYouLearnedJsonPath());
 
-        foreach($hows as $how){
-            HowYouLearned::create([
-                'description' => $how->description
-            ]);
+            $hows = json_decode($json);
+
+            foreach ($hows as $how) {
+                HowYouLearned::create([
+                    'description' => $how->description
+                ]);
+            }
         }
     }
 

@@ -5,12 +5,14 @@ use Interfaces\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface {
 
+    private $folderName = 'ekpizo';
+
     function getViewsPath() {
-        return 'ekpizo.resources.views';
+        return $this->folderName.'.resources.views';
     }
 
     function getPartialsPath() {
-        return 'ekpizo.resources.views.volunteers.partials';
+        return $this->folderName.'.resources.views.volunteers.partials';
     }
 
     function getInterestsJsonPath(){
