@@ -133,46 +133,6 @@ Navigate at the root directory and run `./config-user.pl`. The script asks for i
 
 Verify login credentials by navigating at http://localhost/auth/login
 
-### Mail setup
-
-Manual intervention required in this. You'll have to edit VoluntEasy/VoluntEasy/config/mail.php and set the global "From" Address from:
-
-```
-'from' => ['address' => null, 'name' => null],
-```
-
-to
-
-```
-'from' => ['address' => 'myaddress@example.com', 'name' => 'My Name'],
-```
-
-Configure your .env file appropriately:
-
-```
-MAIL_DRIVER=smtp
-MAIL_HOST=your.address
-MAIL_PORT=port_num
-MAIL_USERNAME=username
-MAIL_PASSWORD=password
-```
-
-Example for relay mail through Gmail:
-
-```
-# inside config/mail.php
-'from' => ['address' => 'myname@gmail.com', 'name' => 'My Name'],
-```
-
-```
-# inside .env
-MAIL_DRIVER=smtp
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USERNAME=myname@gmail.com
-MAIL_PASSWORD=mypass
-```
-
 ### Command scheduling
 
 As of now, a background job performs a search for actions that are going to expire in seven days and sends a questionnaire link to all the subscribed volunteers. While the job exists, because it resides on `artisan`, you will need to add a cronjob entry for this.

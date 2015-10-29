@@ -31,6 +31,17 @@
                     <li class="{{ Request::is('actions/create') ? 'active' : '' }}"><a href="{{ url('actions/create') }}">{{trans($lang.'createAction')}}</a></li>
                 </ul>
             </li>
+            <li class="droplink {{ Request::is('collaborations*') ? 'active open' : '' }}">
+                <a href="#" class="waves-effect waves-button">
+                    <i class="fa fa-users fa-2x"></i>
+                    <p>{{trans($lang.'collaborations')}}</p>
+                    <span class="arrow"></span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="{{ Request::is('collaborations') || Request::is('collaborations/one*') ? 'active' : '' }}"><a href="{{ url('collaborations') }}">{{trans($lang.'showCollaborations')}}</a></li>
+                    <li class="{{ Request::is('collaborations/create') ? 'active' : '' }}"><a href="{{ url('collaborations/create') }}">{{trans($lang.'createCollaboration')}}</a></li>
+                </ul>
+            </li>
             <li class="droplink {{ Request::is('volunteers*') ? 'active open' : '' }}">
                 <a href="#" class="waves-effect waves-button">
                     <i class="fa fa-leaf fa-2x"></i>

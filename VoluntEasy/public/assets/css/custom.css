@@ -1,7 +1,7 @@
 /* Write your custom CSS here */
 
 h3{font-weight: 400;}
-.star{color:#f25656; font-weight:600;}
+.star{color:#E26E27; font-weight:600;}
 .logo{width:50%}
 .tab.has-error{  background-color: #ECAFAD !important;}
 
@@ -28,7 +28,7 @@ h3{font-weight: 400;}
     border-bottom:1px solid #e5e5e5;
 }
 .modal-header small span.complete{color:#22BAA0;}
-.modal-header small span.incomplete{color:#f25656;}
+.modal-header small span.incomplete{color:#E26E27;}
 .modal-body{
     border-top: 1px solid #e5e5e5;
 }
@@ -61,7 +61,7 @@ h3{font-weight: 400;}
     color:#767676;
 }
 .panel-steps i.inactive{
-    color:#f25656;
+    color:#E26E27;
 }
 .panel-steps i.active{
     color:#22BAA0;
@@ -80,7 +80,7 @@ span.status.completed, span.status.available{
 span.status.pending{
     padding:3px;
     color:#fff;
-    background-color:#f2ca4c;
+    background-color:#E26E27;
 }
 span.status.active{
     padding:3px;
@@ -90,7 +90,7 @@ span.status.active{
 span.status.pending, span.status.incomplete{
     padding:3px;
     color:#fff;
-    background-color:#f25656;
+    background-color:#E26E27;
 }
 
 div.status{
@@ -109,13 +109,13 @@ div.status.completed, div.status.available{
     background-color:#22BAA0;
 }
 div.status.pending{
-    background-color:#f2ca4c;
+    background-color:#E26E27;
 }
 div.status.active{
     background-color:#6a5fac;
 }
 div.status.incomplete, div.status.notavailable{
-    background-color:#f25656;
+    background-color:#E26E27;
 }
 
 .btn.width-110, div.status.width-110{width:110px;}

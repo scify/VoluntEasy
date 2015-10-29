@@ -12,7 +12,7 @@
     <div class="col-md-12">
         <div class="pull-right">
             <i class="fa fa-square" style="color:#22BAA0;"></i> Διαθέσιμοι |
-            <i class="fa fa-square" style="color:#f2ca4c;"></i> Υπό ένταξη|
+            <i class="fa fa-square" style="color:#E26E27;"></i> Υπό ένταξη|
             <i class="fa fa-square" style="color:#6a5fac;"></i> Ενεργοί |
             <i class="fa fa-square" style="color:#12AFCB;"></i> Νέοι
         </div>
@@ -108,10 +108,10 @@
 
                 dataset.push({
                     label: "Υπό Ένταξη",
-                    fillColor: "#f6d433",
-                    strokeColor: "#f6d433",
-                    highlightFill: "#f6d433",
-                    highlightStroke: "#f6d433",
+                    fillColor: "#E26E27",
+                    strokeColor: "#E26E27",
+                    highlightFill: "#E26E27",
+                    highlightStroke: "#E26E27",
                     data: value.pending
                 });
 

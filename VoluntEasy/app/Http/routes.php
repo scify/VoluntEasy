@@ -87,6 +87,21 @@ Route::post('actions/volunteers', 'ActionController@addVolunteers');
 Route::post('actions/search', 'ActionController@search');
 
 
+
+//////////////////////////
+//Collaboration Routes //
+////////////////////////
+Route::get('collaborations','CollaborationController@index');
+Route::get('collaborations/one/{id}', ['as' => 'collaboration/one', 'uses' => 'CollaborationController@show']);
+Route::get('collaborations/create', 'CollaborationController@create');
+Route::get('collaborations/edit/{id}', 'CollaborationController@edit');
+Route::get('collaborations/delete/{id}', 'CollaborationController@destroy');
+Route::post('collaborations/store', 'CollaborationController@store');
+Route::post('collaborations/update', 'CollaborationController@update');
+Route::post('collaborations/search', 'CollaborationController@search');
+
+
+
 ////////////////
 //Step Routes //
 ////////////////
@@ -167,6 +182,8 @@ Route::group(array('prefix' => 'api'), function()
     Route::get('actions','Api\ActionApiController@all');
     Route::get('actions/{id}/volunteers','Api\ActionApiController@volunteers');
     Route::get('actions/calendar','Api\ActionApiController@calendar');
+
+    Route::get('collaborations','Api\CollaborationApiController@all');
 
     Route::get('tree', 'Api\TreeApiController@tree');
     Route::get('tree/activeUnits/{id}', 'Api\TreeApiController@activeUnits');

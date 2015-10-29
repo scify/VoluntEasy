@@ -44,7 +44,7 @@ class UserController extends Controller {
      */
     public function store(UserRequest $request) {
 
-        // $user = User::create($request->all());
+         $user = User::create($request->all());
 
         /*
                 //send email to notify user for new account

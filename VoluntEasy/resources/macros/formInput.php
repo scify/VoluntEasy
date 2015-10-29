@@ -96,7 +96,7 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
                 $text_html = Form::file($field, $attributes);
                 break;
             default:
-                $text_html = Form::text($field, null, $attributes);
+                $text_html = Form::text($field, 'sss', $attributes);
         }
         unset($attributes['type']);
     } else {

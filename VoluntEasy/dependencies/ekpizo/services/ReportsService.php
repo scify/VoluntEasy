@@ -102,8 +102,6 @@ class ReportsService implements ReportsInterface {
 
         $allVolunteers = Volunteer::all();
 
-        $vols = [];
-
         foreach ($allVolunteers as $volunteer) {
             $month = intval(date("m", strtotime($volunteer->created_at)));
             $year = (date("Y", strtotime($volunteer->created_at)));
@@ -194,10 +192,12 @@ class ReportsService implements ReportsInterface {
 
         //count volunteers by city
         foreach ($volunteers as $volunteer) {
-            if (array_key_exists($volunteer->city, $byCity))
-                $byCity[$volunteer->city] = $byCity[$volunteer->city] + 1;
-            else
-                $byCity[$volunteer->city] = 1;
+            if ($volunteer->city != null && $volunteer->city != '') {
+                if (array_key_exists($volunteer->city, $byCity))
+                    $byCity[$volunteer->city] = $byCity[$volunteer->city] + 1;
+                else
+                    $byCity[$volunteer->city] = 1;
+            }
         }
 
         //return volunteers array in a more appropriate form

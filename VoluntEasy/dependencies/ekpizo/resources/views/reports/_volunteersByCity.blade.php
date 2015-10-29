@@ -64,7 +64,7 @@
     Colors = {};
     Colors.pairs = {
         turqoise: ["#12AFCB", "#30E0FF"],
-        yellow: ["#f6d433", "#FFE04E"],
+        yellow: ["#E26E27", "#FFE04E"],
         green: ["#22BAA0", "#48FFE0"],
         purple: ["#7a6fbe", "#BAAEFF"],
         red: ["#f25656", "#FF7474"],
