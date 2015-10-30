@@ -1,6 +1,5 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests\ActionRequest as ActionRequest;
 use App\Http\Requests\CollaborationRequest;
 use App\Models\Action;
 use App\Models\ActionVolunteerHistory;
@@ -8,7 +7,6 @@ use App\Models\Collaboration;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Executive;
 use App\Services\Facades\ActionService;
-use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -101,18 +99,31 @@ class CollaborationController extends Controller {
     /**
      * Update the specified resource in storage.
      *
-     * @param  ActionRequest $request
+     * @param  CollaborationRequest $request
      * @return Response
      */
-    public function update(ActionRequest $request) {
-        $action = Action::findOrFail($request->get('id'));
+    public function update(CollaborationRequest $request) {
+        $collaboration = Collaboration::findOrFail($request->get('id'));
 
         $request['start_date'] = \Carbon::createFromFormat('d/m/Y', $request->start_date);
         $request['end_date'] = \Carbon::createFromFormat('d/m/Y', $request->end_date);
 
-        $action->update($request->all());
+        $collaboration->update($request->only('start_date', 'end_date', 'name', 'type', 'phone', 'address', 'comments'));
 
-        return Redirect::route('action/one', ['id' => $action->id]);
+        //update the executive obj
+        if ($request->has('executive_id')) {
+            $executive = Executive::find($request['executive_id']);
+            if ($executive != null) {
+                $executive->name = $request['execName'];
+                $executive->address = $request['execAddress'];
+                $executive->phone = $request['execPhone'];
+                $executive->email = $request['execEmail'];
+
+                $executive->save();
+            }
+        }
+
+        return Redirect::route('collaboration/one', ['id' => $collaboration->id]);
     }
 
     /**

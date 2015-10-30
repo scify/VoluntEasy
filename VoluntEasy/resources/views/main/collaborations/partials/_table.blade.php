@@ -41,10 +41,10 @@
             {
                 //show only xx first characters of comments
                 data: null, render: function (data, type, row) {
-                if (data.description.length > 50)
-                    return data.description.substring(0, 50) + "...";
+                if (data.comments.length > 50)
+                    return data.comments.substring(0, 50) + "...";
                 else
-                    return data.description;
+                    return data.comments;
             }
             },
             {data: "type"},

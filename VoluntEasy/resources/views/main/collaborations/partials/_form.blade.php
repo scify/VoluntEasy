@@ -51,11 +51,14 @@
     </div>
     <div class="col-md-6">
         <h5>Στοιχεία Υπευθύνου Συνεργασίας</h5>
+
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    @if (isset($collaboration))
-                    {!! Form::formInput('execName', 'Όνομα:', $errors, ['class' => 'form-control', 'value' => $collaboration->executives[0]->name]) !!}
+                    @if (isset($collaboration) && sizeof($collaboration->executives)>0)
+                    {!! Form::hidden('executive_id', $collaboration->executives[0]->id, ['id' => 'executive_id']) !!}
+                    {!! Form::formInput('execName', 'Όνομα:', $errors, ['class' => 'form-control', 'value' =>
+                    $collaboration->executives[0]->name]) !!}
                     @else
                     {!! Form::formInput('execName', 'Όνομα:', $errors, ['class' => 'form-control']) !!}
                     @endif
@@ -63,8 +66,9 @@
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    @if (isset($collaboration))
-                    {!! Form::formInput('execEmail', 'Email:', $errors, ['class' => 'form-control', 'value' => $collaboration->executives[0]->execEmail]) !!}
+                    @if (isset($collaboration) && sizeof($collaboration->executives)>0)
+                    {!! Form::formInput('execEmail', 'Email:', $errors, ['class' => 'form-control', 'value' =>
+                    $collaboration->executives[0]->email]) !!}
                     @else
                     {!! Form::formInput('execEmail', 'Email:', $errors, ['class' => 'form-control']) !!}
                     @endif
@@ -72,8 +76,9 @@
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    @if (isset($collaboration))
-                    {!! Form::formInput('execAddress', 'Διεύθυνση:', $errors, ['class' => 'form-control', 'value' => $collaboration->executives[0]->address]) !!}
+                    @if (isset($collaboration) && sizeof($collaboration->executives)>0)
+                    {!! Form::formInput('execAddress', 'Διεύθυνση:', $errors, ['class' => 'form-control', 'value' =>
+                    $collaboration->executives[0]->address]) !!}
                     @else
                     {!! Form::formInput('execAddress', 'Διεύθυνση:', $errors, ['class' => 'form-control']) !!}
                     @endif
@@ -81,8 +86,9 @@
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    @if (isset($collaboration))
-                    {!! Form::formInput('execPhone', 'Τηλέφωνο:', $errors, ['class' => 'form-control', 'value' => $collaboration->executives[0]->phone]) !!}
+                    @if (isset($collaboration) && sizeof($collaboration->executives)>0)
+                    {!! Form::formInput('execPhone', 'Τηλέφωνο:', $errors, ['class' => 'form-control', 'value' =>
+                    $collaboration->executives[0]->phone]) !!}
                     @else
                     {!! Form::formInput('execPhone', 'Τηλέφωνο:', $errors, ['class' => 'form-control']) !!}
                     @endif

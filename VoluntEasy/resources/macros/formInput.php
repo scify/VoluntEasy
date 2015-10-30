@@ -44,15 +44,16 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
         unset($attributes['required']);
     }
 
-    $type = '';
+    //get the value of the input, if it exists
+    if (array_key_exists('value', $attributes)) {
+        $value = $attributes['value'];
+        unset($attributes['value']);
+    } else
+        $value = null;
 
+    $type = '';
     //creating the html for the input tag according to its type
     if (array_key_exists('type', $attributes)) {
-        if (array_key_exists('value', $attributes)) {
-            $value = $attributes['value'];
-            unset($attributes['value']);
-        } else
-            $value = null;
         switch ($attributes['type']) {
             case "password":
                 $text_html = Form::password($field, $attributes);
@@ -96,18 +97,17 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
                 $text_html = Form::file($field, $attributes);
                 break;
             default:
-                $text_html = Form::text($field, 'sss', $attributes);
+                $text_html = Form::text($field, $value, $attributes);
         }
         unset($attributes['type']);
     } else {
-        $text_html = Form::text($field, null, $attributes);
+        $text_html = Form::text($field, $value, $attributes);
     }
 
     if (array_key_exists('required', $attributes)) {
         $label_html = $label_html . ' <span class="star">*</span>';
         unset($attributes['required']);
     }
-
 
     $msg_html = '';
 

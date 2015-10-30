@@ -26,15 +26,22 @@
             <div class="col-md-4">
                 <h3>Συνεργασία {{ $collaboration->name }}</h3>
 
-                <p><strong>Περιγραφή:</strong> {{ $collaboration->description==null || $collaboration->description=='' ? '-' : $collaboration->description }}</p>
+                <p><strong>Περιγραφή:</strong> {{ $collaboration->comments==null || $collaboration->comments=='' ? '-' :
+                    $collaboration->comments }}</p>
+
                 <p><strong>Διάρκεια:</strong> {{ $collaboration->start_date }} - {{ $collaboration->end_date }}</p>
-                <p><strong>Διεύθυνση:</strong> {{ $collaboration->address==null || $collaboration->address=='' ? '-' : $collaboration->address }}</p>
-                <p><strong>Τηλέφωνο:</strong> {{ $collaboration->phone==null || $collaboration->phone=='' ? '-' : $collaboration->phone }}</p>
+
+                <p><strong>Διεύθυνση:</strong> {{ $collaboration->address==null || $collaboration->address=='' ? '-' :
+                    $collaboration->address }}</p>
+
+                <p><strong>Τηλέφωνο:</strong> {{ $collaboration->phone==null || $collaboration->phone=='' ? '-' :
+                    $collaboration->phone }}</p>
             </div>
 
             <div class="col-md-4">
                 <h3>Στοιχεία Υπευθύνου Συνεργασίας</h3>
-                @if(sizeof($collaboration->executives)>0 && $collaboration->executives[0]->name!=null && $collaboration->executives[0]->name!='')
+                @if(sizeof($collaboration->executives)>0 && $collaboration->executives[0]->name!=null &&
+                $collaboration->executives[0]->name!='')
                 <ul class="list-unstyled">
                     <li class="user-list">
                         <p>{{$collaboration->executives[0]->name}}</p>
@@ -45,8 +52,12 @@
                                 $collaboration->executives[0]->email }}</a>
                             @endif
                             @if($collaboration->executives[0]->phone!=null || $collaboration->executives[0]->phone!='')
-                            <i class="fa fa-phone"></i> {{ $collaboration->executives[0]->phone }}</p>
+                            <i class="fa fa-phone"></i> {{ $collaboration->executives[0]->phone }}
                             @endif
+                            @if($collaboration->executives[0]->address!=null ||
+                            $collaboration->executives[0]->address!='')
+                            <i class="fa fa-map-marker"></i> {{ $collaboration->executives[0]->address }}</p>
+                        @endif
                     </li>
                 </ul>
                 @else
