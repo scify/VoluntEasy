@@ -24,7 +24,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-12">
-                        {!! Form::open(['method' => 'POST', 'action' => ['CollaborationController@store']]) !!}
+                        {!! Form::open(['method' => 'POST', 'action' => ['CollaborationController@store'], 'files'=>true]) !!}
                         @include('main.collaborations.partials._form', ['submitButtonText' => 'Αποθήκευση'])
                         {!! Form::close() !!}
                     </div>

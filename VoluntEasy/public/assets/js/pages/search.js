@@ -35,3 +35,10 @@ $( "#actionUser" ).autocomplete({
     source: $("body").attr('data-url') + '/search/actionUser',
     minLength: 2
 });
+
+
+/*** Collaboration type autocomplete ***/
+$( "#collabType" ).autocomplete({
+    source: $("body").attr('data-url') + '/search/collabType',
+    minLength: 2
+});

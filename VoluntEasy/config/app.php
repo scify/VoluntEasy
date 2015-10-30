@@ -205,6 +205,7 @@ return [
          * Services created for the app
          */
         'ActionService' => 'App\Services\Facades\ActionService',
+        'CollaborationService' => 'App\Services\Facades\CollaborationService',
         'CronService' => 'App\Services\Facades\CronService',
         'FileService' => 'App\Services\Facades\FileService',
         'RatingService' => 'App\Services\Facades\RatingService',

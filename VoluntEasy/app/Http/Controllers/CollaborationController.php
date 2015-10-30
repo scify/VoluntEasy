@@ -4,9 +4,11 @@ use App\Http\Requests\CollaborationRequest;
 use App\Models\Action;
 use App\Models\ActionVolunteerHistory;
 use App\Models\Collaboration;
+use App\Models\CollaborationFile;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Executive;
 use App\Services\Facades\ActionService;
+use App\Services\Facades\CollaborationService;
 use App\Services\Facades\VolunteerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -62,6 +64,36 @@ class CollaborationController extends Controller {
             $collaboration->executives()->save($executive);
         }
 
+
+        //check if files uploaded already exist
+        $files = \Input::file('files');
+        $flag = false;
+
+        foreach ($files as $file) {
+            if ($file != null) {
+                $flag = true;
+                $filename = public_path() . '/assets/uploads/collaborations/' . $file->getClientOriginalName();
+
+                //if file already exists, redirect back with error message
+                if (file_exists($filename)) {
+                    \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' υπάρχει ήδη.');
+                    \Session::flash('flash_type', 'alert-danger');
+
+                    return \Redirect::back()->withInput();
+                }
+                //if file exceeds maximum allowed size, redirect back with error message
+                if ($file->getSize() > 10000000) {
+                    \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' ξεπερνά σε μέγεθος τα 10mb.');
+                    \Session::flash('flash_type', 'alert-danger');
+
+                    return \Redirect::back()->withInput();
+                }
+            }
+        }
+
+        if ($files != null && sizeof($files) > 0 && $flag == true)
+            CollaborationService::storeFiles($files, $collaboration->id);
+
         return Redirect::route('collaboration/one', ['id' => $collaboration->id]);
     }
 
@@ -72,7 +104,7 @@ class CollaborationController extends Controller {
      * @return Response
      */
     public function show($id) {
-        $collaboration = Collaboration::with('executives')->findOrFail($id);
+        $collaboration = Collaboration::with('executives', 'files')->findOrFail($id);
 
         //check if collaboration has expired
         $now = date('Y-m-d');
@@ -123,6 +155,36 @@ class CollaborationController extends Controller {
             }
         }
 
+        //check if files uploaded already exist
+        $files = \Input::file('files');
+        $flag = false;
+
+        foreach ($files as $file) {
+            if ($file != null) {
+                $flag = true;
+                $filename = public_path() . '/assets/uploads/collaborations/' . $file->getClientOriginalName();
+
+                //if file already exists, redirect back with error message
+                if (file_exists($filename)) {
+                    \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' υπάρχει ήδη.');
+                    \Session::flash('flash_type', 'alert-danger');
+
+                    return \Redirect::back();
+                }
+
+                //if file exceeds maximum allowed size, redirect back with error message
+                if ($file->getSize() > 10000000) {
+                    \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' ξεπερνά σε μέγεθος τα 10mb.');
+                    \Session::flash('flash_type', 'alert-danger');
+
+                    return \Redirect::back();
+                }
+            }
+        }
+
+        if ($files != null && sizeof($files) > 0 && $flag == true)
+            CollaborationService::storeFiles(\Input::file('files'), $collaboration->id);
+
         return Redirect::route('collaboration/one', ['id' => $collaboration->id]);
     }
 
@@ -133,20 +195,28 @@ class CollaborationController extends Controller {
      * @return Response
      */
     public function destroy($id) {
-        $action = Action::findOrFail($id);
-        $action->load('volunteers');
+        $collaboration = Collaboration::findOrFail($id);
+        $collaboration->load('files');
 
-        //if the action has volunteers, do not delete
-        if (sizeof($action->volunteers) > 0) {
-            Session::flash('flash_message', 'Η δράση περιέχει εθελοντές και δεν μπορεί να διαγραφεί.');
-            Session::flash('flash_type', 'alert-danger');
-            return;
+
+        foreach($collaboration->files as $f) {
+            $file = CollaborationFile::find($f->id);
+
+            $filename = public_path() . '/assets/uploads/collaborations/' . $file->filename;
+
+            //if the file exists, delete it from the filesystem
+            if (file_exists($filename))
+                unlink($filename);
+
+            //delete the row from the db
+            $file->delete();
         }
+
+        $collaboration->delete();
 
         Session::flash('flash_message', 'Η δράση διαγράφηκε.');
         Session::flash('flash_type', 'alert-success');
 
-        $action->delete();
 
         return;
     }
@@ -157,42 +227,32 @@ class CollaborationController extends Controller {
      * @return mixed
      */
     public function search() {
-        $actions = ActionService::search();
+        $collaborations = CollaborationService::search();
 
-        return $actions;
+        return $collaborations;
     }
 
+
+
     /**
-     * Sync the action volunteers with the db.
+     * Delete a collaboration's file from db and from filesystem
      *
-     * @param Request $request
      * @return mixed
      */
-    public function addVolunteers(Request $request) {
+    public function deleteFile() {
+        $id = \Request::get('id');
+        $file = CollaborationFile::find($id);
 
-        $action = Action::whereId($request->get('id'))->first();
+        $filename = public_path() . '/assets/uploads/collaborations/' . $file->filename;
 
-        //if there are no volunteers, remove all
-        if (sizeof($request->get('volunteers')) == 0) {
-            $action->volunteers()->detach();
-        } else {
-            $oldVolunteersOfAction = $action->volunteers()->get()->lists('id');
+        //if the file exists, delete it from the filesystem
+        if (file_exists($filename))
+            unlink($filename);
 
-            $action->volunteers()->sync($request->get('volunteers'));
-            $statusId = VolunteerStatus::active();
+        //delete the row from the db
+        $file->delete();
 
-            // create a history entry for each new volunteer
-            foreach ($request->get('volunteers') as $volunteer) {
-                if (!in_array($volunteer, $oldVolunteersOfAction)) {
-                    VolunteerService::actionHistory($volunteer, $action->id);
-
-                    //change unit status to active
-                    VolunteerService::changeUnitStatus($volunteer, $action->unit_id, $statusId);
-                }
-            }
-        }
-
-        return $action->id;
+        return $filename;
     }
 
 

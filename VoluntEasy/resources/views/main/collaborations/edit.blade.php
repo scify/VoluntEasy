@@ -24,7 +24,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-12">
-                        {!! Form::model($collaboration, ['method' => 'POST', 'action' => ['CollaborationController@update', 'id' => $collaboration->id]]) !!}
+                        {!! Form::model($collaboration, ['method' => 'POST', 'action' => ['CollaborationController@update', 'id' => $collaboration->id], 'files'=>true]) !!}
                         @include('main.collaborations.partials._form', ['submitButtonText' => 'Αποθήκευση', 'collaboration' =>$collaboration])
                         {!! Form::close() !!}
                         {!! Form::hidden('collaboration_id', $collaboration->id, ['id' => 'collaboration_id']) !!}

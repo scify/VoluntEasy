@@ -309,10 +309,29 @@ class VolunteerController extends Controller {
             return;
         }
 
+
+        $volunteer->load('files');
+
+
+        foreach($volunteer->files as $f) {
+            $file = File::find($f->id);
+
+            $filename = public_path() . '/assets/uploads/volunteers/' . $file->filename;
+
+            //if the file exists, delete it from the filesystem
+            if (file_exists($filename))
+                unlink($filename);
+
+            //delete the row from the db
+            $file->delete();
+        }
+
+        $volunteer->delete();
+
+
         Session::flash('flash_message', 'Ο εθελοντής διαγράφηκε.');
         Session::flash('flash_type', 'alert-success');
 
-        $volunteer->delete();
 
         return;
     }

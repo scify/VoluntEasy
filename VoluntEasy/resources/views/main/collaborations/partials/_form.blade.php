@@ -95,6 +95,37 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    {!! Form::formInput('files[]', 'Ανέβασμα αρχείων:', $errors, ['class' => 'form-control', 'type' =>
+                    'file', 'multiple' => 'true'])
+                    !!}
+                    <small class="help-blocκ">Μπορείτε να ανεβάσετε περισσότερα από 1 αρχεία.</small>
+                    <br/>
+                    <small class="help-blocκ">Τα αρχεία δεν πρέπει να ξεπερνούν σε μέγεθος τα 10mb.</small>
+                </div>
+                @if(isset($collaboration))
+                <div class="form-group">
+                    @if(sizeof($collaboration->files)>0)
+                    <p>Ανεβασμένα αρχεία:</p>
+
+                    <table class="table table-condensed table-bordered">
+
+                        @foreach($collaboration->files as $file)
+                        <tr>
+                            <td><i class="fa fa-file-o"></i> <a
+                                    href="{{ asset('assets/uploads/collaborations/'.$file->filename) }}" target="_blank">{{
+                                    $file->filename }}</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </table>
+                    @endif
+                </div>
+                @endif
+            </div>
+        </div>
     </div>
     <div class="form-group text-right">
         {!! Form::submit($submitButtonText, ['class' => 'btn btn-success', 'id' => 'saveCollaboration']) !!}

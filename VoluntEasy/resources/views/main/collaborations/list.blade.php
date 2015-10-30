@@ -12,11 +12,9 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-body">
-              {{--
-                {!! Form::open(['method' => 'POST', 'collaboration' => ['CollaborationController@search'], 'id' => 'searchForm']) !!}
+                {!! Form::open(['method' => 'POST', 'action' => ['CollaborationController@search'], 'id' => 'searchForm']) !!}
                 @include('main.collaborations.partials._search')
                 {!! Form::close() !!}
-                --}}
             </div>
         </div>
     </div>

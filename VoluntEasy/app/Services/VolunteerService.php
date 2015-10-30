@@ -792,7 +792,6 @@ class VolunteerService {
                         'filename' => $filename,
                         'volunteer_id' => $id
                     ]);
-
                     $dbFile->save();
                 }
             }

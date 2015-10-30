@@ -99,6 +99,7 @@ Route::get('collaborations/delete/{id}', 'CollaborationController@destroy');
 Route::post('collaborations/store', 'CollaborationController@store');
 Route::post('collaborations/update', 'CollaborationController@update');
 Route::post('collaborations/search', 'CollaborationController@search');
+Route::post('collaborations/deleteFile', 'CollaborationController@deleteFile');
 
 
 
@@ -146,6 +147,7 @@ Route::get('notifications','NotificationController@index');
 Route::get('search/city','SearchController@city');
 Route::get('search/country','SearchController@country');
 Route::get('search/actionUser','SearchController@actionUser');
+Route::get('search/collabType','SearchController@collabType');
 
 
 ////////////////

@@ -64,9 +64,32 @@
                 <p>Δεν έχει οριστεί υπεύθυνος δράσης</p>
                 @endif
             </div>
-
-
         </div>
+        <div class="row">
+            <div class="col-md-4">
+                <h3>Αρχεία συνεργασίας</h3>
+                @if(sizeof($collaboration->files)>0)
+                <table class="table table-condensed table-bordered">
+                    @foreach($collaboration->files as $file)
+                    <tr>
+                        <td><p><i class="fa fa-file-o"></i> <a
+                                    href="{{ asset('assets/uploads/collaborations/'.$file->filename) }}"
+                                    target="_blank">{{
+                                    $file->filename }}</a></p>
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-danger btn-xs deleteFile" data-id="{{ $file->id }}"
+                                    data-toggle="tooltip" data-placement="bottom" title="Διαγραφή"><i
+                                    class="fa fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    @endforeach
+                </table>
+                @endif
+            </div>
+        </div>
+
+
         <hr/>
         <div class="text-right">
             <a href="{{ url('collaborations/edit/'.$collaboration->id) }}" class="btn btn-success"><i
@@ -97,5 +120,24 @@
             });
         }
     }
+
+    //delete a file
+    $(".deleteFile").click(function () {
+        if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε το αρχείο;")) {
+            $.ajax({
+                url: $("body").attr('data-url') + '/collaborations/deleteFile',
+                method: 'POST',
+                data: {
+                    'id': $(this).attr('data-id')
+                },
+                headers: {
+                    'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+                },
+                success: function (data) {
+                    document.location.reload();
+                }
+            });
+        }
+    });
 </script>
 @append

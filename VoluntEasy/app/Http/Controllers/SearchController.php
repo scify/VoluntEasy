@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Models\Action;
+use App\Models\Collaboration;
 use App\Models\Volunteer;
 
 /**
@@ -36,6 +37,15 @@ class SearchController extends Controller {
      */
     public function actionUser() {
         return Action::distinct()->where('name', 'like', \Request::get('term') . '%')->lists('name');
+    }
+
+    /**
+     * Collaboration type autocomplete
+     *
+     * @return mixed
+     */
+    public function collabType() {
+        return Collaboration::distinct()->where('type', 'like', \Request::get('term') . '%')->lists('type');
     }
 
 }
