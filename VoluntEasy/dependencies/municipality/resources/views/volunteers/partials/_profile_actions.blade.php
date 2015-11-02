@@ -54,14 +54,14 @@
                             {{ $block->action->start_date }} - {{ $block->action->end_date }}
                         </td>
                         <td class="col-md-2">
-                            @if(sizeof($block->action->ratings)>0)
+                            @if(sizeof($block->action->ratings)>0 && isset($block->action->ratings[0]->volunteerRatings) && sizeof($block->action->ratings[0]->volunteerRatings)>0)
                             {{ $block->action->ratings[0]->volunteerRatings[0]->hours<10 ? '0'.$block->action->ratings[0]->volunteerRatings[0]->hours : $block->action->ratings[0]->volunteerRatings[0]->hours }}:{{ $block->action->ratings[0]->volunteerRatings[0]->minutes<10 ? '0'.$block->action->ratings[0]->volunteerRatings[0]->minutes : $block->action->ratings[0]->volunteerRatings[0]->minutes }}
                             @else
                             <p style="color:#aaa;"><em>Δεν έχουν σημειωθεί ώρες απασχόλησης</em></p>
                             @endif
                         </td>
                         <td class="col-md-5">
-                            @if(sizeof($block->action->ratings)>0)
+                            @if(sizeof($block->action->ratings)>0 && isset($block->action->ratings[0]->volunteerRatings) && sizeof($block->action->ratings[0]->volunteerRatings)>0)
                                 @foreach($block->action->ratings[0]->volunteerRatings[0]->ratings as $i => $rating)
                                             <span class="attribute rating" data-score="{{ $rating->rating }}"></span>
                                             <small><span> {{ $rating->attribute->description }} </span></small>
@@ -72,7 +72,7 @@
                             @endif
                         </td>
                         <td class="col-md-2">
-                            @if(sizeof($block->action->ratings)>0)
+                            @if(sizeof($block->action->ratings)>0 && isset($block->action->ratings[0]->volunteerRatings) && sizeof($block->action->ratings[0]->volunteerRatings)>0)
                             {{ $block->action->ratings[0]->volunteerRatings[0]->comments }}
                             @else
                             <p style="color:#aaa;"><em>Δεν υπάρχουν σχόλια</em></p>

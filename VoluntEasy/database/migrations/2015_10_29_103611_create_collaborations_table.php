@@ -12,19 +12,26 @@ class CreateCollaborationsTable extends Migration {
 	 */
 	public function up()
 	{
+
+        Schema::create('collaboration_types', function ($table) {
+            $table->increments('id');
+            $table->string('description');
+            $table->timestamps();
+        });
+
         Schema::create('collaborations', function ($table) {
             $table->increments('id');
             $table->string('name');
             $table->string('comments')->nullable();
-            $table->string('type');
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->date('start_date');
             $table->date('end_date');
+            $table->integer('type_id')->unsigned();
+            $table->foreign('type_id')->references('id')->on('collaboration_types');
             $table->timestamps();
             $table->softDeletes();
         });
-
 
         Schema::create('collaborations_files', function ($table) {
             $table->increments('id');
@@ -33,6 +40,7 @@ class CreateCollaborationsTable extends Migration {
             $table->foreign('collaboration_id')->references('id')->on('collaborations');
             $table->timestamps();
         });
+
 	}
 
 	/**
@@ -44,7 +52,7 @@ class CreateCollaborationsTable extends Migration {
 	{
         Schema::dropIfExists('collaborations_files');
         Schema::dropIfExists('collaborations');
-
+        Schema::dropIfExists('collaboration_types');
     }
 
 }

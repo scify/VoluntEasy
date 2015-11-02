@@ -25,6 +25,9 @@
 
         <p><strong>Αριθμός Α.Δ.Τ./Διαβατηρίου/Άδειας Παραμονής:</strong> {{
             $volunteer->identification_num=='' || $volunteer->identification_num==null ? '-' : $volunteer->identification_num }}</p>
+
+        <p><strong>Α.Φ.Μ.:</strong> {{
+            $volunteer->afm=='' || $volunteer->afm==null ? '-' : $volunteer->afm }}</p>
     </div>
 </div>
 

@@ -19,6 +19,10 @@ class Configuration implements ConfigurationInterface {
         return base_path().'/dependencies/'.$this->folderName.'/database/jsondata/interests.json';
     }
 
+    function getActionRatingsJsonPath(){
+        return base_path().'/dependencies/'.$this->folderName.'/database/jsondata/action_ratings.json';
+    }
+
     function getRatingsJsonPath(){
         return null;
     }

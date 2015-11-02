@@ -24,6 +24,10 @@
 
         <p><strong>Αριθμός Α.Δ.Τ./Διαβατηρίου/Άδειας Παραμονής:</strong> {{
             $volunteer->identification_num=='' ? '-' : $volunteer->identification_num }}</p>
+
+        @if($volunteer->afm!=null && $volunteer->afm!='')
+            <p><strong>Α.Φ.Μ.:</strong> $volunteer->afm</p>
+        @endif
     </div>
 </div>
 

@@ -9,7 +9,7 @@ class Collaboration extends Model {
 
     protected $table = 'collaborations';
 
-    protected $fillable = ['name', 'comments', 'type', 'start_date', 'end_date', 'phone', 'address'];
+    protected $fillable = ['name', 'comments', 'type_id', 'start_date', 'end_date', 'phone', 'address'];
 
 
     public function files() {
@@ -31,6 +31,10 @@ class Collaboration extends Model {
 
     public function getEndDateAttribute() {
         return \Carbon::parse($this->attributes['end_date'])->format('d/m/Y');
+    }
+
+    public function type() {
+        return $this->hasOne('App\Models\Descriptions\CollaborationType', 'id', 'type_id');
     }
 
 }

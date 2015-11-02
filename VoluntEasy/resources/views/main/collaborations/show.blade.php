@@ -1,11 +1,11 @@
 @extends('default')
 
 @section('title')
-Προβολή Συνεργασίας
+Προβολή Συνεργαζόμενου Φορέα
 @stop
 
 @section('pageTitle')
-Προβολή Συνεργασίας
+Προβολή Συνεργαζόμενου Φορέα
 @stop
 
 
@@ -14,7 +14,7 @@
 
 <div class="panel panel-white tree">
     <div class="panel-heading clearfix">
-        <h2 class="panel-title">Στοιχεία συνεργασίας</h2>
+        <h2 class="panel-title">Στοιχεία συνεργαζόμενου φορέα</h2>
 
         <div class="panel-control">
             <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="" class="panel-collapse"
@@ -24,28 +24,29 @@
     <div class="panel-body" style="display: block;">
         <div class="row">
             <div class="col-md-4">
-                <h3>Συνεργασία {{ $collaboration->name }}</h3>
+                <h3>Συνεργαζόμενος Φορέας {{ $collaboration->name }}</h3>
 
                 <p><strong>Περιγραφή:</strong> {{ $collaboration->comments==null || $collaboration->comments=='' ? '-' :
                     $collaboration->comments }}</p>
 
+                <p><strong>Τύπος:</strong>  {{ $collaboration->type->description }}</p>
+
                 <p><strong>Διάρκεια:</strong> {{ $collaboration->start_date }} - {{ $collaboration->end_date }}</p>
 
-                <p><strong>Διεύθυνση:</strong> {{ $collaboration->address==null || $collaboration->address=='' ? '-' :
+                <p><strong>Διεύθυνση φορέα:</strong> {{ $collaboration->address==null || $collaboration->address=='' ? '-' :
                     $collaboration->address }}</p>
 
-                <p><strong>Τηλέφωνο:</strong> {{ $collaboration->phone==null || $collaboration->phone=='' ? '-' :
+                <p><strong>Τηλέφωνο φορέα:</strong> {{ $collaboration->phone==null || $collaboration->phone=='' ? '-' :
                     $collaboration->phone }}</p>
             </div>
 
             <div class="col-md-4">
-                <h3>Στοιχεία Υπευθύνου Συνεργασίας</h3>
+                <h3>Στοιχεία υπευθύνου συνεργαζόμενου φορέα</h3>
                 @if(sizeof($collaboration->executives)>0 && $collaboration->executives[0]->name!=null &&
                 $collaboration->executives[0]->name!='')
                 <ul class="list-unstyled">
                     <li class="user-list">
                         <p>{{$collaboration->executives[0]->name}}</p>
-
                         <p>
                             @if($collaboration->executives[0]->email!=null || $collaboration->executives[0]->email!='')
                             <i class="fa fa-envelope"></i> <a href="mail:to{{ $collaboration->executives[0]->email }}">{{
@@ -67,7 +68,7 @@
         </div>
         <div class="row">
             <div class="col-md-4">
-                <h3>Αρχεία συνεργασίας</h3>
+                <h3>Αρχεία συνεργαζόμενου φορέα</h3>
                 @if(sizeof($collaboration->files)>0)
                 <table class="table table-condensed table-bordered">
                     @foreach($collaboration->files as $file)
@@ -107,7 +108,7 @@
 <script>
     //delete collaboration and redirect to collaborations list
     function deleteCollaboration(id) {
-        if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε τη συνεργασία;") == true) {
+        if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε το συνεργαζόμενο φορέα;") == true) {
             $.ajax({
                 url: $("body").attr('data-url') + '/collaborations/delete/' + id,
                 method: 'GET',

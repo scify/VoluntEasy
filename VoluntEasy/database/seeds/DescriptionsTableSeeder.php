@@ -5,6 +5,7 @@ use App\Models\Descriptions\HowYouLearned;
 use App\Models\Descriptions\Interest;
 use App\Models\Descriptions\InterestCategory;
 use App\Models\Rating\RatingAttribute;
+use  App\Models\Rating\ActionRatingAttribute;
 use Illuminate\Database\Seeder;
 
 class DescriptionsTableSeeder extends Seeder {
@@ -23,8 +24,10 @@ class DescriptionsTableSeeder extends Seeder {
 
         $this->addInterests();
         $this->addRatings();
+        $this->addActionRatings();
         $this->addAvailabilityFrequencies();
         $this->addHowYouLearned();
+        $this->addCollaborationTypes();
 
     }
 
@@ -61,7 +64,7 @@ class DescriptionsTableSeeder extends Seeder {
 
         if (!empty($this->configuration->getRatingsJsonPath()) && file_exists($this->configuration->getRatingsJsonPath())) {
 
-            \DB::table('ratings')->delete();
+            \DB::table('rating_attributes')->delete();
 
             $json = \File::get($this->configuration->getRatingsJsonPath());
 
@@ -69,6 +72,24 @@ class DescriptionsTableSeeder extends Seeder {
 
             foreach ($ratings as $rating) {
                 RatingAttribute::create([
+                    'description' => $rating->description
+                ]);
+            }
+        }
+    }
+
+    private function addActionRatings() {
+
+        if (!empty($this->configuration->getActionRatingsJsonPath()) && file_exists($this->configuration->getActionRatingsJsonPath())) {
+
+            \DB::table('action_rating_attributes')->delete();
+
+            $json = \File::get($this->configuration->getActionRatingsJsonPath());
+
+            $ratings = json_decode($json);
+
+            foreach ($ratings as $rating) {
+               ActionRatingAttribute::create([
                     'description' => $rating->description
                 ]);
             }
@@ -109,6 +130,20 @@ class DescriptionsTableSeeder extends Seeder {
                 ]);
             }
         }
+    }
+
+    private function addCollaborationTypes() {
+        // Collaboration types.
+        \DB::table('collaboration_types')->delete();
+
+        $collaboration_types = [
+            ['description' => 'ΜΚΟ'],
+            ['description' => 'Δημόσιος Φορέας'],
+            ['description' => 'Ιδιωτικός Φορέας'],
+            ['description' => 'Άλλο'],
+        ];
+
+        \DB::table('collaboration_types')->insert($collaboration_types);
     }
 
 }

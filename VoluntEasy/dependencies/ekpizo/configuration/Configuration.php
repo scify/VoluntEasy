@@ -23,6 +23,10 @@ class Configuration implements ConfigurationInterface {
         return base_path().'/dependencies/ekpizo/database/jsondata/ratings.json';
     }
 
+    function getActionRatingsJsonPath(){
+        return base_path().'/dependencies/'.$this->folderName.'/database/jsondata/action_ratings.json';
+    }
+
     function getAvailabilityFrequenciesJsonPath(){
         return base_path().'/dependencies/ekpizo/database/jsondata/availability_frequencies.json';
     }

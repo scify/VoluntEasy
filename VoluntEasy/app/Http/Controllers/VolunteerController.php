@@ -156,6 +156,8 @@ class VolunteerController extends Controller {
         $totalWorkingHours = VolunteerService::totalWorkingHours($timeline);
         $totalRatings = RatingService::totalVolunteerRating($timeline);
 
+
+        return $timeline;
         //get the count of pending and available units, used in the front end
         $pending = 0;
         $available = 0;
@@ -185,6 +187,7 @@ class VolunteerController extends Controller {
 
         $viewPath = $this->configuration->getViewsPath().'.volunteers.show';
         $partialsPath = $this->configuration->getPartialsPath();
+
 
         return view($viewPath, compact('volunteer', 'pending', 'available', 'timeline', 'userUnits', 'actionsCount', 'totalRatings', 'totalWorkingHours', 'partialsPath'));
     }

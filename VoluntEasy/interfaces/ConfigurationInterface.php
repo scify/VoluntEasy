@@ -15,6 +15,8 @@ interface ConfigurationInterface {
     /*** Paths for the json files ***/
     function getInterestsJsonPath();
 
+    function getActionRatingsJsonPath();
+
     function getRatingsJsonPath();
 
     function getAvailabilityFrequenciesJsonPath();

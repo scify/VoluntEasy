@@ -9,9 +9,13 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    {!! Form::formInput('type', 'Τύπος:', $errors, ['class' => 'form-control', 'id' =>
-                    'collabType', 'required' => 'true']) !!}
-                    <small class="help-block">Π.χ.: ΜΚΟ, Οργανισμός κλπ</small>
+                    @if (isset($collaboration))
+                    {!! Form::formInput('type_id', 'Τύπος:', $errors, ['class' => 'form-control', 'type' =>
+                    'select', 'value' => $collaborationTypes, 'key' => $collaboration->type_id, 'required' => 'true']) !!}
+                    @else
+                    {!! Form::formInput('type_id', 'Τύπος:', $errors, ['class' => 'form-control', 'type' =>
+                    'select', 'value' => $collaborationTypes, 'required' => 'true']) !!}
+                    @endif
                 </div>
             </div>
             <div class="col-md-12">
@@ -36,13 +40,13 @@
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    {!! Form::formInput('address', 'Διεύθυνση:', $errors, ['class' => 'form-control', 'id' =>
+                    {!! Form::formInput('address', 'Διεύθυνση φορέα:', $errors, ['class' => 'form-control', 'id' =>
                     'collabAddress']) !!}
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    {!! Form::formInput('phone', 'Τηλέφωνο:', $errors, ['class' => 'form-control', 'id' =>
+                    {!! Form::formInput('phone', 'Τηλέφωνο φορέα:', $errors, ['class' => 'form-control', 'id' =>
                     'collabPhone'])
                     !!}
                 </div>
@@ -50,7 +54,7 @@
         </div>
     </div>
     <div class="col-md-6">
-        <h5>Στοιχεία Υπευθύνου Συνεργασίας</h5>
+        <h5>Στοιχεία υπευθύνου συνεργαζόμενου φορέα</h5>
 
         <div class="row">
             <div class="col-md-4">

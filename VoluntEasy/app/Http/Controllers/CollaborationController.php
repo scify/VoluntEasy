@@ -5,6 +5,7 @@ use App\Models\Action;
 use App\Models\ActionVolunteerHistory;
 use App\Models\Collaboration;
 use App\Models\CollaborationFile;
+use App\Models\Descriptions\CollaborationType;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Executive;
 use App\Services\Facades\ActionService;
@@ -37,7 +38,11 @@ class CollaborationController extends Controller {
      * @return Response
      */
     public function create() {
-        return view('main.collaborations.create');
+        $collaborationTypes = CollaborationType::all()->lists('description', 'id');
+        $collaborationTypes[0] = '[- επιλέξτε -]';
+        ksort($collaborationTypes);
+
+        return view('main.collaborations.create', compact('collaborationTypes'));
     }
 
     /**
@@ -50,7 +55,7 @@ class CollaborationController extends Controller {
 
         $request['start_date'] = \Carbon::createFromFormat('d/m/Y', $request->start_date);
         $request['end_date'] = \Carbon::createFromFormat('d/m/Y', $request->end_date);
-        $collaboration = Collaboration::create($request->only('start_date', 'end_date', 'name', 'type', 'phone', 'address', 'comments'));
+        $collaboration = Collaboration::create($request->only('start_date', 'end_date', 'name', 'type_id', 'phone', 'address', 'comments'));
 
         //create the executive obj
         if ($request['execName']) {
@@ -104,7 +109,7 @@ class CollaborationController extends Controller {
      * @return Response
      */
     public function show($id) {
-        $collaboration = Collaboration::with('executives', 'files')->findOrFail($id);
+        $collaboration = Collaboration::with('executives', 'files', 'type')->findOrFail($id);
 
         //check if collaboration has expired
         $now = date('Y-m-d');
@@ -123,9 +128,13 @@ class CollaborationController extends Controller {
      * @return Response
      */
     public function edit($id) {
+        $collaborationTypes = CollaborationType::all()->lists('description', 'id');
+        $collaborationTypes[0] = '[- επιλέξτε -]';
+        ksort($collaborationTypes);
+
         $collaboration = Collaboration::with('executives', 'files')->findOrFail($id);
 
-        return view('main.collaborations.edit', compact('collaboration'));
+        return view('main.collaborations.edit', compact('collaboration', 'collaborationTypes'));
     }
 
     /**
@@ -140,7 +149,7 @@ class CollaborationController extends Controller {
         $request['start_date'] = \Carbon::createFromFormat('d/m/Y', $request->start_date);
         $request['end_date'] = \Carbon::createFromFormat('d/m/Y', $request->end_date);
 
-        $collaboration->update($request->only('start_date', 'end_date', 'name', 'type', 'phone', 'address', 'comments'));
+        $collaboration->update($request->only('start_date', 'end_date', 'name', 'type_id', 'phone', 'address', 'comments'));
 
         //update the executive obj
         if ($request->has('executive_id')) {

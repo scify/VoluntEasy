@@ -10,7 +10,7 @@ class CollaborationRequest extends Request
             'name' => 'required|max:255',
             'start_date' => 'required|date_format:d/m/Y',
             'end_date' => 'required|date_format:d/m/Y',
-            'type' => 'required',
+            'type_id' => 'not_in:"0"',
         ];
     }
 
@@ -24,6 +24,7 @@ class CollaborationRequest extends Request
     {
         return [
             'end_date.after' => 'Η ημερομηνία λήξης πρέπει να είναι μετά την ημερομηνία έναρξης.',
+            'type_id.not_in' => 'Παρακαλώ επιλέξτε τύπο φορέα.',
         ];
     }
 }

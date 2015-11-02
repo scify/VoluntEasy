@@ -3,6 +3,9 @@
 use App\Http\Requests;
 use App\Models\Action;
 use App\Models\Rating\ActionRating;
+use App\Models\Rating\ActionRatingAttribute;
+use App\Models\Rating\ActionRatingScore;
+use App\Models\Rating\ActionScore;
 use App\Models\Rating\Rating;
 use App\Models\Rating\RatingAttribute;
 use App\Models\Rating\VolunteerActionRating;
@@ -24,7 +27,7 @@ class RatingController extends Controller {
      *
      * @return Response
      */
-    public function create($token) {
+    public function rateVolunteers($token) {
 
         $actionRating = ActionRating::where('token', $token)->firstOrFail();
         $actionId = $actionRating->action_id;
@@ -46,7 +49,30 @@ class RatingController extends Controller {
 
             return view('main.ratings.rate_volunteers', compact('action', 'ratingAttributes', 'actionRatingId'));
         } else {
-            return view('main.ratings.rated_already', compact('action'));
+            return view('main.ratings.volunteers_rated_already', compact('action'));
+        }
+    }
+
+    /**
+     *
+     * Show the form for rating an action
+     *
+     * @param $token
+     * @return \Illuminate\View\View
+     */
+    public function rateAction($token) {
+
+        $actionScore = ActionScore::where('token', $token)->firstOrFail();
+        $actionId = $actionScore->action_id;
+        $action = Action::findOrFail($actionId);
+
+        //first check if the user that requested the rating has already rated the action
+        if (!$actionScore->rated) {
+            $attributes = ActionRatingAttribute::all();
+
+            return view('main.ratings.rate_action', compact('action', 'attributes', 'actionScore'));
+        } else {
+            return view('main.ratings.action_rated_already', compact('action'));
         }
     }
 
@@ -55,7 +81,7 @@ class RatingController extends Controller {
      *
      * @return Response
      */
-    public function store() {
+    public function storeVolunteersRating() {
         $actionId = \Request::get('actionId');
         $actionRatingId = \Request::get('actionRatingId');
         $volunteers = \Request::get('volunteers');
@@ -93,10 +119,48 @@ class RatingController extends Controller {
         return $actionId;
     }
 
-    public function thankyou($actionId) {
+
+    /**
+     * Save an action rating
+     * @return mixed
+     */
+    public function storeActionRating() {
+        //return (\Request::all());
+
+
+        $actionId = \Request::get('actionId');
+        $actionScoreId = \Request::get('actionScoreId');
+        $ratings = \Request::get('ratings');
+
+        //for each volunteer, we have to create an entry to the
+        //volunteer_action_ratings table
+        foreach ($ratings as $rating) {
+            $actionRatingScore = new ActionRatingScore([
+                'score' => $rating['score'],
+                'attribute_id' => $rating['attrId'],
+                'action_score_id' => $actionScoreId
+            ]);
+            $actionRatingScore->save();
+        }
+
+        //set the action rating as rated
+        $actionScore = ActionScore::find($actionScoreId);
+        $actionScore->update(['rated' => true]);
+
+        return $actionId;
+    }
+
+
+    public function actionThankyou($actionId) {
         $action = Action::find($actionId);
 
-        return view('main.ratings.thankyou', compact('action'));
+        return view('main.ratings.action_thankyou', compact('action'));
+    }
+
+    public function volunteersThankyou($actionId) {
+        $action = Action::find($actionId);
+
+        return view('main.ratings.volunteers_thankyou', compact('action'));
     }
 
 }

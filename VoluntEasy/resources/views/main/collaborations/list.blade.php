@@ -1,7 +1,7 @@
 @extends('default')
 
 @section('title')
-Προβολή Συνεργασιών
+Προβολή Συνεργαζόμενων Φορέων
 @stop
 @section('pageTitle')
 Προβολή Συνεργασιών
@@ -24,7 +24,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Συνεργασίες</h4>
+                <h4 class="panel-title">Συνεργαζόμενοι Φορείς</h4>
             </div>
             <div class="panel-body">
                 @include('main.collaborations.partials._table')

@@ -70,9 +70,9 @@
         //custom text
         "language": {
             "lengthMenu": "_MENU_ γραμμές ανά σελίδα",
-            "zeroRecords": "Δεν υπάρχουν συνεργασίες",
+            "zeroRecords": "Δεν υπάρχουν συνεργαζόμενοι φορείς",
             "info": "Σελίδα _PAGE_ από _PAGES_",
-            "infoEmpty": "Δεν υπάρχουν συνεργασίες",
+            "infoEmpty": "Δεν υπάρχουν συνεργαζόμενοι φορείς",
             "infoFiltered": "(filtered from _MAX_ total records)",
             "paginate": {
                 "first": "Πρώτη",
@@ -107,7 +107,7 @@
 
 
     function deleteCollaboration(id) {
-        if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε τη συνεργασία;") == true) {
+        if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε το συνεργαζόμενου φορέα;") == true) {
             $.ajax({
                 url: $("body").attr('data-url') + '/collaborations/delete/' + id,
                 method: 'GET',

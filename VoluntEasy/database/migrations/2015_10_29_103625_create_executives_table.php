@@ -39,8 +39,8 @@ class CreateExecutivesTable extends Migration {
 	 */
 	public function down()
 	{
-        Schema::dropIfExists('executives');
         Schema::dropIfExists('collaborations_executives');
+        Schema::dropIfExists('executives');
 	}
 
 }

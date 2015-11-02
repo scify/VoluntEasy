@@ -1,11 +1,11 @@
 @extends('default')
 
 @section('title')
-Δημιουργία Συνεργασίας
+Δημιουργία Συνεργαζόμενου Φορέα
 @stop
 
 @section('pageTitle')
-Δημιουργία Συνεργασίας
+Δημιουργία Συνεργαζόμενου Φορέα
 @stop
 
 @section('bodyContent')
@@ -14,7 +14,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Στοιχεία συνεργασίας</h4>
+                <h4 class="panel-title">Στοιχεία συνεργαζόμενου φορέα</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""

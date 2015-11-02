@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-2">
         <div class="form-group">
-            {!! Form::formInput('name', 'Όνομα συνεργασίας', $errors, ['class' => 'form-control input-sm search']) !!}
+            {!! Form::formInput('name', 'Όνομα συνεργαζόμενου φορέα', $errors, ['class' => 'form-control input-sm search']) !!}
         </div>
     </div>
     <div class="col-md-2">
@@ -15,7 +15,7 @@
             {!! Form::formInput('start_date', 'Ημερομηνία Έναρξης:', $errors, ['class' => 'form-control input-sm search
             startDate', 'id'
             => 'actionStartDate']) !!}
-            <small class="help-block">Συνεργασίες που ξεκινούν μετά από την ημερομηνία</small>
+            <small class="help-block">Συμβάσεις που ξεκινούν μετά από την ημερομηνία</small>
         </div>
     </div>
     <div class="col-md-2">
@@ -23,12 +23,12 @@
             {!! Form::formInput('end_date', 'Ημερομηνία Λήξης:', $errors, ['class' => 'form-control input-sm search
             endDate', 'id' =>
             'actionEndDate']) !!}
-            <small class="help-block">Συνεργασίες που λήγουν πριν από την ημερομηνία</small>
+            <small class="help-block">Συμβάσεις που λήγουν πριν από την ημερομηνία</small>
         </div>
     </div>
     <div class="col-md-2">
         <div class="form-group">
-            {!! Form::formInput('active_only', 'Μόνο οι ενεργές συνεργασίες', $errors, ['class' => 'form-control', 'type' => 'checkbox',
+            {!! Form::formInput('active_only', 'Μόνο οι ενεργές συμβάσεις', $errors, ['class' => 'form-control', 'type' => 'checkbox',
             'value' => 'true', 'checked' => 'false']) !!}
         </div>
     </div>

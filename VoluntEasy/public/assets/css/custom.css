@@ -28,7 +28,7 @@ h3{font-weight: 400;}
     border-bottom:1px solid #e5e5e5;
 }
 .modal-header small span.complete{color:#22BAA0;}
-.modal-header small span.incomplete{color:#E26E27;}
+.modal-header small span.incomplete{color:#e14444;}
 .modal-body{
     border-top: 1px solid #e5e5e5;
 }

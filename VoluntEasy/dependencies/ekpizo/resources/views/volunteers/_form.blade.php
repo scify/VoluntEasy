@@ -383,35 +383,35 @@
                         @endforeach
                     </tr>
                     <tr>
-                        <td>Παρασκεύη</td>
+                        <td>Παρασκευή</td>
                         @foreach($availabilityTimes as $a_t_id => $availability_time)
                         <td class="text-center">
                             <?php $checked = 'false' ?>
                             @if (isset($volunteer))
                             @foreach($volunteer->availabilityDays as $day)
-                                @if($day->day == 'Παρασκεύη' && $day->time == $availability_time)
+                                @if($day->day == 'Παρασκευή' && $day->time == $availability_time)
                                     <?php $checked = 'true' ?>
                                 @endif
                             @endforeach
                             @endif
-                            {!! Form::formInput('Παρασκεύη[]', '', $errors, ['class' =>
+                            {!! Form::formInput('Παρασκευή[]', '', $errors, ['class' =>
                             'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => $checked]) !!}
                         </td>
                         @endforeach
                     </tr>
                     <tr>
-                        <td>Σαββατο</td>
+                        <td>Σάββατο</td>
                         @foreach($availabilityTimes as $a_t_id => $availability_time)
                         <td class="text-center">
                             <?php $checked = 'false' ?>
                             @if (isset($volunteer))
                             @foreach($volunteer->availabilityDays as $day)
-                                @if($day->day == 'Σαββατο' && $day->time == $availability_time)
+                                @if($day->day == 'Σάββατο' && $day->time == $availability_time)
                                      <?php $checked = 'true' ?>
                                 @endif
                             @endforeach
                             @endif
-                            {!! Form::formInput('Σαββατο[]', '', $errors, ['class' =>
+                            {!! Form::formInput('Σάββατο[]', '', $errors, ['class' =>
                             'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => $checked]) !!}
                         </td>
                         @endforeach

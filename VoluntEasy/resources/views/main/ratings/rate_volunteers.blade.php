@@ -244,7 +244,7 @@
 
         //send data to server to save the ratings
         $.ajax({
-            url: $("body").attr('data-url') + '/ratings/store',
+            url: $("body").attr('data-url') + '/ratings/action/volunteers/store',
             method: 'POST',
             data: {
                 volunteers: volunteers,
@@ -256,7 +256,7 @@
                 'X-CSRF-Token': $('meta[name="_token"]').attr('content')
             },
             success: function (data) {
-                window.location.href = $("body").attr('data-url') + "/ratings/thankyou/" + data;
+                window.location.href = $("body").attr('data-url') + "/ratings/action/volunteers/thankyou/" + data;
             }
         });
     }

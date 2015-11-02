@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Αξιολόγηση Εθελοντών</title>
+    <title>Αξιολόγηση Δράσης</title>
     <style>
         /* -------------------------------------
             GLOBAL
@@ -194,11 +194,10 @@
                             @if($action->name!=null && $action->name!='')
                             <p>Αγαπητέ {{ $action->name }},</p>
                             @endif
-                            <p>Παρακαλούμε συμπληρώστε το ερωτηματολόγιο που ακολουθεί σχετικά με τους εθελοντές που
-                                συμμετείχαν στη δράση {{ $action->description }}.</p>
+                            <p>Παρακαλούμε συμπληρώστε το ερωτηματολόγιο που ακολουθεί σχετικά με τη συμμετοχή σας στη δράση {{ $action->description }}.</p>
 
-                            <p><a href="{{ URL::to('/') }}/ratings/action/volunteers/{{ $token }}">{{ URL::to('/')
-                                    }}/ratings/action/volunteers/{{ $token }}</a></p>
+                            <p><a href="{{ URL::to('/') }}/ratings/action/{{ $token }}">{{ URL::to('/')
+                                    }}/ratings/action/{{ $token }}</a></p>
                         </td>
                     </tr>
                 </table>
@@ -220,12 +219,8 @@
                 <table>
                     <tr>
                         <td align="center">
-                            <p><em>Λάβατε αυτό το ερωτηματολόγιο επειδή το email σας δηλώθηκε ως
-                                    email
-                                    υπευθύνου στη δράση {{ $action->description }} μέσω της πλατφόρμας
-                                    διαχείρισης
-                                    εθελοντών
-                                    <strong>{{trans($lang.'title')}}</strong>.</em></p>
+                            <p><em>Λάβατε αυτό το ερωτηματολόγιο επειδή είστε εγγεγραμμένος ως εθελοντής στην πλατφόρμα διαχείρισης εθελοντών <strong>{{trans($lang.'title')}}</strong>.</em></p>
+
                         </td>
                     </tr>
                 </table>
