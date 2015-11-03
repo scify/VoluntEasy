@@ -155,9 +155,8 @@ class VolunteerController extends Controller {
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
         $totalWorkingHours = VolunteerService::totalWorkingHours($timeline);
         $totalRatings = RatingService::totalVolunteerRating($timeline);
+        $actionsRatings = VolunteerService::actionsRatings($id);
 
-
-        return $timeline;
         //get the count of pending and available units, used in the front end
         $pending = 0;
         $available = 0;
@@ -189,7 +188,7 @@ class VolunteerController extends Controller {
         $partialsPath = $this->configuration->getPartialsPath();
 
 
-        return view($viewPath, compact('volunteer', 'pending', 'available', 'timeline', 'userUnits', 'actionsCount', 'totalRatings', 'totalWorkingHours', 'partialsPath'));
+        return view($viewPath, compact('volunteer', 'pending', 'available', 'timeline', 'userUnits', 'actionsCount', 'actionsRatings', 'totalRatings', 'totalWorkingHours', 'partialsPath'));
     }
 
     /**

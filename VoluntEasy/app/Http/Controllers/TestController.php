@@ -36,6 +36,11 @@ class TestController extends Controller {
 
     public function test() {
 
+
+        return VolunteerService::actionsRatings(10);
+
+
+
         $configuration = \App::make('Interfaces\ConfigurationInterface');
 
         //DB::table('users')->delete();

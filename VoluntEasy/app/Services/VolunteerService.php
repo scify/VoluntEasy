@@ -1,5 +1,6 @@
 <?php namespace App\Services;
 
+use App\Models\Action;
 use App\Models\Descriptions\StepStatus;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Descriptions\VolunteerStatusDuration;
@@ -350,52 +351,13 @@ class VolunteerService {
             ->findOrFail($volunteerId);
 
         $timeline = [];
-        $test = [];
-
 
         //get info from the history tables
         foreach ($volunteer->actionHistory as $actionHistory) {
             $actionHistory->type = 'action';
             array_push($timeline, $actionHistory);
-
-            /*
-            //send ratings array in a more readable form
-            foreach ($actionHistory->action->ratings as $key => $rating) {
-                //if there are not ratings, remove the rating from the array
-                if (sizeof($rating->volunteerRatings) == 0) {
-                    unset($actionHistory->action->ratings[$key]);
-                } else {
-                    foreach ($rating->volunteerRatings as $volunteerRating) {
-                        $ratings = [];
-                        foreach ($volunteerRating->ratings as $r) {
-                            array_push($ratings, [
-                                'attribute' => $r->attribute->description,
-                                'rating' => $r->rating
-                            ]);
-                        }
-
-                        $rating->ratings = $ratings;
-                        $hours = $volunteerRating->hours;
-                        $minutes = $volunteerRating->minutes;
-                        $comments = $volunteerRating->comments;
-
-                        $actionHistory->action->rating = $ratings;
-                        $actionHistory->action->rating_hours = $hours;
-                        $actionHistory->action->rating_minutes = $minutes;
-                        $actionHistory->action->rating_comments = $comments;
-
-                        unset($rating->token);
-                    }
-
-                    unset($rating->volunteerRatings);
-                    unset($actionHistory->action->ratings);
-                    array_push($test, $actionHistory->action);
-                }
-            }*/
         }
 
-
-        //return $test;
 
         //unit history table
         foreach ($volunteer->unitHistory as $unitHistory) {
@@ -434,8 +396,9 @@ class VolunteerService {
         //the hours and minutes
         foreach ($timeline as $block) {
             if ($block->type == "action"
-                && isset($block->action->ratings) && sizeof($block->action->ratings)>0
-                && isset($block->action->ratings[0]->volunteerRatings[0]) && sizeof($block->action->ratings[0]->volunteerRatings[0])>0) {
+                && isset($block->action->ratings) && sizeof($block->action->ratings) > 0
+                && isset($block->action->ratings[0]->volunteerRatings[0]) && sizeof($block->action->ratings[0]->volunteerRatings[0]) > 0
+            ) {
                 $totalHours += $block->action->ratings[0]->volunteerRatings[0]->hours;
                 $totalMinutes += $block->action->ratings[0]->volunteerRatings[0]->minutes;
             }
@@ -449,6 +412,60 @@ class VolunteerService {
         }
 
         return ['hours' => $totalHours, 'minutes' => $totalMinutes];
+    }
+
+    /**
+     * Get all the ratings for a volunteer's actions
+     *
+     * @param $volunteerId
+     * @return mixed
+     */
+    public function actionsRatings($volunteerId) {
+
+        $volunteer = Volunteer::find($volunteerId)->whereHas('actions.ratings.volunteerRatings', function ($q) use ($volunteerId) {
+            $q->where('volunteer_id', $volunteerId);
+        })->get();
+
+        $volunteer = Volunteer::with('actionHistory')->find($volunteerId);
+
+        $actions = Action::whereIn('id', $volunteer->actionHistory->lists('action_id'))
+            ->with(['ratings.volunteerRatings' => function ($q) use ($volunteerId) {
+                $q->where('volunteer_id', $volunteerId)->with('ratings.attribute');
+            }])->get();
+
+
+        foreach ($actions as $action) {
+            if (isset($action->ratings)) {
+                $ratings = [];
+                $action->ratingCount = 0;
+                foreach ($action->ratings as $rating) {
+                    $action->ratingHours = 0;
+                    $action->ratingMinutes = 0;
+                    if (isset($rating->volunteerRatings)) {
+                        foreach ($rating->volunteerRatings as $volRating) {
+
+                            $action->ratingHours += $volRating->hours;
+                            $action->ratingMinutes += $volRating->minutes;
+                            $action->ratingComments = $volRating->comments;
+                            $action->ratingCount++;
+
+                            if (isset($volRating->ratings)) {
+                                foreach ($volRating->ratings as $r) {
+                                    if (!isset($ratings[$r->attribute->description]))
+                                        $ratings[$r->attribute->description]['rating'] = $r->rating;
+                                    else
+                                        $ratings[$r->attribute->description]['rating'] += $r->rating;
+                                }
+                            }
+                        }
+                    }
+                }
+                unset($action->ratings);
+                $action->ratings = $ratings;
+            }
+        }
+
+        return $actions;
     }
 
 
