@@ -47,7 +47,12 @@
                     return data.comments;
             }
             },
-            {data: "type"},
+            {
+                //show only xx first characters of comments
+                data: null, render: function (data, type, row) {
+                    return data.type.description;
+            }
+            },
             {data: "start_date"},
             {data: "end_date"},
             {

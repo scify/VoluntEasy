@@ -54,11 +54,9 @@ class VolunteerService implements VolunteerInterface {
                 'name' => 'required',
                 'last_name' => 'required',
                 'birth_date' => 'required',
-              /*  'cell_tel' => 'required',
-                'city' => 'required',*/
-                'gender_id' => 'required',
+                'cell_tel' => 'required',
+                'city' => 'required',
                 'email' => 'required|email',
-                'work_status_id' => 'required',
                 'participation_reason' => 'required']);
 
         else
@@ -66,11 +64,9 @@ class VolunteerService implements VolunteerInterface {
                 'name' => 'required',
                 'last_name' => 'required',
                 'birth_date' => 'required',
-               /* 'cell_tel' => 'required',
-                'city' => 'required',*/
-                'gender_id' => 'required',
+                'cell_tel' => 'required',
+                'city' => 'required',
                 'email' => 'required|email|unique:volunteers',
-                'work_status_id' => 'required',
                 'participation_reason' => 'required'
             ]);
 
@@ -124,7 +120,8 @@ class VolunteerService implements VolunteerInterface {
 
             //extra fields
             'afm' => $volunteerRequest['afm'],
-            'how_you_learned_id' => $this->checkDropDown($volunteerRequest['howYouLearned'])
+            'how_you_learned_id' => $this->checkDropDown($volunteerRequest['howYouLearned']),
+            'computer_usage_comments' => $volunteerRequest['computer_usage_comments'],
         ));
 
         //   return ($volunteer);
@@ -211,6 +208,7 @@ class VolunteerService implements VolunteerInterface {
 
     public function doupdate($volunteer, $volunteerRequest) {
 
+
         // update everything except middle table stuff
         $volunteer->update([
             'name' => $volunteerRequest['name'],
@@ -250,7 +248,8 @@ class VolunteerService implements VolunteerInterface {
 
             //extra fields
             'afm' => $volunteerRequest['afm'],
-            'how_you_learned_id' => $this->checkDropDown($volunteerRequest['howYouLearned'])
+            'how_you_learned_id' => $this->checkDropDown($volunteerRequest['howYouLearned']),
+            'computer_usage_comments' => $volunteerRequest['computer_usage_comments'],
         ]);
 
 
@@ -347,8 +346,8 @@ class VolunteerService implements VolunteerInterface {
         }
     }
 
-    private function checkDropDown($input){
-        if($input==0)
+    private function checkDropDown($input) {
+        if ($input == 0)
             return null;
         else
             return $input;

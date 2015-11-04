@@ -173,7 +173,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         @if (isset($volunteer))
                         {!! Form::formInput('driver_license_type_id', 'Δίπλωμα οδήγησης:', $errors, ['class' =>
@@ -185,10 +185,18 @@
                         @endif
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         {!! Form::formInput('computer_usage', 'Χρήση υπολογιστή', $errors, ['class' => 'form-control',
                         'type' => 'checkbox', 'value' => true, 'checked' => 'true']) !!}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::formInput('computer_usage_comments', 'Δεξιότητες υπολογιστή:', $errors,
+                        ['class' => 'form-control', 'type' => 'textarea', 'size' => '2x5']) !!}
                     </div>
                 </div>
             </div>

@@ -21,8 +21,14 @@ class Action extends Model {
         return $this->belongsToMany('App\Models\Volunteer', 'actions_volunteers');
     }
 
+    //volunteer ratings
     public function ratings() {
         return $this->hasMany('App\Models\Rating\ActionRating', 'action_id', 'id');
+    }
+
+    //action ratings
+    public function actionRatings() {
+        return $this->hasMany('App\Models\Rating\ActionScore', 'action_id', 'id');
     }
 
     /**

@@ -1,8 +1,10 @@
 <?php namespace App\Services;
 
 use App\Models\Action;
+use App\Models\Rating\ActionRatingAttribute;
+use App\Models\Rating\ActionScore;
 use App\Services\Facades\SearchService as Search;
-use App\Services\Facades\UserService;
+use App\Services\Facades\UserService as UserServiceFacade;
 
 class ActionService {
 
@@ -20,10 +22,35 @@ class ActionService {
         'name' => '=',
     ];
 
+    public function actionTotalRatings($id){
+
+        $ratings = ActionScore::where('action_id', $id)->with('ratings')->get();
+
+        $attributes = ActionRatingAttribute::all()->lists('description', 'id');
+
+        $totalRating = [];
+
+        foreach($ratings as $rating){
+            foreach($rating->ratings as $score){
+                if(!isset($totalRating[$score->attribute_id])){
+                    $totalRating[$score->attribute_id]['id'] = $score->attribute_id;
+                    $totalRating[$score->attribute_id]['description'] = $attributes[$score->attribute_id];
+                    $totalRating[$score->attribute_id]['score'] = $score->score;
+                    $totalRating[$score->attribute_id]['count'] = 1;
+                }
+                else{
+                    $totalRating[$score->attribute_id]['score'] += $score->score;
+                    $totalRating[$score->attribute_id]['count'] ++;
+                }
+            }
+        }
+        return $totalRating;
+    }
+
 
 
     public function prepareForDataTable($actions) {
-        $userUnits = UserService::userUnits();
+        $userUnits = UserServiceFacade::userUnits();
 
         foreach ($actions as $action) {
             if (in_array($action->unit->id, $userUnits))
@@ -31,7 +58,6 @@ class ActionService {
             else
                 $action->permitted = false;
         }
-
         return $actions;
     }
 

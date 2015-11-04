@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Controller;
 use App\Models\Action;
+use App\Models\Rating\ActionRatingAttribute;
+use App\Models\Rating\ActionScore;
 use App\Models\Volunteer;
 use App\Services\Facades\ActionService;
 use App\Services\Facades\VolunteerService;
@@ -28,11 +30,10 @@ class ActionApiController extends Controller {
 
         //if the action is expired, get the volunteers from the history table
         if ($expired) {
-            $volunteers = Volunteer::whereHas('actionHistory', function ($q) use ($id){
+            $volunteers = Volunteer::whereHas('actionHistory', function ($q) use ($id) {
                 $q->where('action_id', $id);
             })->get();
-        }
-        else{
+        } else {
             $unitId = Action::findOrFail($id)->unit_id;
 
             $volunteers = Volunteer::whereHas('actions', function ($q) use ($id) {
@@ -65,7 +66,7 @@ class ActionApiController extends Controller {
 
         $actions = Action::with('volunteers', 'unit')->get();
 
-        foreach($actions as $action){
+        foreach ($actions as $action) {
             $tmp = ([
                 'title' => $action->description,
                 'start' => \Carbon::parse(\Carbon::createFromFormat('d/m/Y', $action->start_date))->format('Y-m-d'),
@@ -85,6 +86,53 @@ class ActionApiController extends Controller {
 
         return $calendar;
 
+    }
+
+
+    public function rating($id) {
+
+        $ratings = ActionScore::where('action_id', $id)->with('ratings')->get();
+
+        $attributes = ActionRatingAttribute::all()->lists('description');
+
+        $answers = [];
+
+        //initialize answers array
+        $answers[0] = [
+            'name' => 'Διαφωνώ απόλυτα',
+            'data' => []];
+        $answers[1] = [
+            'name' => 'Διαφωνώ',
+            'data' => []];
+        $answers[2] = [
+            'name' => 'Ούτε διαφωνώ/ούτε συμφωνώ',
+            'data' => []];
+        $answers[3] = [
+            'name' => 'Συμφωνώ',
+            'data' => []];
+        $answers[4] = [
+            'name' => 'Συμφωνώ απόλυτα',
+            'data' => []];
+
+        for($i=0; $i<sizeof($attributes); $i++) {
+            array_push($answers[0]['data'], 0);
+            array_push($answers[1]['data'], 0);
+            array_push($answers[2]['data'], 0);
+            array_push($answers[3]['data'], 0);
+            array_push($answers[4]['data'], 0);
+        }
+
+
+        foreach ($ratings as $rating) {
+            foreach ($rating->ratings as $score) {
+                $answers[intval($score->score)+2]['data'][$score->attribute_id-1]++;
+            }
+        }
+
+        return [
+            'questions' => $attributes,
+            'series' => $answers
+        ];
     }
 
 }

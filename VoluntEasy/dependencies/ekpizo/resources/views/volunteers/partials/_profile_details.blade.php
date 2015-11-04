@@ -65,6 +65,8 @@
 
                                 <p><strong>Χρήση υπολογιστή:</strong> {{ $volunteer->computer_usage=='' ? 'Όχι' :
                                     'Ναι' }}</p>
+
+                                <p><strong>Δεξιότητες υπολογιστή:</strong> {{$volunteer->computer_usage_comments }}</p>
                             </div>
                             <div class="col-md-4">
                                 <h4>Ξένες Γλώσσες</h4>

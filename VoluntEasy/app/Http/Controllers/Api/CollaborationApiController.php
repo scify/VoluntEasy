@@ -10,7 +10,7 @@ use App\Services\Facades\VolunteerService;
 class CollaborationApiController extends Controller {
 
     public function all() {
-        $collaborations =  Collaboration::all();
+        $collaborations =  Collaboration::with('type')->get();
 
         $data = $collaborations;//ActionService::prepareForDataTable($actions);
 

@@ -125,8 +125,6 @@ class RatingController extends Controller {
      * @return mixed
      */
     public function storeActionRating() {
-        //return (\Request::all());
-
 
         $actionId = \Request::get('actionId');
         $actionScoreId = \Request::get('actionScoreId');
@@ -145,7 +143,7 @@ class RatingController extends Controller {
 
         //set the action rating as rated
         $actionScore = ActionScore::find($actionScoreId);
-        $actionScore->update(['rated' => true]);
+        $actionScore->update(['rated' => true, 'comments' => \Request::get('comments')]);
 
         return $actionId;
     }

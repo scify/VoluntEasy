@@ -37,7 +37,7 @@
                                 <th class="text-center">Διαφωνώ</th>
                                 <th class="text-center">Ούτε διαφωνώ/ούτε συμφωνώ</th>
                                 <th class="text-center">Συμφωνώ</th>
-                                <th class="text-center">Συμφωνώ τελείως</th>
+                                <th class="text-center">Συμφωνώ απόλυτα</th>
                                 </thead>
                                 <tbody>
                                 @foreach($attributes as $attribute)
@@ -65,6 +65,15 @@
                                     </td>
                                 </tr>
                                 @endforeach
+                                <tr>
+                                    <td>
+                                        Γράψε άλλες παρατηρήσεις (π.χ. μια όμορφη στιγμή, μια δύσκολη στιγμή ή κάτι που θα ήθελες να γίνει διαφορετικά).
+                                    </td>
+                                    <td colspan="5">
+                                        {!! Form::formInput('comments', '', null, ['class' => 'form-control', 'type' =>
+                                        'textarea', 'size' => '5x5', 'id' => 'comments']) !!}
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
                             <div class="row m-b-lg text-right">
@@ -81,7 +90,6 @@
                             <div class="row text-center">
                                 <div class="col-md-12">
                                     <p><em>Λάβατε αυτό το ερωτηματολόγιο επειδή είστε εγγεγραμμένος ως εθελοντής στην πλατφόρμα διαχείρισης εθελοντών <strong>{{trans($lang.'title')}}</strong>.</em></p>
-
                                 </div>
                             </div>
                         </div>
@@ -110,8 +118,6 @@
                     score: $("input:radio[name ='" + group + "']:checked").val()
                 });
             });
-            console.log(ratings);
-
 
             //send data to server to save the ratings
             $.ajax({
@@ -120,14 +126,14 @@
                 data: {
                     actionId: $("#actionInformation").attr('data-action-id'),
                     actionScoreId: $("#actionInformation").attr('data-action-score-id'),
+                    comments: $("#comments").val(),
                     ratings: ratings
                 },
                 headers: {
                     'X-CSRF-Token': $('meta[name="_token"]').attr('content')
                 },
                 success: function (data) {
-                    console.log(data);
-                    //   window.location.href = $("body").attr('data-url') + "/ratings/action/thankyou/" + data;
+                    window.location.href = $("body").attr('data-url') + "/ratings/action/thankyou/" + data;
                 }
             });
         }

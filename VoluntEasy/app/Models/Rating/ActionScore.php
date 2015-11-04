@@ -11,7 +11,7 @@ class ActionScore extends Model {
 
     public function ratings()
     {
-        return $this->hasMany('App\Models\Raing\ActionRatingScore', 'action_score_id', 'id');
+        return $this->hasMany('App\Models\Rating\ActionRatingScore', 'action_score_id', 'id');
     }
 
     public function action()

@@ -4,6 +4,8 @@ use App\Http\Requests\ActionRequest as ActionRequest;
 use App\Models\Action;
 use App\Models\ActionVolunteerHistory;
 use App\Models\Descriptions\VolunteerStatus;
+use App\Models\Rating\ActionRatingAttribute;
+use App\Models\Rating\ActionScore;
 use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Services\Facades\ActionService;
@@ -78,7 +80,7 @@ class ActionController extends Controller {
      * @return Response
      */
     public function show($id) {
-        $action = Action::with('unit')->findOrFail($id);
+        $action = Action::with('unit', 'ratings')->findOrFail($id);
 
         $branch = UnitService::getBranch(Unit::where('id', $action->unit->id)->with('actions')->first());
 
@@ -101,6 +103,7 @@ class ActionController extends Controller {
             $action->expired = true;
 
         $userUnits = UserService::userUnits();
+
 
         return view('main.actions.show', compact('action', 'allVolunteers', 'volunteerIds', 'userUnits', 'branch'));
     }
@@ -206,5 +209,37 @@ class ActionController extends Controller {
         return $action->id;
     }
 
+
+    public function fullRatings($id) {
+        $action = Action::findOrFail($id);
+        $ratings = ActionScore::where('action_id', $id)->with('ratings')->get();
+
+        $attributes = ActionRatingAttribute::all();
+
+        foreach ($ratings as $rating) {
+            foreach ($rating->ratings as $score) {
+                switch($score->score){
+                    case "-2":
+                        $score->description = "Διαφωνώ απόλυτα";
+                        break;
+                    case "-1":
+                        $score->description = "Διαφωνώ";
+                        break;
+                    case "0":
+                        $score->description = "Ούτε διαφωνώ/ούτε συμφωνώ";
+                        break;
+                    case "1":
+                        $score->description = "Συμφωνώ";
+                        break;
+                    case "2":
+                        $score->description = "Συμφωνώ απόλυτα";
+                        break;
+                }
+            }
+        }
+
+        //return $ratings;
+        return view('main.actions.ratings', compact('action', 'attributes', 'ratings'));
+    }
 
 }

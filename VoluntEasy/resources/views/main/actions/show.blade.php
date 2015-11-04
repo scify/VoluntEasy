@@ -24,7 +24,7 @@
     <div class="panel-body" style="display: block;">
         <div class="row">
             <div class="col-md-4">
-                <h3>Δράση {{ $action->description }}</h3>
+                <h3>Δράση <span data-action-id="{{ $action->id }}" id="actionId">{{ $action->description }}</span></h3>
 
                 <p>
                     <small>
@@ -54,7 +54,7 @@
                                 $action->email }}</a>
                             @if($action->phone_number!=null || $action->phone_number!='')
                             |<i class="fa fa-phone"></i> {{ $action->phone_number }}</p>
-                            @endif
+                        @endif
                     </li>
                 </ul>
                 @else
@@ -104,6 +104,31 @@
     </div>
 </div>
 
+@if(sizeof($action->ratings)>0)
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading clearfix">
+                <h4 class="panel-title">Συνολικές αξιολογήσεις για τη δράση</h4>
+
+                <div class="panel-control">
+                    <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
+                       class="panel-collapse" data-original-title="Expand/Collapse"><i class="icon-arrow-down"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>Για να δείτε τα αποτελέσματα πιο αναλυτικά, πατήστε <a href="http://volunteasy/actions/ratings/{{ $action->id }}">εδώ</a>.</p>
+
+                        <div id="container" style="min-width: 400px; height: 500px; margin:0 auto;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
 
 @include('main._modals._volunteers', ['active' => $action])
 
@@ -112,6 +137,9 @@
 
 
 @section('footerScripts')
+<script src="{{ asset('assets/plugins/highcharts-4.1.9/highcharts.js')}}"></script>
+<script src="{{ asset('assets/plugins/highcharts-4.1.9/module/exporting.js')}}"></script>
+
 <script>
     $("#tree").jOrgChart({
         chartElement: '#unitsTree',
@@ -165,6 +193,62 @@
                 }
             });
         }
+    }
+
+
+    //initialize rating chart
+    $(function () {
+        var id = $("#actionId").attr('data-action-id');
+
+        $.ajax({
+            url: $("body").attr('data-url') + '/api/actions/rating/' + id,
+            method: 'GET',
+            headers: {
+                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+            },
+            success: function (data) {
+                console.log(data);
+                initChart(data);
+            }
+        });
+    });
+
+
+    function initChart(data) {
+
+        var series = [];
+        $.each(data.series, function (key, value) {
+            series.push(value);
+        });
+
+        console.log(series)
+        $('#container').highcharts({
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: ''
+            },
+            colors: ['#CA0020', '#F4A582', '#ccc', '#92C5DE', '#0571B0'],
+            xAxis: {
+                categories: data.questions
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Συνολικές αξιολογήσεις'
+                }
+            },
+            legend: {
+                reversed: true
+            },
+            plotOptions: {
+                series: {
+                    stacking: 'normal'
+                }
+            },
+            series: series
+        });
     }
 </script>
 @append

@@ -84,6 +84,7 @@ Route::get('actions/delete/{id}', 'ActionController@destroy');
 Route::post('actions/store', 'ActionController@store');
 Route::post('actions/update', 'ActionController@update');
 Route::post('actions/volunteers', 'ActionController@addVolunteers');
+Route::get('actions/ratings/{id}', 'ActionController@fullRatings');
 Route::post('actions/search', 'ActionController@search');
 
 
@@ -187,6 +188,7 @@ Route::group(array('prefix' => 'api'), function()
     Route::get('actions','Api\ActionApiController@all');
     Route::get('actions/{id}/volunteers','Api\ActionApiController@volunteers');
     Route::get('actions/calendar','Api\ActionApiController@calendar');
+    Route::get('actions/rating/{id}','Api\ActionApiController@rating');
 
     Route::get('collaborations','Api\CollaborationApiController@all');
 
@@ -219,6 +221,8 @@ Route::get('faker','TestController@faker');
 Route::get('boxytree','TestController@boxytree');
 Route::get('experiment','TestController@experiment');
 
+
+Route::get('ekpizo', 'TestController@ekpizo');
 
 
 // Display all SQL executed in Eloquent
