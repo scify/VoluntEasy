@@ -172,7 +172,7 @@ Route::get('reports/volunteerHoursByAction','ReportsController@volunteerHoursByA
 /////////////////
 //API Routes //
 /////////////////
-Route::group(['middleware' => 'cors','prefix' => 'api'], function()
+Route::group([/*'middleware' => 'cors',*/'prefix' => 'api'], function()
 {
     Route::get('volunteers','Api\VolunteerApiController@all');
     Route::get('volunteers/status/{status}','Api\VolunteerApiController@status');
