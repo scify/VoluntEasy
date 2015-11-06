@@ -894,8 +894,8 @@ class VolunteerService {
             }
         }
 
-        $result = $query->with('actions', 'units', 'ratings')->orderBy('name', 'ASC')->get();
-
+        $result = $query->with('actions', 'units')->orderBy('name', 'ASC')->get();
+/*
         //get the total rating for each attribute
         foreach ($result as $volunteer) {
             if ($volunteer->ratings != null) {
@@ -908,7 +908,7 @@ class VolunteerService {
                 $volunteer->rating_attr3 = 0;
             }
         }
-
+*/
         //sort by rating
         if ($ratingId != -1) {
             switch ($ratingId) {
