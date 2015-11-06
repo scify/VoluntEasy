@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
                 {!! Form::formInput('', 'Ανάθεση στη δράση:', $errors, ['class' => 'form-control',
-                'type' => 'select', 'value' => $unit->actions->lists('description', 'id'), 'id' => 'addToAction-'.$unit->id]) !!}
+                'type' => 'select', 'value' => $unit->actions->lists('description', 'id')->all(), 'id' => 'addToAction-'.$unit->id]) !!}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>

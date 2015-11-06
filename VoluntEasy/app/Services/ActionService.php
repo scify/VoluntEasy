@@ -26,7 +26,7 @@ class ActionService {
 
         $ratings = ActionScore::where('action_id', $id)->with('ratings')->get();
 
-        $attributes = ActionRatingAttribute::all()->lists('description', 'id');
+        $attributes = ActionRatingAttribute::all()->lists('description', 'id')->all();
 
         $totalRating = [];
 

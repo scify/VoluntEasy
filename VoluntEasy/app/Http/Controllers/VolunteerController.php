@@ -58,20 +58,20 @@ class VolunteerController extends Controller {
      */
     public function create() {
 
-        $identificationTypes = IdentificationType::all()->lists('description', 'id');
-        $driverLicenseTypes = DriverLicenceType::all()->lists('description', 'id');
-        $maritalStatuses = MaritalStatus::all()->lists('description', 'id');
-        $languages = Language::all()->lists('description', 'id');
-        $langLevels = LanguageLevel::all()->lists('description', 'id');
-        $workStatuses = WorkStatus::all()->lists('description', 'id');
-        $availabilityFreqs = AvailabilityFrequencies::all()->lists('description', 'id');
-        $availabilityTimes = AvailabilityTime::all()->lists('description', 'id');
-        $interestCategories = InterestCategory::with('interests')->get();
-        $genders = Gender::all()->lists('description', 'id');
-        $commMethod = CommunicationMethod::all()->lists('description', 'id');
-        $edLevel = EducationLevel::all()->lists('description', 'id');
-        $howYouLearned = HowYouLearned::all()->lists('description', 'id');
-        $units = Unit::orderBy('description', 'asc')->get();
+        $identificationTypes = IdentificationType::all()->lists('description', 'id')->all();
+        $driverLicenseTypes = DriverLicenceType::all()->lists('description', 'id')->all();
+        $maritalStatuses = MaritalStatus::all()->lists('description', 'id')->all();
+        $languages = Language::all()->lists('description', 'id')->all();
+        $langLevels = LanguageLevel::all()->lists('description', 'id')->all();
+        $workStatuses = WorkStatus::all()->lists('description', 'id')->all();
+        $availabilityFreqs = AvailabilityFrequencies::all()->lists('description', 'id')->all();
+        $availabilityTimes = AvailabilityTime::all()->lists('description', 'id')->all();
+        $interestCategories = InterestCategory::with('interests')->get()->all();
+        $genders = Gender::all()->lists('description', 'id')->all();
+        $commMethod = CommunicationMethod::all()->lists('description', 'id')->all();
+        $edLevel = EducationLevel::all()->lists('description', 'id')->all();
+        $howYouLearned = HowYouLearned::all()->lists('description', 'id')->all();
+        $units = Unit::orderBy('description', 'asc')->get()->all();
 
         $viewPath = $this->configuration->getViewsPath().'.volunteers._form';
 
@@ -200,19 +200,19 @@ class VolunteerController extends Controller {
     public function edit($volId) {
         $volunteer = Volunteer::with('interests', 'availabilityTimes', 'availabilityDays', 'unitsExcludes', 'files')->findOrFail($volId);
 
-        $identificationTypes = IdentificationType::all()->lists('description', 'id');
-        $driverLicenseTypes = DriverLicenceType::all()->lists('description', 'id');
-        $maritalStatuses = MaritalStatus::all()->lists('description', 'id');
-        $languages = Language::all()->lists('description', 'id');
-        $langLevels = LanguageLevel::all()->lists('description', 'id');
-        $workStatuses = WorkStatus::all()->lists('description', 'id');
-        $availabilityFreqs = AvailabilityFrequencies::all()->lists('description', 'id');
-        $availabilityTimes = AvailabilityTime::all()->lists('description', 'id');
+        $identificationTypes = IdentificationType::all()->lists('description', 'id')->all();
+        $driverLicenseTypes = DriverLicenceType::all()->lists('description', 'id')->all();
+        $maritalStatuses = MaritalStatus::all()->lists('description', 'id')->all();
+        $languages = Language::all()->lists('description', 'id')->all();
+        $langLevels = LanguageLevel::all()->lists('description', 'id')->all();
+        $workStatuses = WorkStatus::all()->lists('description', 'id')->all();
+        $availabilityFreqs = AvailabilityFrequencies::all()->lists('description', 'id')->all();
+        $availabilityTimes = AvailabilityTime::all()->lists('description', 'id')->all();
         $interestCategories = InterestCategory::with('interests')->get();
-        $genders = Gender::all()->lists('description', 'id');
-        $commMethod = CommunicationMethod::all()->lists('description', 'id');
-        $howYouLearned = HowYouLearned::all()->lists('description', 'id');
-        $edLevel = EducationLevel::all()->lists('description', 'id');
+        $genders = Gender::all()->lists('description', 'id')->all();
+        $commMethod = CommunicationMethod::all()->lists('description', 'id')->all();
+        $howYouLearned = HowYouLearned::all()->lists('description', 'id')->all();
+        $edLevel = EducationLevel::all()->lists('description', 'id')->all();
 
         $units = Unit::orderBy('description', 'asc')->get();
 
@@ -425,7 +425,7 @@ class VolunteerController extends Controller {
 
         //check if the unit has any actions, then detach the volunteer from them
         if (sizeof($unit->actions) > 0)
-            $volunteer->actions()->detach($unit->actions->lists('id'));
+            $volunteer->actions()->detach($unit->actions->lists('id')->all());
 
         $volunteer->units()->detach($unitId);
 

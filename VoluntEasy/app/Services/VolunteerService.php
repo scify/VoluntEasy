@@ -266,8 +266,8 @@ class VolunteerService {
         $volunteer->age = \Carbon::createFromDate($birth_date->year, $birth_date->month, $birth_date->day)->age;
 
 
-        $unitsExcludes = $volunteer->unitsExcludes->lists('id');
-        $assignedUnits = $volunteer->units->lists('id');
+        $unitsExcludes = $volunteer->unitsExcludes->lists('id')->all();
+        $assignedUnits = $volunteer->units->lists('id')->all();
 
         //this is basically a hack.
         //in the front end we want to display a list of the available units for each unit
@@ -428,7 +428,7 @@ class VolunteerService {
 
         $volunteer = Volunteer::with('actionHistory')->find($volunteerId);
 
-        $actions = Action::whereIn('id', $volunteer->actionHistory->lists('action_id'))
+        $actions = Action::whereIn('id', $volunteer->actionHistory->lists('action_id')->all())
             ->with(['ratings.volunteerRatings' => function ($q) use ($volunteerId) {
                 $q->where('volunteer_id', $volunteerId)->with('ratings.attribute');
             }])->get();
@@ -585,7 +585,7 @@ class VolunteerService {
             $volunteer = Volunteer::where('id', $id)->with('steps.status')->first();
 
             //check if the steps already exist
-            if (sizeof(array_diff($rootUnit->steps->lists('id'), $volunteer->steps->lists('step_id')))) {
+            if (sizeof(array_diff($rootUnit->steps->lists('id')->all(), $volunteer->steps->lists('step_id')->all()))) {
 
                 $incompleteStatus = StepStatus::where('description', 'Incomplete')->first();
 
@@ -644,7 +644,7 @@ class VolunteerService {
             //check if the steps already exist
             //if they don't exist, then create the steps,
             //and set their status to pending
-            if (sizeof(array_diff($unit->steps->lists('id'), $volunteer->steps->lists('step_id'))) != 0) {
+            if (sizeof(array_diff($unit->steps->lists('id')->all(), $volunteer->steps->lists('step_id')->all())) != 0) {
 
                 $incompleteStatus = StepStatus::where('description', 'Incomplete')->first();
 
@@ -668,7 +668,7 @@ class VolunteerService {
                 $volunteerId = $volunteer->id;
                 $pending = StepStatus::incomplete();
 
-                $steps = $unit->steps->lists('id');
+                $steps = $unit->steps->lists('id')->all();
 
                 $volunteer = Volunteer::with(['steps' => function ($query) use ($steps, $pending) {
                     $query->whereIn('step_id', $steps)->whereHas('status', function ($q) use ($pending) {

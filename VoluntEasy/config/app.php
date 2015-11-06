@@ -136,7 +136,9 @@ return [
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
         'Illuminate\Html\HtmlServiceProvider',
+        'Illuminate\Broadcasting\BroadcastServiceProvider',
         'Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider',
+
         //'Barryvdh\Cors\ServiceProvider',
 
 		/*

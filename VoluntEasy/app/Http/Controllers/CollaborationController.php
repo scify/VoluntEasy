@@ -38,7 +38,7 @@ class CollaborationController extends Controller {
      * @return Response
      */
     public function create() {
-        $collaborationTypes = CollaborationType::all()->lists('description', 'id');
+        $collaborationTypes = CollaborationType::all()->lists('description', 'id')->all();
         $collaborationTypes[0] = '[- επιλέξτε -]';
         ksort($collaborationTypes);
 
@@ -128,7 +128,7 @@ class CollaborationController extends Controller {
      * @return Response
      */
     public function edit($id) {
-        $collaborationTypes = CollaborationType::all()->lists('description', 'id');
+        $collaborationTypes = CollaborationType::all()->lists('description', 'id')->all();
         $collaborationTypes[0] = '[- επιλέξτε -]';
         ksort($collaborationTypes);
 

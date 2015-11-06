@@ -8,7 +8,7 @@
     </label>
     {!! Form::formInput('actionSelect', '', $errors, ['class' => 'form-control',
     'type' => 'select', 'id' => 'actionSelect-'.$step->statuses[0]->id, 'value' =>
-    $unit->actions->lists('description', 'id')]) !!}
+    $unit->actions->lists('description', 'id')->all()]) !!}
 </div>
 <div class="form-group">
     <label>

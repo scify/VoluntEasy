@@ -24,7 +24,7 @@ class ReportsService implements ReportsInterface {
      */
     public function volunteersByMonth() {
 
-        $this->volunteerStatuses = VolunteerStatus::all()->lists('description', 'id');
+        $this->volunteerStatuses = VolunteerStatus::all()->lists('description', 'id')->all();
 
         $years = [];
 

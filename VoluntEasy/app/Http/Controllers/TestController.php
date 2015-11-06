@@ -112,7 +112,7 @@ class TestController extends Controller {
         }
 
         for ($i = 1; $i < 11; $i++) {
-            $unitIds = Unit::all()->lists('id');
+            $unitIds = Unit::all()->lists('id')->all();
             $unit = new Unit([
                 'description' => $faker->company,
                 'comments' => $faker->paragraph,
@@ -123,7 +123,7 @@ class TestController extends Controller {
             $unit->steps()->saveMany(UnitService::createSteps());
         }
 
-        $leaves = Unit::whereDoesntHave('children')->lists('id');
+        $leaves = Unit::whereDoesntHave('children')->lists('id')->all();
 
         for ($i = 0; $i < 5; $i++) {
             $action = new Action([

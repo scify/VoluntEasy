@@ -200,7 +200,7 @@
                 @foreach ($langLevels as $lev => $level)
                 <label>
                     <em>{{ $level }}</em>
-                    @if (isset($volunteer) && in_array($lan, $volunteer->languages->lists('language_id')) )
+                    @if (isset($volunteer) && in_array($lan, $volunteer->languages->lists('language_id')->all()) )
                     {!! Form::formInput('lang'.$lan, '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value'
                     => $lev, 'checked' => 'true']) !!}
                     @else
@@ -268,7 +268,7 @@
                 <td>{{ $category->description }}</td>
                     <td>@foreach($category->interests as $int_id => $interest)
                         <div class="form-group">
-                            @if (isset($volunteer) && in_array($int_id, $volunteer->interests->lists('id')) )
+                            @if (isset($volunteer) && in_array($int_id, $volunteer->interests->lists('id')->all()) )
                             {!! Form::formInput('interest' . $interest->id, $interest->description , $errors, ['class'
                             =>
                             'form-control',
@@ -301,7 +301,7 @@
             <div class="form-group">
                 <p>Χρόνοι συνεισφοράς:</p>
                 @foreach($availabilityTimes as $a_t_id => $availability_time)
-                @if (isset($volunteer) && in_array($a_t_id, $volunteer->availabilityTimes->lists('id')) )
+                @if (isset($volunteer) && in_array($a_t_id, $volunteer->availabilityTimes->lists('id')->all()) )
                 {!! Form::formInput('availability_time[]' . $a_t_id, $availability_time, $errors, ['class' =>
                 'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'true']) !!}
                 @else
@@ -332,7 +332,7 @@
 
                     @foreach($units as $unit_id => $unit)
                     <option value="{{ $unit->id }}" name="unit-{{$unit->id}}"
-                    {{ isset($volunteer) && in_array($unit->id, $volunteer->unitsExcludes->lists('id')) ? 'selected'
+                    {{ isset($volunteer) && in_array($unit->id, $volunteer->unitsExcludes->lists('id')->all()) ? 'selected'
                     :
                     '' }} >{{ $unit->description }}</option>
 

@@ -316,7 +316,7 @@ class VolunteerService implements VolunteerInterface {
         foreach ($languages as $language) {
             $langId = \Input::has('lang' . $language->id);
 
-            if ($langId && !in_array($language->id, $volunteerLanguages->lists('language_id'))) {
+            if ($langId && !in_array($language->id, $volunteerLanguages->lists('language_id')->all())) {
                 //create a new VolunteerLanguage
                 $volLanguage = new VolunteerLanguage([
                     'volunteer_id' => $volunteer->id,

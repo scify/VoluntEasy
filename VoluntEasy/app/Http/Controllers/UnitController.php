@@ -187,7 +187,7 @@ class UnitController extends Controller {
         if(\Input::has('usersSelect')) {
             foreach (\Input::get('usersSelect') as $user) {
                 //get the new users' ids to notify them
-                if (!in_array($user, $unit->users->lists('id')))
+                if (!in_array($user, $unit->users->lists('id')->all()))
                     array_push($newUsers, $user);
 
                 //keep the users in a list

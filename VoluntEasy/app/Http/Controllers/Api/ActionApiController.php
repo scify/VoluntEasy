@@ -93,7 +93,7 @@ class ActionApiController extends Controller {
 
         $ratings = ActionScore::where('action_id', $id)->with('ratings')->get();
 
-        $attributes = ActionRatingAttribute::all()->lists('description');
+        $attributes = ActionRatingAttribute::all()->lists('description')->all();
 
         $answers = [];
 

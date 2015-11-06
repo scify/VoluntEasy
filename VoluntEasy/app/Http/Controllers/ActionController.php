@@ -190,7 +190,7 @@ class ActionController extends Controller {
         if (sizeof($request->get('volunteers')) == 0) {
             $action->volunteers()->detach();
         } else {
-            $oldVolunteersOfAction = $action->volunteers()->get()->lists('id');
+            $oldVolunteersOfAction = $action->volunteers()->get()->lists('id')->all();
 
             $action->volunteers()->sync($request->get('volunteers'));
             $statusId = VolunteerStatus::active();
