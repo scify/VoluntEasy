@@ -172,12 +172,12 @@ Route::get('reports/volunteerHoursByAction','ReportsController@volunteerHoursByA
 /////////////////
 //API Routes //
 /////////////////
-Route::group(array('prefix' => 'api'), function()
+Route::group(['middleware' => 'cors','prefix' => 'api'], function()
 {
     Route::get('volunteers','Api\VolunteerApiController@all');
     Route::get('volunteers/status/{status}','Api\VolunteerApiController@status');
     Route::get('volunteers/one/{id}','Api\VolunteerApiController@show');
-    Route::any('volunteers/store','Api\VolunteerApiController@store');
+    Route::post('volunteers/apiStore','Api\VolunteerApiController@apiStore');
 
     Route::get('units','Api\UnitApiController@all');
     Route::get('units/{id}/volunteers','Api\UnitApiController@volunteers');
@@ -198,11 +198,10 @@ Route::group(array('prefix' => 'api'), function()
 });
 
 
+Route::get('faq', 'EtcController@faq');
 
 
 Route::get('cityofathens', 'TestController@cityofathens');
-
-
 
 
 

@@ -198,6 +198,8 @@ div#unitsTree{overflow-x: auto;}
     font-weight: normal;
 }
 
+.faq-link:hover, .faq-link:active{text-decoration: none;}
+
 /**indicate that an input is an autocomplete widjet **/
 .form-control.ui-autocomplete-input::-webkit-input-placeholder {
     text-align:right;

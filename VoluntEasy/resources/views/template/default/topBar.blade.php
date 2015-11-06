@@ -51,10 +51,18 @@
                                 </li>
                                 <!---/Profile--->
 
+                                <!--- FAQ --->
+                                <li>
+                                    <a href="{!! url('faq') !!}" class="log-out waves-effect waves-button waves-classic">
+                                        <span><i class="fa fa-question-circle"></i> {{trans($lang.'faq')}}</span>
+                                    </a>
+                                </li>
+                                <!--- /FAQ --->
+
                                 <!---Logout--->
                                 <li>
                                     <a href="{!! url('auth/logout') !!}" class="log-out waves-effect waves-button waves-classic">
-                                        <span><i class="fa fa-sign-out m-r-xs"></i>{{trans($lang.'logOut')}}</span>
+                                        <span><i class="fa fa-sign-out"></i>{{trans($lang.'logOut')}}</span>
                                     </a>
                                 </li>
                                 <!---/Logout--->

@@ -139,14 +139,4 @@ class TestController extends Controller {
         return 'Dummy data generated...';
 
     }
-
-    public function ekpizo(){
-
-        return \Request::all();
-        \DB::table('test')->insert([
-            ['test' => 'fdsgdfgfdgf']
-        ]);
-
-        return 'ok';
-    }
 }

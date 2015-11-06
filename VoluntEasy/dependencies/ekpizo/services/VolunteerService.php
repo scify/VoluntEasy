@@ -352,4 +352,234 @@ class VolunteerService implements VolunteerInterface {
         else
             return $input;
     }
+
+    /**
+     * Save data sent from another site
+     *
+     * @return mixed
+     */
+    function apiStore() {
+
+        $data =  \Request::get('submitted');
+
+        return $data;
+
+        //first validate input
+        if ($this->validateInput()) {
+
+            $volunteer = new Volunteer(array(
+                'name' => $data['volunteer_info']['name'],
+                'last_name' => $data['volunteer_info']['last_name'],
+                'fathers_name' => $data['volunteer_info']['fathers_name'],
+                'identification_num' => $data['volunteer_info']['identification_num'],
+                'children' => intval($data['volunteer_info']['children']),
+                'address' => $data['volunteer_info']['address'].' '.$data['volunteer_info']['addressNum'],
+                'post_box' => $data['volunteer_info']['post_box'],
+                'city' => $data['volunteer_info']['city'],
+                'country' => $data['volunteer_info']['country'],
+                'afm' => $data['volunteer_info']['afm'],
+
+
+                'home_tel' => $data['contact_info']['home_tel'],
+                'work_tel' => $data['contact_info']['work_tel'],
+                'cell_tel' => $data['contact_info']['cell_tel'],
+                'fax' => $data['contact_info']['fax'],
+                'email' => $data['contact_info']['email'],
+
+                'specialty' => $data['volunteer_info']['specialty'],
+                'department' => $data['volunteer_info']['department'],
+                'additional_skills' => $data['volunteer_info']['additional_skills'],
+                'extra_lang' => $data['volunteer_info']['extra_lang'],
+                'work_description' => $data['volunteer_info']['work_description'],
+                'participation_reason' => $data['volunteer_info']['participation_reason'],
+                'participation_actions' => $data['volunteer_info']['participation_actions'],
+                'participation_previous' => $data['volunteer_info']['participation_previous'],
+
+                'how_you_learned_id' => $this->checkDropDown($data['volunteer_info']['how_you_learned_id']),
+                'computer_usage_comments' => $volunteerRequest['computer_usage_comments'],
+            ));
+
+
+            //                'live_in_curr_country' => intval($data['volunteer_info']['live_in_curr_country'])-1,
+
+
+
+            $volunteer->birth_date = \Carbon::createFromDate($data['volunteer_info']['birth_date']['year'], $data['volunteer_info']['birth_date']['month'], $data['volunteer_info']['birth_date']['day']);
+
+
+            $gender = Gender::where('description', \Input::get('Φύλο'))->first(['id']);
+            if ($gender == null)
+                $volunteer->gender_id = 1;
+            else
+                $volunteer->gender_id = $gender->id;
+
+
+            $education_level = EducationLevel::where('description', \Input::get('Επίπεδο_εκπαίδευσης'))->first(['id']);
+            if ($education_level == null)
+                $volunteer->$education_level_id = 1;
+            else
+                $volunteer->education_level_id = $education_level->id;
+
+
+            $work_status = WorkStatus::where('description', \Input::get('Εργασιακή_κατάσταση'))->first(['id']);
+            if ($work_status == null)
+                $volunteer->$work_status_id = 1;
+            else
+                $volunteer->work_status_id = $work_status->id;
+
+
+            $columnId = null;
+            if (!\Input::has('Τύπος_Ταυτότητας') || \Input::get('Τύπος_Ταυτότητας') != '') {
+                $result = IdentificationType::where('description', \Input::get('Τύπος_Ταυτότητας'))->first(['id']);
+
+                if ($result != null || $result != '')
+                    $columnId = $result->id;
+            }
+            $volunteer->identification_type_id = $columnId;
+
+
+            $columnId = null;
+            if (!\Input::has('Οικογενειακή_Κατάσταση') || \Input::get('Οικογενειακή_Κατάσταση') != '') {
+                $result = MaritalStatus::where('description', \Input::get('Οικογενειακή_Κατάσταση'))->first(['id']);
+
+                if ($result != null || $result != '')
+                    $columnId = $result->id;
+            }
+            $volunteer->marital_status_id = $columnId;
+
+
+            $columnId = null;
+            if (!\Input::has('Τρόπος_επικοινωνίας') || \Input::get('Τρόπος_επικοινωνίας') != '') {
+                if (\Input::get('Τρόπος_επικοινωνίας') == 'email')
+                    $result = CommunicationMethod::where('description', 'Ηλεκτρονικό ταχυδρομείο')->first(['id']);
+                else
+                    $result = CommunicationMethod::where('description', \Input::get('Τρόπος_επικοινωνίας'))->first(['id']);
+
+                if ($result != null || $result != '')
+                    $columnId = $result->id;
+            }
+            $volunteer->comm_method_id = $columnId;
+
+
+            $columnId = null;
+            if (!\Input::has('Δίπλωμα_οδήγησης') || \Input::get('Δίπλωμα_οδήγησης') != '') {
+                $result = DriverLicenceType::where('description', \Input::get('Δίπλωμα_οδήγησης'))->first(['id']);
+
+                if ($result != null || $result != '')
+                    $columnId = $result->id;
+            }
+            $volunteer->driver_license_type_id = $columnId;
+
+
+            $columnId = null;
+            if (!\Input::has('Συχνότητα_συνεισφοράς') || \Input::get('Συχνότητα_συνεισφοράς') != '') {
+                $result = AvailabilityFrequencies::where('description', \Input::get('Συχνότητα_συνεισφοράς'))->first(['id']);
+
+                if ($result != null || $result != '')
+                    $columnId = $result->id;
+            }
+            $volunteer->availability_freqs_id = $columnId;
+
+
+            if (\Input::get('Κάτοικος_Ελλάδας') == 'Είναι Κάτοικος Ελλάδας')
+                $volunteer->live_in_curr_country = 1;
+            else
+                $volunteer->live_in_curr_country = 0;
+
+            $volunteer->save();
+
+            if (\Input::has('Ελληνικά')) {
+                $volunteer->languages()->save($this->createVolunteerLanguage('Ελληνικά', \Input::get('Ελληνικά'), $volunteer->id));
+            }
+            if (\Input::has('Αγγλικά')) {
+                $volunteer->languages()->save($this->createVolunteerLanguage('Αγγλικά', \Input::get('Αγγλικά'), $volunteer->id));
+            }
+            if (\Input::has('Γαλλικά')) {
+                $volunteer->languages()->save($this->createVolunteerLanguage('Γαλλικά', \Input::get('Γαλλικά'), $volunteer->id));
+            }
+            if (\Input::has('Ισπανικά')) {
+                $volunteer->languages()->save($this->createVolunteerLanguage('Ισπανικά', \Input::get('Ισπανικά'), $volunteer->id));
+            }
+            if (\Input::has('Γερμανικά')) {
+                $volunteer->languages()->save($this->createVolunteerLanguage('Γερμανικά', \Input::get('Γερμανικά'), $volunteer->id));
+            }
+
+            if (\Input::has('Χρόνοι_συνεισφοράς')) {
+                $times = \Input::get('Χρόνοι_συνεισφοράς');
+                $availability_array = [];
+
+                foreach ($times as $time) {
+                    $availability_time = AvailabilityTime::where('description', $time)->first(['id'])->id;
+                    array_push($availability_array, $availability_time);
+                }
+
+                $volunteer->availabilityTimes()->sync($availability_array);
+            }
+
+            return \Response::json($volunteer, 201);
+        } else {
+            return \Response::json('Error in form fields', 409);
+        }
+    }
+
+
+    /**
+     * Create a new VolunteerLanguage
+     *
+     * @param $language
+     * @param $level
+     * @param $volunteerId
+     * @return VolunteerLanguage
+     */
+    private function createVolunteerLanguage($language, $level, $volunteerId) {
+
+        $levelId = LanguageLevel::where('description', $level)->first(['id'])->id;
+        $languageId = Language::where('description', $language)->first(['id'])->id;
+
+        $volLanguage = new VolunteerLanguage([
+            'volunteer_id' => $volunteerId,
+            'language_id' => $languageId,
+            'language_level_id' => $levelId
+        ]);
+
+        return $volLanguage;
+    }
+
+
+    /**
+     * Validate form input before taking any action
+     *
+     * @return bool
+     */
+    private function validateInput() {
+        $flag = true;
+
+        if (!\Input::has('Όνομα') || \Input::get('Όνομα') == '')
+            return false;
+
+        if (!\Input::has('Επώνυμο') || \Input::get('Επώνυμο') == '')
+            return false;
+
+        if (!\Input::has('Ημερομηνία_Γέννησης')
+            || \Input::get('Ημερομηνία_Γέννησης')['year'] == ''
+            || \Input::get('Ημερομηνία_Γέννησης')['month'] == ''
+            || \Input::get('Ημερομηνία_Γέννησης')['day'] == ''
+        )
+            return false;
+
+        if (!\Input::has('Φύλο'))
+            return false;
+
+        $emails = Volunteer::where('email', \Input::get('email'))->get(['email']);
+        if (sizeof($emails) > 0 || !\Input::has('email') || \Input::get('email') == '' || !filter_var(\Input::get('email'), FILTER_VALIDATE_EMAIL))
+            return false;
+
+        if (!\Input::has('Επίπεδο_εκπαίδευσης') || \Input::get('Επίπεδο_εκπαίδευσης') == 'select')
+            return false;
+
+        if (!\Input::has('Εργασιακή_κατάσταση') || \Input::get('Εργασιακή_κατάσταση') == 'select')
+            return false;
+
+        return $flag;
+    }
 }

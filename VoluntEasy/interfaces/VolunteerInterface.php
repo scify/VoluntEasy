@@ -7,4 +7,6 @@ interface VolunteerInterface{
 
     function update($volunteer);
 
+    function apiStore();
+
 }
