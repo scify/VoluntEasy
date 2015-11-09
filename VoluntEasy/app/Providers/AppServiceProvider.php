@@ -33,19 +33,19 @@ class AppServiceProvider extends ServiceProvider {
         //bind the configuration
         $this->app->bind(
             'Interfaces\ConfigurationInterface',
-            'Dependencies\municipality\configuration\Configuration'
+            'Dependencies\ekpizo\configuration\Configuration'
         );
 
         //bind the report service
         $this->app->bind(
             'Interfaces\ReportsInterface',
-            'Dependencies\municipality\services\ReportsService'
+            'Dependencies\ekpizo\services\ReportsService'
         );
 
         //bind the volunteer service
         $this->app->bind(
             'Interfaces\VolunteerInterface',
-            'Dependencies\municipality\services\VolunteerService'
+            'Dependencies\ekpizo\services\VolunteerService'
         );
 	}
 }

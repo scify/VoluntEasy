@@ -360,12 +360,12 @@ class VolunteerService implements VolunteerInterface {
      */
     function apiStore() {
 
-        $data =  \Request::get('submitted');
+        $data = \Request::get('submitted');
 
-        return $data;
+        //return $data;
 
         //first validate input
-        if ($this->validateInput()) {
+        if (!$this->validateInput()) {
 
             $volunteer = new Volunteer(array(
                 'name' => $data['volunteer_info']['name'],
@@ -373,11 +373,15 @@ class VolunteerService implements VolunteerInterface {
                 'fathers_name' => $data['volunteer_info']['fathers_name'],
                 'identification_num' => $data['volunteer_info']['identification_num'],
                 'children' => intval($data['volunteer_info']['children']),
-                'address' => $data['volunteer_info']['address'].' '.$data['volunteer_info']['addressNum'],
+                'address' => $data['volunteer_info']['address'] . ' ' . $data['volunteer_info']['addressNum'],
                 'post_box' => $data['volunteer_info']['post_box'],
                 'city' => $data['volunteer_info']['city'],
                 'country' => $data['volunteer_info']['country'],
                 'afm' => $data['volunteer_info']['afm'],
+                'identification_type_id' => $this->checkDropDown($data['volunteer_info']['identification_type_id']),
+                'live_in_curr_country' => $this->checkDropDown($data['volunteer_info']['live_in_curr_country']),
+                'gender_id' => $this->checkDropDown($data['volunteer_info']['gender_id']),
+                'marital_status_id' => $this->checkDropDown($data['volunteer_info']['marital_status_id']),
 
 
                 'home_tel' => $data['contact_info']['home_tel'],
@@ -385,136 +389,140 @@ class VolunteerService implements VolunteerInterface {
                 'cell_tel' => $data['contact_info']['cell_tel'],
                 'fax' => $data['contact_info']['fax'],
                 'email' => $data['contact_info']['email'],
+                'comm_method_id' => $this->checkDropDown($data['contact_info']['comm_method_id']),
 
-                'specialty' => $data['volunteer_info']['specialty'],
-                'department' => $data['volunteer_info']['department'],
-                'additional_skills' => $data['volunteer_info']['additional_skills'],
-                'extra_lang' => $data['volunteer_info']['extra_lang'],
-                'work_description' => $data['volunteer_info']['work_description'],
-                'participation_reason' => $data['volunteer_info']['participation_reason'],
-                'participation_actions' => $data['volunteer_info']['participation_actions'],
-                'participation_previous' => $data['volunteer_info']['participation_previous'],
 
-                'how_you_learned_id' => $this->checkDropDown($data['volunteer_info']['how_you_learned_id']),
-                'computer_usage_comments' => $volunteerRequest['computer_usage_comments'],
+                'specialty' => $data['education']['specialty'],
+                'department' => $data['education']['department'],
+                'additional_skills' => $data['education']['additional_skills'],
+                'computer_usage_comments' => $data['education']['computer_usage_comments'],
+                'education_level_id' => $this->checkDropDown($data['education']['education_level_id']),
+                'driver_license_type_id' => $this->checkDropDown($data['education']['driver_license_type_id']),
+
+                'extra_lang' => $data['languages']['extra_lang'],
+
+                'availability_freqs_id' => $this->checkDropDown($data['avail_Inter']['availability_freqs_id']),
+
+                'work_status_id' => $this->checkDropDown($data['work_exper']['work_status_id']),
+                'work_description' => $data['work_exper']['work_description'],
+                'participation_reason' => $data['work_exper']['participation_reason'],
+                'participation_actions' => $data['work_exper']['participation_actions'],
+                'participation_previous' => $data['work_exper']['participation_previous'],
+
+                'how_you_learned_id' => $this->checkDropDown($data['extra_comments']['howYouLearned']),
             ));
 
 
-            //                'live_in_curr_country' => intval($data['volunteer_info']['live_in_curr_country'])-1,
+            //Birthday
+            if ($data['volunteer_info']['birth_date'] != null && $data['volunteer_info']['birth_date'] != ""
+                && $data['volunteer_info']['birth_date']['year'] != null && $data['volunteer_info']['birth_date']['year'] != ""
+                && $data['volunteer_info']['birth_date']['month'] != null && $data['volunteer_info']['birth_date']['month'] != ""
+                && $data['volunteer_info']['birth_date']['day'] != null && $data['volunteer_info']['birth_date']['day'] != ""
+            )
+                $volunteer->birth_date = \Carbon::createFromDate($data['volunteer_info']['birth_date']['year'], $data['volunteer_info']['birth_date']['month'], $data['volunteer_info']['birth_date']['day']);
 
+            //Computer usage
+            if (isset($data['education']['computer_usage']) && isset($data['education']['computer_usage'][1]) && $data['education']['computer_usage'][1] == 1)
+                $volunteer->computer_usage = 1;
 
-
-            $volunteer->birth_date = \Carbon::createFromDate($data['volunteer_info']['birth_date']['year'], $data['volunteer_info']['birth_date']['month'], $data['volunteer_info']['birth_date']['day']);
-
-
-            $gender = Gender::where('description', \Input::get('Φύλο'))->first(['id']);
-            if ($gender == null)
-                $volunteer->gender_id = 1;
-            else
-                $volunteer->gender_id = $gender->id;
-
-
-            $education_level = EducationLevel::where('description', \Input::get('Επίπεδο_εκπαίδευσης'))->first(['id']);
-            if ($education_level == null)
-                $volunteer->$education_level_id = 1;
-            else
-                $volunteer->education_level_id = $education_level->id;
-
-
-            $work_status = WorkStatus::where('description', \Input::get('Εργασιακή_κατάσταση'))->first(['id']);
-            if ($work_status == null)
-                $volunteer->$work_status_id = 1;
-            else
-                $volunteer->work_status_id = $work_status->id;
-
-
-            $columnId = null;
-            if (!\Input::has('Τύπος_Ταυτότητας') || \Input::get('Τύπος_Ταυτότητας') != '') {
-                $result = IdentificationType::where('description', \Input::get('Τύπος_Ταυτότητας'))->first(['id']);
-
-                if ($result != null || $result != '')
-                    $columnId = $result->id;
-            }
-            $volunteer->identification_type_id = $columnId;
-
-
-            $columnId = null;
-            if (!\Input::has('Οικογενειακή_Κατάσταση') || \Input::get('Οικογενειακή_Κατάσταση') != '') {
-                $result = MaritalStatus::where('description', \Input::get('Οικογενειακή_Κατάσταση'))->first(['id']);
-
-                if ($result != null || $result != '')
-                    $columnId = $result->id;
-            }
-            $volunteer->marital_status_id = $columnId;
-
-
-            $columnId = null;
-            if (!\Input::has('Τρόπος_επικοινωνίας') || \Input::get('Τρόπος_επικοινωνίας') != '') {
-                if (\Input::get('Τρόπος_επικοινωνίας') == 'email')
-                    $result = CommunicationMethod::where('description', 'Ηλεκτρονικό ταχυδρομείο')->first(['id']);
-                else
-                    $result = CommunicationMethod::where('description', \Input::get('Τρόπος_επικοινωνίας'))->first(['id']);
-
-                if ($result != null || $result != '')
-                    $columnId = $result->id;
-            }
-            $volunteer->comm_method_id = $columnId;
-
-
-            $columnId = null;
-            if (!\Input::has('Δίπλωμα_οδήγησης') || \Input::get('Δίπλωμα_οδήγησης') != '') {
-                $result = DriverLicenceType::where('description', \Input::get('Δίπλωμα_οδήγησης'))->first(['id']);
-
-                if ($result != null || $result != '')
-                    $columnId = $result->id;
-            }
-            $volunteer->driver_license_type_id = $columnId;
-
-
-            $columnId = null;
-            if (!\Input::has('Συχνότητα_συνεισφοράς') || \Input::get('Συχνότητα_συνεισφοράς') != '') {
-                $result = AvailabilityFrequencies::where('description', \Input::get('Συχνότητα_συνεισφοράς'))->first(['id']);
-
-                if ($result != null || $result != '')
-                    $columnId = $result->id;
-            }
-            $volunteer->availability_freqs_id = $columnId;
-
-
-            if (\Input::get('Κάτοικος_Ελλάδας') == 'Είναι Κάτοικος Ελλάδας')
-                $volunteer->live_in_curr_country = 1;
-            else
-                $volunteer->live_in_curr_country = 0;
 
             $volunteer->save();
 
-            if (\Input::has('Ελληνικά')) {
-                $volunteer->languages()->save($this->createVolunteerLanguage('Ελληνικά', \Input::get('Ελληνικά'), $volunteer->id));
+            //Languages
+            if (isset($data['languages']['langGR']))
+                $volunteer->languages()->save($this->createVolunteerLanguage('Ελληνικά', $data['languages']['langGR'], $volunteer->id));
+            if (isset($data['languages']['langGR']))
+                $volunteer->languages()->save($this->createVolunteerLanguage('Αγγλικά', $data['languages']['langGR'], $volunteer->id));
+            if (isset($data['languages']['langFR']))
+                $volunteer->languages()->save($this->createVolunteerLanguage('Γαλλικά', $data['languages']['langFR'], $volunteer->id));
+            if (isset($data['languages']['langSP']))
+                $volunteer->languages()->save($this->createVolunteerLanguage('Ισπανικά', $data['languages']['langSP'], $volunteer->id));
+            if (isset($data['languages']['langDE']))
+                $volunteer->languages()->save($this->createVolunteerLanguage('Γερμανικά', $data['languages']['langDE'], $volunteer->id));
+
+
+            //Interests
+            $interests = [];
+            if (isset($data['avail_Inter']['interests']) && isset($data['avail_Inter']['interests']['Γραφιστικά'])) {
+                $intId = Interest::where('description', 'Γραφιστικά')->first(['id']);
+                if ($intId != null)
+                    array_push($interests, $intId);
             }
-            if (\Input::has('Αγγλικά')) {
-                $volunteer->languages()->save($this->createVolunteerLanguage('Αγγλικά', \Input::get('Αγγλικά'), $volunteer->id));
+            if (isset($data['avail_Inter']['interests']) && isset($data['avail_Inter']['interests']['Διεξαγωγή ερευνών'])) {
+                $intId = Interest::where('description', 'Διεξαγωγή ερευνών')->first(['id']);
+                if ($intId != null)
+                    array_push($interests, $intId);
             }
-            if (\Input::has('Γαλλικά')) {
-                $volunteer->languages()->save($this->createVolunteerLanguage('Γαλλικά', \Input::get('Γαλλικά'), $volunteer->id));
+            if (isset($data['avail_Inter']['interests']) && isset($data['avail_Inter']['interests']['Επικοινωνία/Social media'])) {
+                $intId = Interest::where('description', 'Επικοινωνία/Social media')->first(['id']);
+                if ($intId != null)
+                    array_push($interests, $intId);
             }
-            if (\Input::has('Ισπανικά')) {
-                $volunteer->languages()->save($this->createVolunteerLanguage('Ισπανικά', \Input::get('Ισπανικά'), $volunteer->id));
+            if (isset($data['avail_Inter']['interests']) && isset($data['avail_Inter']['interests']['Κειμενογράφηση'])) {
+                $intId = Interest::where('description', 'Κειμενογράφηση')->first(['id']);
+                if ($intId != null)
+                    array_push($interests, $intId);
             }
-            if (\Input::has('Γερμανικά')) {
-                $volunteer->languages()->save($this->createVolunteerLanguage('Γερμανικά', \Input::get('Γερμανικά'), $volunteer->id));
+            if (isset($data['avail_Inter']['interests']) && isset($data['avail_Inter']['interests']['Μεταφράσεις'])) {
+                $intId = Interest::where('description', 'Μεταφράσεις')->first(['id']);
+                if ($intId != null)
+                    array_push($interests, $intId);
+            }
+            if (isset($data['avail_Inter']['interests']) && isset($data['avail_Inter']['interests']['Νομική υποστήριξη καταναλωτών'])) {
+                $intId = Interest::where('description', 'Νομική υποστήριξη καταναλωτών')->first(['id']);
+                if ($intId != null)
+                    array_push($interests, $intId);
+            }
+            if (isset($data['avail_Inter']['interests']) && isset($data['avail_Inter']['interests']['Οργάνωση Εκδηλώσεων'])) {
+                $intId = Interest::where('description', 'Οργάνωση Εκδηλώσεων')->first(['id']);
+                if ($intId != null)
+                    array_push($interests, $intId);
             }
 
-            if (\Input::has('Χρόνοι_συνεισφοράς')) {
-                $times = \Input::get('Χρόνοι_συνεισφοράς');
-                $availability_array = [];
+            $volunteer->interests()->sync($interests);
 
-                foreach ($times as $time) {
-                    $availability_time = AvailabilityTime::where('description', $time)->first(['id'])->id;
-                    array_push($availability_array, $availability_time);
+
+            //Availability
+            if (isset($data['avail_Inter']['availability_freqs_id']) && $data['avail_Inter']['availability_freqs_id'] != "") {
+
+                if ($data['avail_Inter']['availability_freqs_id'] == "1") {
+
+                    if (isset($data['avail_Inter']['dailyFrequencies']) && sizeof($data['avail_Inter']['dailyFrequencies']) > 0)
+                        $volunteer->availabilityTimes()->sync($data['avail_Inter']['dailyFrequencies']);
+
+                } else {
+                    if (isset($data['avail_Inter']['contr_days']) && sizeof($data['avail_Inter']['contr_days']) > 0) {
+
+                        $weekDays = ['monday', 'trusday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+                        //$weekDays = ['Δευτέρα', 'Τρίτη', 'Τετάρτη', 'Πέμπτη', 'Παρασκευή', 'Σάββατο', 'Κυριακή'];
+
+                        $days = [];
+                        $time = '';
+
+                        foreach ($weekDays as $weekDay) {
+                            if (isset($data['avail_Inter']['contr_days'])) {
+                                foreach ($data['avail_Inter']['contr_days'] as $availability) {
+
+                                    if ($availability == "1")
+                                        $time = 'Πρωί';
+                                    else if ($availability == "2")
+                                        $time = 'Μεσημέρι';
+                                    else if ($availability == "3")
+                                        $time = 'Απόγευμα';
+
+                                    $day = new AvailabilityDay([
+                                        'day' => $weekDay,
+                                        'time' => $time
+                                    ]);
+
+                                    $volunteer->availabilityDays()->save($day);
+                                }
+                            }
+                        }
+                    }
                 }
-
-                $volunteer->availabilityTimes()->sync($availability_array);
             }
+
 
             return \Response::json($volunteer, 201);
         } else {
@@ -531,15 +539,14 @@ class VolunteerService implements VolunteerInterface {
      * @param $volunteerId
      * @return VolunteerLanguage
      */
-    private function createVolunteerLanguage($language, $level, $volunteerId) {
-
-        $levelId = LanguageLevel::where('description', $level)->first(['id'])->id;
+    private
+    function createVolunteerLanguage($language, $level, $volunteerId) {
         $languageId = Language::where('description', $language)->first(['id'])->id;
 
         $volLanguage = new VolunteerLanguage([
             'volunteer_id' => $volunteerId,
             'language_id' => $languageId,
-            'language_level_id' => $levelId
+            'language_level_id' => $level
         ]);
 
         return $volLanguage;
@@ -551,7 +558,8 @@ class VolunteerService implements VolunteerInterface {
      *
      * @return bool
      */
-    private function validateInput() {
+    private
+    function validateInput() {
         $flag = true;
 
         if (!\Input::has('Όνομα') || \Input::get('Όνομα') == '')
