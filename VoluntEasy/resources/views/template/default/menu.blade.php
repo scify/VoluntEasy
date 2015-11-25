@@ -54,7 +54,7 @@
                     <!--li class="{{ Request::is('volunteers/create') ? 'active' : '' }}"><a href="#">{{trans($lang.'volunteerStatistcs')}}</a></li-->
                 </ul>
             </li>
-            <li class="droplink {{ Request::is('users*') ? 'active open' : '' }}">
+            <li class="droplink {{ Request::is('users') || Request::is('users/create') ? 'active open' : '' }}">
                 <a href="#" class="waves-effect waves-button">
                     <i class="fa fa-user fa-2x"></i>
                     <p>{{trans($lang.'users')}}<br><br></p>
