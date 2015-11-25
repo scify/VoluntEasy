@@ -21,5 +21,7 @@ interface ConfigurationInterface {
 
     function getAvailabilityFrequenciesJsonPath();
 
+    function getDriverLicenceTypesJsonPath();
+
     function getHowYouLearnedJsonPath();
 }

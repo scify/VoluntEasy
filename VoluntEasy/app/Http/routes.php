@@ -164,6 +164,8 @@ Route::get('reports/volunteersBySex','ReportsController@volunteersBySex');
 Route::get('reports/volunteersByAgeGroup','ReportsController@volunteersByAgeGroup');
 Route::get('reports/volunteersByCity','ReportsController@volunteersByCity');
 Route::get('reports/volunteersByEducationLevel','ReportsController@volunteersByEducationLevel');
+Route::get('reports/volunteersByInterest','ReportsController@volunteersByInterest');
+Route::get('reports/volunteersByAction','ReportsController@volunteersByAction');
 Route::get('reports/volunteerHoursByAction','ReportsController@volunteerHoursByAction');
 
 

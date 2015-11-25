@@ -23,6 +23,7 @@ class CreateVolunteerTable extends Migration {
         Schema::create('driver_license_types', function ($table) {
             $table->increments('id');
             $table->string('description', 100)->nullable();
+            $table->timestamps();
         });
 
         Schema::create('availability_freqs', function ($table) {
@@ -57,14 +58,14 @@ class CreateVolunteerTable extends Migration {
             $table->string('last_name', 100);
             $table->string('fathers_name', 100);
             $table->string('identification_num', 100)->nullable();
-            $table->date('birth_date');
+            $table->date('birth_date')->nullable();
             $table->string('children')->nullable();
             $table->string('address', 300)->nullable();
             $table->string('city', 300)->nullable();
             $table->string('country', 300)->nullable();
             $table->string('post_box')->nullable();
             $table->string('afm', 100)->nullable();
-            $table->string('participation_reason', 300);
+            $table->string('participation_reason', 300)->nullable();
             $table->string('participation_previous', 400)->nullable();
             $table->string('participation_actions', 400)->nullable();
             $table->string('home_tel')->nullable();

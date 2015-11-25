@@ -200,7 +200,7 @@
                 @foreach ($langLevels as $lev => $level)
                 <label>
                     <em>{{ $level }}</em>
-                    @if (isset($volunteer) && in_array($lan, $volunteer->languages->lists('language_id')->all()) )
+                    @if (isset($volunteer) && isset($volunteer->lang_levels[$language]) && $volunteer->lang_levels[$language]==$lev)
                     {!! Form::formInput('lang'.$lan, '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value'
                     => $lev, 'checked' => 'true']) !!}
                     @else

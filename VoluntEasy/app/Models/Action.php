@@ -10,7 +10,7 @@ class Action extends Model {
 
     protected $table = 'actions';
 
-    protected $fillable = ['description', 'comments', 'start_date', 'end_date', 'unit_id', 'email', 'name', 'phone_number'];
+    protected $fillable = ['description', 'comments', 'start_date', 'end_date', 'unit_id', 'email', 'name', 'phone_number', 'volunteer_sum'];
 
 
     public function unit() {

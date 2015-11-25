@@ -17,13 +17,15 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-5">
-                        <h3>{{ $volunteer->name }} {{ $volunteer->last_name }} |
+                        <h3>{{ $volunteer->name }} {{ $volunteer->last_name }}
                             @if($volunteer->gender_id!=null && $volunteer->gender_id==1)
-                            <i class="fa fa-mars"></i>
+                            | <i class="fa fa-mars"></i>
                             @elseif($volunteer->gender_id!=null && $volunteer->gender_id==2)
-                            <i class="fa fa-venus"></i>
+                            | <i class="fa fa-venus"></i>
                             @endif
+                            @if($volunteer->age!=-1)
                             | {{ $volunteer->age }} ετών</h3>
+                            @endif
 
                         <p><i class="fa fa-envelope"></i> <a href="mailto:{{ $volunteer->email }}">{{ $volunteer->email
                                 }}</a> @if ($volunteer->comm_method_id==1) <i class="fa fa-star" data-toggle="tooltip"

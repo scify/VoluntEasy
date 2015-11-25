@@ -37,20 +37,6 @@ class VolunteerTableSeeder extends Seeder {
 
 	    DB::table('marital_statuses')->insert($statuses);
 
-	    // Driver license types.
-	    DB::table('driver_license_types')->delete();
-
-	    $license_types = [
-		    ['description' => 'Χωρίς δίπλωμα'],
-		    ['description' => 'Α κατηγορίας'],
-		    ['description' => 'A1 κατηγορίας'],
-		    ['description' => 'Β κατηγορίας'],
-		    ['description' => 'Γ κατηγορίας'],
-		    ['description' => 'Γ+Ε κατηγορίας'],
-	    ];
-
-	    DB::table('driver_license_types')->insert($license_types);
-
 	    // Work status messages.
 	    DB::table('work_statuses')->delete();
 

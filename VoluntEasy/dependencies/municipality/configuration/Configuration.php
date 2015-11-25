@@ -31,6 +31,10 @@ class Configuration implements ConfigurationInterface {
         return base_path().'/dependencies/'.$this->folderName.'/database/jsondata/availability_frequencies.json';
     }
 
+    function getDriverLicenceTypesJsonPath(){
+        return base_path().'/dependencies/'.$this->folderName.'/database/jsondata/driver_license_types.json';
+    }
+
     function getHowYouLearnedJsonPath(){
         return '';
     }

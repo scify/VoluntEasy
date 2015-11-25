@@ -19,7 +19,6 @@ class VolunteerRequest extends Request {
      * @return array
      */
     public function rules() {
-
         if (Request::get('id') == null) {
             /*
                         if(Request::has('files[]') && Request::get('files[]')!=null)

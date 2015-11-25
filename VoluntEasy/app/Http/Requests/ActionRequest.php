@@ -12,6 +12,7 @@ class ActionRequest extends Request
             'end_date' => 'required|date_format:d/m/Y',
             'unit_id' => 'required',
             'email' => 'email',
+            'volunteer_sum' => 'numeric'
         ];
     }
 
@@ -26,6 +27,7 @@ class ActionRequest extends Request
         return [
             'unit_id.required' => 'Παρακαλώ επιλέξτε Οργανωτική Μονάδα.',
             'end_date.after' => 'Η ημερομηνία λήξης πρέπει να είναι μετά την ημερομηνία έναρξης.',
+            'volunteer_sum.numeric' => 'Το πεδίο πρέπει να είναι αριθμός.',
         ];
     }
 }

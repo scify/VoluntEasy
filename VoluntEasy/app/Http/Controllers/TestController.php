@@ -39,8 +39,6 @@ class TestController extends Controller {
 
         return VolunteerService::actionsRatings(10);
 
-
-
         $configuration = \App::make('Interfaces\ConfigurationInterface');
 
         //DB::table('users')->delete();
@@ -99,7 +97,7 @@ class TestController extends Controller {
                 'cell_tel' => $faker->phoneNumber,
                 'email' => $faker->safeEmail,
                 'gender_id' => $faker->numberBetween(1, 2),
-                'driver_license_type_id' => $faker->numberBetween(1, 6),
+                'driver_license_type_id' => $faker->numberBetween(1, 5),
                 'education_level_id' => $faker->numberBetween(1, 5),
                 'identification_type_id' => $faker->numberBetween(1, 3),
                 'marital_status_id' => $faker->numberBetween(1, 4),

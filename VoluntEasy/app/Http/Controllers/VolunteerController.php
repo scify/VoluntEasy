@@ -166,7 +166,6 @@ class VolunteerController extends Controller {
             else if ($unit->status == 'Available' || $unit->status == 'Active')
                 $available++;
         }
-
         //check if the volunteer is permitted to be edited by the
         //currently logged in user
         $permittedVolunteers = UserService::permittedVolunteersIds();
@@ -213,6 +212,14 @@ class VolunteerController extends Controller {
         $commMethod = CommunicationMethod::all()->lists('description', 'id')->all();
         $howYouLearned = HowYouLearned::all()->lists('description', 'id')->all();
         $edLevel = EducationLevel::all()->lists('description', 'id')->all();
+
+        //get the language levels in a readable array
+        $lang_levels = [];
+        foreach($volunteer->languages as $language){
+            $lang_levels[$language->language->description] = $language->level->id;
+        }
+
+        $volunteer->lang_levels = $lang_levels;
 
         $units = Unit::orderBy('description', 'asc')->get();
 
@@ -311,9 +318,7 @@ class VolunteerController extends Controller {
             return;
         }
 
-
         $volunteer->load('files');
-
 
         foreach($volunteer->files as $f) {
             $file = File::find($f->id);

@@ -42,6 +42,8 @@
                     $action->comments }}</p>
 
                 <p><strong>Διάρκεια:</strong> {{ $action->start_date }} - {{ $action->end_date }}</p>
+
+                <p><strong>Αριθμός εθελοντών:</strong> {{ $action->volunteer_sum==null || $action->volunteer_sum=='' ? '-' :  $action->volunteer_sum }}</p>
             </div>
             <div class="col-md-4">
                 <h3>Στοιχεία Υπευθύνου Δράσης</h3>

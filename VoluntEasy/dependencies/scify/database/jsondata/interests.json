@@ -1,14 +1,69 @@
 {
     "categories": [
         {
-            "description": "Γενικά ενδιαφέροντα",
+            "description": "Τομείς ενδιαφέροντος (Οριζόντιοι Άξονες)",
             "interests": [
-                {"description": "test"},
-                {"description": "test"},
-                {"description": "test"},
-                {"description": "Οργάνωση Εκδηλώσεων"},
-                {"description": "Επικοινωνία/Social media"}
+                {"description": "Βοηθητικές τεχνολογίες"},
+                {"description": "Οργανωσιακή ευφυΐα"},
+                {"description": "e - Δημοκρατία"},
+                {"description": "Υποστήριξη κοινωνίας πολιτών"}
+            ]
+        },
+        {
+            "description": "Development",
+            "interests": [
+                {"description": "Software"},
+                {"description": "Hardware"}
+            ]
+        },
+        {
+            "description": "Management",
+            "interests": [
+                {"description": "Project & Organisation Management"},
+                {"description": "HRM"}
+            ]
+        },
+        {
+            "description": "Marketing",
+            "interests": [
+                {"description": "Δράσεις Επικοινωνίας"},
+                {"description": "Social media"},
+                {"description": "Content creator"},
+                {"description": "Community Building"}
+            ]
+        },
+        {
+            "description": "Support",
+            "interests": [
+                {"description": "Γραφιστική / Παραγωγή Προωθητικού Υλικού"},
+                {"description": "Φωτογραφία / Video"},
+                {"description": "Μεταφράσεις"},
+                {"description": "Ηχοληψία"},
+                {"description": "Νομικά Θέματα"},
+                {"description": "Ειδική Αγωγή"}
+            ]
+        },
+        {
+            "description": "Finance & Fundraising",
+            "interests": [
+                {"description": "Financial"},
+                {"description": "Call research"},
+                {"description": "Necessity research"},
+                {"description": "Feasibility study"},
+                {"description": "Proposal development"}
+            ]
+        },
+        {
+            "description": "Άλλα",
+            "interests": [
+                {"description": "Beta tester"},
+                {"description": "Annotation"}
             ]
         }
     ]
 }
+
+
+
+
+

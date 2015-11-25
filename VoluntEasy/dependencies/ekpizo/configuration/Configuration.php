@@ -34,4 +34,8 @@ class Configuration implements ConfigurationInterface {
     function getHowYouLearnedJsonPath(){
         return base_path().'/dependencies/ekpizo/database/jsondata/how_you_learned.json';
     }
+
+    function getDriverLicenceTypesJsonPath() {
+        return '';
+    }
 }

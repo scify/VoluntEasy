@@ -49,25 +49,22 @@ class VolunteerService implements VolunteerInterface {
 
     private function validate($volunteer) {
 
+      //  dd(\Request::all());
         if (isset($volunteer->id) && $volunteer->id != null && $volunteer->id != '')
             $validator = \Validator::make($volunteer->toArray(), [
                 'name' => 'required',
                 'last_name' => 'required',
-                'birth_date' => 'required',
                 'cell_tel' => 'required',
                 'city' => 'required',
-                'email' => 'required|email',
-                'participation_reason' => 'required']);
+                'email' => 'required|email']);
 
         else
             $validator = \Validator::make($volunteer, [
                 'name' => 'required',
                 'last_name' => 'required',
-                'birth_date' => 'required',
                 'cell_tel' => 'required',
                 'city' => 'required',
-                'email' => 'required|email|unique:volunteers',
-                'participation_reason' => 'required'
+                'email' => 'required|email|unique:volunteers'
             ]);
 
         if ($validator->fails())
@@ -78,7 +75,6 @@ class VolunteerService implements VolunteerInterface {
             return [
                 'failed' => false,
                 'messages' => null];
-
     }
 
     private function store($volunteerRequest) {
@@ -362,7 +358,7 @@ class VolunteerService implements VolunteerInterface {
 
         $data = \Request::get('submitted');
 
-        //return $data;
+       // return $data['avail_Inter']['contr_days'];
 
         //first validate input
         if (!$this->validateInput()) {
@@ -377,7 +373,7 @@ class VolunteerService implements VolunteerInterface {
                 'post_box' => $data['volunteer_info']['post_box'],
                 'city' => $data['volunteer_info']['city'],
                 'country' => $data['volunteer_info']['country'],
-                'afm' => $data['volunteer_info']['afm'],
+                'afm' =>  $data['volunteer_info']['afm'],
                 'identification_type_id' => $this->checkDropDown($data['volunteer_info']['identification_type_id']),
                 'live_in_curr_country' => $this->checkDropDown($data['volunteer_info']['live_in_curr_country']),
                 'gender_id' => $this->checkDropDown($data['volunteer_info']['gender_id']),
@@ -428,6 +424,7 @@ class VolunteerService implements VolunteerInterface {
 
             $volunteer->save();
 
+          //  $volunteer->id=1;
             //Languages
             if (isset($data['languages']['langGR']))
                 $volunteer->languages()->save($this->createVolunteerLanguage('Ελληνικά', $data['languages']['langGR'], $volunteer->id));
@@ -446,37 +443,37 @@ class VolunteerService implements VolunteerInterface {
             if (isset($data['avail_Inter']['interests']) && isset($data['avail_Inter']['interests']['Γραφιστικά'])) {
                 $intId = Interest::where('description', 'Γραφιστικά')->first(['id']);
                 if ($intId != null)
-                    array_push($interests, $intId);
+                    array_push($interests, $intId->id);
             }
             if (isset($data['avail_Inter']['interests']) && isset($data['avail_Inter']['interests']['Διεξαγωγή ερευνών'])) {
                 $intId = Interest::where('description', 'Διεξαγωγή ερευνών')->first(['id']);
                 if ($intId != null)
-                    array_push($interests, $intId);
+                    array_push($interests, $intId->id);
             }
             if (isset($data['avail_Inter']['interests']) && isset($data['avail_Inter']['interests']['Επικοινωνία/Social media'])) {
                 $intId = Interest::where('description', 'Επικοινωνία/Social media')->first(['id']);
                 if ($intId != null)
-                    array_push($interests, $intId);
+                    array_push($interests, $intId->id);
             }
             if (isset($data['avail_Inter']['interests']) && isset($data['avail_Inter']['interests']['Κειμενογράφηση'])) {
                 $intId = Interest::where('description', 'Κειμενογράφηση')->first(['id']);
                 if ($intId != null)
-                    array_push($interests, $intId);
+                    array_push($interests, $intId->id);
             }
             if (isset($data['avail_Inter']['interests']) && isset($data['avail_Inter']['interests']['Μεταφράσεις'])) {
                 $intId = Interest::where('description', 'Μεταφράσεις')->first(['id']);
                 if ($intId != null)
-                    array_push($interests, $intId);
+                    array_push($interests, $intId->id);
             }
             if (isset($data['avail_Inter']['interests']) && isset($data['avail_Inter']['interests']['Νομική υποστήριξη καταναλωτών'])) {
                 $intId = Interest::where('description', 'Νομική υποστήριξη καταναλωτών')->first(['id']);
                 if ($intId != null)
-                    array_push($interests, $intId);
+                    array_push($interests, $intId->id);
             }
             if (isset($data['avail_Inter']['interests']) && isset($data['avail_Inter']['interests']['Οργάνωση Εκδηλώσεων'])) {
                 $intId = Interest::where('description', 'Οργάνωση Εκδηλώσεων')->first(['id']);
                 if ($intId != null)
-                    array_push($interests, $intId);
+                    array_push($interests, $intId->id);
             }
 
             $volunteer->interests()->sync($interests);
@@ -493,15 +490,12 @@ class VolunteerService implements VolunteerInterface {
                 } else {
                     if (isset($data['avail_Inter']['contr_days']) && sizeof($data['avail_Inter']['contr_days']) > 0) {
 
-                        $weekDays = ['monday', 'trusday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-                        //$weekDays = ['Δευτέρα', 'Τρίτη', 'Τετάρτη', 'Πέμπτη', 'Παρασκευή', 'Σάββατο', 'Κυριακή'];
-
-                        $days = [];
+                        $weekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
                         $time = '';
 
                         foreach ($weekDays as $weekDay) {
-                            if (isset($data['avail_Inter']['contr_days'])) {
-                                foreach ($data['avail_Inter']['contr_days'] as $availability) {
+                            if (isset($data['avail_Inter']['contr_days'][$weekDay])) {
+                                foreach ($data['avail_Inter']['contr_days'][$weekDay] as $availability) {
 
                                     if ($availability == "1")
                                         $time = 'Πρωί';
@@ -510,8 +504,31 @@ class VolunteerService implements VolunteerInterface {
                                     else if ($availability == "3")
                                         $time = 'Απόγευμα';
 
+                                    switch($weekDay) {
+                                        case 'monday':
+                                            $day = 'Δευτέρα';
+                                            break;
+                                        case 'tuesday':
+                                            $day = 'Τρίτη';
+                                            break;
+                                        case 'wednesday':
+                                            $day = 'Τετάρτη';
+                                            break;
+                                        case 'thursday':
+                                            $day = 'Πέμπτη';
+                                            break;
+                                        case 'friday':
+                                            $day = 'Παρασκεύη';
+                                            break;
+                                        case 'saturday':
+                                            $day = 'Σάββατο';
+                                            break;
+                                        case 'sunday':
+                                            $day = 'Κυριακή';
+                                            break;
+                                    }
                                     $day = new AvailabilityDay([
-                                        'day' => $weekDay,
+                                        'day' => $day,
                                         'time' => $time
                                     ]);
 

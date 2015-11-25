@@ -47,12 +47,12 @@ class CheckActions extends Command {
         $toExpire = CronService::toExpireActions();
         $notAvailablle = CronService::notAvailableVolunteers();
 
-
+/*
         //remove
         $this->comment(sizeof($expired) . '  actions expired yesterday');
         $this->comment($toExpire . '  actions about to expire');
         $this->comment($notAvailablle . '  volunteers made available');
-
+*/
 
         $execution_time = microtime() - $execution_time;
         $this->comment('Took ' . $execution_time . ' sec');

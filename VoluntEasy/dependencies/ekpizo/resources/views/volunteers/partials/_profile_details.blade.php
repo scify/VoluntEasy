@@ -2,7 +2,12 @@
     <div class="col-md-4">
         <p><strong>Όνομα πατέρα:</strong> {{ $volunteer->fathers_name=='' ? '-' : $volunteer->fathers_name }}</p>
 
-        <p><strong>Ημ/νία γέννησης:</strong> {{ $volunteer->birth_date }}</p>
+        <p><strong>Ημ/νία γέννησης:</strong>
+            @if(\DateTime::createFromFormat('d/m/Y', $volunteer->birth_date))
+            {{ $volunteer->birth_date }}
+            @else
+            -
+            @endif</p>
         <p><strong>Τηλέφωνο εργασίας:</strong> {{ $volunteer->work_tel=='' ? '-' : $volunteer->work_tel
             }} @if ($volunteer->comm_method_id==3) <i class="fa fa-star" data-toggle="tooltip" title="Προτιμώμενος τρόπος επικοινωνίας"></i> @endif</p>
 

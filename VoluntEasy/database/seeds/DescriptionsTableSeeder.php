@@ -6,6 +6,7 @@ use App\Models\Descriptions\Interest;
 use App\Models\Descriptions\InterestCategory;
 use App\Models\Rating\RatingAttribute;
 use  App\Models\Rating\ActionRatingAttribute;
+use \App\Models\Descriptions\DriverLicenceType;
 use Illuminate\Database\Seeder;
 
 class DescriptionsTableSeeder extends Seeder {
@@ -28,6 +29,7 @@ class DescriptionsTableSeeder extends Seeder {
         $this->addAvailabilityFrequencies();
         $this->addHowYouLearned();
         $this->addCollaborationTypes();
+        $this->addDriverLicenceTypes();
 
     }
 
@@ -144,6 +146,38 @@ class DescriptionsTableSeeder extends Seeder {
         ];
 
         \DB::table('collaboration_types')->insert($collaboration_types);
+    }
+
+    private function addDriverLicenceTypes() {
+
+        if (!empty($this->configuration->getDriverLicenceTypesJsonPath()) && file_exists($this->configuration->getDriverLicenceTypesJsonPath())) {
+
+            \DB::table('driver_license_types')->delete();
+
+            $json = \File::get($this->configuration->getDriverLicenceTypesJsonPath());
+
+            $types = json_decode($json);
+
+            foreach ($types as $type) {
+                DriverLicenceType::create([
+                    'description' => $type->description
+                ]);
+            }
+        }
+        else{
+            DB::table('driver_license_types')->delete();
+
+            $license_types = [
+                ['description' => 'Χωρίς δίπλωμα'],
+                ['description' => 'Α κατηγορίας'],
+                ['description' => 'A1 κατηγορίας'],
+                ['description' => 'Β κατηγορίας'],
+                ['description' => 'Γ κατηγορίας'],
+                ['description' => 'Γ+Ε κατηγορίας'],
+            ];
+
+            DB::table('driver_license_types')->insert($license_types);
+        }
     }
 
 }

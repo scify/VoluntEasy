@@ -33,7 +33,7 @@ thead.middle th{
     border-bottom:1px solid #e5e5e5;
 }
 .modal-header small span.complete{color:#22BAA0;}
-.modal-header small span.incomplete{color:#e14444;}
+.modal-header small span.incomplete, span.inactive{color:#e14444;}
 .modal-body{
     border-top: 1px solid #e5e5e5;
 }
@@ -92,10 +92,15 @@ span.status.active{
     color:#fff;
     background-color:#6a5fac;
 }
-span.status.pending, span.status.incomplete{
+span.status.pending{
     padding:3px;
     color:#fff;
     background-color:#E26E27;
+}
+span.status.incomplete{
+    padding:3px;
+    color:#fff;
+    background-color:#f25656;
 }
 
 div.status{
@@ -120,7 +125,7 @@ div.status.active{
     background-color:#6a5fac;
 }
 div.status.incomplete, div.status.notavailable{
-    background-color:#E26E27;
+    background-color:#f25656;
 }
 
 .btn.width-110, div.status.width-110{width:110px;}

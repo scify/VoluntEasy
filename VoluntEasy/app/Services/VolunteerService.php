@@ -262,8 +262,20 @@ class VolunteerService {
         }
 
         //get volunteer's age
-        $birth_date = \Carbon::createFromFormat('d/m/Y', $volunteer->birth_date);
-        $volunteer->age = \Carbon::createFromDate($birth_date->year, $birth_date->month, $birth_date->day)->age;
+        if (\DateTime::createFromFormat('d/m/Y', $volunteer->birth_date)) {
+            $birth_date = \Carbon::createFromFormat('d/m/Y', $volunteer->birth_date);
+            $volunteer->age = \Carbon::createFromDate($birth_date->year, $birth_date->month, $birth_date->day)->age;
+        } else
+            $volunteer->age = -1;
+
+
+        //get the language levels in a readable array
+        $lang_levels = [];
+        foreach($volunteer->languages as $language){
+            $lang_levels[$language->language->description] = $language->level->id;
+        }
+
+        $volunteer->lang_levels = $lang_levels;
 
 
         $unitsExcludes = $volunteer->unitsExcludes->lists('id')->all();
@@ -894,21 +906,22 @@ class VolunteerService {
             }
         }
 
-        $result = $query->with('actions', 'units')->orderBy('name', 'ASC')->get();
-/*
-        //get the total rating for each attribute
-        foreach ($result as $volunteer) {
-            if ($volunteer->ratings != null) {
-                $volunteer->rating_attr1 = $volunteer->ratings->rating_attr1 / $volunteer->ratings->rating_attr1_count;
-                $volunteer->rating_attr2 = $volunteer->ratings->rating_attr2 / $volunteer->ratings->rating_attr2_count;
-                $volunteer->rating_attr3 = $volunteer->ratings->rating_attr3 / $volunteer->ratings->rating_attr3_count;
-            } else {
-                $volunteer->rating_attr1 = 0;
-                $volunteer->rating_attr2 = 0;
-                $volunteer->rating_attr3 = 0;
-            }
-        }
-*/
+        $result = $query->orderBy('name', 'ASC')->with('actions', 'units')->get();
+
+        /*
+                //get the total rating for each attribute
+                foreach ($result as $volunteer) {
+                    if ($volunteer->ratings != null) {
+                        $volunteer->rating_attr1 = $volunteer->ratings->rating_attr1 / $volunteer->ratings->rating_attr1_count;
+                        $volunteer->rating_attr2 = $volunteer->ratings->rating_attr2 / $volunteer->ratings->rating_attr2_count;
+                        $volunteer->rating_attr3 = $volunteer->ratings->rating_attr3 / $volunteer->ratings->rating_attr3_count;
+                    } else {
+                        $volunteer->rating_attr1 = 0;
+                        $volunteer->rating_attr2 = 0;
+                        $volunteer->rating_attr3 = 0;
+                    }
+                }
+
         //sort by rating
         if ($ratingId != -1) {
             switch ($ratingId) {
@@ -932,7 +945,7 @@ class VolunteerService {
                     break;
             }
         }
-
+*/
         $data = $this->prepareForDataTable($result);
 
         return ["data" => $data];

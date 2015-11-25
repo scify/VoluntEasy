@@ -65,7 +65,7 @@ class ReportsController extends Controller {
     }
 
     /**
-     * Get the volunteer status by sex
+     * Get the volunteers by sex
      *
      * @return mixed
      */
@@ -75,7 +75,7 @@ class ReportsController extends Controller {
     }
 
     /**
-     * Get the volunteer status by city
+     * Get the volunteers by city
      *
      * @return mixed
      */
@@ -86,7 +86,7 @@ class ReportsController extends Controller {
 
 
     /**
-     * Get the volunteer status by age group
+     * Get the volunteers by age group
      *
      * @return mixed
      */
@@ -96,13 +96,33 @@ class ReportsController extends Controller {
     }
 
     /**
-     * Get the volunteer status by education level
+     * Get the volunteers by education level
      *
      * @return mixed
      */
     public function volunteersByEducationLevel() {
 
         return $this->reportsService->volunteersByEducationLevel();
+    }
+
+    /**
+     * Get the volunteers by interest
+     *
+     * @return mixed
+     */
+    public function volunteersByInterest() {
+
+        return $this->reportsService->volunteersByInterest();
+    }
+
+    /**
+     * Get the volunteers sum by actions
+     *
+     * @return mixed
+     */
+    public function volunteersByAction() {
+
+        return $this->reportsService->volunteersByAction();
     }
 
     /**

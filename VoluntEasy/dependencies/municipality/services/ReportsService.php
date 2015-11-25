@@ -4,6 +4,7 @@
 use App\Models\Action;
 use App\Models\Descriptions\EducationLevel;
 use App\Models\Descriptions\Gender;
+use App\Models\Descriptions\Interest;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Volunteer;
 use App\Models\VolunteerUnitStatus;
@@ -230,6 +231,47 @@ class ReportsService implements ReportsInterface {
         return $educationLevels;
     }
 
+    function volunteersByInterest() {
+
+        $interests = Interest::all();
+
+        foreach ($interests as $interest) {
+
+            $id = $interest->id;
+            $volunteers = Volunteer::whereHas('interests', function ($query) use ($id) {
+                $query->where('interest_id', $id);
+            })->count();
+
+            $interest->count = $volunteers;
+        }
+
+        return $interests;
+    }
+
+    function volunteersByAction() {
+
+        $actions = Action::all();
+
+        foreach ($actions as $action) {
+
+            $id = $action->id;
+
+            $volunteers = Volunteer::whereHas('actionHistory', function ($query) use ($id) {
+                $query->where('action_id', $id);
+            })->count();
+
+            $now = date('Y-m-d');
+            $endDate = \Carbon::parse(\Carbon::createFromFormat('d/m/Y', $action->end_date))->format('Y-m-d');
+            $action->expired = false;
+            if ($endDate < $now)
+                $action->expired = true;
+
+            $action->volunteer_count = $volunteers;
+        }
+
+        return ['data' => $actions];
+    }
+
     function volunteerHoursByAction() {
 
         $dbactions = Action::with('ratings.volunteerRatings.volunteer')->get();
@@ -295,6 +337,5 @@ class ReportsService implements ReportsInterface {
         }
 
         return $actions;
-
     }
 }

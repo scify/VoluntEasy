@@ -34,4 +34,8 @@ class Configuration implements ConfigurationInterface {
     function getHowYouLearnedJsonPath(){
         return null;
     }
+
+    function getDriverLicenceTypesJsonPath() {
+        return '';
+    }
 }
