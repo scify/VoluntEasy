@@ -2,7 +2,7 @@
 
 return [
 
-    'title' => 'Τίτλος',
+    'title' => 'VoluntEasy',
     'volRating' => 'Αξιολόγηση'
 
 ];

@@ -1,7 +1,7 @@
 <?php
 
 return [
-	'title'			=> 'Τίτλος',
+	'title'			=> 'VoluntEasy',
 	'youHave'		=> 'Έχετε', 	
  	'notifications' => 'ειδοποιήσεις',
  	'allNotifications' => 'Όλες οι ειδοποιήσεις',

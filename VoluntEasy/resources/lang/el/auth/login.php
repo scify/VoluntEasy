@@ -2,7 +2,7 @@
 
 return [
 
-	'title'		=> 'Τίτλος',
+	'title'		=> 'VoluntEasy',
 	'logIn'		=> 'Σύνδεση',
 	'remember'	=> 'Να με θυμάσαι την επόμενη φορά',
 	'entrance'	=> 'Είσοδος',
