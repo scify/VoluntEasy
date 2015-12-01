@@ -62,7 +62,6 @@ class ActionController extends Controller {
      */
     public function store(ActionRequest $request) {
 
-
         $request['start_date'] = \Carbon::createFromFormat('d/m/Y', $request->start_date);
         $request['end_date'] = \Carbon::createFromFormat('d/m/Y', $request->end_date);
         $action = Action::create($request->all());

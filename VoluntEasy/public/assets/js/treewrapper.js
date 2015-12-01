@@ -118,6 +118,7 @@
                             .attr('data-id', child.id);
                         actionUl.append(actionLi);
                     });
+                    li.addClass('leaf');
                     li.append(actionUl);
                     ul.append(li);
                 }

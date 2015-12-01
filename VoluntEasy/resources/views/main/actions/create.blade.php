@@ -64,13 +64,5 @@
     });
     treewrapper.init();
 
-
-    //if the user has clicked on a unit, but the submission returns errors,
-    //the page gets reloaded and the active node is lost.
-    //the value (unit id) stays in the hidden input so we can make it active again.
-    if($('#unit_id').val()!=''){
-        $("#tree li[data-id='"+$('#unit_id').val()+"'").addClass('active-node');
-    }
-
 </script>
 @append

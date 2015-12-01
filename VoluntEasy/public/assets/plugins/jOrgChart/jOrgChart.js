@@ -103,7 +103,6 @@
         //scify additions
         $('div.node').unbind('click').click(function () {
             if (!$(this).hasClass('disabled') && !opts.disabled) {
-                //console.log('not disabled');
                 if (opts.multiple && opts.children) {
                     //console.log('opts.multiple + opts.children');
                     if (!opts.disabled) {
@@ -128,7 +127,6 @@
                     }
                 }
                 else if (opts.actions) {
-                    console.log('opts.actions');
                     if (!opts.disabled && !$(this).hasClass('hasActions') && !$(this).hasClass('action')) {
                         $container.find('.active-node').removeClass('active-node');
                         if ($(this).hasClass('active-node'))
@@ -138,7 +136,6 @@
                     }
                 }
                 else {
-                    console.log('no options');
                     if (!opts.disabled) {
                         $container.find('.active-node').removeClass('active-node');
                         if ($(this).hasClass('active-node'))
