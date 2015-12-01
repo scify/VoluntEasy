@@ -74,13 +74,18 @@ class VolunteerService implements VolunteerInterface {
     }
 
     private function store($volunteerRequest) {
+
+        $birth_date = '';
+        if (isset($volunteerRequest['birth_date']) && $volunteerRequest['birth_date'] != null && $volunteerRequest['birth_date'] != '')
+            $birth_date = \Carbon::createFromFormat('d/m/Y', $volunteerRequest['birth_date'])->toDateString();
+
         $volunteer = new Volunteer(array(
             'name' => $volunteerRequest['name'],
             'last_name' => $volunteerRequest['last_name'],
             'fathers_name' => $volunteerRequest['fathers_name'],
             'identification_type_id' => $this->checkDropDown(intval($volunteerRequest['identification_type_id'])),
             'identification_num' => $volunteerRequest['identification_num'],
-            'birth_date' => \Carbon::createFromFormat('d/m/Y', $volunteerRequest['birth_date'])->toDateString(),
+            'birth_date' => $birth_date,
             'gender_id' => $this->checkDropDown(intval($volunteerRequest['gender_id'])),
             'marital_status_id' => $this->checkDropDown(intval($volunteerRequest['marital_status_id'])),
             'children' => intval($volunteerRequest['children']),
@@ -110,10 +115,6 @@ class VolunteerService implements VolunteerInterface {
             'availability_freqs_id' => $this->checkDropDown(intval($volunteerRequest['availability_freqs_id'])),
             'comments' => $volunteerRequest['comments'],
 
-            //extra fields
-            'afm' => $volunteerRequest['afm'],
-            'how_you_learned_id' => $this->checkDropDown($volunteerRequest['howYouLearned']),
-            'computer_usage_comments' => $volunteerRequest['computer_usage_comments'],
         ));
 
         //   return ($volunteer);
@@ -200,13 +201,16 @@ class VolunteerService implements VolunteerInterface {
 
     public function doupdate($volunteer, $volunteerRequest) {
 
+        $birth_date = '';
+        if (isset($volunteerRequest['birth_date']) && $volunteerRequest['birth_date'] != null && $volunteerRequest['birth_date'] != '' && $volunteerRequest['birth_date'] != '30/11/-0001')
+            $birth_date = \Carbon::createFromFormat('d/m/Y', $volunteerRequest['birth_date'])->toDateString();
 
         // update everything except middle table stuff
         $volunteer->update([
             'name' => $volunteerRequest['name'],
             'last_name' => $volunteerRequest['last_name'],
             'fathers_name' => $volunteerRequest['fathers_name'],
-            'birth_date' => \Carbon::createFromFormat('d/m/Y', $volunteerRequest['birth_date'])->toDateString(),
+            'birth_date' => $birth_date,
             'identification_type_id' => $this->checkDropDown(intval($volunteerRequest['identification_type_id'])),
             'identification_num' => $volunteerRequest['identification_num'],
             'gender_id' => $this->checkDropDown(intval($volunteerRequest['gender_id'])),
@@ -238,10 +242,6 @@ class VolunteerService implements VolunteerInterface {
             'availability_freqs_id' => $this->checkDropDown(intval($volunteerRequest['availability_freqs_id'])),
             'comments' => $volunteerRequest['comments'],
 
-            //extra fields
-            'afm' => $volunteerRequest['afm'],
-            'how_you_learned_id' => $this->checkDropDown($volunteerRequest['howYouLearned']),
-            'computer_usage_comments' => $volunteerRequest['computer_usage_comments'],
         ]);
 
 

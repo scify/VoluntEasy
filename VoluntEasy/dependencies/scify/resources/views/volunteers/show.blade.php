@@ -23,7 +23,10 @@
                             @else
                             <i class="fa fa-venus"></i>
                             @endif
-                            | {{ $volunteer->age }} ετών</h3>
+                            @if($volunteer->age>-1)
+                            | {{ $volunteer->age }} ετών
+                            @endif
+                        </h3>
 
                         <p><i class="fa fa-envelope"></i> <a href="mailto:{{ $volunteer->email }}">{{ $volunteer->email
                                 }}</a> @if ($volunteer->comm_method_id==1) <i class="fa fa-star" data-toggle="tooltip"
