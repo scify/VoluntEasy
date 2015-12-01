@@ -53,14 +53,12 @@ class VolunteerService implements VolunteerInterface {
             $validator = \Validator::make($volunteer->toArray(), [
                 'name' => 'required',
                 'last_name' => 'required',
-                'cell_tel' => 'required',
                 'email' => 'required|email']);
 
         else
             $validator = \Validator::make($volunteer, [
                 'name' => 'required',
                 'last_name' => 'required',
-                'cell_tel' => 'required',
                 'email' => 'required|email|unique:volunteers',
             ]);
 
