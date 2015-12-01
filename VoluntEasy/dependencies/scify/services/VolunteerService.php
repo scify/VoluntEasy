@@ -54,7 +54,6 @@ class VolunteerService implements VolunteerInterface {
                 'name' => 'required',
                 'last_name' => 'required',
                 'cell_tel' => 'required',
-                'city' => 'required',
                 'email' => 'required|email']);
 
         else
@@ -62,7 +61,6 @@ class VolunteerService implements VolunteerInterface {
                 'name' => 'required',
                 'last_name' => 'required',
                 'cell_tel' => 'required',
-                'city' => 'required',
                 'email' => 'required|email|unique:volunteers',
             ]);
 
