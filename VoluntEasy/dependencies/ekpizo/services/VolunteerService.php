@@ -8,6 +8,8 @@ use App\Models\Descriptions\LanguageLevel;
 use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Models\VolunteerLanguage;
+use App\Services\Facades\NotificationService;
+use App\Services\Facades\UnitService;
 use Interfaces\VolunteerInterface;
 
 class VolunteerService implements VolunteerInterface {
@@ -49,7 +51,7 @@ class VolunteerService implements VolunteerInterface {
 
     private function validate($volunteer) {
 
-      //  dd(\Request::all());
+        //  dd(\Request::all());
         if (isset($volunteer->id) && $volunteer->id != null && $volunteer->id != '')
             $validator = \Validator::make($volunteer->toArray(), [
                 'name' => 'required',
@@ -358,10 +360,11 @@ class VolunteerService implements VolunteerInterface {
 
         $data = \Request::get('submitted');
 
-       // return $data['avail_Inter']['contr_days'];
-
+//return $this->validateInput($data);
         //first validate input
-        if (!$this->validateInput()) {
+        $validate = $this->validateInput($data);
+
+        if ($validate == 'success') {
 
             $volunteer = new Volunteer(array(
                 'name' => $data['volunteer_info']['name'],
@@ -373,7 +376,7 @@ class VolunteerService implements VolunteerInterface {
                 'post_box' => $data['volunteer_info']['post_box'],
                 'city' => $data['volunteer_info']['city'],
                 'country' => $data['volunteer_info']['country'],
-                'afm' =>  $data['volunteer_info']['afm'],
+                'afm' => $data['volunteer_info']['afm'],
                 'identification_type_id' => $this->checkDropDown($data['volunteer_info']['identification_type_id']),
                 'live_in_curr_country' => $this->checkDropDown($data['volunteer_info']['live_in_curr_country']),
                 'gender_id' => $this->checkDropDown($data['volunteer_info']['gender_id']),
@@ -408,7 +411,6 @@ class VolunteerService implements VolunteerInterface {
                 'how_you_learned_id' => $this->checkDropDown($data['extra_comments']['howYouLearned']),
             ));
 
-
             //Birthday
             if ($data['volunteer_info']['birth_date'] != null && $data['volunteer_info']['birth_date'] != ""
                 && $data['volunteer_info']['birth_date']['year'] != null && $data['volunteer_info']['birth_date']['year'] != ""
@@ -421,10 +423,8 @@ class VolunteerService implements VolunteerInterface {
             if (isset($data['education']['computer_usage']) && isset($data['education']['computer_usage'][1]) && $data['education']['computer_usage'][1] == 1)
                 $volunteer->computer_usage = 1;
 
-
             $volunteer->save();
 
-          //  $volunteer->id=1;
             //Languages
             if (isset($data['languages']['langGR']))
                 $volunteer->languages()->save($this->createVolunteerLanguage('Ελληνικά', $data['languages']['langGR'], $volunteer->id));
@@ -504,7 +504,7 @@ class VolunteerService implements VolunteerInterface {
                                     else if ($availability == "3")
                                         $time = 'Απόγευμα';
 
-                                    switch($weekDay) {
+                                    switch ($weekDay) {
                                         case 'monday':
                                             $day = 'Δευτέρα';
                                             break;
@@ -540,10 +540,11 @@ class VolunteerService implements VolunteerInterface {
                 }
             }
 
+            NotificationService::newVolunteer($volunteer->id, UnitService::getRoot()->id);
 
             return \Response::json($volunteer, 201);
         } else {
-            return \Response::json('Error in form fields', 409);
+            return \Response::json($validate, 409);
         }
     }
 
@@ -571,39 +572,35 @@ class VolunteerService implements VolunteerInterface {
 
 
     /**
-     * Validate form input before taking any action
+     * Validate form input before taking any action.
+     * Return error codes in order to display appropriate message to the front end.
      *
      * @return bool
      */
     private
-    function validateInput() {
+    function validateInput($data) {
         $flag = true;
 
-        if (!\Input::has('Όνομα') || \Input::get('Όνομα') == '')
-            return false;
+        if (!isset($data['volunteer_info']['name']) || $data['volunteer_info']['name'] == '')
+            return 101;
 
-        if (!\Input::has('Επώνυμο') || \Input::get('Επώνυμο') == '')
-            return false;
+        if (!isset($data['volunteer_info']['last_name']) || $data['volunteer_info']['last_name'] == '')
+            return 102;
 
-        if (!\Input::has('Ημερομηνία_Γέννησης')
-            || \Input::get('Ημερομηνία_Γέννησης')['year'] == ''
-            || \Input::get('Ημερομηνία_Γέννησης')['month'] == ''
-            || \Input::get('Ημερομηνία_Γέννησης')['day'] == ''
+        if ($data['volunteer_info']['birth_date'] == null || $data['volunteer_info']['birth_date'] == ""
+            || $data['volunteer_info']['birth_date']['year'] == null || $data['volunteer_info']['birth_date']['year'] == ""
+            || $data['volunteer_info']['birth_date']['month'] == null || $data['volunteer_info']['birth_date']['month'] == ""
+            || $data['volunteer_info']['birth_date']['day'] == null || $data['volunteer_info']['birth_date']['day'] == ""
         )
-            return false;
+            return 103;
 
-        if (!\Input::has('Φύλο'))
-            return false;
-
-        $emails = Volunteer::where('email', \Input::get('email'))->get(['email']);
-        if (sizeof($emails) > 0 || !\Input::has('email') || \Input::get('email') == '' || !filter_var(\Input::get('email'), FILTER_VALIDATE_EMAIL))
-            return false;
-
-        if (!\Input::has('Επίπεδο_εκπαίδευσης') || \Input::get('Επίπεδο_εκπαίδευσης') == 'select')
-            return false;
-
-        if (!\Input::has('Εργασιακή_κατάσταση') || \Input::get('Εργασιακή_κατάσταση') == 'select')
-            return false;
+        $emails = Volunteer::where('email', $data['contact_info']['email'])->get();
+        if (!isset($data['contact_info']['email']) || $data['contact_info']['email'] == ''
+            || !filter_var($data['contact_info']['email'], FILTER_VALIDATE_EMAIL)
+        )
+            return 201;
+        if (sizeof($emails) > 0)
+            return 202;
 
         return $flag;
     }

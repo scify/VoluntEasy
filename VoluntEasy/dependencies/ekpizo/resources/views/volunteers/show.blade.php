@@ -23,7 +23,7 @@
                             @elseif($volunteer->gender_id!=null && $volunteer->gender_id==2)
                             | <i class="fa fa-venus"></i>
                             @endif
-                            @if($volunteer->age!=-1)
+                            @if($volunteer->age>0)
                             | {{ $volunteer->age }} ετών</h3>
                             @endif
 

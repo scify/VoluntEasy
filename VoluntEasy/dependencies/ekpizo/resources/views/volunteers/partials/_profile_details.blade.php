@@ -3,7 +3,7 @@
         <p><strong>Όνομα πατέρα:</strong> {{ $volunteer->fathers_name=='' ? '-' : $volunteer->fathers_name }}</p>
 
         <p><strong>Ημ/νία γέννησης:</strong>
-            @if(\DateTime::createFromFormat('d/m/Y', $volunteer->birth_date))
+            @if($volunteer->age>0)
             {{ $volunteer->birth_date }}
             @else
             -

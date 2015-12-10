@@ -333,8 +333,9 @@ class VolunteerController extends Controller {
             $file->delete();
         }
 
-        $volunteer->delete();
+        $volunteer->update(['email' => $volunteer->email . '_deleted']);
 
+        $volunteer->delete();
 
         Session::flash('flash_message', 'Ο εθελοντής διαγράφηκε.');
         Session::flash('flash_type', 'alert-success');

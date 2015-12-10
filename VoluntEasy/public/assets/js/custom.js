@@ -1,27 +1,6 @@
 //define the global namespace.
 window.scify = {}; //avoiding name space collusion
 
-//
-//(function($,undefined){
-//
-//
-//    function saveVolunteer(volunteerId)
-//    {
-//        if (volunteerId == undefined)
-//        {
-//            //save new
-//        }
-//        else
-//        {
-//            //edit
-//        }
-//    }
-//
-//
-//})(window.jquery);
-//
-
-
 $(document).ready(function () {
 
     //todo: move all view handler to methods that have a nice name
