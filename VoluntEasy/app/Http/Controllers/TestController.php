@@ -2,10 +2,8 @@
 
 use App\Http\Requests;
 use App\Models\Action;
-use App\Models\Descriptions\Interest;
-use App\Models\Descriptions\InterestCategory;
-use App\Models\Rating\RatingAttribute;
 use App\Models\Unit;
+use App\Models\User;
 use App\Models\Volunteer;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\VolunteerService;
@@ -21,38 +19,13 @@ use Faker\Factory;
 class TestController extends Controller {
 
 
-    /**
-     * Experimenting on interface binding
-     *
-     * @return mixed
-     */
-    public function experiment(){
-
-
-       // $result =  \App::make('App\Services\Experiment\VolunteerInterface');        //return $result->hello();
-    }
-
-
-
     public function test() {
+        //$user = User::with('roles.permissions.modules', 'roles.permissions.actions')->find(1);
+        $user = User::find(1);
 
+        return $user->hasPermission('unit.create', 1);
 
-        return VolunteerService::actionsRatings(10);
-
-        $configuration = \App::make('Interfaces\ConfigurationInterface');
-
-        //DB::table('users')->delete();
-
-        $json = \File::get($configuration->getRatingsJsonPath());
-
-        $ratings = json_decode($json);
-
-        foreach($ratings as $rating){
-           RatingAttribute::create([
-                'description' => $rating->description
-            ]);
-        }
-
+        return $user;
     }
 
 

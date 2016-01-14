@@ -1,0 +1,20 @@
+
+fieldset,
+form.variation-chooser input
+{ border: 1px solid #ccc; -moz-border-radius: 7px; -webkit-border-radius: 7px; }
+
+fieldset,
+form.variation-chooser input,
+ul.secondary { border: 1px solid #ccc; -moz-border-radius: 0px; -webkit-border-radius: 0px; }
+
+
+form.variation-chooser input {
+    margin: 15px 5px 15px 0;
+    cursor:pointer;
+}
+
+input, textarea, file {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: #555;
+}

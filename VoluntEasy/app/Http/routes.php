@@ -70,6 +70,7 @@ Route::post('volunteers/unblacklisted', 'VolunteerController@unBlacklisted');
 Route::post('volunteers/notAvailable', 'VolunteerController@notAvailable');
 Route::post('volunteers/available', 'VolunteerController@available');
 Route::post('volunteers/deleteFile', 'VolunteerController@deleteFile');
+Route::get('volunteers/publicForm', 'VolunteerController@publicForm');
 
 
 

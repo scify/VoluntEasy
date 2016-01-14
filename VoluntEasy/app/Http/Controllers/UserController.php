@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Requests\UserRequest as UserRequest;
+use App\Models\Roles\Role;
 use App\Models\Unit;
 use App\Models\User as User;
 use App\Services\Facades\NotificationService;
@@ -33,7 +34,9 @@ class UserController extends Controller {
      * @return Response
      */
     public function create() {
-        return view("main.users.create");
+        $roles = Role::lists('name', 'id')->all();
+
+        return view("main.users.create", compact('roles'));
     }
 
     /**

@@ -66,6 +66,25 @@
     </div>
     @endif
     <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @if (isset($user))
+                {!! Form::formInput('role_id', 'Ρόλος:', $errors, ['class' => 'form-control',
+                'type' => 'select', 'value' => $workStatuses, 'key' => $volunteer->role_id]) !!}
+                @else
+                {!! Form::formInput('role_id', 'Ρόλος:', $errors, ['class' => 'form-control',
+                'type' => 'select', 'value' => $roles]) !!}
+                @endif
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {!! Form::formInput('email', 'Email:', $errors, ['class' => 'form-control', 'required' => 'true']) !!}
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-12 text-right">
             <div class="form-group">
                 {!! Form::submit($submitButtonText, ['class' => 'btn btn-success']) !!}

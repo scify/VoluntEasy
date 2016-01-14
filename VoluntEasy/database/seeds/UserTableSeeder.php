@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\User as User;
+use Illuminate\Database\Seeder;
+use App\Models\Roles\Role;
 
 class UserTableSeeder extends Seeder {
 
@@ -12,15 +12,22 @@ class UserTableSeeder extends Seeder {
      *
      * @return void
      */
-    public function run()
-    {
-        User::create([
+    public function run() {
+
+        $admin = new User([
             'name' => 'admin',
             'email' => 'test@scify.org',
             'password' => Hash::make('1q2w3e'),
-            'addr' => 'SciFY',
-            'tel' => '6666666666',
+            'addr' => 'Αμφικτύονος 17, Θησείο, 11851, Αθήνα',
+            'tel' => '2114004192',
         ]);
+
+        $admin->save();
+
+        $adminRole = Role::where('name', 'admin')->first();
+
+        $admin->roles()->attach($adminRole->id);
+
     }
 
 }

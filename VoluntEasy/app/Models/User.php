@@ -1,5 +1,6 @@
 <?php namespace App\Models;
 
+use App\Models\Traits\Permissible;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
 
-    use Authenticatable, CanResetPassword;
+    use Authenticatable, CanResetPassword, Permissible;
     
     /**
      * The database table used by the model.
@@ -48,6 +49,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->hasMany('App\Models\Notification')->orderBy('updated_at', 'desc');
     }
 
+    public function roles() {
+        return $this->belongsToMany('App\Models\Roles\Role', 'users_roles', 'user_id', 'role_id');
+    }
 
     /**
      * Check if user has a certain unit.
