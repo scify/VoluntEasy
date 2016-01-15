@@ -19,12 +19,10 @@ class RoleTableSeeder extends Seeder {
         $admin = new Role(['name' => 'admin']);
         $unit_manager = new Role(['name' => 'unit_manager']);
         $action_manager = new Role(['name' => 'action_manager']);
-        $volunteerRole = new Role(['name' => 'volunteer']);
 
         $admin->save();
         $unit_manager->save();
         $action_manager->save();
-        $volunteerRole->save();
 
         //Add modules
         $action = new Module(['name' => 'action']);
@@ -111,13 +109,6 @@ class RoleTableSeeder extends Seeder {
 
             new Permission(['module_id' => $user->id, 'action_id' => $read->id]),
         ]);
-
-        $volunteerRole->permissions()->saveMany([
-            new Permission(['module_id' => $action->id, 'action_id' => $read->id]),
-
-            new Permission(['module_id' => $volunteer->id, 'action_id' => $read->id]),
-        ]);
-
 
     }
 }

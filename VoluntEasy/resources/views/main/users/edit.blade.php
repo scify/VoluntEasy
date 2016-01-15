@@ -10,27 +10,22 @@
 
 @section('bodyContent')
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-white">
-            <div class="panel-body">
-                {!! Form::model($user, ['method' => 'POST', 'action' => ['UserController@update', 'id'
-                => $user->id], 'files' => true]) !!}
-                @include('main.users.partials._form', ['submitButtonText' => 'Αποθήκευση', 'user' =>
-                $user])
-                {!! Form::close() !!}
-            </div>
-        </div>
-    </div>
-</div>
+    {!! Form::model($user, ['method' => 'POST', 'action' => ['UserController@update', 'id'
+    => $user->id], 'files' => true]) !!}
+    @include('main.users.partials._form', ['user' =>
+    $user])
+    @include('main.users.partials._roles', ['submitButtonText' => 'Αποθήκευση'])
+    {!! Form::close() !!}
 
 
+{{--
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-body">
                 <div class="row m-b-lg">
                     <div class="col-md-12 ">
+
                         <h3>Επιλογή Οργανωτικών Μονάδων</h3>
 
                         <p>Επιλέξτε τις οργανωτικές μονάδες στις οποίες μπορεί να έχει πρόσβαση ο χρήστης.</p>
@@ -49,17 +44,12 @@
         </div>
     </div>
 </div>
+--}}
 
 @stop
 
 
 @section('footerScripts')
-<!--script src="{{ asset('assets/js/pages/users/edit.js')}}"></script>
-<script>
-    var handler = new window.scify.editHandler("pink");
-    handler.init();
-</script-->
-
 
 <script>
     //initialize the tree

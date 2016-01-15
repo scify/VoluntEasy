@@ -1,6 +1,7 @@
 <?php namespace App\Models\Traits;
 
 use App\Models\Action;
+use App\Models\Roles\Role;
 use App\Services\Facades\UserService;
 
 /**
@@ -77,5 +78,18 @@ trait Permissible {
             return 1;
         else
             return 0;
+    }
+
+    /**
+     *
+     * Attach or detach roles to the user
+     *
+     * @param $values
+     */
+    public function refreshRoles($values){
+
+        $roles = Role::whereIn('name', $values)->get(['id']);
+
+        $this->roles()->sync($roles);
     }
 }

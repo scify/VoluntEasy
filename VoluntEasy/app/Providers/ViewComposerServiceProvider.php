@@ -36,20 +36,20 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
         //Volunteer Search Page requires all the following data for it's dropdowns etc.
         View::composer('main.volunteers.partials._search', function ($view) {
-            $identificationTypes = IdentificationType::all()->lists('description', 'id')->all();
-            $driverLicenseTypes = DriverLicenceType::all()->lists('description', 'id')->all();
-            $maritalStatuses = MaritalStatus::all()->lists('description', 'id')->all();
-            $languages = Language::all()->lists('description', 'id')->all();
-            $langLevels = LanguageLevel::all()->lists('description', 'id')->all();
-            $workStatuses = WorkStatus::all()->lists('description', 'id')->all();
-            $availabilityFreqs = AvailabilityFrequencies::all()->lists('description', 'id')->all();
-            $availabilityTimes = AvailabilityTime::all()->lists('description', 'id')->all();
-            $genders = Gender::all()->lists('description', 'id')->all();
-            $commMethod = CommunicationMethod::all()->lists('description', 'id')->all();
-            $educationLevels = EducationLevel::all()->lists('description', 'id')->all();
+            $identificationTypes = IdentificationType::lists('description', 'id')->all();
+            $driverLicenseTypes = DriverLicenceType::lists('description', 'id')->all();
+            $maritalStatuses = MaritalStatus::lists('description', 'id')->all();
+            $languages = Language::lists('description', 'id')->all();
+            $langLevels = LanguageLevel::lists('description', 'id')->all();
+            $workStatuses = WorkStatus::lists('description', 'id')->all();
+            $availabilityFreqs = AvailabilityFrequencies::lists('description', 'id')->all();
+            $availabilityTimes = AvailabilityTime::lists('description', 'id')->all();
+            $genders = Gender::lists('description', 'id')->all();
+            $commMethod = CommunicationMethod::lists('description', 'id')->all();
+            $educationLevels = EducationLevel::lists('description', 'id')->all();
             //$interests = Interest::orderBy('description', 'asc')->lists('description', 'id')->all();
             $interests = Interest::orderBy('description', 'asc')->lists('description', 'id')->all();
-            $units = Unit::all()->lists('description', 'id')->all();
+            $units = Unit::lists('description', 'id')->all();
 
 
             $maritalStatuses[0] = '[- επιλέξτε -]';
@@ -76,15 +76,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             //create the ratings dropdown
             //TODO: change descriptions
             $ratings = [];
-            /*
-            array_push($ratings, '[- επιλέξτε -]');
-            array_push($ratings, 'Συνέπεια αύξουσα');
-            array_push($ratings, 'Συνέπεια φθίνουσα');
-            array_push($ratings, 'Στυλ αύξουσα');
-            array_push($ratings, 'Στυλ φθίνουσα');
-            array_push($ratings, 'Αγάπη για γάτες αύξουσα');
-            array_push($ratings, 'Αγάπη για γάτες φθίνουσα');
-            */
+
             $view->with('maritalStatuses', $maritalStatuses)
                 ->with('identificationTypes', $identificationTypes)
                 ->with('driverLicenseTypes', $driverLicenseTypes)
@@ -100,8 +92,8 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
         //Units Search Page requires all the following data for it's dropdowns etc.
         View::composer('main.units.partials._search', function ($view) {
-            $units = Unit::all()->lists('description', 'id')->all();
-            $users = User::all()->lists('name', 'id')->all();
+            $units = Unit::lists('description', 'id')->all();
+            $users = User::lists('name', 'id')->all();
 
             $units[0] = '[- επιλέξτε -]';
             ksort($units);
@@ -125,7 +117,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
         //Users Search Page requires all the following data for it's dropdowns etc.
         View::composer('main.users.partials._search', function ($view) {
 
-            $units = Unit::all()->lists('description', 'id')->all();
+            $units = Unit::lists('description', 'id')->all();
 
             $units[0] = '[- επιλέξτε -]';
             ksort($units);

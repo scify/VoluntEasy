@@ -70,6 +70,14 @@ class CreateUnitsTable extends Migration {
 			$table->integer('unit_id')->unsigned();
 			$table->foreign('unit_id')->references('id')->on('units');
 		});
+
+        Schema::create('actions_users', function($table)
+        {
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('action_id')->unsigned();
+            $table->foreign('action_id')->references('id')->on('actions');
+        });
 	}
 
 	/**
@@ -79,6 +87,7 @@ class CreateUnitsTable extends Migration {
 	 */
 	public function down()
 	{
+		Schema::dropIfExists('actions_users');
 		Schema::dropIfExists('units_users');
 		Schema::dropIfExists('steps');
 		Schema::dropIfExists('step_statuses');

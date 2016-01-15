@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Requests\UserRequest as UserRequest;
+use App\Models\Action;
 use App\Models\Roles\Role;
 use App\Models\Unit;
 use App\Models\User as User;
@@ -34,9 +35,26 @@ class UserController extends Controller {
      * @return Response
      */
     public function create() {
-        $roles = Role::lists('name', 'id')->all();
 
-        return view("main.users.create", compact('roles'));
+        $roles = ['admin' => 'Διαχειριστής', 'unit_manager' => 'Υπεύθυνος Μονάδων', 'action_manager' => 'Υπεύθυνος Δράσης'];
+
+        $units = Unit::all(['description', 'id']);
+        $actions = Action::all(['description', 'id', 'unit_id']);
+        $permittedUnits = UserService::permittedUnits();
+
+        /*
+         foreach ($units as $id => $unit) {
+             if (!in_array($id, $permittedUnits))
+                 unset($unit, $units);
+         }
+
+         $actions = [];
+         foreach ($actionsTMP as $action) {
+             if (in_array($action->id, $permittedUnits))
+                 array_push($actions, [$action->description]);
+         }
+ */
+        return view("main.users.create", compact('roles', 'units', '$permittedUnits', 'actions'));
     }
 
     /**
@@ -89,9 +107,16 @@ class UserController extends Controller {
      * @return Response
      */
     public function edit($id) {
-        $user = User::where('id', $id)->with('units.allChildren')->first();
 
-        return view("main.users.edit", compact('user'));
+        //  $roles = ['admin' => 'Διαχειριστής', 'unit_manager' => 'Υπεύθυνος Μονάδων', 'action_manager' => 'Υπεύθυνος Δράσης'];
+        $roles = Role::all();
+        $units = Unit::all(['description', 'id']);
+        $actions = Action::all(['description', 'id', 'unit_id']);
+        $permittedUnits = UserService::permittedUnits();
+
+        $user = User::where('id', $id)->with('units.allChildren', 'roles')->first();
+
+        return view("main.users.edit", compact('user', 'roles', 'units', 'actions'));
     }
 
     /**
@@ -101,6 +126,8 @@ class UserController extends Controller {
      * @return Response
      */
     public function update(UserRequest $request) {
+
+        //return \Request::all();
         $user = User::findOrFail($request->get('id'));
 
         if ($request['password'] != null && $request['password'] != '') {
@@ -114,6 +141,11 @@ class UserController extends Controller {
                 'tel' => $request['tel'],
             ]);
         }
+
+        $user->refreshRoles(\Request::get('roles'));
+
+        if (\Request::has('unitsSelect') && sizeof(\Request::get('unitsSelect')) > 0)
+            $user->units()->sync(\Request::get('unitsSelect'));
 
         //store the user image
         if (\Input::file('image') != null) {
