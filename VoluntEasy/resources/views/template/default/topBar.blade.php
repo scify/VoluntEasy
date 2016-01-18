@@ -44,9 +44,9 @@
                                          alt="">
                                     </a>
                                     <ul class="dropdown-menu dropdown-list" role="menu">
-                                        <li role="presentation"><a href="{!! url('users/one/'.Auth::user()->id) !!}"><i class="fa fa-user"></i>{{trans($lang.'profile')}}</a></li>
-                                        <li role="presentation"><a href="{!! url('users/one/'.Auth::user()->id.'/tasks') !!}"><i class="fa fa-tasks"></i>{{trans($lang.'tasks')}}</a></li>
-                                        <li role="presentation"><a href="{!! url('auth/logout') !!}"><i class="fa fa-sign-out m-r-xs"></i>{{trans($lang.'logOut')}}</a></li>
+                                        <li role="presentation"><a href="{!! url('users/one/'.Auth::user()->id) !!}"><i class="fa fa-user"></i> {{trans($lang.'profile')}}</a></li>
+                                        <li role="presentation"><a href="{!! url('users/one/'.Auth::user()->id.'/tasks') !!}"><i class="fa fa-tasks"></i> {{trans($lang.'tasks')}}</a></li>
+                                        <li role="presentation"><a href="{!! url('auth/logout') !!}"><i class="fa fa-sign-out m-r-xs"></i> {{trans($lang.'logOut')}}</a></li>
                                     </ul>
                                 </li>
                                 <!---/Profile--->

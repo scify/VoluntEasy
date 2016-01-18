@@ -106,6 +106,10 @@
     </div>
 </div>
 
+@include('main.actions.partials._tasks')
+@include('main.actions.modals._add_task')
+
+
 @if(sizeof($action->ratings)>0)
 <div class="row">
     <div class="col-md-12">
@@ -174,7 +178,6 @@
                 'X-CSRF-Token': $('meta[name="_token"]').attr('content')
             },
             success: function (data) {
-                console.log(data);
                 window.location.href = $("body").attr('data-url') + "/actions/one/" + data;
             }
         });
@@ -209,7 +212,6 @@
                 'X-CSRF-Token': $('meta[name="_token"]').attr('content')
             },
             success: function (data) {
-                console.log(data);
                 initChart(data);
             }
         });
@@ -223,7 +225,6 @@
             series.push(value);
         });
 
-        console.log(series)
         $('#container').highcharts({
             chart: {
                 type: 'bar'

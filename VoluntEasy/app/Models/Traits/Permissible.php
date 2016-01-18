@@ -2,6 +2,8 @@
 
 use App\Models\Action;
 use App\Models\Roles\Role;
+use App\Models\Unit;
+use App\Services\Facades\NotificationService;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
 
@@ -101,11 +103,19 @@ trait Permissible {
             //remove all actions, admin can do anything
             $this->actions()->detach();
         }
-        
+
         if (in_array('unit_manager', $values)) {
             //refresh user units
-            if (\Request::has('unitsSelect') && sizeof(\Request::get('unitsSelect')) > 0)
+            if (\Request::has('unitsSelect') && sizeof(\Request::get('unitsSelect')) > 0) {
+
+
                 $this->units()->sync(\Request::get('unitsSelect'));
+
+                foreach (\Request::get('unitsSelect') as $unitId) {
+                    $unit = Unit::find($unitId);
+                    NotificationService::userToUnit($this->id, $unit);
+                }
+            }
         } else
             $this->units()->detach();
 

@@ -31,6 +31,10 @@ class Action extends Model {
         return $this->hasMany('App\Models\Rating\ActionScore', 'action_id', 'id');
     }
 
+    public function tasks() {
+        return $this->hasMany('App\Models\ActionTasks\VolunteerTask');
+    }
+
     /**
      * Format dates before showing on front end
      *

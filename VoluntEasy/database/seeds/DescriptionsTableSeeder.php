@@ -30,6 +30,7 @@ class DescriptionsTableSeeder extends Seeder {
         $this->addHowYouLearned();
         $this->addCollaborationTypes();
         $this->addDriverLicenceTypes();
+        $this->addTaskStatuses();
 
     }
 
@@ -178,6 +179,17 @@ class DescriptionsTableSeeder extends Seeder {
 
             DB::table('driver_license_types')->insert($license_types);
         }
+    }
+
+    private function addTaskStatuses() {
+        // Task statuses.
+
+        $data = [
+            ['name' => 'Complete'],
+            ['name' => 'Incomplete'],
+        ];
+
+        \DB::table('task_statuses')->insert($data);
     }
 
 }
