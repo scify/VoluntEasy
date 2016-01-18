@@ -13,7 +13,8 @@
 
 <div class="row">
     {!! Form::open(['method' => 'POST', 'action' => ['UserController@store'], 'files'=>true]) !!}
-    @include('main.users.partials._form', ['submitButtonText' => 'Αποθήκευση'])
+    @include('main.users.partials._form')
+    @include('main.users.partials._roles', ['submitButtonText' => 'Αποθήκευση'])
     {!! Form::close() !!}
 </div>
 

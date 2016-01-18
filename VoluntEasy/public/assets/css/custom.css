@@ -299,8 +299,21 @@ div#unitsTree{overflow-x: auto;}
 }
 
 .roles{
+    padding: 4px;
     margin-bottom: 20px;
 }
 .roles label{
     font-size:16px;
+}
+
+.roles.active{
+    background-color: #E9EDF2;
+    padding: 4px;
+}
+.roles.disabled {
+    color: #939494;
+    cursor: not-allowed;
+}
+.roles.disabled label{
+    cursor: not-allowed;
 }

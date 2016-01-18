@@ -1,3 +1,5 @@
+<?php $lang = "default."; ?>
+
 @extends('default')
 
 @section('title')
@@ -15,6 +17,7 @@
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
                 <h4 class="panel-title">Στοιχεία Χρήστη</h4>
+
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
                        class="panel-collapse" data-original-title="Expand/Collapse"><i class="icon-arrow-down"></i></a>
@@ -31,22 +34,32 @@
                     </div>
                     <div class="col-md-10">
                         <p class="lead" id="userId" data-id="{{ $user->id }}">{{ $user->name }}</p>
+
                         <p><i class="fa fa-envelope"></i> <a href="mailto:{{ $user->email }}">{{ $user->email }}</a> |
                             @if($user->addr!=null && $user->addr!='')
                             <i class="fa fa-home"></i> {{ $user->addr }} |
                             @endif
                             <i class="fa fa-phone"></i> {{ $user->tel }}</p>
                         <hr/>
-                        <h3>Οργανωτικές Μονάδες</h3>
-                        @if(sizeof($user->units)==0)
-                        <p>Ο χρήστης δεν ανήκει σε καμία οργανωτική μονάδα.</p>
-                        @else
-                            <ul class="list-unstyled">
+                        <h3>Ρόλοι</h3>
+                        @foreach($user->roles as $role)
+                        <p>{{trans($lang.$role->name.'-at')}}</p>
+                        @if('unit_manager' == $role->name)
+                        <ul>
                             @foreach($user->units as $unit)
-                                <li><a href="{{ url('units/one/'.$unit->id) }}">{{$unit->description}}</a></li>
+                            <li><a href="{{ url('units/one/'.$unit->id) }}">{{$unit->description}}</a></li>
                             @endforeach
-                            </ul>
+                        </ul>
                         @endif
+                        @if('action_manager' == $role->name)
+                        <ul>
+                            @foreach($user->actions as $action)
+                            <li><a href="{{ url('actions/one/'.$action->id) }}">{{$action->description}}</a></li>
+                            @endforeach
+                        </ul>
+                        @endif
+                        @endforeach
+
                     </div>
                 </div>
                 <hr/>
@@ -57,7 +70,8 @@
                                 class="fa fa-edit"></i> Επεξεργασία</a>
                         @if(!$isAdmin)
                         <button onclick="deleteUser({{ $user->id }})" class="btn btn-danger"><i
-                                class="fa fa-trash"></i> Διαγραφή</button>
+                                class="fa fa-trash"></i> Διαγραφή
+                        </button>
                         @endif
                         @endif
                     </div>
@@ -71,6 +85,7 @@
 <div class="panel panel-white tree">
     <div class="panel-heading clearfix">
         <h2 class="panel-title">Δέντρο</h2>
+
         <div class="panel-control">
             <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="" class="panel-collapse"
                data-original-title="Expand/Collapse"><i class="icon-arrow-down"></i></a>
@@ -86,7 +101,6 @@
 
 
 @stop
-
 
 
 @section('footerScripts')

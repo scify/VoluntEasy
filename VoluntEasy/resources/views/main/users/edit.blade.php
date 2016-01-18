@@ -52,15 +52,6 @@
 @section('footerScripts')
 
 <script>
-    //initialize the tree
-    var treewrapper = new Treewrapper({
-        url: $("body").attr('data-url') + '/api/tree/activeUnits/' + $("#save").attr('data-user-id'),
-        multiple: true,
-        children: true,
-        withActions: false,
-        edit: 'user'
-    });
-    treewrapper.init();
 
     $("#save").click(function () {
         var activeNodes = [];

@@ -36,25 +36,12 @@ class UserController extends Controller {
      */
     public function create() {
 
-        $roles = ['admin' => 'Διαχειριστής', 'unit_manager' => 'Υπεύθυνος Μονάδων', 'action_manager' => 'Υπεύθυνος Δράσης'];
-
-        $units = Unit::all(['description', 'id']);
+        $roles = Role::all(['name', 'id']);
+        $units = Unit::whereNotNull('parent_unit_id')->get(['description', 'id']);
         $actions = Action::all(['description', 'id', 'unit_id']);
         $permittedUnits = UserService::permittedUnits();
 
-        /*
-         foreach ($units as $id => $unit) {
-             if (!in_array($id, $permittedUnits))
-                 unset($unit, $units);
-         }
-
-         $actions = [];
-         foreach ($actionsTMP as $action) {
-             if (in_array($action->id, $permittedUnits))
-                 array_push($actions, [$action->description]);
-         }
- */
-        return view("main.users.create", compact('roles', 'units', '$permittedUnits', 'actions'));
+        return view("main.users.create", compact('roles', 'units', 'permittedUnits', 'actions'));
     }
 
     /**
@@ -79,6 +66,9 @@ class UserController extends Controller {
             $user->update(['image_name' => UserService::storeImage(\Input::file('image'), $user->email)]);
         }
 
+        //refresh user roles
+        $user->refreshRoles(\Request::get('roles'));
+
         return Redirect::route('user/profile', ['id' => $user->id]);
     }
 
@@ -89,7 +79,7 @@ class UserController extends Controller {
      * @return Response
      */
     public function show($id) {
-        $user = User::where('id', $id)->with('units')->first();
+        $user = User::where('id', $id)->with('units', 'roles')->first();
 
         $isAdmin = UserService::isAdmin($id);
 
@@ -109,14 +99,15 @@ class UserController extends Controller {
     public function edit($id) {
 
         //  $roles = ['admin' => 'Διαχειριστής', 'unit_manager' => 'Υπεύθυνος Μονάδων', 'action_manager' => 'Υπεύθυνος Δράσης'];
-        $roles = Role::all();
-        $units = Unit::all(['description', 'id']);
+        $roles = Role::all(['name', 'id']);
+        //get all units except for the root unit
+        $units = Unit::whereNotNull('parent_unit_id')->get(['description', 'id']);
         $actions = Action::all(['description', 'id', 'unit_id']);
         $permittedUnits = UserService::permittedUnits();
 
-        $user = User::where('id', $id)->with('units.allChildren', 'roles')->first();
+        $user = User::where('id', $id)->first();
 
-        return view("main.users.edit", compact('user', 'roles', 'units', 'actions'));
+        return view("main.users.edit", compact('user', 'roles', 'units', 'actions', 'userUnits', 'permittedUnits'));
     }
 
     /**
@@ -127,7 +118,6 @@ class UserController extends Controller {
      */
     public function update(UserRequest $request) {
 
-        //return \Request::all();
         $user = User::findOrFail($request->get('id'));
 
         if ($request['password'] != null && $request['password'] != '') {
@@ -142,10 +132,8 @@ class UserController extends Controller {
             ]);
         }
 
+        //refresh user roles
         $user->refreshRoles(\Request::get('roles'));
-
-        if (\Request::has('unitsSelect') && sizeof(\Request::get('unitsSelect')) > 0)
-            $user->units()->sync(\Request::get('unitsSelect'));
 
         //store the user image
         if (\Input::file('image') != null) {

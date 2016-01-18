@@ -16,9 +16,15 @@
                     <div class="col-md-4">
 
                         @foreach($roles as $role)
-                        <div class="roles">
-                            <input name="roles[]" type="checkbox" value="{{$role->name}}" id="{{$role->name}}">
-                            <label for="{{$role->name}}">{{trans($lang.$role->name)}}</label>
+                        <div class="roles role-details" data-role="{{$role->name}}">
+                            <input name="roles[]" type="checkbox" value="{{$role->name}}" id="{{$role->name}}" {{
+                            isset($user) &&
+                            in_array($role->id, $user->roles()->lists('id')->toArray()) ? 'checked' : '' }}>
+                            <label>{{trans($lang.$role->name)}}
+                                @if($role->name !='admin')
+                                <i class="fa fa-chevron-right"></i>
+                                @endif
+                            </label>
                             <br/>
                             <small>{{trans($lang.$role->name.'-descr')}}</small>
                         </div>
@@ -34,17 +40,24 @@
                                     style=" width: 100%">
 
                                 @foreach($units as $unit_id => $unit)
-                                <option value="{{ $unit->id }}" name="unit-{{$unit->id}}">{{ $unit->description }}
+                                <option value="{{ $unit->id }}" name="unit-{{$unit->id}}"
+                                {{ isset($user) && in_array($unit->id, $user->units()->lists('id')->toArray()) ?
+                                'selected' : '' }} {{ !in_array($unit->id, $permittedUnits) ? 'disabled' : '' }}>{{
+                                $unit->description }}
                                 </option>
                                 @endforeach
                             </select>
-                            <p class="help-block">Κρατήστε πατημένο το πλήκτρο CTRL για να επιλέξετε παραπάνω από μία μονάδες.</p>
+
+                            <p class="help-block">Κρατήστε πατημένο το πλήκτρο CTRL για να επιλέξετε παραπάνω από μία
+                                μονάδες.<br/>
+                                Οι μονάδες στις οποίες δεν έχετε πρόσβαση είναι μη επιλέξιμες (γκριζαρισμένες).
+                            </p>
                         </div>
 
                         <div class="form-group" id="actions" style="display: none;">
                             <p>Δράσεις:</p>
                             <select class="js-states form-control" id="actionList" multiple="multiple"
-                                    name="unitsSelect[]"
+                                    name="actionsSelect[]"
                                     tabindex="-1"
                                     style="width: 100%">
 
@@ -54,7 +67,9 @@
                                 </option>
                                 @endforeach
                             </select>
-                            <p class="help-block">Κρατήστε πατημένο το πλήκτρο CTRL για να επιλέξετε παραπάνω από μία δράσεις.</p>
+
+                            <p class="help-block">Κρατήστε πατημένο το πλήκτρο CTRL για να επιλέξετε παραπάνω από μία
+                                δράσεις.</p>
                         </div>
                     </div>
                 </div>
@@ -73,28 +88,20 @@
 
 @section('footerScripts')
 <script>
-    $("#role_id").change(function () {
-        var role = $('option:selected', this).val();
 
-        if (role == 'action_manager') {
-            $("#actions").show();
-            $("#units").hide();
-        }
-        else if (role == 'unit_manager') {
-            $("#units").show();
-            $("#actions").hide();
-        }
-        else if (role == 'admin') {
-            $("#units").hide();
-            $("#actions").hide();
-        }
-    });
+    //if the role admin is preselected, disable all other fields
+    if ($('#admin').attr("checked")) {
+        $("#action_manager").attr("disabled", true);
+        $("#unit_manager").attr("disabled", true);
+        $("#action_manager").closest('.roles').addClass("disabled");
+        $("#unit_manager").closest('.roles').addClass("disabled");
+    }
 
+    $(".role-details").click(function () {
+        var role = $(this).attr('data-role');
 
-    $(".roles").children("input:checkbox").click(function (e) {
-        var role = $(this).val();
-
-        if ($(this).prop('checked')) {
+        if (!$(this).hasClass('disabled')) {
+            $(this).addClass('active').siblings().removeClass('active');
 
             if (role == 'action_manager') {
                 $("#actions").show();
@@ -107,28 +114,34 @@
             else if (role == 'admin') {
                 $("#units").hide();
                 $("#actions").hide();
-                $("#action_manager").attr("disabled", true);
-                $("#unit_manager").attr("disabled", true);
-                $("#action_manager").parent().removeClass('checked');
-                $("#unit_manager").parent().removeClass('checked');
-            }
-        }
-        else {
-            if (role == 'action_manager') {
-                $("#actions").hide();
-            }
-            else if (role == 'unit_manager') {
-                $("#units").hide();
-            }
-            else if (role == 'admin') {
-                $("#units").hide();
-                $("#actions").hide();
-                $("#action_manager").attr("disabled", false);
-                $("#unit_manager").attr("disabled", false);
             }
         }
     });
 
+
+    $(".roles").children("input:checkbox").click(function (e) {
+        var role = $(this).val();
+
+        if ($(this).prop('checked')) {
+            if (role == 'admin') {
+                $("#action_manager").attr("disabled", true);
+                $("#unit_manager").attr("disabled", true);
+                $("#action_manager").parent().removeClass('checked');
+                $("#unit_manager").parent().removeClass('checked');
+                $("#action_manager").closest('.roles').addClass("disabled");
+                $("#unit_manager").closest('.roles').addClass("disabled");
+            }
+        }
+        else {
+            if (role == 'admin') {
+                console.log('aa')
+                $("#action_manager").attr("disabled", false);
+                $("#unit_manager").attr("disabled", false);
+                $("#action_manager").closest('.roles.disabled').removeClass('disabled');
+                $("#unit_manager").closest('.roles.disabled').removeClass('disabled');
+            }
+        }
+    });
 
 </script>
 @append

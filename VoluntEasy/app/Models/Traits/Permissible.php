@@ -2,6 +2,7 @@
 
 use App\Models\Action;
 use App\Models\Roles\Role;
+use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
 
 /**
@@ -74,7 +75,7 @@ trait Permissible {
             }
         }
 
-        if ($hasModule && $hasAction && ($value==null || $hasValue))
+        if ($hasModule && $hasAction && ($value == null || $hasValue))
             return 1;
         else
             return 0;
@@ -82,14 +83,42 @@ trait Permissible {
 
     /**
      *
-     * Attach or detach roles to the user
+     * Attach or detach roles to the user.
+     * According to the assigned roles, decide if we should
+     * also sync actions/units/both/neither.
      *
      * @param $values
      */
-    public function refreshRoles($values){
+    public function refreshRoles($values) {
 
         $roles = Role::whereIn('name', $values)->get(['id']);
 
         $this->roles()->sync($roles);
+
+        if (in_array('admin', $values)) {
+            //only sync with root unit
+            $this->units()->sync([UnitService::getRoot()->id]);
+            //remove all actions, admin can do anything
+            $this->actions()->detach();
+        }
+        
+        if (in_array('unit_manager', $values)) {
+            //refresh user units
+            if (\Request::has('unitsSelect') && sizeof(\Request::get('unitsSelect')) > 0)
+                $this->units()->sync(\Request::get('unitsSelect'));
+        } else
+            $this->units()->detach();
+
+
+        if (in_array('action_manager', $values)) {
+
+            //refresh user actions
+            if (\Request::has('actionsSelect') && sizeof(\Request::get('actionsSelect')) > 0)
+                $this->actions()->sync(\Request::get('actionsSelect'));
+        } else
+            $this->actions()->detach();
+
     }
+
+
 }
