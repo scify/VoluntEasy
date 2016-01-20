@@ -12,9 +12,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Task extends Model {
 
-    protected $table = 'actions';
+    protected $table = 'tasks';
 
-    protected $fillable = ['description', 'name'];
+    protected $fillable = ['description', 'name', 'isComplete', 'action_id'];
 
 
     public function action() {

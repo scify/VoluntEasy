@@ -185,8 +185,9 @@ class DescriptionsTableSeeder extends Seeder {
         // Task statuses.
 
         $data = [
-            ['name' => 'Complete'],
-            ['name' => 'Incomplete'],
+            ['name' => 'To Do'],
+            ['name' => 'Doing'],
+            ['name' => 'Done'],
         ];
 
         \DB::table('task_statuses')->insert($data);

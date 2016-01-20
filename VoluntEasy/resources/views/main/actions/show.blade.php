@@ -77,7 +77,12 @@
     </div>
 </div>
 
+@include('main.actions.partials._tasks')
+@include('main.actions.modals._add_task')
 
+
+
+{{--
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-white">
@@ -108,7 +113,7 @@
 
 @include('main.actions.partials._tasks')
 @include('main.actions.modals._add_task')
-
+--}}
 
 @if(sizeof($action->ratings)>0)
 <div class="row">

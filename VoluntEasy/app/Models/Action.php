@@ -32,7 +32,7 @@ class Action extends Model {
     }
 
     public function tasks() {
-        return $this->hasMany('App\Models\ActionTasks\VolunteerTask');
+        return $this->hasMany('App\Models\ActionTasks\Task', 'action_id', 'id');
     }
 
     /**

@@ -104,10 +104,12 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
         $text_html = Form::text($field, $value, $attributes);
     }
 
+    //add a red star to required fields
     if (array_key_exists('required', $attributes)) {
         $label_html = $label_html . ' <span class="star">*</span>';
         unset($attributes['required']);
     }
+
 
     $msg_html = '';
 

@@ -1,63 +1,49 @@
+<?php $lang = "default."; ?>
+
 <!-- Modal -->
 <div class="modal fade" id="addTask" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog  modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Προσθήκη αρμοδιότητας στη δράση</h4>
+                <h4 class="modal-title">Προσθήκη task στη δράση</h4>
             </div>
             <div class="modal-body">
-                {!! Form::open(['method' => 'POST', 'action' => ['TaskController@store']]) !!}
+                {!! Form::open(['id' => 'createTask', 'method' => 'POST', 'action' => ['TaskController@store']]) !!}
+                <input type="hidden" name="actionId" id="actionId" value="{{$action->id}}">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            {!! Form::formInput('task_name', 'Αρμοδιότητα:', $errors, ['class' => 'form-control',
-                            'required'
-                            =>
-                            'true']) !!}
-                        </div>
-                        <div class="form-group">
-                            {!! Form::formInput('task_date', 'Ημέρα:', $errors, ['class' => 'form-control datepicker',
-                            'required'
-                            =>
-                            'true'])
-                            !!}
-                        </div>
-                        <div class="form-group">
-                            {!! Form::formInput('task_time', 'Ώρα:', $errors, ['class' => 'form-control', 'required'
-                            =>
-                            'true'])
-                            !!}
+                            {!! Form::formInput('name', 'Όνομα task:', $errors, ['class' => 'form-control',
+                            'required' => 'true']) !!}
+                            <p class="text-danger" id="name_err" style="display:none;">Συμπληρώστε το πεδίο.</p>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <div class="form-group">
-                            {!! Form::formInput('volunteer_id', 'Εθελοντής:', $errors, ['class' => 'form-control'])
-                            !!}
-                        </div>
-                        <div class="form-group">
-                            {!! Form::formInput('status', 'Κατάσταση:', $errors, ['class' => 'form-control', 'type' =>
-                            'select', 'value' => $taskStatuses]) !!}
-                        </div>
-                        <div class="form-group">
-                            {!! Form::formInput('working_hours', 'Ώρες Εργασίας:', $errors, ['class' => 'form-control'])
-                            !!}
+                            <p>Κατάσταση:</p>
+                            <input type="radio" name="status" id="complete" value="complete">
+                            <label for="complete">Ολοκληρωμένο</label><br/>
+                            <input type="radio" name="status" id="incomplete" value="incomplete" checked>
+                            <label for="incomplete">Μη ολοκληρωμένο</label>
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            {!! Form::formInput('comments', 'Σχόλια:', $errors,
+                            {!! Form::formInput('comments', 'Περιγραφή:', $errors,
                             ['class' => 'form-control', 'type' => 'textarea', 'size' => '2x5']) !!}
                         </div>
                     </div>
-                    {!! Form::close() !!}
                 </div>
+                {!! Form::close() !!}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
-                <button type="button" class="btn btn-success assignToAction">Αποθήκευση
+                <button type="button" class="btn btn-success" id="storeTask">Αποθήκευση
                 </button>
             </div>
         </div>
@@ -67,13 +53,24 @@
 @section('footerScripts')
 
 <script>
-    $('#task_date').datepicker({
-        language: 'el',
-        format: 'dd/mm/yyyy',
-        autoclose: true
-    });
 
-    $('#task_time').timepicker();
+    $("#storeTask").click(function () {
+        console.log('clicky')
+        if ($("#name").val() == null || $("#name").val() == '')
+            $("#name_err").show();
+        else {
+            $("#name_err").hide();
+
+            $.ajax({
+                url: $("body").attr('data-url') + "/actions/task/create",
+                method: 'GET',
+                data: $("#createTask").serialize(),
+                success: function (result) {
+                    location.reload();
+                }
+            });
+        }
+    });
 
 </script>
 

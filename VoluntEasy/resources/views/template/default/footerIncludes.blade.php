@@ -5,6 +5,7 @@
 <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js')}}"></script>
 <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js')}}"></script>
 <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.el.js')}}"></script>
+<script src="{{ asset('assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}"></script>
 <script src="{{ asset('assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js')}}"></script>
 <script src="{{ asset('assets/plugins/uniform/jquery.uniform.min.js')}}"></script>
 <script src="{{ asset('assets/plugins/waves/waves.min.js')}}"></script>

@@ -82,7 +82,6 @@ class ActionController extends Controller {
     public function show($id) {
         $action = Action::with('unit', 'ratings', 'tasks')->findOrFail($id);
 
-
         $branch = UnitService::getBranch(Unit::where('id', $action->unit->id)->with('actions')->first());
 
         //get the volunteer ids in an array for the select box
@@ -105,7 +104,7 @@ class ActionController extends Controller {
 
         $userUnits = UserService::userUnits();
 
-        $taskStatuses = Status::lists('name', 'id')->all();
+        $taskStatuses = Status::all();
 
         return view('main.actions.show', compact('action', 'allVolunteers', 'volunteerIds', 'userUnits', 'branch', 'taskStatuses'));
     }
