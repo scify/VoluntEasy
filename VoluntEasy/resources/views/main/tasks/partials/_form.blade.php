@@ -10,9 +10,9 @@
     <div class="col-md-3">
         <div class="form-group">
             <p>Κατάσταση:</p>
-            <input type="radio" name="status" id="complete" value="complete">
+            <input type="radio" name="status" id="complete" value="complete" {{ isset($task) && $task->isComplete ? 'checked' :'' }}>
             <label for="complete">Ολοκληρωμένο</label><br/>
-            <input type="radio" name="status" id="incomplete" value="incomplete" checked>
+            <input type="radio" name="status" id="incomplete" value="incomplete" {{ !isset($task) || (isset($task) && !$task->isComplete) ? 'checked' :'' }}>
             <label for="incomplete">Μη ολοκληρωμένο</label>
         </div>
     </div>

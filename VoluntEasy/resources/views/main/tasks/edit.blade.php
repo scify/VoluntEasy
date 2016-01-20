@@ -1,11 +1,11 @@
 @extends('default')
 
 @section('title')
-Επεξεργασία Δράσης
+Επεξεργασία Task
 @stop
 
 @section('pageTitle')
-Επεξεργασία Δράσης
+Επεξεργασία Task
 @stop
 
 @section('bodyContent')
@@ -14,7 +14,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Στοιχεία δράσης</h4>
+                <h4 class="panel-title">Στοιχεία task</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
@@ -24,10 +24,9 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-12">
-                        {!! Form::model($action, ['method' => 'POST', 'action' => ['ActionController@update', 'id' => $action->id]]) !!}
-                        @include('main.actions.partials._form', ['submitButtonText' => 'Αποθήκευση', 'action' =>$action])
+                        {!! Form::model($task, ['method' => 'POST', 'action' => ['TaskController@update', 'id' => $task->id]]) !!}
+                        @include('main.tasks.partials._form', ['submitButtonText' => 'Αποθήκευση', 'task' => $task, 'actionId' => $task->action_id])
                         {!! Form::close() !!}
-                        {!! Form::hidden('action_id', $action->id, ['id' => 'action_id']) !!}
                     </div>
                 </div>
             </div>

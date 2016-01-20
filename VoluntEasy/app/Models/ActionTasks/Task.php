@@ -21,4 +21,8 @@ class Task extends Model {
         return $this->belongsTo('App\Models\Action');
     }
 
+    public function volunteers() {
+        return $this->hasMany('App\Models\ActionTasks\VolunteerTask');
+    }
+
 }

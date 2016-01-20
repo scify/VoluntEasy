@@ -204,7 +204,7 @@
             });
         }
     }
-
+1
 
     //initialize rating chart
     $(function () {
