@@ -133,6 +133,11 @@ class Volunteer extends User {
         return \Carbon::parse($this->attributes['birth_date'])->format('d/m/Y');
     }
 
+    public function getFullNameAttribute()
+    {
+        return $this->name . " " . $this->last_name;
+    }
+
 
     //////////////////
     // Query Scopes //

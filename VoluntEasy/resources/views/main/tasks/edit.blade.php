@@ -34,5 +34,8 @@
     </div>
 </div>
 
+@include('main.tasks.modals._add_volunteer')
+
+
 @stop
 

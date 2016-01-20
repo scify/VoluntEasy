@@ -317,3 +317,22 @@ div#unitsTree{overflow-x: auto;}
 .roles.disabled label{
     cursor: not-allowed;
 }
+
+.statuses{
+    height:100%;
+}
+
+.board{
+    z-index:9999;
+}
+.board-column{
+    display:table-cell;
+}
+
+.board-card{
+    background-color: #FBFBFB;
+    padding: 5px;
+    width: 80%;
+    border: solid 1px #F3F3F3;
+    margin-bottom:10px;
+}

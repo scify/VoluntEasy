@@ -20,12 +20,8 @@ class TestController extends Controller {
 
 
     public function test() {
-        //$user = User::with('roles.permissions.modules', 'roles.permissions.actions')->find(1);
-        $user = User::find(1);
+        return view("main.tasks.board");
 
-        return $user->hasPermission('unit.create', 1);
-
-        return $user;
     }
 
 

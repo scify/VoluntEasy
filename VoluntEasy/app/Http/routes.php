@@ -93,6 +93,7 @@ Route::get('actions/tasks/{taskId}/edit', 'TaskController@edit');
 Route::post('actions/tasks/store', 'TaskController@store');
 Route::post('actions/tasks/update', 'TaskController@update');
 Route::get('actions/tasks/delete/{id}', 'TaskController@destroy');
+Route::post('actions/tasks/{id}/addVolunteer', 'TaskController@addVolunteer');
 
 
 //////////////////////////

@@ -11,7 +11,7 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-10">
                         @if(sizeof($action->tasks)>0)
 
                             <table class="table table-condensed">
@@ -30,7 +30,13 @@
                                     <tr>
                                         <td>{{$task->name}}</td>
                                         <td>{{$task->description}}</td>
-                                        <td>-</td>
+                                        <td>
+                                            @if(sizeof($task->volunteers)>0)
+                                                dd
+                                            @else
+                                                <p style="color:#aaa;"><em>Το task δεν έχει εθελοντές</em></p>
+                                            @endif
+                                        </td>
                                         <td>@if($task->isComplete)
                                                 <div class="status completed">Ολοκληρωμένο</div>
                                             @else
@@ -41,7 +47,8 @@
                                             <a href="{{ url('actions/tasks/'.$task->id.'/edit') }}"
                                                class="btn btn-success btn-sm removeFromUnit" data-volunteer-id="9"
                                                data-unit-id="1"><i class="fa fa-pencil fa-1x"></i></a>
-                                            <button onclick="deleteTask({{ $task->id }})" class="btn btn-danger btn-sm"><i
+                                            <button onclick="deleteTask({{ $task->id }})" class="btn btn-danger btn-sm">
+                                                <i
                                                         class="fa fa-remove fa-1x"></i>
                                             </button>
                                         </td>
@@ -52,8 +59,7 @@
                         @else
                             <p>Δεν υπάρχει κάνενα task για τη δράση.</p>
                         @endif
-                        <a href="{{ url('actions/'.$action->id.'/tasks/create') }}" class="btn btn-success pull-right"
-                           data-volunteer-id="9" data-unit-id="1">Προσθήκη task</a>
+                        <a href="{{ url('actions/'.$action->id.'/tasks/create') }}" class="btn btn-success pull-right">Προσθήκη task</a>
                     </div>
                 </div>
             </div>
@@ -74,7 +80,7 @@
                         'X-CSRF-Token': $('#token').val()
                     },
                     success: function (data) {
-                       location.reload();
+                        location.reload();
                     }
                 });
             }
