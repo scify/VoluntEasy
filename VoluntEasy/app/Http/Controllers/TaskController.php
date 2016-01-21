@@ -1,26 +1,22 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests\TaskRequest;
-use App\Models\Action;
 use App\Models\ActionTasks\Status;
 use App\Models\ActionTasks\Task;
 use App\Models\ActionTasks\VolunteerTask;
 use App\Models\Unit;
 
-class TaskController extends Controller
-{
+class TaskController extends Controller {
 
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth');
     }
 
     /**
      * Show create form
      */
-    public function create($actionId)
-    {
+    public function create($actionId) {
         $volunteers = $this->getAvailableVolunteers($actionId);
 
         return view('main.tasks.create', compact('actionId', 'volunteers'));
@@ -30,8 +26,7 @@ class TaskController extends Controller
     /**
      * Store a new resource
      */
-    public function store(TaskRequest $request)
-    {
+    public function store(TaskRequest $request) {
 
         $isComplete = false;
         if ($request['status'] == 'complete')
@@ -52,14 +47,13 @@ class TaskController extends Controller
     /**
      * Show edit form
      */
-    public function edit($taskId)
-    {
+    public function edit($taskId) {
         $task = Task::findOrFail($taskId);
         $taskStatuses = Status::all();
 
-        $volunteersArray = $this->getAvailableVolunteers($task->action_id);
-        $volunteers = $volunteersArray['volunteers']->lists('fullName', 'id');
-        $unitName = $volunteersArray['unit_name'];
+        $unit = $this->getAvailableVolunteers($task->action_id);
+        $volunteers = $unit['volunteers']->lists('fullName', 'id');
+        $unitName = $unit['unit_name'];
 
         return view('main.tasks.edit', compact('task', 'volunteers', 'unitName', 'taskStatuses'));
     }
@@ -68,8 +62,7 @@ class TaskController extends Controller
     /**
      * Update a resource
      */
-    public function update(TaskRequest $request)
-    {
+    public function update(TaskRequest $request) {
 
         $task = Task::findOrFail($request['id']);
 
@@ -90,8 +83,7 @@ class TaskController extends Controller
     /**
      * Delete a resource
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
 
         $task = Task::with('volunteers')->findOrFail($id);
 
@@ -110,8 +102,7 @@ class TaskController extends Controller
     }
 
 
-    public function addVolunteer($id)
-    {
+    public function addVolunteer($id) {
 
         $volunteerTask = new VolunteerTask([
             'volunteers_id' => \Request::get('volunteer_id'),
@@ -130,19 +121,15 @@ class TaskController extends Controller
      * @param $actionId
      * @return mixed
      */
-    private function getAvailableVolunteers($actionId)
-    {
-        $unit = Unit::whereHas('actions', function ($query) use ($actionId) {
+    private function getAvailableVolunteers($actionId) {
+        $unit = Unit::whereHas('allActions', function ($query) use ($actionId) {
             $query->where('id', $actionId);
-        })->with(['volunteers' => function ($query){
+        })->with(['volunteers' => function ($query) {
             $query->active();
-        }, 'volunteers' => function ($query){
+        }, 'volunteers' => function ($query) {
             $query->available();
         }])->first();
 
-        return [
-            'volunteers' => $unit->volunteers,
-            'unit_name' => $unit->description
-        ];
+        return $unit;
     }
 }

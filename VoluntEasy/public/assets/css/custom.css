@@ -318,21 +318,23 @@ div#unitsTree{overflow-x: auto;}
     cursor: not-allowed;
 }
 
+/* Task board */
 .statuses{
     height:100%;
 }
-
-.board{
-    z-index:9999;
+.board .row{
+    display: table;
 }
-.board-column{
-    display:table-cell;
+.board .row [class*="col-"] {
+    float: none;
+    display: table-cell;
+    vertical-align: top;
 }
 
 .board-card{
-    background-color: #FBFBFB;
+    background-color: #F6F6F6;
     padding: 5px;
     width: 80%;
-    border: solid 1px #F3F3F3;
+    border: solid 1px #DBE0E8;
     margin-bottom:10px;
 }
