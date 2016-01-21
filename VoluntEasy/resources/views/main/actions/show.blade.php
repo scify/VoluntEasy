@@ -21,128 +21,112 @@
                data-original-title="Expand/Collapse"><i class="icon-arrow-down"></i></a>
         </div>
     </div>
-    <div class="panel-body" style="display: block;">
-        <div class="row">
-            <div class="col-md-4">
-                <h3>Δράση <span data-action-id="{{ $action->id }}" id="actionId">{{ $action->description }}</span></h3>
+    <div class="panel-body">
+        <div role="tabpanel">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class=""><a href="#tab1" role="tab" data-toggle="tab"
+                                                          aria-expanded="false">Στοιχεία Δράσης</a></li>
+                <li role="presentation" class="active"><a href="#tab2" role="tab" data-toggle="tab" aria-expanded="true">Taks
+                        Board</a></li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane " id="tab1">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h3>Δράση <span data-action-id="{{ $action->id }}"
+                                            id="actionId">{{ $action->description }}</span></h3>
 
-                <p>
-                    <small>
-                        @foreach($branch as $key => $unit)
-                        @if($key < sizeof($branch)-1)
-                        <a href="{{ url('units/one/'.$unit->id) }}">{{ $unit->description }}</a> <i
-                            class="fa fa-angle-right"></i>
-                        @else
-                        <a href="{{ url('units/one/'.$unit->id) }}">{{ $unit->description }}</a>
-                        @endif
-                        @endforeach
-                    </small>
-                </p>
-                <p><strong>Περιγραφή:</strong> {{ $action->comments==null || $action->comments=='' ? '-' :
-                    $action->comments }}</p>
+                            <p>
+                                <small>
+                                    @foreach($branch as $key => $unit)
+                                    @if($key < sizeof($branch)-1)
+                                    <a href="{{ url('units/one/'.$unit->id) }}">{{ $unit->description }}</a> <i
+                                        class="fa fa-angle-right"></i>
+                                    @else
+                                    <a href="{{ url('units/one/'.$unit->id) }}">{{ $unit->description }}</a>
+                                    @endif
+                                    @endforeach
+                                </small>
+                            </p>
+                            <p><strong>Περιγραφή:</strong> {{ $action->comments==null || $action->comments=='' ? '-' :
+                                $action->comments }}</p>
 
-                <p><strong>Διάρκεια:</strong> {{ $action->start_date }} - {{ $action->end_date }}</p>
+                            <p><strong>Διάρκεια:</strong> {{ $action->start_date }} - {{ $action->end_date }}</p>
 
-                <p><strong>Αριθμός εθελοντών:</strong> {{ $action->volunteer_sum==null || $action->volunteer_sum=='' ? '-' :  $action->volunteer_sum }}</p>
-            </div>
-            <div class="col-md-4">
-                <h3>Στοιχεία Υπευθύνου Δράσης</h3>
-                @if($action->email!=null && $action->email!='')
-                <ul class="list-unstyled">
-                    <li class="user-list">
-                        <p class="msg-name">{{$action->name}}</p>
+                            <p><strong>Αριθμός εθελοντών:</strong> {{ $action->volunteer_sum==null ||
+                                $action->volunteer_sum=='' ? '-' : $action->volunteer_sum }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h3>Στοιχεία Υπευθύνου Δράσης</h3>
+                            @if($action->email!=null && $action->email!='')
+                            <ul class="list-unstyled">
+                                <li class="user-list">
+                                    <p class="msg-name">{{$action->name}}</p>
 
-                        <p class="msg-text"><i class="fa fa-envelope"></i> <a href="mail:to{{ $action->email }}">{{
-                                $action->email }}</a>
-                            @if($action->phone_number!=null || $action->phone_number!='')
-                            |<i class="fa fa-phone"></i> {{ $action->phone_number }}</p>
-                        @endif
-                    </li>
-                </ul>
-                @else
-                <p>Δεν έχει οριστεί υπεύθυνος δράσης</p>
-                @endif
-            </div>
-        </div>
-        <hr/>
-        @if(in_array($action->unit->id, $userUnits))
-        <div class="text-right">
-            <a href="{{ url('actions/edit/'.$action->id) }}" class="btn btn-success"><i
-                    class="fa fa-edit"></i> Επεξεργασία</a>
-            <button onclick="deleteAction({{ $action->id }})" class="btn btn-danger"><i
-                    class="fa fa-trash"></i> Διαγραφή
-            </button>
-        </div>
-        @endif
-    </div>
-</div>
+                                    <p class="msg-text"><i class="fa fa-envelope"></i> <a
+                                            href="mail:to{{ $action->email }}">{{
+                                            $action->email }}</a>
+                                        @if($action->phone_number!=null || $action->phone_number!='')
+                                        |<i class="fa fa-phone"></i> {{ $action->phone_number }}</p>
+                                    @endif
+                                </li>
+                            </ul>
+                            @else
+                            <p>Δεν έχει οριστεί υπεύθυνος δράσης</p>
+                            @endif
+                        </div>
+                    </div>
+                    @if(in_array($action->unit->id, $userUnits))
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <a href="{{ url('actions/edit/'.$action->id) }}" class="btn btn-success"><i
+                                    class="fa fa-edit"></i> Επεξεργασία</a>
+                            <button onclick="deleteAction({{ $action->id }})" class="btn btn-danger"><i
+                                    class="fa fa-trash"></i> Διαγραφή
+                            </button>
+                        </div>
+                    </div>
+                    @endif
 
-@include('main.actions.partials._tasks')
-@include('main.actions.modals._add_task')
-
-
-
-{{--
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-white">
-            <div class="panel-heading clearfix">
-                <h4 class="panel-title">Εθελοντές</h4>
-
-                <div class="panel-control">
-                    <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
-                       class="panel-collapse" data-original-title="Expand/Collapse"><i class="icon-arrow-down"></i></a>
-                </div>
-            </div>
-            <div class="panel-body">
-                @include('main.actions.partials._volunteers')
-
-                @if(in_array($action->unit->id, $userUnits) && !$action->expired)
-                <hr/>
-                <div class="text-right">
-                    <button type="button" class="btn btn-success" data-toggle="modal"
-                            data-target="#volunteersModal"><i
-                            class="fa fa-leaf"></i> Προσθήκη Εθελοντών
-                    </button>
-                </div>
-                @endif
-            </div>
-        </div>
-    </div>
-</div>
-
-@include('main.actions.partials._tasks')
-@include('main.actions.modals._add_task')
---}}
-
-@if(sizeof($action->ratings)>0)
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-white">
-            <div class="panel-heading clearfix">
-                <h4 class="panel-title">Συνολικές αξιολογήσεις για τη δράση</h4>
-
-                <div class="panel-control">
-                    <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
-                       class="panel-collapse" data-original-title="Expand/Collapse"><i class="icon-arrow-down"></i></a>
-                </div>
-            </div>
-            <div class="panel-body">
+                @if(sizeof($action->ratings)>0)
                 <div class="row">
                     <div class="col-md-12">
-                        <p>Για να δείτε τα αποτελέσματα πιο αναλυτικά, πατήστε <a href="http://volunteasy/actions/ratings/{{ $action->id }}">εδώ</a>.</p>
+                        <div class="panel panel-white">
+                            <div class="panel-heading clearfix">
+                                <h4 class="panel-title">Συνολικές αξιολογήσεις για τη δράση</h4>
 
-                        <div id="container" style="min-width: 400px; height: 500px; margin:0 auto;"></div>
+                                <div class="panel-control">
+                                    <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top"
+                                       title=""
+                                       class="panel-collapse" data-original-title="Expand/Collapse"><i
+                                            class="icon-arrow-down"></i></a>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p>Για να δείτε τα αποτελέσματα πιο αναλυτικά, πατήστε <a
+                                                href="http://volunteasy/actions/ratings/{{ $action->id }}">εδώ</a>.
+                                        </p>
+
+                                        <div id="container"
+                                             style="min-width: 400px; height: 500px; margin:0 auto;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                @endif
+            </div>
+            <div role="tabpanel" class="tab-pane active" id="tab2">
+                @include('main.tasks._board')
             </div>
         </div>
     </div>
 </div>
-@endif
-
-@include('main._modals._volunteers', ['active' => $action])
-
 
 @stop
 
@@ -204,7 +188,7 @@
             });
         }
     }
-1
+    1
 
     //initialize rating chart
     $(function () {

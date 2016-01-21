@@ -31,11 +31,9 @@
 <div class="row">
     <div class="col-md-6">
         <h4>Εθελοντές</h4>
-
         <p>
             <small>Προσθέστε εθελοντές στο task και μια περιγραφή της εργασίας που θα εκτελέσουν.</small>
         </p>
-
 
         @if(isset($task) && sizeof($task->volunteers)>0)
             <table class="table table-condensed">

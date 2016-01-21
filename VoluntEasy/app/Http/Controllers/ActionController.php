@@ -10,6 +10,7 @@ use App\Models\Rating\ActionScore;
 use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Services\Facades\ActionService;
+use App\Services\Facades\TaskService;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
@@ -80,7 +81,7 @@ class ActionController extends Controller {
      * @return Response
      */
     public function show($id) {
-        $action = Action::with('unit', 'ratings', 'tasks.volunteers')->findOrFail($id);
+        $action = Action::with('unit', 'ratings', 'tasks.subtasks.status')->findOrFail($id);
 
         $branch = UnitService::getBranch(Unit::where('id', $action->unit->id)->with('actions')->first());
 
@@ -105,6 +106,8 @@ class ActionController extends Controller {
         $userUnits = UserService::userUnits();
 
         $taskStatuses = Status::all();
+
+        $action = TaskService::subtasksPerStatus($action);
 
         return view('main.actions.show', compact('action', 'allVolunteers', 'volunteerIds', 'userUnits', 'branch', 'taskStatuses'));
     }

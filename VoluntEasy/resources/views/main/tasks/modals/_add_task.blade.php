@@ -12,7 +12,8 @@
             </div>
             <div class="modal-body">
                 {!! Form::open(['id' => 'createTask', 'method' => 'POST', 'action' => ['TaskController@store']]) !!}
-                <input type="hidden" name="actionId" id="actionId" value="{{$action->id}}">
+                <input type="hidden" name="taskId" id="taskId">
+
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -30,6 +31,17 @@
                             <label for="incomplete">Μη ολοκληρωμένο</label>
                         </div>
                     </div>
+                    <div class="col-md-3">
+                        <label>Προτεραιότητα:</label>
+                        <select class="form-control m-b-sm" id="priorities" name="priority">
+                            <option value="4">{{ trans($lang.'priority-urgent')}}</option>
+                            <option value="3">{{ trans($lang.'priority-high')}}</option>
+                            <option value="2" selected>{{ trans($lang.'priority-medium')}}</option>
+                            <option value="1">{{ trans($lang.'priority-low')}}</option>
+                        </select>
+
+                        <p class="text-danger" id="name_err" style="display:none;">Συμπληρώστε το πεδίο.</p>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -39,11 +51,11 @@
                         </div>
                     </div>
                 </div>
-                {!! Form::close() !!}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
-                <button type="button" class="btn btn-success" id="storeTask">Αποθήκευση
+                {!! Form::submit('Αποθήκευση', ['class' => 'btn btn-success', 'id' => 'saveAction']) !!}
+                {!! Form::close() !!}
                 </button>
             </div>
         </div>
@@ -54,6 +66,7 @@
 
 <script>
 
+    /*
     $("#storeTask").click(function () {
         console.log('clicky')
         if ($("#name").val() == null || $("#name").val() == '')
@@ -71,7 +84,7 @@
             });
         }
     });
-
+*/
 </script>
 
 @append

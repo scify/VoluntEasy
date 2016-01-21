@@ -2,6 +2,7 @@
 
 use App\Http\Requests\TaskRequest;
 use App\Models\ActionTasks\Status;
+use App\Models\ActionTasks\SubTask;
 use App\Models\ActionTasks\Task;
 use App\Models\ActionTasks\VolunteerTask;
 use App\Models\Unit;
@@ -36,7 +37,8 @@ class TaskController extends Controller {
             'name' => $request['name'],
             'description' => $request['description'],
             'action_id' => $request['actionId'],
-            'isComplete' => $isComplete
+            'isComplete' => $isComplete,
+            'priority' => $request['priority']
         ]);
 
         $task->save();
@@ -110,6 +112,24 @@ class TaskController extends Controller {
             'status_id' => \Request::get('status_id'),
             'job_descr' => \Request::get('job_descr'),
         ]);
+    }
+
+    public function addSubTask() {
+        //return \Request::all();
+
+        $todo = Status::todo();
+
+        $subTask = new SubTask([
+            'name' => \Request::get('name'),
+            'description' => \Request::get('description'),
+            'priority' => \Request::get('priority'),
+            'task_id' => \Request::get('taskId'),
+            'status_id' => $todo
+        ]);
+
+        $subTask->save();
+
+        return \Redirect::route('action/one', ['id' => \Request::get('actionId')]);
     }
 
     /**

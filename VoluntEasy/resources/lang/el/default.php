@@ -23,4 +23,9 @@ return [
     'inprogress' => 'Σε εξέλιξη',
     'pending' => 'Εκκρεμεί',
 
+    'priority-urgent' => 'Επείγον',
+    'priority-high' => 'Υψηλή',
+    'priority-medium' => 'Μεσαία',
+    'priority-low' => 'Χαμηλή',
+
 ];

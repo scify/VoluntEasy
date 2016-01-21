@@ -17,4 +17,16 @@ class Status extends Model {
     protected $fillable = ['name'];
 
 
+    public function scopeTodo($query){
+        return $query->where('name', 'To Do')->first()->id;
+    }
+
+    public function scopeDoing($query){
+        return $query->where('name', 'Doing')->first()->id;
+    }
+
+    public function scopeDone($query){
+        return $query->where('name', 'Done')->first()->id;
+    }
+
 }

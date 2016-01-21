@@ -94,6 +94,7 @@ Route::post('actions/tasks/store', 'TaskController@store');
 Route::post('actions/tasks/update', 'TaskController@update');
 Route::get('actions/tasks/delete/{id}', 'TaskController@destroy');
 Route::post('actions/tasks/{id}/addVolunteer', 'TaskController@addVolunteer');
+Route::post('actions/tasks/addSubTask', 'TaskController@addSubTask');
 
 
 //////////////////////////

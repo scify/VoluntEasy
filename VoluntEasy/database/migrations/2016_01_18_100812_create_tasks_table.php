@@ -19,6 +19,7 @@ class CreateTasksTable extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->boolean('isComplete')->default(false);
+            $table->integer('priority')->default(2);
 
             $table->integer('action_id')->unsigned();
             $table->foreign('action_id')->references('id')->on('actions');
@@ -34,21 +35,33 @@ class CreateTasksTable extends Migration
         });
 
 
-        Schema::create('volunteer_tasks', function($table)
+        Schema::create('subtasks', function($table)
         {
             $table->increments('id');
-            $table->string('name', 300)->nullable();
-            $table->string('job_descr', 500)->nullable();
-            $table->string('comments', 500)->nullable();
+            $table->string('name', 300);
+            $table->string('description', 500)->nullable();
+            $table->integer('priority')->default(3);
 
             $table->integer('task_id')->unsigned();
             $table->foreign('task_id')->references('id')->on('tasks');
 
-            $table->integer('volunteer_id')->unsigned();
-            $table->foreign('volunteer_id')->references('id')->on('volunteers');
-
             $table->integer('status_id')->unsigned();
             $table->foreign('status_id')->references('id')->on('task_statuses');
+
+            $table->timestamps();
+        });
+
+
+        Schema::create('volunteer_subtasks', function($table)
+        {
+            $table->increments('id');
+            $table->string('description', 500)->nullable();
+
+            $table->integer('subtask_id')->unsigned();
+            $table->foreign('subtask_id')->references('id')->on('subtasks');
+
+            $table->integer('volunteer_id')->unsigned();
+            $table->foreign('volunteer_id')->references('id')->on('volunteers');
 
             $table->timestamps();
         });
@@ -76,6 +89,7 @@ class CreateTasksTable extends Migration
     {
         Schema::dropIfExists('volunteer_tasks');
         Schema::dropIfExists('volunteer_task_availabilities');
+        Schema::dropIfExists('subtasks');
         Schema::dropIfExists('tasks');
         Schema::dropIfExists('task_statuses');
     }

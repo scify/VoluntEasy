@@ -338,3 +338,8 @@ div#unitsTree{overflow-x: auto;}
     border: solid 1px #DBE0E8;
     margin-bottom:10px;
 }
+
+.board-card.low{border: solid 3px #AEAEAE;}
+.board-card.medium{border: solid 3px #12AFCB;}
+.board-card.high{border: solid 3px #f2ca4c;}
+.board-card.urgent{border: solid 3px #f25656;}

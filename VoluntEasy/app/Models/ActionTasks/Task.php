@@ -14,7 +14,7 @@ class Task extends Model {
 
     protected $table = 'tasks';
 
-    protected $fillable = ['description', 'name', 'isComplete', 'action_id'];
+    protected $fillable = ['description', 'name', 'isComplete', 'action_id', 'priority'];
 
 
     public function action() {
@@ -25,4 +25,7 @@ class Task extends Model {
         return $this->hasMany('App\Models\ActionTasks\VolunteerTask');
     }
 
+    public function subtasks() {
+        return $this->hasMany('App\Models\ActionTasks\SubTask');
+    }
 }
