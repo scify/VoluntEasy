@@ -28,7 +28,6 @@ class VolunteerService implements VolunteerInterface {
     }
 
     function update($volunteer) {
-
         $isValid = $this->validate($volunteer);
 
         if ($isValid['failed'])
@@ -80,6 +79,15 @@ class VolunteerService implements VolunteerInterface {
     }
 
     private function store($volunteerRequest) {
+
+        $live_in_curr_country = 0;
+        if (isset($volunteerRequest['live_in_curr_country']) && $volunteerRequest['live_in_curr_country'] == 1)
+            $live_in_curr_country = 1;
+
+        $computer_usage = 0;
+        if (isset($volunteerRequest['computer_usage']) && $volunteerRequest['live_in_curr_country'] == 1)
+            $computer_usage = 1;
+
         $volunteer = new Volunteer(array(
             'name' => $volunteerRequest['name'],
             'last_name' => $volunteerRequest['last_name'],
@@ -94,7 +102,7 @@ class VolunteerService implements VolunteerInterface {
             'post_box' => $volunteerRequest['post_box'],
             'city' => $volunteerRequest['city'],
             'country' => $volunteerRequest['country'],
-            'live_in_curr_country' => intval($volunteerRequest['live_in_curr_country']),
+            'live_in_curr_country' =>$live_in_curr_country,
             'home_tel' => $volunteerRequest['home_tel'],
             'work_tel' => $volunteerRequest['work_tel'],
             'cell_tel' => $volunteerRequest['cell_tel'],
@@ -105,7 +113,7 @@ class VolunteerService implements VolunteerInterface {
             'specialty' => $volunteerRequest['specialty'],
             'department' => $volunteerRequest['department'],
             'driver_license_type_id' => $this->checkDropDown(intval($volunteerRequest['driver_license_type_id'])),
-            'computer_usage' => intval($volunteerRequest['computer_usage']),
+            'computer_usage' => $computer_usage,
             'additional_skills' => $volunteerRequest['additional_skills'],
             'extra_lang' => $volunteerRequest['extra_lang'],
             'work_status_id' => $this->checkDropDown(intval($volunteerRequest['work_status_id'])),
@@ -187,7 +195,6 @@ class VolunteerService implements VolunteerInterface {
             'post_box' => $volunteerRequest['post_box'],
             'city' => $volunteerRequest['city'],
             'country' => $volunteerRequest['country'],
-            'live_in_curr_country' => intval($volunteerRequest['live_in_curr_country']),
             'home_tel' => $volunteerRequest['home_tel'],
             'work_tel' => $volunteerRequest['work_tel'],
             'cell_tel' => $volunteerRequest['cell_tel'],
@@ -198,7 +205,6 @@ class VolunteerService implements VolunteerInterface {
             'specialty' => $volunteerRequest['specialty'],
             'department' => $volunteerRequest['department'],
             'driver_license_type_id' => $this->checkDropDown(intval($volunteerRequest['driver_license_type_id'])),
-            'computer_usage' => intval($volunteerRequest['computer_usage']),
             'additional_skills' => $volunteerRequest['additional_skills'],
             'extra_lang' => $volunteerRequest['extra_lang'],
             'work_status_id' => $this->checkDropDown(intval($volunteerRequest['work_status_id'])),
@@ -210,6 +216,16 @@ class VolunteerService implements VolunteerInterface {
             'comments' => $volunteerRequest['comments'],
         ]);
 
+
+        if (isset($volunteerRequest['live_in_curr_country']) && $volunteerRequest['live_in_curr_country'] == 1)
+            $volunteer->live_in_curr_country = 1;
+        else
+            $volunteer->live_in_curr_country = 0;
+
+        if (isset($volunteerRequest['computer_usage']) && $volunteerRequest['computer_usage'] == 1)
+            $volunteer->computer_usage = 1;
+        else
+            $volunteer->computer_usage = 0;
 
         // update middle table relations
 

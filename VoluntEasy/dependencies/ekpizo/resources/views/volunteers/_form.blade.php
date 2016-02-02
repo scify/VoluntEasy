@@ -276,9 +276,9 @@
             @foreach($interestCategories as $cat_id => $category)
             <tr>
                 <td>{{ $category->description }}</td>
-                <td>@foreach($category->interests as $int_id => $interest)
+                <td>@foreach($category->interests as $interest)
                     <div class="form-group">
-                        @if (isset($volunteer) && in_array($int_id, $volunteer->interests->lists('id')->all()) )
+                        @if (isset($volunteer) && in_array($interest->id, $volunteer->interests->lists('id')->all()) )
                         {!! Form::formInput('interest' . $interest->id, $interest->description , $errors, ['class'
                         =>
                         'form-control',
