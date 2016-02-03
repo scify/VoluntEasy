@@ -140,10 +140,12 @@ div.status.incomplete, div.status.notavailable{
 }
 .jOrgChart .node{
 	background-color: #34425A;
-	padding:4px;
-	-webkit-box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.40);
+    padding: 4px 8px;
+    -webkit-box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.40);
 	-moz-box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.40);
 	box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.40);
+    min-height: 60px;
+    height:auto;
 }
 .jOrgChart .active-node {
 	background-color: #1DB198;
