@@ -158,6 +158,8 @@ Route::get('search/city', 'SearchController@city');
 Route::get('search/country', 'SearchController@country');
 Route::get('search/actionUser', 'SearchController@actionUser');
 Route::get('search/collabType', 'SearchController@collabType');
+Route::get('search/volunteers/firstName', 'SearchController@volunteerFirstName');
+Route::get('search/volunteers/lastName', 'SearchController@volunteerLastName');
 
 
 ////////////////

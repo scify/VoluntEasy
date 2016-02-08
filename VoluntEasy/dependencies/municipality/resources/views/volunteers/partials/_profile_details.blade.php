@@ -18,7 +18,7 @@
             '.$volunteer->country }}
         </p>
 
-        <p><strong>Κάτοικος Ελλάδας:</strong> {{ $volunteer->live_in_curr_country=='' ? 'Όχι' : 'Ναι' }}</p>
+        <p><strong>Κάτοικος Ελλάδας:</strong> {{ $volunteer->live_in_curr_country==false ? 'Όχι' : 'Ναι' }}</p>
 
         <p><strong>Τύπος ταυτότητας:</strong> {{ $volunteer->identification_type_id==null || $volunteer->identification_type_id=='' ? '' :
             $volunteer->identificationType->description }}</p>
@@ -60,7 +60,7 @@
                                 <p><strong>Δίπλωμα οδήγησης:</strong> {{ $volunteer->driver_license_type_id==null || $volunteer->driver_license_type_id=='' ? '' :
                                     $volunteer->driverLicenceType->description }}</p>
 
-                                <p><strong>Χρήση υπολογιστή:</strong> {{ $volunteer->computer_usage=='' ? 'Όχι' :
+                                <p><strong>Χρήση υπολογιστή:</strong> {{ $volunteer->computer_usage==false ? 'Όχι' :
                                     'Ναι' }}</p>
                             </div>
                             <div class="col-md-4">
@@ -162,19 +162,26 @@
                                     </p>
                                  @endif
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-8">
                                 <h4>Ενδιαφέροντα</h4>
                                 @if($volunteer->interests==null ||
                                 sizeof($volunteer->interests)==0)
                                 <p><em>Δεν έχει δηλωθεί κανένα ενδιαφέρον.</em></p>
                                 @else
-                                @foreach($volunteer->interests as $interest)
-                                <p>{{ $interest->description }}</p>
-                                @endforeach
+                                <p>
+                                    @foreach($volunteer->interests as $key => $interest)
+                                    @if(sizeof($volunteer->interests)-1==$key)
+                                    {{ $interest->description }}
+                                    @else
+                                    {{ $interest->description }},
+                                    @endif
+                                    @endforeach
+
+                                </p>
                                 @endif
                                 @if($volunteer->additional_skills!=null ||
                                 $volunteer->additional_skills!='')
-                                <p>Πρόσθετες ικανότητες, προσόντα και εμπειρία: {{
+                                <p><strong>Πρόσθετες ικανότητες, προσόντα και εμπειρία:</strong> {{
                                     $volunteer->additional_skills }}</p>
                                 @endif
                             </div>

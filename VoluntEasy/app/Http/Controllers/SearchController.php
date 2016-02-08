@@ -48,4 +48,22 @@ class SearchController extends Controller {
         return Collaboration::distinct()->where('type', 'like', \Request::get('term') . '%')->lists('type')->all();
     }
 
+    /**
+     * Volunteer first name autocomplete
+     *
+     * @return mixed
+     */
+    public function volunteerFirstName() {
+        return Volunteer::distinct()->where('name', 'like', \Request::get('term') . '%')->lists('name')->all();
+    }
+
+    /**
+     * Volunteer last name autocomplete
+     *
+     * @return mixed
+     */
+    public function volunteerLastName() {
+        return Volunteer::distinct()->where('last_name', 'like', \Request::get('term') . '%')->lists('last_name')->all();
+    }
+
 }

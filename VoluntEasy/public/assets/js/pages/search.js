@@ -42,3 +42,15 @@ $( "#collabType" ).autocomplete({
     source: $("body").attr('data-url') + '/search/collabType',
     minLength: 2
 });
+
+/*** Volunteer first name autocomplete ***/
+$( ".volunteer.search.name" ).autocomplete({
+    source: $("body").attr('data-url') + '/search/volunteers/firstName',
+    minLength: 3
+});
+
+/*** Volunteer last name autocomplete ***/
+$( ".volunteer.search.lastName" ).autocomplete({
+    source: $("body").attr('data-url') + '/search/volunteers/lastName',
+    minLength: 3
+});

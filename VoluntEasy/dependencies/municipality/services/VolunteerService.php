@@ -53,7 +53,6 @@ class VolunteerService implements VolunteerInterface {
                 'birth_date' => 'required',
                 'gender_id' => 'required',
                 'email' => 'required|email',
-                'work_status_id' => 'required',
                 'participation_reason' => 'required']);
 
         else
@@ -63,7 +62,6 @@ class VolunteerService implements VolunteerInterface {
                 'birth_date' => 'required',
                 'gender_id' => 'required',
                 'email' => 'required|email|unique:volunteers',
-                'work_status_id' => 'required',
                 'participation_reason' => 'required'
             ]);
 
@@ -102,7 +100,7 @@ class VolunteerService implements VolunteerInterface {
             'post_box' => $volunteerRequest['post_box'],
             'city' => $volunteerRequest['city'],
             'country' => $volunteerRequest['country'],
-            'live_in_curr_country' =>$live_in_curr_country,
+            'live_in_curr_country' => $live_in_curr_country,
             'home_tel' => $volunteerRequest['home_tel'],
             'work_tel' => $volunteerRequest['work_tel'],
             'cell_tel' => $volunteerRequest['cell_tel'],
@@ -180,6 +178,14 @@ class VolunteerService implements VolunteerInterface {
 
     public function doupdate($volunteer, $volunteerRequest) {
 
+        $live_in_curr_country = 0;
+        if (isset($volunteerRequest['live_in_curr_country']) && $volunteerRequest['live_in_curr_country'] == 1)
+            $live_in_curr_country = 1;
+
+        $computer_usage = 0;
+        if (isset($volunteerRequest['computer_usage']) && $volunteerRequest['computer_usage'] == 1)
+            $computer_usage = 1;
+
         // update everything except middle table stuff
         $volunteer->update([
             'name' => $volunteerRequest['name'],
@@ -214,18 +220,10 @@ class VolunteerService implements VolunteerInterface {
             'participation_previous' => $volunteerRequest['participation_previous'],
             'availability_freqs_id' => $this->checkDropDown(intval($volunteerRequest['availability_freqs_id'])),
             'comments' => $volunteerRequest['comments'],
+            'computer_usage' => $computer_usage,
+            'live_in_curr_country' => $live_in_curr_country,
         ]);
 
-
-        if (isset($volunteerRequest['live_in_curr_country']) && $volunteerRequest['live_in_curr_country'] == 1)
-            $volunteer->live_in_curr_country = 1;
-        else
-            $volunteer->live_in_curr_country = 0;
-
-        if (isset($volunteerRequest['computer_usage']) && $volunteerRequest['computer_usage'] == 1)
-            $volunteer->computer_usage = 1;
-        else
-            $volunteer->computer_usage = 0;
 
         // update middle table relations
 
@@ -270,8 +268,7 @@ class VolunteerService implements VolunteerInterface {
                     'language_level_id' => \Input::get('lang' . $language->id)
                 ]);
                 array_push($languages_array, $volLanguage);
-            }
-            else{
+            } else {
                 VolunteerLanguage::where('volunteer_id', $volunteer->id)->where('language_id', $language->id)->delete();
             }
         }

@@ -2,12 +2,12 @@
 <div class="row">
     <div class="col-md-2">
         <div class="form-group">
-            {!! Form::formInput('name', 'Όνομα', $errors, ['class' => 'form-control input-sm search']) !!}
+            {!! Form::formInput('name', 'Όνομα', $errors, ['class' => 'form-control input-sm search volunteer name', 'placeholder' => '...']) !!}
         </div>
     </div>
     <div class="col-md-2">
         <div class="form-group">
-            {!! Form::formInput('last_name', 'Επώνυμο', $errors, ['class' => 'form-control input-sm search']) !!}
+            {!! Form::formInput('last_name', 'Επώνυμο', $errors, ['class' => 'form-control input-sm search volunteer lastName', 'placeholder' => '...']) !!}
         </div>
     </div>
     <div class="col-md-2">

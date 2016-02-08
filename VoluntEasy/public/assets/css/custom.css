@@ -168,6 +168,8 @@ div.status.incomplete, div.status.notavailable{
 	margin:0 auto;
 }
 
+.ui-widget-content{background:#fff;}
+
 div#unitsTree{overflow-x: auto;}
 
 /* highlight only leaves */
