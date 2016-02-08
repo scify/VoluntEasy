@@ -269,8 +269,10 @@ class VolunteerService implements VolunteerInterface {
                     'language_id' => $language->id,
                     'language_level_id' => \Input::get('lang' . $language->id)
                 ]);
-
                 array_push($languages_array, $volLanguage);
+            }
+            else{
+                VolunteerLanguage::where('volunteer_id', $volunteer->id)->where('language_id', $language->id)->delete();
             }
         }
         $volunteer->languages()->saveMany($languages_array);

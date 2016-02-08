@@ -200,17 +200,24 @@
                 @foreach ($langLevels as $lev => $level)
                 <label>
                     <em>{{ $level }}</em>
-                    @if (isset($volunteer) && isset($volunteer->lang_levels[$language]) && $volunteer->lang_levels[$language]==$lev)
-                    {!! Form::formInput('lang'.$lan, '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value'
+                    @if (isset($volunteer) && isset($volunteer->lang_levels[$language]) &&
+                    $volunteer->lang_levels[$language]==$lev)
+                    {!! Form::formInput('lang'.$lan, '', $errors, ['class' => 'form-control languages', 'type' =>
+                    'radio', 'value'
                     => $lev, 'checked' => 'true']) !!}
                     @else
-                    {!! Form::formInput('lang'.$lan, '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value'
+                    {!! Form::formInput('lang'.$lan, '', $errors, ['class' => 'form-control languages', 'type' =>
+                    'radio', 'value'
                     => $lev, 'checked' => 'false']) !!}
                     @endif
                 </label>
                 @endforeach
             </div>
             @endforeach
+
+            <div class="form-group">
+                <button class="btn btn-default" id="cleanLanguages">Καθαρισμός</button>
+            </div>
 
             <div class="form-group">
                 {!! Form::formInput('extra_lang', 'Άλλες γλώσσες', $errors, ['class' => 'form-control', 'type' =>
@@ -240,18 +247,21 @@
 
             <div class="form-group">
                 {!! Form::formInput('participation_reason', 'Λόγος συμμετοχής:', $errors, ['class' => 'form-control',
-                'required' => 'true', 'type' => 'textarea', 'placeholder' => 'Περιγράψτε τους λόγους που θέλετε να γίνετε εθελοντής.']) !!}
+                'required' => 'true', 'type' => 'textarea', 'placeholder' => 'Περιγράψτε τους λόγους που θέλετε να
+                γίνετε εθελοντής.']) !!}
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 {!! Form::formInput('participation_actions', 'Εθελοντική οργάνωση:', $errors, ['class' =>
                 'form-control',
-                'type' => 'textarea', 'placeholder' => 'Εαν ανήκετε ή ανήκατε σε κάποιες εθελοντικές οργανώσεις ποιο ήταν το αντικείμενο τους και για πόσο χρονικό διάστημα είχατε συμετοχή.']) !!}
+                'type' => 'textarea', 'placeholder' => 'Εαν ανήκετε ή ανήκατε σε κάποιες εθελοντικές οργανώσεις ποιο
+                ήταν το αντικείμενο τους και για πόσο χρονικό διάστημα είχατε συμετοχή.']) !!}
             </div>
             <div class="form-group">
                 {!! Form::formInput('participation_previous', 'Εθελοντικές δράσεις:', $errors, ['class' =>
-                'form-control', 'type' => 'textarea', 'placeholder' => 'Εαν έχετε πάρει μέρος σε εθελοντικές δράσεις στο παρελθόν περιγράψτε ποιο ήταν/είναι το αντικείμενο.']) !!}
+                'form-control', 'type' => 'textarea', 'placeholder' => 'Εαν έχετε πάρει μέρος σε εθελοντικές δράσεις στο
+                παρελθόν περιγράψτε ποιο ήταν/είναι το αντικείμενο.']) !!}
             </div>
         </div>
     </div>
@@ -263,12 +273,13 @@
             <p>Περιοχές ενδιαφερόντων:</p>
 
             <table class="table table-condensed table-bordered">
-               @foreach($interestCategories as $cat_id => $category)
+                @foreach($interestCategories as $cat_id => $category)
                 <tr>
-                <td>{{ $category->description }}</td>
+                    <td>{{ $category->description }}</td>
                     <td>@foreach($category->interests as $interest)
                         <div class="form-group">
-                            @if (isset($volunteer) && in_array($interest->id, $volunteer->interests->lists('id')->all()) )
+                            @if (isset($volunteer) && in_array($interest->id, $volunteer->interests->lists('id')->all())
+                            )
                             {!! Form::formInput('interest' . $interest->id, $interest->description , $errors, ['class'
                             =>
                             'form-control',
@@ -332,7 +343,8 @@
 
                     @foreach($units as $unit_id => $unit)
                     <option value="{{ $unit->id }}" name="unit-{{$unit->id}}"
-                    {{ isset($volunteer) && in_array($unit->id, $volunteer->unitsExcludes->lists('id')->all()) ? 'selected'
+                    {{ isset($volunteer) && in_array($unit->id, $volunteer->unitsExcludes->lists('id')->all()) ?
+                    'selected'
                     :
                     '' }} >{{ $unit->description }}</option>
 
@@ -410,6 +422,13 @@
     $('#unitList').on("select2:unselect", function (e) {
         id = e.params.data.id;
         $("#unit" + id).remove();
+    });
+
+    //deselect the languages radio button
+    $("#cleanLanguages").click(function (e) {
+        $(".languages").parent().removeClass('checked');
+        $(".languages").prop('checked', false);
+        e.preventDefault();
     });
 
 
