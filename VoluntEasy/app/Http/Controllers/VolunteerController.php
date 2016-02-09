@@ -39,6 +39,7 @@ class VolunteerController extends Controller {
         $this->middleware('auth', ['except' => ['publicForm']]);
         $this->configuration =  \App::make('Interfaces\ConfigurationInterface');
         $this->volunteerService =  \App::make('Interfaces\VolunteerInterface');
+
     }
 
     /**
@@ -130,7 +131,7 @@ class VolunteerController extends Controller {
             }
         }
 
-        $saved = $this->volunteerService->save();
+        $saved = $this->volunteerService->store();
 
         if($saved['failed'])
             return redirect()->back()->withErrors($saved['messages'])->withInput();

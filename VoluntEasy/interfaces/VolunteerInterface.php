@@ -1,12 +1,18 @@
 <?php namespace Interfaces;
 
-
+/**
+ * Interface VolunteerInterface
+ * @package Interfaces
+ *
+ * Defines the basic operations for the Volunteer
+ */
 interface VolunteerInterface{
 
-    function save();
+    function store();
 
     function update($volunteer);
 
     function apiStore();
+
 
 }
