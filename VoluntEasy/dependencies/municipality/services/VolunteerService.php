@@ -43,7 +43,6 @@ class VolunteerService implements VolunteerInterface {
         }
     }
 
-
     private function validate($volunteer) {
 
         if (isset($volunteer->id) && $volunteer->id != null && $volunteer->id != '')
@@ -86,7 +85,7 @@ class VolunteerService implements VolunteerInterface {
         if (isset($volunteerRequest['computer_usage']) && $volunteerRequest['live_in_curr_country'] == 1)
             $computer_usage = 1;
 
-        $volunteer = new Volunteer(array(
+        $volunteer = new Volunteer([
             'name' => $volunteerRequest['name'],
             'last_name' => $volunteerRequest['last_name'],
             'fathers_name' => $volunteerRequest['fathers_name'],
@@ -120,8 +119,8 @@ class VolunteerService implements VolunteerInterface {
             'participation_actions' => $volunteerRequest['participation_actions'],
             'participation_previous' => $volunteerRequest['participation_previous'],
             'availability_freqs_id' => $this->checkDropDown(intval($volunteerRequest['availability_freqs_id'])),
-            'comments' => $volunteerRequest['comments'],
-        ));
+            'comments' => $volunteerRequest['comments']
+        ]);
 
         //   return ($volunteer);
 
