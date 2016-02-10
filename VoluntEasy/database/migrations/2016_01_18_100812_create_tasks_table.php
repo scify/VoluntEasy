@@ -31,7 +31,7 @@ class CreateTasksTable extends Migration
         Schema::create('task_statuses', function($table)
         {
             $table->increments('id');
-            $table->string('name');
+            $table->string('description');
         });
 
 
@@ -89,6 +89,7 @@ class CreateTasksTable extends Migration
     {
         Schema::dropIfExists('volunteer_tasks');
         Schema::dropIfExists('volunteer_task_availabilities');
+        Schema::dropIfExists('volunteer_subtasks');
         Schema::dropIfExists('subtasks');
         Schema::dropIfExists('tasks');
         Schema::dropIfExists('task_statuses');

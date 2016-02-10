@@ -12,16 +12,5 @@ interface ConfigurationInterface {
 
     function getPartialsPath();
 
-    /*** Paths for the json files ***/
-    function getInterestsJsonPath();
-
-    function getActionRatingsJsonPath();
-
-    function getRatingsJsonPath();
-
-    function getAvailabilityFrequenciesJsonPath();
-
-    function getDriverLicenceTypesJsonPath();
-
-    function getHowYouLearnedJsonPath();
+    function getJsonDataPath();
 }

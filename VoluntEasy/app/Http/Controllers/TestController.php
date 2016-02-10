@@ -2,6 +2,8 @@
 
 use App\Http\Requests;
 use App\Models\Action;
+use App\Models\Descriptions\Interest;
+use App\Models\Descriptions\InterestCategory;
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\Volunteer;
@@ -20,6 +22,31 @@ class TestController extends Controller {
 
 
     public function test() {
+
+        $this->defaultFilePath = base_path() . '/database/json_data/';
+
+            $filepath = $this->defaultFilePath . 'interests.json';
+
+
+        $json = $filepath;
+        $array = json_decode($json);
+
+        return $array;
+        $categories = $array->categories;
+
+        foreach ($categories as $category) {
+            $cat = InterestCategory::create([
+                'description' => $category->description
+            ]);
+
+            foreach ($category->interests as $interest) {
+                $int = Interest::create([
+                    'category_id' => $cat->id,
+                    'description' => $interest->description
+                ]);
+            }
+        }
+
         return view("main.tasks.board");
 
     }

@@ -138,10 +138,10 @@ class VolunteerController extends Controller {
 
 
         if ($files != null && sizeof($files) > 0 && $flag == true)
-            VolunteerService::storeFiles(\Input::file('files'), $saved['id']);
+            VolunteerService::storeFiles(\Input::file('files'), $saved->id);
 
 
-        return \Redirect::route('volunteer/profile', ['id' => $saved['id']]);
+        return \Redirect::route('volunteer/profile', ['id' => $saved->id]);
     }
 
     /**

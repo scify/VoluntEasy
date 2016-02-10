@@ -64,8 +64,16 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
             'comments' => $volunteerRequest['comments']
         ]);
 
-        if(isset($volunteerRequest['birth_date']) && $volunteerRequest['birth_date']!=null)
+        if (isset($volunteerRequest['birth_date']) && $volunteerRequest['birth_date'] != null)
             $volunteer->birth_date = \Carbon::createFromFormat('d/m/Y', $volunteerRequest['birth_date'])->toDateString();
+
+        $volunteer->live_in_curr_country = 0;
+        if (isset($volunteerRequest['live_in_curr_country']) && $volunteerRequest['live_in_curr_country'] == 1)
+            $volunteer->live_in_curr_country = 1;
+
+        $volunteer->computer_usage = 0;
+        if (isset($volunteerRequest['computer_usage']) && $volunteerRequest['live_in_curr_country'] == 1)
+            $volunteer->computer_usage = 1;
 
         return $volunteer;
     }
@@ -129,7 +137,7 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
      * First load a volunteer, check if the object has extra fields,
      * then validate it and store it.
      *
-     * @param $volunteer
+     * @return mixed
      */
     public final function store() {
 
@@ -144,12 +152,13 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
 
             if ($this->validate($volunteer)) {
 
-                $this->basicStore($volunteer);
+                $volunteer = $this->basicStore($volunteer);
+                $this->storeExtraFields($volunteer);
 
-                if ($this->volunteerHasExtraFields())
-                    $this->storeExtraFields($volunteer);
+                return $volunteer;
             }
-        } else return $isValid;
+        } else
+            return $isValid;
     }
 
     public function update($volunteer) {
@@ -162,8 +171,6 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
 
     /**
      * Validate the Volunteer
-     *
-     * @param $volunteer
      */
     abstract function validate();
 

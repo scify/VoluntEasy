@@ -15,27 +15,8 @@ class Configuration implements ConfigurationInterface {
         return $this->folderName.'.resources.views.volunteers.partials';
     }
 
-    function getInterestsJsonPath(){
-        return base_path().'/dependencies/ekpizo/database/jsondata/interests.json';
+    function getJsonDataPath() {
+        return base_path().'/dependencies/'.$this->folderName.'/database/jsondata/';
     }
 
-    function getRatingsJsonPath(){
-        return base_path().'/dependencies/ekpizo/database/jsondata/ratings.json';
-    }
-
-    function getActionRatingsJsonPath(){
-        return base_path().'/dependencies/'.$this->folderName.'/database/jsondata/action_ratings.json';
-    }
-
-    function getAvailabilityFrequenciesJsonPath(){
-        return base_path().'/dependencies/ekpizo/database/jsondata/availability_frequencies.json';
-    }
-
-    function getHowYouLearnedJsonPath(){
-        return base_path().'/dependencies/ekpizo/database/jsondata/how_you_learned.json';
-    }
-
-    function getDriverLicenceTypesJsonPath() {
-        return '';
-    }
 }
