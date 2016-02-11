@@ -27,8 +27,8 @@
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active"><a href="#tab1" role="tab" data-toggle="tab"
                                                           aria-expanded="true">Στοιχεία Δράσης</a></li>
-            {{--    <li role="presentation" class="active"><a href="#tab2" role="tab" data-toggle="tab" aria-expanded="false">Task
-                        Board</a></li> --}}
+               <li role="presentation"><a href="#tab2" role="tab" data-toggle="tab" aria-expanded="false">Task
+                        Board</a></li>
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
@@ -120,11 +120,10 @@
                     </div>
                 </div>
                 @endif
-            </div>{{--
-            <div role="tabpanel" class="tab-pane active" id="tab2">
+            </div>
+            <div role="tabpanel" class="tab-pane" id="tab2">
                 @include('main.tasks._board')
             </div>
-                --}}
         </div>
     </div>
 </div>

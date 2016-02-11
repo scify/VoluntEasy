@@ -12,18 +12,18 @@ class CreateVolunteeringWorkInterestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('volunteering_work_interests', function ($table) {
+        Schema::create('volunteering_departments', function ($table) {
             $table->increments('id');
             $table->text('description', 100);
             $table->timestamps();
         });
 
-        Schema::create('volunteer_volunteering_work_interests', function ($table) {
+        Schema::create('volunteer_volunteering_departments', function ($table) {
             $table->increments('id');
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
-            $table->integer('work_interest_id')->unsigned();
-            $table->foreign('work_interest_id')->references('id')->on('volunteering_work_interests');
+            $table->integer('department_id')->unsigned();
+            $table->foreign('department_id')->references('id')->on('volunteering_departments');
         });
     }
 
@@ -34,7 +34,7 @@ class CreateVolunteeringWorkInterestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('volunteer_volunteering_work_interests');
-        Schema::dropIfExists('volunteering_work_interests');
+        Schema::dropIfExists('volunteer_volunteering_departments');
+        Schema::dropIfExists('volunteering_departments');
     }
 }

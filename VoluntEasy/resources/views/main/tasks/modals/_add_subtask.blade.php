@@ -13,8 +13,8 @@
             <div class="modal-body">
                 {!! Form::open(['id' => 'addSubTask', 'method' => 'POST', 'action' =>
                 ['TaskController@addSubTask']]) !!}
-               <input type="hidden" name="taskId" id="taskId" value="{{$task->id}}">
-               <input type="hidden" name="actionId" id="actionId" value="{{$task->action_id}}">
+               <input type="hidden" name="taskId" id="taskId" value="">
+               <input type="hidden" name="actionId" id="actionId" value="{{$action->id}}">
 
                 <div class="row">
                     <div class="col-md-8">

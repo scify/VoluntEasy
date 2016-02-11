@@ -41,18 +41,19 @@
 
                                             <div class="col-md-4 board-column todo">
                                                 @foreach($task->todoSubtasks as $subtask)
-                                                <div class="board-card" data-task="{{ $task->id }}"
+                                                <div class="board-card priority-{{ $subtask->priority }}" data-task="{{ $task->id }}"
                                                      data-subtask="{{ $subtask->id }}" data-status="todo">
-                                                    <p>{{$subtask->name}}</p>
+                                                    <span  class="text-right text-danger"><small>31-jan</small></span>
+                                                    <p>{{$subtask->name}} </p>
                                                     <small class="text-left">12 εθελοντές</small>
-                                                    <small class="text-right text-danger">31-jan</small>
+
                                                 </div>
                                                 @endforeach
                                             </div>
 
                                             <div class="col-md-4 board-column doing">
                                                 @foreach($task->doingSubtasks as $subtask)
-                                                <div class="board-card" data-task="{{ $task->id }}"
+                                                <div class="board-card priority-{{ $subtask->priority }}" data-task="{{ $task->id }}"
                                                      data-subtask="{{ $subtask->id }}" data-status="doing">
                                                     <p>{{$subtask->name}}</p>
                                                     <small class="text-left">12 εθελοντές</small>
@@ -63,7 +64,7 @@
 
                                             <div class="col-md-4 board-column done">
                                                 @foreach($task->doneSubtasks as $subtask)
-                                                <div class="board-card" data-task="{{ $task->id }}"
+                                                <div class="board-card priority-{{ $subtask->priority }}" data-task="{{ $task->id }}"
                                                      data-subtask="{{ $subtask->id }}" data-status="done">
                                                     <p>{{$subtask->name}}</p>
                                                     <small class="text-left">12 εθελοντές</small>

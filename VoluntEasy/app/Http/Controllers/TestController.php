@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Volunteer;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\VolunteerService;
+use Dependencies\ekpizo\services\VolunteerService_OLD;
 use Faker\Factory;
 
 /**
@@ -23,29 +24,9 @@ class TestController extends Controller {
 
     public function test() {
 
-        $this->defaultFilePath = base_path() . '/database/json_data/';
+        $emails = Volunteer::where('email', 'test@test.gr')->get();
 
-            $filepath = $this->defaultFilePath . 'interests.json';
-
-
-        $json = $filepath;
-        $array = json_decode($json);
-
-        return $array;
-        $categories = $array->categories;
-
-        foreach ($categories as $category) {
-            $cat = InterestCategory::create([
-                'description' => $category->description
-            ]);
-
-            foreach ($category->interests as $interest) {
-                $int = Interest::create([
-                    'category_id' => $cat->id,
-                    'description' => $interest->description
-                ]);
-            }
-        }
+        return sizeof($emails);
 
         return view("main.tasks.board");
 

@@ -35,6 +35,10 @@ class Volunteer extends User {
         return $this->belongsToMany('App\Models\Descriptions\Interest', 'volunteer_interests', 'volunteer_id', 'interest_id')->orderBy('description', 'asc');
     }
 
+    public function volunteeringDepartments() {
+        return $this->belongsToMany('App\Models\Descriptions\VolunteeringDepartment', 'volunteer_volunteering_departments', 'volunteer_id', 'volunteering_department_id');
+    }
+
     public function availabilityFrequencies() {
         return $this->hasOne('App\Models\Descriptions\AvailabilityFrequencies', 'id', 'availability_freqs_id');
     }
@@ -114,6 +118,11 @@ class Volunteer extends User {
     public function files() {
         return $this->hasMany('App\Models\File');
     }
+
+    public function extras() {
+        return $this->hasOne('App\Models\VolunteerExtras', 'volunteer_id', 'id');
+    }
+
 
     /*
     public function ratings() {

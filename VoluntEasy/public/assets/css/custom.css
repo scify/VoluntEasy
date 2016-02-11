@@ -343,7 +343,7 @@ div#unitsTree{overflow-x: auto;}
     margin-bottom:10px;
 }
 
-.board-card.low{border: solid 3px #AEAEAE;}
-.board-card.medium{border: solid 3px #12AFCB;}
-.board-card.high{border: solid 3px #f2ca4c;}
-.board-card.urgent{border: solid 3px #f25656;}
+.board-card.priority-1{border-left: solid 3px #AEAEAE;}
+.board-card.priority-2{border-left: solid 3px #12AFCB;}
+.board-card.priority-3{border-left: solid 3px #f2ca4c;}
+.board-card.priority-4{border-left: solid 3px #f25656;}

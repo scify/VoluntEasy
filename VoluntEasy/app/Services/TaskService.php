@@ -25,8 +25,8 @@ class TaskService {
                     array_push($todoSubtasks, $subtask);
                 else
                     array_push($todoSubtasks, $subtask);
-
             }
+
             unset($task->subtasks);
             $task->todoSubtasks = $todoSubtasks;
             $task->doingSubtasks = $doingSubtasks;

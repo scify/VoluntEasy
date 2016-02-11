@@ -13,6 +13,7 @@
             <div class="modal-body">
                 {!! Form::open(['id' => 'createTask', 'method' => 'POST', 'action' => ['TaskController@store']]) !!}
                 <input type="hidden" name="taskId" id="taskId">
+                <input type="hidden" name="actionId" id="actionId" value="{{$action->id}}">
 
                 <div class="row">
                     <div class="col-md-6">

@@ -31,7 +31,14 @@ class VolunteerAddons extends Migration {
         Schema::create('how_you_learned', function ($table) {
             $table->increments('id');
             $table->string('description', 100);
-            $table->string('comments', 300);
+            $table->string('comments', 400);
+            $table->timestamps();
+        });
+
+        Schema::create('how_you_learned2', function ($table) {
+            $table->increments('id');
+            $table->string('description', 100);
+            $table->string('comments', 400);
             $table->timestamps();
         });
 
@@ -40,6 +47,10 @@ class VolunteerAddons extends Migration {
         {
             $table->integer('how_you_learned_id')->unsigned()->nullable();
             $table->foreign('how_you_learned_id')->references('id')->on('how_you_learned')->onDelete('cascade');
+
+
+            $table->integer('how_you_learned2_id')->unsigned()->nullable();
+            $table->foreign('how_you_learned2_id')->references('id')->on('how_you_learned2')->onDelete('cascade');
 
         });
 

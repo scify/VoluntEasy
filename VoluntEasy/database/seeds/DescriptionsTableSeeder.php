@@ -32,6 +32,7 @@ class DescriptionsTableSeeder extends Seeder {
             'education_levels',
             'genders',
             'how_you_learned',
+            'how_you_learned2',
             'identification_types',
             'language_levels',
             'languages',

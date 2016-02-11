@@ -115,7 +115,6 @@ class TaskController extends Controller {
     }
 
     public function addSubTask() {
-        //return \Request::all();
 
         $todo = Status::todo();
 
@@ -124,6 +123,7 @@ class TaskController extends Controller {
             'description' => \Request::get('description'),
             'priority' => \Request::get('priority'),
             'task_id' => \Request::get('taskId'),
+            'action_id' => \Request::get('actionId'),
             'status_id' => $todo
         ]);
 

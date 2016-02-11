@@ -12,7 +12,7 @@ use App\Services\Facades\NotificationService;
 use App\Services\Facades\UnitService;
 use Interfaces\VolunteerInterface;
 
-class VolunteerService implements VolunteerInterface {
+class VolunteerService_OLD implements VolunteerInterface {
 
     function save() {
 
@@ -79,7 +79,8 @@ class VolunteerService implements VolunteerInterface {
                 'messages' => null];
     }
 
-    private function store($volunteerRequest) {
+    public function store() {
+        /*
         $volunteer = new Volunteer(array(
             'name' => $volunteerRequest['name'],
             'last_name' => $volunteerRequest['last_name'],
@@ -341,7 +342,7 @@ class VolunteerService implements VolunteerInterface {
             $volunteer->unitsExcludes()->sync($unitsExcludes);
         } else {
             $volunteer->unitsExcludes()->detach();
-        }
+        }*/
     }
 
     private function checkDropDown($input) {
@@ -356,7 +357,7 @@ class VolunteerService implements VolunteerInterface {
      *
      * @return mixed
      */
-    function apiStore() {
+    public function apiStore() {
 
         $data = \Request::get('submitted');
 
@@ -364,51 +365,35 @@ class VolunteerService implements VolunteerInterface {
         //first validate input
         $validate = $this->validateInput($data);
 
-        if ($validate == 'success') {
+        if ($validate==0) {
 
             $volunteer = new Volunteer(array(
                 'name' => $data['volunteer_info']['name'],
                 'last_name' => $data['volunteer_info']['last_name'],
                 'fathers_name' => $data['volunteer_info']['fathers_name'],
-                'identification_num' => $data['volunteer_info']['identification_num'],
-                'children' => intval($data['volunteer_info']['children']),
-                'address' => $data['volunteer_info']['address'] . ' ' . $data['volunteer_info']['addressNum'],
-                'post_box' => $data['volunteer_info']['post_box'],
                 'city' => $data['volunteer_info']['city'],
                 'country' => $data['volunteer_info']['country'],
-                'afm' => $data['volunteer_info']['afm'],
-                'identification_type_id' => $this->checkDropDown($data['volunteer_info']['identification_type_id']),
-                'live_in_curr_country' => $this->checkDropDown($data['volunteer_info']['live_in_curr_country']),
                 'gender_id' => $this->checkDropDown($data['volunteer_info']['gender_id']),
-                'marital_status_id' => $this->checkDropDown($data['volunteer_info']['marital_status_id']),
+                'driver_license_type_id' => $this->checkDropDown($data['volunteer_info']['driver_license_type_id']),
 
+                'home_tel' => $data['volunteer_info']['home_tel'],
+                'cell_tel' => $data['volunteer_info']['cell_tel'],
+                'email' => $data['volunteer_info']['email'],
 
-                'home_tel' => $data['contact_info']['home_tel'],
-                'work_tel' => $data['contact_info']['work_tel'],
-                'cell_tel' => $data['contact_info']['cell_tel'],
-                'fax' => $data['contact_info']['fax'],
-                'email' => $data['contact_info']['email'],
-                'comm_method_id' => $this->checkDropDown($data['contact_info']['comm_method_id']),
-
-
+                'education_level_id' => $this->checkDropDown($data['education']['education_level_id']),
                 'specialty' => $data['education']['specialty'],
-                'department' => $data['education']['department'],
                 'additional_skills' => $data['education']['additional_skills'],
                 'computer_usage_comments' => $data['education']['computer_usage_comments'],
-                'education_level_id' => $this->checkDropDown($data['education']['education_level_id']),
-                'driver_license_type_id' => $this->checkDropDown($data['education']['driver_license_type_id']),
-
-                'extra_lang' => $data['languages']['extra_lang'],
+                'extra_lang' => $data['education']['languages']['extra_lang'],
 
                 'availability_freqs_id' => $this->checkDropDown($data['avail_Inter']['availability_freqs_id']),
 
-                'work_status_id' => $this->checkDropDown($data['work_exper']['work_status_id']),
-                'work_description' => $data['work_exper']['work_description'],
-                'participation_reason' => $data['work_exper']['participation_reason'],
-                'participation_actions' => $data['work_exper']['participation_actions'],
-                'participation_previous' => $data['work_exper']['participation_previous'],
+                'work_description' => $data['work_exper']['job_experience_comments'],
+                'participation_actions' => $data['work_exper']['vol_experience_area'],
+                'other_department' => $data['volunteering']['other_department'],
 
                 'how_you_learned_id' => $this->checkDropDown($data['extra_comments']['howYouLearned']),
+                'how_you_learned2_id' => $this->checkDropDown($data['extra_comments']['how_did_you_learn']),
             ));
 
             //Birthday
@@ -419,11 +404,22 @@ class VolunteerService implements VolunteerInterface {
             )
                 $volunteer->birth_date = \Carbon::createFromDate($data['volunteer_info']['birth_date']['year'], $data['volunteer_info']['birth_date']['month'], $data['volunteer_info']['birth_date']['day']);
 
-            //Computer usage
-            if (isset($data['education']['computer_usage']) && isset($data['education']['computer_usage'][1]) && $data['education']['computer_usage'][1] == 1)
-                $volunteer->computer_usage = 1;
-
             $volunteer->save();
+
+
+            //word, excel, powerpoint
+            if (isset($data['education']['office']['office_word']) && $data['education']['office']['office_word'] == 1)
+                $volunteer->extras()->knows_office = 1;
+            if (isset($data['education']['office']['office_excel']) && $data['education']['office']['office_excel'] == 1)
+                $volunteer->extras()->knows_excel = 1;
+            if (isset($data['education']['office']['office_powerpoint']) && $data['education']['office']['office_powerpoint'] == 1)
+                $volunteer->extras()->knows_excel = 1;
+
+            if (isset($data['work_exper']['vol_experience']) && $data['work_exper']['vol_experience'] == 1)
+                $volunteer->extras()->has_previousVolunteerExperience = 1;
+            if (isset($data['work_exper']['job_experience']) && $data['work_exper']['job_experience'] == 1)
+                $volunteer->extras()->has_hasPreviousWorkExperience = 1;
+
 
             //Languages
             if (isset($data['languages']['langGR']))
@@ -439,45 +435,11 @@ class VolunteerService implements VolunteerInterface {
 
 
             //Interests
-            $interests = [];
-            if (isset($data['avail_Inter']['interests']) && isset($data['avail_Inter']['interests']['Γραφιστικά'])) {
-                $intId = Interest::where('description', 'Γραφιστικά')->first(['id']);
-                if ($intId != null)
-                    array_push($interests, $intId->id);
-            }
-            if (isset($data['avail_Inter']['interests']) && isset($data['avail_Inter']['interests']['Διεξαγωγή ερευνών'])) {
-                $intId = Interest::where('description', 'Διεξαγωγή ερευνών')->first(['id']);
-                if ($intId != null)
-                    array_push($interests, $intId->id);
-            }
-            if (isset($data['avail_Inter']['interests']) && isset($data['avail_Inter']['interests']['Επικοινωνία/Social media'])) {
-                $intId = Interest::where('description', 'Επικοινωνία/Social media')->first(['id']);
-                if ($intId != null)
-                    array_push($interests, $intId->id);
-            }
-            if (isset($data['avail_Inter']['interests']) && isset($data['avail_Inter']['interests']['Κειμενογράφηση'])) {
-                $intId = Interest::where('description', 'Κειμενογράφηση')->first(['id']);
-                if ($intId != null)
-                    array_push($interests, $intId->id);
-            }
-            if (isset($data['avail_Inter']['interests']) && isset($data['avail_Inter']['interests']['Μεταφράσεις'])) {
-                $intId = Interest::where('description', 'Μεταφράσεις')->first(['id']);
-                if ($intId != null)
-                    array_push($interests, $intId->id);
-            }
-            if (isset($data['avail_Inter']['interests']) && isset($data['avail_Inter']['interests']['Νομική υποστήριξη καταναλωτών'])) {
-                $intId = Interest::where('description', 'Νομική υποστήριξη καταναλωτών')->first(['id']);
-                if ($intId != null)
-                    array_push($interests, $intId->id);
-            }
-            if (isset($data['avail_Inter']['interests']) && isset($data['avail_Inter']['interests']['Οργάνωση Εκδηλώσεων'])) {
-                $intId = Interest::where('description', 'Οργάνωση Εκδηλώσεων')->first(['id']);
-                if ($intId != null)
-                    array_push($interests, $intId->id);
-            }
+            $volunteer->interests()->sync($data['avail_Inter']['interests']);
 
-            $volunteer->interests()->sync($interests);
-
+            //Volunteering Departments
+            if (isset($data['volunteering']['department']))
+                $volunteer->volunteeringDepartments()->sync($data['volunteering']['department']);
 
             //Availability
             if (isset($data['avail_Inter']['availability_freqs_id']) && $data['avail_Inter']['availability_freqs_id'] != "") {
@@ -544,7 +506,7 @@ class VolunteerService implements VolunteerInterface {
 
             return \Response::json($volunteer, 201);
         } else {
-            return \Response::json($validate, 409);
+            return \Response::json($validate, 200);
         }
     }
 
@@ -577,9 +539,7 @@ class VolunteerService implements VolunteerInterface {
      *
      * @return bool
      */
-    private
-    function validateInput($data) {
-        $flag = true;
+    private function validateInput($data) {
 
         if (!isset($data['volunteer_info']['name']) || $data['volunteer_info']['name'] == '')
             return 101;
@@ -594,14 +554,15 @@ class VolunteerService implements VolunteerInterface {
         )
             return 103;
 
-        $emails = Volunteer::where('email', $data['contact_info']['email'])->get();
-        if (!isset($data['contact_info']['email']) || $data['contact_info']['email'] == ''
-            || !filter_var($data['contact_info']['email'], FILTER_VALIDATE_EMAIL)
+        $emails = Volunteer::where('email', $data['volunteer_info']['email'])->get();
+
+        if (!isset($data['volunteer_info']['email']) || $data['volunteer_info']['email'] == ''
+            || !filter_var($data['volunteer_info']['email'], FILTER_VALIDATE_EMAIL)
         )
             return 201;
         if (sizeof($emails) > 0)
             return 202;
 
-        return $flag;
+        return 0;
     }
 }
