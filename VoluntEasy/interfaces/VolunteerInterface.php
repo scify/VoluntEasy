@@ -14,5 +14,4 @@ interface VolunteerInterface{
 
     function apiStore();
 
-
 }

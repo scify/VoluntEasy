@@ -41,7 +41,7 @@ class DescriptionsTableSeeder extends Seeder {
             'step_statuses',
             'task_statuses',
             'volunteer_statuses',
-            'volunteering_work_interests',
+            'volunteering_departments',
             'work_statuses',
         ];
 

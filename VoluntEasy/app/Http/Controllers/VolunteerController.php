@@ -16,6 +16,7 @@ use App\Models\Descriptions\InterestCategory;
 use App\Models\Descriptions\Language;
 use App\Models\Descriptions\LanguageLevel;
 use App\Models\Descriptions\MaritalStatus;
+use App\Models\Descriptions\VolunteeringDepartment;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Descriptions\VolunteerStatusDuration;
 use App\Models\Descriptions\WorkStatus;
@@ -73,8 +74,11 @@ class VolunteerController extends Controller {
         $edLevel = EducationLevel::lists('description', 'id')->all();
         $howYouLearned = HowYouLearned::lists('description', 'id')->all();
         $units = Unit::orderBy('description', 'asc')->get()->all();
+        $volunteeringDepartments = VolunteeringDepartment::get()->all();
 
-        $viewPath = $this->configuration->getViewsPath().'.volunteers._form';
+        //The extras are the add-on features based on the needs.
+        $extras = $this->configuration->getExtras();
+        $extrasPath = $this->configuration->getExtrasPath();
 
         $maritalStatuses[0] = '[- επιλέξτε -]';
         $edLevel[0] = '[- επιλέξτε -]';
@@ -94,7 +98,7 @@ class VolunteerController extends Controller {
         ksort($howYouLearned);
 
         return view('main.volunteers.create', compact('identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
-            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'units', 'howYouLearned', 'viewPath'));
+            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'volunteeringDepartments', 'units', 'howYouLearned', 'extras', 'extrasPath'));
     }
 
     /**
@@ -151,6 +155,7 @@ class VolunteerController extends Controller {
      * @return Response
      */
     public function show($id) {
+
         $volunteer = VolunteerService::fullProfile($id);
         $timeline = VolunteerService::timeline($id);
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
@@ -167,6 +172,7 @@ class VolunteerController extends Controller {
             else if ($unit->status == 'Available' || $unit->status == 'Active')
                 $available++;
         }
+
         //check if the volunteer is permitted to be edited by the
         //currently logged in user
         $permittedVolunteers = UserService::permittedVolunteersIds();
@@ -177,18 +183,15 @@ class VolunteerController extends Controller {
 
         $userUnits = UserService::userUnits();
 
-
         $actionsCount = 0;
         foreach ($timeline as $block) {
             if ($block->type == 'action')
                 $actionsCount++;
         }
 
-        $viewPath = $this->configuration->getViewsPath().'.volunteers.show';
-        $partialsPath = $this->configuration->getPartialsPath();
+        $extras = $this->configuration->getExtras();
 
-
-        return view($viewPath, compact('volunteer', 'pending', 'available', 'timeline', 'userUnits', 'actionsCount', 'actionsRatings', 'totalRatings', 'totalWorkingHours', 'partialsPath'));
+        return view('main.volunteers.show', compact('volunteer', 'pending', 'available', 'timeline', 'userUnits', 'actionsCount', 'actionsRatings', 'totalRatings', 'totalWorkingHours', 'partialsPath'));
     }
 
     /**
@@ -198,7 +201,7 @@ class VolunteerController extends Controller {
      * @return Response
      */
     public function edit($volId) {
-        $volunteer = Volunteer::with('interests', 'availabilityTimes', 'availabilityDays', 'unitsExcludes', 'files')->findOrFail($volId);
+        $volunteer = Volunteer::with('interests', 'availabilityTimes', 'availabilityDays', 'unitsExcludes', 'files', 'extras', 'volunteeringDepartments')->findOrFail($volId);
 
         $identificationTypes = IdentificationType::lists('description', 'id')->all();
         $driverLicenseTypes = DriverLicenceType::lists('description', 'id')->all();
@@ -213,6 +216,7 @@ class VolunteerController extends Controller {
         $commMethod = CommunicationMethod::lists('description', 'id')->all();
         $howYouLearned = HowYouLearned::lists('description', 'id')->all();
         $edLevel = EducationLevel::lists('description', 'id')->all();
+        $volunteeringDepartments = VolunteeringDepartment::lists('description', 'id')->all();
 
         //get the language levels in a readable array
         $lang_levels = [];
@@ -241,10 +245,12 @@ class VolunteerController extends Controller {
         ksort($availabilityFreqs);
         ksort($howYouLearned);
 
-        $viewPath = $this->configuration->getViewsPath().'.volunteers._form';
+        //The extras are the add-on features based on the needs.
+        $extras = $this->configuration->getExtras();
+        $extrasPath = $this->configuration->getExtrasPath();
 
         return view('main.volunteers.edit', compact('volunteer', 'identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
-            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'units', 'howYouLearned', 'viewPath'));
+            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'volunteeringDepartments', 'units', 'howYouLearned', 'extras', 'extrasPath'));
     }
 
     /**

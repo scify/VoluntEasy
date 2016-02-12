@@ -2,12 +2,7 @@
     <div class="col-md-4">
         <p><strong>Όνομα πατέρα:</strong> {{ $volunteer->fathers_name=='' ? '-' : $volunteer->fathers_name }}</p>
 
-        <p><strong>Ημ/νία γέννησης:</strong>
-            @if($volunteer->age>0)
-            {{ $volunteer->birth_date }}
-            @else
-            -
-            @endif</p>
+        <p><strong>Ημ/νία γέννησης:</strong> {{ $volunteer->birth_date }}</p>
         <p><strong>Τηλέφωνο εργασίας:</strong> {{ $volunteer->work_tel=='' ? '-' : $volunteer->work_tel
             }} @if ($volunteer->comm_method_id==3) <i class="fa fa-star" data-toggle="tooltip" title="Προτιμώμενος τρόπος επικοινωνίας"></i> @endif</p>
 
@@ -25,14 +20,14 @@
 
         <p><strong>Κάτοικος Ελλάδας:</strong> {{ $volunteer->live_in_curr_country=='' ? 'Όχι' : 'Ναι' }}</p>
 
-        <p><strong>Τύπος ταυτότητας:</strong> {{
-            $volunteer->identification_type_id=='' || $volunteer->identification_type_id==null ? '-' : $volunteer->identificationType->description }}</p>
+        <p><strong>Τύπος ταυτότητας:</strong> {{ $volunteer->identificationType->description }}</p>
 
         <p><strong>Αριθμός Α.Δ.Τ./Διαβατηρίου/Άδειας Παραμονής:</strong> {{
-            $volunteer->identification_num=='' || $volunteer->identification_num==null ? '-' : $volunteer->identification_num }}</p>
+            $volunteer->identification_num=='' ? '-' : $volunteer->identification_num }}</p>
 
-        <p><strong>Α.Φ.Μ.:</strong> {{
-            $volunteer->afm=='' || $volunteer->afm==null ? '-' : $volunteer->afm }}</p>
+        @if($volunteer->afm!=null && $volunteer->afm!='')
+            <p><strong>Α.Φ.Μ.:</strong> $volunteer->afm</p>
+        @endif
     </div>
 </div>
 
@@ -57,7 +52,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <p><strong>Επίπεδο εκπαίδευσης:</strong> {{
-                                    $volunteer->education_level_id=='' || $volunteer->education_level_id==null ? '-' : $volunteer->educationLevel->description }}</p>
+                                    $volunteer->educationLevel->description }}</p>
 
                                 <p><strong>Ειδικότητα:</strong> {{ $volunteer->specialty=='' ? '-' :
                                     $volunteer->specialty }}</p>
@@ -70,8 +65,6 @@
 
                                 <p><strong>Χρήση υπολογιστή:</strong> {{ $volunteer->computer_usage=='' ? 'Όχι' :
                                     'Ναι' }}</p>
-
-                                <p><strong>Δεξιότητες υπολογιστή:</strong> {{$volunteer->computer_usage_comments }}</p>
                             </div>
                             <div class="col-md-4">
                                 <h4>Ξένες Γλώσσες</h4>
@@ -172,21 +165,15 @@
                                     </p>
                                  @endif
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-4">
                                 <h4>Ενδιαφέροντα</h4>
                                 @if($volunteer->interests==null ||
                                 sizeof($volunteer->interests)==0)
                                 <p><em>Δεν έχει δηλωθεί κανένα ενδιαφέρον.</em></p>
                                 @else
-                                <p>
-                                    @foreach($volunteer->interests as $i => $interest)
-                                    @if($i==0)
-                                    {{ $interest->description }}
-                                    @else
-                                    , {{ $interest->description }}
-                                    @endif
-                                    @endforeach
-                                </p>
+                                @foreach($volunteer->interests as $interest)
+                                <p>{{ $interest->description }}</p>
+                                @endforeach
                                 @endif
                                 @if($volunteer->additional_skills!=null ||
                                 $volunteer->additional_skills!='')

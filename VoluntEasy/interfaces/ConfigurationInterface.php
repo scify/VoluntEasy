@@ -13,4 +13,8 @@ interface ConfigurationInterface {
     function getPartialsPath();
 
     function getJsonDataPath();
+
+    function getExtrasPath();
+
+    function getExtras();
 }

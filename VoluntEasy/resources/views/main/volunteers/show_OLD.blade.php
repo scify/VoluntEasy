@@ -17,15 +17,14 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-5">
-                        <h3>{{ $volunteer->name }} {{ $volunteer->last_name }}
-                            @if($volunteer->gender_id!=null && $volunteer->gender_id==1)
-                            | <i class="fa fa-mars"></i>
-                            @elseif($volunteer->gender_id!=null && $volunteer->gender_id==2)
-                            | <i class="fa fa-venus"></i>
+                        <h3>{{ $volunteer->name }} {{ $volunteer->last_name }} |
+                            @if($volunteer->gender_id==1)
+                            <i class="fa fa-mars"></i>
+                            @else
+                            <i class="fa fa-venus"></i>
                             @endif
-                            @if($volunteer->age>0)
                             | {{ $volunteer->age }} ετών</h3>
-                        @endif
+
                         <p><i class="fa fa-envelope"></i> <a href="mailto:{{ $volunteer->email }}">{{ $volunteer->email
                                 }}</a> @if ($volunteer->comm_method_id==1) <i class="fa fa-star" data-toggle="tooltip"
                                                                               title="Προτιμώμενος τρόπος επικοινωνίας"></i>
@@ -44,6 +43,41 @@
                             @endif
                         </p>
                     </div>
+                    {{-- Ratings--}}
+                    {{--
+                    <div class="col-md-4 pull-right text-center">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h5>Συνέπεια</h5>
+                                @if(sizeof($volunteer->ratings)>0)
+                                <div id="attr1" class="attribute rating"
+                                     data-score="{{ $volunteer->ratings->rating_attr1 / $volunteer->ratings->rating_attr1_count }}"></div>
+                                @else
+                                <div id="attr1" class="attribute rating" data-score="0"></div>
+                                @endif
+                            </div>
+                            <div class="col-md-4">
+                                <h5>Στυλ</h5>
+                                @if(sizeof($volunteer->ratings)>0)
+                                <div id="attr2" class="attribute rating"
+                                     data-score="{{ $volunteer->ratings->rating_attr2 / $volunteer->ratings->rating_attr2_count }}"></div>
+                                @else
+                                <div id="attr2" class="attribute rating" data-score="0"></div>
+                                @endif
+                            </div>
+                            <div class="col-md-4">
+                                <h5>Αγάπη για γάτες</h5>
+                                @if(sizeof($volunteer->ratings)>0)
+                                <div id="attr3" class="attribute rating"
+                                     data-score="{{ $volunteer->ratings->rating_attr3 / $volunteer->ratings->rating_attr3_count }}"></div>
+                                @else
+                                <div id="attr3" class="attribute rating" data-score="0"></div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                --}}
                 @if($volunteer->blacklisted)
                 <div class="row">
                     <div class="col-md-12">

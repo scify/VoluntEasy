@@ -10,7 +10,7 @@ class VolunteeringDepartment extends Model {
      *
      * @var string
      */
-    protected $table = 'volunteering_department';
+    protected $table = 'volunteering_departments';
 
     protected $fillable = ['description'];
 

@@ -36,7 +36,7 @@ class Volunteer extends User {
     }
 
     public function volunteeringDepartments() {
-        return $this->belongsToMany('App\Models\Descriptions\VolunteeringDepartment', 'volunteer_volunteering_departments', 'volunteer_id', 'volunteering_department_id');
+        return $this->belongsToMany('App\Models\Descriptions\VolunteeringDepartment', 'volunteer_volunteering_departments', 'volunteer_id', 'department_id');
     }
 
     public function availabilityFrequencies() {

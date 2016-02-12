@@ -416,9 +416,9 @@ class VolunteerService_OLD implements VolunteerInterface {
                 $volunteer->extras()->knows_excel = 1;
 
             if (isset($data['work_exper']['vol_experience']) && $data['work_exper']['vol_experience'] == 1)
-                $volunteer->extras()->has_previousVolunteerExperience = 1;
+                $volunteer->extras()->has_previous_volunteer_experience = 1;
             if (isset($data['work_exper']['job_experience']) && $data['work_exper']['job_experience'] == 1)
-                $volunteer->extras()->has_hasPreviousWorkExperience = 1;
+                $volunteer->extras()->has_has_previous_work_experience = 1;
 
 
             //Languages

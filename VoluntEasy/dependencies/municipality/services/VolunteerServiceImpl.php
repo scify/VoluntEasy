@@ -48,7 +48,13 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
      */
     function getExtraFields($volunteer) {
 
-        return;
+        //            'work_status_id' => $this->checkDropDown($volunteerRequest['work_status_id']),
+/*
+ *             'participation_reason' => $volunteerRequest['participation_reason'],
+            'participation_previous' => $volunteerRequest['participation_previous'],
+
+ */
+        $volunteer->work_status_id = \Request::get('how_you_learned_id');
     }
 
     /**

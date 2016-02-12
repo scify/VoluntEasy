@@ -41,7 +41,6 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
             'post_box' => $volunteerRequest['post_box'],
             'city' => $volunteerRequest['city'],
             'country' => $volunteerRequest['country'],
-            'live_in_curr_country' => intval($volunteerRequest['live_in_curr_country']),
             'home_tel' => $volunteerRequest['home_tel'],
             'work_tel' => $volunteerRequest['work_tel'],
             'cell_tel' => $volunteerRequest['cell_tel'],
@@ -52,14 +51,10 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
             'specialty' => $volunteerRequest['specialty'],
             'department' => $volunteerRequest['department'],
             'driver_license_type_id' => $this->checkDropDown(intval($volunteerRequest['driver_license_type_id'])),
-            'computer_usage' => intval($volunteerRequest['computer_usage']),
             'additional_skills' => $volunteerRequest['additional_skills'],
             'extra_lang' => $volunteerRequest['extra_lang'],
-            'work_status_id' => $this->checkDropDown(intval($volunteerRequest['work_status_id'])),
             'work_description' => $volunteerRequest['work_description'],
-            'participation_reason' => $volunteerRequest['participation_reason'],
             'participation_actions' => $volunteerRequest['participation_actions'],
-            'participation_previous' => $volunteerRequest['participation_previous'],
             'availability_freqs_id' => $this->checkDropDown(intval($volunteerRequest['availability_freqs_id'])),
             'comments' => $volunteerRequest['comments']
         ]);
@@ -205,7 +200,7 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
     }
 
     private function checkDropDown($input) {
-        if ($input == 0)
+        if ($input==null || $input == 0)
             return null;
         else
             return $input;

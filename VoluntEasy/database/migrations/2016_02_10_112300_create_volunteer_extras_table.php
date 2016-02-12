@@ -17,8 +17,8 @@ class CreateVolunteerExtrasTable extends Migration
             $table->boolean('knows_word')->default(0);
             $table->boolean('knows_excel')->default(0);
             $table->boolean('knows_powerpoint')->default(0);
-            $table->boolean('has_previousVolunteerExperience')->default(0);
-            $table->boolean('hasPreviousWorkExperience')->default(0);
+            $table->boolean('has_previous_volunteer_experience')->default(0);
+            $table->boolean('has_previous_work_experience')->default(0);
 
             $table->string('volunteering_work_extra', 300);
             $table->string('other_department', 300);

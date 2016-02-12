@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="form-group">
-                {!! Form::formInput('city', 'Πόλη:', $errors, ['class' => 'form-control']) !!}
+                {!! Form::formInput('city', 'Πόλη:', $errors, ['class' => 'form-control', 'required' => 'true']) !!}
             </div>
             <div class="form-group">
                 {!! Form::formInput('country', 'Χώρα:', $errors, ['class' => 'form-control']) !!}
@@ -122,7 +122,7 @@
                 {!! Form::formInput('work_tel', 'Τηλέφωνο Εργασίας:', $errors, ['class' => 'form-control']) !!}
             </div>
             <div class="form-group">
-                {!! Form::formInput('cell_tel', 'Κινητό:', $errors, ['class' => 'form-control']) !!}
+                {!! Form::formInput('cell_tel', 'Κινητό:', $errors, ['class' => 'form-control', 'required' => 'true']) !!}
             </div>
         </div>
         <div class="col-md-4">
@@ -134,10 +134,10 @@
             </div>
             <div class="form-group">
                 @if (isset($volunteer))
-                {!! Form::formInput('comm_method_id', 'Να επικοινωνήσουμε μαζί σας στο:', $errors, ['class' =>
+                {!! Form::formInput('comm_method_id', 'Προτιμώμενος τρόπος επικοινωνίας:', $errors, ['class' =>
                 'form-control', 'type' => 'select', 'value' => $commMethod, 'key' => $volunteer->comm_method_id]) !!}
                 @else
-                {!! Form::formInput('comm_method_id', 'Να επικοινωνήσουμε μαζί σας στο:', $errors, ['class' =>
+                {!! Form::formInput('comm_method_id', 'Προτιμώμενος τρόπος επικοινωνίας:', $errors, ['class' =>
                 'form-control', 'type' => 'select', 'value' => $commMethod]) !!}
                 @endif
             </div>
@@ -186,23 +186,32 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
+            <div class="row top-margin">
+                <div class="col-md-4">
                     <div class="form-group">
                         {!! Form::formInput('computer_usage', 'Χρήση υπολογιστή', $errors, ['class' => 'form-control',
-                        'type' => 'checkbox', 'value' => true, 'checked' => 'true']) !!}
+                        'type' => 'checkbox', 'value' => true, 'checked' => 'false']) !!}
                     </div>
+                    {{-- Extras--}}
+                    @if(in_array('knows_office', $extras))
+                        @include($extrasPath.'._knows_office')
+                    @endif
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        {!! Form::formInput('computer_usage_comments', 'Δεξιότητες υπολογιστή:', $errors,
+                        {!! Form::formInput('computer_usage_comments', 'Λοιπές δεξιότητες υπολογιστή:', $errors,
                         ['class' => 'form-control', 'type' => 'textarea', 'size' => '2x5']) !!}
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                {!! Form::formInput('additional_skills', 'Πρόσθετες ικανότητες, προσόντα και εμπειρία:', $errors,
-                ['class' => 'form-control', 'type' => 'textarea', 'size' => '2x5']) !!}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        {!! Form::formInput('additional_skills', 'Πρόσθετες ικανότητες, προσόντα και εμπειρία:',
+                        $errors,
+                        ['class' => 'form-control', 'type' => 'textarea', 'size' => '2x5']) !!}
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-md-6">
@@ -214,17 +223,23 @@
                 @foreach ($langLevels as $lev => $level)
                 <label>
                     <em>{{ $level }}</em>
-                    @if (isset($volunteer) && $volunteer->lang_levels[$language]==$lev)
-                    {!! Form::formInput('lang'.$lan, '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value'
+                    @if (isset($volunteer) && isset($volunteer->lang_levels[$language]) &&
+                    $volunteer->lang_levels[$language]==$lev)
+                    {!! Form::formInput('lang'.$lan, '', $errors, ['class' => 'form-control languages', 'type' =>
+                    'radio', 'value'
                     => $lev, 'checked' => 'true']) !!}
                     @else
-                    {!! Form::formInput('lang'.$lan, '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value'
+                    {!! Form::formInput('lang'.$lan, '', $errors, ['class' => 'form-control languages', 'type' =>
+                    'radio', 'value'
                     => $lev, 'checked' => 'false']) !!}
                     @endif
                 </label>
                 @endforeach
             </div>
             @endforeach
+            <div class="form-group">
+                <button class="btn btn-default" id="cleanLanguages">Καθαρισμός</button>
+            </div>
 
             <div class="form-group">
                 {!! Form::formInput('extra_lang', 'Άλλες γλώσσες', $errors, ['class' => 'form-control', 'type' =>
@@ -237,37 +252,12 @@
 <!-- tab4 Εργασιακή εμπειρία και εθελοντική προσφορά. -->
 <div class="tab-pane fade" id="tab4">
     <div class="row m-b-lg">
-        <div class="col-md-4">
-            <div class="form-group">
-                @if (isset($volunteer))
-                {!! Form::formInput('work_status_id', 'Εργασιακή κατάσταση:', $errors, ['class' => 'form-control',
-                'type' => 'select', 'value' => $workStatuses, 'key' => $volunteer->work_status_id]) !!}
-                @else
-                {!! Form::formInput('work_status_id', 'Εργασιακή κατάσταση:', $errors, ['class' => 'form-control',
-                'type' => 'select', 'value' => $workStatuses]) !!}
-                @endif
-            </div>
-            <div class="form-group">
-                {!! Form::formInput('work_description', 'Εργασία:', $errors, ['class' => 'form-control', 'type' =>
-                'textarea', 'placeholder' => 'Περιγράψτε τη θέση σας στην παρούσα ή πιο πρόσφατη εργασία.']) !!}
-            </div>
-
-            <div class="form-group">
-                {!! Form::formInput('participation_reason', 'Λόγος συμμετοχής:', $errors, ['class' => 'form-control',
-                'required' => 'true', 'type' => 'textarea', 'placeholder' => 'Περιγράψτε τους λόγους που θέλετε να γίνετε εθελοντής.']) !!}
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                {!! Form::formInput('participation_actions', 'Εθελοντική οργάνωση:', $errors, ['class' =>
-                'form-control',
-                'type' => 'textarea', 'placeholder' => 'Εαν ανήκετε ή ανήκατε σε κάποιες εθελοντικές οργανώσεις ποιο ήταν το αντικείμενο τους και για πόσο χρονικό διάστημα είχατε συμετοχή.']) !!}
-            </div>
-            <div class="form-group">
-                {!! Form::formInput('participation_previous', 'Εθελοντικές δράσεις:', $errors, ['class' =>
-                'form-control', 'type' => 'textarea', 'placeholder' => 'Εαν έχετε πάρει μέρος σε εθελοντικές δράσεις στο παρελθόν περιγράψτε ποιο ήταν/είναι το αντικείμενο.']) !!}
-            </div>
-        </div>
+        {{-- Extras--}}
+        @if(in_array('knows_office', $extras))
+            @include($extrasPath.'._work_and_volunteering')
+        @else
+          @include('main.volunteers.partials.form_defaults._work_and_volunteering')
+        @endif
     </div>
 </div>
 <!-- tab5 Διαθεσιμότητα. -->
@@ -277,12 +267,13 @@
             <p>Περιοχές ενδιαφερόντων:</p>
 
             <table class="table table-condensed table-bordered">
-               @foreach($interestCategories as $cat_id => $category)
+                @foreach($interestCategories as $cat_id => $category)
                 <tr>
-                <td>{{ $category->description }}</td>
-                    <td>@foreach($category->interests as $int_id => $interest)
+                    <td>{{ $category->description }}</td>
+                    <td>@foreach($category->interests as $interest)
                         <div class="form-group">
-                            @if (isset($volunteer) && in_array($int_id, $volunteer->interests->lists('id')->all()) )
+                            @if (isset($volunteer) && in_array($interest->id, $volunteer->interests->lists('id')->all())
+                            )
                             {!! Form::formInput('interest' . $interest->id, $interest->description , $errors, ['class'
                             =>
                             'form-control',
@@ -300,106 +291,12 @@
             </table>
         </div>
         <div class="col-md-3">
-            <div class="form-group">
-                @if (isset($volunteer))
-                {!! Form::formInput('availability_freqs_id', 'Συχνότητα συνεισφοράς:', $errors, ['class' =>
-                'form-control', 'type' => 'select', 'value' => $availabilityFreqs, 'key' =>
-                $volunteer->availability_freqs_id]) !!}
-                @else
-                {!! Form::formInput('availability_freqs_id', 'Συχνότητα συνεισφοράς:', $errors, ['class' =>
-                'form-control', 'type' => 'select', 'value' => $availabilityFreqs]) !!}
-                @endif
-            </div>
-
-
-            <table class="table table-condensed table-bordered">
-                <thead>
-                    <th>Ημέρα</th>
-                    <th>Πρωί</th>
-                    <th>Μεσημέρι</th>
-                    <th>Απόγευμα</th>
-                </thead>
-                <tr>
-                    <td>Δευτέρα</td>
-                     @foreach($availabilityTimes as $a_t_id => $availability_time)
-                    <td class="text-center">
-                        {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' =>
-                        'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
-                    </td>
-                        @endforeach
-                </tr>
-                <tr>
-                    <td>Τρίτη</td>
-                    @foreach($availabilityTimes as $a_t_id => $availability_time)
-                    <td class="text-center">
-                        {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' =>
-                        'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
-                    </td>
-                    @endforeach
-                </tr>
-                <tr>
-                    <td>Τετάρτη</td>
-                    @foreach($availabilityTimes as $a_t_id => $availability_time)
-                    <td class="text-center">
-                        {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' =>
-                        'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
-                    </td>
-                    @endforeach
-                </tr>
-                <tr>
-                    <td>Πέμπτη</td>
-                    @foreach($availabilityTimes as $a_t_id => $availability_time)
-                    <td class="text-center">
-                        {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' =>
-                        'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
-                    </td>
-                    @endforeach
-                </tr>
-                <tr>
-                    <td>Παρασκεύη</td>
-                    @foreach($availabilityTimes as $a_t_id => $availability_time)
-                    <td class="text-center">
-                        {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' =>
-                        'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
-                    </td>
-                    @endforeach
-                </tr>
-                <tr>
-                    <td>Σαββατο</td>
-                    @foreach($availabilityTimes as $a_t_id => $availability_time)
-                    <td class="text-center">
-                        {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' =>
-                        'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
-                    </td>
-                    @endforeach
-                </tr>
-                <tr>
-                    <td>Κυριακή</td>
-                    @foreach($availabilityTimes as $a_t_id => $availability_time)
-                    <td class="text-center">
-                        {!! Form::formInput('availability_time' . $a_t_id, '', $errors, ['class' =>
-                        'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
-                    </td>
-                    @endforeach
-                </tr>
-            </table>
-
-
-
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <p>Χρόνοι συνεισφοράς:</p>
-                @foreach($availabilityTimes as $a_t_id => $availability_time)
-                @if (isset($volunteer) && in_array($a_t_id, $volunteer->availabilityTimes->lists('id')->all()) )
-                {!! Form::formInput('availability_time' . $a_t_id, $availability_time, $errors, ['class' =>
-                'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'true']) !!}
-                @else
-                {!! Form::formInput('availability_time' . $a_t_id, $availability_time, $errors, ['class' =>
-                'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'false']) !!}
-                @endif
-                @endforeach
-            </div>
+            {{-- Extras--}}
+            @if(in_array('availability', $extras))
+            @include($extrasPath.'._availability')
+            @else
+            @include('main.volunteers.partials.form_defaults._availability')
+            @endif
         </div>
     </div>
 </div>
@@ -416,7 +313,7 @@
                 @if (isset($volunteer))
                 {!! Form::formInput('howYouLearned', 'Πως μάθατε για εμάς;', $errors, ['class' =>
                 'form-control', 'type' => 'select', 'value' => $howYouLearned, 'key' =>
-                $volunteer->marital_status_id]) !!}
+                $volunteer->how_you_learned_id]) !!}
                 @else
                 {!! Form::formInput('howYouLearned', 'Πως μάθατε για εμάς;', $errors, ['class' =>
                 'form-control', 'type' => 'select', 'value' => $howYouLearned]) !!}
@@ -433,7 +330,8 @@
 
                     @foreach($units as $unit_id => $unit)
                     <option value="{{ $unit->id }}" name="unit-{{$unit->id}}"
-                    {{ isset($volunteer) && in_array($unit->id, $volunteer->unitsExcludes->lists('id')->all()) ? 'selected'
+                    {{ isset($volunteer) && in_array($unit->id, $volunteer->unitsExcludes->lists('id')->all()) ?
+                    'selected'
                     :
                     '' }} >{{ $unit->description }}</option>
 
@@ -481,6 +379,10 @@
 
 @section('footerScripts')
 <script>
+
+    $("#daysTable").hide();
+
+
     $('#birth_date').datepicker({
         language: 'el',
         format: 'dd/mm/yyyy',
@@ -513,7 +415,32 @@
         $("#unit" + id).remove();
     });
 
+    //deselect the languages radio button
+    $("#cleanLanguages").click(function (e) {
+        $(".languages").parent().removeClass('checked');
+        $(".languages").prop('checked', false);
+        e.preventDefault();
+    });
 
+
+    $("#availability_freqs_id").change(function () {
+        var id = $("#availability_freqs_id option:selected").val();
+
+        if (id == 1) {
+            $("#daysTable").hide();
+            $("#dailyFrequencies").fadeIn();
+        } else {
+            $("#dailyFrequencies").hide();
+            $("#daysTable").fadeIn();
+        }
+    });
+
+
+    var freqsId = $("#availability_freqs_id option:selected").val();
+    if (freqsId == 2 || freqsId == 3 || freqsId == 4) {
+        $("#dailyFrequencies").hide();
+        $("#daysTable").fadeIn();
+    }
 
 
 </script>

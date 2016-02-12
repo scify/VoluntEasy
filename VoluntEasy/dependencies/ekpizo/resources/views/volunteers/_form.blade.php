@@ -452,7 +452,6 @@
         </div>
     </div>
 </div>
-</div>
 <!-- tab6 Comments -->
 <div class="tab-pane fade" id="tab6">
     <div class="row m-b-lg">

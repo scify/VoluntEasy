@@ -81,6 +81,12 @@
                         $errors, ['class' => 'form-control']) !!}
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {!! Form::formInput('afm', 'Α.Φ.Μ.:',
+                        $errors, ['class' => 'form-control']) !!}
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-6">

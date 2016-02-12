@@ -32,59 +32,55 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($timeline as $block)
-                    @if($block->type=='action')
+                    @foreach($actionsRatings as $action)
                     <tr>
-                        <td class="col-md-2"><a href="{{ url('actions/one/'.$block->action->id) }}">{{
-                                $block->action->description }}</a>
+                        <td class="col-md-2"><a href="{{ url('actions/one/'.$action->id) }}">{{ $action->description }}</a>
                         </td>
                         <td class="col-md-3">
-                            @if($block->action->name!=null && $block->action->name!='')
-                                {{ $block->action->name }} <br/>
+                            @if($action->name!=null && $action->name!='')
+                            {{ $action->name }} <br/>
                             @endif
-                            @if($block->action->email!=null && $block->action->email!='') <i
-                                class="fa fa-envelope"></i> <a href="mailto:{{ $block->action->email }}">{{
-                                $block->action->email }}</a>
+                            @if($action->email!=null && $action->email!='') <i
+                                class="fa fa-envelope"></i> <a href="mailto:{{ $action->email }}">{{$action->email }}</a>
                             @endif
-                            @if($block->action->phone_number!=null && $block->action->phone_number!='')
-                            <i class="fa fa-phone"></i> {{ $block->action->phone_number }}
+                            @if($action->phone_number!=null && $action->phone_number!='')
+                            <i class="fa fa-phone"></i> {{ $action->phone_number }}
                             @endif
                         </td>
                         <td class="col-md-2">
-                            {{ $block->action->start_date }} - {{ $block->action->end_date }}
+                            {{ $action->start_date }} - {{ $action->end_date }}
                         </td>
                         <td class="col-md-2">
-                            @if(sizeof($block->action->ratings)>0)
-                            {{ $block->action->ratings[0]->volunteerRatings[0]->hours<10 ? '0'.$block->action->ratings[0]->volunteerRatings[0]->hours : $block->action->ratings[0]->volunteerRatings[0]->hours }}:{{ $block->action->ratings[0]->volunteerRatings[0]->minutes<10 ? '0'.$block->action->ratings[0]->volunteerRatings[0]->minutes : $block->action->ratings[0]->volunteerRatings[0]->minutes }}
+                            @if(sizeof($action->ratings)>0 && isset($action->ratingHours) && isset($action->ratingMinutes))
+                            {{ $action->ratingHours<10 ? '0'.$action->ratingHours : $action->ratingHours }}:{{ $action->ratingMinutes<10 ? '0'.$action->ratingMinutes : $action->ratingMinutes }}
                             @else
                             <p style="color:#aaa;"><em>Δεν έχουν σημειωθεί ώρες απασχόλησης</em></p>
                             @endif
                         </td>
                         <td class="col-md-5">
-                            @if(sizeof($block->action->ratings)>0)
-                                @foreach($block->action->ratings[0]->volunteerRatings[0]->ratings as $i => $rating)
-                                            <span class="attribute rating" data-score="{{ $rating->rating }}"></span>
-                                            <small><span> {{ $rating->attribute->description }} </span></small>
-                                            <br/>
-                                @endforeach
+                            @if(sizeof($action->ratings)>0)
+                            @foreach($action->ratings as $i => $rating)
+                            <span class="attribute rating" data-score="{{ $rating['rating']/$action->ratingCount}}"></span>
+                            <small><span> {{ $i }} </span></small>
+                            <br/>
+                            @endforeach
                             @else
-                                <p style="color:#aaa;"><em>Δεν έχει γίνει αξιολόγηση</em></p>
+                            <p style="color:#aaa;"><em>Δεν έχει γίνει αξιολόγηση</em></p>
                             @endif
                         </td>
                         <td class="col-md-2">
-                            @if(sizeof($block->action->ratings)>0)
-                            {{ $block->action->ratings[0]->volunteerRatings[0]->comments }}
+                            @if(sizeof($action->ratings)>0 && isset($action->ratingComments) && $action->ratingComments!='')
+                            {{ $action->ratingComments }}
                             @else
                             <p style="color:#aaa;"><em>Δεν υπάρχουν σχόλια</em></p>
                             @endif
                         </td>
                     </tr>
-                    @endif
                     @endforeach
                     </tbody>
                 </table>
                 <hr/>
-                 <h3 class="text-right">Συνολικές ώρες απασχόλησης: <strong>{{ $totalWorkingHours['hours'] }} ώρες, {{ $totalWorkingHours['minutes'] }} λεπτά</strong></h3>
+                <h3 class="text-right">Συνολικές ώρες απασχόλησης: <strong>{{ $totalWorkingHours['hours'] }} ώρες, {{ $totalWorkingHours['minutes'] }} λεπτά</strong></h3>
                 @endif
             </div>
         </div>
