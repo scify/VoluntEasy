@@ -44,7 +44,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
-                {!! Form::submit('Αποθήκευση', ['class' => 'btn btn-success', 'id' => 'saveAction']) !!}
+                {!! Form::submit('Αποθήκευση', ['class' => 'btn btn-success', 'id' => 'storeSubTask']) !!}
                 {!! Form::close() !!}
             </div>
         </div>
@@ -54,9 +54,8 @@
 @section('footerScripts')
 
 <script>
-
-    $("#storeTask").click(function () {
-        console.log('clicky')
+/*
+    $("#storeSubTask").click(function () {
         if ($("#name").val() == null || $("#name").val() == '')
             $("#name_err").show();
         else {
@@ -72,7 +71,7 @@
             });
         }
     });
-
+*/
 </script>
 
 @append

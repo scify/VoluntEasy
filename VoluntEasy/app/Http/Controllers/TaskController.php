@@ -132,6 +132,16 @@ class TaskController extends Controller {
         return \Redirect::route('action/one', ['id' => \Request::get('actionId')]);
     }
 
+    public function updateSubTask() {
+
+        $status = Status::where('description', \Request::get('status'))->first()->id;
+
+        $subTask = SubTask::find(\Request::get('subtask_id'));
+        $subTask->update([\Request::all(), 'status_id' => $status]);
+
+        return;
+    }
+
     /**
      * For a certain action, get only the volunteers that
      * can be assigned to the action.

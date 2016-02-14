@@ -19,12 +19,12 @@ class TaskService {
 
             foreach ($task->subtasks as $subtask) {
 
-                if ($subtask->status_id == "1")
+                if ($subtask->status_id == 1)
                     array_push($todoSubtasks, $subtask);
-                else if ($subtask->status_id == "2")
-                    array_push($todoSubtasks, $subtask);
+                else if ($subtask->status_id == 2)
+                    array_push($doingSubtasks, $subtask);
                 else
-                    array_push($todoSubtasks, $subtask);
+                    array_push($doneSubtasks, $subtask);
             }
 
             unset($task->subtasks);

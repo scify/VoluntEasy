@@ -328,13 +328,13 @@ div#unitsTree{overflow-x: auto;}
 }
 .board .row{
     display: table;
+    width:100%
 }
 .board .row [class*="col-"] {
     float: none;
     display: table-cell;
     vertical-align: top;
 }
-
 .board-card{
     background-color: #F6F6F6;
     padding: 5px;
@@ -348,6 +348,9 @@ div#unitsTree{overflow-x: auto;}
 .board-card.priority-3{border-left: solid 3px #f2ca4c;}
 .board-card.priority-4{border-left: solid 3px #f25656;}
 
+.board .panel-default .panel-heading{
+    margin-top:8px;
+}
 
 /* public cta page*/
 .tasks .task{
