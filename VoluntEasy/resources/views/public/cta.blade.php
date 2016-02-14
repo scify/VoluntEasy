@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<?php $lang = "/default."; ?> {{--  resource label path --}}
+<html>
+<head>
+    <!-- Title -->
+    <title>Call to action | {{trans($lang.'title')}}</title>
+
+    @include('template.default.headerIncludes')
+</head>
+<body class="page-login" data-url="{!! URL::to('/') !!}">
+<main class="page-content">
+    <div class="page-inner">
+        <div id="main-wrapper">
+            <div class="row">
+                <div class="col-md-8 center">
+                    <div class="panel panel-white">
+                        <div class="panel-body">
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h2>{{ $action->description }}</h2>
+
+                                    <p>
+                                        <small>Από {{ $action->start_date }} έως {{ $action->end_date }}</small>
+                                    </p>
+                                    <p>{{ $action->comments }}</p>
+
+                                    <p>Υπεύθυνος επικοινωνίας: Test Test, 210-123456789, <a href="mailto:indo@test.gr">info@test.gr</a></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <img src="{{ asset('assets/images/volunteer_hands.png') }}" style="width:100%;"/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="cta tasks">
+                                        <h3>Ανάγκες δράσης</h3>
+
+                                        <div class="row task odd">
+                                            <div class="col-md-9">
+                                                <h4 class="title">Υποδοχή</h4>
+
+                                                <p class="description">Duis aute irure dolor in reprehenderit in
+                                                    voluptate velit esse
+                                                    cillu.</p>
+                                                <small class="dates">12 Φεβρουαρίου έως 16 Φεβρουαρίου, ώρες
+                                                    12:00-16:00
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button class="btn btn-info" data-toggle="modal"
+                                                        data-target="#i_am_interested">Ενδιαφέρομαι
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="row task even">
+                                            <div class="col-md-9">
+                                                <h4 class="title">Υποδοχή</h4>
+
+                                                <p class="description">Duis aute irure dolor in reprehenderit in
+                                                    voluptate velit esse
+                                                    cillu.</p>
+                                                <small class="dates">12 Φεβρουαρίου έως 16 Φεβρουαρίου, ώρες
+                                                    12:00-16:00
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button class="btn btn-info" data-toggle="modal"
+                                                        data-target="#i_am_interested">Ενδιαφέρομαι
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="row task odd">
+                                            <div class="col-md-9">
+                                                <h4 class="title">Υποδοχή</h4>
+
+                                                <p class="description">Duis aute irure dolor in reprehenderit in
+                                                    voluptate velit esse
+                                                    cillu.</p>
+                                                <small class="dates">12 Φεβρουαρίου έως 16 Φεβρουαρίου, ώρες
+                                                    12:00-16:00
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button class="btn btn-info" data-toggle="modal"
+                                                        data-target="#i_am_interested">Ενδιαφέρομαι
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Row -->
+        </div>
+        <!-- Main Wrapper -->
+    </div>
+    <!-- Page Inner -->
+    @include('public._i_am_interested')
+</main>
+<!-- Page Content -->
+@include('template.default.footerIncludes')
+<script>
+
+    $("#submit").click(function () {
+        if (validate()) {
+            var ratings = [];
+
+            $.each($(".question"), function (key, value) {
+                var group = $(this).attr('data-radio-group');
+
+                ratings.push({
+                    attrId: $("input:radio[name ='" + group + "']:checked").attr('data-attrId'),
+                    score: $("input:radio[name ='" + group + "']:checked").val()
+                });
+            });
+
+            //send data to server to save the ratings
+            $.ajax({
+                url: $("body").attr('data-url') + '/ratings/action/store',
+                method: 'POST',
+                data: {
+                    actionId: $("#actionInformation").attr('data-action-id'),
+                    actionScoreId: $("#actionInformation").attr('data-action-score-id'),
+                    comments: $("#comments").val(),
+                    ratings: ratings
+                },
+                headers: {
+                    'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+                },
+                success: function (data) {
+                    window.location.href = $("body").attr('data-url') + "/ratings/action/thankyou/" + data;
+                }
+            });
+        }
+    });
+
+
+    //check that all radio button have been selected
+    function validate() {
+        var $questions = $(".question");
+        if ($questions.find("input:radio:checked").length === $questions.length) {
+            $(".error-msg").css('visibility', 'hidden');
+            return true;
+        }
+        else {
+            $(".error-msg .error-msg-text").text('Παρακαλώ απαντήστε σε όλες τις ερωτήσεις');
+            $(".error-msg").css('visibility', 'visible');
+            return false;
+        }
+    }
+
+</script>
+@yield('footerScripts')
+</body>
+</html>

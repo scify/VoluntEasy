@@ -32,6 +32,15 @@ class TestController extends Controller {
 
     }
 
+    public function cta(){
+
+        $action = Action::find(1);
+
+        //return $action;
+
+        return view('public.cta', compact('action'));
+    }
+
 
     public function newVolunteers() {
         $volunteers = VolunteerService::getNew();

@@ -8,10 +8,8 @@ use App\Services\Facades\VolunteerService;
 
 class VolunteerApiController extends Controller {
 
-    private $volunteerService;
 
     public function __construct() {
-        $this->volunteerService =  \App::make('Interfaces\VolunteerInterface');
     }
 
     public function all() {
@@ -112,7 +110,9 @@ class VolunteerApiController extends Controller {
      * @return mixed
      */
     public function apiStore() {
-        return $this->volunteerService->apiStore();
+        $volunteerService = \App::make('Interfaces\VolunteerInterface');
+
+        return $volunteerService->apiStore();
     }
 
 

@@ -225,6 +225,7 @@ Route::get('test', 'TestController@test');
 Route::get('faker', 'TestController@faker');
 Route::get('boxytree', 'TestController@boxytree');
 Route::get('experiment', 'TestController@experiment');
+Route::get('cta', 'TestController@cta');
 
 
 Route::get('ekpizo', 'TestController@ekpizo');

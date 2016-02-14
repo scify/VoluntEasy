@@ -66,7 +66,7 @@ class AppServiceProvider extends ServiceProvider {
             //bind the volunteer service
             $this->app->bind(
                 'Interfaces\VolunteerInterface',
-                'Dependencies\municipality\services\VolunteerService'
+                'Dependencies\municipality\services\VolunteerServiceImpl'
             );
 
         } else if (env('MODE') == 'scify') {
@@ -86,7 +86,7 @@ class AppServiceProvider extends ServiceProvider {
             //bind the volunteer service
             $this->app->bind(
                 'Interfaces\VolunteerInterface',
-                'Dependencies\scify\services\VolunteerService'
+                'Dependencies\scify\services\VolunteerServiceImpl'
             );
         }
 

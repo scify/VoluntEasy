@@ -347,3 +347,31 @@ div#unitsTree{overflow-x: auto;}
 .board-card.priority-2{border-left: solid 3px #12AFCB;}
 .board-card.priority-3{border-left: solid 3px #f2ca4c;}
 .board-card.priority-4{border-left: solid 3px #f25656;}
+
+
+/* public cta page*/
+.tasks .task{
+    padding:5px;
+}
+.tasks .task.odd{
+    background-color:#F1F4F9;
+}
+.tasks .task.even{
+    background-color:#FDFDFD;
+}
+.tasks .task .title{
+    color: #2D7E73;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+.tasks .task .description{
+    margin-bottom: 3px;
+}
+.tasks .task button{
+    margin-top:20px;
+}
+
+input.width-45{
+    width:45%;
+    display:inline-block;
+}
