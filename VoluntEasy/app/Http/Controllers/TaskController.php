@@ -14,6 +14,19 @@ class TaskController extends Controller {
         $this->middleware('auth');
     }
 
+
+    /**
+     * View a certain task
+     *
+     * @param $id
+     * @return mixed
+     */
+    public function getTask($id) {
+        $task = Task::findOrFail($id);
+
+        return $task;
+    }
+
     /**
      * Show create form
      */
@@ -86,10 +99,10 @@ class TaskController extends Controller {
      */
     public function destroy($id) {
 
-        $task = Task::with('volunteers')->findOrFail($id);
+        $task = Task::with('subtasks')->findOrFail($id);
 
-        if (sizeof($task->volunteers) > 0) {
-            \Session::flash('flash_message', 'Το task περιέχει εθελοντές και δεν μπορεί να διαγραφεί.');
+        if (sizeof($task->subtasks) > 0) {
+            \Session::flash('flash_message', 'Το task περιέχει subtasks και δεν μπορεί να διαγραφεί.');
             \Session::flash('flash_type', 'alert-danger');
             return;
         }

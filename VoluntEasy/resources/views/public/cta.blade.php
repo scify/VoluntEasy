@@ -16,20 +16,26 @@
                     <div class="panel panel-white">
                         <div class="panel-body">
 
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img src="{{ asset('assets/images/ekpizo.png') }}" style="width:100%;"/>
+                                </div>
+                            </div>
 
                             <div class="row">
-                                <div class="col-md-6">
-                                    <h2>{{ $action->description }}</h2>
+                                <div class="col-md-12">
+                                    <h2>Κάλεσμα εθελοντών στη δράση <strong>{{ $action->description }}</strong></h2>
 
-                                    <p>
-                                        <small>Από {{ $action->start_date }} έως {{ $action->end_date }}</small>
-                                    </p>
+                                    <p>Από <strong>{{ $action->start_date }}</strong> έως <strong>{{ $action->end_date }}</strong> στην <a href="#">Τεχνόπολη</a></p>
                                     <p>{{ $action->comments }}</p>
 
-                                    <p>Υπεύθυνος επικοινωνίας: Test Test, 210-123456789, <a href="mailto:indo@test.gr">info@test.gr</a></p>
+                                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+
+                                    <p>Υπεύθυνος επικοινωνίας: Test Test, 210-123456789, <a href="mailto:indo@test.gr">info@test.gr</a>
+                                    </p>
                                 </div>
                                 <div class="col-md-6">
-                                    <img src="{{ asset('assets/images/volunteer_hands.png') }}" style="width:100%;"/>
+                                   {{-- <img src="{{ asset('assets/images/volunteer_hands.png') }}" style="width:100%;"/> --}}
                                 </div>
                             </div>
 

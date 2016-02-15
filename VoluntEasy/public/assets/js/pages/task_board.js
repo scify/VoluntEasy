@@ -99,6 +99,25 @@ $("#updateSubTask").click(function (e) {
     }
 });
 
+//populate the edit task modal with data before displaying it
+function editTask(taskId) {
+
+    //fetch the subtask data to show in the modal
+    $.ajax({
+        method: 'GET',
+        url: $("body").attr('data-url') + "/actions/tasks/one/" + taskId,
+        success: function (result) {
+            $("#editTask #taskId").val(result.id);
+            $("#editTask #name").val(result.name);
+            $("#editTask #description").val(result.description);
+            $("#editTask #priorities option[value='" + result.priority + "']").prop('selected', true);
+        }
+    });
+
+    //show modal
+    $('#editTask').modal('show');
+}
+
 //populate the edit subtask modal with data before displaying it
 function editSubTask(subTaskId) {
 
@@ -118,6 +137,20 @@ function editSubTask(subTaskId) {
     //show modal
     $('#editSubTask').modal('show');
 }
+
+//delete a task
+$("#deleteTask"). click(function(){
+    if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε το task;") == true) {
+
+        $.ajax({
+            method: 'GET',
+            url: $("body").attr('data-url') + "/actions/tasks/delete/" + $("#taskId").val(),
+            success: function (result) {
+                location.reload();
+            }
+        });
+    }
+});
 
 //delete a subtask
 $("#deleteSubTask"). click(function(){

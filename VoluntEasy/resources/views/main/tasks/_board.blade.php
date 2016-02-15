@@ -28,9 +28,10 @@
                                         <a data-toggle="collapse" data-parent="#accordion"
                                            href="#collapse-{{ $task->id }}"
                                            aria-expanded="false" aria-controls="collapse-{{ $task->id }}"
-                                           class="collapsed">
-                                            {{ $task->name }}
+                                           class="arrow collapsed">
                                         </a>
+
+                                        <a href="#" class="title" onclick="editTask({{ $task->id }})">{{ $task->name }}</a>
 
                                         @if(sizeof($task->todoSubtasks) > 0  && sizeof($task->doingSubtasks)==0 && sizeof($task->doneSubtasks)==0)
                                             <span class="status todo">TO DO</span>
@@ -92,7 +93,7 @@
                                         </div>
 
                                         <div class="row top-margin">
-                                            <div class="col-md-12 subtask text-right">
+                                            <div class="col-md-12 subtask">
                                                 <a href="#" data-toggle="modal" data-target="#addSubTask"
                                                    data-task-id="{{$task->id}}" class="addSubTask"><i
                                                         class="fa fa-plus"></i> Προσθήκη subtask</a>
@@ -121,6 +122,7 @@
 </div>
 
 @include('main.tasks.modals._add_task')
+@include('main.tasks.modals._edit_task')
 @include('main.tasks.modals._add_subtask')
 @include('main.tasks.modals._edit_subtask')
 

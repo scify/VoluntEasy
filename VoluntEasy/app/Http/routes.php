@@ -88,6 +88,7 @@ Route::post('actions/search', 'ActionController@search');
 ////////////////
 //Task Routes //
 ////////////////
+Route::get('actions/tasks/one/{id}', 'TaskController@getTask');
 Route::get('actions/tasks/edit/{taskId}', 'TaskController@edit');
 Route::post('actions/tasks/store', 'TaskController@store');
 Route::post('actions/tasks/update', 'TaskController@update');

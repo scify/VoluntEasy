@@ -343,6 +343,7 @@ div#unitsTree{overflow-x: auto;}
     border: solid 1px #DBE0E8;
     margin-bottom:10px;
     border-radius:2px;
+    cursor:move;
 }
 
 .board-card.priority-1{border-left: solid 3px #AEAEAE;}
@@ -355,7 +356,11 @@ div#unitsTree{overflow-x: auto;}
     background-color:#ffffff;
 }
 
-.board .panel-group .panel-heading .panel-title > a:before {
+.board .panel-group .panel-heading .panel-title > a.title {
+     color: #337ab7;
+}
+
+.board .panel-group .panel-heading .panel-title > a.arrow:before {
     font-family: 'FontAwesome';
     content: "\f107";
     right: 0;
@@ -366,7 +371,7 @@ div#unitsTree{overflow-x: auto;}
     font-weight: 600;
 }
 
-.board .panel-group .panel-heading .panel-title > a.collapsed:before {
+.board .panel-group .panel-heading .panel-title > a.collapsed.arrow:before {
     content: "\f105";
 }
 
