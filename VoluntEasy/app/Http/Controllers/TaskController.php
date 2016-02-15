@@ -21,7 +21,6 @@ class TaskController extends Controller {
         $volunteers = $this->getAvailableVolunteers($actionId);
 
         return view('main.tasks.create', compact('actionId', 'volunteers'));
-
     }
 
     /**
@@ -43,7 +42,7 @@ class TaskController extends Controller {
 
         $task->save();
 
-        return \Redirect::route('action/one', ['id' => $request['actionId']]);
+        return $task;
     }
 
     /**
@@ -114,14 +113,20 @@ class TaskController extends Controller {
         ]);
     }
 
-    public function addSubTask() {
+    public function getSubtask($id) {
+        $subTask = SubTask::findOrFail($id);
+
+        return $subTask;
+    }
+
+    public function storeSubTask() {
 
         $todo = Status::todo();
 
         $subTask = new SubTask([
-            'name' => \Request::get('name'),
-            'description' => \Request::get('description'),
-            'priority' => \Request::get('priority'),
+            'name' => \Request::get('subtask-name'),
+            'description' => \Request::get('subtask-description'),
+            'priority' => \Request::get('subtask-priorities'),
             'task_id' => \Request::get('taskId'),
             'action_id' => \Request::get('actionId'),
             'status_id' => $todo
@@ -129,15 +134,27 @@ class TaskController extends Controller {
 
         $subTask->save();
 
-        return \Redirect::route('action/one', ['id' => \Request::get('actionId')]);
+        return;
     }
 
     public function updateSubTask() {
 
-        $status = Status::where('description', \Request::get('status'))->first()->id;
+        $subTask = SubTask::find(\Request::get('subTaskId'));
 
-        $subTask = SubTask::find(\Request::get('subtask_id'));
-        $subTask->update([\Request::all(), 'status_id' => $status]);
+        $subTask->update([
+            'name' => \Request::get('subtask-name'),
+            'description' => \Request::get('subtask-description'),
+            'priority' => \Request::get('subtask-priorities')]);
+
+        return;
+    }
+
+    public function updateSubTaskStatus() {
+
+        $subTask = SubTask::find(\Request::get('subTaskId'));
+
+        $status = Status::where('description', \Request::get('status'))->first()->id;
+        $subTask->update(['status_id' => $status]);
 
         return;
     }

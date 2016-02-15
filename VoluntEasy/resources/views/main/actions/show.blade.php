@@ -23,14 +23,14 @@
             <div role="tabpanel">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#tab1" role="tab" data-toggle="tab"
-                                                              aria-expanded="true">Στοιχεία Δράσης</a></li>
-                    <li role="presentation"><a href="#tab2" role="tab" data-toggle="tab" aria-expanded="false">Task
+                    <li role="presentation"><a href="#tab1" role="tab" data-toggle="tab"
+                                                              aria-expanded="false">Στοιχεία Δράσης</a></li>
+                    <li role="presentation" class="active"><a href="#tab2" role="tab" data-toggle="tab" aria-expanded="true">Task
                             Board</a></li>
                 </ul>
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="tab1">
+                    <div role="tabpanel" class="tab-pane" id="tab1">
                         <div class="row">
                             <div class="col-md-4">
                                 <h3>Δράση <span data-action-id="{{ $action->id }}"
@@ -120,7 +120,7 @@
                             </div>
                         @endif
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="tab2">
+                    <div role="tabpanel" class="tab-pane active" id="tab2">
                         @include('main.tasks._board')
                     </div>
                 </div>

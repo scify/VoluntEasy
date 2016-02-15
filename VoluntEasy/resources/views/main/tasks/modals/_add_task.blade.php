@@ -61,28 +61,3 @@
         </div>
     </div>
 </div>
-
-@section('footerScripts')
-
-<script>
-
-    $("#storeTask").click(function () {
-        if ($("#name").val() == null || $("#name").val() == '')
-            $("#name_err").show();
-        else {
-            $("#name_err").hide();
-
-            $.ajax({
-                url: $("body").attr('data-url') + "/actions/task/create",
-                method: 'GET',
-                data: $("#createTask").serialize(),
-                success: function (result) {
-                    location.reload();
-                }
-            });
-        }
-    });
-
-</script>
-
-@append

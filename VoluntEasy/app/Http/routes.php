@@ -88,14 +88,14 @@ Route::post('actions/search', 'ActionController@search');
 ////////////////
 //Task Routes //
 ////////////////
-Route::get('actions/{actionId}/tasks/create', 'TaskController@create');
-Route::get('actions/tasks/{taskId}/edit', 'TaskController@edit');
+Route::get('actions/tasks/edit/{taskId}', 'TaskController@edit');
 Route::post('actions/tasks/store', 'TaskController@store');
 Route::post('actions/tasks/update', 'TaskController@update');
 Route::get('actions/tasks/delete/{id}', 'TaskController@destroy');
-Route::post('actions/tasks/{id}/addVolunteer', 'TaskController@addVolunteer');
-Route::post('actions/tasks/subtasks/create', 'TaskController@addSubTask');
-Route::get('actions/tasks/subtasks/update', 'TaskController@updateSubTask');
+Route::get('actions/tasks/subtasks/one/{id}', 'TaskController@getSubTask');
+Route::post('actions/tasks/subtasks/store', 'TaskController@storeSubTask');
+Route::post('actions/tasks/subtasks/update', 'TaskController@updateSubTask');
+Route::get('actions/tasks/subtasks/updateStatus', 'TaskController@updateSubTaskStatus');
 
 
 //////////////////////////
