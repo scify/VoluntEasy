@@ -18,4 +18,8 @@ class SubTask extends Model {
     public function status() {
         return $this->hasOne('App\Models\ActionTasks\Status', 'id', 'status_id');
     }
+
+    public function volunteers(){
+        return $this->hasMany('App\Models\Volunteer', 'id', 'volunteer_id');
+    }
 }

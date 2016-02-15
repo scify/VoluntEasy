@@ -113,12 +113,21 @@ class TaskController extends Controller {
         ]);
     }
 
+    /**
+     * View a certain subtask
+     *
+     * @param $id
+     * @return mixed
+     */
     public function getSubtask($id) {
         $subTask = SubTask::findOrFail($id);
 
         return $subTask;
     }
 
+    /**
+     * Store a subtask
+     */
     public function storeSubTask() {
 
         $todo = Status::todo();
@@ -137,6 +146,9 @@ class TaskController extends Controller {
         return;
     }
 
+    /**
+     * Update a subtask
+     */
     public function updateSubTask() {
 
         $subTask = SubTask::find(\Request::get('subTaskId'));
@@ -149,12 +161,40 @@ class TaskController extends Controller {
         return;
     }
 
+    /**
+     * Update a subtask's status
+     */
     public function updateSubTaskStatus() {
 
         $subTask = SubTask::find(\Request::get('subTaskId'));
 
         $status = Status::where('description', \Request::get('status'))->first()->id;
         $subTask->update(['status_id' => $status]);
+
+        return;
+    }
+
+
+    /**
+     * Delete a subtask
+     *
+     * @param $id
+     * @throws \Exception
+     */
+    public function deleteSubTask($id) {
+
+        $subTask = SubTask::with('volunteers')->find($id);
+
+        if (sizeof($subTask->volunteers) > 0) {
+            \Session::flash('flash_message', 'Το subtask περιέχει εθελοντές και δεν μπορεί να διαγραφεί.');
+            \Session::flash('flash_type', 'alert-danger');
+            return;
+        }
+
+        \Session::flash('flash_message', 'Το subtask διαγράφηκε.');
+        \Session::flash('flash_type', 'alert-success');
+
+        $subTask->delete();
 
         return;
     }

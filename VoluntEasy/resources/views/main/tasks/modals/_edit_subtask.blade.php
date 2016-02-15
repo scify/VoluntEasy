@@ -19,8 +19,9 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
                 {!! Form::submit('Αποθήκευση', ['class' => 'btn btn-success', 'id' => 'updateSubTask']) !!}
+                <button type="button" class="btn btn-danger" id="deleteSubTask">Διαγραφή</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
                 {!! Form::close() !!}
             </div>
         </div>

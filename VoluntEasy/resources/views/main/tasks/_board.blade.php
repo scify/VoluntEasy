@@ -31,6 +31,16 @@
                                            class="collapsed">
                                             {{ $task->name }}
                                         </a>
+
+                                        @if(sizeof($task->todoSubtasks) > 0  && sizeof($task->doingSubtasks)==0 && sizeof($task->doneSubtasks)==0)
+                                            <span class="status todo">TO DO</span>
+                                        @elseif(sizeof($task->doneSubtasks) > 0  && sizeof($task->doingSubtasks)==0 && sizeof($task->todoSubtasks)==0)
+                                             <span class="status done">DONE</span>
+                                        @elseif(sizeof($task->doingSubtasks) > 0)
+                                            <span class="status doing">DOING</span>
+                                        @endif
+
+                                        <small> {{ sizeof($task->subtasks) }} subtasks</small>
                                     </h4>
                                 </div>
                                 <div id="collapse-{{ $task->id }}" class="panel-collapse collapse"

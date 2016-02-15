@@ -118,3 +118,17 @@ function editSubTask(subTaskId) {
     //show modal
     $('#editSubTask').modal('show');
 }
+
+//delete a subtask
+$("#deleteSubTask"). click(function(){
+    if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε το subtask;") == true) {
+
+        $.ajax({
+            method: 'GET',
+            url: $("body").attr('data-url') + "/actions/tasks/subtasks/delete/" + $("#subTaskId").val(),
+            success: function (result) {
+                location.reload();
+            }
+        });
+    }
+});

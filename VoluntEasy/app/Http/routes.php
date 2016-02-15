@@ -96,6 +96,7 @@ Route::get('actions/tasks/subtasks/one/{id}', 'TaskController@getSubTask');
 Route::post('actions/tasks/subtasks/store', 'TaskController@storeSubTask');
 Route::post('actions/tasks/subtasks/update', 'TaskController@updateSubTask');
 Route::get('actions/tasks/subtasks/updateStatus', 'TaskController@updateSubTaskStatus');
+Route::get('actions/tasks/subtasks/delete/{id}', 'TaskController@deleteSubTask');
 
 
 //////////////////////////

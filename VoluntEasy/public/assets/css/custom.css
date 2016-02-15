@@ -323,6 +323,7 @@ div#unitsTree{overflow-x: auto;}
 }
 
 /* Task board */
+
 .statuses{
     height:100%;
 }
@@ -341,6 +342,7 @@ div#unitsTree{overflow-x: auto;}
     width: 80%;
     border: solid 1px #DBE0E8;
     margin-bottom:10px;
+    border-radius:2px;
 }
 
 .board-card.priority-1{border-left: solid 3px #AEAEAE;}
@@ -349,7 +351,45 @@ div#unitsTree{overflow-x: auto;}
 .board-card.priority-4{border-left: solid 3px #f25656;}
 
 .board .panel-default .panel-heading{
-    margin-top:8px;
+    margin-top:0px;
+    background-color:#ffffff;
+}
+
+.board .panel-group .panel-heading .panel-title > a:before {
+    font-family: 'FontAwesome';
+    content: "\f107";
+    right: 0;
+    color: #777;
+    height: 15px;
+    top: 50%;
+    margin-top: -7.5px;
+    font-weight: 600;
+}
+
+.board .panel-group .panel-heading .panel-title > a.collapsed:before {
+    content: "\f105";
+}
+
+.board .panel-group .panel-heading .panel-title > a:after,  .panel-group .panel-heading .panel-title > a.collapsed:after {
+    content: "";
+}
+
+.status{
+    font-size: 12px;
+    color: #fff;
+    padding: 0 2px;
+    margin: 0 3px;
+}
+.status.todo{
+    background-color: #12AFCB;
+}
+
+.status.doing{
+    background-color: #E26E27;
+}
+
+.status.done{
+    background-color: #22BAA0;
 }
 
 /* public cta page*/
