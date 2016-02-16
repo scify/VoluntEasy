@@ -14,7 +14,7 @@ class Task extends Model {
 
     protected $table = 'tasks';
 
-    protected $fillable = ['description', 'name', 'isComplete', 'action_id', 'priority'];
+    protected $fillable = ['description', 'name', 'isComplete', 'action_id', 'priority', 'due_date', 'status_id'];
 
 
     public function action() {
@@ -27,5 +27,13 @@ class Task extends Model {
 
     public function subtasks() {
         return $this->hasMany('App\Models\ActionTasks\SubTask');
+    }
+
+    public function status() {
+        return $this->hasOne('App\Models\ActionTasks\Status', 'id', 'status_id');
+    }
+
+    public function getDueDateAttribute() {
+        return \Carbon::parse($this->attributes['due_date'])->format('d/m/Y');
     }
 }

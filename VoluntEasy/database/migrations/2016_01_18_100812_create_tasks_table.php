@@ -1,25 +1,32 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTasksTable extends Migration
-{
+class CreateTasksTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
 
-        Schema::create('tasks', function($table)
-        {
+
+        Schema::create('task_statuses', function ($table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('description')->nullable();
+            $table->string('description');
+        });
+
+
+        Schema::create('tasks', function ($table) {
+            $table->increments('id');
+            $table->string('name', 300);
+            $table->string('description', 1000)->nullable();
             $table->boolean('isComplete')->default(false);
             $table->integer('priority')->default(2);
+            $table->date('due_date')->nullable();
+
+            $table->integer('status_id')->unsigned()->default(1);
+            $table->foreign('status_id')->references('id')->on('task_statuses');
 
             $table->integer('action_id')->unsigned();
             $table->foreign('action_id')->references('id')->on('actions');
@@ -28,19 +35,12 @@ class CreateTasksTable extends Migration
         });
 
 
-        Schema::create('task_statuses', function($table)
-        {
-            $table->increments('id');
-            $table->string('description');
-        });
-
-
-        Schema::create('subtasks', function($table)
-        {
+        Schema::create('subtasks', function ($table) {
             $table->increments('id');
             $table->string('name', 300);
-            $table->string('description', 500)->nullable();
-            $table->integer('priority')->default(3);
+            $table->string('description', 1000)->nullable();
+            $table->integer('priority')->default(2);
+            $table->date('due_date')->nullable();
 
             $table->integer('task_id')->unsigned();
             $table->foreign('task_id')->references('id')->on('tasks');
@@ -55,8 +55,7 @@ class CreateTasksTable extends Migration
         });
 
 
-        Schema::create('volunteer_subtasks', function($table)
-        {
+        Schema::create('volunteer_subtasks', function ($table) {
             $table->increments('id');
             $table->string('description', 500)->nullable();
 
@@ -69,8 +68,7 @@ class CreateTasksTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('volunteer_task_availabilities', function($table)
-        {
+        Schema::create('volunteer_task_availabilities', function ($table) {
             $table->increments('id');
             $table->string('volunteer_email');
             $table->string('day');
@@ -88,8 +86,7 @@ class CreateTasksTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('volunteer_tasks');
         Schema::dropIfExists('volunteer_task_availabilities');
         Schema::dropIfExists('volunteer_subtasks');

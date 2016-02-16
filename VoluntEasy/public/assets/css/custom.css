@@ -347,9 +347,15 @@ div#unitsTree{overflow-x: auto;}
 }
 
 .board-card.priority-1{border-left: solid 3px #AEAEAE;}
-.board-card.priority-2{border-left: solid 3px #12AFCB;}
-.board-card.priority-3{border-left: solid 3px #f2ca4c;}
+.board-card.priority-2{border-left: solid 3px #f2ca4c;}
+.board-card.priority-3{border-left: solid 3px #E26E27;}
 .board-card.priority-4{border-left: solid 3px #f25656;}
+
+i.priority-1{color: #AEAEAE;}
+i.priority-2{color: #f2ca4c;}
+i.priority-3{color: #E26E27;}
+i.priority-4{color: #f25656;}
+
 
 .board .panel-default .panel-heading{
     margin-top:0px;

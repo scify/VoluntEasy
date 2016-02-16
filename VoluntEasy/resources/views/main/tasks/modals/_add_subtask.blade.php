@@ -3,7 +3,7 @@
 <!-- Modal -->
 <div class="modal fade" id="addSubTask" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel">
-    <div class="modal-dialog " role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -11,7 +11,7 @@
                 <h4 class="modal-title">Προσθήκη sub-task</h4>
             </div>
             <div class="modal-body">
-                {!! Form::open(['id' => 'createSubTask', 'method' => 'POST', 'action' => ['TaskController@storeSubTask']]) !!}
+                {!! Form::open(['id' => 'createSubTask', 'method' => 'POST', 'action' => ['SubTaskController@store']]) !!}
                 @include('main.tasks.modals._subtask_form')
             </div>
             <div class="modal-footer">

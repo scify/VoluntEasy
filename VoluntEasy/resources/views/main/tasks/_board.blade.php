@@ -30,7 +30,6 @@
                                            aria-expanded="false" aria-controls="collapse-{{ $task->id }}"
                                            class="arrow collapsed">
                                         </a>
-
                                         <a href="#" class="title" onclick="editTask({{ $task->id }})">{{ $task->name }}</a>
 
                                         @if(sizeof($task->todoSubtasks) > 0  && sizeof($task->doingSubtasks)==0 && sizeof($task->doneSubtasks)==0)
@@ -42,6 +41,9 @@
                                         @endif
 
                                         <small> {{ sizeof($task->subtasks) }} subtasks</small>
+
+                                        <i class="fa fa-arrow-up priority-{{$task->priority}}"></i>
+
                                     </h4>
                                 </div>
                                 <div id="collapse-{{ $task->id }}" class="panel-collapse collapse"
@@ -57,9 +59,9 @@
                                                      data-task="{{ $task->id }}"
                                                      data-subtask="{{ $subtask->id }}" data-status="todo">
                                                     <p><a href="#" onclick="editSubTask({{ $subtask->id }})">{{$subtask->name}}</a>
-                                                        <span class="pull-right text-danger"><small>31-jan
+                                                        <span class="pull-right text-danger"><small>{{ $subtask->due_date }}
                                                             </small></span></p>
-                                                    <small class="text-left">2/12 εθελοντές</small>
+                                                    <small class="text-left">{{ sizeof($subtask->volunteers) }}/12 εθελοντές</small>
                                                 </div>
                                                 @endforeach
                                             </div>
@@ -70,9 +72,9 @@
                                                      data-task="{{ $task->id }}"
                                                      data-subtask="{{ $subtask->id }}" data-status="todo">
                                                     <p><a href="#" onclick="editSubTask({{ $subtask->id }})">{{$subtask->name}}</a>
-                                                        <span class="pull-right text-danger"><small>31-jan
+                                                        <span class="pull-right text-danger"><small>{{ $subtask->due_date }}
                                                             </small></span></p>
-                                                    <small class="text-left">2/12 εθελοντές</small>
+                                                    <small class="text-left">{{ sizeof($subtask->volunteers) }}/12 εθελοντές</small>
                                                 </div>
                                                 @endforeach
                                             </div>
@@ -83,9 +85,9 @@
                                                      data-task="{{ $task->id }}"
                                                      data-subtask="{{ $subtask->id }}" data-status="todo">
                                                     <p><a href="#" onclick="editSubTask({{ $subtask->id }})">{{$subtask->name}}</a>
-                                                        <span class="pull-right text-danger"><small>31-jan
+                                                        <span class="pull-right text-danger"><small>{{ $subtask->due_date }}
                                                             </small></span></p>
-                                                    <small class="text-left">2/12 εθελοντές</small>
+                                                    <small class="text-left">{{ sizeof($subtask->volunteers) }}/12 εθελοντές</small>
                                                 </div>
                                                 @endforeach
                                             </div>

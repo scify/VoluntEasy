@@ -3,7 +3,7 @@
 <!-- Modal -->
 <div class="modal fade" id="editSubTask" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel">
-    <div class="modal-dialog " role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -11,7 +11,7 @@
                 <h4 class="modal-title">Επεξεργασία sub-task</h4>
             </div>
             <div class="modal-body">
-                {!! Form::model(null, ['id' => 'editSubTaskForm', 'method' => 'POST', 'action' => ['TaskController@updateSubTask']]) !!}
+                {!! Form::model(null, ['id' => 'editSubTaskForm', 'method' => 'POST', 'action' => ['SubTaskController@update']]) !!}
 
                 <input type="hidden" name="subTaskId" id="subTaskId" value="">
 

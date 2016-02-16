@@ -1,23 +1,33 @@
 <input type="hidden" name="actionId" id="actionId" value="{{$action->id}}">
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="form-group">
             {!! Form::formInput('name', 'Όνομα task:', $errors, ['class' => 'form-control',
             'required' => 'true']) !!}
             <p class="text-danger" id="name_err" style="display:none;">Συμπληρώστε το πεδίο.</p>
         </div>
     </div>
-    <div class="col-md-3">
+    {{--
+    <div class="col-md-4">
         <div class="form-group">
-            <p>Κατάσταση:</p>
-            <input type="radio" name="status" id="complete" value="complete">
-            <label for="complete">Ολοκληρωμένο</label><br/>
-            <input type="radio" name="status" id="incomplete" value="incomplete" checked>
-            <label for="incomplete">Μη ολοκληρωμένο</label>
+            <label>Κατάσταση:</label>
+            <select class="form-control m-b-sm" id="status" name="status">
+                @foreach($taskStatuses as $status)
+                <option value="{{ $status->id }}">{{ $status->description }}</option>
+                @endforeach
+            </select>
         </div>
     </div>
-    <div class="col-md-3">
+    --}}
+    <div class="col-md-4">
+        <div class="form-group">
+            <label>Λήγει στις:</label>
+            {!! Form::formInput('due_date', '', $errors, ['id' => 'due_date', 'class' => 'form-control date', 'data-date-start-date' => $action->start_date, 'data-date-end-date' => $action->end_date]) !!}
+
+        </div>
+    </div>
+    <div class="col-md-4">
         <label>Προτεραιότητα:</label>
         <select class="form-control m-b-sm" id="priorities" name="priority">
             <option value="4">{{ trans($lang.'priority-urgent')}}</option>

@@ -88,16 +88,20 @@ Route::post('actions/search', 'ActionController@search');
 ////////////////
 //Task Routes //
 ////////////////
-Route::get('actions/tasks/one/{id}', 'TaskController@getTask');
-Route::get('actions/tasks/edit/{taskId}', 'TaskController@edit');
+Route::get('actions/tasks/one/{id}', 'TaskController@show');
 Route::post('actions/tasks/store', 'TaskController@store');
 Route::post('actions/tasks/update', 'TaskController@update');
 Route::get('actions/tasks/delete/{id}', 'TaskController@destroy');
-Route::get('actions/tasks/subtasks/one/{id}', 'TaskController@getSubTask');
-Route::post('actions/tasks/subtasks/store', 'TaskController@storeSubTask');
-Route::post('actions/tasks/subtasks/update', 'TaskController@updateSubTask');
-Route::get('actions/tasks/subtasks/updateStatus', 'TaskController@updateSubTaskStatus');
-Route::get('actions/tasks/subtasks/delete/{id}', 'TaskController@deleteSubTask');
+
+
+////////////////////
+//SubTask Routes //
+//////////////////
+Route::get('actions/tasks/subtasks/one/{id}', 'SubTaskController@show');
+Route::post('actions/tasks/subtasks/store', 'SubTaskController@store');
+Route::post('actions/tasks/subtasks/update', 'SubTaskController@update');
+Route::get('actions/tasks/subtasks/updateStatus', 'SubTaskController@updateStatus');
+Route::get('actions/tasks/subtasks/delete/{id}', 'SubTaskController@destroy');
 
 
 //////////////////////////

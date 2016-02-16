@@ -1,8 +1,5 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests\TaskRequest;
-use App\Models\ActionTasks\Status;
-use App\Models\ActionTasks\SubTask;
 use App\Models\ActionTasks\Task;
 use App\Models\ActionTasks\VolunteerTask;
 use App\Models\Unit;
@@ -21,36 +18,34 @@ class TaskController extends Controller {
      * @param $id
      * @return mixed
      */
-    public function getTask($id) {
+    public function show($id) {
         $task = Task::findOrFail($id);
 
         return $task;
     }
 
     /**
-     * Show create form
-     */
-    public function create($actionId) {
-        $volunteers = $this->getAvailableVolunteers($actionId);
-
-        return view('main.tasks.create', compact('actionId', 'volunteers'));
-    }
-
-    /**
      * Store a new resource
      */
-    public function store(TaskRequest $request) {
+    public function store() {
 
-        $isComplete = false;
-        if ($request['status'] == 'complete')
-            $isComplete = true;
+        if(!\Request::has('status_id'))
+            $status_id = Status::todo();
+        else
+            $status_id = \Request::get('status_id');
+
+        if(\Request::has('subtask-due_date'))
+            $due_date = \Carbon::createFromFormat('d/m/Y', \Request::get('subtask-due_date'));
+        else
+            $due_date = null;
 
         $task = new Task([
-            'name' => $request['name'],
-            'description' => $request['description'],
-            'action_id' => $request['actionId'],
-            'isComplete' => $isComplete,
-            'priority' => $request['priority']
+            'name' => \Request::get('name'),
+            'description' => \Request::get('description'),
+            'action_id' => \Request::get('actionId'),
+            'priority' => \Request::get('priority'),
+            'status_id' => $status_id,
+            'due_date' => $due_date
         ]);
 
         $task->save();
@@ -58,40 +53,35 @@ class TaskController extends Controller {
         return $task;
     }
 
-    /**
-     * Show edit form
-     */
-    public function edit($taskId) {
-        $task = Task::findOrFail($taskId);
-        $taskStatuses = Status::all();
-
-        $unit = $this->getAvailableVolunteers($task->action_id);
-        $volunteers = $unit['volunteers']->lists('fullName', 'id');
-        $unitName = $unit['unit_name'];
-
-        return view('main.tasks.edit', compact('task', 'volunteers', 'unitName', 'taskStatuses'));
-    }
-
 
     /**
      * Update a resource
      */
-    public function update(TaskRequest $request) {
+    public function update() {
 
-        $task = Task::findOrFail($request['id']);
+        $task = Task::findOrFail(\Request::get('taskId'));
 
-        $isComplete = false;
-        if ($request['status'] == 'complete')
-            $isComplete = true;
+        if(!\Request::has('status_id'))
+            $status_id = Status::todo();
+        else
+            $status_id = \Request::get('status_id');
+
+        if(\Request::has('subtask-due_date'))
+            $due_date = \Carbon::createFromFormat('d/m/Y', \Request::get('subtask-due_date'));
+        else
+            $due_date = null;
 
         $task->update([
-            'name' => $request['name'],
-            'description' => $request['description'],
-            'action_id' => $request['actionId'],
-            'isComplete' => $isComplete
+            'name' => \Request::get('name'),
+            'description' => \Request::get('description'),
+            'action_id' => \Request::get('actionId'),
+            'priority' => \Request::get('priority'),
+            'status_id' => $status_id,
+            'due_date' => $due_date
         ]);
 
-        return \Redirect::route('action/one', ['id' => $request['actionId']]);
+
+        return \Redirect::route('action/one', ['id' => \Request::get('actionId')]);
     }
 
     /**
@@ -126,110 +116,6 @@ class TaskController extends Controller {
         ]);
     }
 
-    /**
-     * View a certain subtask
-     *
-     * @param $id
-     * @return mixed
-     */
-    public function getSubtask($id) {
-        $subTask = SubTask::findOrFail($id);
-
-        return $subTask;
-    }
-
-    /**
-     * Store a subtask
-     */
-    public function storeSubTask() {
-
-        $todo = Status::todo();
-
-        $subTask = new SubTask([
-            'name' => \Request::get('subtask-name'),
-            'description' => \Request::get('subtask-description'),
-            'priority' => \Request::get('subtask-priorities'),
-            'task_id' => \Request::get('taskId'),
-            'action_id' => \Request::get('actionId'),
-            'status_id' => $todo
-        ]);
-
-        $subTask->save();
-
-        return;
-    }
-
-    /**
-     * Update a subtask
-     */
-    public function updateSubTask() {
-
-        $subTask = SubTask::find(\Request::get('subTaskId'));
-
-        $subTask->update([
-            'name' => \Request::get('subtask-name'),
-            'description' => \Request::get('subtask-description'),
-            'priority' => \Request::get('subtask-priorities')]);
-
-        return;
-    }
-
-    /**
-     * Update a subtask's status
-     */
-    public function updateSubTaskStatus() {
-
-        $subTask = SubTask::find(\Request::get('subTaskId'));
-
-        $status = Status::where('description', \Request::get('status'))->first()->id;
-        $subTask->update(['status_id' => $status]);
-
-        return;
-    }
 
 
-    /**
-     * Delete a subtask
-     *
-     * @param $id
-     * @throws \Exception
-     */
-    public function deleteSubTask($id) {
-
-        $subTask = SubTask::with('volunteers')->find($id);
-
-        if (sizeof($subTask->volunteers) > 0) {
-            \Session::flash('flash_message', 'Το subtask περιέχει εθελοντές και δεν μπορεί να διαγραφεί.');
-            \Session::flash('flash_type', 'alert-danger');
-            return;
-        }
-
-        \Session::flash('flash_message', 'Το subtask διαγράφηκε.');
-        \Session::flash('flash_type', 'alert-success');
-
-        $subTask->delete();
-
-        return;
-    }
-
-    /**
-     * For a certain action, get only the volunteers that
-     * can be assigned to the action.
-     * Those are the volunteers assigned to the parent unit,
-     * whose status is either available or active.
-     *
-     * @param $actionId
-     * @return mixed
-     */
-    private function getAvailableVolunteers($actionId) {
-        $unit = Unit::whereHas('allActions', function ($query) use ($actionId) {
-            $query->where('id', $actionId);
-        })->with(['volunteers' => function ($query) {
-            $query->active();
-        }, 'volunteers' => function ($query) {
-            $query->available();
-        }])->first();
-
-        return $unit;
-    }
 }

@@ -108,6 +108,7 @@ function editTask(taskId) {
         url: $("body").attr('data-url') + "/actions/tasks/one/" + taskId,
         success: function (result) {
             $("#editTask #taskId").val(result.id);
+            $("#editTask #due_date").datepicker("update", result.due_date);
             $("#editTask #name").val(result.name);
             $("#editTask #description").val(result.description);
             $("#editTask #priorities option[value='" + result.priority + "']").prop('selected', true);
@@ -130,7 +131,13 @@ function editSubTask(subTaskId) {
             $("#editSubTask #subTaskId").val(result.id);
             $("#editSubTask #subtask-name").val(result.name);
             $("#editSubTask #subtask-description").val(result.description);
+            $("#editSubTask #subtask-due_date").datepicker("update", result.due_date);
             $("#subtask-priorities option[value='" + result.priority + "']").prop('selected', true);
+
+            $.each(result.volunteers, function( index, value ) {
+                console.log(value.id)
+                $("#editSubTask #subtaskVolunteers option[value='" + value.id + "']").prop('selected', true);
+            });
         }
     });
 
@@ -139,7 +146,7 @@ function editSubTask(subTaskId) {
 }
 
 //delete a task
-$("#deleteTask"). click(function(){
+$("#deleteTask").click(function () {
     if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε το task;") == true) {
 
         $.ajax({
@@ -153,7 +160,7 @@ $("#deleteTask"). click(function(){
 });
 
 //delete a subtask
-$("#deleteSubTask"). click(function(){
+$("#deleteSubTask").click(function () {
     if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε το subtask;") == true) {
 
         $.ajax({
@@ -165,3 +172,12 @@ $("#deleteSubTask"). click(function(){
         });
     }
 });
+
+
+$('.date').datepicker({
+    language: 'el',
+    format: 'dd/mm/yyyy',
+    autoclose: true
+});
+
+$(".multiple").select2();

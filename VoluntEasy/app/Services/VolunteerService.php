@@ -215,6 +215,28 @@ class VolunteerService {
 
     }
 
+    /**
+     * For a certain action, get only the volunteers that
+     * can be assigned to the action.
+     * Those are the volunteers assigned to the parent unit,
+     * whose status is either available or active.
+     *
+     * @param $actionId
+     * @return mixed
+     */
+    public function getAvailableVolunteers($actionId) {
+        $unit = Unit::whereHas('allActions', function ($query) use ($actionId) {
+            $query->where('id', $actionId);
+        })->with(['volunteers' => function ($query) {
+            $query->active();
+        }, 'volunteers' => function ($query) {
+            $query->available();
+        }])->get();
+
+        return $unit;
+    }
+
+
 
     /**
      * Get the volunteer units and their actions,

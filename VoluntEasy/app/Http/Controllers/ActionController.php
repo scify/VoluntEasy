@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Session;
 
 class ActionController extends Controller {
 
+
     public function __construct() {
         $this->middleware('auth');
     }
@@ -89,6 +90,7 @@ class ActionController extends Controller {
         $volunteerIds = VolunteerService::volunteerIds($action->volunteers);
 
         $unitId = $action->unit_id;
+
         //get all volunteers to show in select box
         //those should be the volunteers that belong to the same unit
         //that the action belongs to
