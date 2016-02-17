@@ -12,6 +12,8 @@ class SubTask extends Model {
 
     protected $table = 'subtasks';
 
+    protected $dates = ['due_date'];
+
     protected $fillable = ['description', 'name', 'status_id', 'task_id', 'action_id', 'priority', 'due_date'];
 
     public function status() {
@@ -28,4 +30,6 @@ class SubTask extends Model {
         else
             return null;
     }
+
+
 }

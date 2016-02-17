@@ -17,7 +17,17 @@ class TaskService {
             $doingSubtasks = [];
             $doneSubtasks = [];
 
+            $today = \Carbon::today();
+
             foreach ($task->subtasks as $subtask) {
+                $subtask->expires = 'null';
+                if ($subtask->due_date != null) {
+                    $dueDate = \Carbon::createFromFormat('d/m/Y', $subtask->due_date);
+                    $dueDate->hour = 0;
+                    $dueDate->minute = 0;
+                    $dueDate->second = 0;
+                    $subtask->expires = $today->diffInDays($dueDate, false);
+                }
 
                 if ($subtask->status_id == 1)
                     array_push($todoSubtasks, $subtask);
@@ -31,6 +41,15 @@ class TaskService {
             $task->todoSubtasks = $todoSubtasks;
             $task->doingSubtasks = $doingSubtasks;
             $task->doneSubtasks = $doneSubtasks;
+
+            $task->expires = null;
+            if ($task->due_date != null) {
+                $dueDate = \Carbon::createFromFormat('d/m/Y', $task->due_date);
+                $dueDate->hour = 0;
+                $dueDate->minute = 0;
+                $dueDate->second = 0;
+                $task->expires = $today->diffInDays($dueDate, false);
+            }
         }
 
         return $action;

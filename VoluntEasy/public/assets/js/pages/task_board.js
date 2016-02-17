@@ -127,6 +127,7 @@ function editSubTask(subTaskId) {
         method: 'GET',
         url: $("body").attr('data-url') + "/actions/tasks/subtasks/one/" + subTaskId,
         success: function (result) {
+            console.log(result);
             $("#editSubTask #taskId").val(result.task_id);
             $("#editSubTask #subTaskId").val(result.id);
             $("#editSubTask #subtask-name").val(result.name);

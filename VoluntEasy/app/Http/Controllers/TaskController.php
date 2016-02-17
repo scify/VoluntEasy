@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Models\ActionTasks\Status;
 use App\Models\ActionTasks\Task;
 use App\Models\ActionTasks\VolunteerTask;
 use App\Models\Unit;
@@ -34,8 +35,8 @@ class TaskController extends Controller {
         else
             $status_id = \Request::get('status_id');
 
-        if(\Request::has('subtask-due_date'))
-            $due_date = \Carbon::createFromFormat('d/m/Y', \Request::get('subtask-due_date'));
+        if(\Request::has('task-due_date'))
+            $due_date = \Carbon::createFromFormat('d/m/Y', \Request::get('task-due_date'));
         else
             $due_date = null;
 
@@ -66,8 +67,8 @@ class TaskController extends Controller {
         else
             $status_id = \Request::get('status_id');
 
-        if(\Request::has('subtask-due_date'))
-            $due_date = \Carbon::createFromFormat('d/m/Y', \Request::get('subtask-due_date'));
+        if(\Request::has('due_date'))
+            $due_date = \Carbon::createFromFormat('d/m/Y', \Request::get('due_date'));
         else
             $due_date = null;
 

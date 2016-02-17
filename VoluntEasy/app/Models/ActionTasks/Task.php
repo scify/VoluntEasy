@@ -1,6 +1,5 @@
 <?php namespace App\Models\ActionTasks;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -13,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model {
 
     protected $table = 'tasks';
+
+    protected $dates = ['due_date'];
 
     protected $fillable = ['description', 'name', 'isComplete', 'action_id', 'priority', 'due_date', 'status_id'];
 
@@ -33,7 +34,12 @@ class Task extends Model {
         return $this->hasOne('App\Models\ActionTasks\Status', 'id', 'status_id');
     }
 
+
     public function getDueDateAttribute() {
-        return \Carbon::parse($this->attributes['due_date'])->format('d/m/Y');
+        if ($this->attributes['due_date'] != null)
+            return \Carbon::parse($this->attributes['due_date'])->format('d/m/Y');
+        else
+            return null;
     }
+
 }

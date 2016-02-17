@@ -30,20 +30,38 @@
                                            aria-expanded="false" aria-controls="collapse-{{ $task->id }}"
                                            class="arrow collapsed">
                                         </a>
-                                        <a href="#" class="title" onclick="editTask({{ $task->id }})">{{ $task->name }}</a>
+                                        <a href="#" class="title" onclick="editTask({{ $task->id }})">{{ $task->name
+                                            }}</a>
 
-                                        @if(sizeof($task->todoSubtasks) > 0  && sizeof($task->doingSubtasks)==0 && sizeof($task->doneSubtasks)==0)
-                                            <span class="status todo">TO DO</span>
-                                        @elseif(sizeof($task->doneSubtasks) > 0  && sizeof($task->doingSubtasks)==0 && sizeof($task->todoSubtasks)==0)
-                                             <span class="status done">DONE</span>
+                                        @if(sizeof($task->todoSubtasks) > 0 && sizeof($task->doingSubtasks)==0 &&
+                                        sizeof($task->doneSubtasks)==0)
+                                        <span class="status todo">TO DO</span>
+                                        @elseif(sizeof($task->doneSubtasks) > 0 && sizeof($task->doingSubtasks)==0 &&
+                                        sizeof($task->todoSubtasks)==0)
+                                        <span class="status done">DONE</span>
                                         @elseif(sizeof($task->doingSubtasks) > 0)
-                                            <span class="status doing">DOING</span>
+                                        <span class="status doing">DOING</span>
                                         @endif
 
                                         <small> {{ sizeof($task->subtasks) }} subtasks</small>
 
                                         <i class="fa fa-arrow-up priority-{{$task->priority}}"></i>
 
+                                         <span>
+                                                            @if($task->expires==null)
+                                                            <span></span>
+                                                            @elseif($task->expires==-1)
+                                                                <i class="fa fa-calendar"></i> <small class="text-danger">Χτες</small>
+                                                            @elseif($task->expires==0)
+                                                                <i class="fa fa-calendar"></i> <small class="text-warning">Σήμερα</small>
+                                                            @elseif($task->expires==1)
+                                                                <i class="fa fa-calendar"></i> <small class="text-info">Αύριο</small>
+                                                            @elseif($task->expires>1)
+                                                                <i class="fa fa-calendar"></i> <small>{{ $task->due_date }}</small>
+                                                             @elseif($task->expires<-1)
+                                                                <i class="fa fa-calendar"></i> <small class="text-danger">{{ $task->due_date }}</small>
+                                                            @endif
+                                         </span>
                                     </h4>
                                 </div>
                                 <div id="collapse-{{ $task->id }}" class="panel-collapse collapse"
@@ -59,9 +77,25 @@
                                                      data-task="{{ $task->id }}"
                                                      data-subtask="{{ $subtask->id }}" data-status="todo">
                                                     <p><a href="#" onclick="editSubTask({{ $subtask->id }})">{{$subtask->name}}</a>
-                                                        <span class="pull-right text-danger"><small>{{ $subtask->due_date }}
-                                                            </small></span></p>
-                                                    <small class="text-left">{{ sizeof($subtask->volunteers) }}/12 εθελοντές</small>
+                                                        <span class="pull-right">
+                                                            @if($subtask->expires==null)
+                                                                <small></small>
+                                                            @elseif($subtask->expires==-1)
+                                                                <small class="text-danger">Χτες</small>
+                                                            @elseif($subtask->expires==0)
+                                                                <small class="text-warning">Σήμερα</small>
+                                                            @elseif($subtask->expires==1)
+                                                                <small class="text-info">Αύριο</small>
+                                                            @elseif($subtask->expires>1)
+                                                                <small>{{ $subtask->due_date }}</small>
+                                                             @elseif($subtask->expires<-1)
+                                                                <small class="text-danger">{{ $subtask->due_date }}
+                                                                </small>
+                                                            @endif
+                                                            </span></p>
+                                                    <small class="text-left">{{ sizeof($subtask->volunteers) }}/12
+                                                        εθελοντές
+                                                    </small>
                                                 </div>
                                                 @endforeach
                                             </div>
@@ -72,9 +106,25 @@
                                                      data-task="{{ $task->id }}"
                                                      data-subtask="{{ $subtask->id }}" data-status="todo">
                                                     <p><a href="#" onclick="editSubTask({{ $subtask->id }})">{{$subtask->name}}</a>
-                                                        <span class="pull-right text-danger"><small>{{ $subtask->due_date }}
-                                                            </small></span></p>
-                                                    <small class="text-left">{{ sizeof($subtask->volunteers) }}/12 εθελοντές</small>
+                                                       <span class="pull-right">
+                                                           @if($subtask->expires==null)
+                                                                <small></small>
+                                                            @elseif($subtask->expires==-1)
+                                                                <small class="text-danger">Χτες</small>
+                                                            @elseif($subtask->expires==0)
+                                                                <small class="text-warning">Σήμερα</small>
+                                                            @elseif($subtask->expires==1)
+                                                                <small class="text-info">Αύριο</small>
+                                                            @elseif($subtask->expires>1)
+                                                                <small>{{ $subtask->due_date }}</small>
+                                                             @elseif($subtask->expires<-1)
+                                                                <small class="text-danger">{{ $subtask->due_date }}
+                                                                </small>
+                                                            @endif
+                                                            </span></p>
+                                                    <small class="text-left">{{ sizeof($subtask->volunteers) }}/12
+                                                        εθελοντές
+                                                    </small>
                                                 </div>
                                                 @endforeach
                                             </div>
@@ -85,9 +135,25 @@
                                                      data-task="{{ $task->id }}"
                                                      data-subtask="{{ $subtask->id }}" data-status="todo">
                                                     <p><a href="#" onclick="editSubTask({{ $subtask->id }})">{{$subtask->name}}</a>
-                                                        <span class="pull-right text-danger"><small>{{ $subtask->due_date }}
-                                                            </small></span></p>
-                                                    <small class="text-left">{{ sizeof($subtask->volunteers) }}/12 εθελοντές</small>
+                                                       <span class="pull-right">
+                                                            @if($subtask->expires==null)
+                                                                <small></small>
+                                                            @elseif($subtask->expires==-1)
+                                                                <small class="text-danger">Χτες</small>
+                                                            @elseif($subtask->expires==0)
+                                                                <small class="text-warning">Σήμερα</small>
+                                                            @elseif($subtask->expires==1)
+                                                                <small class="text-info">Αύριο</small>
+                                                            @elseif($subtask->expires>1)
+                                                                <small>{{ $subtask->due_date }}</small>
+                                                             @elseif($subtask->expires<-1)
+                                                                <small class="text-danger">{{ $subtask->due_date }}
+                                                                </small>
+                                                            @endif
+                                                            </span></p>
+                                                    <small class="text-left">{{ sizeof($subtask->volunteers) }}/12
+                                                        εθελοντές
+                                                    </small>
                                                 </div>
                                                 @endforeach
                                             </div>
