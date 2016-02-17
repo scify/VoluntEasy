@@ -93,7 +93,7 @@ $("#updateSubTask").click(function (e) {
             method: 'POST',
             data: $("#editSubTaskForm").serialize(),
             success: function (result) {
-                location.reload();
+               location.reload();
             }
         });
     }
@@ -134,10 +134,12 @@ function editSubTask(subTaskId) {
             $("#editSubTask #subtask-due_date").datepicker("update", result.due_date);
             $("#subtask-priorities option[value='" + result.priority + "']").prop('selected', true);
 
+            volunteers = [];
             $.each(result.volunteers, function( index, value ) {
-                console.log(value.id)
-                $("#editSubTask #subtaskVolunteers option[value='" + value.id + "']").prop('selected', true);
+                volunteers.push(value.id);
             });
+
+            $("#editSubTask #subtaskVolunteers").val(volunteers).trigger("change");
         }
     });
 

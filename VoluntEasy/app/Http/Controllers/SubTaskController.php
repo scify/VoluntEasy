@@ -1,11 +1,7 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests\TaskRequest;
 use App\Models\ActionTasks\Status;
 use App\Models\ActionTasks\SubTask;
-use App\Models\ActionTasks\Task;
-use App\Models\ActionTasks\VolunteerTask;
-use App\Models\Unit;
 
 class SubTaskController extends Controller {
 
@@ -34,7 +30,7 @@ class SubTaskController extends Controller {
 
         $todo = Status::todo();
 
-        if(\Request::has('subtask-due_date'))
+        if (\Request::has('subtask-due_date'))
             $due_date = \Carbon::createFromFormat('d/m/Y', \Request::get('subtask-due_date'));
         else
             $due_date = null;
@@ -51,7 +47,7 @@ class SubTaskController extends Controller {
 
         $subTask->save();
 
-        if(\Request::has('subtaskVolunteers'))
+        if (\Request::has('subtaskVolunteers'))
             $subTask->volunteers()->sync(\Request::get('subtaskVolunteers'));
 
         return;
@@ -64,7 +60,7 @@ class SubTaskController extends Controller {
 
         $subTask = SubTask::find(\Request::get('subTaskId'));
 
-        if(\Request::has('subtask-due_date'))
+        if (\Request::has('subtask-due_date'))
             $due_date = \Carbon::createFromFormat('d/m/Y', \Request::get('subtask-due_date'));
         else
             $due_date = null;
@@ -76,13 +72,15 @@ class SubTaskController extends Controller {
             'due_date' => $due_date
         ]);
 
-        if(\Request::has('subtaskVolunteers')) {
+        if (\Request::has('subtaskVolunteers')) {
             $volunteers = [];
-            foreach(\Request::get('subtaskVolunteers') as $volunteer){
+            foreach (\Request::get('subtaskVolunteers') as $volunteer) {
                 array_push($volunteers, $volunteer);
             }
             $subTask->volunteers()->sync($volunteers);
-        }
+        } else
+            $subTask->volunteers()->detach();
+
         return;
     }
 
