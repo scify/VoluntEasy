@@ -14,14 +14,14 @@ class CreateVolunteerExtrasTable extends Migration
     {
         Schema::create('volunteer_extras', function ($table) {
             $table->increments('id');
-            $table->boolean('knows_word')->default(0);
-            $table->boolean('knows_excel')->default(0);
-            $table->boolean('knows_powerpoint')->default(0);
-            $table->boolean('has_previous_volunteer_experience')->default(0);
-            $table->boolean('has_previous_work_experience')->default(0);
+            $table->boolean('knows_word')->nullable()->default(0);
+            $table->boolean('knows_excel')->nullable()->default(0);
+            $table->boolean('knows_powerpoint')->nullable()->default(0);
+            $table->boolean('has_previous_volunteer_experience')->nullable()->default(0);
+            $table->boolean('has_previous_work_experience')->nullable()->default(0);
 
-            $table->string('volunteering_work_extra', 300);
-            $table->string('other_department', 300);
+            $table->string('volunteering_work_extra', 300)->nullable();
+            $table->string('other_department', 300)->nullable();
 
 
             $table->integer('volunteer_id')->unsigned();

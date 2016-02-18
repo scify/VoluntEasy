@@ -4,6 +4,7 @@ use App\Models\Descriptions\Interest;
 use App\Models\Descriptions\Language;
 use App\Models\Descriptions\LanguageLevel;
 use App\Models\Volunteer;
+use App\Models\VolunteerLanguage;
 
 
 /**
@@ -24,11 +25,11 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
     /**
      * Create a Volunteer object with all it's basic (common to all) fields.
      */
-    public final function getBaseVolunteer() {
+    public final function getBaseFields() {
 
         $volunteerRequest = \Request::all();
 
-        $volunteer = new Volunteer([
+        $baseFields = [
             'name' => $volunteerRequest['name'],
             'last_name' => $volunteerRequest['last_name'],
             'fathers_name' => $volunteerRequest['fathers_name'],
@@ -57,20 +58,20 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
             'participation_actions' => $volunteerRequest['participation_actions'],
             'availability_freqs_id' => $this->checkDropDown(intval($volunteerRequest['availability_freqs_id'])),
             'comments' => $volunteerRequest['comments']
-        ]);
+        ];
 
         if (isset($volunteerRequest['birth_date']) && $volunteerRequest['birth_date'] != null)
-            $volunteer->birth_date = \Carbon::createFromFormat('d/m/Y', $volunteerRequest['birth_date'])->toDateString();
+            $baseFields['birth_date'] = \Carbon::createFromFormat('d/m/Y', $volunteerRequest['birth_date'])->toDateString();
 
-        $volunteer->live_in_curr_country = 0;
+        $baseFields['live_in_curr_country'] = 0;
         if (isset($volunteerRequest['live_in_curr_country']) && $volunteerRequest['live_in_curr_country'] == 1)
-            $volunteer->live_in_curr_country = 1;
+            $baseFields['live_in_curr_country'] = 1;
 
-        $volunteer->computer_usage = 0;
+        $baseFields['computer_usage'] = 0;
         if (isset($volunteerRequest['computer_usage']) && $volunteerRequest['live_in_curr_country'] == 1)
-            $volunteer->computer_usage = 1;
+            $baseFields['computer_usage'] = 1;
 
-        return $volunteer;
+        return $baseFields;
     }
 
 
@@ -80,9 +81,9 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
      */
     public final function basicStore($volunteer) {
 
-        $volunteer->save();
-
         $interests = Interest::all();
+
+        $volunteerRequest = \Request::all();
 
         // Get interests selected and pass values to volunteer_interests table.
         $interest_array = [];
@@ -111,7 +112,7 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
                 $volunteer->languages()->save($volLanguage);
             }
         }
-
+        
         //get the selected users from the select2 array
         //and add them to an array
         if (isset($volunteerRequest['unitsSelect'])) {
@@ -139,14 +140,10 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
         $isValid = $this->validate();
 
         if (!$isValid['failed']) {
-            $volunteer = $this->getBaseVolunteer();
-
-            if ($this->volunteerHasExtraFields())
-                $volunteer = $this->getExtraFields($volunteer);
-
+            $volunteer = new Volunteer($this->getBaseFields());
 
             if ($this->validate($volunteer)) {
-
+                $volunteer->save();
                 $volunteer = $this->basicStore($volunteer);
                 $this->storeExtraFields($volunteer);
 
@@ -156,7 +153,32 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
             return $isValid;
     }
 
+    /**
+     * Update a Volunteer object
+     *
+     * @param $volunteer
+     * @return Volunteer
+     */
     public function update($volunteer) {
+
+        $isValid = $this->validate();
+
+        if (!$isValid['failed']) {
+
+            $baseFields = $this->getBaseFields();
+            $tmpVolunteer = new Volunteer($baseFields);
+
+            if ($this->validate($tmpVolunteer)) {
+                $volunteer->update($baseFields);
+                //store basic fields
+                $this->basicStore($volunteer);
+                //store extra fields
+                $this->storeExtraFields($volunteer);
+
+                return $volunteer;
+            }
+        } else
+            return $isValid;
 
     }
 

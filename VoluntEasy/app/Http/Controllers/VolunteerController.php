@@ -216,7 +216,7 @@ class VolunteerController extends Controller {
         $commMethod = CommunicationMethod::lists('description', 'id')->all();
         $howYouLearned = HowYouLearned::lists('description', 'id')->all();
         $edLevel = EducationLevel::lists('description', 'id')->all();
-        $volunteeringDepartments = VolunteeringDepartment::lists('description', 'id')->all();
+        $volunteeringDepartments = VolunteeringDepartment::get()->all();
 
         //get the language levels in a readable array
         $lang_levels = [];

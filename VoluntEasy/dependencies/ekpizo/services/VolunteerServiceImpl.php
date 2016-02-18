@@ -1,6 +1,7 @@
 <?php namespace Dependencies\ekpizo\services;
 
 
+use App\Models\VolunteerExtras;
 use Interfaces\VolunteerServiceAbstract;
 
 class VolunteerServiceImpl extends VolunteerServiceAbstract {
@@ -14,8 +15,8 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
 
         $volunteer = \Request::all();
 
-        if (isset($volunteer->id) && $volunteer->id != null && $volunteer->id != '')
-            $validator = \Validator::make($volunteer->toArray(), [
+        if (isset($volunteer['id']))
+            $validator = \Validator::make($volunteer, [
                 'name' => 'required',
                 'last_name' => 'required',
                 'cell_tel' => 'required',
@@ -51,17 +52,7 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
      * Get the extra fields
      */
     function getExtraFields($volunteer) {
-        $volunteer->how_you_learned_id = \Request::get('how_you_learned_id');
-        $volunteer->computer_usage_comments = \Request::get('computer_usage_comments');
-        $volunteer->extras()->knows_word = \Request::get('knows_word');
-        $volunteer->extras()->knows_excel = \Request::get('knows_excel');
-        $volunteer->extras()->knows_powerpoint = \Request::get('knows_powerpoint');
-        $volunteer->extras()->has_previous_volunteer_experience = \Request::get('has_previous_volunteer_experience');
-        $volunteer->extras()->has_previous_work_experience = \Request::get('has_previous_work_experience');
-        $volunteer->extras()->volunteering_work_extra = \Request::get('volunteering_work_extra');
-        $volunteer->extras()->other_department = \Request::get('other_department');
 
-        return $volunteer;
     }
 
     /**
@@ -72,6 +63,23 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
     function storeExtraFields($volunteer) {
 
         $this->saveFrequencies($volunteer);
+
+        $volunteer->how_you_learned_id = \Request::get('how_you_learned_id');
+        $volunteer->computer_usage_comments = \Request::get('computer_usage_comments');
+
+        $extras = $volunteer->extras ?: new VolunteerExtras();
+
+        $extras->volunteer_id = $volunteer->id;
+        $extras->knows_word = \Request::get('knows_word');
+        $extras->knows_excel = \Request::get('knows_excel');
+        $extras->knows_powerpoint = \Request::get('knows_powerpoint');
+        $extras->has_previous_volunteer_experience = \Request::get('has_previous_volunteer_experience');
+        $extras->has_previous_work_experience = \Request::get('has_previous_work_experience');
+        $extras->volunteering_work_extra = \Request::get('volunteering_work_extra');
+        $extras->other_department = \Request::get('other_department');
+
+        $volunteer->extras()->save($extras);
+        return $volunteer;
 
     }
 
