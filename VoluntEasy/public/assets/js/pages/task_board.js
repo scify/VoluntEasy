@@ -181,12 +181,22 @@ $("#deleteSubTask").click(function () {
 //add another editable fields to fill in work date and hours
 function addWorkDate() {
     console.log('cloning')
-    $('.workDates .workDate:last').clone().appendTo('.workDates');
-    $('.workDates .workHourFrom:last').clone().appendTo('.workDates');
-    $('.workDates .workHourTo:last').clone().appendTo('.workDates');
+    $('.workDates').last().append('</tr class=".workDates">');
+    $('.workDates .workDate:last').clone().after('.workDates:last');
+    $('.workDates .workHourFrom:last').clone().after('.workDates');
+    $('.workDates .workHourTo:last').clone().after('.workDates');
 
-    $(".date").datepicker();
-    $(".time").timepicker();
+    $(".date").datepicker({
+        language: 'el',
+        format: 'dd/mm/yyyy',
+        autoclose: true
+    });
+    $(".time").timepicker({
+        lang: {
+            'am': ' π.μ.',
+            'pm': ' μ.μ.'
+        }
+    });
 }
 
 

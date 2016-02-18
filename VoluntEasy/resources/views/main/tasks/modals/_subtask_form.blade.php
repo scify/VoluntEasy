@@ -38,29 +38,23 @@
     <div class="col-md-12">
         <p>Χρονοδιάγραμμα εργασιών εθελοντών</p>
     </div>
-    <div class="workDates">
-        <div class="col-md-4 workDate">
-            <p>Ημέρα:</p>
 
-            <div class="form-group">
-                {!! Form::formInput('workDates[dates][]', '', $errors, ['class' => 'form-control date', 'data-date-start-date' => $action->start_date, 'data-date-end-date' => $action->end_date]) !!}
-            </div>
-        </div>
-        <div class="col-md-4 workHourFrom">
-            <p>Από:</p>
+        <table class="table table-condensed">
+            <thead>
+                <th>Ημέρα</th>
+                <th>Από</th>
+                <th>Έως</th>
+            </thead>
+            <tbody>
+                <tr class="workDates">
+                    <td class="workDate">{!! Form::formInput('workDates[dates][]', '', $errors, ['class' => 'form-control date', 'data-date-start-date' => $action->start_date, 'data-date-end-date' => $action->end_date]) !!}</td>
+                    <td class="workHourFrom">{!! Form::formInput('workDates[hourFrom][]', '', $errors, ['class' => 'form-control time']) !!}</td>
+                    <td class="workHourTo">{!! Form::formInput('workDates[hourTo][]', '', $errors, ['class' => 'form-control time']) !!}</td>
+                </tr>
+            </tbody>
+        </table>
 
-            <div class="form-group">
-                {!! Form::formInput('workDates[hourFrom][]', '', $errors, ['class' => 'form-control time']) !!}
-            </div>
-        </div>
-        <div class="col-md-4 workHourTo">
-            <p>Έως:</p>
 
-            <div class="form-group">
-                {!! Form::formInput('workDates[hourTo][]', '', $errors, ['class' => 'form-control time']) !!}
-            </div>
-        </div>
-    </div>
     <div class="col-md-12">
         <p><a href="#" onclick="addWorkDate()"><i class="fa fa-plus-circle"></i> Προσθήκη διαθεσιμότητας</a></p>
     </div>

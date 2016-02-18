@@ -404,12 +404,12 @@ div#unitsTree {
     height: 100%;
 }
 
-.board .row {
+.board .row, .tasks .row {
     display: table;
     width: 100%
 }
 
-.board .row [class*="col-"] {
+.board .row [class*="col-"], .tasks .row [class*="col-"] {
     float: none;
     display: table-cell;
     vertical-align: top;
@@ -510,7 +510,28 @@ i.priority-4 {
     background-color: #22BAA0;
 }
 
+
 /* public cta page*/
+
+.task .hours{
+    padding: 10px;
+    color: #fff;
+    background-color: #2b384e;
+    font-size: 16px;
+    text-align: center;
+}
+
+.task .description{
+    background-color: #F1F4F9;
+    padding: 10px;
+}
+
+.tasks h3{
+    margin-top:0;
+    margin-bottom:5px;
+}
+
+/*
 .tasks .task {
     padding: 5px;
 }
@@ -541,3 +562,5 @@ input.width-45 {
     width: 45%;
     display: inline-block;
 }
+*/
+
