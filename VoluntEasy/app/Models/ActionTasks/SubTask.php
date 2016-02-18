@@ -16,12 +16,17 @@ class SubTask extends Model {
 
     protected $fillable = ['description', 'name', 'status_id', 'task_id', 'action_id', 'priority', 'due_date'];
 
+
     public function status() {
         return $this->hasOne('App\Models\ActionTasks\Status', 'id', 'status_id');
     }
 
     public function volunteers() {
         return $this->belongsToMany('App\Models\Volunteer', 'volunteer_subtasks', 'subtask_id', 'volunteer_id');
+    }
+
+    public function dates(){
+        $this->hasMany('App\Models\ActionTasks\WorkDates', 'subtask_id', 'id');
     }
 
     public function getDueDateAttribute() {

@@ -112,7 +112,7 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
                 $volunteer->languages()->save($volLanguage);
             }
         }
-        
+
         //get the selected users from the select2 array
         //and add them to an array
         if (isset($volunteerRequest['unitsSelect'])) {

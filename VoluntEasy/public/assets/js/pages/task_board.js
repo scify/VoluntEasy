@@ -70,13 +70,14 @@ $("#storeSubTask").click(function (e) {
         $("#subtask-name_err").hide();
 
         $.ajax({
-            url: $("body").attr('data-url') + "/actions/tasks/subtasks/store",
-            method: 'POST',
-            data: $("#createSubTask").serialize(),
-            success: function (result) {
-                location.reload();
-            }
-        });
+                url: $("body").attr('data-url') + "/actions/tasks/subtasks/store",
+                method: 'POST',
+                data: $("#createSubTask").serialize(),
+                success: function (result) {
+                    console.log(result);
+                    //location.reload();
+                }
+            });
     }
 });
 
@@ -93,7 +94,7 @@ $("#updateSubTask").click(function (e) {
             method: 'POST',
             data: $("#editSubTaskForm").serialize(),
             success: function (result) {
-               location.reload();
+                location.reload();
             }
         });
     }
@@ -136,7 +137,7 @@ function editSubTask(subTaskId) {
             $("#subtask-priorities option[value='" + result.priority + "']").prop('selected', true);
 
             volunteers = [];
-            $.each(result.volunteers, function( index, value ) {
+            $.each(result.volunteers, function (index, value) {
                 volunteers.push(value.id);
             });
 
@@ -177,10 +178,31 @@ $("#deleteSubTask").click(function () {
 });
 
 
+//add another editable fields to fill in work date and hours
+function addWorkDate() {
+    console.log('cloning')
+    $('.workDates .workDate:last').clone().appendTo('.workDates');
+    $('.workDates .workHourFrom:last').clone().appendTo('.workDates');
+    $('.workDates .workHourTo:last').clone().appendTo('.workDates');
+
+    $(".date").datepicker();
+    $(".time").timepicker();
+}
+
+
 $('.date').datepicker({
     language: 'el',
     format: 'dd/mm/yyyy',
     autoclose: true
 });
 
+$('.time').timepicker({
+    lang: {
+        'am': ' π.μ.',
+        'pm': ' μ.μ.'
+    }
+});
+
 $(".multiple").select2();
+
+

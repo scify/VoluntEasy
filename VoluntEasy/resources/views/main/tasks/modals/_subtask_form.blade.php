@@ -28,9 +28,49 @@
     <div class="col-md-12">
         <div class="form-group">
             {!! Form::formInput('subtask-description', 'Περιγραφή sub-task:', $errors,
-            ['class' => 'form-control', 'type' => 'textarea', 'size' => '2x3']) !!}
+            ['class' => 'form-control', 'type' => 'textarea', 'size' => '2x2']) !!}
         </div>
     </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <p>Χρονοδιάγραμμα εργασιών εθελοντών</p>
+    </div>
+    <div class="workDates">
+        <div class="col-md-4 workDate">
+            <p>Ημέρα:</p>
+
+            <div class="form-group">
+                {!! Form::formInput('workDates[dates][]', '', $errors, ['class' => 'form-control date', 'data-date-start-date' => $action->start_date, 'data-date-end-date' => $action->end_date]) !!}
+            </div>
+        </div>
+        <div class="col-md-4 workHourFrom">
+            <p>Από:</p>
+
+            <div class="form-group">
+                {!! Form::formInput('workDates[hourFrom][]', '', $errors, ['class' => 'form-control time']) !!}
+            </div>
+        </div>
+        <div class="col-md-4 workHourTo">
+            <p>Έως:</p>
+
+            <div class="form-group">
+                {!! Form::formInput('workDates[hourTo][]', '', $errors, ['class' => 'form-control time']) !!}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <p><a href="#" onclick="addWorkDate()"><i class="fa fa-plus-circle"></i> Προσθήκη διαθεσιμότητας</a></p>
+    </div>
+
+
+</div>
+
+
+<div class="row">
+
     <div class="col-md-12">
         <p>Προσθήκη εθελοντών</p>
         <select class="js-states form-control multiple" id="subtaskVolunteers" multiple="multiple"
@@ -38,7 +78,7 @@
                 tabindex="-1"
                 style="display: none; width: 100%">
             @foreach($allVolunteers as $volunteer)
-            <option value="{{ $volunteer->id }}">{{ $volunteer->name}} {{$volunteer->last_name}}</option>
+                <option value="{{ $volunteer->id }}">{{ $volunteer->name}} {{$volunteer->last_name}}</option>
             @endforeach
         </select>
 
