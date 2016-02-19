@@ -16,6 +16,7 @@ class CreateSubtasksWorkHoursTable extends Migration
             $table->increments('id');
             $table->date('fromDate');
             $table->date('toDate')->nullable();
+            $table->string('comments', 500)->nullable();
 
             $table->integer('subtask_id')->unsigned();
             $table->foreign('subtask_id')->references('id')->on('subtasks');
@@ -27,6 +28,7 @@ class CreateSubtasksWorkHoursTable extends Migration
             $table->increments('id');
             $table->time('fromHour');
             $table->time('toHour');
+            $table->string('comments', 300)->nullable();
 
             $table->integer('subtask_work_dates_id')->unsigned();
             $table->foreign('subtask_work_dates_id')->references('id')->on('subtask_work_dates');
@@ -42,7 +44,7 @@ class CreateSubtasksWorkHoursTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subtask_work_dates');
         Schema::dropIfExists('subtask_work_hours');
+        Schema::dropIfExists('subtask_work_dates');
     }
 }

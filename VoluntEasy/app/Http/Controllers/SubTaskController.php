@@ -7,12 +7,10 @@ use App\Models\ActionTasks\WorkDates;
 use App\Models\ActionTasks\WorkHour;
 use App\Models\ActionTasks\WorkHours;
 
-class SubTaskController extends Controller
-{
+class SubTaskController extends Controller {
 
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth');
     }
 
@@ -23,8 +21,7 @@ class SubTaskController extends Controller
      * @param $id
      * @return mixed
      */
-    public function show($id)
-    {
+    public function show($id) {
         $subTask = SubTask::with('volunteers')->findOrFail($id);
 
         return $subTask;
@@ -33,8 +30,7 @@ class SubTaskController extends Controller
     /**
      * Store a subtask
      */
-    public function store()
-    {
+    public function store() {
 
         $todo = Status::todo();
 
@@ -54,35 +50,37 @@ class SubTaskController extends Controller
         ]);
 
         $subTask->save();
-
         foreach (\Request::get('workDates')['dates'] as $i => $date) {
 
-            $workDate = new WorkDate([
-                'fromDate' => \Carbon::createFromFormat('d/m/Y', $date),
-                'subtask_id' => $subTask->id
-            ]);
-            $workDate->save();
+            if ($date != null && $date != '') {
+                $workDate = new WorkDate([
+                    'fromDate' => \Carbon::createFromFormat('d/m/Y', $date),
+                    'subtask_id' => $subTask->id
+                ]);
+                $workDate->save();
 
-            $workHours = new WorkHour([
-                'fromHour' => \Request::get('workDates')['hourFrom'][$i],
-                'toHour' => \Request::get('workDates')['hourTo'][$i],
-                'subtask_work_dates_id' => $workDate->id
-            ]);
 
-            $workHours->save();
+                $workHours = new WorkHour([
+                    'fromHour' => \Request::get('workDates')['hourFrom'][$i],
+                    'toHour' => \Request::get('workDates')['hourTo'][$i],
+                    'comments' => \Request::get('workDates')['comments'][$i],
+                    'subtask_work_dates_id' => $workDate->id
+                ]);
+
+                $workHours->save();
+            }
         }
 
         if (\Request::has('subtaskVolunteers'))
             $subTask->volunteers()->sync(\Request::get('subtaskVolunteers'));
 
-        return;
+        return $subTask;
     }
 
     /**
      * Update a subtask
      */
-    public function update()
-    {
+    public function update() {
 
         $subTask = SubTask::find(\Request::get('subTaskId'));
 
@@ -113,8 +111,7 @@ class SubTaskController extends Controller
     /**
      * Update a subtask's status
      */
-    public function updateStatus()
-    {
+    public function updateStatus() {
 
         $subTask = SubTask::find(\Request::get('subTaskId'));
 
@@ -131,8 +128,7 @@ class SubTaskController extends Controller
      * @param $id
      * @throws \Exception
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
 
         $subTask = SubTask::with('volunteers')->find($id);
 

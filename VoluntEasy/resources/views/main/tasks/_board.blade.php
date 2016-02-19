@@ -4,25 +4,15 @@
             <div class="panel-body">
 
                 @if(sizeof($action->tasks)>0)
-                <div class="row bottom-margin statuses">
-                    <div class="col-md-4">
-                        <h3 class="panel-title">To Do</h3>
-                    </div>
-                    <div class="col-md-4">
-                        <h3 class="panel-title">Doing</h3>
-                    </div>
-                    <div class="col-md-4">
-                        <h3 class="panel-title">Done</h3>
-                    </div>
-                </div>
 
                 <div class="row board">
-                    <div class="col-md-12">
+                    <div class="col-md-8">
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                             <div class="panel panel-default">
 
                                 @foreach($action->tasks as $task)
 
+                                {{-- Task title and info --}}
                                 <div class="panel-heading" role="tab" id="headingOne">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion"
@@ -30,7 +20,7 @@
                                            aria-expanded="false" aria-controls="collapse-{{ $task->id }}"
                                            class="arrow collapsed">
                                         </a>
-                                        <a href="#" class="title" onclick="editTask({{ $task->id }})">{{ $task->name
+                                        <a href="#" class="title" onclick="showTaskInfo({{ $task->id }})">{{ $task->name
                                             }}</a>
 
                                         @if(sizeof($task->todoSubtasks) > 0 && sizeof($task->doingSubtasks)==0 &&
@@ -64,6 +54,7 @@
                                          </span>
                                     </h4>
                                 </div>
+
                                 <div id="collapse-{{ $task->id }}" class="panel-collapse collapse"
                                      role="tabpanel"
                                      aria-labelledby="headingOne" aria-expanded="false" style="height: 0px;">
@@ -71,12 +62,15 @@
 
                                         <div class="row task-{{ $task->id }} board-row">
 
+                                            {{-- To Do subtasks --}}
                                             <div class="col-md-4 board-column todo">
+                                                <h3 class="panel-title">To Do</h3>
+
                                                 @foreach($task->todoSubtasks as $subtask)
                                                 <div class="board-card priority-{{ $subtask->priority }}"
                                                      data-task="{{ $task->id }}"
                                                      data-subtask="{{ $subtask->id }}" data-status="todo">
-                                                    <p><a href="#" onclick="editSubTask({{ $subtask->id }})">{{$subtask->name}}</a>
+                                                    <p><a href="#" onclick="showSubTaskInfo({{ $subtask->id }})">{{$subtask->name}}</a>
                                                         <span class="pull-right">
                                                             @if($subtask->expires==null)
                                                                 <small></small>
@@ -100,7 +94,10 @@
                                                 @endforeach
                                             </div>
 
+                                            {{-- Doing subtasks --}}
                                             <div class="col-md-4 board-column doing">
+                                                <h3 class="panel-title">Doing</h3>
+
                                                 @foreach($task->doingSubtasks as $subtask)
                                                 <div class="board-card priority-{{ $subtask->priority }}"
                                                      data-task="{{ $task->id }}"
@@ -129,7 +126,11 @@
                                                 @endforeach
                                             </div>
 
+
+                                            {{-- Done subtasks --}}
                                             <div class="col-md-4 board-column done">
+                                                <h3 class="panel-title">Done</h3>
+
                                                 @foreach($task->doneSubtasks as $subtask)
                                                 <div class="board-card priority-{{ $subtask->priority }}"
                                                      data-task="{{ $task->id }}"
@@ -173,6 +174,9 @@
                             </div>
                         </div>
 
+                    </div>
+                    <div class="col-md-4">
+                        @include('main.tasks.partials._task_info')
                     </div>
                 </div>
                 @else

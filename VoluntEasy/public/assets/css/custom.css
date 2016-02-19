@@ -403,7 +403,9 @@ div#unitsTree {
 .statuses {
     height: 100%;
 }
-
+.board h3{
+    margin-bottom:10px;
+}
 .board .row, .tasks .row {
     display: table;
     width: 100%

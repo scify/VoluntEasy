@@ -42,7 +42,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="form-group">
-            {!! Form::formInput('comments', 'Περιγραφή:', $errors,
+            {!! Form::formInput('description', 'Περιγραφή:', $errors,
             ['class' => 'form-control', 'type' => 'textarea', 'size' => '2x5']) !!}
         </div>
     </div>

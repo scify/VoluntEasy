@@ -82,7 +82,7 @@ class TaskController extends Controller {
         ]);
 
 
-        return \Redirect::route('action/one', ['id' => \Request::get('actionId')]);
+        return \Redirect::route('action/one', ['id' => $task->id]);
     }
 
     /**
