@@ -99,7 +99,8 @@ $("#updateSubTask").click(function (e) {
             method: 'POST',
             data: $("#editSubTaskForm").serialize(),
             success: function (result) {
-                location.reload();
+                console.log(result);
+                //location.reload();
             }
         });
     }
@@ -120,33 +121,26 @@ $(".editTask").click(function (e) {
 });
 
 //populate the edit subtask modal with data before displaying it
-function editSubTask(subTaskId) {
+$(".editSubTask").click(function (e) {
 
-    //fetch the subtask data to show in the modal
-    $.ajax({
-        method: 'GET',
-        url: $("body").attr('data-url') + "/actions/tasks/subtasks/one/" + subTaskId,
-        success: function (result) {
-            console.log(result);
-            $("#editSubTask #taskId").val(result.task_id);
-            $("#editSubTask #subTaskId").val(result.id);
-            $("#editSubTask #subtask-name").val(result.name);
-            $("#editSubTask #subtask-description").val(result.description);
-            $("#editSubTask #subtask-due_date").datepicker("update", result.due_date);
-            $("#subtask-priorities option[value='" + result.priority + "']").prop('selected', true);
+    $("#editSubTask #taskId").val($(this).attr('data-task-id'));
+    $("#editSubTask #subTaskId").val($(this).attr('data-subtask-id'));
+    $("#editSubTask #subtask-name").val($(".subTaskInfo .name").text());
+    $("#editSubTask #subtask-description").val($(".subTaskInfo .description").text());
 
-            volunteers = [];
-            $.each(result.volunteers, function (index, value) {
-                volunteers.push(value.id);
-            });
-
-            $("#editSubTask #subtaskVolunteers").val(volunteers).trigger("change");
-        }
+    $("#subtask-priorities option[value='" + $(".subTaskInfo .priority") + "']").prop('selected', true);
+/*
+    volunteers = [];
+    $.each(result.volunteers, function (index, value) {
+        volunteers.push(value.id);
     });
 
+    $("#editSubTask #subtaskVolunteers").val(volunteers).trigger("change");
+*/
     //show modal
     $('#editSubTask').modal('show');
-}
+});
+
 
 //delete a task
 $(".deleteTask").click(function () {
@@ -215,9 +209,11 @@ function showTaskInfo(taskId) {
         method: 'GET',
         url: $("body").attr('data-url') + "/actions/tasks/one/" + taskId,
         success: function (result) {
+            $(".subTaskInfo").hide();
+
             $(".taskInfo .due_date").text(result.due_date == null ? '-' : result.due_date);
             $(".taskInfo .name").text(result.name);
-            $(".taskInfo .description").text(result.description);
+            $(".taskInfo .description").text(result.description == null ? '-' : result.description);
 
             $(".taskInfo .editTask").attr('data-task-id', result.id);
             $(".taskInfo .deleteTask").attr('data-task-id', result.id);
@@ -255,6 +251,57 @@ function showTaskInfo(taskId) {
             $(".taskInfo .priority").attr('data-priority', result.priority);
 
             $(".taskInfo").show();
+        }
+    });
+}
+
+
+function showSubTaskInfo(subTaskId) {
+    //fetch the task data to show in the sidebar
+    $.ajax({
+        method: 'GET',
+        url: $("body").attr('data-url') + "/actions/tasks/subtasks/one/" + subTaskId,
+        success: function (result) {
+            $(".taskInfo").hide();
+
+            console.log(result);
+
+            $(".subTaskInfo .due_date").text(result.due_date == null ? '-' : result.due_date);
+            $(".subTaskInfo .name").text(result.name);
+            $(".subTaskInfo .description").text(result.description == null ? '-' : result.description);
+
+            $(".subTaskInfo .editSubTask").attr('data-subtask-id', result.id);
+            $(".subTaskInfo .editSubTask").attr('data-task-id', result.task_id);
+            $(".subTaskInfo .deleteSubTask").attr('data-subtask-id', result.id);
+
+            if (result.priority == 1)
+                $(".subTaskInfo .priority").text('Χαμηλή');
+            if (result.priority == 2)
+                $(".subTaskInfo .priority").text('Μεσαία');
+            if (result.priority == 3)
+                $(".subTaskInfo .priority").text('Υψηλή');
+            if (result.priority == 4)
+                $(".subTaskInfo .priority").text('Επείγον');
+
+            $(".subTaskInfo .priority").attr('data-priority', result.priority);
+
+
+            html = '';
+            //beware the classy code
+            $.each(result.work_dates, function (i, date) {
+                html += '<h4>' + date.from_date + '</h4>';
+
+                $.each(date.hours, function (i, hour) {
+                    html += '<p>' + hour.from_hour + '-' + hour.to_hour;
+                    html += '<br/>Σχόλια: ' + (hour.comments == null ? '-' : hour.comments) + '<br/>';
+                    html += '</p>';
+                });
+            });
+
+            $(".workDatesInfo").html('');
+            $(".workDatesInfo").append(html);
+
+            $(".subTaskInfo").show();
         }
     });
 }

@@ -22,7 +22,7 @@ class SubTaskController extends Controller {
      * @return mixed
      */
     public function show($id) {
-        $subTask = SubTask::with('volunteers')->findOrFail($id);
+        $subTask = SubTask::with('volunteers', 'workDates.hours')->findOrFail($id);
 
         return $subTask;
     }
@@ -54,15 +54,15 @@ class SubTaskController extends Controller {
 
             if ($date != null && $date != '') {
                 $workDate = new WorkDate([
-                    'fromDate' => \Carbon::createFromFormat('d/m/Y', $date),
+                    'from_date' => \Carbon::createFromFormat('d/m/Y', $date),
                     'subtask_id' => $subTask->id
                 ]);
                 $workDate->save();
 
 
                 $workHours = new WorkHour([
-                    'fromHour' => \Request::get('workDates')['hourFrom'][$i],
-                    'toHour' => \Request::get('workDates')['hourTo'][$i],
+                    'from_hour' => \Request::get('workDates')['hourFrom'][$i],
+                    'to_hour' => \Request::get('workDates')['hourTo'][$i],
                     'comments' => \Request::get('workDates')['comments'][$i],
                     'subtask_work_dates_id' => $workDate->id
                 ]);
@@ -81,7 +81,6 @@ class SubTaskController extends Controller {
      * Update a subtask
      */
     public function update() {
-
         $subTask = SubTask::find(\Request::get('subTaskId'));
 
         if (\Request::has('subtask-due_date'))

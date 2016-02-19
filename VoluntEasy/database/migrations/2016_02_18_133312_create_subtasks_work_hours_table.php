@@ -14,8 +14,8 @@ class CreateSubtasksWorkHoursTable extends Migration
     {
         Schema::create('subtask_work_dates', function ($table) {
             $table->increments('id');
-            $table->date('fromDate');
-            $table->date('toDate')->nullable();
+            $table->date('from_date');
+            $table->date('to_date')->nullable();
             $table->string('comments', 500)->nullable();
 
             $table->integer('subtask_id')->unsigned();
@@ -26,8 +26,8 @@ class CreateSubtasksWorkHoursTable extends Migration
 
         Schema::create('subtask_work_hours', function ($table) {
             $table->increments('id');
-            $table->time('fromHour');
-            $table->time('toHour');
+            $table->time('from_hour');
+            $table->time('to_hour');
             $table->string('comments', 300)->nullable();
 
             $table->integer('subtask_work_dates_id')->unsigned();

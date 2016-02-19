@@ -25,8 +25,8 @@ class SubTask extends Model {
         return $this->belongsToMany('App\Models\Volunteer', 'volunteer_subtasks', 'subtask_id', 'volunteer_id');
     }
 
-    public function dates(){
-        $this->hasMany('App\Models\ActionTasks\WorkDates', 'subtask_id', 'id');
+    public function workDates(){
+        return $this->hasMany('App\Models\ActionTasks\WorkDate', 'subtask_id', 'id');
     }
 
     public function getDueDateAttribute() {
@@ -35,6 +35,5 @@ class SubTask extends Model {
         else
             return null;
     }
-
 
 }

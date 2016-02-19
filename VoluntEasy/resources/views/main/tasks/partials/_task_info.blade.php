@@ -15,7 +15,7 @@
         </div>
 
     </div>
-    <div class="row taskInfo" style="display:none;">
+    <div class="row">
         <div class="col-md-12">
             <button type="button" class="btn btn-success editTask" data-task-id="">Επεξεργασία</button>
             <button type="button" class="btn btn-danger deleteTask" data-task-id="">Διαγραφή</button>

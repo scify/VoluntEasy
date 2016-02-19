@@ -177,6 +177,7 @@
                     </div>
                     <div class="col-md-4">
                         @include('main.tasks.partials._task_info')
+                        @include('main.tasks.partials._subtask_info')
                     </div>
                 </div>
                 @else
