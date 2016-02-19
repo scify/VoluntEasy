@@ -403,9 +403,11 @@ div#unitsTree {
 .statuses {
     height: 100%;
 }
-.board h3{
-    margin-bottom:10px;
+
+.board h3 {
+    margin-bottom: 10px;
 }
+
 .board .row, .tasks .row {
     display: table;
     width: 100%
@@ -477,11 +479,9 @@ i.priority-4 {
 .board .panel-group .panel-heading .panel-title > a.arrow:before {
     font-family: 'FontAwesome';
     content: "\f107";
-    right: 0;
-    color: #777;
-    height: 15px;
+    color: #34425A;
     top: 50%;
-    margin-top: -7.5px;
+    font-size: 20px;
     font-weight: 600;
 }
 
@@ -512,10 +512,9 @@ i.priority-4 {
     background-color: #22BAA0;
 }
 
-
 /* public cta page*/
 
-.task .hours{
+.task .hours {
     padding: 10px;
     color: #fff;
     background-color: #2b384e;
@@ -523,14 +522,14 @@ i.priority-4 {
     text-align: center;
 }
 
-.task .description{
+.task .description {
     background-color: #F1F4F9;
     padding: 10px;
 }
 
-.tasks h3{
-    margin-top:0;
-    margin-bottom:5px;
+.tasks h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
 }
 
 /*
