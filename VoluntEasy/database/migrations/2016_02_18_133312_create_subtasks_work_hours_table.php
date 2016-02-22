@@ -29,6 +29,7 @@ class CreateSubtasksWorkHoursTable extends Migration
             $table->time('from_hour');
             $table->time('to_hour');
             $table->string('comments', 300)->nullable();
+            $table->integer('volunteer_sum')->nullable();
 
             $table->integer('subtask_work_dates_id')->unsigned();
             $table->foreign('subtask_work_dates_id')->references('id')->on('subtask_work_dates');

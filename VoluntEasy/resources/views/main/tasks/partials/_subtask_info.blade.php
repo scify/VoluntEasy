@@ -6,8 +6,6 @@
 
             <p><strong>Όνομα subtask:</strong> <span class="name"></span></p>
 
-            <p><strong>Κατάσταση:</strong> <span class="tstatus"></span></p>
-
             <p><strong>Λήγει στις:</strong> <span class="due_date"></span></p>
 
             <p><strong>Προτεραιότητα:</strong> <span class="priority"></span></p>
@@ -15,8 +13,6 @@
             <p><strong>Περιγραφή:</strong> <span class="description"></span></p>
 
             <h3> Χρονοδιάγραμμα εργασιών εθελοντών</h3>
-
-
             <div class="workDatesInfo">
                 <h4></h4>
                 <p><br/>

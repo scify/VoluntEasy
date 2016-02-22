@@ -50,9 +50,38 @@ class TaskService {
                 $dueDate->second = 0;
                 $task->expires = $today->diffInDays($dueDate, false);
             }
+
+            $task->status = null;
+            $task->statusOrderId = 0;
+            if (sizeof($task->todoSubtasks) > 0 && sizeof($task->doingSubtasks) == 0 && sizeof($task->doneSubtasks) == 0) {
+                $task->status = "todo";
+                $task->statusOrderId = 1;
+            } else if (sizeof($task->doneSubtasks) > 0 && sizeof($task->doingSubtasks) == 0 && sizeof($task->todoSubtasks) == 0) {
+                $task->status = "done";
+                $task->statusOrderId = 3;
+            } else if (sizeof($task->doingSubtasks) > 0) {
+                $task->status = "doing";
+                $task->statusOrderId = 2;
+            }
         }
 
-        return $action;
+        $tasks = json_decode($action->tasks);
+       // dd(json_encode($tasks));
+        //var_dump(json_decode(json_encode($tasks)));
 
+        usort($tasks, function ($a, $b) {
+            if ($a->statusOrderId > $b->statusOrderId) {
+                return 1;
+            } else if ($a->statusOrderId < $b->statusOrderId) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
+
+        unset($action->tasks);
+        $action->tasks = json_decode(json_encode($tasks));
+
+        return $action;
     }
 }

@@ -50,29 +50,9 @@ class SubTaskController extends Controller {
         ]);
 
         $subTask->save();
-        foreach (\Request::get('workDates')['dates'] as $i => $date) {
 
-            if ($date != null && $date != '') {
-                $workDate = new WorkDate([
-                    'from_date' => \Carbon::createFromFormat('d/m/Y', $date),
-                    'subtask_id' => $subTask->id
-                ]);
-                $workDate->save();
-
-
-                $workHours = new WorkHour([
-                    'from_hour' => \Request::get('workDates')['hourFrom'][$i],
-                    'to_hour' => \Request::get('workDates')['hourTo'][$i],
-                    'comments' => \Request::get('workDates')['comments'][$i],
-                    'subtask_work_dates_id' => $workDate->id
-                ]);
-
-                $workHours->save();
-            }
-        }
-
-        if (\Request::has('subtaskVolunteers'))
-            $subTask->volunteers()->sync(\Request::get('subtaskVolunteers'));
+        $this->saveWorkDates($subTask->id);
+        $this->saveVolunteers($subTask);
 
         return $subTask;
     }
@@ -95,16 +75,10 @@ class SubTaskController extends Controller {
             'due_date' => $due_date
         ]);
 
-        if (\Request::has('subtaskVolunteers')) {
-            $volunteers = [];
-            foreach (\Request::get('subtaskVolunteers') as $volunteer) {
-                array_push($volunteers, $volunteer);
-            }
-            $subTask->volunteers()->sync($volunteers);
-        } else
-            $subTask->volunteers()->detach();
+        return $this->saveWorkDates($subTask->id);
+         $this->saveVolunteers($subTask);
 
-        return;
+        return $subTask;
     }
 
     /**
@@ -143,6 +117,52 @@ class SubTaskController extends Controller {
         $subTask->delete();
 
         return;
+    }
+
+    /**
+     * Save the work dates and times and the assigned volunteers, if any
+     *
+     * @param $subTaskId
+     */
+    private function saveWorkDates($subTaskId) {
+        foreach (\Request::get('workDates')['dates'] as $i => $date) {
+
+            if ($date != null && $date != '' &&
+               /* \Request::has('workDates')['hourFrom'][$i] && \Request::get('workDates')['hourFrom'][$i] != null && \Request::get('workDates')['hourFrom'][$i] != '' &&
+                \Request::has('workDates')['hourTo'][$i] && \Request::get('workDates')['hourTo'][$i] != null && \Request::get('workDates')['hourTo'][$i] != '' &&*/
+                \Request::get('workDates')['hourFrom'][$i] != '00:00' && \Request::get('workDates')['hourTo'][$i] != '00:00'
+            ) {
+
+                $workDate = new WorkDate([
+                    'from_date' => \Carbon::createFromFormat('d/m/Y', $date),
+                    'subtask_id' => $subTaskId
+                ]);
+                $workDate->save();
+
+                $workHours = new WorkHour([
+                    'from_hour' => \Request::get('workDates')['hourFrom'][$i],
+                    'to_hour' => \Request::get('workDates')['hourTo'][$i],
+                    'comments' => \Request::get('workDates')['comments'][$i],
+                    'subtask_work_dates_id' => $workDate->id,
+                    'volunteer_sum' => \Request::get('volunteerSum')
+                ]);
+                $workHours->save();
+            }
+        }
+    }
+
+
+    private function saveVolunteers() {
+
+        /*   if (\Request::has('subtaskVolunteers')) {
+               $volunteers = [];
+               foreach (\Request::get('subtaskVolunteers') as $volunteer) {
+                   array_push($volunteers, $volunteer);
+               }
+               $subTask->volunteers()->sync($volunteers);
+           } else
+               $subTask->volunteers()->detach();
+   */
     }
 
 }

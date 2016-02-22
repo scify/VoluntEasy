@@ -111,6 +111,7 @@ class ActionController extends Controller {
 
         $action = TaskService::subtasksPerStatus($action);
 
+       // return $action;
         return view('main.actions.show', compact('action', 'allVolunteers', 'volunteerIds', 'userUnits', 'branch', 'taskStatuses'));
     }
 

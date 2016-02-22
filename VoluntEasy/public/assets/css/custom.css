@@ -64,6 +64,10 @@ thead.middle th {
     padding: 20px;
 }
 
+.modal-dialog.modal-xl{
+    width:70%;
+}
+
 .user-image img {
     width: 150px;
     border-radius: 50%;
@@ -408,12 +412,12 @@ div#unitsTree {
     margin-bottom: 10px;
 }
 
-.board .row, .tasks .row {
+.board .row {
     display: table;
     width: 100%
 }
 
-.board .row [class*="col-"], .tasks .row [class*="col-"] {
+.board .row [class*="col-"] {
     float: none;
     display: table-cell;
     vertical-align: top;
@@ -512,9 +516,28 @@ i.priority-4 {
     background-color: #22BAA0;
 }
 
+.taskInfo, .subTaskInfo{
+    background-color: rgb(233, 237, 242);
+    box-shadow: 0 1px 5px 1px rgb(195, 195, 195);
+    padding: 5px;
+}
+
+
 /* public cta page*/
 
-.task .hours {
+table.tasks > tbody > tr > td, table.tasks td{
+    padding:0 !important;
+}
+
+table.tasks [class*="col-"]{
+    padding-left:0px;
+    padding-right:0px;
+}
+
+.taskDate .hours {
+
+}
+.subtask-info{
     padding: 10px;
     color: #fff;
     background-color: #2b384e;
@@ -522,15 +545,27 @@ i.priority-4 {
     text-align: center;
 }
 
-.task .description {
+.taskDate .description {
     background-color: #F1F4F9;
     padding: 10px;
 }
 
-.tasks h3 {
-    margin-top: 0;
+
+.task{
+    background-color:#2b384e;
+    color:#ffffff;
+}
+
+.task-info{
+    padding:5px;
+}
+
+
+.task-info h3 {
+    margin-top: 5px;
     margin-bottom: 5px;
 }
+
 
 /*
 .tasks .task {

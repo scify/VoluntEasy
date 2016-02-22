@@ -79,8 +79,7 @@ $("#storeSubTask").click(function (e) {
             method: 'POST',
             data: $("#createSubTask").serialize(),
             success: function (result) {
-                console.log(result);
-                //location.reload();
+                location.reload();
             }
         });
     }
@@ -100,7 +99,7 @@ $("#updateSubTask").click(function (e) {
             data: $("#editSubTaskForm").serialize(),
             success: function (result) {
                 console.log(result);
-                //location.reload();
+                // location.reload();
             }
         });
     }
@@ -128,15 +127,42 @@ $(".editSubTask").click(function (e) {
     $("#editSubTask #subtask-name").val($(".subTaskInfo .name").text());
     $("#editSubTask #subtask-description").val($(".subTaskInfo .description").text());
 
-    $("#subtask-priorities option[value='" + $(".subTaskInfo .priority") + "']").prop('selected', true);
-/*
-    volunteers = [];
-    $.each(result.volunteers, function (index, value) {
-        volunteers.push(value.id);
+    $("#subtask-priorities option[value='" + $(".subTaskInfo .priority").attr('data-priority') + "']").prop('selected', true);
+
+    var lastTr = $("#workDates tr:first");
+
+    console.log(subTask);
+
+    //fill the workDates table
+    $.each(subTask.work_dates, function (i, date) {
+
+        $.each(date.hours, function (j, hour) {
+
+            var clone = $("#editSubTask #workDates tr:last").clone().find("input, select, textarea").each(function () {
+                var name = $(this).attr('name');
+                console.log(name);
+                if (name == "workDates[dates][]")
+                    $(this).eq(j).val(date.from_date);
+                else if (name == "workDates[hourFrom][]")
+                    $(this).eq(j).val(hour.from_hour);
+                else if (name == "workDates[hourTo][]")
+                    $(this).eq(j).val(hour.to_hour);
+                else if (name == "workDates[volunteerSum][]")
+                    $(this).eq(j).val(hour.volunteer_sum);
+                else if (name == "workDates[subtaskVolunteers][]")
+                //TODO: check this
+                    $(this).eq(j).val('aaaa');
+                else if (name == "workDates[comments][]")
+                    $(this).eq(j).val(hour.comments);
+            }).end()
+
+            $("#editSubTask .workDates").remove();
+            $(clone).appendTo("#editSubTask #workDates");
+        });
     });
 
-    $("#editSubTask #subtaskVolunteers").val(volunteers).trigger("change");
-*/
+    refreshDateTime();
+
     //show modal
     $('#editSubTask').modal('show');
 });
@@ -174,12 +200,7 @@ $("#deleteSubTask").click(function () {
 //add another editable fields to fill in work date and hours
 function addWorkDate() {
 
-
-    var lastTr = $("#workDates tr:last");
-
-    if ($(lastTr).find('.workDate input').val() == null || $(lastTr).find('.workDate input').val() == '' ||
-        $(lastTr).find('.workHourFrom input').val() == null || $(lastTr).find('.workHourFrom input').val() == '' ||
-        $(lastTr).find('.workHourTo input').val() == null || $(lastTr).find('.workHourTo input').val() == '') {
+    if (validateWorkTable()) {
         $(".workError").show();
     }
     else {
@@ -188,21 +209,11 @@ function addWorkDate() {
             $(this).val('');
         }).end().appendTo("#workDates");
 
-
-        $(".date").datepicker({
-            language: 'el',
-            format: 'dd/mm/yyyy',
-            autoclose: true
-        });
-        $(".time").timepicker({
-            lang: {
-                'am': ' π.μ.',
-                'pm': ' μ.μ.'
-            }
-        });
+        refreshDateTime();
     }
 }
 
+/* show the task info at the side div */
 function showTaskInfo(taskId) {
     //fetch the task data to show in the sidebar
     $.ajax({
@@ -256,6 +267,7 @@ function showTaskInfo(taskId) {
 }
 
 
+/* show the subtask info at the side div */
 function showSubTaskInfo(subTaskId) {
     //fetch the task data to show in the sidebar
     $.ajax({
@@ -264,36 +276,37 @@ function showSubTaskInfo(subTaskId) {
         success: function (result) {
             $(".taskInfo").hide();
 
-            console.log(result);
+            subTask = result;
 
-            $(".subTaskInfo .due_date").text(result.due_date == null ? '-' : result.due_date);
-            $(".subTaskInfo .name").text(result.name);
-            $(".subTaskInfo .description").text(result.description == null ? '-' : result.description);
+            $(".subTaskInfo .due_date").text(subTask.due_date == null ? '-' : subTask.due_date);
+            $(".subTaskInfo .name").text(subTask.name);
+            $(".subTaskInfo .description").text(subTask.description == null ? '-' : subTask.description);
 
-            $(".subTaskInfo .editSubTask").attr('data-subtask-id', result.id);
-            $(".subTaskInfo .editSubTask").attr('data-task-id', result.task_id);
-            $(".subTaskInfo .deleteSubTask").attr('data-subtask-id', result.id);
+            $(".subTaskInfo .editSubTask").attr('data-subtask-id', subTask.id);
+            $(".subTaskInfo .editSubTask").attr('data-task-id', subTask.task_id);
+            $(".subTaskInfo .deleteSubTask").attr('data-subtask-id', subTask.id);
 
-            if (result.priority == 1)
+            if (subTask.priority == 1)
                 $(".subTaskInfo .priority").text('Χαμηλή');
-            if (result.priority == 2)
+            if (subTask.priority == 2)
                 $(".subTaskInfo .priority").text('Μεσαία');
-            if (result.priority == 3)
+            if (subTask.priority == 3)
                 $(".subTaskInfo .priority").text('Υψηλή');
-            if (result.priority == 4)
+            if (subTask.priority == 4)
                 $(".subTaskInfo .priority").text('Επείγον');
 
-            $(".subTaskInfo .priority").attr('data-priority', result.priority);
+            $(".subTaskInfo .priority").attr('data-priority', subTask.priority);
 
 
             html = '';
             //beware the classy code
-            $.each(result.work_dates, function (i, date) {
+            $.each(subTask.work_dates, function (i, date) {
                 html += '<h4>' + date.from_date + '</h4>';
 
                 $.each(date.hours, function (i, hour) {
-                    html += '<p>' + hour.from_hour + '-' + hour.to_hour;
-                    html += '<br/>Σχόλια: ' + (hour.comments == null ? '-' : hour.comments) + '<br/>';
+                    html += '<p>' + hour.from_hour + '-' + hour.to_hour + '<br/>';
+                    html += 'Αριθμός εθελοντών: ' + (hour.volunteer_sum == null ? '-' : hour.volunteer_sum) + '<br/>';
+                    html += 'Σχόλια: ' + (hour.comments == null ? '-' : hour.comments) + '<br/>';
                     html += '</p>';
                 });
             });
@@ -306,20 +319,49 @@ function showSubTaskInfo(subTaskId) {
     });
 }
 
+/* validate the work date tables, check that no row is incomplete */
+function validateWorkTable() {
+    var lastTr = $("#workDates tr:last");
 
-$('.date').datepicker({
-    language: 'el',
-    format: 'dd/mm/yyyy',
-    autoclose: true
-});
+    console.log($(lastTr).find('.date').attr('data-date'));
 
-$('.time').timepicker({
-    lang: {
-        'am': ' π.μ.',
-        'pm': ' μ.μ.'
+    /*
+     console.log(($(lastTr).find('.workHourFrom input').val()));
+     console.log(($(lastTr).find('.workHourTo input').val()));
+     */
+
+    if (($(lastTr).find('.workDate input').val() == null || $(lastTr).find('.workDate input').val() == '' ||
+        $(lastTr).find('.workHourFrom input').val() == null || $(lastTr).find('.workHourFrom input').val() == '' ||
+        $(lastTr).find('.workHourTo input').val() == null || $(lastTr).find('.workHourTo input').val() == '')) {
+        return true;
     }
-});
+    else return false;
+}
+
+function refreshDateTime() {
+
+    $(".date").datepicker({
+        language: 'el',
+        format: 'dd/mm/yyyy',
+        autoclose: true
+    }).on('show', function (selected) {
+        var date = new Date(selected.date.valueOf());
+        if (date != null)
+            $(this).attr('data-date', date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
+    }).on('changeDate', function (selected) {
+        var date = new Date(selected.date.valueOf());
+        $(this).attr('data-date', date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
+    });
+
+    $(".time").timepicker({
+        lang: {
+            'am': ' π.μ.',
+            'pm': ' μ.μ.'
+        }
+    });
+}
+
 
 $(".multiple").select2();
-
+refreshDateTime();
 

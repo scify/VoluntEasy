@@ -21,7 +21,6 @@
                                     <img src="{{ asset('assets/images/ekpizo.png') }}" style="width:100%;"/>
                                 </div>
                             </div>
-
                             <div class="row">
                                 <div class="col-md-12">
                                     <h2>Κάλεσμα εθελοντών στη δράση <strong>{{ $action->description }}</strong></h2>
@@ -49,24 +48,44 @@
                                     </p>
                                 </div>
                                 <div class="col-md-6">
-                                    {{-- <img src="{{ asset('assets/images/volunteer_hands.png') }}" style="width:100%;"/> --}}
+                                    {{-- <img src="{{ asset('assets/images/volunteer_hands.png') }}"
+                                              style="width:100%;"/> --}}
                                 </div>
                             </div>
 
-                            <div class="row tasks">
-                                {{-- The column displaying the subtask info --}}
-                                <div class="col-md-2 cta-task">
+
+                            <div class="row">
+                                <div class="col-md-12">
                                     <h3>Υποδοχή</h3>
 
-                                    <p> USC ALUMNI CENTER, 1st Floor Ballroom</p>
+                                    <p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit
+                                        esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo
+                                        voluptas nulla pariatur.</p>
                                 </div>
-                                <div class="col-md-10">
 
-                                    {{-- The column displaying the subtask hours and dates --}}
+                                <div class="col-md-2">
+                                    Άνοιγμα πόρτας
+                                </div>
+                                <div class="col-md-2">
+                                    13:00-15:00
+                                </div>
+                            </div>
 
-                                    <div class="row">
 
-                                        <div class="col-md-3 task">
+                            {{--
+                            <table class="table tasks">
+
+                                <tr>
+                                    <td class="task">
+                                        <div class="task-info">
+                                            <h3>Υποδοχή</h3>
+
+                                            <p> USC ALUMNI CENTER, 1st Floor Ballroom</p>
+                                    </td>
+                                    <td class="taskDate">
+                                        <div class="subtask-info">Άνοιγμα πόρτας</div>
+
+                                        <div class="">
                                             <div class="hours">13:00-15:00
                                             </div>
                                             <div class=" description">
@@ -75,82 +94,86 @@
 
                                             </div>
                                         </div>
+                                    </td>
+                                    <td>
+                                        <div class="taskDate">
+                                            <div class="hours">13:00-15:00
+                                            </div>
+                                            <div class=" description">
+                                                Keeping it Human
+                                                Ben Callahan
+
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
 
 
-                                        <div class="col-md-3">
+                            </table>
+                            --}}
+
+                            {{--
+                            <div class="row">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="cta tasks">
+                                        <h3>Ανάγκες δράσης</h3>
+
+                                        <div class="row task odd">
+                                            <div class="col-md-9">
+                                                <h4 class="title">Υποδοχή</h4>
+
+                                                <p class="description">Duis aute irure dolor in reprehenderit in
+                                                    voluptate velit esse
+                                                    cillu.</p>
+                                                <small class="dates">12 Φεβρουαρίου έως 16 Φεβρουαρίου, ώρες
+                                                    12:00-16:00
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button class="btn btn-info" data-toggle="modal"
+                                                        data-target="#i_am_interested">Ενδιαφέρομαι
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div class="col-md-3">
+
+                                        <div class="row task even">
+                                            <div class="col-md-9">
+                                                <h4 class="title">Υποδοχή</h4>
+
+                                                <p class="description">Duis aute irure dolor in reprehenderit in
+                                                    voluptate velit esse
+                                                    cillu.</p>
+                                                <small class="dates">12 Φεβρουαρίου έως 16 Φεβρουαρίου, ώρες
+                                                    12:00-16:00
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button class="btn btn-info" data-toggle="modal"
+                                                        data-target="#i_am_interested">Ενδιαφέρομαι
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div class="col-md-3">
+
+                                        <div class="row task odd">
+                                            <div class="col-md-9">
+                                                <h4 class="title">Υποδοχή</h4>
+
+                                                <p class="description">Duis aute irure dolor in reprehenderit in
+                                                    voluptate velit esse
+                                                    cillu.</p>
+                                                <small class="dates">12 Φεβρουαρίου έως 16 Φεβρουαρίου, ώρες
+                                                    12:00-16:00
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button class="btn btn-info" data-toggle="modal"
+                                                        data-target="#i_am_interested">Ενδιαφέρομαι
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
-
-                            {{--
-                                                        <div class="row">
-                                                            <div class="col-md-10 col-md-offset-1">
-                                                                <div class="cta tasks">
-                                                                    <h3>Ανάγκες δράσης</h3>
-
-                                                                    <div class="row task odd">
-                                                                        <div class="col-md-9">
-                                                                            <h4 class="title">Υποδοχή</h4>
-
-                                                                            <p class="description">Duis aute irure dolor in reprehenderit in
-                                                                                voluptate velit esse
-                                                                                cillu.</p>
-                                                                            <small class="dates">12 Φεβρουαρίου έως 16 Φεβρουαρίου, ώρες
-                                                                                12:00-16:00
-                                                                            </small>
-                                                                        </div>
-                                                                        <div class="col-md-3">
-                                                                            <button class="btn btn-info" data-toggle="modal"
-                                                                                    data-target="#i_am_interested">Ενδιαφέρομαι
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="row task even">
-                                                                        <div class="col-md-9">
-                                                                            <h4 class="title">Υποδοχή</h4>
-
-                                                                            <p class="description">Duis aute irure dolor in reprehenderit in
-                                                                                voluptate velit esse
-                                                                                cillu.</p>
-                                                                            <small class="dates">12 Φεβρουαρίου έως 16 Φεβρουαρίου, ώρες
-                                                                                12:00-16:00
-                                                                            </small>
-                                                                        </div>
-                                                                        <div class="col-md-3">
-                                                                            <button class="btn btn-info" data-toggle="modal"
-                                                                                    data-target="#i_am_interested">Ενδιαφέρομαι
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div class="row task odd">
-                                                                        <div class="col-md-9">
-                                                                            <h4 class="title">Υποδοχή</h4>
-
-                                                                            <p class="description">Duis aute irure dolor in reprehenderit in
-                                                                                voluptate velit esse
-                                                                                cillu.</p>
-                                                                            <small class="dates">12 Φεβρουαρίου έως 16 Φεβρουαρίου, ώρες
-                                                                                12:00-16:00
-                                                                            </small>
-                                                                        </div>
-                                                                        <div class="col-md-3">
-                                                                            <button class="btn btn-info" data-toggle="modal"
-                                                                                    data-target="#i_am_interested">Ενδιαφέρομαι
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
 
 
                             --}}

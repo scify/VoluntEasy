@@ -23,17 +23,15 @@
                                         <a href="#" class="title" onclick="showTaskInfo({{ $task->id }})">{{ $task->name
                                             }}</a>
 
-                                        @if(sizeof($task->todoSubtasks) > 0 && sizeof($task->doingSubtasks)==0 &&
-                                        sizeof($task->doneSubtasks)==0)
+                                        @if($task->status=="todo")
                                         <span class="status todo">TO DO</span>
-                                        @elseif(sizeof($task->doneSubtasks) > 0 && sizeof($task->doingSubtasks)==0 &&
-                                        sizeof($task->todoSubtasks)==0)
+                                        @elseif($task->status=="done")
                                         <span class="status done">DONE</span>
-                                        @elseif(sizeof($task->doingSubtasks) > 0)
+                                        @elseif($task->status=="doing")
                                         <span class="status doing">DOING</span>
                                         @endif
 
-                                        <small> {{ sizeof($task->subtasks) }} subtasks</small>
+                                        <small> {{ sizeof($task->todoSubtasks) + sizeof($task->doingSubtasks) + sizeof($task->doneSubtasks) }} subtasks</small>
 
                                         <i class="fa fa-arrow-up priority-{{$task->priority}}"></i>
 
@@ -87,7 +85,7 @@
                                                                 </small>
                                                             @endif
                                                             </span></p>
-                                                    <small class="text-left">{{ sizeof($subtask->volunteers) }}/12
+                                                    <small class="text-left">{{ isset($subtask->volunteers) ? sizeof($subtask->volunteers) : '' }}/12
                                                         εθελοντές
                                                     </small>
                                                 </div>
@@ -119,7 +117,7 @@
                                                                 </small>
                                                             @endif
                                                             </span></p>
-                                                    <small class="text-left">{{ sizeof($subtask->volunteers) }}/12
+                                                    <small class="text-left">{{ isset($subtask->volunteers) ? sizeof($subtask->volunteers) : '' }}/12
                                                         εθελοντές
                                                     </small>
                                                 </div>
@@ -152,7 +150,7 @@
                                                                 </small>
                                                             @endif
                                                             </span></p>
-                                                    <small class="text-left">{{ sizeof($subtask->volunteers) }}/12
+                                                    <small class="text-left">{{ isset($subtask->volunteers) ? sizeof($subtask->volunteers) : '' }}/12
                                                         εθελοντές
                                                     </small>
                                                 </div>

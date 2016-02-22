@@ -40,28 +40,29 @@
 
     <table class="table table-condensed table-bordered table-striped table-striped" id="workDates">
         <thead>
-        <th>Ημέρα <span class="star">*</span></th>
-        <th>Ώρα από <span class="star">*</span></th>
-        <th>Ώρα εώς <span class="star">*</span></th>
-        <th>Σχόλια</th>
+        <th>Ημέρα</th>
+        <th>Ώρα από</th>
+        <th>Ώρα εώς</th>
+        <th># εθελοντών</th>
         <th>Εθελοντές</th>
+        <th>Σχόλια</th>
         </thead>
         <tbody>
         <tr class="workDates">
-            <td class="workDate col-md-2">{!! Form::formInput('workDates[dates][]', '', $errors, ['class' => 'form-control date',
-                'data-date-start-date' => $action->start_date, 'data-date-end-date' => $action->end_date]) !!}
+            <td class="workDate col-md-1">{!! Form::formInput('workDates[dates][]', '', $errors, ['class' => 'form-control date datetime',
+                'data-date-start-date' => $action->start_date, 'data-date-end-date' => $action->end_date, 'data-date-format' => 'dd/mm/yyyy']) !!}
             </td>
-            <td class="workHourFrom col-md-2">{!! Form::formInput('workDates[hourFrom][]', '', $errors, ['class' => 'form-control
-                time']) !!}
+            <td class="workHourFrom col-md-1">{!! Form::formInput('workDates[hourFrom][]', '', $errors, ['class' => 'form-control
+                time datetime']) !!}
             </td>
-            <td class="workHourTo col-md-2">{!! Form::formInput('workDates[hourTo][]', '', $errors, ['class' => 'form-control
-                time']) !!}
+            <td class="workHourTo col-md-1">{!! Form::formInput('workDates[hourTo][]', '', $errors, ['class' => 'form-control
+                time datetime']) !!}
             </td>
-            <td class="comments col-md-3">{!! Form::formInput('workDates[comments][]', '', $errors, ['type' => 'textarea', 'size' => '1x1', 'class' => 'form-control']) !!}
+            <td class="comments col-md-1">{!! Form::formInput('workDates[volunteerSum][]', '', $errors, ['class' => 'form-control']) !!}
             </td>
             <td class="volunteers col-md-3">
-                <select class="js-states form-control multiple" id="subtaskVolunteers" multiple="multiple"
-                        name="subtaskVolunteers[]"
+                <select class="js-states form-control multiple" multiple="multiple"
+                        name="workDates[subtaskVolunteers][]"
                         tabindex="-1"
                         style="display: none; width: 100%">
                     @foreach($allVolunteers as $volunteer)
@@ -69,13 +70,15 @@
                     @endforeach
                 </select>
             </td>
+            <td class="comments col-md-3">{!! Form::formInput('workDates[comments][]', '', $errors, ['type' => 'textarea', 'size' => '1x1', 'class' => 'form-control']) !!}
+            </td>
         </tr>
         </tbody>
     </table>
     <p class="workError text-danger" style="display:none;">Συμπληρώστε όλα τα πεδία</p>
 
     <div class="col-md-12">
-        <p><a href="#" onclick="addWorkDate()"><i class="fa fa-plus-circle"></i> Προσθήκη διαθεσιμότητας</a></p>
+        <p><a href="#" onclick="addWorkDate()" class="add-dates"><i class="fa fa-plus-circle"></i> Προσθήκη διαθεσιμότητας</a></p>
     </div>
     </div>
 

@@ -13,7 +13,7 @@ class WorkHour extends Model {
 
     protected $table = 'subtask_work_hours';
 
-    protected $fillable = ['from_hour', 'to_hour', 'subtask_work_dates_id', 'comments'];
+    protected $fillable = ['from_hour', 'to_hour', 'subtask_work_dates_id', 'volunteer_sum'];
 
 
     public function getFromHourAttribute() {
