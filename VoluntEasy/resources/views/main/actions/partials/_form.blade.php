@@ -49,15 +49,18 @@
                     !!}
                 </div>
             </div>
+            {{--
             <div class="col-md-6">
                 <div class="form-group">
-                    {!! Form::formInput('volunteer_sum', 'Αριθμός εθελοντών:', $errors, ['class' => 'form-control', 'id' =>
+                    {!! Form::formInput('volunteer_sum', 'Αριθμός εθελοντών:', $errors, ['class' => 'form-control', 'id'
+                    =>
                     'actionPhone'])
                     !!}
                     <small class="help-block">Πόσοι εθελοντές χρειάζονται για τη δράση
                     </small>
                 </div>
             </div>
+            --}}
         </div>
     </div>
     {!! Form::formInput('unit_id', null, $errors, ['type' => 'hidden', 'id' => 'unit_id']) !!}

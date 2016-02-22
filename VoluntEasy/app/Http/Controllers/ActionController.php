@@ -82,7 +82,7 @@ class ActionController extends Controller {
      * @return Response
      */
     public function show($id) {
-        $action = Action::with('unit', 'ratings', 'tasks.subtasks.status')->findOrFail($id);
+        $action = Action::with('unit', 'ratings', 'tasks.subtasks.status', 'tasks.subtasks.workDates.hours')->findOrFail($id);
 
         $branch = UnitService::getBranch(Unit::where('id', $action->unit->id)->with('actions')->first());
 
@@ -109,7 +109,8 @@ class ActionController extends Controller {
 
         $taskStatuses = Status::all();
 
-        $action = TaskService::subtasksPerStatus($action);
+        //get subtasks per status, calculate total volunteer sum etc
+        $action = TaskService::prepareTasks($action);
 
        // return $action;
         return view('main.actions.show', compact('action', 'allVolunteers', 'volunteerIds', 'userUnits', 'branch', 'taskStatuses'));

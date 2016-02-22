@@ -144,7 +144,7 @@ class SubTaskController extends Controller {
                     'to_hour' => \Request::get('workDates')['hourTo'][$i],
                     'comments' => \Request::get('workDates')['comments'][$i],
                     'subtask_work_dates_id' => $workDate->id,
-                    'volunteer_sum' => \Request::get('volunteerSum')
+                    'volunteer_sum' => \Request::get('workDates')['volunteerSum'][$i]
                 ]);
                 $workHours->save();
             }

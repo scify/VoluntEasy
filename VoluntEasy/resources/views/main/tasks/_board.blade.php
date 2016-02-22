@@ -1,3 +1,5 @@
+<?php $lang = "default."; ?>
+
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-white">
@@ -31,23 +33,43 @@
                                         <span class="status doing">DOING</span>
                                         @endif
 
-                                        <small> {{ sizeof($task->todoSubtasks) + sizeof($task->doingSubtasks) + sizeof($task->doneSubtasks) }} subtasks</small>
+                                        <small> {{ sizeof($task->todoSubtasks) + sizeof($task->doingSubtasks) +
+                                            sizeof($task->doneSubtasks) }} subtasks
+                                        </small>
 
-                                        <i class="fa fa-arrow-up priority-{{$task->priority}}"></i>
+                                        @if($task->priority==1)
+                                        <i class="fa fa-arrow-up priority-{{$task->priority}}" title="Χαμηλή προτεραιότητα"></i>
+                                        @elseif($task->priority==2)
+                                        <i class="fa fa-arrow-up priority-{{$task->priority}}" title="Μεσαία προτεραιότητα"></i>
+                                        @elseif($task->priority==3)
+                                        <i class="fa fa-arrow-up priority-{{$task->priority}}" title="Υψηλή προτεραιότητα"></i>
+                                        @elseif($task->priority==4)
+                                        <i class="fa fa-arrow-up priority-{{$task->priority}}" title="Επείγουσα προτεραιότητα"></i>
+                                        @endif
 
                                          <span>
                                                             @if($task->expires==null)
                                                             <span></span>
                                                             @elseif($task->expires==-1)
-                                                                <i class="fa fa-calendar"></i> <small class="text-danger">Χτες</small>
+                                                                <i class="fa fa-calendar"></i> <small
+                                                 class="text-danger">Χτες
+                                             </small>
                                                             @elseif($task->expires==0)
-                                                                <i class="fa fa-calendar"></i> <small class="text-warning">Σήμερα</small>
+                                                                <i class="fa fa-calendar"></i> <small
+                                                 class="text-warning">Σήμερα
+                                             </small>
                                                             @elseif($task->expires==1)
-                                                                <i class="fa fa-calendar"></i> <small class="text-info">Αύριο</small>
+                                                                <i class="fa fa-calendar"></i> <small class="text-info">
+                                                 Αύριο
+                                             </small>
                                                             @elseif($task->expires>1)
-                                                                <i class="fa fa-calendar"></i> <small>{{ $task->due_date }}</small>
+                                                                <i class="fa fa-calendar"></i> <small>{{ $task->due_date
+                                                 }}
+                                             </small>
                                                              @elseif($task->expires<-1)
-                                                                <i class="fa fa-calendar"></i> <small class="text-danger">{{ $task->due_date }}</small>
+                                                                <i class="fa fa-calendar"></i> <small
+                                                 class="text-danger">{{ $task->due_date }}
+                                             </small>
                                                             @endif
                                          </span>
                                     </h4>
@@ -85,8 +107,8 @@
                                                                 </small>
                                                             @endif
                                                             </span></p>
-                                                    <small class="text-left">{{ isset($subtask->volunteers) ? sizeof($subtask->volunteers) : '' }}/12
-                                                        εθελοντές
+                                                    <small class="text-left">
+                                                        {{ isset($subtask->volunteers) ? sizeof($subtask->volunteers).'/' : '' }}{{ $subtask->volunteerSum }} εθελοντές
                                                     </small>
                                                 </div>
                                                 @endforeach
@@ -117,7 +139,8 @@
                                                                 </small>
                                                             @endif
                                                             </span></p>
-                                                    <small class="text-left">{{ isset($subtask->volunteers) ? sizeof($subtask->volunteers) : '' }}/12
+                                                    <small class="text-left">{{ isset($subtask->volunteers) ?
+                                                        sizeof($subtask->volunteers) : '' }}/12
                                                         εθελοντές
                                                     </small>
                                                 </div>
@@ -150,7 +173,8 @@
                                                                 </small>
                                                             @endif
                                                             </span></p>
-                                                    <small class="text-left">{{ isset($subtask->volunteers) ? sizeof($subtask->volunteers) : '' }}/12
+                                                    <small class="text-left">{{ isset($subtask->volunteers) ?
+                                                        sizeof($subtask->volunteers) : '' }}/12
                                                         εθελοντές
                                                     </small>
                                                 </div>

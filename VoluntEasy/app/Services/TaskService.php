@@ -5,11 +5,15 @@ class TaskService {
 
     /**
      * For a certain action, return the subtasks per status
-     * (to do, doing, done)
+     * (to do, doing, done).
+     * Calculate the total volunteer sum
+     * Sort tasks by status
      *
      * @param $action
      */
-    public function subtasksPerStatus($action) {
+    public function prepareTasks($action) {
+
+        $volunteerSum = 0;
 
         foreach ($action->tasks as $task) {
 
@@ -20,6 +24,7 @@ class TaskService {
             $today = \Carbon::today();
 
             foreach ($task->subtasks as $subtask) {
+
                 $subtask->expires = 'null';
                 if ($subtask->due_date != null) {
                     $dueDate = \Carbon::createFromFormat('d/m/Y', $subtask->due_date);
@@ -35,6 +40,17 @@ class TaskService {
                     array_push($doingSubtasks, $subtask);
                 else
                     array_push($doneSubtasks, $subtask);
+
+                //calculate the total volunteer sum
+                $subtaskVolunteers = 0;
+                foreach ($subtask->workDates as $date) {
+                    foreach ($date->hours as $hour) {
+                        $volunteerSum += $hour->volunteer_sum;
+                        $subtaskVolunteers += $hour->volunteer_sum;
+                    }
+                }
+
+                $subtask->volunteerSum = $subtaskVolunteers;
             }
 
             unset($task->subtasks);
@@ -65,9 +81,8 @@ class TaskService {
             }
         }
 
+        //sort tasks by status
         $tasks = json_decode($action->tasks);
-       // dd(json_encode($tasks));
-        //var_dump(json_decode(json_encode($tasks)));
 
         usort($tasks, function ($a, $b) {
             if ($a->statusOrderId > $b->statusOrderId) {
@@ -81,6 +96,7 @@ class TaskService {
 
         unset($action->tasks);
         $action->tasks = json_decode(json_encode($tasks));
+        $action->volunteerSum = $volunteerSum;
 
         return $action;
     }
