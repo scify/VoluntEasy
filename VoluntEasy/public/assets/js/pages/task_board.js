@@ -41,7 +41,7 @@ $(".board-column").sortable({
 
 //set the task id in the modal
 $(".addSubTask").click(function () {
-    $(".modal-body #taskId").val($(this).attr('data-task-id'));
+    $(".modal-body .taskId").val($(this).attr('data-task-id'));
     $("#subtask-priorities option[value='2']").prop('selected', true);
 })
 
@@ -49,10 +49,10 @@ $(".addSubTask").click(function () {
 //save a task
 $("#storeTask").click(function (e) {
     e.preventDefault();
-    if ($("#name").val() == null || $("#name").val() == '')
-        $("#name_err").show();
+    if ($("#addTask .name").val() == null || $("#addTask .name").val() == '')
+        $("#addTask .name_err").show();
     else {
-        $("#name_err").hide();
+        $("#addTask .name_err").hide();
 
         $.ajax({
             url: $("body").attr('data-url') + "/actions/tasks/store",
@@ -69,10 +69,10 @@ $("#storeTask").click(function (e) {
 //save a subtask
 $("#storeSubTask").click(function (e) {
     e.preventDefault();
-    if ($("#subtask-name").val() == null || $("#subtask-name").val() == '')
-        $("#subtask-name_err").show();
+    if ($("#addSubTask .name").val() == null || $("#addSubTask .name").val() == '')
+        $("#addSubTask .subtask-name_err").show();
     else {
-        $("#subtask-name_err").hide();
+        $("#addSubTask .subtask-name_err").hide();
 
         $.ajax({
             url: $("body").attr('data-url') + "/actions/tasks/subtasks/store",
@@ -88,18 +88,18 @@ $("#storeSubTask").click(function (e) {
 //update a subtask
 $("#updateSubTask").click(function (e) {
     e.preventDefault();
-    if ($("#editSubTask #subtask-name").val() == null || $("#editSubTask #subtask-name").val() == '')
-        $("#editSubTask #subtask-name_err").show();
+    if ($("#editSubTask .name").val() == null || $("#editSubTask .name").val() == '')
+        $("#editSubTask .subtask-name_err").show();
     else {
-        $("#editSubTask #subtask-name_err").hide();
+        $("#editSubTask .subtask-name_err").hide();
 
         $.ajax({
             url: $("body").attr('data-url') + "/actions/tasks/subtasks/update",
             method: 'POST',
             data: $("#editSubTaskForm").serialize(),
             success: function (result) {
+                 //location.reload();
                 console.log(result);
-                // location.reload();
             }
         });
     }
@@ -108,12 +108,11 @@ $("#updateSubTask").click(function (e) {
 //populate the edit task modal with data before displaying it
 $(".editTask").click(function (e) {
 
-
-    $("#editTask #taskId").val($(this).attr('data-task-id'));
-    $("#editTask #due_date").datepicker("update", $(".taskInfo .due_date").text());
-    $("#editTask #name").val($(".taskInfo .name").text());
-    $("#editTask #description").val($(".taskInfo .description").text());
-    $("#editTask #priorities option[value='" + $(".taskInfo .priority").attr('data-priority') + "']").prop('selected', true);
+    $("#editTask .taskId").val($(this).attr('data-task-id'));
+    $("#editTask .due_date").datepicker("update", task.due_date);
+    $("#editTask .name").val(task.name);
+    $("#editTask .description").val(task.description);
+    $("#editTask .priorities option[value='" + task.priority + "']").prop('selected', true);
 
     //show modal
     $('#editTask').modal('show');
@@ -122,26 +121,27 @@ $(".editTask").click(function (e) {
 //populate the edit subtask modal with data before displaying it
 $(".editSubTask").click(function (e) {
 
-    $("#editSubTask #taskId").val($(this).attr('data-task-id'));
-    $("#editSubTask #subTaskId").val($(this).attr('data-subtask-id'));
-    $("#editSubTask #subtask-name").val($(".subTaskInfo .name").text());
-    $("#editSubTask #subtask-description").val($(".subTaskInfo .description").text());
+    $("#editSubTask .taskId").val(subTask.task_id);
+    $("#editSubTask .subTaskId").val(subTask.id);
+    $("#editSubTask .name").val(subTask.name);
+    $("#editSubTask .description").val(subTask.description);
+    $("#editSubTask .due_date").datepicker("update", subTask.due_date);
 
-    $("#subtask-priorities option[value='" + $(".subTaskInfo .priority").attr('data-priority') + "']").prop('selected', true);
+    $("#editSubTask .subtask-priorities option[value='" + subTask.priority + "']").prop('selected', true);
 
-    var lastTr = $("#workDates tr:first");
-
-    console.log(subTask);
+    var lastTr = $("#editSubTask .workDates tr:first");
 
     //fill the workDates table
     $.each(subTask.work_dates, function (i, date) {
 
         $.each(date.hours, function (j, hour) {
 
-            var clone = $("#editSubTask #workDates tr:last").clone().find("input, select, textarea").each(function () {
+            var clone = $("#editSubTask .workDates tr:last").clone().find("input, select, textarea").each(function () {
                 var name = $(this).attr('name');
                 console.log(name);
-                if (name == "workDates[dates][]")
+                if (name == "workDates[ids][]")
+                    $(this).eq(j).val(date.id);
+                else if (name == "workDates[dates][]")
                     $(this).eq(j).val(date.from_date);
                 else if (name == "workDates[hourFrom][]")
                     $(this).eq(j).val(hour.from_hour);
@@ -156,8 +156,8 @@ $(".editSubTask").click(function (e) {
                     $(this).eq(j).val(hour.comments);
             }).end()
 
-            $("#editSubTask .workDates").remove();
-            $(clone).appendTo("#editSubTask #workDates");
+            $("#editSubTask .workDates tr:last").remove();
+            $(clone).appendTo("#editSubTask .workDates");
         });
     });
 
@@ -183,12 +183,12 @@ $(".deleteTask").click(function () {
 });
 
 //delete a subtask
-$("#deleteSubTask").click(function () {
+$(".deleteSubTask").click(function () {
     if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε το subtask;") == true) {
 
         $.ajax({
             method: 'GET',
-            url: $("body").attr('data-url') + "/actions/tasks/subtasks/delete/" + $("#subTaskId").val(),
+            url: $("body").attr('data-url') + "/actions/tasks/subtasks/delete/" + $(this).attr('data-subtask-id'),
             success: function (result) {
                 location.reload();
             }
@@ -198,14 +198,14 @@ $("#deleteSubTask").click(function () {
 
 
 //add another editable fields to fill in work date and hours
-function addWorkDate() {
+function addWorkDate(parentId) {
 
-    if (validateWorkTable()) {
+    if (validateWorkTable(parentId)) {
         $(".workError").show();
     }
     else {
         $(".workError").hide();
-        $("#workDates tr:last").clone().find("input").each(function () {
+        $(".workDates tr:last").clone().find("input").each(function () {
             $(this).val('');
         }).end().appendTo("#workDates");
 
@@ -220,46 +220,27 @@ function showTaskInfo(taskId) {
         method: 'GET',
         url: $("body").attr('data-url') + "/actions/tasks/one/" + taskId,
         success: function (result) {
+            task = result;
+
             $(".subTaskInfo").hide();
 
-            $(".taskInfo .due_date").text(result.due_date == null ? '-' : result.due_date);
-            $(".taskInfo .name").text(result.name);
-            $(".taskInfo .description").text(result.description == null ? '-' : result.description);
+            $(".taskInfo .due_date").text(task.due_date == null ? '-' : task.due_date);
+            $(".taskInfo .name").text(task.name);
+            $(".taskInfo .description").text(task.description == null || task.description == '' ? '-' : task.description);
 
-            $(".taskInfo .editTask").attr('data-task-id', result.id);
-            $(".taskInfo .deleteTask").attr('data-task-id', result.id);
+            $(".taskInfo .editTask").attr('data-task-id', task.id);
+            $(".taskInfo .deleteTask").attr('data-task-id', task.id);
 
-
-            /*   var status = '-';
-             console.log(result);
-             if (result.todoSubtasks != null && result.todoSubtasks.length() > 0 &&
-             (result.doingSubtasks == null || result.doingSubtasks.length() == 0) &&
-             (result.doneSubtasks == null || result.doneSubtasks.length() == 0))
-
-             status = '<span class="status todo">TO DO</span>';
-
-             else if (result.doneSubtasks != null && result.doneSubtasks.length() > 0 &&
-             (result.doingSubtasks == null || result.doingSubtasks.length() == 0) &&
-             (result.todoSubtasks == null || result.todoSubtasks.length() == 0))
-
-             status = '<span class="status done">DONE</span>';
-
-             else if (result.doingSubtasks != null && result.doingSubtasks.length() > 0)
-             status = '<span class="status doing">DOING</span>';
-
-             $(".taskInfo .tstatus").html(status);
-             */
-
-            if (result.priority == 1)
+            if (task.priority == 1)
                 $(".taskInfo .priority").text('Χαμηλή');
-            if (result.priority == 2)
+            if (task.priority == 2)
                 $(".taskInfo .priority").text('Μεσαία');
-            if (result.priority == 3)
+            if (task.priority == 3)
                 $(".taskInfo .priority").text('Υψηλή');
-            if (result.priority == 4)
+            if (task.priority == 4)
                 $(".taskInfo .priority").text('Επείγον');
 
-            $(".taskInfo .priority").attr('data-priority', result.priority);
+            $(".taskInfo .priority").attr('data-priority', task.priority);
 
             $(".taskInfo").show();
         }
@@ -280,7 +261,7 @@ function showSubTaskInfo(subTaskId) {
 
             $(".subTaskInfo .due_date").text(subTask.due_date == null ? '-' : subTask.due_date);
             $(".subTaskInfo .name").text(subTask.name);
-            $(".subTaskInfo .description").text(subTask.description == null ? '-' : subTask.description);
+            $(".subTaskInfo .description").text(subTask.description == null || subTask.description == '' ? '-' : subTask.description);
 
             $(".subTaskInfo .editSubTask").attr('data-subtask-id', subTask.id);
             $(".subTaskInfo .editSubTask").attr('data-task-id', subTask.task_id);
@@ -320,15 +301,8 @@ function showSubTaskInfo(subTaskId) {
 }
 
 /* validate the work date tables, check that no row is incomplete */
-function validateWorkTable() {
-    var lastTr = $("#workDates tr:last");
-
-    console.log($(lastTr).find('.date').attr('data-date'));
-
-    /*
-     console.log(($(lastTr).find('.workHourFrom input').val()));
-     console.log(($(lastTr).find('.workHourTo input').val()));
-     */
+function validateWorkTable(parentId) {
+    var lastTr = $(parentId + " .workDates tr:last");
 
     if (($(lastTr).find('.workDate input').val() == null || $(lastTr).find('.workDate input').val() == '' ||
         $(lastTr).find('.workHourFrom input').val() == null || $(lastTr).find('.workHourFrom input').val() == '' ||
@@ -345,9 +319,10 @@ function refreshDateTime() {
         format: 'dd/mm/yyyy',
         autoclose: true
     }).on('show', function (selected) {
-        var date = new Date(selected.date.valueOf());
-        if (date != null)
+        if (selected.date != null) {
+            var date = new Date(selected.date.valueOf());
             $(this).attr('data-date', date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());
+        }
     }).on('changeDate', function (selected) {
         var date = new Date(selected.date.valueOf());
         $(this).attr('data-date', date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear());

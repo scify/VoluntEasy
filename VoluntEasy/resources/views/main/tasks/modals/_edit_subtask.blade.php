@@ -13,9 +13,7 @@
             <div class="modal-body">
                 {!! Form::model(null, ['id' => 'editSubTaskForm', 'method' => 'POST', 'action' => ['SubTaskController@update']]) !!}
 
-                <input type="hidden" name="subTaskId" id="subTaskId" value="">
-
-                @include('main.tasks.modals._subtask_form')
+                @include('main.tasks.modals._subtask_form', ['parentId' => '#editSubTask'])
 
             </div>
             <div class="modal-footer">

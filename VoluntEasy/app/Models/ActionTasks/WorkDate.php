@@ -16,6 +16,10 @@ class WorkDate extends Model {
 
     protected $dates = ['from_date', 'to_date'];
 
+    public function subtask() {
+        return $this->belongTo('App\Models\ActionTasks\SubTask', 'id', 'subtask_id');
+    }
+
     public function hours() {
         return $this->hasMany('App\Models\ActionTasks\WorkHour', 'subtask_work_dates_id', 'id');
     }

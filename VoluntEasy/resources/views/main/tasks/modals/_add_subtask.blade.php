@@ -12,7 +12,7 @@
             </div>
             <div class="modal-body">
                 {!! Form::open(['id' => 'createSubTask', 'method' => 'POST', 'action' => ['SubTaskController@store']]) !!}
-                @include('main.tasks.modals._subtask_form')
+                @include('main.tasks.modals._subtask_form', ['parentId' => '#addSubTask'])
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>

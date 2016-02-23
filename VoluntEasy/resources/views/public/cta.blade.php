@@ -53,9 +53,9 @@
                                 </div>
                             </div>
 
-
+                            {{--
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-4">
                                     <h3>Υποδοχή</h3>
 
                                     <p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit
@@ -63,54 +63,125 @@
                                         voluptas nulla pariatur.</p>
                                 </div>
 
-                                <div class="col-md-2">
+                                <div class="col-md-4">
                                     Άνοιγμα πόρτας
                                 </div>
                                 <div class="col-md-2">
                                     13:00-15:00
                                 </div>
                             </div>
+--}}
 
 
-                            {{--
                             <table class="table tasks">
-
                                 <tr>
-                                    <td class="task">
+                                    <td colspan="2">
                                         <div class="task-info">
                                             <h3>Υποδοχή</h3>
 
                                             <p> USC ALUMNI CENTER, 1st Floor Ballroom</p>
+                                            </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="task col-md-3">
+                                        <div class="subtask-info">Άνοιγμα πόρτας</div>
                                     </td>
                                     <td class="taskDate">
-                                        <div class="subtask-info">Άνοιγμα πόρτας</div>
-
-                                        <div class="">
-                                            <div class="hours">13:00-15:00
-                                            </div>
-                                            <div class=" description">
-                                                Keeping it Human
-                                                Ben Callahan
-
-                                            </div>
+                                        <div class="dateTime">
+                                            <input type="checkbox" class="form-control">
+                                            <label>22/02/1016 <br/>  <div class="hours">13:00-15:00</div></label>
+                                        </div>
+                                        <div class="dateTime">
+                                            <input type="checkbox" class="form-control">
+                                            <label>22/02/1016 <br/>  <div class="hours">13:00-15:00</div></label>
+                                        </div>
+                                        <div class="dateTime">
+                                            <input type="checkbox" class="form-control">
+                                            <label>22/02/1016 <br/>  <div class="hours">13:00-15:00</div></label>
+                                        </div>
+                                        <div class="dateTime">
+                                            <input type="checkbox" class="form-control">
+                                            <label>22/02/1016 <br/>  <div class="hours">13:00-15:00</div></label>
                                         </div>
                                     </td>
-                                    <td>
-                                        <div class="taskDate">
-                                            <div class="hours">13:00-15:00
-                                            </div>
-                                            <div class=" description">
-                                                Keeping it Human
-                                                Ben Callahan
+                                </tr>
+                                <tr>
+                                    <td class="task col-md-3">
+                                        <div class="subtask-info">Άνοιγμα πόρτας</div>
+                                    </td>
+                                    <td class="taskDate">
+                                        <div class="dateTime">
+                                            <input type="checkbox" class="form-control">
+                                            <label>22/02/1016 <br/>  <div class="hours">13:00-15:00</div></label>
+                                        </div>
+                                        <div class="dateTime">
+                                            <input type="checkbox" class="form-control">
+                                            <label>22/02/1016 <br/>  <div class="hours">13:00-15:00</div></label>
+                                        </div>
+                                        <div class="dateTime">
+                                            <input type="checkbox" class="form-control">
+                                            <label>22/02/1016 <br/>  <div class="hours">13:00-15:00</div></label>
+                                        </div>
+                                        <div class="dateTime">
+                                            <input type="checkbox" class="form-control">
+                                            <label>22/02/1016 <br/>  <div class="hours">13:00-15:00</div></label>
+                                        </div>
+                                    </td>
+                                </tr>
 
-                                            </div>
+                                <tr>
+                                    <td class="task col-md-3">
+                                        <div class="subtask-info">Άνοιγμα πόρτας</div>
+                                    </td>
+                                    <td class="taskDate">
+                                        <div class="dateTime">
+                                            <input type="checkbox" class="form-control">
+                                            <label>22/02/1016 <br/>  <div class="hours">13:00-15:00</div></label>
+                                        </div>
+                                        <div class="dateTime">
+                                            <input type="checkbox" class="form-control">
+                                            <label>22/02/1016 <br/>  <div class="hours">13:00-15:00</div></label>
+                                        </div>
+                                        <div class="dateTime">
+                                            <input type="checkbox" class="form-control">
+                                            <label>22/02/1016 <br/>  <div class="hours">13:00-15:00</div></label>
+                                        </div>
+                                        <div class="dateTime">
+                                            <input type="checkbox" class="form-control">
+                                            <label>22/02/1016 <br/>  <div class="hours">13:00-15:00</div></label>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="task col-md-3">
+                                        <div class="subtask-info">Άνοιγμα πόρτας</div>
+                                    </td>
+                                    <td class="taskDate">
+                                        <div class="dateTime">
+                                            <input type="checkbox" class="form-control">
+                                            <label>22/02/1016 <br/>  <div class="hours">13:00-15:00</div></label>
+                                        </div>
+                                        <div class="dateTime">
+                                            <input type="checkbox" class="form-control">
+                                            <label>22/02/1016 <br/>  <div class="hours">13:00-15:00</div></label>
+                                        </div>
+                                        <div class="dateTime">
+                                            <input type="checkbox" class="form-control">
+                                            <label>22/02/1016 <br/>  <div class="hours">13:00-15:00</div></label>
+                                        </div>
+                                        <div class="dateTime">
+                                            <input type="checkbox" class="form-control">
+                                            <label>22/02/1016 <br/>  <div class="hours">13:00-15:00</div></label>
                                         </div>
                                     </td>
                                 </tr>
 
 
                             </table>
-                            --}}
+
 
                             {{--
                             <div class="row">

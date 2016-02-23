@@ -35,8 +35,8 @@ class TaskController extends Controller {
         else
             $status_id = \Request::get('status_id');
 
-        if(\Request::has('task-due_date'))
-            $due_date = \Carbon::createFromFormat('d/m/Y', \Request::get('task-due_date'));
+        if(\Request::has('due_date'))
+            $due_date = \Carbon::createFromFormat('d/m/Y', \Request::get('due_date'));
         else
             $due_date = null;
 
@@ -82,7 +82,7 @@ class TaskController extends Controller {
         ]);
 
 
-        return \Redirect::route('action/one', ['id' => $task->id]);
+        return \Redirect::route('action/one', ['id' => $task->action_id]);
     }
 
     /**

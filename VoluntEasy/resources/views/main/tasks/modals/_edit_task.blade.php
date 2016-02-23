@@ -13,8 +13,6 @@
             <div class="modal-body">
                 {!! Form::model(null, ['id' => 'editTaskForm', 'method' => 'POST', 'action' => ['TaskController@update']]) !!}
 
-                <input type="hidden" name="taskId" id="taskId" value="">
-
                 @include('main.tasks.modals._task_form')
 
             </div>

@@ -16,18 +16,4 @@ class WorkHour extends Model {
     protected $fillable = ['from_hour', 'to_hour', 'subtask_work_dates_id', 'volunteer_sum'];
 
 
-    public function getFromHourAttribute() {
-        if ($this->attributes['from_hour'] != null)
-            return \Carbon::parse($this->attributes['from_hour'])->format('H:i');
-        else
-            return null;
-    }
-
-    public function getToHourAttribute() {
-        if ($this->attributes['to_hour'] != null)
-            return \Carbon::parse($this->attributes['to_hour'])->format('H:i');
-        else
-            return null;
-    }
-
 }
