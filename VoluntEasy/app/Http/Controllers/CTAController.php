@@ -18,4 +18,11 @@ class CTAController extends Controller{
         return view('main.cta.cta', compact('action'));
     }
 
+    public function participate($id){
+
+        $action = Action::with('tasks.subtasks.workDates.volunteers')->find($id);
+
+        return view('main.cta.participate', compact('action'));
+    }
+
 }
