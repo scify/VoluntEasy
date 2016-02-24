@@ -306,17 +306,39 @@ function showSubTaskInfo(subTaskId) {
             $(".subTaskInfo .priority").attr('data-priority', subTask.priority);
 
 
+            //add the work dates
             html = '';
-            //beware the classy code
-            $.each(subTask.work_dates, function (i, date) {
-                html += '<p><strong>' + date.from_date + ', ' + date.from_hour + '-' + date.to_hour + '</strong><br/>';
-                html += (date.comments == null || date.comments == '' ? '' : date.comments + '<br/>');
-                html += (date.volunteer_sum == null ? '' : date.volunteers.length + '/' + date.volunteer_sum + '') + '<br/>';
-                html += '</p>';
-            });
+            if (subTask.work_dates.length == 0)
+                html = '<p><em>Δεν έχει οριστεί χρονοδιάγραμμα</em></p>';
+            else {
+                $.each(subTask.work_dates, function (i, date) {
+                    html += '<p><strong>' + date.from_date + ', ' + date.from_hour + '-' + date.to_hour + '</strong><br/>';
+                    html += (date.comments == null || date.comments == '' ? '' : date.comments + '<br/>');
+                    html += (date.volunteer_sum == null ? '' : date.volunteers.length + '/' + date.volunteer_sum + '') + '<br/>';
+                    html += '</p>';
+                });
+            }
 
-            $(".workDatesInfo").html('');
-            $(".workDatesInfo").append(html);
+            $(".workDatesInfo").html(html);
+
+            //add the to-do list
+            html = '';
+            if (subTask.checklist.length == 0)
+                html = '<p><em>Δεν υπάρχουν To-Dos</em></p>';
+            else {
+                $.each(subTask.checklist, function (i, item) {
+                    if (item.isComplete == "1")
+                        icon = '<i class="fa fa-check-square-o"></i> ';
+                    else
+                        icon = '<i class="fa fa-square-o"></i> ';
+
+                    html += '<p>' + icon + item.comments;
+                    html += '<br/><small>Δημιουργήθηκε από ' + item.created_by.name + ' στις ' + item.created_at;
+                    html += ', τροποποιήθηκε από ' + item.updated_by.name + ' στις ' + item.updated_at + '</small></p>';
+                });
+            }
+
+            $(".todo-list").html(html);
 
             $(".taskInfo").hide();
             $(".subTaskInfo").show();

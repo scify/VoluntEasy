@@ -12,9 +12,15 @@
                 <p><strong>Περιγραφή:</strong> <span class="description"></span></p>
             </div>
 
-            <h3> Χρονοδιάγραμμα εργασιών εθελοντών</h3>
+            <h3>Χρονοδιάγραμμα εργασιών εθελοντών</h3>
             <div class="padding">
                 <div class="workDatesInfo">
+                </div>
+            </div>
+
+            <h3>To-do</h3>
+            <div class="padding">
+                <div class="todo-list">
                 </div>
             </div>
         </div>
