@@ -53,32 +53,6 @@ class CreateTasksTable extends Migration {
 
             $table->timestamps();
         });
-
-
-        Schema::create('volunteer_subtasks', function ($table) {
-            $table->increments('id');
-            $table->string('description', 500)->nullable();
-
-            $table->integer('subtask_id')->unsigned();
-            $table->foreign('subtask_id')->references('id')->on('subtasks');
-
-            $table->integer('volunteer_id')->unsigned();
-            $table->foreign('volunteer_id')->references('id')->on('volunteers');
-
-            $table->timestamps();
-        });
-
-        Schema::create('volunteer_task_availabilities', function ($table) {
-            $table->increments('id');
-            $table->string('volunteer_email');
-            $table->string('day');
-            $table->string('hours')->nullable();
-
-            $table->integer('task_id')->unsigned();
-            $table->foreign('task_id')->references('id')->on('tasks');
-
-            $table->timestamps();
-        });
     }
 
     /**
@@ -87,9 +61,6 @@ class CreateTasksTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('volunteer_tasks');
-        Schema::dropIfExists('volunteer_task_availabilities');
-        Schema::dropIfExists('volunteer_subtasks');
         Schema::dropIfExists('subtasks');
         Schema::dropIfExists('tasks');
         Schema::dropIfExists('task_statuses');

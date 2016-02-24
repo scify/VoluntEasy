@@ -82,7 +82,7 @@ class ActionController extends Controller {
      * @return Response
      */
     public function show($id) {
-        $action = Action::with('unit', 'ratings', 'tasks.subtasks.status', 'tasks.subtasks.workDates.hours')->findOrFail($id);
+        $action = Action::with('unit', 'ratings', 'tasks.subtasks.status', 'tasks.subtasks.workDates')->findOrFail($id);
 
         $branch = UnitService::getBranch(Unit::where('id', $action->unit->id)->with('actions')->first());
 

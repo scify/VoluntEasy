@@ -91,7 +91,10 @@
                                     <td class="taskDate">
                                         <div class="dateTime">
                                             <input type="checkbox" class="form-control">
-                                            <label>22/02/1016 <br/>  <div class="hours">13:00-15:00</div></label>
+                                            <label>22/02/1016 <br/>  <span class="hours">13:00-15:00
+                                                </span>
+
+                                                <br/>1/12 εθελοντές</label>
                                         </div>
                                         <div class="dateTime">
                                             <input type="checkbox" class="form-control">
@@ -258,7 +261,7 @@
         <!-- Main Wrapper -->
     </div>
     <!-- Page Inner -->
-    @include('public._i_am_interested')
+    @include('main.cta._i_am_interested')
 </main>
 <!-- Page Content -->
 @include('template.default.footerIncludes')

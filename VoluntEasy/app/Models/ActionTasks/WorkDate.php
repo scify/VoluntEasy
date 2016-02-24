@@ -12,7 +12,7 @@ class WorkDate extends Model {
 
     protected $table = 'subtask_work_dates';
 
-    protected $fillable = ['from_date', 'to_date', 'subtask_id'];
+    protected $fillable = ['from_date', 'to_date', 'subtask_id', 'from_hour', 'to_hour',  'volunteer_sum'];
 
     protected $dates = ['from_date', 'to_date'];
 
@@ -20,14 +20,18 @@ class WorkDate extends Model {
         return $this->belongTo('App\Models\ActionTasks\SubTask', 'id', 'subtask_id');
     }
 
-    public function hours() {
-        return $this->hasMany('App\Models\ActionTasks\WorkHour', 'subtask_work_dates_id', 'id');
-    }
-
     public function getFromDateAttribute() {
         if ($this->attributes['from_date'] != null)
             return \Carbon::parse($this->attributes['from_date'])->format('d/m/Y');
         else
             return null;
+    }
+
+    public function getFromHourAttribute(){
+        return date('H:i', strtotime($this->attributes['from_hour']));
+    }
+
+    public function getToHourAttribute(){
+        return date('H:i', strtotime($this->attributes['to_hour']));
     }
 }

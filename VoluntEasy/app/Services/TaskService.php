@@ -44,10 +44,9 @@ class TaskService {
                 //calculate the total volunteer sum
                 $subtaskVolunteers = 0;
                 foreach ($subtask->workDates as $date) {
-                    foreach ($date->hours as $hour) {
-                        $volunteerSum += $hour->volunteer_sum;
-                        $subtaskVolunteers += $hour->volunteer_sum;
-                    }
+                    $volunteerSum += $date->volunteer_sum;
+                    $subtaskVolunteers += $date->volunteer_sum;
+
                 }
 
                 $subtask->volunteerSum = $subtaskVolunteers;

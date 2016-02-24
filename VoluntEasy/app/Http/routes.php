@@ -169,9 +169,9 @@ Route::get('search/volunteers/firstName', 'SearchController@volunteerFirstName')
 Route::get('search/volunteers/lastName', 'SearchController@volunteerLastName');
 
 
-////////////////
+///////////////////
 //Reports Routes //
-////////////////
+//////////////////
 Route::get('reports', 'ReportsController@index');
 Route::get('reports/idleVolunteers', 'ReportsController@idleVolunteers');
 Route::get('reports/volunteersByMonth', 'ReportsController@volunteersByMonth');
@@ -182,6 +182,13 @@ Route::get('reports/volunteersByEducationLevel', 'ReportsController@volunteersBy
 Route::get('reports/volunteersByInterest', 'ReportsController@volunteersByInterest');
 Route::get('reports/volunteersByAction', 'ReportsController@volunteersByAction');
 Route::get('reports/volunteerHoursByAction', 'ReportsController@volunteerHoursByAction');
+
+
+
+///////////////////
+//CTA Routes //
+//////////////////
+Route::get('cta', 'CTAController@cta');
 
 
 /////////////////
@@ -232,7 +239,6 @@ Route::get('test', 'TestController@test');
 Route::get('faker', 'TestController@faker');
 Route::get('boxytree', 'TestController@boxytree');
 Route::get('experiment', 'TestController@experiment');
-Route::get('cta', 'TestController@cta');
 
 
 Route::get('ekpizo', 'TestController@ekpizo');

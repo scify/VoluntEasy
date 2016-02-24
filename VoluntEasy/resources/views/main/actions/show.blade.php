@@ -27,6 +27,8 @@
                                                               aria-expanded="false">Στοιχεία Δράσης</a></li>
                     <li role="presentation" class="active"><a href="#tab2" role="tab" data-toggle="tab" aria-expanded="true">Task
                             Board</a></li>
+                    <li role="presentation"><a href="#tab3" role="tab" data-toggle="tab"
+                                               aria-expanded="false">Επεξεργασία Δημόσιας Σελίδας</a></li>
                 </ul>
                 <!-- Tab panes -->
                 <div class="tab-content">
@@ -122,6 +124,9 @@
                     <div role="tabpanel" class="tab-pane active" id="tab2">
                         @include('main.tasks._board')
                     </div>
+                    <div role="tabpanel" class="tab-pane" id="tab3">
+                        @include('main.cta._edit_cta')
+                    </div>
                 </div>
             </div>
         </div>
@@ -132,6 +137,7 @@
 @section('footerScripts')
     <script src="{{ asset('assets/plugins/highcharts-4.1.9/highcharts.js')}}"></script>
     <script src="{{ asset('assets/plugins/highcharts-4.1.9/module/exporting.js')}}"></script>
+    <script src="{{ asset('assets/js/todo.js')}}"></script>
 
     <script>
         $("#tree").jOrgChart({

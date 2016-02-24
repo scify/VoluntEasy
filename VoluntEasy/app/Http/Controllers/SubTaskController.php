@@ -3,9 +3,6 @@
 use App\Models\ActionTasks\Status;
 use App\Models\ActionTasks\SubTask;
 use App\Models\ActionTasks\WorkDate;
-use App\Models\ActionTasks\WorkDates;
-use App\Models\ActionTasks\WorkHour;
-use App\Models\ActionTasks\WorkHours;
 
 class SubTaskController extends Controller {
 
@@ -22,7 +19,7 @@ class SubTaskController extends Controller {
      * @return mixed
      */
     public function show($id) {
-        $subTask = SubTask::with('volunteers', 'workDates.hours')->findOrFail($id);
+        $subTask = SubTask::with('workDates')->findOrFail($id);
 
         return $subTask;
     }
@@ -61,7 +58,7 @@ class SubTaskController extends Controller {
      * Update a subtask
      */
     public function update() {
-        $subTask = SubTask::with('workDates.hours')->find(\Request::get('subTaskId'));
+        $subTask = SubTask::with('workDates')->find(\Request::get('subTaskId'));
 
         if (\Request::has('subtask-due_date'))
             $due_date = \Carbon::createFromFormat('d/m/Y', \Request::get('subtask-due_date'));
@@ -103,7 +100,7 @@ class SubTaskController extends Controller {
      */
     public function destroy($id) {
 
-        $subTask = SubTask::with('volunteers', 'workDates.hours')->find($id);
+        $subTask = SubTask::with('volunteers', 'workDates')->find($id);
 
         if (sizeof($subTask->volunteers) > 0) {
             \Session::flash('flash_message', 'Το subtask περιέχει εθελοντές και δεν μπορεί να διαγραφεί.');
@@ -112,7 +109,6 @@ class SubTaskController extends Controller {
         }
 
         foreach ($subTask->workDates as $workDate) {
-            $workDate->hours()->delete();
             $workDate->delete();
         }
 
@@ -133,8 +129,6 @@ class SubTaskController extends Controller {
     private function saveWorkDates($subTask) {
 
         $dateIds = [];
-        $hourIds = [];
-        $workDate = null;
 
         foreach (\Request::get('workDates')['dates'] as $i => $date) {
 
@@ -145,47 +139,22 @@ class SubTaskController extends Controller {
             ) {
                 $carbonDate = \Carbon::createFromFormat('d/m/Y', $date);
 
-                //if the date is different that the last inserted day, create an obj
-                //and push it to the array
-                if (sizeof($dateIds) == 0 || $carbonDate != end($workDate)) {
-                    $workDate = new WorkDate([
-                        'from_date' => \Carbon::createFromFormat('d/m/Y', $date),
-                        'subtask_id' => $subTask->id,
-                    ]);
-                    $workDate->save();
-                    array_push($dateIds, $workDate->id);
-                }
-
-                $workHour = new WorkHour([
+                $workDate = new WorkDate([
+                    'from_date' => \Carbon::createFromFormat('d/m/Y', $date),
+                    'subtask_id' => $subTask->id,
                     'from_hour' => \Request::get('workDates')['hourFrom'][$i],
                     'to_hour' => \Request::get('workDates')['hourTo'][$i],
                     'comments' => \Request::get('workDates')['comments'][$i],
-                    'volunteer_sum' => \Request::get('workDates')['volunteerSum'][$i],
-                    'subtask_work_dates_id' => $workDate->id
+                    'volunteer_sum' => \Request::get('workDates')['volunteerSum'][$i]
                 ]);
-                $workHour->save();
-                array_push($hourIds, $workHour->id);
+
+                $workDate->save();
+                array_push($dateIds, $workDate->id);
             }
         }
 
-        return $dateIds;
-        WorkHour::whereNotIn('id', $hourIds)->delete();
+        WorkDate::where('subtask_id', $subTask->id)->whereNotIn('id', $dateIds)->delete();
 
-        WorkDate::whereNotIn('id', $dateIds)->delete();
-
-       // $subTask->workDates()->sync($hourIds);
-        /*
-                foreach($subTask->workDates as $workDate) {
-                    $workDate->hours()->delete();
-                    $workDate->delete();
-                }
-                //return $workDates;
-
-                foreach($workDates as $workDate) {
-                    $subTask->workDates()->save($workDate);
-                   // $workDate->hours()->saveMany($workDate->workHours);
-                }
-        */
         return $subTask;
     }
 

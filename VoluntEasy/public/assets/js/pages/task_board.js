@@ -98,8 +98,7 @@ $("#updateSubTask").click(function (e) {
             method: 'POST',
             data: $("#editSubTaskForm").serialize(),
             success: function (result) {
-                 //location.reload();
-                console.log(result);
+                location.reload();
             }
         });
     }
@@ -129,36 +128,32 @@ $(".editSubTask").click(function (e) {
 
     $("#editSubTask .subtask-priorities option[value='" + subTask.priority + "']").prop('selected', true);
 
-    var lastTr = $("#editSubTask .workDates tr:first");
-
     //fill the workDates table
     $.each(subTask.work_dates, function (i, date) {
 
-        $.each(date.hours, function (j, hour) {
+        var clone =  $("#editSubTask .workDates tr:last").clone().find("input, select, textarea").each(function () {
 
-            var clone = $("#editSubTask .workDates tr:last").clone().find("input, select, textarea").each(function () {
-                var name = $(this).attr('name');
-                console.log(name);
-                if (name == "workDates[ids][]")
-                    $(this).eq(j).val(date.id);
-                else if (name == "workDates[dates][]")
-                    $(this).eq(j).val(date.from_date);
-                else if (name == "workDates[hourFrom][]")
-                    $(this).eq(j).val(hour.from_hour);
-                else if (name == "workDates[hourTo][]")
-                    $(this).eq(j).val(hour.to_hour);
-                else if (name == "workDates[volunteerSum][]")
-                    $(this).eq(j).val(hour.volunteer_sum);
-                else if (name == "workDates[subtaskVolunteers][]")
-                //TODO: check this
-                    $(this).eq(j).val('aaaa');
-                else if (name == "workDates[comments][]")
-                    $(this).eq(j).val(hour.comments);
-            }).end()
+            var name = $(this).attr('name');
 
-            $("#editSubTask .workDates tr:last").remove();
-            $(clone).appendTo("#editSubTask .workDates");
-        });
+            if (name == "workDates[ids][]")
+                $(this).val(date.id);
+            else if (name == "workDates[dates][]")
+                $(this).val(date.from_date);
+            else if (name == "workDates[hourFrom][]")
+                $(this).val(date.from_hour);
+            else if (name == "workDates[hourTo][]")
+                $(this).val(date.to_hour);
+            else if (name == "workDates[volunteerSum][]")
+                $(this).val(date.volunteer_sum);
+            else if (name == "workDates[subtaskVolunteers][]")
+            //TODO: check this
+                $(this).val('aaaa');
+            else if (name == "workDates[comments][]")
+                $(this).val(date.comments);
+
+        }).end();
+
+        $(clone).addClass('toRemove').insertBefore("#editSubTask .workDates  tr:last");
     });
 
     refreshDateTime();
@@ -196,6 +191,11 @@ $(".deleteSubTask").click(function () {
     }
 });
 
+//remove the extra rows that hold the work dates/hours info
+//from the table, when the modal is closed
+$('#editSubTask').on('hidden.bs.modal', function () {
+    $("#editSubTask .workDates tr.toRemove").remove();
+})
 
 //add another editable fields to fill in work date and hours
 function addWorkDate(parentId) {
@@ -205,9 +205,9 @@ function addWorkDate(parentId) {
     }
     else {
         $(".workError").hide();
-        $(".workDates tr:last").clone().find("input").each(function () {
+        $(parentId + " .workDates tr:last").clone().find("input").each(function () {
             $(this).val('');
-        }).end().appendTo("#workDates");
+        }).end().appendTo(parentId + " .workDates");
 
         refreshDateTime();
     }
@@ -284,12 +284,10 @@ function showSubTaskInfo(subTaskId) {
             $.each(subTask.work_dates, function (i, date) {
                 html += '<h4>' + date.from_date + '</h4>';
 
-                $.each(date.hours, function (i, hour) {
-                    html += '<p>' + hour.from_hour + '-' + hour.to_hour + '<br/>';
-                    html += 'Αριθμός εθελοντών: ' + (hour.volunteer_sum == null ? '-' : hour.volunteer_sum) + '<br/>';
-                    html += 'Σχόλια: ' + (hour.comments == null ? '-' : hour.comments) + '<br/>';
-                    html += '</p>';
-                });
+                html += '<p>' + date.from_hour + '-' + date.to_hour + '<br/>';
+                html += 'Αριθμός εθελοντών: ' + (date.volunteer_sum == null ? '-' : date.volunteer_sum) + '<br/>';
+                html += 'Σχόλια: ' + (date.comments == null ? '-' : date.comments) + '<br/>';
+                html += '</p>';
             });
 
             $(".workDatesInfo").html('');
@@ -304,7 +302,12 @@ function showSubTaskInfo(subTaskId) {
 function validateWorkTable(parentId) {
     var lastTr = $(parentId + " .workDates tr:last");
 
-    if (($(lastTr).find('.workDate input').val() == null || $(lastTr).find('.workDate input').val() == '' ||
+
+    console.log($(lastTr).find('.datetime').attr('data-date'));
+    console.log($(lastTr).find('.workHourFrom input').val());
+    console.log($(lastTr).find('.workHourTo input').val());
+
+    if (($(lastTr).find('.datetime').attr('data-date') == null || $(lastTr).find('.datetime').attr('data-date') == '' ||
         $(lastTr).find('.workHourFrom input').val() == null || $(lastTr).find('.workHourFrom input').val() == '' ||
         $(lastTr).find('.workHourTo input').val() == null || $(lastTr).find('.workHourTo input').val() == '')) {
         return true;
@@ -332,9 +335,12 @@ function refreshDateTime() {
         lang: {
             'am': ' π.μ.',
             'pm': ' μ.μ.'
-        }
+        },
+        'minTime': '07:00',
+        'timeFormat': 'H:i'
     });
 }
+
 
 
 $(".multiple").select2();
