@@ -24,15 +24,15 @@ class CreateSubtasksWorkHoursTable extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('volunteer_work_hours', function ($table) {
+        Schema::create('volunteer_work_dates', function ($table) {
             $table->increments('id');
             $table->string('description', 500)->nullable();
 
-            $table->integer('subtask_id')->unsigned();
-            $table->foreign('subtask_id')->references('id')->on('subtasks');
-
             $table->integer('subtask_work_dates_id')->unsigned();
             $table->foreign('subtask_work_dates_id')->references('id')->on('subtask_work_dates');
+
+            $table->integer('volunteer_id')->unsigned();
+            $table->foreign('volunteer_id')->references('id')->on('volunteers');
 
             $table->timestamps();
         });
@@ -44,7 +44,7 @@ class CreateSubtasksWorkHoursTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('volunteer_work_hours');
+        Schema::dropIfExists('volunteer_work_dates');
         Schema::dropIfExists('subtask_work_dates');
     }
 }

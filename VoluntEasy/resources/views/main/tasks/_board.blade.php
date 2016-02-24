@@ -23,7 +23,7 @@
                            aria-expanded="false" aria-controls="collapse-{{ $task->id }}"
                            class="arrow collapsed">
                         </a>
-                        <a href="#" class="title" onclick="showTaskInfo({{ $task->id }})">{{ $task->name
+                        <a href="javascript:void(0);" class="title" onclick="showTaskInfo({{ $task->id }})">{{ $task->name
                             }}</a>
 
                         @if($task->status=="todo")
@@ -93,7 +93,7 @@
                                 <div class="board-card priority-{{ $subtask->priority }}"
                                      data-task="{{ $task->id }}"
                                      data-subtask="{{ $subtask->id }}" data-status="todo">
-                                    <p><a href="#" onclick="showSubTaskInfo({{ $subtask->id }})">{{$subtask->name}}</a>
+                                    <p><a href="javascript:void(0);" onclick="showSubTaskInfo({{ $subtask->id }})">{{$subtask->name}}</a>
                                                         <span class="pull-right">
                                                             @if($subtask->expires=='null')
                                                                 <small></small>
@@ -126,9 +126,9 @@
                                 <div class="board-card priority-{{ $subtask->priority }}"
                                      data-task="{{ $task->id }}"
                                      data-subtask="{{ $subtask->id }}" data-status="todo">
-                                    <p><a href="#" onclick="editSubTask({{ $subtask->id }})">{{$subtask->name}}</a>
-                                                       <span class="pull-right">
-                                                           @if($subtask->expires==null)
+                                    <p><a href="javascript:void(0);" onclick="showSubTaskInfo({{ $subtask->id }})">{{$subtask->name}}</a>
+                                                        <span class="pull-right">
+                                                            @if($subtask->expires=='null')
                                                                 <small></small>
                                                             @elseif($subtask->expires==-1)
                                                                 <small class="text-danger">Χτες</small>
@@ -143,9 +143,9 @@
                                                                 </small>
                                                             @endif
                                                             </span></p>
-                                    <small class="text-left">{{ isset($subtask->volunteers) ?
-                                        sizeof($subtask->volunteers) : '' }}/12
-                                        εθελοντές
+                                    <small class="text-left">
+                                        {{ isset($subtask->volunteers) ? sizeof($subtask->volunteers).'/' : '' }}{{
+                                        $subtask->volunteerSum }} εθελοντές
                                     </small>
                                 </div>
                                 @endforeach
@@ -160,9 +160,9 @@
                                 <div class="board-card priority-{{ $subtask->priority }}"
                                      data-task="{{ $task->id }}"
                                      data-subtask="{{ $subtask->id }}" data-status="todo">
-                                    <p><a href="#" onclick="editSubTask({{ $subtask->id }})">{{$subtask->name}}</a>
-                                                       <span class="pull-right">
-                                                            @if($subtask->expires==null)
+                                    <p><a href="javascript:void(0);" onclick="showSubTaskInfo({{ $subtask->id }})">{{$subtask->name}}</a>
+                                                        <span class="pull-right">
+                                                            @if($subtask->expires=='null')
                                                                 <small></small>
                                                             @elseif($subtask->expires==-1)
                                                                 <small class="text-danger">Χτες</small>
@@ -177,9 +177,9 @@
                                                                 </small>
                                                             @endif
                                                             </span></p>
-                                    <small class="text-left">{{ isset($subtask->volunteers) ?
-                                        sizeof($subtask->volunteers) : '' }}/12
-                                        εθελοντές
+                                    <small class="text-left">
+                                        {{ isset($subtask->volunteers) ? sizeof($subtask->volunteers).'/' : '' }}{{
+                                        $subtask->volunteerSum }} εθελοντές
                                     </small>
                                 </div>
                                 @endforeach
@@ -189,7 +189,7 @@
                         @endif
                         <div class="row top-margin">
                             <div class="col-md-12 subtask">
-                                <a href="#" data-toggle="modal" data-target="#addSubTask"
+                                <a href="javascript:void(0);" data-toggle="modal" data-target="#addSubTask"
                                    data-task-id="{{$task->id}}" class="addSubTask"><i
                                         class="fa fa-plus"></i> Προσθήκη subtask</a>
                             </div>

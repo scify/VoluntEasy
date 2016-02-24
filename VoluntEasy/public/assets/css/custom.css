@@ -565,7 +565,7 @@ i.priority-4 {
     display: block;
 }
 
-.todo-list .todo-item.complete span {
+.todo-list .todo-item.complete span.todo-description {
     text-decoration: line-through;
 }
 
@@ -584,6 +584,10 @@ i.priority-4 {
 
 #uniform-all-complete {
     margin-left: 11px;
+}
+
+.created_updated{
+    margin-left:10px;
 }
 
 /* public cta page*/

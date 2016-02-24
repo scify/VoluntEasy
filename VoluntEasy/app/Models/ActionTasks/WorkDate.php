@@ -12,12 +12,16 @@ class WorkDate extends Model {
 
     protected $table = 'subtask_work_dates';
 
-    protected $fillable = ['from_date', 'to_date', 'subtask_id', 'from_hour', 'to_hour',  'volunteer_sum'];
+    protected $fillable = ['from_date', 'to_date', 'subtask_id', 'from_hour', 'to_hour',  'volunteer_sum', 'comments'];
 
     protected $dates = ['from_date', 'to_date'];
 
     public function subtask() {
         return $this->belongTo('App\Models\ActionTasks\SubTask', 'id', 'subtask_id');
+    }
+
+    public function volunteers() {
+        return $this->belongsToMany('App\Models\Volunteer', 'volunteer_work_dates', 'subtask_work_dates_id', 'volunteer_id');
     }
 
     public function getFromDateAttribute() {

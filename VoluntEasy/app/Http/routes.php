@@ -189,6 +189,17 @@ Route::get('reports/volunteerHoursByAction', 'ReportsController@volunteerHoursBy
 //CTA Routes //
 //////////////////
 Route::get('cta', 'CTAController@cta');
+Route::get('participate/{id}', 'CTAController@participate');
+
+
+///////////////////
+//Checklist Routes //
+//////////////////
+Route::get('checklist/store', 'ChecklistController@store');
+Route::get('checklist/update', 'ChecklistController@update');
+Route::get('checklist/delete', 'ChecklistController@delete');
+
+
 
 
 /////////////////

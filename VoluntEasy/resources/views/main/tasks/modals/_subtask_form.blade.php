@@ -95,43 +95,15 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
+<div class="row todos" style="display:none;">
+    <div class="col-md-6">
         <h4><i class="fa fa-check-square-o"></i> To-do</h4>
 
         <form action="javascript:void(0);">
             <input type="text" class="form-control add-task" placeholder="New Task...">
         </form>
-
-
         <div class="todo-list">
-            <div class="todo-item complete">
-                <div class="checker"><span class="checked"><input type="checkbox"></span></div>
-                <span>Go Shopping</span>
-                <a href="javascript:void(0);" class="pull-right remove-todo-item"><i class="fa fa-times"></i></a>
-            </div>
-            <div class="todo-item complete">
-                <div class="checker"><span class="checked"><input type="checkbox"></span></div>
-                <span>Create new Wordpress Theme</span>
-                <a href="javascript:void(0);" class="pull-right remove-todo-item"><i class="fa fa-times"></i></a>
-            </div>
-            <div class="todo-item complete">
-                <div class="checker"><span class="checked"><input type="checkbox" checked=""></span></div>
-                <span>Change slider style</span>
-                <a href="javascript:void(0);" class="pull-right remove-todo-item"><i class="fa fa-times"></i></a>
-            </div>
-            <div class="todo-item complete">
-                <div class="checker"><span class="checked"><input type="checkbox" checked=""></span></div>
-                <span>Fronted Theme</span>
-                <a href="javascript:void(0);" class="pull-right remove-todo-item"><i class="fa fa-times"></i></a>
-            </div>
-            <div class="todo-item">
-                <div class="checker"><span class=""><input type="checkbox"></span></div>
-                <span>Learn C# programming language</span>
-                <a href="javascript:void(0);" class="pull-right remove-todo-item"><i class="fa fa-times"></i></a>
-            </div><div class="todo-item added"><div class="checker"><span><input type="checkbox"></span></div><span class="todo-description">test</span><a href="javascript:void(0);" class="pull-right remove-todo-item"><i class="fa fa-times"></i></a></div>
+
         </div>
-
-
     </div>
 </div>

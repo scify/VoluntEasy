@@ -25,6 +25,10 @@ class SubTask extends Model {
         return $this->hasMany('App\Models\ActionTasks\WorkDate', 'subtask_id', 'id');
     }
 
+    public function checklist(){
+        return $this->hasMany('App\Models\ActionTasks\ChecklistItem', 'subtask_id', 'id');
+    }
+
     public function getDueDateAttribute() {
         if ($this->attributes['due_date'] != null)
             return \Carbon::parse($this->attributes['due_date'])->format('d/m/Y');

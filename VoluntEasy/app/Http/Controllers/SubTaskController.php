@@ -19,7 +19,7 @@ class SubTaskController extends Controller {
      * @return mixed
      */
     public function show($id) {
-        $subTask = SubTask::with('workDates')->findOrFail($id);
+        $subTask = SubTask::with('workDates.volunteers', 'checklist.createdBy', 'checklist.updatedBy')->findOrFail($id);
 
         return $subTask;
     }

@@ -15,11 +15,6 @@
             <h3> Χρονοδιάγραμμα εργασιών εθελοντών</h3>
             <div class="padding">
                 <div class="workDatesInfo">
-                    <h4></h4>
-
-                    <p><br/>
-                    </p>
-
                 </div>
             </div>
         </div>
