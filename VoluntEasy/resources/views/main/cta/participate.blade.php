@@ -16,12 +16,12 @@
                     <div class="panel panel-white">
                         <div class="panel-body">
 
-                            @if(isset($publicAction) && $publicAction!=null)
                             <div class="row">
                                 <div class="col-md-4">
                                     <img src="{{ asset('assets/images/ekpizo.png') }}" style="width:100%;"/>
                                 </div>
                             </div>
+                            @if(isset($publicAction) && $publicAction!=null)
                             <div class="row">
                                 <div class="col-md-12">
                                     <h2>Κάλεσμα εθελοντών στη δράση <strong>{{ $action->description }}</strong></h2>
