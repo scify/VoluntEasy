@@ -23,7 +23,8 @@
                            aria-expanded="false" aria-controls="collapse-{{ $task->id }}"
                            class="arrow collapsed">
                         </a>
-                        <a href="javascript:void(0);" class="title" onclick="showTaskInfo({{ $task->id }})">{{ $task->name
+                        <a href="javascript:void(0);" class="title" onclick="showTaskInfo({{ $task->id }})">{{
+                            $task->name
                             }}</a>
 
                         @if($task->status=="todo")
@@ -60,11 +61,13 @@
                                                  class="text-warning" title="Το subtask λήγει σήμερα">Σήμερα
                                              </small>
                                                             @elseif($task->expires==1)
-                                                                <i class="fa fa-calendar" title="Το subtask αύριο"></i> <small class="text-info">
+                                                                <i class="fa fa-calendar" title="Το subtask αύριο"></i> <small
+                                                 class="text-info">
                                                  Αύριο
                                              </small>
                                                             @elseif($task->expires>1)
-                                                                <i class="fa fa-calendar"></i> <small  title="Το subtask λήγει στις {{ $task->due_date }}">{{ $task->due_date
+                                                                <i class="fa fa-calendar"></i> <small
+                                                 title="Το subtask λήγει στις {{ $task->due_date }}">{{ $task->due_date
                                                  }}
                                              </small>
                                                              @elseif($task->expires<-1)

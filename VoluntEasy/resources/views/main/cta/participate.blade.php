@@ -16,6 +16,7 @@
                     <div class="panel panel-white">
                         <div class="panel-body">
 
+                            @if(isset($publicAction) && $publicAction!=null)
                             <div class="row">
                                 <div class="col-md-4">
                                     <img src="{{ asset('assets/images/ekpizo.png') }}" style="width:100%;"/>
@@ -25,13 +26,30 @@
                                 <div class="col-md-12">
                                     <h2>Κάλεσμα εθελοντών στη δράση <strong>{{ $action->description }}</strong></h2>
 
-                                    <p>Από <strong>{{ $action->start_date }}</strong> έως
-                                        <strong>{{ $action->end_date }}</strong> στην <a href="#">Τεχνόπολη</a></p>
+                                    <p><i class="fa fa-calendar"></i> <strong>{{ $action->start_date }}</strong> έως
+                                        <strong>{{ $action->end_date }}</strong>
+                                        @if($publicAction->address!=null && $publicAction->address!='')
+                                        @if($publicAction->map_url!=null && $publicAction->map_url!='')
+                                        <i class="fa fa-map-marker" style="margin-left:10px;"></i> <a
+                                            href="{{ $publicAction->map_url }}"
+                                            target="_blank">{{ $publicAction->address}}</a></p>
+                                    @else
+                                    <i class="fa fa-map-marker" style="margin-left:10px;"></i> {{ $publicAction->address
+                                    }}</p>
+                                    @endif
+                                    @endif
 
-                                    <p>{{ $action->description }}</p>
+                                    <p>{{ $publicAction->description }}</p>
 
-                                    <p>Υπεύθυνος επικοινωνίας: Test Test, 210-123456789, <a href="mailto:indo@test.gr">info@test
-                                            .gr</a>
+                                    @if($publicAction->executive_name!=null && $publicAction->executive_name!='')
+                                    <p>Υπεύθυνος επικοινωνίας: {{ $publicAction->executive_name }}
+                                        @if($publicAction->executive_phone!=null && $publicAction->executive_phone!='')
+                                            , {{ $publicAction->executive_phone }}
+                                        @endif
+                                        @if($publicAction->executive_email!=null && $publicAction->executive_email!='')
+                                        , <a href="mailto:{{ $publicAction->executive_email }}">{{ $publicAction->executive_email }}</a>
+                                        @endif
+                                        @endif
                                     </p>
                                 </div>
                                 <div class="col-md-6">
@@ -54,31 +72,38 @@
                                     </td>
                                 </tr>
                                 @foreach($task->subtasks as $subtask)
-                                    @if(sizeof($subtask->workDates)>0)
-                                    <tr>
-                                        <td class="task col-md-3">
-                                            <div class="subtask-info">{{ $subtask->name }}</div>
-                                        </td>
-                                        <td class="taskDate">
+                                @if(sizeof($subtask->workDates)>0)
+                                <tr>
+                                    <td class="task col-md-3">
+                                        <div class="subtask-info">{{ $subtask->name }}</div>
+                                    </td>
+                                    <td class="taskDate">
 
-                                            @foreach($subtask->workDates as $date)
-                                            <div class="dateTime">
-                                                <input type="checkbox" class="form-control">
-                                                <label>{{$date->from_date}} <br/>  <span class="hours">{{ $date->from_hour }}-{{ $date->to_hour }}
+                                        @foreach($subtask->workDates as $date)
+                                        <div class="dateTime">
+                                            <input type="checkbox" class="form-control">
+                                            <label>{{$date->from_date}} <br/>  <span class="hours">{{ $date->from_hour }}-{{ $date->to_hour }}
                                                     </span>
-                                                    @if($date->volunteer_sum!=null || $date->volunteer_sum!=0)
-                                                    <br/>{{ sizeof($date->volunteers) }}/{{ $date->volunteer_sum }}
-                                                    εθελοντές</label>
-                                                @endif
-                                            </div>
-                                            @endforeach
-                                        </td>
-                                    </tr>
-                                    @endif
+                                                @if($date->volunteer_sum!=null || $date->volunteer_sum!=0)
+                                                <br/>{{ sizeof($date->volunteers) }}/{{ $date->volunteer_sum }}
+                                                εθελοντές</label>
+                                            @endif
+                                        </div>
+                                        @endforeach
+                                    </td>
+                                </tr>
+                                @endif
                                 @endforeach
                             </table>
                             @endforeach
-
+                            @include('main.cta._i_am_interested')
+                            @else
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3>Η σελίδα δεν βρέθηκε</h3>
+                                </div>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -88,7 +113,7 @@
         <!-- Main Wrapper -->
     </div>
     <!-- Page Inner -->
-    @include('main.cta._i_am_interested')
+
 </main>
 <!-- Page Content -->
 @include('template.default.footerIncludes')

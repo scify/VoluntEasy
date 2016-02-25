@@ -210,6 +210,7 @@ return [
         'ActionService' => 'App\Services\Facades\ActionService',
         'CollaborationService' => 'App\Services\Facades\CollaborationService',
         'CronService' => 'App\Services\Facades\CronService',
+        'CTAService' => 'App\Services\Facades\CTAService',
         'FileService' => 'App\Services\Facades\FileService',
         'RatingService' => 'App\Services\Facades\RatingService',
         'SearchService' => 'App\Services\Facades\SearchService',

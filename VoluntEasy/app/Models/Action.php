@@ -35,6 +35,11 @@ class Action extends Model {
         return $this->hasMany('App\Models\ActionTasks\Task', 'action_id', 'id');
     }
 
+    //public action
+    public function publicAction() {
+        return $this->hasOne('App\Models\CTA\PublicAction', 'action_id', 'id');
+    }
+
     /**
      * Format dates before showing on front end
      *

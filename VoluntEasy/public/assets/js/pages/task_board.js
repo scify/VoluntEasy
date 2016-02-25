@@ -333,8 +333,8 @@ function showSubTaskInfo(subTaskId) {
                         icon = '<i class="fa fa-square-o"></i> ';
 
                     html += '<p>' + icon + item.comments;
-                    html += '<br/><small>Δημιουργήθηκε από ' + item.created_by.name + ' στις ' + item.created_at;
-                    html += ', τροποποιήθηκε από ' + item.updated_by.name + ' στις ' + item.updated_at + '</small></p>';
+                  /*  html += '<br/><small>Δημιουργήθηκε από ' + item.created_by.name + ' στις ' + item.created_at;
+                    html += ', τροποποιήθηκε από ' + item.updated_by.name + ' στις ' + item.updated_at + '</small></p>';*/
                 });
             }
 

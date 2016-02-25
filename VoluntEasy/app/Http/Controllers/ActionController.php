@@ -10,6 +10,7 @@ use App\Models\Rating\ActionScore;
 use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Services\Facades\ActionService;
+use App\Services\Facades\CTAService;
 use App\Services\Facades\TaskService;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
@@ -82,7 +83,7 @@ class ActionController extends Controller {
      * @return Response
      */
     public function show($id) {
-        $action = Action::with('unit', 'ratings', 'tasks.subtasks.status', 'tasks.subtasks.workDates')->findOrFail($id);
+        $action = Action::with('unit', 'ratings', 'tasks.subtasks.status', 'tasks.subtasks.workDates', 'publicAction.subtasks')->findOrFail($id);
 
         $branch = UnitService::getBranch(Unit::where('id', $action->unit->id)->with('actions')->first());
 
@@ -112,8 +113,10 @@ class ActionController extends Controller {
         //get subtasks per status, calculate total volunteer sum etc
         $action = TaskService::prepareTasks($action);
 
-       // return $action;
-        return view('main.actions.show', compact('action', 'allVolunteers', 'volunteerIds', 'userUnits', 'branch', 'taskStatuses'));
+        if ($action->publicAction != null)
+            $publicSubtasks = CTAService::getPublicSubtasks($action);
+
+        return view('main.actions.show', compact('action', 'allVolunteers', 'volunteerIds', 'userUnits', 'branch', 'taskStatuses', 'publicSubtasks'));
     }
 
     /**
@@ -226,7 +229,7 @@ class ActionController extends Controller {
 
         foreach ($ratings as $rating) {
             foreach ($rating->ratings as $score) {
-                switch($score->score){
+                switch ($score->score) {
                     case "-2":
                         $score->description = "Διαφωνώ απόλυτα";
                         break;

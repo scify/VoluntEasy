@@ -190,6 +190,8 @@ Route::get('reports/volunteerHoursByAction', 'ReportsController@volunteerHoursBy
 //////////////////
 Route::get('cta', 'CTAController@cta');
 Route::get('participate/{id}', 'CTAController@participate');
+Route::get('cta/store', 'CTAController@store');
+Route::get('cta/update', 'CTAController@update');
 
 
 ///////////////////
