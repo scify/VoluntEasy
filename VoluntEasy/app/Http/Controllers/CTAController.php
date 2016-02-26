@@ -49,7 +49,8 @@ class CTAController extends Controller {
 
         $publicAction->save();
 
-        $this->savePublicSubtasks($publicAction);
+        if (\Request::has('subtasks'))
+            $this->savePublicSubtasks($publicAction);
 
         return $publicAction;
 

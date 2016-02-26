@@ -34,8 +34,7 @@
                                             href="{{ $publicAction->map_url }}"
                                             target="_blank">{{ $publicAction->address}}</a></p>
                                     @else
-                                    <i class="fa fa-map-marker" style="margin-left:10px;"></i> {{ $publicAction->address
-                                    }}</p>
+                                    <i class="fa fa-map-marker" style="margin-left:10px;"></i> {{ $publicAction->address }}</p>
                                     @endif
                                     @endif
 
@@ -64,9 +63,9 @@
                                 <tr>
                                     <td colspan="2">
                                         <div class="task-info">
-                                            <h3>{{ $task->description }}</h3>
+                                            <h3>{{ $task->name }}</h3>
 
-                                            <p>{{ $task->comments }}</p>
+                                            <p>{{ $task->description }}</p>
                                         </div>
 
                                     </td>
@@ -76,6 +75,7 @@
                                 <tr>
                                     <td class="task col-md-3">
                                         <div class="subtask-info">{{ $subtask->name }}</div>
+                                        <div class="subtask-description">{{ $subtask->description }}</div>
                                     </td>
                                     <td class="taskDate">
 

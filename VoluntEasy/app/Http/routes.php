@@ -211,7 +211,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api'], function () {
     Route::get('volunteers', 'Api\VolunteerApiController@all');
     Route::get('volunteers/status/{status}', 'Api\VolunteerApiController@status');
     Route::get('volunteers/one/{id}', 'Api\VolunteerApiController@show');
-    Route::get('volunteers/apiStore', 'Api\VolunteerApiController@apiStore');
+    Route::post('volunteers/apiStore', 'Api\VolunteerApiController@apiStore');
 
     Route::get('units', 'Api\UnitApiController@all');
     Route::get('units/{id}/volunteers', 'Api\UnitApiController@volunteers');

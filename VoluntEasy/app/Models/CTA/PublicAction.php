@@ -20,7 +20,7 @@ class PublicAction extends Model {
     }
 
     public function subtasks(){
-        return $this->belongsToMany('App\Models\ActionTasks\SubTask', 'public_actions_subtasks', 'public_actions_id', 'subtask_id');
+        return $this->hasMany('App\Models\CTA\PublicActionSubTask', 'public_actions_id', 'id');
     }
 
 }

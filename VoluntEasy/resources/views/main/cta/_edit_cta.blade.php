@@ -43,7 +43,7 @@
                 data: $('#editPublicAction').serialize(),
                 success: function (data) {
                     console.log(data);
-                    //location.reload();
+                    location.reload();
                 }
 
             });
