@@ -639,6 +639,21 @@ table.tasks > tbody > tr > td, table.tasks td{
     font-size:18px;
 }
 
+.circle {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 0;
+    padding: 50% 0;
+    border-radius: 50%;
+
+    /* Just making it pretty */
+    background: #38a9e4;
+    color: white;
+    font-family: Helvetica, Arial Black, sans;
+    font-size: 18px;
+    text-align: center;
+}
 /*
 .tasks .task {
     padding: 5px;

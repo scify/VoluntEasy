@@ -11,8 +11,6 @@ interface ReportsInterface{
 
     function volunteersByMonth();
 
-
-    /*TODO: Refactor*/
     function volunteersByAgeGroup();
 
     function volunteersBySex();

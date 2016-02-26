@@ -3,8 +3,6 @@ window.scify = {}; //avoiding name space collusion
 
 $(document).ready(function () {
 
-    //todo: move all view handler to methods that have a nice name
-
     var assignToolTips = function () {
             $('[data-toggle="tooltip"]').tooltip();
         },

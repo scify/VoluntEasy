@@ -139,6 +139,7 @@ class SubTaskController extends Controller {
             ) {
                 $carbonDate = \Carbon::createFromFormat('d/m/Y', $date);
 
+                //TODO: check if already exists
                 $workDate = new WorkDate([
                     'from_date' => \Carbon::createFromFormat('d/m/Y', $date),
                     'subtask_id' => $subTask->id,

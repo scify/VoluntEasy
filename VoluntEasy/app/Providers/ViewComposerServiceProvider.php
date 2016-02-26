@@ -74,7 +74,6 @@ class ViewComposerServiceProvider extends ServiceProvider {
             array_push($statuses, 'Blacklisted');
 
             //create the ratings dropdown
-            //TODO: change descriptions
             $ratings = [];
 
             $view->with('maritalStatuses', $maritalStatuses)

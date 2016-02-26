@@ -70,7 +70,7 @@ class CTAController extends Controller {
             'action_id' => \Request::get('actionId')
         ]);
 
-       return  $this->savePublicSubtasks($publicAction);
+        return $this->savePublicSubtasks($publicAction);
 
         return $publicAction;
 
@@ -80,21 +80,35 @@ class CTAController extends Controller {
      * Save the subtasks that will be displayed on the public page
      */
     private function savePublicSubtasks($publicAction) {
-        //save subtasks
-
         $publicSubtasksIds = [];
-        foreach (\Request::get('subtasks')['id'] as $i => $id) {
+        foreach (\Request::get('subtasks') as $i => $subtask) {
 
-            $publicSubtask = new PublicActionSubTask([
-                'public_actions_id' => $publicAction->id,
-                'subtask_id' => $id,
-                'description' => \Request::get('subtasks')['comments'][$i],
-            ]);
-            $publicSubtask->save();
-            array_push($publicSubtasksIds, $id);
+            if (isset($subtask['name']) && $subtask['name'] == 'on') {
+                //check if the relationship already exists
+                $publicSubtask = PublicActionSubTask::where('public_actions_id', $publicAction->id)->where('subtask_id', $i)->first();
+
+                //if not, create a new publicActionSubtask
+                if ($publicSubtask == null) {
+                    $publicSubtask = new PublicActionSubTask([
+                        'public_actions_id' => $publicAction->id,
+                        'subtask_id' => $i,
+                        'description' => $subtask['comments'],
+                    ]);
+
+                    $publicSubtask->save();
+                } else {
+                    //else update the current one
+                    $publicSubtask->update([
+                        'description' => $subtask['comments'],
+                    ]);
+                }
+                array_push($publicSubtasksIds, $publicSubtask->id);
+            }
         }
 
-        return PublicActionSubTask::where('public_actions_id', $publicAction->id)->whereNotIn('id', $publicSubtasksIds)->get()->toArray();
+        PublicActionSubTask::where('public_actions_id', $publicAction->id)->whereNotIn('id', $publicSubtasksIds)->delete();
+
+        return PublicActionSubTask::where('public_actions_id', $publicAction->id)->whereNotIn('id', $publicSubtasksIds)->get();
 
         return;
     }
