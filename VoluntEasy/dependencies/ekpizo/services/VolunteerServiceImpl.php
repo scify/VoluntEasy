@@ -1,6 +1,7 @@
 <?php namespace Dependencies\ekpizo\services;
 
 
+use App\Models\Descriptions\AvailabilityDay;
 use App\Models\Descriptions\Language;
 use App\Models\Volunteer;
 use App\Models\VolunteerExtras;
@@ -340,6 +341,9 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
             || $data['volunteer_info']['birth_date']['day'] == null || $data['volunteer_info']['birth_date']['day'] == ""
         )
             return 103;
+
+        if (!isset($data['avail_Inter']['interests']) || sizeof($data['avail_Inter']['interests'])==0)
+            return 104;
 
         $emails = Volunteer::where('email', $data['volunteer_info']['email'])->get();
 

@@ -8,7 +8,7 @@
     @include('template.default.headerIncludes')
 </head>
 <body class="page-login cta" data-url="{!! URL::to('/') !!}">
-<main class="page-content">
+<main class="page-content" style="background-color:#F1F4F9;">
     <div class="page-inner">
         <div id="main-wrapper">
             <div class="row">
@@ -34,7 +34,8 @@
                                             href="{{ $publicAction->map_url }}"
                                             target="_blank">{{ $publicAction->address}}</a></p>
                                     @else
-                                    <i class="fa fa-map-marker" style="margin-left:10px;"></i> {{ $publicAction->address }}</p>
+                                    <i class="fa fa-map-marker" style="margin-left:10px;"></i> {{ $publicAction->address
+                                    }}</p>
                                     @endif
                                     @endif
 
@@ -43,10 +44,11 @@
                                     @if($publicAction->executive_name!=null && $publicAction->executive_name!='')
                                     <p>Υπεύθυνος επικοινωνίας: {{ $publicAction->executive_name }}
                                         @if($publicAction->executive_phone!=null && $publicAction->executive_phone!='')
-                                            , {{ $publicAction->executive_phone }}
+                                        , {{ $publicAction->executive_phone }}
                                         @endif
                                         @if($publicAction->executive_email!=null && $publicAction->executive_email!='')
-                                        , <a href="mailto:{{ $publicAction->executive_email }}">{{ $publicAction->executive_email }}</a>
+                                        , <a href="mailto:{{ $publicAction->executive_email }}">{{
+                                            $publicAction->executive_email }}</a>
                                         @endif
                                         @endif
                                     </p>
@@ -57,6 +59,9 @@
                                 </div>
                             </div>
 
+                            {!! Form::open(['id' => 'volunteerInterested', 'method' => 'POST', 'action' =>
+                            ['CTAController@volunteerInterested']]) !!}
+                            <input type="hidden" name="publicActionId" value="{{$publicAction->id}}">
 
                             @foreach($action->tasks as $task)
                             <table class="table tasks">
@@ -78,15 +83,20 @@
                                         <div class="subtask-description">{{ $subtask->description }}</div>
                                     </td>
                                     <td class="taskDate">
-
                                         @foreach($subtask->workDates as $date)
                                         <div class="dateTime">
-                                            <input type="checkbox" class="form-control">
-                                            <label>{{$date->from_date}} <br/>  <span class="hours">{{ $date->from_hour }}-{{ $date->to_hour }}
+                                            <label>
+
+                                                {!! Form::formInput('dates['.$date->id.']', '', $errors, ['class' =>'form-control', 'type' => 'checkbox', 'checked' =>'false']) !!}
+
+                                               <div class="dates"> {{$date->from_date}} <br/>  <span
+                                                    class="hours">{{ $date->from_hour }}-{{ $date->to_hour }}
                                                     </span>
                                                 @if($date->volunteer_sum!=null || $date->volunteer_sum!=0)
                                                 <br/>{{ sizeof($date->volunteers) }}/{{ $date->volunteer_sum }}
-                                                εθελοντές</label>
+                                                εθελοντές
+                                                </div>
+                                            </label>
                                             @endif
                                         </div>
                                         @endforeach
@@ -96,7 +106,51 @@
                                 @endforeach
                             </table>
                             @endforeach
-                            @include('main.cta._i_am_interested')
+
+                            @if($errors->has('dates'))
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p class="text-danger">Παρακαλώ επιλέξτε τουλάχιστον μία θέση.</p>
+                                </div>
+                            </div>
+                            @endif
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3>Αφού επιλέξετε τις θέσεις που σας ενδιαφέρουν, συμπληρώστε τα στοιχεία σας για
+                                        να επικοινωνήσουμε μαζί σας.</h3>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {!! Form::formInput('first_name', 'Όνομα:', $errors, ['class' => 'form-control',
+                                        'id' =>
+                                        'first_name', 'required' => 'true']) !!}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {!! Form::formInput('last_name', 'Επώνυμο:', $errors, ['class' =>
+                                        'form-control', 'id' =>
+                                        'last_name', 'required' => 'true']) !!}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {!! Form::formInput('email', 'Email:', $errors, ['class' => 'form-control',
+                                        'required' => 'true']) !!}
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-right">
+                                    {!! Form::submit('Αποστολή', ['class' => 'btn btn-success width-130']) !!}
+                                    {!! Form::close() !!}
+                                </div>
+                            </div>
                             @else
                             <div class="row">
                                 <div class="col-md-12">
@@ -116,58 +170,5 @@
 
 </main>
 <!-- Page Content -->
-@include('template.default.footerIncludes')
-<script>
-
-    $("#submit").click(function () {
-        if (validate()) {
-            var ratings = [];
-
-            $.each($(".question"), function (key, value) {
-                var group = $(this).attr('data-radio-group');
-
-                ratings.push({
-                    attrId: $("input:radio[name ='" + group + "']:checked").attr('data-attrId'),
-                    score: $("input:radio[name ='" + group + "']:checked").val()
-                });
-            });
-
-            //send data to server to save the ratings
-            $.ajax({
-                url: $("body").attr('data-url') + '/ratings/action/store',
-                method: 'POST',
-                data: {
-                    actionId: $("#actionInformation").attr('data-action-id'),
-                    actionScoreId: $("#actionInformation").attr('data-action-score-id'),
-                    comments: $("#comments").val(),
-                    ratings: ratings
-                },
-                headers: {
-                    'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-                },
-                success: function (data) {
-                    window.location.href = $("body").attr('data-url') + "/ratings/action/thankyou/" + data;
-                }
-            });
-        }
-    });
-
-
-    //check that all radio button have been selected
-    function validate() {
-        var $questions = $(".question");
-        if ($questions.find("input:radio:checked").length === $questions.length) {
-            $(".error-msg").css('visibility', 'hidden');
-            return true;
-        }
-        else {
-            $(".error-msg .error-msg-text").text('Παρακαλώ απαντήστε σε όλες τις ερωτήσεις');
-            $(".error-msg").css('visibility', 'visible');
-            return false;
-        }
-    }
-
-</script>
-@yield('footerScripts')
 </body>
 </html>

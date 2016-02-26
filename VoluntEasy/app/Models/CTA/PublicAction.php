@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * The fields that will be displayed in the public cta page
  *
- * Class Task
+ * Class PublicAction
  * @package App\Models
  */
 class PublicAction extends Model {

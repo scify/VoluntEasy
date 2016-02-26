@@ -634,10 +634,11 @@ table.tasks > tbody > tr > td, table.tasks td{
     margin:5px;
 }
 
-.dateTime label{
+.dateTime div.dates{
     border-left: solid 2px rgb(43, 56, 78);
     padding: 3px;
     text-align: center;
+    display:inline-block;
 }
 
 .taskDate .hours {

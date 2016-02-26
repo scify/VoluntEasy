@@ -1,9 +1,14 @@
 <?php namespace App\Http\Controllers;
 
 
+use App\Http\Requests\CTAVolunteerRequest;
 use App\Models\Action;
+use App\Models\CTA\CTADate;
+use App\Models\CTA\CTAVolunteer;
 use App\Models\CTA\PublicAction;
 use App\Models\CTA\PublicActionSubTask;
+use App\Models\Volunteer;
+use App\Services\Facades\UserService;
 
 class CTAController extends Controller {
 
@@ -75,6 +80,53 @@ class CTAController extends Controller {
 
         return $publicAction;
 
+    }
+
+    /**
+     * Save the volunteer info
+     *
+     * @param CTAVolunteerRequest $request
+     * @return mixed
+     */
+    public function volunteerInterested(CTAVolunteerRequest $request) {
+
+        $isVolunteer = 0;
+        if (Volunteer::where('email', $request['email'])->first() != null)
+            $isVolunteer = 1;
+
+        $ctaVolunteer = new CTAVolunteer([
+            'first_name' => $request['first_name'],
+            'last_name' => $request['last_name'],
+            'email' => $request['email'],
+            'public_action_id' => $request['publicActionId'],
+            'isVolunteer' => 1,
+            'isAssigned' => 0,
+        ]);
+
+        $ctaVolunteer->save();
+
+        //save the dates that the volunteer is interested for
+        if (isset($request['dates'])) {
+            foreach ($request['dates'] as $id => $date) {
+                $date = new CTADate([
+                    'cta_volunteers_id' => $ctaVolunteer->id,
+                    'subtask_work_dates_id' => $id,
+                ]);
+
+                $date->save();
+            }
+        }
+
+        $admins = UserService::getAdmins();
+
+        foreach($admins as $admin){
+
+            \Mail::send('app_emails.rate_action', ['user' => $admin ], function ($message) use ($admin) {
+                $message->to($admin->email, $admin->name)->subject('[VoluntEasy] Αξιολόγηση δράσης');
+            });
+        }
+
+        return view('main.cta.thankyou');
     }
 
     /**
