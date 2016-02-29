@@ -104,7 +104,6 @@ class VolunteerController extends Controller {
     /**
      * Store a newly created resource in storage.
      *
-     * @param VolunteerRequest $request
      * @return Response
      */
     public function store() {
@@ -197,7 +196,7 @@ class VolunteerController extends Controller {
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  int $volId
      * @return Response
      */
     public function edit($volId) {

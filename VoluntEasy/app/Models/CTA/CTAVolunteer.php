@@ -11,7 +11,7 @@ class CTAVolunteer extends Model {
 
     protected $table = 'cta_volunteers';
 
-    protected $fillable = ['first_name', 'last_name', 'email', 'isAssigned', 'isVolunteer', 'public_action_id'];
+    protected $fillable = ['first_name', 'last_name', 'email', 'isAssigned', 'isVolunteer', 'public_action_id', 'comments'];
 
     public function dates() {
         return $this->hasMany('App\Models\CTA\CTADate', 'cta_volunteers_id', 'id');

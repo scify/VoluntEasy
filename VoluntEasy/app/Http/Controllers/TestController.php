@@ -24,6 +24,10 @@ class TestController extends Controller {
 
     public function test() {
 
+        $volunteer = Volunteer::find(1);
+        return $volunteer->interestedIn();
+
+
         $emails = Volunteer::where('email', 'test@test.gr')->get();
 
         return sizeof($emails);

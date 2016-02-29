@@ -79,7 +79,6 @@ class CTAController extends Controller {
         return $this->savePublicSubtasks($publicAction);
 
         return $publicAction;
-
     }
 
     /**
@@ -99,6 +98,7 @@ class CTAController extends Controller {
             'first_name' => $request['first_name'],
             'last_name' => $request['last_name'],
             'email' => $request['email'],
+            'comments' => $request['comments'],
             'public_action_id' => $request['publicActionId'],
             'isVolunteer' => $isVolunteer,
             'isAssigned' => 0,
@@ -124,6 +124,7 @@ class CTAController extends Controller {
         $publicAction = PublicAction::with('action')->find($request['publicActionId']);
         $admins = UserService::getAdmins();
 
+        //send email to all admins
         foreach ($admins as $admin) {
 
             \Mail::send('app_emails.cta_new_volunteer', ['user' => $admin, 'ctaVolunteer' => $ctaVolunteer, 'volunteer' => $volunteer, 'publicAction' => $publicAction], function ($message) use ($admin) {

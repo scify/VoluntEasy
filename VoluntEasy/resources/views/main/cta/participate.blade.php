@@ -142,7 +142,11 @@
                                         'required' => 'true']) !!}
                                     </div>
                                 </div>
-
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        {!! Form::formInput('comments', 'Σχόλια:', $errors, ['class' => 'form-control', 'type' => 'textarea', 'size' =>'2x2']) !!}
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12 text-right">

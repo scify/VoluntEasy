@@ -206,8 +206,8 @@
                             <p>Ένας νέος εθελοντής δήλωσε ενδιαφέρον στη δράση <strong><a href="{{ URL::to('/') }}/actions/one/{{ $publicAction->action->id }}" target="_blank">{{$publicAction->action->description}}</a></strong>.</p>
 
                             <p>Όνομα: {{ $ctaVolunteer->first_name }} {{ $ctaVolunteer->last_name }}</p>
-
                             <p>Email: {{ $ctaVolunteer->email }}</p>
+                            <p>Σχόλια: {{ $ctaVolunteer->comments }}</p>
 
                             @if($ctaVolunteer->isVolunteer)
                             <p class="text-success">Ο εθελοντής υπάρχει ήδη στην πλατφόρμα! Μπορείτε να τον αναθέσετε

@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 
+use App\Models\CTA\CTAVolunteer;
 use App\Models\Descriptions\VolunteerStatus;
 
 class Volunteer extends User {
@@ -238,5 +239,13 @@ class Volunteer extends User {
         $query->where('blacklisted', true);
     }
 
+    /**
+     * Check if Volunteer is interested in any action
+\     */
+    public function interestedIn(){
+
+        $ctaVolunteers = CTAVolunteer::where('email', $this->attributes['email'])->with('dates.date.subtask.task')->get();
+        return $ctaVolunteers;
+    }
 
 }
