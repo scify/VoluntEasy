@@ -21,11 +21,7 @@
                         <a data-toggle="collapse" data-parent="#accordion"
                            href="#collapse-{{ $task->id }}"
                            aria-expanded="false" aria-controls="collapse-{{ $task->id }}"
-                           class="arrow collapsed">
-                        </a>
-                        <a href="javascript:void(0);" class="title" onclick="showTaskInfo({{ $task->id }})">{{
-                            $task->name
-                            }}</a>
+                           class="arrow collapsed"  onclick="showTaskInfo({{ $task->id }})"> {{$task->name}}</a>
 
                         @if($task->status=="todo")
                         <span class="status todo">TO DO</span>

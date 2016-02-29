@@ -50,9 +50,16 @@ todo();
 $(".add-task").keypress(function (e) {
     if ((e.which == 13) && (!$(this).val().length == 0)) {
 
-        comments = $(this).val();
+        var comments = $(this).val();
 
-        $('<div class="todo-item added"><input type="checkbox"><span class="todo-description">' + comments + '</span><a href="javascript:void(0);" class="pull-right remove-todo-item"><i class="fa fa-times"></i></a></div>').insertAfter('.todo-list .todo-item:last-child');
+        var html = $('<div class="todo-item added"><input type="checkbox"><span class="todo-description">' + comments + '</span><a href="javascript:void(0);" class="pull-right remove-todo-item"><i class="fa fa-times"></i></a></div>');
+
+        if($('.todo-list').is(':empty'))
+            $(html).appendTo('.todo-list');
+        else
+            $(html).insertAfter('.todo-list .todo-item:last-child');
+
+
         $(this).val('');
         storeToDoItem(comments);
     } else if (e.which == 13) {

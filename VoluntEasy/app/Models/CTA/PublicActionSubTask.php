@@ -9,4 +9,8 @@ class PublicActionSubTask extends Model {
 
     protected $fillable = ['description', 'public_actions_id', 'subtask_id'];
 
+
+    public function subtask(){
+        return $this->hasOne('App\Models\ActionTasks\SubTask', 'id', 'subtask_id');
+    }
 }

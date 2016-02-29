@@ -6,7 +6,7 @@ var subTask;
 
 
 $(".board-card").draggable({
-    containment: ".task-" + $(this).attr('data-task') + ".board-row ",
+    containment: ".task-" + $(this).attr('data-task') + " .board-column ",
     connectToSortable: ".board-column"
 });
 

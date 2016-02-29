@@ -40,7 +40,6 @@
     <div class="col-md-12">
         <h4><i class="fa fa-calendar"></i> Χρονοδιάγραμμα εργασιών εθελοντών</h4>
 
-
         <table class="table table-condensed table-bordered table-striped table-striped workDates">
             <thead>
             <th>Ημέρα</th>
@@ -103,7 +102,6 @@
             <input type="text" class="form-control add-task" placeholder="New Task...">
         </form>
         <div class="todo-list">
-
         </div>
     </div>
 </div>

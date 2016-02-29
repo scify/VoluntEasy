@@ -417,6 +417,10 @@ div#unitsTree {
     width: 100%
 }
 
+.board-row{
+    min-height:70px;
+}
+
 .board .row [class*="col-"] {
     float: none;
     display: table-cell;

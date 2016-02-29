@@ -27,11 +27,16 @@ class CTAController extends Controller {
 
     public function participate($id) {
 
-        $publicAction = PublicAction::where('public_url', $id)->first();
+        $publicAction = PublicAction::where('public_url', $id)->with('subtasks.subtask.workDates')->first();
+
+        $tasks = [];
+        foreach($publicAction->subtasks as $subtask){
+
+
+        }
 
         if ($publicAction != null && $publicAction->isActive) {
-            $publicAction = $publicAction;
-            $action = $publicAction->load('action.tasks.subtasks.workDates.volunteers')->action;
+            $action = $publicAction->load('action')->action;
             return view('main.cta.participate', compact('action', 'publicAction'));
         } else {
             return view('main.cta.participate');
