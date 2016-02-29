@@ -15,6 +15,6 @@ class CTADate extends Model {
 
 
     public function date() {
-        return $this->hasOne('App\Models\ActionTasks\SubTask', 'id', 'subtask_work_dates_id');
+        return $this->hasOne('App\Models\ActionTasks\WorkDate', 'id', 'subtask_work_dates_id');
     }
 }

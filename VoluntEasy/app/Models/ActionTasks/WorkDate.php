@@ -17,7 +17,7 @@ class WorkDate extends Model {
     protected $dates = ['from_date', 'to_date'];
 
     public function subtask() {
-        return $this->belongTo('App\Models\ActionTasks\SubTask', 'id', 'subtask_id');
+        return $this->belongsTo('App\Models\ActionTasks\SubTask', 'subtask_id', 'id');
     }
 
     public function volunteers() {

@@ -9,7 +9,6 @@ class CTAVolunteerRequest extends Request {
             'last_name' => 'required|max:255',
             'email' => 'required|email',
             'dates' => 'required'
-            //'email' => 'required|email|unique:cta_volunteers',
         ];
     }
 
@@ -21,7 +20,7 @@ class CTAVolunteerRequest extends Request {
      */
     public function messages() {
         return [
-            'dates.required' => 'fdfdf'
+            'dates.required' => 'Required field'
         ];
     }
 }

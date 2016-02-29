@@ -203,31 +203,35 @@
                             <p>Αγαπητέ {{ $user->name }},</p>
                             @endif
 
-                            <p>Ένας νέος εθελοντής δήλωσε ενδιαφέρον για τη δράση {{$action->description }}.</p>
-
+                            <p>Ένας νέος εθελοντής δήλωσε ενδιαφέρον στη δράση <strong><a href="{{ URL::to('/') }}/actions/one/{{ $publicAction->action->id }}" target="_blank">{{$publicAction->action->description}}</a></strong>.</p>
 
                             <p>Όνομα: {{ $ctaVolunteer->first_name }} {{ $ctaVolunteer->last_name }}</p>
+
                             <p>Email: {{ $ctaVolunteer->email }}</p>
 
-                            @if($ctaColunteer->isVolunteer)
-                                <p class="text-success">Ο εθελοντής υπάρχει ήδη στην πλατφόρμα! Μπορείτε να τον αναθέσετε στη δράση, εδόσον βρίσκεται σητν κατάλληλη μονάδα.</p>
+                            @if($ctaVolunteer->isVolunteer)
+                            <p class="text-success">Ο εθελοντής υπάρχει ήδη στην πλατφόρμα! Μπορείτε να τον αναθέσετε
+                                στη δράση, εφόσον βρίσκεται στην κατάλληλη μονάδα. Δείτε το προφίλ του <a href="{{ URL::to('/') }}/volunteers/one/{{ $volunteer->id }}" target="_blank">εδώ</a>.</p>
                             @else
-                             <p class="text-success">Δεν βρέθηκε εθελοντής με αυτό το email στην πλατφόρμα. Αν δεν υπάρχει σε αυτή, θα πρέπει να γίνει δημιουργία του προφίλ του και να περάσει από συνέντευξη.</p>
+                            <p class="text-danger">Δεν βρέθηκε εθελοντής με αυτό το email στην πλατφόρμα. Αν δεν
+                                υπάρχει σε αυτή, θα πρέπει να γίνει δημιουργία του προφίλ του και να περάσει από
+                                συνέντευξη.</p>
                             @endif
 
-                            {{-- TODO ta dates --}}
+                            @foreach($ctaVolunteer->dates as $date)
+
+                             <h4>Task {{ $date->date->subtask->task->name }} / Subtask {{ $date->date->subtask->name }}</h4>
+                             <p>{{ $date->date->from_date }}, {{ $date->date->from_hour }}-{{$date->date->to_hour }}</p>
+
+                            @endforeach
                         </td>
                     </tr>
                 </table>
             </div>
             <!-- /content -->
-
         </td>
-        <td></td>
     </tr>
 </table>
-
-
 </body>
 </html>
 

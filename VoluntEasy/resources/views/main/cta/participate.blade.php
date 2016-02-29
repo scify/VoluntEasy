@@ -86,8 +86,7 @@
                                         @foreach($subtask->workDates as $date)
                                         <div class="dateTime">
                                             <label>
-
-                                                {!! Form::formInput('dates['.$date->id.']', '', $errors, ['class' =>'form-control', 'type' => 'checkbox', 'checked' =>'false']) !!}
+                                                {!! Form::formInput('dates['.$date->id.']', '', $errors, ['class' =>'form-control checkbox', 'type' => 'checkbox', 'checked' =>'false']) !!}
 
                                                <div class="dates"> {{$date->from_date}} <br/>  <span
                                                     class="hours">{{ $date->from_hour }}-{{ $date->to_hour }}
@@ -170,5 +169,9 @@
 
 </main>
 <!-- Page Content -->
+<script src="{{ asset('assets/plugins/jquery/jquery-2.1.3.min.js')}}"></script>
+<script>
+    $('.checkbox').uniform();
+</script>
 </body>
 </html>

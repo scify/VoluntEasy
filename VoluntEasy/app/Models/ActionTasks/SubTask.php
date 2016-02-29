@@ -17,6 +17,10 @@ class SubTask extends Model {
     protected $fillable = ['description', 'name', 'status_id', 'task_id', 'action_id', 'priority', 'due_date'];
 
 
+    public function task() {
+        return $this->belongsTo('App\Models\ActionTasks\Task', 'task_id', 'id');
+    }
+
     public function status() {
         return $this->hasOne('App\Models\ActionTasks\Status', 'id', 'status_id');
     }

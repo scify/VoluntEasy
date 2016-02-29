@@ -91,7 +91,8 @@ class CTAController extends Controller {
     public function volunteerInterested(CTAVolunteerRequest $request) {
 
         $isVolunteer = 0;
-        if (Volunteer::where('email', $request['email'])->first() != null)
+        $volunteer = Volunteer::where('email', $request['email'])->first();
+        if ($volunteer != null)
             $isVolunteer = 1;
 
         $ctaVolunteer = new CTAVolunteer([
@@ -99,7 +100,7 @@ class CTAController extends Controller {
             'last_name' => $request['last_name'],
             'email' => $request['email'],
             'public_action_id' => $request['publicActionId'],
-            'isVolunteer' => 1,
+            'isVolunteer' => $isVolunteer,
             'isAssigned' => 0,
         ]);
 
@@ -117,12 +118,16 @@ class CTAController extends Controller {
             }
         }
 
+        //get all the data needed to display the tasks that the volunteers
+        //is interested for
+        $ctaVolunteer->load('dates.date.subtask.task');
+        $publicAction = PublicAction::with('action')->find($request['publicActionId']);
         $admins = UserService::getAdmins();
 
-        foreach($admins as $admin){
+        foreach ($admins as $admin) {
 
-            \Mail::send('app_emails.rate_action', ['user' => $admin ], function ($message) use ($admin) {
-                $message->to($admin->email, $admin->name)->subject('[VoluntEasy] Αξιολόγηση δράσης');
+            \Mail::send('app_emails.cta_new_volunteer', ['user' => $admin, 'ctaVolunteer' => $ctaVolunteer, 'volunteer' => $volunteer, 'publicAction' => $publicAction], function ($message) use ($admin) {
+                $message->to($admin->email, $admin->name)->subject('[VoluntEasy] Εκδήλωση ενδιαφέροντος από εθελοντή');
             });
         }
 
