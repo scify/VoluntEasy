@@ -15,6 +15,7 @@ class ChecklistController extends Controller {
     public function store() {
 
         $checklist = new ChecklistItem([
+            'isComplete' => 0,
             'comments' => \Request::get('comments'),
             'subtask_id' => \Request::get('subtask_id'),
             'created_by' => \Auth::user()->id,
@@ -22,8 +23,10 @@ class ChecklistController extends Controller {
         ]);
 
         $checklist->save();
+        $checklist->load('createdBy');
+        $checklist->load('updatedBy');
 
-        return;
+        return $checklist;
     }
 
     /**

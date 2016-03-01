@@ -50,18 +50,33 @@ todo();
 $(".add-task").keypress(function (e) {
     if ((e.which == 13) && (!$(this).val().length == 0)) {
 
+        var html = '';
         var comments = $(this).val();
-
-        var html = $('<div class="todo-item added"><input type="checkbox"><span class="todo-description">' + comments + '</span><a href="javascript:void(0);" class="pull-right remove-todo-item"><i class="fa fa-times"></i></a></div>');
-
-        if($('.todo-list').is(':empty'))
-            $(html).appendTo('.todo-list');
-        else
-            $(html).insertAfter('.todo-list .todo-item:last-child');
-
-
         $(this).val('');
-        storeToDoItem(comments);
+
+        $.when(storeToDoItem(comments)).then(function (item, textStatus, jqXHR) {
+
+            html = '<div class="todo-item added ' + (item.isComplete == 1 ? 'complete' : '') + '"><input type="checkbox"' + (item.isComplete == 1 ? 'checked=checked' : '') + ' data-id="' + item.id + '">';
+            html += '<span class="todo-description">' + item.comments + '</span>';
+            html += '<span class="created_updated"><small>Δημιουργήθηκε από ' + item.created_by.name + ' στις ' + item.created_at;
+            html += ', τροποποιήθηκε από ' + item.updated_by.name + ' στις ' + item.updated_at + '</small></span>';
+            html += '<a href="javascript:void(0);" class="pull-right remove-todo-item" data-id="' + item.id + '"><i class="fa fa-times"></i></a></div>';
+
+            if ($('.todo-list').is(':empty'))
+                $(html).appendTo('.todo-list');
+            else
+                $(html).insertAfter('.todo-list .todo-item:last-child');
+
+            $('.todo-list .todo-item.added input').uniform();
+            $('.todo-list .todo-item.added input').click(function () {
+                if ($(this).is(':checked')) {
+                    $(this).parent().parent().parent().toggleClass('complete');
+                } else {
+                    $(this).parent().parent().parent().toggleClass('complete');
+                }
+            });
+        });
+
     } else if (e.which == 13) {
         alert('Please enter new task');
     }
@@ -74,6 +89,7 @@ $(".add-task").keypress(function (e) {
             $(this).parent().parent().parent().toggleClass('complete');
         }
     });
+
     $('.todo-list .todo-item.added .remove-todo-item').click(function () {
         $(this).parent().remove();
     });
@@ -82,7 +98,7 @@ $(".add-task").keypress(function (e) {
 
 //store a new checklist item
 function storeToDoItem(comments) {
-    $.ajax({
+    return $.ajax({
         url: $("body").attr('data-url') + "/checklist/store",
         method: 'GET',
         data: {
@@ -101,6 +117,9 @@ function updateToDoItem(id, isComplete) {
         data: {
             id: id,
             isComplete: isComplete
+        },
+        success: function (data) {
+            return data;
         }
     });
 }

@@ -17,6 +17,7 @@ class CreateCtaVolunteersTable extends Migration
             $table->string('first_name', 300);
             $table->string('last_name', 300);
             $table->string('email', 300);
+            $table->string('phone_number', 300);
             $table->string('comments', 1000)->nullable();
             $table->boolean('isAssigned')->default(0);
             $table->boolean('isVolunteer')->default(0);

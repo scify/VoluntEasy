@@ -24,6 +24,10 @@ class WorkDate extends Model {
         return $this->belongsToMany('App\Models\Volunteer', 'volunteer_work_dates', 'subtask_work_dates_id', 'volunteer_id');
     }
 
+    public function ctaVolunteers() {
+        return $this->belongsToMany('App\Models\CTA\CTAVolunteer', 'cta_volunteers_dates', 'subtask_work_dates_id', 'cta_volunteers_id');
+    }
+
     public function getFromDateAttribute() {
         if ($this->attributes['from_date'] != null)
             return \Carbon::parse($this->attributes['from_date'])->format('d/m/Y');

@@ -527,6 +527,18 @@ i.priority-4 {
 .taskInfo .padding, .subTaskInfo .padding{
     padding-left:20px;
 }
+
+.workDates .date{
+    width: 120px;
+    display: inline-block;
+    margin-bottom:10px;
+}
+
+.workDates .time{
+    width: 70px;
+    display: inline-block;
+}
+
 /*
 .taskInfo, .subTaskInfo{
     background-color: rgb(233, 237, 242);

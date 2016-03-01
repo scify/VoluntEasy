@@ -183,7 +183,6 @@
                                 </div>
                                 @endforeach
                             </div>
-
                         </div>
                         @endif
                         <div class="row top-margin">

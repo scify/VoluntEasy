@@ -3,6 +3,7 @@
 use App\Models\ActionTasks\Status;
 use App\Models\ActionTasks\SubTask;
 use App\Models\ActionTasks\WorkDate;
+use App\Models\Volunteer;
 
 class SubTaskController extends Controller {
 
@@ -19,7 +20,14 @@ class SubTaskController extends Controller {
      * @return mixed
      */
     public function show($id) {
-        $subTask = SubTask::with('workDates.volunteers', 'checklist.createdBy', 'checklist.updatedBy')->findOrFail($id);
+        $subTask = SubTask::with('workDates.volunteers', 'checklist.createdBy', 'checklist.updatedBy', 'workDates.ctaVolunteers')->findOrFail($id);
+
+        foreach ($subTask->workDates as $date) {
+            foreach ($date->ctaVolunteers as $cta) {
+                if ($cta->isVolunteer)
+                    $cta->volunteer = Volunteer::where('email', $cta->email)->with('units')->first();
+            }
+        }
 
         return $subTask;
     }
@@ -132,24 +140,32 @@ class SubTaskController extends Controller {
 
         foreach (\Request::get('workDates')['dates'] as $i => $date) {
 
-            if ($date != null && $date != '' &&
-                /* \Request::has('workDates')['hourFrom'][$i] && \Request::get('workDates')['hourFrom'][$i] != null && \Request::get('workDates')['hourFrom'][$i] != '' &&
-                 \Request::has('workDates')['hourTo'][$i] && \Request::get('workDates')['hourTo'][$i] != null && \Request::get('workDates')['hourTo'][$i] != '' &&*/
-                \Request::get('workDates')['hourFrom'][$i] != '00:00' && \Request::get('workDates')['hourTo'][$i] != '00:00'
-            ) {
-                $carbonDate = \Carbon::createFromFormat('d/m/Y', $date);
+            if ($date != null && $date != '' && \Request::get('workDates')['hourFrom'][$i] != '00:00' && \Request::get('workDates')['hourTo'][$i] != '00:00') {
+                $workDate = WorkDate::find(\Request::get('workDates')['ids'][$i]);
 
-                //TODO: check if already exists
-                $workDate = new WorkDate([
-                    'from_date' => \Carbon::createFromFormat('d/m/Y', $date),
-                    'subtask_id' => $subTask->id,
-                    'from_hour' => \Request::get('workDates')['hourFrom'][$i],
-                    'to_hour' => \Request::get('workDates')['hourTo'][$i],
-                    'comments' => \Request::get('workDates')['comments'][$i],
-                    'volunteer_sum' => \Request::get('workDates')['volunteerSum'][$i]
-                ]);
+                //check if the datetime exists already
+                if ($workDate == null) {
+                    $workDate = new WorkDate([
+                        'from_date' => \Carbon::createFromFormat('d/m/Y', $date),
+                        'subtask_id' => $subTask->id,
+                        'from_hour' => \Request::get('workDates')['hourFrom'][$i],
+                        'to_hour' => \Request::get('workDates')['hourTo'][$i],
+                        'comments' => \Request::get('workDates')['comments'][$i],
+                        'volunteer_sum' => \Request::get('workDates')['volunteerSum'][$i]
+                    ]);
 
-                $workDate->save();
+                    $workDate->save();
+                } else {
+                    $workDate->update([
+                        'from_date' => \Carbon::createFromFormat('d/m/Y', $date),
+                        'subtask_id' => $subTask->id,
+                        'from_hour' => \Request::get('workDates')['hourFrom'][$i],
+                        'to_hour' => \Request::get('workDates')['hourTo'][$i],
+                        'comments' => \Request::get('workDates')['comments'][$i],
+                        'volunteer_sum' => \Request::get('workDates')['volunteerSum'][$i]
+                    ]);
+                }
+
                 array_push($dateIds, $workDate->id);
             }
         }

@@ -27,17 +27,41 @@ class CTAController extends Controller {
 
     public function participate($id) {
 
-        $publicAction = PublicAction::where('public_url', $id)->with('subtasks.subtask.workDates')->first();
-
+        $publicAction = PublicAction::where('public_url', $id)->with('subtasks.subtask.workDates', 'subtasks.subtask.task')->first();
         $tasks = [];
-        foreach($publicAction->subtasks as $subtask){
 
+        //just transform data to the correct form
+        foreach ($publicAction->subtasks as $subtask) {
+            $task = $subtask->subtask->task;
+            $ctaSubtasks = [];
+            unset($subtask->subtask->task);
 
+            if (sizeof($tasks) == 0) {
+                $ctaSubtasks = [];
+                array_push($ctaSubtasks, $subtask->subtask);
+                $task->ctaSubtasks = $ctaSubtasks;
+                array_push($tasks, $task);
+            } else {
+
+                foreach ($tasks as $t) {
+                    if ($t->id == $task->id) {
+                        array_push($ctaSubtasks, $subtask->subtask);
+                        $task->ctaSubtasks = $ctaSubtasks;
+
+                    } else {
+                        $ctaSubtasks = [];
+                        $task->ctaSubtasks = $ctaSubtasks;
+                        array_push($tasks, $task);
+                    }
+                }
+            }
         }
+
+
 
         if ($publicAction != null && $publicAction->isActive) {
             $action = $publicAction->load('action')->action;
-            return view('main.cta.participate', compact('action', 'publicAction'));
+            return view('main.cta.participate', compact('action', 'publicAction', 'tasks'));
         } else {
             return view('main.cta.participate');
         }
@@ -63,7 +87,6 @@ class CTAController extends Controller {
             $this->savePublicSubtasks($publicAction);
 
         return $publicAction;
-
     }
 
     public function update() {
@@ -103,6 +126,7 @@ class CTAController extends Controller {
             'first_name' => $request['first_name'],
             'last_name' => $request['last_name'],
             'email' => $request['email'],
+            'phone_number' => $request['phone_number'],
             'comments' => $request['comments'],
             'public_action_id' => $request['publicActionId'],
             'isVolunteer' => $isVolunteer,

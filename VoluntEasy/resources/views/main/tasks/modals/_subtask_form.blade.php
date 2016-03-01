@@ -43,11 +43,12 @@
         <table class="table table-condensed table-bordered table-striped table-striped workDates">
             <thead>
             <th>Ημέρα</th>
-            <th>Ώρα από</th>
-            <th>Ώρα εώς</th>
+            <th>Ώρα</th>
             <th># εθελοντών</th>
-            <th>Εθελοντές</th>
+            <th>Ανατεθειμένοι εθελοντές</th>
+            <th>Εθελοντές που έχουν εκδηλώσει ενδιαφέρον</th>
             <th>Σχόλια</th>
+            <th></th>
             </thead>
             <tbody>
             <tr>
@@ -58,15 +59,14 @@
                     'data-date-start-date' => $action->start_date, 'data-date-end-date' => $action->end_date,
                     'data-date-format' => 'dd/mm/yyyy']) !!}
                 </td>
-                <td class="workHourFrom col-md-1">{!! Form::formInput('workDates[hourFrom][]', '', $errors, ['class' =>
+                <td class="workTime col-md-2"> {!! Form::formInput('workDates[hourFrom][]', '', $errors, ['class' =>
+                    'form-control
+                    time datetime']) !!} έως {!! Form::formInput('workDates[hourTo][]', '', $errors, ['class' =>
                     'form-control
                     time datetime']) !!}
                 </td>
-                <td class="workHourTo col-md-1">{!! Form::formInput('workDates[hourTo][]', '', $errors, ['class' =>
-                    'form-control
-                    time datetime']) !!}
-                </td>
-                <td class="comments col-md-1">{!! Form::formInput('workDates[volunteerSum][]', '', $errors, ['class' =>
+                <td class="volunteers col-md-1">{!! Form::formInput('workDates[volunteerSum][]', '', $errors, ['class'
+                    =>
                     'form-control']) !!}
                 </td>
                 <td class="volunteers col-md-3">
@@ -79,9 +79,12 @@
                         @endforeach
                     </select>
                 </td>
-                <td class="comments col-md-3">{!! Form::formInput('workDates[comments][]', '', $errors, ['type' =>
-                    'textarea', 'size' => '1x1', 'class' => 'form-control']) !!}
+                <td class="ctaVolunteers col-md-3"></a>
                 </td>
+                <td class="comments col-md-3">{!! Form::formInput('workDates[comments][]', '', $errors, ['type' =>
+                    'textarea', 'size' => '1x1', 'class' => 'form-control comments']) !!}
+                </td>
+                <td class="deleteWorkDate"></td>
             </tr>
             </tbody>
         </table>

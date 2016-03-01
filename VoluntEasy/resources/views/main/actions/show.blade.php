@@ -37,7 +37,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <h3>Δράση <span data-action-id="{{ $action->id }}"
-                                            id="actionId">{{ $action->description }}</span></h3>
+                                            id="actionId" data-unit-id="{{$action->unit_id}}">{{ $action->description }}</span></h3>
 
                             <p>
                                 <small>

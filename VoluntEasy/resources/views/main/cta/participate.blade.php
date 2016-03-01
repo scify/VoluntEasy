@@ -63,7 +63,7 @@
                             ['CTAController@volunteerInterested']]) !!}
                             <input type="hidden" name="publicActionId" value="{{$publicAction->id}}">
 
-                            @foreach($action->tasks as $task)
+                            @foreach($tasks as $task)
                             <table class="table tasks">
                                 <tr>
                                     <td colspan="2">
@@ -72,10 +72,9 @@
 
                                             <p>{{ $task->description }}</p>
                                         </div>
-
                                     </td>
                                 </tr>
-                                @foreach($task->subtasks as $subtask)
+                                @foreach($task->ctaSubtasks as $subtask)
                                 @if(sizeof($subtask->workDates)>0)
                                 <tr>
                                     <td class="task col-md-3">
@@ -139,6 +138,12 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         {!! Form::formInput('email', 'Email:', $errors, ['class' => 'form-control',
+                                        'required' => 'true']) !!}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {!! Form::formInput('phone_number', 'Τηλέφωνο επικοινωνίας:', $errors, ['class' => 'form-control',
                                         'required' => 'true']) !!}
                                     </div>
                                 </div>

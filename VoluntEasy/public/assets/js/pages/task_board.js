@@ -136,6 +136,7 @@ $(".editSubTask").click(function (e) {
             $("#editSubTask .subtask-priorities option[value='" + subTask.priority + "']").prop('selected', true);
 
             //fill the workDates table
+            //and the cta volunteers
             $.each(subTask.work_dates, function (i, date) {
 
                 var clone = $("#editSubTask .workDates tr:last").clone().find("input, select, textarea").each(function () {
@@ -157,16 +158,48 @@ $(".editSubTask").click(function (e) {
                         $(this).val('aaaa');
                     else if (name == "workDates[comments][]")
                         $(this).val(date.comments);
-
                 }).end();
 
+                $(clone).find('.deleteWorkDate').append('<a href="javascript:void(0);" class="deleteWorkDate"><i class="fa fa-times"></i></a>');
                 $(clone).addClass('toRemove').insertBefore("#editSubTask .workDates  tr:last");
+
+                var html = '';
+                //also display the interested volunteers
+                $.each(date.cta_volunteers, function (i, cta) {
+                    html = ''
+                    //volunteers is in platform
+                    if (cta.isVolunteer == 1) {
+                        html += '<a href="' + $("body").attr('data-url') + '/volunteers/one/' + cta.volunteer.id + '" target="_blank">' + cta.first_name + ' ' + cta.last_name + '</a>';
+                        //check if the volunteer is in the action's unit
+                        var unitId = $("#actionId").attr('data-unit-id');
+                        var isInUnit = false;
+                        $.each(cta.volunteer.units, function (i, unit) {
+                            if (unitId == unit.id) {
+                                isInUnit = true;
+                                return false;
+                            }
+                        });
+
+                        if(isInUnit)
+                            html += ' <i class="fa fa-heart" ></i> assign somehow';
+
+                        else
+                            html += ' <i class="fa fa-question-circle" title="Ο εθελοντής δεν ανήκει στη μονάδα της δράσης. Επικοινωνήστε με τον υπεύθυνο μονάδας."></i>';
+
+                    }
+                    else {
+                        //volunteers isn't in platform
+                        html += cta.first_name + ' ' + cta.last_name + ', <a href="mailto:' + cta.email + '">' + cta.email + '</a>';
+                        html += ' <i class="fa fa-question-circle" title="Ο εθελοντής δεν υπάρχει στην πλατφόρμα. Δημιουργήστε το προφίλ του για να μπορέσετε να τον αναθέσετε στη δράση."></i>';
+                    }
+                    html += '<br/>';
+                    $(clone).find('.ctaVolunteers').append(html);
+                });
             });
 
             //add the checklist items
-            var html = '';
+            html = '';
             $.each(subTask.checklist, function (i, item) {
-                console.log(item.isComplete)
                 html += '<div class="todo-item added ' + (item.isComplete == 1 ? 'complete' : '') + '"><input type="checkbox"' + (item.isComplete == 1 ? 'checked=checked' : '') + ' data-id="' + item.id + '">';
                 html += '<span class="todo-description">' + item.comments + '</span>';
                 html += '<span class="created_updated"><small>Δημιουργήθηκε από ' + item.created_by.name + ' στις ' + item.created_at;
@@ -182,7 +215,6 @@ $(".editSubTask").click(function (e) {
                 } else {
                     $(this).parent().parent().parent().toggleClass('complete');
                 }
-
                 updateToDoItem($(this).attr('data-id'), $(this).is(':checked'));
             });
             $('.todo-list .todo-item.added .remove-todo-item').click(function () {
@@ -195,7 +227,6 @@ $(".editSubTask").click(function (e) {
             //show modal
             $('#editSubTask .todos').show();
             $('#editSubTask').modal('show');
-
         });
 });
 
@@ -228,11 +259,18 @@ $(".deleteSubTask").click(function () {
     }
 });
 
+//delete a workDate row
+$(document.body).on('click', 'a.deleteWorkDate', function () {
+    $(this).parent().parent().remove();
+});
+
+
 //remove the extra rows that hold the work dates/hours info
 //from the table, when the modal is closed
 $('#editSubTask').on('hidden.bs.modal', function () {
     $("#editSubTask .workDates tr.toRemove").remove();
-})
+});
+
 
 //add another editable fields to fill in work date and hours
 function addWorkDate(parentId) {
@@ -333,8 +371,8 @@ function showSubTaskInfo(subTaskId) {
                         icon = '<i class="fa fa-square-o"></i> ';
 
                     html += '<p>' + icon + item.comments;
-                  /*  html += '<br/><small>Δημιουργήθηκε από ' + item.created_by.name + ' στις ' + item.created_at;
-                    html += ', τροποποιήθηκε από ' + item.updated_by.name + ' στις ' + item.updated_at + '</small></p>';*/
+                    /*  html += '<br/><small>Δημιουργήθηκε από ' + item.created_by.name + ' στις ' + item.created_at;
+                     html += ', τροποποιήθηκε από ' + item.updated_by.name + ' στις ' + item.updated_at + '</small></p>';*/
                 });
             }
 
@@ -372,11 +410,6 @@ function getSubtask(id) {
 /* validate the work date tables, check that no row is incomplete */
 function validateWorkTable(parentId) {
     var lastTr = $(parentId + " .workDates tr:last");
-
-
-    console.log($(lastTr).find('.datetime').attr('data-date'));
-    console.log($(lastTr).find('.workHourFrom input').val());
-    console.log($(lastTr).find('.workHourTo input').val());
 
     if (($(lastTr).find('.datetime').attr('data-date') == null || $(lastTr).find('.datetime').attr('data-date') == '' ||
         $(lastTr).find('.workHourFrom input').val() == null || $(lastTr).find('.workHourFrom input').val() == '' ||
