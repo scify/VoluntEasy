@@ -28,9 +28,11 @@
     </div>
     <div class="row">
         <div class="col-md-12 text-right">
-            <button type="button" class="btn btn-success editSubTask" data-subtask-id="" data-task-id="">Επεξεργασία
+            <button type="button" class="btn btn-info addWorkDate" data-subtask-id="" data-task-id="" title="Προσθήκη ημέρας/ώρας"><i class="fa fa-calendar"></i>
             </button>
-            <button type="button" class="btn btn-danger deleteSubTask" data-subtask-id="">Διαγραφή</button>
+            <button type="button" class="btn btn-success editSubTask" data-subtask-id="" data-task-id="" title="Επεξεργασία"><i class="fa fa-edit"></i>
+            </button>
+            <button type="button" class="btn btn-danger deleteSubTask" data-subtask-id="" title="Διαγραφή"><i class="fa fa-trash"></i></button>
         </div>
     </div>
 </div>

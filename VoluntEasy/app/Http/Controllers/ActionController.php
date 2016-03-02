@@ -87,17 +87,11 @@ class ActionController extends Controller {
 
         $branch = UnitService::getBranch(Unit::where('id', $action->unit->id)->with('actions')->first());
 
-        //get the volunteer ids in an array for the select box
+        /*//get the volunteer ids in an array for the select box
         $volunteerIds = VolunteerService::volunteerIds($action->volunteers);
-
+*/
         $unitId = $action->unit_id;
 
-        //get all volunteers to show in select box
-        //those should be the volunteers that belong to the same unit
-        //that the action belongs to
-        $allVolunteers = Volunteer::whereHas('units', function ($query) use ($unitId) {
-            $query->where('unit_id', $unitId);
-        })->orderBy('name', 'asc')->get();
 
         //check if action has expired
         $now = date('Y-m-d');
@@ -116,7 +110,7 @@ class ActionController extends Controller {
         if ($action->publicAction != null)
             $publicSubtasks = CTAService::getPublicSubtasks($action);
 
-        return view('main.actions.show', compact('action', 'allVolunteers', 'volunteerIds', 'userUnits', 'branch', 'taskStatuses', 'publicSubtasks'));
+        return view('main.actions.show', compact('action', 'userUnits', 'branch', 'taskStatuses', 'publicSubtasks'));
     }
 
     /**

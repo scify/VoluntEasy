@@ -105,6 +105,26 @@ $("#updateSubTask").click(function (e) {
     }
 });
 
+//save a subtask
+$("#storeWorkDate").click(function (e) {
+    e.preventDefault();
+    if ($("#addWorkDateForm .work_date_comments").val() == null || $("#addWorkDateForm .work_date_comments").val() == '')
+        $("#addWorkDateForm .comments_err").show();
+    else {
+        $("#addWorkDateForm .comments_err").hide();
+
+        $.ajax({
+            url: $("body").attr('data-url') + "/actions/tasks/subtasks/workdates/store",
+            method: 'GET',
+            data: $("#addWorkDateForm").serialize(),
+            success: function (result) {
+                console.log(result);
+                // location.reload();
+            }
+        });
+    }
+});
+
 //populate the edit task modal with data before displaying it
 $(".editTask").click(function (e) {
 
@@ -135,68 +155,6 @@ $(".editSubTask").click(function (e) {
 
             $("#editSubTask .subtask-priorities option[value='" + subTask.priority + "']").prop('selected', true);
 
-            //fill the workDates table
-            //and the cta volunteers
-            $.each(subTask.work_dates, function (i, date) {
-
-                var clone = $("#editSubTask .workDates tr:last").clone().find("input, select, textarea").each(function () {
-
-                    var name = $(this).attr('name');
-
-                    if (name == "workDates[ids][]")
-                        $(this).val(date.id);
-                    else if (name == "workDates[dates][]")
-                        $(this).val(date.from_date);
-                    else if (name == "workDates[hourFrom][]")
-                        $(this).val(date.from_hour);
-                    else if (name == "workDates[hourTo][]")
-                        $(this).val(date.to_hour);
-                    else if (name == "workDates[volunteerSum][]")
-                        $(this).val(date.volunteer_sum);
-                    else if (name == "workDates[subtaskVolunteers][]")
-                    //TODO: check this
-                        $(this).val('aaaa');
-                    else if (name == "workDates[comments][]")
-                        $(this).val(date.comments);
-                }).end();
-
-                $(clone).find('.deleteWorkDate').append('<a href="javascript:void(0);" class="deleteWorkDate"><i class="fa fa-times"></i></a>');
-                $(clone).addClass('toRemove').insertBefore("#editSubTask .workDates  tr:last");
-
-                var html = '';
-                //also display the interested volunteers
-                $.each(date.cta_volunteers, function (i, cta) {
-                    html = ''
-                    //volunteers is in platform
-                    if (cta.isVolunteer == 1) {
-                        html += '<a href="' + $("body").attr('data-url') + '/volunteers/one/' + cta.volunteer.id + '" target="_blank">' + cta.first_name + ' ' + cta.last_name + '</a>';
-                        //check if the volunteer is in the action's unit
-                        var unitId = $("#actionId").attr('data-unit-id');
-                        var isInUnit = false;
-                        $.each(cta.volunteer.units, function (i, unit) {
-                            if (unitId == unit.id) {
-                                isInUnit = true;
-                                return false;
-                            }
-                        });
-
-                        if(isInUnit)
-                            html += ' <i class="fa fa-heart" ></i> assign somehow';
-
-                        else
-                            html += ' <i class="fa fa-question-circle" title="Ο εθελοντής δεν ανήκει στη μονάδα της δράσης. Επικοινωνήστε με τον υπεύθυνο μονάδας."></i>';
-
-                    }
-                    else {
-                        //volunteers isn't in platform
-                        html += cta.first_name + ' ' + cta.last_name + ', <a href="mailto:' + cta.email + '">' + cta.email + '</a>';
-                        html += ' <i class="fa fa-question-circle" title="Ο εθελοντής δεν υπάρχει στην πλατφόρμα. Δημιουργήστε το προφίλ του για να μπορέσετε να τον αναθέσετε στη δράση."></i>';
-                    }
-                    html += '<br/>';
-                    $(clone).find('.ctaVolunteers').append(html);
-                });
-            });
-
             //add the checklist items
             html = '';
             $.each(subTask.checklist, function (i, item) {
@@ -218,16 +176,69 @@ $(".editSubTask").click(function (e) {
                 updateToDoItem($(this).attr('data-id'), $(this).is(':checked'));
             });
             $('.todo-list .todo-item.added .remove-todo-item').click(function () {
-                deleteToDoItem($(this).attr('data-id'))
+                deleteToDoItem($(this).attr('data-id'));
                 $(this).parent().remove();
             });
-
-            refreshDateTime();
 
             //show modal
             $('#editSubTask .todos').show();
             $('#editSubTask').modal('show');
         });
+});
+
+//populate the addWorkDate modal with data before displaying it
+$(".addWorkDate").click(function (e) {
+
+    $("#addWorkDate .subtaskId").val(subTask.id);
+
+    //start adding the volunteers to the multiselect
+    //first add the immediately available volunteers
+    //aka those that belong to the unit of the action
+    var optgroup = $('<optgroup>');
+    optgroup.attr('label', 'Εθελοντές που ανήκουν στη μονάδα');
+    $.each(subTask.unitVolunteers, function (i, volunteer) {
+        var option = $("<option></option>");
+        option.val(volunteer.id);
+        option.text(volunteer.name + ' ' + volunteer.last_name);
+
+        optgroup.append(option);
+        $('#sub_volunteers').append(optgroup);
+    });
+
+    //add the cta_volunteers
+    var notInPlatformOptgroup = $('<optgroup>');
+    var notInUnitOptgroup = $('<optgroup>');
+    notInPlatformOptgroup.attr('label', 'Εθελοντές που ανήκουν στη μονάδα');
+    notInUnitOptgroup.attr('label', 'Εθελοντές που ανήκουν στη μονάδα');
+
+    $.each(subTask.work_dates, function (i, date) {
+        $.each(date.cta_volunteers, function (i, volunteer) {
+            var option = $("<option></option>");
+            option.val(volunteer.id);
+            option.text(volunteer.name + ' ' + volunteer.last_name);
+
+            var isInUnit = false;
+            $.each(cta.volunteer.units, function (i, unit) {
+                if (unitId == unit.id) {
+                    isInUnit = true;
+                    return false;
+                }
+            });
+
+            if (volunteer.isVolunteer)
+                notInPlatformOptgroup.append(option);
+            if (volunteer.isInUnit)
+                notInUnitOptgroup.append(option);
+
+            $('#sub_volunteers').append(optgroup);
+        });
+    });
+
+
+    refreshDateTime();
+
+    //show modal
+    $('#addWorkDate').modal('show');
 });
 
 
@@ -350,7 +361,15 @@ function showSubTaskInfo(subTaskId) {
                 html = '<p><em>Δεν έχει οριστεί χρονοδιάγραμμα</em></p>';
             else {
                 $.each(subTask.work_dates, function (i, date) {
-                    html += '<p><strong>' + date.from_date + ', ' + date.from_hour + '-' + date.to_hour + '</strong><br/>';
+                    html += '<p><strong>' + date.comments + '</strong><br/>';
+                    if (date.from_date != null)
+                        html += date.from_date + ', ' + date.from_hour + '-' + date.to_hour + '</strong><br/>';
+
+                    if (date.from_hour != null)
+                        html += ',' + date.from_hour;
+                    if (date.to_hour != null)
+                        html += ',' + date.to_hour;
+
                     html += (date.comments == null || date.comments == '' ? '' : date.comments + '<br/>');
                     html += (date.volunteer_sum == null ? '' : date.volunteers.length + '/' + date.volunteer_sum + '') + '<br/>';
                     html += '</p>';

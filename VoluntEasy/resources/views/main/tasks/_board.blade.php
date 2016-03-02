@@ -222,8 +222,11 @@
 @include('main.tasks.modals._edit_task')
 @include('main.tasks.modals._add_subtask')
 @include('main.tasks.modals._edit_subtask')
+@include('main.tasks.modals._add_work_date')
+@include('main.tasks.modals._edit_work_date')
 
 
 @section('footerScripts')
 <script src="{{ asset('assets/js/pages/task_board.js')}}"></script>
+<script src="{{ asset('assets/plugins/multiselect/multiselect.min.js')}}"></script>
 @append

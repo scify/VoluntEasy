@@ -11,10 +11,10 @@ class CreateSubtasksWorkHoursTable extends Migration {
     public function up() {
         Schema::create('subtask_work_dates', function ($table) {
             $table->increments('id');
-            $table->date('from_date');
+            $table->date('from_date')->nullable();
             $table->date('to_date')->nullable();
-            $table->time('from_hour');
-            $table->time('to_hour');
+            $table->time('from_hour')->nullable();
+            $table->time('to_hour')->nullable();
             $table->string('comments', 500)->nullable();
             $table->integer('volunteer_sum')->nullable();
 

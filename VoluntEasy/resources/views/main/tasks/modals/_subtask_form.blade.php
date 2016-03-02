@@ -36,66 +36,6 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <h4><i class="fa fa-calendar"></i> Χρονοδιάγραμμα εργασιών εθελοντών</h4>
-
-        <table class="table table-condensed table-bordered table-striped table-striped workDates">
-            <thead>
-            <th>Ημέρα</th>
-            <th>Ώρα</th>
-            <th># εθελοντών</th>
-            <th>Ανατεθειμένοι εθελοντές</th>
-            <th>Εθελοντές που έχουν εκδηλώσει ενδιαφέρον</th>
-            <th>Σχόλια</th>
-            <th></th>
-            </thead>
-            <tbody>
-            <tr>
-                <td class="workDate col-md-1">
-                    <input type="hidden" name="workDates[ids][]" class="dateId" value="">
-                    {!! Form::formInput('workDates[dates][]', '', $errors, ['class' =>
-                    'form-control date datetime',
-                    'data-date-start-date' => $action->start_date, 'data-date-end-date' => $action->end_date,
-                    'data-date-format' => 'dd/mm/yyyy']) !!}
-                </td>
-                <td class="workTime col-md-2"> {!! Form::formInput('workDates[hourFrom][]', '', $errors, ['class' =>
-                    'form-control
-                    time datetime']) !!} έως {!! Form::formInput('workDates[hourTo][]', '', $errors, ['class' =>
-                    'form-control
-                    time datetime']) !!}
-                </td>
-                <td class="volunteers col-md-1">{!! Form::formInput('workDates[volunteerSum][]', '', $errors, ['class'
-                    =>
-                    'form-control']) !!}
-                </td>
-                <td class="volunteers col-md-3">
-                    <select class="js-states form-control multiple" multiple="multiple"
-                            name="workDates[subtaskVolunteers][]"
-                            tabindex="-1"
-                            style="display: none; width: 100%">
-                        @foreach($allVolunteers as $volunteer)
-                        <option value="{{ $volunteer->id }}">{{ $volunteer->name}} {{$volunteer->last_name}}</option>
-                        @endforeach
-                    </select>
-                </td>
-                <td class="ctaVolunteers col-md-3"></a>
-                </td>
-                <td class="comments col-md-3">{!! Form::formInput('workDates[comments][]', '', $errors, ['type' =>
-                    'textarea', 'size' => '1x1', 'class' => 'form-control comments']) !!}
-                </td>
-                <td class="deleteWorkDate"></td>
-            </tr>
-            </tbody>
-        </table>
-        <p class="workError text-danger" style="display:none;">Συμπληρώστε όλα τα πεδία</p>
-
-        <div class="col-md-12">
-            <p><a href="#" onclick="addWorkDate('{{ $parentId }}')" class="add-dates"><i class="fa fa-plus-circle"></i>
-                    Προσθήκη διαθεσιμότητας</a></p>
-        </div>
-    </div>
-</div>
 
 <div class="row todos" style="display:none;">
     <div class="col-md-6">

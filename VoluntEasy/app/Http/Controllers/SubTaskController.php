@@ -5,10 +5,12 @@ use App\Models\ActionTasks\SubTask;
 use App\Models\ActionTasks\WorkDate;
 use App\Models\Volunteer;
 
-class SubTaskController extends Controller {
+class SubTaskController extends Controller
+{
 
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
@@ -19,9 +21,11 @@ class SubTaskController extends Controller {
      * @param $id
      * @return mixed
      */
-    public function show($id) {
-        $subTask = SubTask::with('workDates.volunteers', 'checklist.createdBy', 'checklist.updatedBy', 'workDates.ctaVolunteers')->findOrFail($id);
+    public function show($id)
+    {
+        $subTask = SubTask::with('workDates.volunteers', 'checklist.createdBy', 'checklist.updatedBy', 'workDates.ctaVolunteers', 'action')->findOrFail($id);
 
+        //check if cta volunteer already exists in db, based on the email
         foreach ($subTask->workDates as $date) {
             foreach ($date->ctaVolunteers as $cta) {
                 if ($cta->isVolunteer)
@@ -29,13 +33,25 @@ class SubTaskController extends Controller {
             }
         }
 
+        $unitId = $subTask->action->unit_id;
+        //get all volunteers to show in select box
+        //those should be the volunteers that belong to the same unit
+        //that the action belongs to
+        $subTask->unitVolunteers = Volunteer::whereHas('units', function ($query) use ($unitId) {
+            $query->where('unit_id', $unitId);
+        })->orderBy('name', 'asc')->get();
+
+
+        unset($subTask->action);
+
         return $subTask;
     }
 
     /**
      * Store a subtask
      */
-    public function store() {
+    public function store()
+    {
 
         $todo = Status::todo();
 
@@ -56,16 +72,14 @@ class SubTaskController extends Controller {
 
         $subTask->save();
 
-        $this->saveWorkDates($subTask);
-        $this->saveVolunteers($subTask);
-
-        return $subTask;
+  return $subTask;
     }
 
     /**
      * Update a subtask
      */
-    public function update() {
+    public function update()
+    {
         $subTask = SubTask::with('workDates')->find(\Request::get('subTaskId'));
 
         if (\Request::has('subtask-due_date'))
@@ -80,16 +94,14 @@ class SubTaskController extends Controller {
             'due_date' => $due_date
         ]);
 
-        return $this->saveWorkDates($subTask);
-        $this->saveVolunteers($subTask);
-
         return $subTask;
     }
 
     /**
      * Update a subtask's status
      */
-    public function updateStatus() {
+    public function updateStatus()
+    {
 
         $subTask = SubTask::find(\Request::get('subTaskId'));
 
@@ -106,7 +118,8 @@ class SubTaskController extends Controller {
      * @param $id
      * @throws \Exception
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
 
         $subTask = SubTask::with('volunteers', 'workDates')->find($id);
 
@@ -126,67 +139,6 @@ class SubTaskController extends Controller {
         \Session::flash('flash_type', 'alert-success');
 
         return;
-    }
-
-    /**
-     * Save the work dates and times and the assigned volunteers, if any
-     *
-     * @param $subTask
-     * @return mixed
-     */
-    private function saveWorkDates($subTask) {
-
-        $dateIds = [];
-
-        foreach (\Request::get('workDates')['dates'] as $i => $date) {
-
-            if ($date != null && $date != '' && \Request::get('workDates')['hourFrom'][$i] != '00:00' && \Request::get('workDates')['hourTo'][$i] != '00:00') {
-                $workDate = WorkDate::find(\Request::get('workDates')['ids'][$i]);
-
-                //check if the datetime exists already
-                if ($workDate == null) {
-                    $workDate = new WorkDate([
-                        'from_date' => \Carbon::createFromFormat('d/m/Y', $date),
-                        'subtask_id' => $subTask->id,
-                        'from_hour' => \Request::get('workDates')['hourFrom'][$i],
-                        'to_hour' => \Request::get('workDates')['hourTo'][$i],
-                        'comments' => \Request::get('workDates')['comments'][$i],
-                        'volunteer_sum' => \Request::get('workDates')['volunteerSum'][$i]
-                    ]);
-
-                    $workDate->save();
-                } else {
-                    $workDate->update([
-                        'from_date' => \Carbon::createFromFormat('d/m/Y', $date),
-                        'subtask_id' => $subTask->id,
-                        'from_hour' => \Request::get('workDates')['hourFrom'][$i],
-                        'to_hour' => \Request::get('workDates')['hourTo'][$i],
-                        'comments' => \Request::get('workDates')['comments'][$i],
-                        'volunteer_sum' => \Request::get('workDates')['volunteerSum'][$i]
-                    ]);
-                }
-
-                array_push($dateIds, $workDate->id);
-            }
-        }
-
-        WorkDate::where('subtask_id', $subTask->id)->whereNotIn('id', $dateIds)->delete();
-
-        return $subTask;
-    }
-
-
-    private function saveVolunteers() {
-
-        /*   if (\Request::has('subtaskVolunteers')) {
-               $volunteers = [];
-               foreach (\Request::get('subtaskVolunteers') as $volunteer) {
-                   array_push($volunteers, $volunteer);
-               }
-               $subTask->volunteers()->sync($volunteers);
-           } else
-               $subTask->volunteers()->detach();
-   */
     }
 
 }

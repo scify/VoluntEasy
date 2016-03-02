@@ -104,6 +104,14 @@ Route::get('actions/tasks/subtasks/updateStatus', 'SubTaskController@updateStatu
 Route::get('actions/tasks/subtasks/delete/{id}', 'SubTaskController@destroy');
 
 
+//WorkDate Routes //
+//////////////////
+Route::get('actions/tasks/subtasks/workdates/store', 'WorkDateController@store');
+Route::get('actions/tasks/subtasks/workdates/update', 'WorkDateController@update');
+Route::get('actions/tasks/subtasks/workdates/delete/{id}', 'WorkDateController@destroy');
+
+
+
 //////////////////////////
 //Collaboration Routes //
 ////////////////////////
