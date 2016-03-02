@@ -1,7 +1,7 @@
 <?php $lang = "default."; ?>
 
 <!-- Modal -->
-<div class="modal fade" id="editSubTask" tabindex="-1" role="dialog"
+<div class="modal fade" id="editWorkDate" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
@@ -13,6 +13,7 @@
             <div class="modal-body">
                 {!! Form::model(null, ['id' => 'editWorkDateForm', 'method' => 'POST', 'action' => ['SubTaskController@update']]) !!}
 
+                <input type="hidden" name="workdateId" class="workdateId" value="">
                 @include('main.tasks.modals._work_date_form', ['parentId' => '#editSubTask'])
 
             </div>

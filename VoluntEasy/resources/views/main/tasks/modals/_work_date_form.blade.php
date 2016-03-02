@@ -10,7 +10,7 @@
         <div class="form-group">
             {!! Form::formInput('volunteerSum', 'Αριθμός απαιτούμενων εθελοντών:', $errors, ['class'
                         =>
-                        'form-control']) !!}
+                        'form-control volunteerSum']) !!}
         </div>
     </div>
 </div>
@@ -20,7 +20,7 @@
         <div class="form-group">
             <input type="hidden" name="dateId" class="dateId" value="">
             {!! Form::formInput('dateFrom', 'Ημερομηνία:', $errors, ['class' =>
-            'form-control date datetime',
+            'form-control date datetime dateFrom',
             'data-date-start-date' => $action->start_date, 'data-date-end-date' => $action->end_date,
             'data-date-format' => 'dd/mm/yyyy']) !!}
         </div>
@@ -29,12 +29,12 @@
         <div class="form-group">
             {!! Form::formInput('hourFrom', 'Ώρα από:', $errors, ['class' =>
                         'form-control
-                        time datetime']) !!}
+                        time datetime hourFro']) !!}
         </div>
     </div>
     <div class="col-md-2 workTime">
         <div class="form-group">
-            {!! Form::formInput('hourTo', 'Ώρα έως:', $errors, ['class' => 'form-control time datetime']) !!}
+            {!! Form::formInput('hourTo', 'Ώρα έως:', $errors, ['class' => 'form-control time datetime hourTo']) !!}
         </div>
     </div>
 </div>
@@ -43,16 +43,6 @@
     <div class="col-sm-5">
         <p>Διαθέσιμοι εθελοντές</p>
         <select name="from" id="sub_volunteers" class="form-control" size="8" multiple="multiple">
-            {{--   <optgroup label="Swedish Cars">
-                  <option value="volvo">Volvo</option>
-                  <option value="saab">Saab</option>
-              </optgroup>
-              <optgroup label="German Cars">
-                  <option value="mercedes">Mercedes</option>
-                  <option value="audi">Audi</option>
-              </optgroup>
-              <option value="1">C++</option>
-              --}}
         </select>
     </div>
 

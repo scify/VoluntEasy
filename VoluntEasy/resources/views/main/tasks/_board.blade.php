@@ -199,7 +199,7 @@
         </div>
 
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4 infoSidebar">
         @include('main.tasks.partials._task_info')
         @include('main.tasks.partials._subtask_info')
     </div>
@@ -227,6 +227,9 @@
 
 
 @section('footerScripts')
-<script src="{{ asset('assets/js/pages/task_board.js')}}"></script>
-<script src="{{ asset('assets/plugins/multiselect/multiselect.min.js')}}"></script>
+    <script src="{{ asset('assets/js/pages/task_board/task_board.js')}}"></script>
+    <script src="{{ asset('assets/js/pages/task_board/tasks.js')}}"></script>
+    <script src="{{ asset('assets/js/pages/task_board/subtasks.js')}}"></script>
+    <script src="{{ asset('assets/js/pages/task_board/workdates.js')}}"></script>
+    <script src="{{ asset('assets/plugins/multiselect/multiselect.min.js')}}"></script>
 @append

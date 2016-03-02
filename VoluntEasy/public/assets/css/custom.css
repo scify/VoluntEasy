@@ -539,13 +539,30 @@ i.priority-4 {
     display: inline-block;
 }
 
-/*
-.taskInfo, .subTaskInfo{
-    background-color: rgb(233, 237, 242);
-    box-shadow: 0 1px 5px 1px rgb(195, 195, 195);
-    padding: 5px;
+.workDatesTable{
+    font-size: 11px;
 }
-*/
+.workDatesTable thead > tr > th, .workDatesTable.table-condensed > tbody > tr > td{
+    padding: 3px !important;
+}
+.workDatesTable .btn{
+    padding:3px;
+    width:20px;
+}
+.workDatesTable .edit-btn{
+    margin-right:2px;
+}
+.infoSidebar, .infoSidebar [class*="col-"]{
+    padding-right:0px;
+}
+
+    /*
+    .taskInfo, .subTaskInfo{
+        background-color: rgb(233, 237, 242);
+        box-shadow: 0 1px 5px 1px rgb(195, 195, 195);
+        padding: 5px;
+    }
+    */
 
 
 /* to do list */
