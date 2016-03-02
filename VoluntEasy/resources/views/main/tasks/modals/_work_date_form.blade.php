@@ -29,7 +29,7 @@
         <div class="form-group">
             {!! Form::formInput('hourFrom', 'Ώρα από:', $errors, ['class' =>
                         'form-control
-                        time datetime hourFro']) !!}
+                        time datetime hourFrom']) !!}
         </div>
     </div>
     <div class="col-md-2 workTime">
@@ -42,7 +42,7 @@
 <div class="row">
     <div class="col-sm-5">
         <p>Διαθέσιμοι εθελοντές</p>
-        <select name="from" id="sub_volunteers" class="form-control" size="8" multiple="multiple">
+        <select name="from"  class="form-control sub_volunteers" size="8" multiple="multiple">
         </select>
     </div>
 
@@ -72,7 +72,7 @@
 @section('footerScripts')
     <script type="text/javascript">
         jQuery(document).ready(function ($) {
-            $("#sub_volunteers").multiselect();
+            $(".sub_volunteers").multiselect();
         });
     </script>
 @append

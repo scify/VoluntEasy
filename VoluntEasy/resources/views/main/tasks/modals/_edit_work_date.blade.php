@@ -11,15 +11,15 @@
                 <h4 class="modal-title">Επεξεργασία ημέρας/ώρας</h4>
             </div>
             <div class="modal-body">
-                {!! Form::model(null, ['id' => 'editWorkDateForm', 'method' => 'POST', 'action' => ['SubTaskController@update']]) !!}
+                {!! Form::model(null, ['id' => 'editWorkDateForm', 'method' => 'POST', 'action' => ['WorkDateController@update']]) !!}
 
                 <input type="hidden" name="workdateId" class="workdateId" value="">
                 @include('main.tasks.modals._work_date_form', ['parentId' => '#editSubTask'])
 
             </div>
             <div class="modal-footer">
-                {!! Form::submit('Αποθήκευση', ['class' => 'btn btn-success', 'id' => 'updateSubTask']) !!}
-                <button type="button" class="btn btn-danger" id="deleteSubTask">Διαγραφή</button>
+                {!! Form::submit('Αποθήκευση', ['class' => 'btn btn-success', 'id' => 'updateWorkDate']) !!}
+                <button type="button" class="btn btn-danger" id="deleteWorkDate">Διαγραφή</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
                 {!! Form::close() !!}
             </div>
