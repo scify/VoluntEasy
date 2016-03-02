@@ -42,7 +42,7 @@
 <div class="row">
     <div class="col-sm-5">
         <p>Διαθέσιμοι εθελοντές</p>
-        <select name="from"  class="form-control sub_volunteers" size="8" multiple="multiple">
+        <select name="from" class="form-control sub_volunteers" size="8" multiple="multiple">
         </select>
     </div>
 
@@ -62,11 +62,24 @@
     <div class="col-sm-5">
         <p>Ανατεθειμένοι εθελοντές</p>
         <select name="to" id="sub_volunteers_to" class="form-control" size="8" multiple="multiple">
-            <option value="1">C++</option>
         </select>
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-6">
+        <table class="table table-condensed table-bordered notAvailableVolunteers">
+            <thead>
+            <th>Εθελοντής</th>
+            <th>Σχόλια</th>
+            <th></th>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</div>
 
 
 @section('footerScripts')

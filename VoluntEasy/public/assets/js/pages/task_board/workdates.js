@@ -19,6 +19,7 @@ $("#storeWorkDate").click(function (e) {
 
 //update a workdate
 $("#updateWorkDate").click(function (e) {
+    console.log('hola')
     e.preventDefault();
     if ($("#editWorkDateForm .work_date_comments").val() == null || $("#editWorkDateForm .work_date_comments").val() == '')
         $("#editWorkDateForm .subtask-comments_err").show();
@@ -91,6 +92,25 @@ function editWorkDate(id) {
             $("#editWorkDate .hourFrom").val(date.from_hour);
             $("#editWorkDate .hourTo").val(date.to_hour);
 
+
+            if(date.cta_volunteers.length()==0){
+                $(".notAvailableVolunteers").hide();
+            }
+            else {
+                var html='';
+                $.each(date.cta_volunteers, function (i, volunteer) {
+                    if(volunteer.isVolunteer)
+                    html += '<tr><td>' + date.comments + '</td>';
+
+
+                });
+
+                $('.workDatesTable > tbody:last-child').html(html);
+                $(".notAvailableVolunteers").show();
+            }
+
+
+
             populateVolunteers(id, '#editWorkDate');
             refreshDateTime();
             $('#editWorkDate').modal('show');
@@ -101,6 +121,8 @@ function editWorkDate(id) {
 
 //fill the volunteers multiselect
 function populateVolunteers(workDateId, parent) {
+
+    $(parent + ' .sub_volunteers').html('');
 
     //start adding the volunteers to the multiselect
     //first add the immediately available volunteers
@@ -116,36 +138,41 @@ function populateVolunteers(workDateId, parent) {
         $(parent + ' .sub_volunteers').append(optgroup);
     });
 
+    /*
     if (workDateId != null) {
         //add the cta_volunteers
         var notInPlatformOptgroup = $('<optgroup>');
         var notInUnitOptgroup = $('<optgroup>');
-        notInPlatformOptgroup.attr('label', 'Εθελοντές που ανήκουν στη μονάδα');
-        notInUnitOptgroup.attr('label', 'Εθελοντές που ανήκουν στη μονάδα');
+        notInPlatformOptgroup.attr('label', 'Εθελοντές που δεν υπάρχουν στην πλατφόρμα');
+        notInUnitOptgroup.attr('label', 'Εθελοντές που δεν ανήκουν στη μονάδα');
 
         $.each(subTask.work_dates, function (i, date) {
             if (date.id == workDateId) {
                 $.each(date.cta_volunteers, function (i, volunteer) {
                     var option = $("<option></option>");
                     option.val(volunteer.id);
-                    option.text(volunteer.name + ' ' + volunteer.last_name);
+                    option.text(volunteer.first_name + ' ' + volunteer.last_name);
 
-                    var isInUnit = false;
-                    $.each(cta.volunteer.units, function (i, unit) {
-                        if (unitId == unit.id) {
-                            isInUnit = true;
-                            return false;
-                        }
-                    });
+                    if (volunteer.isVolunteer==1) {
+                        var isInUnit = false;
+                        $.each(volunteer.volunteer.units, function (i, unit) {
+                            if (unitId == unit.id) {
+                                isInUnit = true;
+                                return false;
+                            }
+                        });
+                    }
 
-                    if (volunteer.isVolunteer)
+                    if (volunteer.isVolunteer==1)
                         notInPlatformOptgroup.append(option);
                     if (volunteer.isInUnit)
                         notInUnitOptgroup.append(option);
-
-                    $('#sub_volunteers').append(optgroup);
                 });
             }
         });
+
+        $(parent + ' .sub_volunteers').append(notInPlatformOptgroup);
+        $(parent + ' .sub_volunteers').append(notInUnitOptgroup);
     }
+    */
 }
