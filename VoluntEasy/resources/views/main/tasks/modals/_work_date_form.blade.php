@@ -69,10 +69,10 @@
     </div>
 </div>
 
-<div class="row top-margin">
+<div class="row top-margin ctaVolunteers">
     <div class="col-md-12">
         <p>Εθελοντές που έχουν εκδηλώσει ενδιαφέρον:</p>
-        <table class="table table-condensed table-bordered ctaVolunteers">
+        <table class="table table-condensed table-bordered ">
             <thead>
             <th>Εθελοντής</th>
             <th>Στοιχεία</th>

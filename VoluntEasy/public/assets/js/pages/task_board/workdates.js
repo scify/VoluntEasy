@@ -130,6 +130,7 @@ function editWorkDate(id) {
             $("#editWorkDate .dateFrom").val(date.from_date);
             $("#editWorkDate .hourFrom").val(date.from_hour);
             $("#editWorkDate .hourTo").val(date.to_hour);
+            $("#editWorkDate .volunteerSum").val(date.volunteer_sum);
 
             //check if ctaVolunteers table should be displayed,
             //aka the table that holds the volunteers that have claimed interest in the action
@@ -170,7 +171,7 @@ function editWorkDate(id) {
                     html += '</tr>';
                 });
 
-                $('.ctaVolunteers > tbody:last-child').html(html);
+                $('.ctaVolunteers table > tbody:last-child').html(html);
                 $(".ctaVolunteers").show();
             }
 
@@ -186,29 +187,33 @@ function editWorkDate(id) {
 function populateVolunteers(workDateId) {
     $('#sub_volunteers').html('');
 
-    //start adding the volunteers to the multiselect
-    //add the immediately available volunteers
-    //aka those that belong to the unit of the action
-    $.each(subTask.unitVolunteers, function (i, volunteer) {
-        var option = $("<option></option>");
-        option.val(volunteer.id);
-        option.text(volunteer.name + ' ' + volunteer.last_name);
-
-        $('#sub_volunteers').append(option);
-    });
-
     //set the already assigned volunteers
     $('#sub_volunteers_to').html('');
+    assigned = [];
     $.each(subTask.work_dates, function (i, date) {
-        if(date.id==workDateId) {
+        if (date.id == workDateId) {
             $.each(date.volunteers, function (i, volunteer) {
                 var option = $("<option></option>");
                 option.val(volunteer.id);
                 option.text(volunteer.name + ' ' + volunteer.last_name);
 
                 $('#sub_volunteers_to').append(option);
+
+                assigned.push(volunteer.id);
             });
             return false;
+        }
+    });
+
+    //add the immediately available volunteers
+    //aka those that belong to the unit of the action
+    $.each(subTask.unitVolunteers, function (i, volunteer) {
+        if ($.inArray(volunteer.id, assigned) == -1) {
+            var option = $("<option></option>");
+            option.val(volunteer.id);
+            option.text(volunteer.name + ' ' + volunteer.last_name);
+
+            $('#sub_volunteers').append(option);
         }
     });
 }
