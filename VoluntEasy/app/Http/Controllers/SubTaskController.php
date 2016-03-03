@@ -2,7 +2,9 @@
 
 use App\Models\ActionTasks\Status;
 use App\Models\ActionTasks\SubTask;
+use App\Models\ActionTasks\Task;
 use App\Models\Volunteer;
+use App\Services\Facades\TaskService;
 
 class SubTaskController extends Controller {
 
@@ -120,7 +122,11 @@ class SubTaskController extends Controller {
         $status = Status::where('description', \Request::get('status'))->first()->id;
         $subTask->update(['status_id' => $status]);
 
-        return;
+        $task = Task::with('subtasks')->find($subTask->task_id);
+
+        $taskStatus = TaskService::taskStatus($task);
+
+        return $taskStatus;
     }
 
 

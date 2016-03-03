@@ -23,17 +23,27 @@ $(".board-column").sortable({
         else
             status = 'Done';
 
+        taskId = $(ui.item).attr("data-task");
+
         //change the status while remaining at the same page
         $.ajax({
             url: $("body").attr('data-url') + "/actions/tasks/subtasks/updateStatus",
             method: 'GET',
             data: {
                 "action_id": $("#actionId").attr("data-action-id"),
-                "task_id": $(ui.item).attr("data-task"),
+                "task_id": taskId,
                 "subTaskId": $(ui.item).attr("data-subtask"),
                 "status": status
             },
             success: function (result) {
+                if (result == 'todo')
+                    text = 'TO DO';
+                else if (result == 'doing')
+                    text = 'DOING';
+                else
+                    text = 'DONE';
+
+                $("span.status.task-" + taskId).removeClass().addClass('status task-' + taskId + ' ' + result).text(text);
             }
         });
     }
@@ -68,6 +78,7 @@ function refreshDateTime() {
 //set the tab and reload
 function reloadToTab(tab) {
     var url = window.location.href;
+    url = url.substring(0, url.indexOf('&'));
     if (url.indexOf('?') > -1) {
         url += '&active=' + tab
     } else {

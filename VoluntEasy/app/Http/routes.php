@@ -88,7 +88,7 @@ Route::post('actions/search', 'ActionController@search');
 ////////////////
 Route::get('actions/tasks/one/{id}', 'TaskController@show');
 Route::post('actions/tasks/store', 'TaskController@store');
-Route::post('actions/tasks/update', 'TaskController@update');
+Route::get('actions/tasks/update', 'TaskController@update');
 Route::get('actions/tasks/delete/{id}', 'TaskController@destroy');
 
 

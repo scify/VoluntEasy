@@ -431,6 +431,10 @@ div#unitsTree {
     vertical-align: top;
 }
 
+.board-column{
+    min-height:70px;
+}
+
 .board-card {
     background-color: #F6F6F6;
     padding: 5px;

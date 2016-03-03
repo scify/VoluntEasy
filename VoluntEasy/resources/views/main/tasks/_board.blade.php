@@ -8,42 +8,42 @@
 @if(sizeof($action->tasks)>0)
 
 <div class="row board">
-    <div class="col-md-8 allTasks">
-        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-            <div class="panel panel-default">
+<div class="col-md-8 allTasks">
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
 
-                @foreach($action->tasks as $task)
+            @foreach($action->tasks as $task)
 
-                {{-- Task title and info --}}
+            {{-- Task title and info --}}
 
-                <div class="panel-heading" role="tab" id="headingOne">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion"
-                           href="#collapse-{{ $task->id }}"
-                           aria-expanded="false" aria-controls="collapse-{{ $task->id }}"
-                           class="arrow collapsed"  onclick="showTaskInfo({{ $task->id }})"> {{$task->name}}</a>
+            <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion"
+                       href="#collapse-{{ $task->id }}"
+                       aria-expanded="false" aria-controls="collapse-{{ $task->id }}"
+                       class="arrow collapsed" onclick="showTaskInfo({{ $task->id }})"> {{$task->name}}</a>
 
-                        @if($task->status=="todo")
-                        <span class="status todo">TO DO</span>
-                        @elseif($task->status=="done")
-                        <span class="status done">DONE</span>
-                        @elseif($task->status=="doing")
-                        <span class="status doing">DOING</span>
-                        @endif
+                    @if($task->status=="todo")
+                    <span class="status todo task-{{$task->id}}">TO DO</span>
+                    @elseif($task->status=="done")
+                    <span class="status done task-{{$task->id}}">DONE</span>
+                    @elseif($task->status=="doing")
+                    <span class="status doing task-{{$task->id}}">DOING</span>
+                    @endif
 
-                        <small> {{ sizeof($task->todoSubtasks) + sizeof($task->doingSubtasks) +
-                            sizeof($task->doneSubtasks) }} subtasks
-                        </small>
+                    <small> {{ sizeof($task->todoSubtasks) + sizeof($task->doingSubtasks) +
+                        sizeof($task->doneSubtasks) }} subtasks
+                    </small>
 
-                        @if($task->priority==1)
-                        <i class="fa fa-arrow-up priority-{{$task->priority}}" title="Χαμηλή προτεραιότητα"></i>
-                        @elseif($task->priority==2)
-                        <i class="fa fa-arrow-up priority-{{$task->priority}}" title="Μεσαία προτεραιότητα"></i>
-                        @elseif($task->priority==3)
-                        <i class="fa fa-arrow-up priority-{{$task->priority}}" title="Υψηλή προτεραιότητα"></i>
-                        @elseif($task->priority==4)
-                        <i class="fa fa-arrow-up priority-{{$task->priority}}" title="Επείγουσα προτεραιότητα"></i>
-                        @endif
+                    @if($task->priority==1)
+                    <i class="fa fa-arrow-up priority-{{$task->priority}}" title="Χαμηλή προτεραιότητα"></i>
+                    @elseif($task->priority==2)
+                    <i class="fa fa-arrow-up priority-{{$task->priority}}" title="Μεσαία προτεραιότητα"></i>
+                    @elseif($task->priority==3)
+                    <i class="fa fa-arrow-up priority-{{$task->priority}}" title="Υψηλή προτεραιότητα"></i>
+                    @elseif($task->priority==4)
+                    <i class="fa fa-arrow-up priority-{{$task->priority}}" title="Επείγουσα προτεραιότητα"></i>
+                    @endif
 
                                          <span>
                                                             @if($task->expires==null)
@@ -72,22 +72,23 @@
                                              </small>
                                                             @endif
                                          </span>
-                    </h4>
-                </div>
+                </h4>
+            </div>
 
-                <div id="collapse-{{ $task->id }}" class="panel-collapse collapse"
-                     role="tabpanel"
-                     aria-labelledby="headingOne" aria-expanded="false" style="height: 0px;">
-                    <div class="panel-body">
+            <div id="collapse-{{ $task->id }}" class="panel-collapse collapse"
+                 role="tabpanel"
+                 aria-labelledby="headingOne" aria-expanded="false" style="height: 0px;">
+                <div class="panel-body">
 
-                        @if(sizeof($task->todoSubtasks)+sizeof($task->doingSubtasks)+sizeof($task->doneSubtasks)>0)
+                    @if(sizeof($task->todoSubtasks)+sizeof($task->doingSubtasks)+sizeof($task->doneSubtasks)>0)
 
-                        <div class="row task-{{ $task->id }} board-row">
+                    <div class="row task-{{ $task->id }} board-row">
 
-                            {{-- To Do subtasks --}}
-                            <div class="col-md-4 board-column todo">
-                                <h3 class="panel-title">To Do</h3>
+                        {{-- To Do subtasks --}}
+                        <div class="col-md-4">
+                            <h3 class="panel-title">To Do</h3>
 
+                            <div class="board-column todo">
                                 @foreach($task->todoSubtasks as $subtask)
                                 <div class="board-card priority-{{ $subtask->priority }}"
                                      data-task="{{ $task->id }}"
@@ -116,10 +117,13 @@
                                 </div>
                                 @endforeach
                             </div>
+                        </div>
 
-                            {{-- Doing subtasks --}}
-                            <div class="col-md-4 board-column doing">
-                                <h3 class="panel-title">Doing</h3>
+                        {{-- Doing subtasks --}}
+                        <div class="col-md-4">
+                            <h3 class="panel-title">Doing</h3>
+
+                            <div class="board-column doing">
 
                                 @foreach($task->doingSubtasks as $subtask)
                                 <div class="board-card priority-{{ $subtask->priority }}"
@@ -149,12 +153,13 @@
                                 </div>
                                 @endforeach
                             </div>
+                        </div>
 
 
-                            {{-- Done subtasks --}}
-                            <div class="col-md-4 board-column done">
-                                <h3 class="panel-title">Done</h3>
-
+                        {{-- Done subtasks --}}
+                        <div class="col-md-4">
+                            <h3 class="panel-title">Done</h3>
+                            <div class="board-column done">
                                 @foreach($task->doneSubtasks as $subtask)
                                 <div class="board-card priority-{{ $subtask->priority }}"
                                      data-task="{{ $task->id }}"
@@ -184,25 +189,26 @@
                                 @endforeach
                             </div>
                         </div>
-                        @endif
-                        <div class="row top-margin">
-                            <div class="col-md-12 subtask">
-                                <a href="javascript:void(0);" data-toggle="modal" data-target="#addSubTask"
-                                   data-task-id="{{$task->id}}" class="addSubTask"><i
-                                        class="fa fa-plus"></i> Προσθήκη subtask</a>
-                            </div>
+                    </div>
+                    @endif
+                    <div class="row top-margin">
+                        <div class="col-md-12 subtask">
+                            <a href="javascript:void(0);" data-toggle="modal" data-target="#addSubTask"
+                               data-task-id="{{$task->id}}" class="addSubTask"><i
+                                    class="fa fa-plus"></i> Προσθήκη subtask</a>
                         </div>
                     </div>
                 </div>
-                @endforeach
             </div>
+            @endforeach
         </div>
+    </div>
 
-    </div>
-    <div class="col-md-4 infoSidebar">
-        @include('main.tasks.partials._task_info')
-        @include('main.tasks.partials._subtask_info')
-    </div>
+</div>
+<div class="col-md-4 infoSidebar">
+    @include('main.tasks.partials._task_info')
+    @include('main.tasks.partials._subtask_info')
+</div>
 </div>
 @else
 <p>Δεν υπάρχει κανένα task για τη δράση.</p>
@@ -227,9 +233,9 @@
 
 
 @section('footerScripts')
-    <script src="{{ asset('assets/js/pages/task_board/task_board.js')}}"></script>
-    <script src="{{ asset('assets/js/pages/task_board/tasks.js')}}"></script>
-    <script src="{{ asset('assets/js/pages/task_board/subtasks.js')}}"></script>
-    <script src="{{ asset('assets/js/pages/task_board/workdates.js')}}"></script>
-    <script src="{{ asset('assets/plugins/multiselect/multiselect.min.js')}}"></script>
+<script src="{{ asset('assets/js/pages/task_board/task_board.js')}}"></script>
+<script src="{{ asset('assets/js/pages/task_board/tasks.js')}}"></script>
+<script src="{{ asset('assets/js/pages/task_board/subtasks.js')}}"></script>
+<script src="{{ asset('assets/js/pages/task_board/workdates.js')}}"></script>
+<script src="{{ asset('assets/plugins/multiselect/multiselect.min.js')}}"></script>
 @append

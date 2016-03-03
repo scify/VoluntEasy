@@ -99,4 +99,37 @@ class TaskService {
 
         return $action;
     }
+
+    /**
+     * Find the task status
+     *
+     * @param $task
+     * @return mixed
+     */
+    public function taskStatus($task) {
+
+        $todoSubtasks = 0;
+        $doingSubtasks = 0;
+        $doneSubtasks = 0;
+
+        foreach ($task->subtasks as $subtask) {
+            if ($subtask->status_id == "1")
+                $todoSubtasks++;
+            else if ($subtask->status_id == "2")
+                $doingSubtasks++;
+            else
+                $doneSubtasks++;
+        }
+
+        $status = null;
+        if ($todoSubtasks > 0 && $doingSubtasks == 0 && $doneSubtasks == 0) {
+            $status = "todo";
+        } else if ($doneSubtasks > 0 && $doingSubtasks == 0 && $todoSubtasks == 0) {
+            $status = "done";
+        } else if ($doingSubtasks > 0) {
+            $status = "doing";
+        }
+
+        return $status;
+    }
 }

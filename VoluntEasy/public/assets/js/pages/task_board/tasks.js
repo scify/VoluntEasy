@@ -25,13 +25,32 @@ $("#storeTask").click(function (e) {
     }
 });
 
+//update a task
+$("#updateTask").click(function (e) {
+    e.preventDefault();
+    if ($("#editTask .name").val() == null || $("#editTask .name").val() == '')
+        $("#editTask .name_err").show();
+    else {
+        $("#editTask .name_err").hide();
+
+        $.ajax({
+            url: $("body").attr('data-url') + "/actions/tasks/update",
+            method: 'GET',
+            data: $("#editTaskForm").serialize(),
+            success: function (result) {
+                reloadToTab('task_board');
+            }
+        });
+    }
+});
+
 
 //populate the edit task modal with data before displaying it
 $(".editTask").click(function (e) {
 
     $.when(getTask($(this).attr('data-task-id')))
         .then(function () {
-            $("#editTask .taskId").val($(this).attr('data-task-id'));
+            $("#editTask .taskId").val(task.id);
             $("#editTask .due_date").datepicker("update", task.due_date);
             $("#editTask .name").val(task.name);
             $("#editTask .description").val(task.description);
