@@ -2,15 +2,12 @@
 
 use App\Models\ActionTasks\Status;
 use App\Models\ActionTasks\SubTask;
-use App\Models\ActionTasks\WorkDate;
 use App\Models\Volunteer;
 
-class SubTaskController extends Controller
-{
+class SubTaskController extends Controller {
 
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth');
     }
 
@@ -21,27 +18,36 @@ class SubTaskController extends Controller
      * @param $id
      * @return mixed
      */
-    public function show($id)
-    {
-        $subTask = SubTask::with('workDates.volunteers', 'checklist.createdBy', 'checklist.updatedBy', 'workDates.ctaVolunteers', 'action')->findOrFail($id);
-
-        //check if cta volunteer already exists in db, based on the email
-        foreach ($subTask->workDates as $date) {
-            foreach ($date->ctaVolunteers as $cta) {
-                if ($cta->isVolunteer)
-                    $cta->volunteer = Volunteer::where('email', $cta->email)->with('units')->first();
-            }
-        }
+    public function show($id) {
+        $subTask = SubTask::with('workDates.volunteers', 'checklist.createdBy', 'checklist.updatedBy', 'workDates.ctaVolunteers.volunteer', 'action')->findOrFail($id);
 
         $unitId = $subTask->action->unit_id;
         //get all volunteers to show in select box
         //those should be the volunteers that belong to the same unit
         //that the action belongs to
-        $subTask->unitVolunteers = Volunteer::whereHas('units', function ($query) use ($unitId) {
+        $unitVolunteers = Volunteer::whereHas('units', function ($query) use ($unitId) {
             $query->where('unit_id', $unitId);
-        })->orderBy('name', 'asc')->get();
+        })->orderBy('name', 'asc')->get()->toArray();
 
 
+        //check if cta volunteer already exists in db, based on the email
+        foreach ($subTask->workDates as $i => $date) {
+            foreach ($date->ctaVolunteers as $j=> $cta) {
+
+                if ($cta->isVolunteer == 1 && sizeof($cta->volunteer) > 0) {
+                    foreach ($unitVolunteers as $uv) {
+                        //return $uv['id'];
+                        if ($uv['id'] == $cta->volunteer[0]->id)
+                            unset($subTask->workDates[$i]->ctaVolunteers[$j]);
+                    }
+                } else if ($cta->isVolunteer == 1 && sizeof($cta->volunteer) == 0) {
+                    $cta->mightBe = Volunteer::where('email', $cta->email)->first()->id;
+                }
+
+            }
+        }
+
+        $subTask->unitVolunteers = $unitVolunteers;
         unset($subTask->action);
 
         return $subTask;
@@ -50,8 +56,7 @@ class SubTaskController extends Controller
     /**
      * Store a subtask
      */
-    public function store()
-    {
+    public function store() {
 
         $todo = Status::todo();
 
@@ -72,14 +77,13 @@ class SubTaskController extends Controller
 
         $subTask->save();
 
-  return $subTask;
+        return $subTask;
     }
 
     /**
      * Update a subtask
      */
-    public function update()
-    {
+    public function update() {
         $subTask = SubTask::with('workDates')->find(\Request::get('subTaskId'));
 
         if (\Request::has('subtask-due_date'))
@@ -100,8 +104,7 @@ class SubTaskController extends Controller
     /**
      * Update a subtask's status
      */
-    public function updateStatus()
-    {
+    public function updateStatus() {
 
         $subTask = SubTask::find(\Request::get('subTaskId'));
 
@@ -118,8 +121,7 @@ class SubTaskController extends Controller
      * @param $id
      * @throws \Exception
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
 
         $subTask = SubTask::with('volunteers', 'workDates')->find($id);
 

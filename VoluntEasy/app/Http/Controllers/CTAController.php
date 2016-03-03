@@ -10,6 +10,12 @@ use App\Models\CTA\PublicActionSubTask;
 use App\Models\Volunteer;
 use App\Services\Facades\UserService;
 
+/**
+ * CTAContoller is responsible for the public cta page actions
+ *
+ * Class CTAController
+ * @package App\Http\Controllers
+ */
 class CTAController extends Controller {
 
 
@@ -130,7 +136,6 @@ class CTAController extends Controller {
             'comments' => $request['comments'],
             'public_action_id' => $request['publicActionId'],
             'isVolunteer' => $isVolunteer,
-            'isAssigned' => 0,
         ]);
 
         $ctaVolunteer->save();

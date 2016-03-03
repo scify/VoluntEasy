@@ -19,7 +19,6 @@ $("#storeWorkDate").click(function (e) {
 
 //update a workdate
 $("#updateWorkDate").click(function (e) {
-    console.log('hola')
     e.preventDefault();
     if ($("#editWorkDateForm .work_date_comments").val() == null || $("#editWorkDateForm .work_date_comments").val() == '')
         $("#editWorkDateForm .subtask-comments_err").show();
@@ -63,6 +62,24 @@ $(".addWorkDate").click(function (e) {
     $('#addWorkDate').modal('show');
 });
 
+//assign a ctavolunteer to an existing volunteer
+function assignToVolunteer(volunteer_id, cta_volunteer_id) {
+    if (confirm("Είστε σίγουροι ότι θέλετε να γίνει η ανάθεση του εθελοντή σε υπάρχον προφίλ;") == true) {
+
+        $.ajax({
+            method: 'GET',
+            url: $("body").attr('data-url') + "/ctaVolunteer/assignToVolunteer/",
+            data: {
+                cta_volunteer_id: cta_volunteer_id,
+                volunteer_id: volunteer_id
+            },
+            success: function (result) {
+                location.reload();
+            }
+        });
+    }
+}
+
 
 //add another editable fields to fill in work date and hours
 function addWorkDate(parentId) {
@@ -92,24 +109,48 @@ function editWorkDate(id) {
             $("#editWorkDate .hourFrom").val(date.from_hour);
             $("#editWorkDate .hourTo").val(date.to_hour);
 
-
-            if(date.cta_volunteers.length()==0){
-                $(".notAvailableVolunteers").hide();
+            //check if ctaVolunteers table should be displayed,
+            //aka the table that holds the volunteers that have claimed interest in the action
+            if (date.cta_volunteers.length == 0) {
+                $(".ctaVolunteers").hide();
             }
             else {
-                var html='';
-                $.each(date.cta_volunteers, function (i, volunteer) {
-                    if(volunteer.isVolunteer)
-                    html += '<tr><td>' + date.comments + '</td>';
+                var html = '';
+                $.each(date.cta_volunteers, function (i, cta) {
+                    html += '<tr><td>' + cta.first_name + ' ' + cta.last_name + '</td>';
+                    html += '<td><a href="mailto:' + cta.email + '">' + cta.email + '</a>, ' + cta.phone_number;
 
+                    if (cta.comments != null && cta.comments != '')
+                        html += '<br/>Σχόλια εθελοντή: ' + cta.comments + '</td>';
+                    else
+                        html += '</td>';
 
+                    //volunteer was found in platform
+                    if (cta.isVolunteer == 1) {
+                        //ctavolunteer is not assigned to any actual volunteer profile
+                        if (cta.volunteer.length==0) {
+                            html += '<td>Βρέθηκε <a href="' + $("body").attr("data-url") + '/volunteers/one/' + cta.mightBe + '" target="_blank">εθελοντής</a> με το ίδιο email. Είναι ο ίδιος;</td>';
+                            html += '<td><button type="button" class="btn btn-success right-margin" title="Έγκριση" onclick="assignToVolunteer(' + cta.mightBe + ',' + cta.id + ')"><i class="fa fa-check"></i></button>';
+                            html += '<button type="button"   class="btn btn-danger right-margin" title="Απόρριψη"><i class="fa fa-trash"></i></button></td>';
+                        }
+                        else {
+                            //ctavolunteer is assigned to a profile
+                            html += '<td>Έχει γίνει σύνδεση με υπάρχον <a href="' + $("body").attr("data-url") + '/volunteers/one/' + cta.volunteer[0].id + '" target="_blank">προφίλ</a>. Ο εθελοντής θα πρέπει να προστεθεί στη μονάδα της δράσης για να είναι διαθέσιμος.</td>';
+                            html += '<td><button type="button"   class="btn btn-danger right-margin" title="Απόρριψη"><i class="fa fa-trash"></i></button></td>';
+                        }
+                    }
+                    else {
+                        html += '<td>Ο εθελοντής δεν βρέθηκε στην πλατφόρμα. Επικοινωνήστε μαζί του και δημιουργήστε το προφίλ το ή αναθέστε σε υπάρχον προφίλ.</td>';
+                        html += '<td><button type="button" class="btn btn-success right-margin" title="Ανάθεση σε προφίλ"><i class="fa fa-leaf"></i></button>';
+                        html += '<button type="button"  class="btn btn-danger right-margin" title="Απόρριψη"><i class="fa fa-trash"></i></button></td>';
+                    }
+
+                    html += '</tr>';
                 });
 
-                $('.workDatesTable > tbody:last-child').html(html);
-                $(".notAvailableVolunteers").show();
+                $('.ctaVolunteers > tbody:last-child').html(html);
+                $(".ctaVolunteers").show();
             }
-
-
 
             populateVolunteers(id, '#editWorkDate');
             refreshDateTime();
@@ -139,40 +180,40 @@ function populateVolunteers(workDateId, parent) {
     });
 
     /*
-    if (workDateId != null) {
-        //add the cta_volunteers
-        var notInPlatformOptgroup = $('<optgroup>');
-        var notInUnitOptgroup = $('<optgroup>');
-        notInPlatformOptgroup.attr('label', 'Εθελοντές που δεν υπάρχουν στην πλατφόρμα');
-        notInUnitOptgroup.attr('label', 'Εθελοντές που δεν ανήκουν στη μονάδα');
+     if (workDateId != null) {
+     //add the cta_volunteers
+     var notInPlatformOptgroup = $('<optgroup>');
+     var notInUnitOptgroup = $('<optgroup>');
+     notInPlatformOptgroup.attr('label', 'Εθελοντές που δεν υπάρχουν στην πλατφόρμα');
+     notInUnitOptgroup.attr('label', 'Εθελοντές που δεν ανήκουν στη μονάδα');
 
-        $.each(subTask.work_dates, function (i, date) {
-            if (date.id == workDateId) {
-                $.each(date.cta_volunteers, function (i, volunteer) {
-                    var option = $("<option></option>");
-                    option.val(volunteer.id);
-                    option.text(volunteer.first_name + ' ' + volunteer.last_name);
+     $.each(subTask.work_dates, function (i, date) {
+     if (date.id == workDateId) {
+     $.each(date.cta_volunteers, function (i, volunteer) {
+     var option = $("<option></option>");
+     option.val(volunteer.id);
+     option.text(volunteer.first_name + ' ' + volunteer.last_name);
 
-                    if (volunteer.isVolunteer==1) {
-                        var isInUnit = false;
-                        $.each(volunteer.volunteer.units, function (i, unit) {
-                            if (unitId == unit.id) {
-                                isInUnit = true;
-                                return false;
-                            }
-                        });
-                    }
+     if (volunteer.isVolunteer==1) {
+     var isInUnit = false;
+     $.each(volunteer.volunteer.units, function (i, unit) {
+     if (unitId == unit.id) {
+     isInUnit = true;
+     return false;
+     }
+     });
+     }
 
-                    if (volunteer.isVolunteer==1)
-                        notInPlatformOptgroup.append(option);
-                    if (volunteer.isInUnit)
-                        notInUnitOptgroup.append(option);
-                });
-            }
-        });
+     if (volunteer.isVolunteer==1)
+     notInPlatformOptgroup.append(option);
+     if (volunteer.isInUnit)
+     notInUnitOptgroup.append(option);
+     });
+     }
+     });
 
-        $(parent + ' .sub_volunteers').append(notInPlatformOptgroup);
-        $(parent + ' .sub_volunteers').append(notInUnitOptgroup);
-    }
-    */
+     $(parent + ' .sub_volunteers').append(notInPlatformOptgroup);
+     $(parent + ' .sub_volunteers').append(notInUnitOptgroup);
+     }
+     */
 }

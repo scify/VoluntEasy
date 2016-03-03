@@ -7,8 +7,6 @@ Route::controllers([
     'password' => 'Auth\PasswordController',
 ]);
 
-//Route::get('auth/login','Auth\AuthController@login');
-
 
 ////////////////
 //User Routes //
@@ -104,12 +102,12 @@ Route::get('actions/tasks/subtasks/updateStatus', 'SubTaskController@updateStatu
 Route::get('actions/tasks/subtasks/delete/{id}', 'SubTaskController@destroy');
 
 
+////////////////////
 //WorkDate Routes //
 //////////////////
 Route::get('actions/tasks/subtasks/workdates/store', 'WorkDateController@store');
 Route::get('actions/tasks/subtasks/workdates/update', 'WorkDateController@update');
 Route::get('actions/tasks/subtasks/workdates/delete/{id}', 'WorkDateController@destroy');
-
 
 
 //////////////////////////
@@ -201,6 +199,15 @@ Route::get('participate/{id}', 'CTAController@participate');
 Route::get('cta/store', 'CTAController@store');
 Route::get('cta/update', 'CTAController@update');
 Route::post('cta/volunteerInterested', 'CTAController@volunteerInterested');
+
+
+///////////////////
+//CTAVolunteer Routes //
+//////////////////
+Route::get('ctaVolunteer/update', 'CTAVolunteerController@update');
+Route::get('ctaVolunteer/delete/{id}', 'CTAVolunteerController@destroy');
+Route::get('ctaVolunteer/assignToVolunteer', 'CTAVolunteerController@assignToVolunteer');
+
 
 
 ///////////////////

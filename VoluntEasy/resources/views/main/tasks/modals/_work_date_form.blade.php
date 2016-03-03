@@ -41,7 +41,7 @@
 
 <div class="row">
     <div class="col-sm-5">
-        <p>Διαθέσιμοι εθελοντές</p>
+        <p>Διαθέσιμοι εθελοντές:</p>
         <select name="from" class="form-control sub_volunteers" size="8" multiple="multiple">
         </select>
     </div>
@@ -60,22 +60,23 @@
     </div>
 
     <div class="col-sm-5">
-        <p>Ανατεθειμένοι εθελοντές</p>
+        <p>Ανατεθειμένοι εθελοντές:</p>
         <select name="to" id="sub_volunteers_to" class="form-control" size="8" multiple="multiple">
         </select>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-6">
-        <table class="table table-condensed table-bordered notAvailableVolunteers">
+<div class="row top-margin">
+    <div class="col-md-12">
+        <p>Εθελοντές που έχουν εκδηλώσει ενδιαφέρον:</p>
+        <table class="table table-condensed table-bordered ctaVolunteers">
             <thead>
             <th>Εθελοντής</th>
+            <th>Στοιχεία</th>
             <th>Σχόλια</th>
-            <th></th>
+            <th>Ενέργειες</th>
             </thead>
             <tbody>
-
             </tbody>
         </table>
     </div>

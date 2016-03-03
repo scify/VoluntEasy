@@ -19,12 +19,12 @@ class CreateCtaVolunteersTable extends Migration
             $table->string('email', 300);
             $table->string('phone_number', 300);
             $table->string('comments', 1000)->nullable();
-            $table->boolean('isAssigned')->default(0);
             $table->boolean('isVolunteer')->default(0);
 
             $table->integer('public_action_id')->unsigned();
             $table->foreign('public_action_id')->references('id')->on('public_actions');
 
+            $table->softDeletes();
             $table->timestamps();
         });
 
@@ -38,6 +38,21 @@ class CreateCtaVolunteersTable extends Migration
             $table->integer('subtask_work_dates_id')->unsigned();
             $table->foreign('subtask_work_dates_id')->references('id')->on('subtask_work_dates');
 
+            $table->softDeletes();
+            $table->timestamps();
+        });
+
+        //if the volunteer is found in the db, connect with the cta volunteer
+        Schema::create('cta_volunteers_platform_volunteers', function ($table) {
+            $table->increments('id');
+
+            $table->integer('cta_volunteers_id')->unsigned();
+            $table->foreign('cta_volunteers_id')->references('id')->on('cta_volunteers');
+
+            $table->integer('volunteer_id')->unsigned();
+            $table->foreign('volunteer_id')->references('id')->on('volunteers');
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -50,6 +65,7 @@ class CreateCtaVolunteersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('cta_volunteers_dates');
+        Schema::dropIfExists('cta_volunteers_platform_volunteers');
         Schema::dropIfExists('cta_volunteers');
     }
 }

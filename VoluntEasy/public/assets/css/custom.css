@@ -43,6 +43,10 @@ thead.middle th {
     padding: 7px !important;
 }
 
+.btn.right-margin{
+    margin-right:3px;
+}
+
 .modal-header {
     height: auto;
     border-bottom: 1px solid #e5e5e5;
