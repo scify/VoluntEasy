@@ -11,7 +11,7 @@ $("#storeSubTask").click(function (e) {
             method: 'POST',
             data: $("#createSubTask").serialize(),
             success: function (result) {
-                location.reload();
+                reloadToTab('task_board');
             }
         });
     }
@@ -30,7 +30,7 @@ $("#updateSubTask").click(function (e) {
             method: 'POST',
             data: $("#editSubTaskForm").serialize(),
             success: function (result) {
-                location.reload();
+                reloadToTab('task_board');
             }
         });
     }
@@ -91,7 +91,7 @@ $(".deleteSubTask").click(function () {
             method: 'GET',
             url: $("body").attr('data-url') + "/actions/tasks/subtasks/delete/" + $(this).attr('data-subtask-id'),
             success: function (result) {
-                location.reload();
+                reloadToTab('task_board');
             }
         });
     }

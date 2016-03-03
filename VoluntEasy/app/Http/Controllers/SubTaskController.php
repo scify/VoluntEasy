@@ -35,16 +35,24 @@ class SubTaskController extends Controller {
             foreach ($date->ctaVolunteers as $j=> $cta) {
 
                 if ($cta->isVolunteer == 1 && sizeof($cta->volunteer) > 0) {
-                    foreach ($unitVolunteers as $uv) {
+                    foreach ($unitVolunteers as $k => $uv) {
                         //return $uv['id'];
                         if ($uv['id'] == $cta->volunteer[0]->id)
                             unset($subTask->workDates[$i]->ctaVolunteers[$j]);
+
+
+                        //if the volunteer is already assigned to the work date, remove from the array
+                        foreach($date->volunteers as $volunteer){
+                                if($uv['id']==$volunteer->id){
+                                    unset($unitVolunteers[$k]);
+                                }
+                        }
                     }
                 } else if ($cta->isVolunteer == 1 && sizeof($cta->volunteer) == 0) {
                     $cta->mightBe = Volunteer::where('email', $cta->email)->first()->id;
                 }
-
             }
+
         }
 
         $subTask->unitVolunteers = $unitVolunteers;

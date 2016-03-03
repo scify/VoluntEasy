@@ -447,8 +447,8 @@ div#unitsTree {
     box-shadow: none;
 }
 
-.board .allTasks{
-    border-right:solid 1px #D8D9E2;
+.board .infoSidebar{
+    border-left:solid 1px #D8D9E2;
 }
 
 .board-card.priority-1 {

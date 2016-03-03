@@ -65,7 +65,27 @@ function refreshDateTime() {
     });
 }
 
+//set the tab and reload
+function reloadToTab(tab) {
+    var url = window.location.href;
+    if (url.indexOf('?') > -1) {
+        url += '&active=' + tab
+    } else {
+        url += '?active=' + tab
+    }
+    window.location.href = url;
+}
 
+function setToTab() {
+    var tab = getParameterByName('active');
+    if (tab == null)
+        tab = 'details';
+
+    $('.tab.' + tab).addClass('active');
+    $('.tab-pane.' + tab).addClass('active');
+}
+
+setToTab();
 $(".multiple").select2();
 refreshDateTime();
 

@@ -14,7 +14,7 @@
                 {!! Form::model(null, ['id' => 'editWorkDateForm', 'method' => 'POST', 'action' => ['WorkDateController@update']]) !!}
 
                 <input type="hidden" name="workdateId" class="workdateId" value="">
-                @include('main.tasks.modals._work_date_form', ['parentId' => '#editSubTask'])
+                @include('main.tasks.modals._work_date_form', ['parentId' => '#editSubTask', 'showVolunteers' => true])
 
             </div>
             <div class="modal-footer">

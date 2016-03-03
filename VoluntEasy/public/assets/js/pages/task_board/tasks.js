@@ -19,7 +19,7 @@ $("#storeTask").click(function (e) {
             method: 'POST',
             data: $("#createTask").serialize(),
             success: function (result) {
-                location.reload();
+                reloadToTab('task_board');
             }
         });
     }
@@ -51,7 +51,7 @@ $(".deleteTask").click(function () {
             method: 'GET',
             url: $("body").attr('data-url') + "/actions/tasks/delete/" + $(this).attr('data-task-id'),
             success: function (result) {
-                location.reload();
+                reloadToTab('task_board');
             }
         });
     }

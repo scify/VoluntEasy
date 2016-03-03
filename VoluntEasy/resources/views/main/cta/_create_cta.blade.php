@@ -31,7 +31,6 @@
 
         if ($('#public_description').val() == null || $('#public_description').val() == '' || $('#public_address').val() == null || $('#public_address').val() == '') {
             $('#createPublicAction .errors').show();
-            console.log('aaa')
         }
         else {
             $('#createPublicAction .errors').hide();
@@ -41,8 +40,7 @@
                 url: $('#createPublicAction').attr('action'),
                 data: $('#createPublicAction').serialize(),
                 success: function (data) {
-                    console.log(data);
-                    location.reload();
+                    reloadToTab('public_page');
                 }
 
             });

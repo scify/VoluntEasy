@@ -11,7 +11,7 @@ $("#storeWorkDate").click(function (e) {
             method: 'GET',
             data: $("#addWorkDateForm").serialize(),
             success: function (result) {
-                location.reload();
+                reloadToTab('task_board');
             }
         });
     }
@@ -25,12 +25,20 @@ $("#updateWorkDate").click(function (e) {
     else {
         $("#editWorkDateForm .subtask-comments_err").hide();
 
+        volunteers = [];
+        $("#sub_volunteers_to option").each(function (name, val) {
+            volunteers.push(val.value);
+        });
+
+        data = $("#editWorkDateForm").serializeArray();
+        data.push({name: 'volunteers', value: volunteers});
+
         $.ajax({
             url: $("body").attr('data-url') + "/actions/tasks/subtasks/workdates/update",
             method: 'GET',
-            data: $("#editWorkDateForm").serialize(),
+            data: data,
             success: function (result) {
-                location.reload();
+                reloadToTab('task_board');
             }
         });
     }
@@ -44,7 +52,7 @@ $(".deleteWorkDate").click(function () {
             method: 'GET',
             url: $("body").attr('data-url') + "/actions/tasks/subtasks/workdates/delete/" + $(this).attr('data-workdate-id'),
             success: function (result) {
-                location.reload();
+                reloadToTab('task_board');
             }
         });
     }
@@ -55,7 +63,6 @@ $(".addWorkDate").click(function (e) {
 
     $("#addWorkDate .subtaskId").val(subTask.id);
 
-    populateVolunteers(null, '#addWorkDate');
     refreshDateTime();
 
     //show modal
@@ -74,7 +81,7 @@ function assignToVolunteer(volunteer_id, cta_volunteer_id) {
                 volunteer_id: volunteer_id
             },
             success: function (result) {
-                location.reload();
+                reloadToTab('task_board');
             }
         });
     }
@@ -97,9 +104,24 @@ function addWorkDate(parentId) {
     }
 }
 
+//delete a ctavolunteer
+function deleteCTAVolunteer(id) {
+
+    if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε τον εθελοντή που έχει εκδηλώσει ενδιαφέρον;") == true) {
+        $.ajax({
+            method: 'GET',
+            url: $("body").attr('data-url') + "/ctaVolunteer/delete/" + id,
+            success: function (result) {
+                reloadToTab('task_board');
+            }
+        });
+    }
+}
+
 
 //populate the editWorkDate modal before showing
 function editWorkDate(id) {
+
     $.each(subTask.work_dates, function (i, date) {
 
         if (id == date.id) {
@@ -128,21 +150,21 @@ function editWorkDate(id) {
                     //volunteer was found in platform
                     if (cta.isVolunteer == 1) {
                         //ctavolunteer is not assigned to any actual volunteer profile
-                        if (cta.volunteer.length==0) {
+                        if (cta.volunteer.length == 0) {
                             html += '<td>Βρέθηκε <a href="' + $("body").attr("data-url") + '/volunteers/one/' + cta.mightBe + '" target="_blank">εθελοντής</a> με το ίδιο email. Είναι ο ίδιος;</td>';
                             html += '<td><button type="button" class="btn btn-success right-margin" title="Έγκριση" onclick="assignToVolunteer(' + cta.mightBe + ',' + cta.id + ')"><i class="fa fa-check"></i></button>';
-                            html += '<button type="button"   class="btn btn-danger right-margin" title="Απόρριψη"><i class="fa fa-trash"></i></button></td>';
+                            html += '<button type="button" class="btn btn-danger right-margin" title="Απόρριψη" onclick="deleteCTAVolunteer(' + cta.id + ')"><i class="fa fa-trash"></i></button></td>';
                         }
                         else {
                             //ctavolunteer is assigned to a profile
                             html += '<td>Έχει γίνει σύνδεση με υπάρχον <a href="' + $("body").attr("data-url") + '/volunteers/one/' + cta.volunteer[0].id + '" target="_blank">προφίλ</a>. Ο εθελοντής θα πρέπει να προστεθεί στη μονάδα της δράσης για να είναι διαθέσιμος.</td>';
-                            html += '<td><button type="button"   class="btn btn-danger right-margin" title="Απόρριψη"><i class="fa fa-trash"></i></button></td>';
+                            html += '<td><button type="button"   class="btn btn-danger right-margin" title="Απόρριψη" onclick="deleteCTAVolunteer(' + cta.id + ')"><i class="fa fa-trash"></i></button></td>';
                         }
                     }
                     else {
-                        html += '<td>Ο εθελοντής δεν βρέθηκε στην πλατφόρμα. Επικοινωνήστε μαζί του και δημιουργήστε το προφίλ το ή αναθέστε σε υπάρχον προφίλ.</td>';
+                        html += '<td>Ο εθελοντής δεν βρέθηκε στην πλατφόρμα. Επικοινωνήστε μαζί του και δημιουργήστε το προφίλ του ή αναθέστε σε υπάρχον προφίλ.</td>';
                         html += '<td><button type="button" class="btn btn-success right-margin" title="Ανάθεση σε προφίλ"><i class="fa fa-leaf"></i></button>';
-                        html += '<button type="button"  class="btn btn-danger right-margin" title="Απόρριψη"><i class="fa fa-trash"></i></button></td>';
+                        html += '<button type="button"  class="btn btn-danger right-margin" title="Απόρριψη" onclick="deleteCTAVolunteer(' + cta.id + ')"><i class="fa fa-trash"></i></button></td>';
                     }
 
                     html += '</tr>';
@@ -152,7 +174,7 @@ function editWorkDate(id) {
                 $(".ctaVolunteers").show();
             }
 
-            populateVolunteers(id, '#editWorkDate');
+            populateVolunteers(id);
             refreshDateTime();
             $('#editWorkDate').modal('show');
             return false;
@@ -161,59 +183,32 @@ function editWorkDate(id) {
 }
 
 //fill the volunteers multiselect
-function populateVolunteers(workDateId, parent) {
-
-    $(parent + ' .sub_volunteers').html('');
+function populateVolunteers(workDateId) {
+    $('#sub_volunteers').html('');
 
     //start adding the volunteers to the multiselect
-    //first add the immediately available volunteers
+    //add the immediately available volunteers
     //aka those that belong to the unit of the action
-    var optgroup = $('<optgroup>');
-    optgroup.attr('label', 'Εθελοντές που ανήκουν στη μονάδα');
     $.each(subTask.unitVolunteers, function (i, volunteer) {
         var option = $("<option></option>");
         option.val(volunteer.id);
         option.text(volunteer.name + ' ' + volunteer.last_name);
 
-        optgroup.append(option);
-        $(parent + ' .sub_volunteers').append(optgroup);
+        $('#sub_volunteers').append(option);
     });
 
-    /*
-     if (workDateId != null) {
-     //add the cta_volunteers
-     var notInPlatformOptgroup = $('<optgroup>');
-     var notInUnitOptgroup = $('<optgroup>');
-     notInPlatformOptgroup.attr('label', 'Εθελοντές που δεν υπάρχουν στην πλατφόρμα');
-     notInUnitOptgroup.attr('label', 'Εθελοντές που δεν ανήκουν στη μονάδα');
+    //set the already assigned volunteers
+    $('#sub_volunteers_to').html('');
+    $.each(subTask.work_dates, function (i, date) {
+        if(date.id==workDateId) {
+            $.each(date.volunteers, function (i, volunteer) {
+                var option = $("<option></option>");
+                option.val(volunteer.id);
+                option.text(volunteer.name + ' ' + volunteer.last_name);
 
-     $.each(subTask.work_dates, function (i, date) {
-     if (date.id == workDateId) {
-     $.each(date.cta_volunteers, function (i, volunteer) {
-     var option = $("<option></option>");
-     option.val(volunteer.id);
-     option.text(volunteer.first_name + ' ' + volunteer.last_name);
-
-     if (volunteer.isVolunteer==1) {
-     var isInUnit = false;
-     $.each(volunteer.volunteer.units, function (i, unit) {
-     if (unitId == unit.id) {
-     isInUnit = true;
-     return false;
-     }
-     });
-     }
-
-     if (volunteer.isVolunteer==1)
-     notInPlatformOptgroup.append(option);
-     if (volunteer.isInUnit)
-     notInUnitOptgroup.append(option);
-     });
-     }
-     });
-
-     $(parent + ' .sub_volunteers').append(notInPlatformOptgroup);
-     $(parent + ' .sub_volunteers').append(notInUnitOptgroup);
-     }
-     */
+                $('#sub_volunteers_to').append(option);
+            });
+            return false;
+        }
+    });
 }

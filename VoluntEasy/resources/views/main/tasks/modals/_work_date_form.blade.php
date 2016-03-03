@@ -14,6 +14,7 @@
         </div>
     </div>
 </div>
+
 <div class="row">
 
     <div class="col-md-2 workDate">
@@ -39,10 +40,12 @@
     </div>
 </div>
 
+
+@if(isset($showVolunteers) && $showVolunteers)
 <div class="row">
     <div class="col-sm-5">
         <p>Διαθέσιμοι εθελοντές:</p>
-        <select name="from" class="form-control sub_volunteers" size="8" multiple="multiple">
+        <select name="from" class="form-control sub_volunteers" id="sub_volunteers" size="8" multiple="multiple">
         </select>
     </div>
 
@@ -86,7 +89,9 @@
 @section('footerScripts')
     <script type="text/javascript">
         jQuery(document).ready(function ($) {
-            $(".sub_volunteers").multiselect();
+            $("#editWorkDate #sub_volunteers").multiselect();
         });
     </script>
 @append
+
+@endif

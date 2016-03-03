@@ -43,6 +43,7 @@ class CTAVolunteerController extends Controller {
             'isVolunteer' => $isVolunteer,
         ]);
 
+
         return $ctaVolunteer;
     }
 

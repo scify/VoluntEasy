@@ -23,17 +23,17 @@
         <div role="tabpanel">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#tab1" role="tab" data-toggle="tab"
+                <li role="presentation" class="tab details"><a href="#tab1" role="tab" data-toggle="tab"
                                            aria-expanded="false">Στοιχεία Δράσης</a></li>
-                <li role="presentation"><a href="#tab2" role="tab" data-toggle="tab" aria-expanded="false">Task
+                <li role="presentation" class="tab task_board"><a href="#tab2" role="tab" data-toggle="tab" aria-expanded="false">Task
                         Board</a></li>
-                <li role="presentation"><a href="#tab3" role="tab" data-toggle="tab"
-                                                          aria-expanded="true">{{ (isset($action->publicAction)) ?
+                <li role="presentation" class="tab public_page"><a href="#tab3" role="tab" data-toggle="tab"
+                                                          aria-expanded="false">{{ (isset($action->publicAction)) ?
                         'Επεξεργασία Δημόσιας Σελίδας' : 'Δημιουργία Δημόσιας Σελίδας' }}</a></li>
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="tab1">
+                <div role="tabpanel" class="tab-pane details" id="tab1">
                     <div class="row">
                         <div class="col-md-4">
                             <h3>Δράση <span data-action-id="{{ $action->id }}"
@@ -128,10 +128,10 @@
                     </div>
                     @endif
                 </div>
-                <div role="tabpanel" class="tab-pane " id="tab2">
+                <div role="tabpanel" class="tab-pane task_board" id="tab2">
                     @include('main.tasks._board')
                 </div>
-                <div role="tabpanel" class="tab-pane" id="tab3">
+                <div role="tabpanel" class="tab-pane public_page" id="tab3">
                     @if(isset($action->publicAction))
                     @include('main.cta._edit_cta')
                     @else

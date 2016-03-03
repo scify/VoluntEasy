@@ -70,6 +70,15 @@ class WorkDateController extends Controller
             'volunteer_sum' => \Request::get('volunteerSum')
         ]);
 
+
+        if(\Request::has('volunteers') && \Request::get('volunteers')!=''){
+            $volunteers = explode(',', \Request::get('volunteers'));
+            $workDate->volunteers()->sync($volunteers);
+        }
+        else{
+            $workDate->volunteers()->sync([]);
+        }
+
         return $workDate;
     }
 
