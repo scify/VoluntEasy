@@ -412,14 +412,7 @@ class VolunteerController extends Controller {
         $action = Action::find(\Request::get('assign_id'));
         $volunteer = Volunteer::find(\Request::get('volunteer_id'));
 
-        $statusId = VolunteerStatus::active();
-
-        //change unit status to active
-        VolunteerService::changeUnitStatus($volunteer->id, $action->unit_id, $statusId);
-
-        $action->volunteers()->attach($volunteer);
-
-        VolunteerService::actionHistory($volunteer->id, $action->id);
+        VolunteerService::addToAction($volunteer, $action);
 
         return $volunteer->id;
     }
@@ -457,13 +450,7 @@ class VolunteerController extends Controller {
 
         $volunteer = Volunteer::findOrFail($volunteerId);
 
-        $statusId = VolunteerStatus::available();
-
-        //change unit status to active
-        VolunteerService::changeUnitStatus($volunteer->id, $action->unit_id, $statusId);
-
-        //detach from action
-        $volunteer->actions()->detach($actionId);
+        VolunteerService::removeFromAction($volunteer, $action);
 
         return \Redirect::route('volunteer/profile', ['id' => $volunteerId]);
     }

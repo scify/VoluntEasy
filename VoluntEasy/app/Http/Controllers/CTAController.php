@@ -53,7 +53,6 @@ class CTAController extends Controller {
                     if ($t->id == $task->id) {
                         array_push($ctaSubtasks, $subtask->subtask);
                         $task->ctaSubtasks = $ctaSubtasks;
-
                     } else {
                         $ctaSubtasks = [];
                         $task->ctaSubtasks = $ctaSubtasks;
@@ -63,9 +62,11 @@ class CTAController extends Controller {
             }
         }
 
-
+        $publicAction->tasks = $tasks;
+        return $publicAction;
 
         if ($publicAction != null && $publicAction->isActive) {
+            $publicAction->tasks = $tasks;
             $action = $publicAction->load('action')->action;
             return view('main.cta.participate', compact('action', 'publicAction', 'tasks'));
         } else {

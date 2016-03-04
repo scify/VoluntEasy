@@ -6,7 +6,7 @@
             <p class="comments_err text-danger" style="display:none;">Συμπληρώστε το πεδίο.</p>
         </div>
     </div>
-    <div class="col-md-3 volunteers">
+    <div class="col-md-6 volunteers">
         <div class="form-group">
             {!! Form::formInput('volunteerSum', 'Αριθμός απαιτούμενων εθελοντών:', $errors, ['class'
                         =>
@@ -17,7 +17,7 @@
 
 <div class="row">
 
-    <div class="col-md-2 workDate">
+    <div class="col-md-4 workDate">
         <div class="form-group">
             <input type="hidden" name="dateId" class="dateId" value="">
             {!! Form::formInput('dateFrom', 'Ημερομηνία:', $errors, ['class' =>
@@ -26,14 +26,14 @@
             'data-date-format' => 'dd/mm/yyyy']) !!}
         </div>
     </div>
-    <div class="col-md-2 workTime">
+    <div class="col-md-4 workTime">
         <div class="form-group">
             {!! Form::formInput('hourFrom', 'Ώρα από:', $errors, ['class' =>
                         'form-control
                         time datetime hourFrom']) !!}
         </div>
     </div>
-    <div class="col-md-2 workTime">
+    <div class="col-md-4 workTime">
         <div class="form-group">
             {!! Form::formInput('hourTo', 'Ώρα έως:', $errors, ['class' => 'form-control time datetime hourTo']) !!}
         </div>

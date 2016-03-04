@@ -237,7 +237,6 @@ class VolunteerService {
     }
 
 
-
     /**
      * Get the volunteer units and their actions,
      * only if the user is assigned to any of the units' actions.
@@ -293,7 +292,7 @@ class VolunteerService {
 
         //get the language levels in a readable array
         $lang_levels = [];
-        foreach($volunteer->languages as $language){
+        foreach ($volunteer->languages as $language) {
             $lang_levels[$language->language->description] = $language->level->id;
         }
 
@@ -742,6 +741,44 @@ class VolunteerService {
         return $volunteerId;
     }
 
+
+    /**
+     * Add a volunteer to an action
+     *
+     * @param $volunteer
+     * @param $action
+     */
+    public function addToAction($volunteer, $action) {
+        $statusId = VolunteerStatus::active();
+
+        //change unit status to active
+        $this->changeUnitStatus($volunteer->id, $action->unit_id, $statusId);
+
+        //attach volunteer to action
+        $action->volunteers()->attach($volunteer);
+
+        //add history entry
+        $this->actionHistory($volunteer->id, $action->id);
+        return;
+    }
+
+    /**
+     * Remove a volunteer from an action
+     *
+     * @param $volunteer
+     * @param $action
+     */
+    public function removeFromAction($volunteer, $action){
+
+        $statusId = VolunteerStatus::available();
+
+        //change unit status to active
+        $this->changeUnitStatus($volunteer->id, $action->unit_id, $statusId);
+
+        //detach from action
+        $volunteer->actions()->detach($action->id);
+        return;
+    }
 
     /**
      * When assigning a volunteer to a unit,

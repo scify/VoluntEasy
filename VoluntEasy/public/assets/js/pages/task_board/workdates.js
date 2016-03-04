@@ -44,19 +44,6 @@ $("#updateWorkDate").click(function (e) {
     }
 });
 
-//delete a workdate
-$(".deleteWorkDate").click(function () {
-    if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε την ημέρα/ώρα;") == true) {
-
-        $.ajax({
-            method: 'GET',
-            url: $("body").attr('data-url') + "/actions/tasks/subtasks/workdates/delete/" + $(this).attr('data-workdate-id'),
-            success: function (result) {
-                reloadToTab('task_board');
-            }
-        });
-    }
-});
 
 //populate the addWorkDate modal with data before displaying it
 $(".addWorkDate").click(function (e) {
@@ -78,7 +65,8 @@ function assignToVolunteer(volunteer_id, cta_volunteer_id) {
             url: $("body").attr('data-url') + "/ctaVolunteer/assignToVolunteer/",
             data: {
                 cta_volunteer_id: cta_volunteer_id,
-                volunteer_id: volunteer_id
+                volunteer_id: volunteer_id,
+                action_id: $("#actionId").attr('data-action-id')
             },
             success: function (result) {
                 reloadToTab('task_board');
@@ -105,19 +93,22 @@ function addWorkDate(parentId) {
 }
 
 //delete a ctavolunteer
-function deleteCTAVolunteer(id) {
+function deleteWorkDate(id) {
 
-    if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε τον εθελοντή που έχει εκδηλώσει ενδιαφέρον;") == true) {
+    if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε την ημέρα/ώρα;") == true) {
+
         $.ajax({
             method: 'GET',
-            url: $("body").attr('data-url') + "/ctaVolunteer/delete/" + id,
+            url: $("body").attr('data-url') + "/actions/tasks/subtasks/workdates/delete/" + id,
+            data:{
+                action_id: $("#actionId").attr('data-action-id')
+            },
             success: function (result) {
-                reloadToTab('task_board');
+               // reloadToTab('task_board');
             }
         });
     }
 }
-
 
 //populate the editWorkDate modal before showing
 function editWorkDate(id) {
