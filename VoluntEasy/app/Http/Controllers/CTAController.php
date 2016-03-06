@@ -16,54 +16,67 @@ use App\Services\Facades\UserService;
  * Class CTAController
  * @package App\Http\Controllers
  */
-class CTAController extends Controller {
+class CTAController extends Controller
+{
 
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth', ['except' => ['cta']]);
     }
 
 
-    public function cta() {
+    public function cta()
+    {
 
         $action = Action::find(1);
 
         return view('main.cta.cta', compact('action'));
     }
 
-    public function participate($id) {
+    public function participate($id)
+    {
 
         $publicAction = PublicAction::where('public_url', $id)->with('subtasks.subtask.workDates', 'subtasks.subtask.task')->first();
         $tasks = [];
+        $taskIds = [];
 
-        //just transform data to the correct form
         foreach ($publicAction->subtasks as $subtask) {
             $task = $subtask->subtask->task;
-            $ctaSubtasks = [];
-            unset($subtask->subtask->task);
+            unset($subtask->subtask->task); //remove the obj, no longer needed
 
             if (sizeof($tasks) == 0) {
+                array_push($tasks, $task);
+                array_push($taskIds, $task->id);
                 $ctaSubtasks = [];
                 array_push($ctaSubtasks, $subtask->subtask);
                 $task->ctaSubtasks = $ctaSubtasks;
-                array_push($tasks, $task);
-            } else {
 
+            } else {
                 foreach ($tasks as $t) {
-                    if ($t->id == $task->id) {
+                    //if task does not already exists in array, insert
+                    if (!in_array($task->id, $taskIds)) {
+                        array_push($tasks, $task);
+                        array_push($taskIds, $task->id);
+                        $ctaSubtasks = [];
                         array_push($ctaSubtasks, $subtask->subtask);
                         $task->ctaSubtasks = $ctaSubtasks;
+                        break;
                     } else {
-                        $ctaSubtasks = [];
+                        //update the subtasks array
+                        $ctaSubtasks = $task->ctaSubtasks ;
+                        array_push($ctaSubtasks, $subtask->subtask);
                         $task->ctaSubtasks = $ctaSubtasks;
-                        array_push($tasks, $task);
+                      break;
                     }
                 }
             }
         }
 
+
         $publicAction->tasks = $tasks;
-        return $publicAction;
+        unset($publicAction->subtasks);
+        // return $publicAction;
 
         if ($publicAction != null && $publicAction->isActive) {
             $publicAction->tasks = $tasks;
@@ -74,7 +87,8 @@ class CTAController extends Controller {
         }
     }
 
-    public function store() {
+    public function store()
+    {
 
         $publicAction = new PublicAction([
             'description' => \Request::get('public_description'),
@@ -96,7 +110,8 @@ class CTAController extends Controller {
         return $publicAction;
     }
 
-    public function update() {
+    public function update()
+    {
         $publicAction = PublicAction::find(\Request::get('publicActionId'));
 
         $publicAction->update([
@@ -122,7 +137,8 @@ class CTAController extends Controller {
      * @param CTAVolunteerRequest $request
      * @return mixed
      */
-    public function volunteerInterested(CTAVolunteerRequest $request) {
+    public function volunteerInterested(CTAVolunteerRequest $request)
+    {
 
         $isVolunteer = 0;
         $volunteer = Volunteer::where('email', $request['email'])->first();
@@ -173,7 +189,8 @@ class CTAController extends Controller {
     /**
      * Save the subtasks that will be displayed on the public page
      */
-    private function savePublicSubtasks($publicAction) {
+    private function savePublicSubtasks($publicAction)
+    {
         $publicSubtasksIds = [];
         foreach (\Request::get('subtasks') as $i => $subtask) {
 
