@@ -116,11 +116,15 @@
                             </small>
                             <div class="pull-right">
                                 @if(sizeof($subtask->checklist) >0 )
-                                <i class="fa fa-list"></i> {{ sizeof($subtask->checklist) }}
+                                <i class="fa fa-list" title="{{ sizeof($subtask->checklist) }} to-dos"></i> {{ sizeof($subtask->checklist) }}
+                                @endif
+                                @if($subtask->ctaVolunteersCount >0 )
+                                <i class="fa fa-leaf" title="{{ $subtask->ctaVolunteersCount }} ενδιαφερόμενοι εθελοντές"></i> {{ $subtask->ctaVolunteersCount }}
                                 @endif
                                 @if(sizeof($subtask->work_dates) >0 )
-                                <i class="fa fa-calendar""></i> {{ sizeof($subtask->work_dates) }}
+                                <i class="fa fa-calendar" title="{{ sizeof($subtask->work_dates) }} ημέρες/ώρες"></i> {{ sizeof($subtask->work_dates) }}
                                 @endif
+
                             </div>
                         </div>
                         @endforeach
@@ -130,9 +134,7 @@
                 {{-- Doing subtasks --}}
                 <div class="col-md-4">
                     <h3 class="panel-title">Doing</h3>
-
                     <div class="board-column doing">
-
                         @foreach($task->doingSubtasks as $subtask)
                         <div class="board-card priority-{{ $subtask->priority }}"
                              data-task="{{ $task->id }}"

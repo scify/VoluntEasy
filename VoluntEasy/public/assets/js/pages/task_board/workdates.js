@@ -71,7 +71,8 @@ function assignToVolunteer(volunteer_id, cta_volunteer_id) {
                 action_id: $("#actionId").attr('data-action-id')
             },
             success: function (result) {
-                reloadToTab('task_board');
+               // reloadToTab('task_board');
+                console.log(result);
             }
         });
     }
@@ -94,7 +95,7 @@ function addWorkDate(parentId) {
     }
 }
 
-//delete a ctavolunteer
+//delete a workdate
 function deleteWorkDate(id) {
 
     if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε την ημέρα/ώρα;") == true) {
@@ -105,6 +106,21 @@ function deleteWorkDate(id) {
             data: {
                 action_id: $("#actionId").attr('data-action-id')
             },
+            success: function (result) {
+                reloadToTab('task_board');
+            }
+        });
+    }
+}
+
+//delete a workdate
+function deleteCTAVolunteer(id) {
+
+    if (confirm("Είστε σίγουροι ότι θέλετε να αφαιρέσετε τον ενδιαφερόμενο εθελοντή;") == true) {
+
+        $.ajax({
+            method: 'GET',
+            url: $("body").attr('data-url') + "/ctaVolunteer/delete/" + id,
             success: function (result) {
                 reloadToTab('task_board');
             }

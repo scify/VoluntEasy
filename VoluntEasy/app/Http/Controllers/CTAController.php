@@ -196,16 +196,16 @@ class CTAController extends Controller {
                     $publicSubtask = new PublicActionSubTask([
                         'public_actions_id' => $publicAction->id,
                         'subtask_id' => $i,
-                        'description' => $subtask['comments'],
+                       // 'description' => $subtask['comments'],
                     ]);
 
                     $publicSubtask->save();
-                } else {
+                } /*else {
                     //else update the current one
                     $publicSubtask->update([
                         'description' => $subtask['comments'],
                     ]);
-                }
+                }*/
                 array_push($publicSubtasksIds, $publicSubtask->id);
             }
         }

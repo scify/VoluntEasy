@@ -533,7 +533,7 @@ i.priority-4 {
     background-color: #22BAA0;
 }
 
-.taskInfo .padding, .subTaskInfo .padding{
+.taskInfo .padding, .subTaskInfo .padding, .ctaSubtasks .padding{
     padding-left:20px;
 }
 

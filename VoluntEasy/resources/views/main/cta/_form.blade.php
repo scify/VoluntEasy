@@ -81,17 +81,17 @@
 @if(sizeof($action->tasks)>0)
 <div class="row">
     <div class="col-md-6">
-        <h4>Επιλέξτε ποια subtasks θέλετε να εμφανίζονται στη δημόσια σελίδα, και προσθέστε προαιρετικά μια
-            περιγραφή.</h4>
-        <table class="table table-condensed table-bordered">
+        <h4>Επιλέξτε ποια subtasks θέλετε να εμφανίζονται στη δημόσια σελίδα. <br/>
+        <small>Για τη σωστή εμφάνιση των subtasks, θα πρέπει να έχουν τουλάχιστον μία βάρδια το καθένα.</small></h4>
+        <table class="ctaSubtasks">
             @foreach($action->tasks as $task)
             @if((sizeof($task->todoSubtasks)+sizeof($task->doingSubtasks)+sizeof($task->doneSubtasks))>0)
             <tr>
-                <td colspan="2"><h4>Task {{ $task->name }}</h4></td>
+                <td><h4>Task {{ $task->name }}</h4></td>
             </tr>
             @foreach($task->todoSubtasks as $subtask)
             <tr>
-                <td>
+                <td class="padding">
                     @if(isset($publicSubtasks[$subtask->id]))
                     {!! Form::formInput('subtasks['.$subtask->id.'][name]', $subtask->name, $errors, ['class' =>
                     'form-control', 'type' => 'checkbox', 'checked' =>'true']) !!}
@@ -100,7 +100,7 @@
                     'form-control', 'type' => 'checkbox', 'checked' =>'false']) !!}
                     @endif
                 </td>
-                <td>
+               {{-- <td>
                     @if(isset($publicSubtasks[$subtask->id]))
                     {!! Form::formInput('subtasks['.$subtask->id.'][comments]', '', $errors, ['class' =>
                     'form-control', 'value' => $publicSubtasks[$subtask->id]]) !!}
@@ -109,48 +109,31 @@
                     'form-control', 'placeholder' => 'Περιγραφή']) !!}
                     @endif
                 </td>
+                --}}
             </tr>
             @endforeach
             @foreach($task->doingSubtasks as $subtask)
             <tr>
-                <td>
+                <td class="padding">
                     @if(isset($publicSubtasks[$subtask->id]))
                     {!! Form::formInput('subtasks['.$subtask->id.'][name]', $subtask->name, $errors, ['class' =>
                     'form-control', 'type' => 'checkbox', 'checked' =>'true']) !!}
                     @else
                     {!! Form::formInput('subtasks['.$subtask->id.'][name]', $subtask->name, $errors, ['class' =>
                     'form-control', 'type' => 'checkbox', 'checked' =>'false']) !!}
-                    @endif
-                </td>
-                <td>
-                    @if(isset($publicSubtasks[$subtask->id]))
-                    {!! Form::formInput('subtasks['.$subtask->id.'][comments]', '', $errors, ['class' =>
-                    'form-control', 'value' => $publicSubtasks[$subtask->id]]) !!}
-                    @else
-                    {!! Form::formInput('subtasks['.$subtask->id.'][comments]', '', $errors, ['class' =>
-                    'form-control', 'placeholder' => 'Περιγραφή']) !!}
                     @endif
                 </td>
             </tr>
             @endforeach
             @foreach($task->doneSubtasks as $subtask)
             <tr>
-                <td>
+                <td class="padding">
                     @if(isset($publicSubtasks[$subtask->id]))
                     {!! Form::formInput('subtasks['.$subtask->id.'][name]', $subtask->name, $errors, ['class' =>
                     'form-control', 'type' => 'checkbox', 'checked' =>'true']) !!}
                     @else
                     {!! Form::formInput('subtasks['.$subtask->id.'][name]', $subtask->name, $errors, ['class' =>
                     'form-control', 'type' => 'checkbox', 'checked' =>'false']) !!}
-                    @endif
-                </td>
-                <td>
-                    @if(isset($publicSubtasks[$subtask->id]))
-                    {!! Form::formInput('subtasks['.$subtask->id.'][comments]', '', $errors, ['class' =>
-                    'form-control', 'value' => $publicSubtasks[$subtask->id]]) !!}
-                    @else
-                    {!! Form::formInput('subtasks['.$subtask->id.'][comments]', '', $errors, ['class' =>
-                    'form-control', 'placeholder' => 'Περιγραφή']) !!}
                     @endif
                 </td>
             </tr>

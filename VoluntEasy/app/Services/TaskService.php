@@ -50,6 +50,12 @@ class TaskService {
                 }
 
                 $subtask->volunteerSum = $subtaskVolunteers;
+
+                $ctaVolunteers = 0;
+                foreach ($subtask->workDates as $workDate) {
+                    $ctaVolunteers += sizeof($workDate->ctaVolunteers);
+                }
+                $subtask->ctaVolunteersCount = $ctaVolunteers;
             }
 
             unset($task->subtasks);

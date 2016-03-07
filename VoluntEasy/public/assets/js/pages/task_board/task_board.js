@@ -59,6 +59,8 @@ $(".task-title").click(function () {
     localStorage.setItem("openTask", taskId);
 });
 
+
+//retrieve the last opened task from the local storage and set as open
 function setOpenTask() {
     var taskId = localStorage.getItem("openTask");
     if (taskId != null)
