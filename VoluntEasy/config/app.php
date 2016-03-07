@@ -218,6 +218,7 @@ return [
         'UnitService' => 'App\Services\Facades\UnitService',
         'UserService' => 'App\Services\Facades\UserService',
         'VolunteerService' => 'App\Services\Facades\VolunteerService',
+        'WorkDateService' => 'App\Services\Facades\WorkDateService',
     ],
 
 ];

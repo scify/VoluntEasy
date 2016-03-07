@@ -84,18 +84,28 @@
                                     <td class="taskDate">
                                         @foreach($subtask->workDates as $date)
                                         <div class="dateTime">
-                                            <label>
-                                                {!! Form::formInput('dates['.$date->id.']', '', $errors, ['class' =>'form-control checkbox', 'type' => 'checkbox', 'checked' =>'false']) !!}
-
-                                               <div class="dates"> {{$date->from_date}} <br/>  <span
-                                                    class="hours">{{ $date->from_hour }}-{{ $date->to_hour }}
+                                            <label {{ sizeof($date->volunteers)==$date->volunteer_sum ? 'class=disabled' : ''}} >
+                                                @if($date->volunteer_sum==sizeof($date->volunteers))
+                                                {!! Form::formInput('dates['.$date->id.']', '', $errors, ['class'
+                                                =>'form-control checkbox', 'type' => 'checkbox', 'checked' =>'false',
+                                                'disabled' => 'disabled', 'readonly']) !!}
+                                                @else
+                                                {!! Form::formInput('dates['.$date->id.']', '', $errors, ['class'
+                                                =>'form-control checkbox', 'type' => 'checkbox', 'checked' =>'false'])
+                                                !!}
+                                                @endif
+                                                <div class="dates"> {{$date->from_date}} <br/>  <span
+                                                        class="hours">{{ $date->from_hour }}-{{ $date->to_hour }}
                                                     </span>
-                                                @if($date->volunteer_sum!=null || $date->volunteer_sum!=0)
-                                                <br/>{{ sizeof($date->volunteers) }}/{{ $date->volunteer_sum }}
-                                                εθελοντές
+                                                    @if(sizeof($date->volunteers)==$date->volunteer_sum)
+                                                    <br/><span class="text-success">{{ sizeof($date->volunteers) }}/{{ $date->volunteer_sum }}
+                                                   εθελοντές</span>
+                                                    @else
+                                                    <br/>{{ sizeof($date->volunteers) }}/{{ $date->volunteer_sum }}
+                                                    εθελοντές
+                                                    @endif
                                                 </div>
                                             </label>
-                                            @endif
                                         </div>
                                         @endforeach
                                     </td>
@@ -143,13 +153,15 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        {!! Form::formInput('phone_number', 'Τηλέφωνο επικοινωνίας:', $errors, ['class' => 'form-control',
+                                        {!! Form::formInput('phone_number', 'Τηλέφωνο επικοινωνίας:', $errors, ['class'
+                                        => 'form-control',
                                         'required' => 'true']) !!}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        {!! Form::formInput('comments', 'Σχόλια:', $errors, ['class' => 'form-control', 'type' => 'textarea', 'size' =>'2x2']) !!}
+                                        {!! Form::formInput('comments', 'Σχόλια:', $errors, ['class' => 'form-control',
+                                        'type' => 'textarea', 'size' =>'2x2']) !!}
                                     </div>
                                 </div>
                             </div>

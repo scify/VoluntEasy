@@ -16,6 +16,7 @@
             <h3>Χρονοδιάγραμμα εργασιών εθελοντών</h3>
 
             <div class="workDatesInfo">
+                <p class="padding noWorkDates" style="display:none;"><em>Δεν έχει οριστεί χρονοδιάγραμμα</em></p>
                 <table class="table table-condensed table-bordered workDatesTable">
                     <thead>
                     <th>Περιγραφή</th>

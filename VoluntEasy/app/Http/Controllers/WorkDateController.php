@@ -3,7 +3,9 @@
 
 use App\Models\Action;
 use App\Models\ActionTasks\WorkDate;
+use App\Models\Volunteer;
 use App\Services\Facades\VolunteerService;
+use App\Services\Facades\WorkDateService;
 
 class WorkDateController extends Controller {
 
@@ -48,7 +50,8 @@ class WorkDateController extends Controller {
      */
     public function update() {
 
-        $workDate = WorkDate::find(\Request::get('workdateId'));
+        //fetch the workdate with the volunteers
+        $workDate = WorkDate::with('volunteers')->find(\Request::get('workdateId'));
 
         $dateFrom = null;
         $from_hour = null;
@@ -68,13 +71,25 @@ class WorkDateController extends Controller {
             'volunteer_sum' => \Request::get('volunteerSum')
         ]);
 
-
+        $newVolunteers = [];
         if (\Request::has('volunteers') && \Request::get('volunteers') != '') {
-            $volunteers = explode(',', \Request::get('volunteers'));
-            $workDate->volunteers()->sync($volunteers);
-        } else {
-            $workDate->volunteers()->sync([]);
+            $newVolunteers = explode(',', \Request::get('volunteers'));
         }
+
+        $action = Action::find(\Request::get('action_id'));
+
+        //remove all the current volunteers
+        foreach ($workDate->volunteers as $volunteer) {
+            $volunteer->workDates()->detach();
+            VolunteerService::removeFromAction($volunteer, $action);
+        }
+
+        //add the volunteers to the action
+        foreach ($newVolunteers as $newVolunteer) {
+            $volunteer = Volunteer::find($newVolunteer);
+            VolunteerService::addToAction($volunteer, $action);
+        }
+        $workDate->volunteers()->sync($newVolunteers);
 
         return $workDate;
     }
@@ -83,19 +98,9 @@ class WorkDateController extends Controller {
      * Delete a workdate
      */
     public function destroy($id) {
-        $workDate = WorkDate::with('volunteers', 'ctaVolunteers')->find($id);
+        $workDate = WorkDate::with('volunteers.actions', 'ctaVolunteers')->find($id);
 
-        $action = Action::find(\Request::get('action_id'));
-
-        //remove the volunteers from the action
-        foreach ($workDate->volunteers as $volunteer) {
-            $volunteer->workDates()->detach();
-            VolunteerService::removeFromAction($volunteer, $action);
-        }
-
-        $workDate->subtask()->dissociate();
-        $workDate->ctaVolunteers()->detach();
-        $workDate->delete();
+        WorkDateService::delete($workDate);
 
         return;
     }

@@ -49,6 +49,23 @@ $(".board-column").sortable({
     }
 });
 
+//save the new open task id to the local storage
+$(".task-title").click(function () {
+
+    var taskId = null;
+    if ($(this).attr('aria-expanded')=='false')
+        taskId = $(this).attr('data-task-id');
+
+    localStorage.setItem("openTask", taskId);
+});
+
+function setOpenTask() {
+    var taskId = localStorage.getItem("openTask");
+    if (taskId != null)
+        $(".task-title.task-" + taskId).trigger("click");
+}
+
+
 function refreshDateTime() {
 
     $(".date").datepicker({

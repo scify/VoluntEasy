@@ -32,6 +32,7 @@ $("#updateWorkDate").click(function (e) {
 
         data = $("#editWorkDateForm").serializeArray();
         data.push({name: 'volunteers', value: volunteers});
+        data.push({name: 'action_id', value: $("#actionId").attr('data-action-id')});
 
         $.ajax({
             url: $("body").attr('data-url') + "/actions/tasks/subtasks/workdates/update",
@@ -39,6 +40,7 @@ $("#updateWorkDate").click(function (e) {
             data: data,
             success: function (result) {
                 reloadToTab('task_board');
+                //console.log(result);
             }
         });
     }
@@ -100,11 +102,11 @@ function deleteWorkDate(id) {
         $.ajax({
             method: 'GET',
             url: $("body").attr('data-url') + "/actions/tasks/subtasks/workdates/delete/" + id,
-            data:{
+            data: {
                 action_id: $("#actionId").attr('data-action-id')
             },
             success: function (result) {
-               // reloadToTab('task_board');
+                reloadToTab('task_board');
             }
         });
     }

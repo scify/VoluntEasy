@@ -439,6 +439,7 @@ div#unitsTree {
     background-color: #F6F6F6;
     padding: 5px;
     width: 80%;
+    height:65px;
     border: solid 1px #DBE0E8;
     margin-bottom: 10px;
     border-radius: 2px;
@@ -656,7 +657,6 @@ table.tasks > tbody > tr > td, table.tasks td{
     padding: 10px;
 }
 
-
 .task{
     background-color:#2b384e;
     color:#ffffff;
@@ -686,51 +686,7 @@ table.tasks > tbody > tr > td, table.tasks td{
     font-size:18px;
 }
 
-.circle {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-    height: 0;
-    padding: 50% 0;
-    border-radius: 50%;
-
-    /* Just making it pretty */
-    background: #38a9e4;
-    color: white;
-    font-family: Helvetica, Arial Black, sans;
-    font-size: 18px;
-    text-align: center;
+label.disabled{
+    opacity: 0.6;
+    filter: alpha(opacity=60);
 }
-/*
-.tasks .task {
-    padding: 5px;
-}
-
-.tasks .task.odd {
-    background-color: #F1F4F9;
-}
-
-.tasks .task.even {
-    background-color: #FDFDFD;
-}
-
-.tasks .task .title {
-    color: #2D7E73;
-    margin-top: 3px;
-    margin-bottom: 3px;
-}
-
-.tasks .task .description {
-    margin-bottom: 3px;
-}
-
-.tasks .task button {
-    margin-top: 20px;
-}
-
-input.width-45 {
-    width: 45%;
-    display: inline-block;
-}
-*/
-

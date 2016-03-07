@@ -125,7 +125,7 @@ function showSubTaskInfo(subTaskId) {
             //add the work dates
             html = '';
             if (subTask.work_dates.length == 0) {
-                html = '<p><em>Δεν έχει οριστεί χρονοδιάγραμμα</em></p>';
+                $('.noWorkDates').show();
                 $('.workDatesTable').hide();
             }
             else {
@@ -153,6 +153,7 @@ function showSubTaskInfo(subTaskId) {
 
                     $('.workDatesTable > tbody:last-child').html(html);
                     $('.workDatesTable').show();
+                    $('.noWorkDates').hide();
                 });
             }
 
