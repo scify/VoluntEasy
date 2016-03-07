@@ -132,7 +132,7 @@ class UnitService {
                 'type' => 'Interview'
             ]),
             new Step([
-                'description' => 'Ανάθεση σε Μονάδα/Δράση',
+                'description' => 'Ανάθεση σε μονάδα',
                 'step_order' => 3,
                 'type' => 'Assignment'
             ])

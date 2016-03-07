@@ -8,6 +8,7 @@ class CTAVolunteerRequest extends Request {
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => 'required|email',
+            'phone_number' => 'required|max:255',
             'dates' => 'required'
         ];
     }

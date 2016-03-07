@@ -1,6 +1,7 @@
 @if($step->statuses[0]->status->description=='Incomplete')
 @if(sizeof($unit->actions)>0)
 
+{{--
 <div class="form-group">
     <label>
         {!! Form::formInput('assignment', '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value' =>
@@ -10,6 +11,7 @@
     'type' => 'select', 'id' => 'actionSelect-'.$step->statuses[0]->id, 'value' =>
     $unit->actions->lists('description', 'id')->all()]) !!}
 </div>
+--}}
 <div class="form-group">
     <label>
         {!! Form::formInput('assignment', '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value' =>

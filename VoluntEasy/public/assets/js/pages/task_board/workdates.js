@@ -71,8 +71,7 @@ function assignToVolunteer(volunteer_id, cta_volunteer_id) {
                 action_id: $("#actionId").attr('data-action-id')
             },
             success: function (result) {
-               // reloadToTab('task_board');
-                console.log(result);
+                reloadToTab('task_board');
             }
         });
     }
@@ -140,6 +139,8 @@ function editWorkDate(id) {
             $("#editWorkDate .hourFrom").val(date.from_hour);
             $("#editWorkDate .hourTo").val(date.to_hour);
             $("#editWorkDate .volunteerSum").val(date.volunteer_sum);
+
+            console.log(date.cta_volunteers);
 
             //check if ctaVolunteers table should be displayed,
             //aka the table that holds the volunteers that have claimed interest in the action

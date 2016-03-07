@@ -77,7 +77,7 @@ class CTAVolunteerController extends Controller {
         $action = Action::find(\Request::get('action_id'));
 
         //assign volunteer to action
-        VolunteerService::addToAction($ctaVolunteer->volunteer, $action);
+        VolunteerService::addToAction($ctaVolunteer->volunteer->first(), $action);
 
         return $ctaVolunteer;
     }

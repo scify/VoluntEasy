@@ -27,7 +27,7 @@
                         <th>Κατάσταση</th>
                         <th>Δράσεις</th>
                         <th class="text-center">
-                            <small>Ανάθεση σε δράση<br/>ή υπομονάδα</small>
+                            <small>Ανάθεση σε υπομονάδα</small>
                         </th>
                         <th class="text-center">
                             <small>Αφαίρεση<br/>από μονάδα</small>
@@ -72,6 +72,7 @@
                         </td>
                         <td class="col-md-2">
                             <div class="text-center">
+                                {{--
                                 @if($volunteer->permitted && $unit->status=='Available' && sizeof($unit->actions)>0)
                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                                         data-target="#selectAction-unit{{$unit->id}}">
@@ -80,6 +81,8 @@
                                 @include('main.volunteers.partials.modals._select_action', ['divId' =>
                                 'selectAction-unit'.$unit->id])
                                 @endif
+                                --}}
+
 
                                 @if($volunteer->permitted && $unit->status=='Available' && sizeof($unit->children)>0)
                                 <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
