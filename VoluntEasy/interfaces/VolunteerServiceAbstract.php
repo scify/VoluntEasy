@@ -68,7 +68,7 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
             $baseFields['live_in_curr_country'] = 1;
 
         $baseFields['computer_usage'] = 0;
-        if (isset($volunteerRequest['computer_usage']) && $volunteerRequest['live_in_curr_country'] == 1)
+        if (isset($volunteerRequest['computer_usage']) && $volunteerRequest['computer_usage'] == 1)
             $baseFields['computer_usage'] = 1;
 
         return $baseFields;
