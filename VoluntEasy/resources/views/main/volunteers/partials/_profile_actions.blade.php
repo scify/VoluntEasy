@@ -98,7 +98,7 @@
     <div class="col-md-12">
         <div class="panel panel-default smallHeading">
             <div class="panel-heading ">
-                <h3 class="panel-title">Εκδήλωση ενδιαφέροντος</h3>
+                <h3 class="panel-title">Συμμετοχή σε δράσεις</h3>
             </div>
             <div class="panel-body">
                 <div class="row">
