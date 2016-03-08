@@ -34,8 +34,7 @@
                                             href="{{ $publicAction->map_url }}"
                                             target="_blank">{{ $publicAction->address}}</a></p>
                                     @else
-                                    <i class="fa fa-map-marker" style="margin-left:10px;"></i> {{ $publicAction->address
-                                    }}</p>
+                                    <i class="fa fa-map-marker" style="margin-left:10px;"></i> {{ $publicAction->address }}</p>
                                     @endif
                                     @endif
 
@@ -84,7 +83,7 @@
                                     <td class="taskDate">
                                         @foreach($subtask->workDates as $date)
                                         <div class="dateTime">
-                                            <label {{ sizeof($date->volunteers)==$date->volunteer_sum ? 'class=disabled' : ''}} >
+                                            <label {{ sizeof($date->volunteers)>=$date->volunteer_sum ? 'class=disabled' : ''}} >
                                                 @if($date->volunteer_sum==sizeof($date->volunteers))
                                                 {!! Form::formInput('dates['.$date->id.']', '', $errors, ['class'
                                                 =>'form-control checkbox', 'type' => 'checkbox', 'checked' =>'false',

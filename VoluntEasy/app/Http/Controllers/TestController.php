@@ -19,10 +19,31 @@ use Faker\Factory;
  * This controller is used to do some tests,
  * ie. print some data, check some routes etc.
  */
-class TestController extends Controller {
+class TestController extends Controller
+{
 
 
-    public function test() {
+    public function test()
+    {
+
+
+
+
+        $id = 1;
+        $volunteer = Volunteer::whereHas('actions.tasks.subtasks.workDates.volunteers', function ($q) use ($id) {
+                $q->where('volunteer_id', $id);
+            })->with('actions.tasks.subtasks.workDates.volunteers')
+            ->find($id);
+
+
+
+                $volunteer = Volunteer::with(['actions.tasks.subtasks.workDates.volunteers' => function($q) {
+                    $q->where('volunteer_id', 1);
+                }])->find($id);
+
+
+        return $volunteer;
+
 
         $volunteer = Volunteer::find(1);
         return $volunteer->interestedIn();
@@ -36,7 +57,8 @@ class TestController extends Controller {
 
     }
 
-    public function cta(){
+    public function cta()
+    {
 
         $action = Action::find(1);
 
@@ -46,26 +68,30 @@ class TestController extends Controller {
     }
 
 
-    public function newVolunteers() {
+    public function newVolunteers()
+    {
         $volunteers = VolunteerService::getNew();
 
         return view("main.volunteers.list", compact('volunteers'));
     }
 
-    public function boxytree() {
+    public function boxytree()
+    {
 
         return view("tests.boxytree");
     }
 
 
-    public function cityofathens() {
+    public function cityofathens()
+    {
         return view("tests.cityofathens");
     }
 
     /**
      * generate some dummy data
      */
-    public function faker() {
+    public function faker()
+    {
         $faker = Factory::create();
 
 

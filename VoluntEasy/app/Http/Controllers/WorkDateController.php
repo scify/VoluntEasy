@@ -4,13 +4,16 @@
 use App\Models\Action;
 use App\Models\ActionTasks\WorkDate;
 use App\Models\Volunteer;
+use App\Models\VolunteerWorkDateHistory;
 use App\Services\Facades\VolunteerService;
 use App\Services\Facades\WorkDateService;
 
-class WorkDateController extends Controller {
+class WorkDateController extends Controller
+{
 
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
@@ -20,7 +23,8 @@ class WorkDateController extends Controller {
      *
      * @return mixed
      */
-    public function store() {
+    public function store()
+    {
         $dateFrom = null;
         $from_hour = null;
         $to_hour = null;
@@ -48,7 +52,8 @@ class WorkDateController extends Controller {
     /*
      * Update the workdate
      */
-    public function update() {
+    public function update()
+    {
 
         //fetch the workdate with the volunteers
         $workDate = WorkDate::with('volunteers')->find(\Request::get('workdateId'));
@@ -85,10 +90,8 @@ class WorkDateController extends Controller {
         }
 
         //add the volunteers to the action
-        foreach ($newVolunteers as $newVolunteer) {
-            $volunteer = Volunteer::find($newVolunteer);
-            VolunteerService::addToAction($volunteer, $action);
-        }
+        WorkDateService::addVolunteersToAction($newVolunteers, $workDate->id, $action);
+
         $workDate->volunteers()->sync($newVolunteers);
 
         return $workDate;
@@ -97,13 +100,15 @@ class WorkDateController extends Controller {
     /**
      * Delete a workdate
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $workDate = WorkDate::with('volunteers.actions', 'ctaVolunteers')->find($id);
 
         WorkDateService::delete($workDate);
 
         return;
     }
+
 
 
 }

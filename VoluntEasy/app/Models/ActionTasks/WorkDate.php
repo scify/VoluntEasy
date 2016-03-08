@@ -1,6 +1,7 @@
 <?php namespace App\Models\ActionTasks;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * The dates that a volunteer may be able to work
@@ -10,11 +11,13 @@ use Illuminate\Database\Eloquent\Model;
  */
 class WorkDate extends Model {
 
+    use SoftDeletes;
+
     protected $table = 'subtask_work_dates';
 
     protected $fillable = ['from_date', 'to_date', 'subtask_id', 'from_hour', 'to_hour',  'volunteer_sum', 'comments'];
 
-    protected $dates = ['from_date', 'to_date'];
+    protected $dates = ['from_date', 'to_date', 'deleted_at'];
 
     public function subtask() {
         return $this->belongsTo('App\Models\ActionTasks\SubTask', 'subtask_id', 'id');

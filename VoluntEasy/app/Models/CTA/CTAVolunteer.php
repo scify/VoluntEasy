@@ -10,13 +10,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class CTAVolunteer extends Model {
 
-   // use SoftDeletes;
+    use SoftDeletes;
 
     protected $table = 'cta_volunteers';
 
     protected $fillable = ['first_name', 'last_name', 'email', 'isVolunteer', 'public_action_id', 'comments', 'phone_number'];
 
-  //  protected $dates = ['deleted_at'];
+   protected $dates = ['deleted_at'];
 
     public function dates() {
         return $this->hasMany('App\Models\CTA\CTADate', 'cta_volunteers_id', 'id');

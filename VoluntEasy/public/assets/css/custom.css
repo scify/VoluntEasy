@@ -639,54 +639,72 @@ table.tasks > tbody > tr > td, table.tasks td{
     vertical-align: middle;
 }
 
-.subtask-info{
+.tasks .subtask-info{
     color: #fff;
     font-size: 16px;
     text-align: center;
 }
 
 
-.subtask-description{
+.tasks .subtask-description{
     color: #fff;
     font-size: 12px;
     text-align: center;
 }
 
-.taskDate .description {
+.tasks .taskDate .description {
     background-color: #F1F4F9;
     padding: 10px;
 }
 
-.task{
+.tasks .task{
     background-color:#2b384e;
     color:#ffffff;
 }
 
-.task-info{
+.tasks .task-info{
     padding:5px;
 }
 
-.taskDate{
+.tasks .taskDate{
     padding:5px;
 }
 
-.dateTime{
+.tasks .dateTime{
     display:inline-block;
     margin:5px;
 }
 
-.dateTime div.dates{
+.tasks .dateTime div.dates{
     border-left: solid 2px rgb(43, 56, 78);
     padding: 3px;
     text-align: center;
     display:inline-block;
 }
 
-.taskDate .hours {
+.tasks .taskDate .hours {
     font-size:18px;
 }
 
-label.disabled{
+.tasks label.disabled{
     opacity: 0.6;
     filter: alpha(opacity=60);
+}
+
+/* styles for the timesheet in the volunteer profile*/
+.timesheet{
+    font-size:11px;
+}
+.timesheet .action{
+    font-size: 14px;
+    font-weight: 600;
+    background-color:#D0D4D8;
+}
+.timesheet .task{
+    font-size: 12px;
+    font-weight: 600;
+    background-color:#E9EDF2;
+}
+.timesheet .subtask{
+    background-color:#F5F9FF;
 }

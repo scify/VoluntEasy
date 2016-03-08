@@ -10,13 +10,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class CTADate extends Model {
 
-  //  use SoftDeletes;
+   use SoftDeletes;
 
     protected $table = 'cta_volunteers_dates';
 
     protected $fillable = ['cta_volunteers_id', 'subtask_work_dates_id'];
 
-   // protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at'];
 
     public function date() {
         return $this->hasOne('App\Models\ActionTasks\WorkDate', 'id', 'subtask_work_dates_id');

@@ -31,6 +31,7 @@ class CreateTasksTable extends Migration {
             $table->integer('action_id')->unsigned();
             $table->foreign('action_id')->references('id')->on('actions');
 
+            $table->softDeletes();
             $table->timestamps();
         });
 
@@ -51,6 +52,7 @@ class CreateTasksTable extends Migration {
             $table->integer('action_id')->unsigned();
             $table->foreign('action_id')->references('id')->on('actions');
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

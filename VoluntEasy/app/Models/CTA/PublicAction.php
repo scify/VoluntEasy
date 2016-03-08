@@ -1,6 +1,7 @@
 <?php namespace App\Models\CTA;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * The fields that will be displayed in the public cta page

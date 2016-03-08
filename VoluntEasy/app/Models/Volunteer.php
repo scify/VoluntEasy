@@ -96,6 +96,10 @@ class Volunteer extends User {
         return $this->hasMany('App\Models\VolunteerUnitHistory')->orderBy('created_at', 'desc');
     }
 
+    public function workDateHistory() {
+        return $this->hasMany('App\Models\VolunteerWorkDateHistory')->orderBy('created_at', 'desc');
+    }
+
     public function units() {
         return $this->belongsToMany('App\Models\Unit', 'volunteer_unit_status');
     }
@@ -128,6 +132,9 @@ class Volunteer extends User {
         return $this->hasOne('App\Models\VolunteerExtras', 'volunteer_id', 'id');
     }
 
+    public function ctaVolunteers() {
+        return $this->belongsToMany('App\Models\CTA\CTAVolunteer', 'cta_volunteers_platform_volunteers', 'volunteer_id', 'cta_volunteers_id');
+    }
 
     /*
     public function ratings() {

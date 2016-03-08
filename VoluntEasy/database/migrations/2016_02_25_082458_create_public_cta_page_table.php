@@ -40,6 +40,7 @@ class CreatePublicCtaPageTable extends Migration
             $table->integer('subtask_id')->unsigned();
             $table->foreign('subtask_id')->references('id')->on('subtasks');
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

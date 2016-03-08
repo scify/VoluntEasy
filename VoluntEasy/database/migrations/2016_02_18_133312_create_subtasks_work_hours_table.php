@@ -21,6 +21,7 @@ class CreateSubtasksWorkHoursTable extends Migration {
             $table->integer('subtask_id')->unsigned();
             $table->foreign('subtask_id')->references('id')->on('subtasks');
 
+            $table->softDeletes();
             $table->timestamps();
         });
 
@@ -34,6 +35,7 @@ class CreateSubtasksWorkHoursTable extends Migration {
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

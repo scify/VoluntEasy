@@ -26,6 +26,7 @@ class CreateSubtaskChecklistTable extends Migration
             $table->integer('updated_by')->unsigned();
             $table->foreign('updated_by')->references('id')->on('users');
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

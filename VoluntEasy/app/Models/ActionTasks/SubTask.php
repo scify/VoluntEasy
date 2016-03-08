@@ -1,6 +1,7 @@
 <?php namespace App\Models\ActionTasks;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Describes a task's subtasks
@@ -10,9 +11,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class SubTask extends Model {
 
+    use SoftDeletes;
+
     protected $table = 'subtasks';
 
-    protected $dates = ['due_date'];
+    protected $dates = ['due_date', 'deleted_at'];
 
     protected $fillable = ['description', 'name', 'status_id', 'task_id', 'action_id', 'priority', 'due_date'];
 

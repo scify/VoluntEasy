@@ -5,6 +5,7 @@ use App\Models\CTA\CTAVolunteer;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Volunteer;
 use App\Services\Facades\VolunteerService;
+use App\Services\Facades\WorkDateService;
 
 /**
  * Responsible for the functions of the CTAVolunteer obj
@@ -73,11 +74,6 @@ class CTAVolunteerController extends Controller {
 
         $ctaVolunteer = CTAVolunteer::find(\Request::get('cta_volunteer_id'));
         $ctaVolunteer->volunteer()->attach(\Request::get('volunteer_id'));
-
-        $action = Action::find(\Request::get('action_id'));
-
-        //assign volunteer to action
-        VolunteerService::addToAction($ctaVolunteer->volunteer->first(), $action);
 
         return $ctaVolunteer;
     }

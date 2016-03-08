@@ -1,6 +1,7 @@
 <?php namespace App\Models\ActionTasks;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Describes the tasks that are needed for an action,
@@ -11,9 +12,12 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Task extends Model {
 
+    use SoftDeletes;
+
+
     protected $table = 'tasks';
 
-    protected $dates = ['due_date'];
+    protected $dates = ['due_date', 'deleted_at'];
 
     protected $fillable = ['description', 'name', 'isComplete', 'action_id', 'priority', 'due_date', 'status_id'];
 
