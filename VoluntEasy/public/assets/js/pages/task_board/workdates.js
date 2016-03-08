@@ -163,19 +163,18 @@ function editWorkDate(id) {
                         //ctavolunteer is not assigned to any actual volunteer profile
                         if (cta.volunteer.length == 0) {
                             html += '<td>Βρέθηκε <a href="' + $("body").attr("data-url") + '/volunteers/one/' + cta.mightBe + '" target="_blank">εθελοντής</a> με το ίδιο email. Είναι ο ίδιος;</td>';
-                            html += '<td><button type="button" class="btn btn-success right-margin" title="Έγκριση" onclick="assignToVolunteer(' + cta.mightBe + ',' + cta.id + ')"><i class="fa fa-check"></i></button>';
-                            html += '<button type="button" class="btn btn-danger right-margin" title="Απόρριψη" onclick="deleteCTAVolunteer(' + cta.id + ')"><i class="fa fa-trash"></i></button></td>';
+                            html += '<td><button type="button" class="btn btn-success btn-sm right-margin" title="Έγκριση" onclick="assignToVolunteer(' + cta.mightBe + ',' + cta.id + ')"><i class="fa fa-check"></i></button>';
+                            html += '<button type="button" class="btn btn-danger btn-sm right-margin" title="Απόρριψη" onclick="deleteCTAVolunteer(' + cta.id + ')"><i class="fa fa-trash"></i></button></td>';
                         }
                         else {
                             //ctavolunteer is assigned to a profile
                             html += '<td>Έχει γίνει σύνδεση με υπάρχον <a href="' + $("body").attr("data-url") + '/volunteers/one/' + cta.volunteer[0].id + '" target="_blank">προφίλ</a>. Ο εθελοντής θα πρέπει να προστεθεί στη μονάδα της δράσης για να είναι διαθέσιμος.</td>';
-                            html += '<td><button type="button"   class="btn btn-danger right-margin" title="Απόρριψη" onclick="deleteCTAVolunteer(' + cta.id + ')"><i class="fa fa-trash"></i></button></td>';
+                            html += '<td><button type="button"   class="btn btn-danger btn-sm right-margin" title="Απόρριψη" onclick="deleteCTAVolunteer(' + cta.id + ')"><i class="fa fa-trash"></i></button></td>';
                         }
                     }
                     else {
-                        html += '<td>Ο εθελοντής δεν βρέθηκε στην πλατφόρμα. Επικοινωνήστε μαζί του και δημιουργήστε το προφίλ του ή αναθέστε σε υπάρχον προφίλ.</td>';
-                        html += '<td><button type="button" class="btn btn-success right-margin" title="Ανάθεση σε προφίλ"><i class="fa fa-leaf"></i></button>';
-                        html += '<button type="button"  class="btn btn-danger right-margin" title="Απόρριψη" onclick="deleteCTAVolunteer(' + cta.id + ')"><i class="fa fa-trash"></i></button></td>';
+                        html += '<td>Ο εθελοντής δεν βρέθηκε στην πλατφόρμα. Επικοινωνήστε μαζί του και δημιουργήστε το προφίλ του.</td>';
+                        html += '<td><button type="button"  class="btn btn-danger btn-sm right-margin" title="Απόρριψη" onclick="deleteCTAVolunteer(' + cta.id + ')"><i class="fa fa-trash"></i></button></td>';
                     }
 
                     html += '</tr>';

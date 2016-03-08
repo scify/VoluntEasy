@@ -128,7 +128,7 @@ class TaskService {
         }
 
         $status = null;
-        if ($todoSubtasks > 0 && $doingSubtasks == 0 && $doneSubtasks == 0) {
+        if ($todoSubtasks > 0 && $doingSubtasks == 0) {
             $status = "todo";
         } else if ($doneSubtasks > 0 && $doingSubtasks == 0 && $todoSubtasks == 0) {
             $status = "done";
