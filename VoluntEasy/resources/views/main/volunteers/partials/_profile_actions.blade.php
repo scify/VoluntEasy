@@ -103,52 +103,62 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-12">
-
-                        <table class="table table-condensed timesheet">
-                            <thead>
-                            <th></th>
-                            <th>Ημέρα</th>
-                            <th>Ώρα</th>
-                            <th>Σχόλια</th>
-                            <th>Συνολικές ώρες</th>
-                            </thead>
-                            <tbody>
-                            @foreach($volunteer->actions as $action)
-                                @if(sizeof($action->tasks)>0)
-                                    <tr class="action">
-                                        <td>Δράση <a href="{{  url('actions/one/'.$action->id) }}" target="_blank">{{ $action->description }}</a></td>
-                                        <td colspan="3"><small>{{ $action->start_date }} - {{ $action->end_date }}</small></td>
-                                        <td class="col-md-2 text-center">{{ $action->workHours }}</td>
-                                    </tr>
-                                    @foreach($action->tasks as $task)
-                                        <tr class="task">
-                                            <td colspan="4">Task {{ $task->name }}</td>
-                                            <td class="col-md-2 text-center"><strong>{{ $task->work_hours }}</strong></td>
+                        @if(sizeof($volunteer->actions)>0)
+                            <table class="table table-condensed timesheet">
+                                <thead>
+                                <th></th>
+                                <th>Ημέρα</th>
+                                <th>Ώρα</th>
+                                <th>Σχόλια</th>
+                                <th>Συνολικές ώρες</th>
+                                </thead>
+                                <tbody>
+                                @foreach($volunteer->actions as $action)
+                                    @if(sizeof($action->tasks)>0)
+                                        <tr class="action">
+                                            <td>Δράση <a href="{{  url('actions/one/'.$action->id) }}"
+                                                         target="_blank">{{ $action->description }}</a></td>
+                                            <td colspan="3">
+                                                <small>{{ $action->start_date }} - {{ $action->end_date }}</small>
+                                            </td>
+                                            <td class="col-md-2 text-center">{{ $action->workHours }}</td>
                                         </tr>
-                                        @foreach($task->subtasks as $subtask)
-                                            @if(sizeof($subtask->workDates)>0)
-                                                <tr class="subtask">
-                                                    <td colspan="4">Subtask {{ $subtask->name }}</td>
-                                                    <td class="col-md-2 text-center"><strong>{{ $subtask->workHours }}</strong></td>
-                                                </tr>
-                                                @foreach($subtask->workDates as $workDate)
-                                                    <tr>
-                                                        <td>{{ $workDate->comments }}</td>
-                                                        <td>{{ $workDate->from_date }}</td>
-                                                        <td>{{ $workDate->from_hour }} - {{ $workDate->to_hour }}</td>
-                                                        <td>-</td>
-                                                        <td class="col-md-2 text-center"><strong>{{ $workDate->workHours }}</strong></td>
+                                        @foreach($action->tasks as $task)
+                                            <tr class="task">
+                                                <td colspan="4">Task {{ $task->name }}</td>
+                                                <td class="col-md-2 text-center">
+                                                    <strong>{{ $task->work_hours }}</strong></td>
+                                            </tr>
+                                            @foreach($task->subtasks as $subtask)
+                                                @if(sizeof($subtask->workDates)>0)
+                                                    <tr class="subtask">
+                                                        <td colspan="4">Subtask {{ $subtask->name }}</td>
+                                                        <td class="col-md-2 text-center">
+                                                            <strong>{{ $subtask->workHours }}</strong></td>
                                                     </tr>
-                                                @endforeach
-                                            @endif
+                                                    @foreach($subtask->workDates as $workDate)
+                                                        <tr>
+                                                            <td>{{ $workDate->comments }}</td>
+                                                            <td>{{ $workDate->from_date }}</td>
+                                                            <td>{{ $workDate->from_hour }}
+                                                                - {{ $workDate->to_hour }}</td>
+                                                            <td>-</td>
+                                                            <td class="col-md-2 text-center">
+                                                                <strong>{{ $workDate->workHours }}</strong></td>
+                                                        </tr>
+                                                    @endforeach
+                                                @endif
+                                            @endforeach
                                         @endforeach
-                                    @endforeach
-                                @endif
-                            @endforeach
+                                    @endif
+                                @endforeach
 
-                            </tbody>
-                        </table>
-
+                                </tbody>
+                            </table>
+                        @else
+                            <br/>
+                            <h4>Ο εθελοντής δεν έχει πάρει μέρος σε καμία δράση.</h4>
+                        @endif
                     </div>
                 </div>
             </div>
