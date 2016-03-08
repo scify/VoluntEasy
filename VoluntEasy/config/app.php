@@ -214,6 +214,7 @@ return [
         'FileService' => 'App\Services\Facades\FileService',
         'RatingService' => 'App\Services\Facades\RatingService',
         'SearchService' => 'App\Services\Facades\SearchService',
+        'SubtaskService' => 'App\Services\Facades\SubtaskService',
         'TreeService' => 'App\Services\Facades\TreeService',
         'UnitService' => 'App\Services\Facades\UnitService',
         'UserService' => 'App\Services\Facades\UserService',

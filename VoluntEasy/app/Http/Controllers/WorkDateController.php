@@ -85,7 +85,7 @@ class WorkDateController extends Controller
 
         //remove all the current volunteers
         foreach ($workDate->volunteers as $volunteer) {
-            $volunteer->workDates()->detach();
+            $volunteer->workDates()->detach([$workDate->id]);
             VolunteerService::removeFromAction($volunteer, $action);
         }
 

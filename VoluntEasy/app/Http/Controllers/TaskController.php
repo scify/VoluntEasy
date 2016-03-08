@@ -4,6 +4,7 @@ use App\Models\ActionTasks\Status;
 use App\Models\ActionTasks\Task;
 use App\Models\ActionTasks\VolunteerTask;
 use App\Models\Unit;
+use App\Services\Facades\SubtaskService;
 
 class TaskController extends Controller {
 
@@ -90,15 +91,13 @@ class TaskController extends Controller {
      */
     public function destroy($id) {
 
-        $task = Task::with('subtasks')->findOrFail($id);
+        $task = Task::with('subtasks.workDates.volunteers')->findOrFail($id);
 
-        if (sizeof($task->subtasks) > 0) {
-            \Session::flash('flash_message', 'Το task περιέχει subtasks και δεν μπορεί να διαγραφεί.');
-            \Session::flash('flash_type', 'alert-danger');
-            return;
-        }
+       foreach($task->subtasks as $subtask){
+           SubtaskService::delete($subtask);
+       }
 
-        \Session::flash('flash_message', 'Η δράση διαγράφηκε.');
+        \Session::flash('flash_message', 'Το task διαγράφηκε.');
         \Session::flash('flash_type', 'alert-success');
 
         $task->delete();

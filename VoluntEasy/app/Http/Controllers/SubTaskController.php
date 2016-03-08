@@ -6,6 +6,7 @@ use App\Models\ActionTasks\Task;
 use App\Models\CTA\PublicAction;
 use App\Models\CTA\PublicActionSubTask;
 use App\Models\Volunteer;
+use App\Services\Facades\SubtaskService;
 use App\Services\Facades\TaskService;
 use App\Services\Facades\WorkDateService;
 
@@ -141,24 +142,9 @@ class SubTaskController extends Controller {
      */
     public function destroy($id) {
 
-        $subTask = SubTask::with('workDates')->find($id);
+        $subTask = SubTask::with('workDates.volunteers')->find($id);
 
-        if (sizeof($subTask->volunteers) > 0) {
-            \Session::flash('flash_message', 'Το subtask περιέχει εθελοντές και δεν μπορεί να διαγραφεί.');
-            \Session::flash('flash_type', 'alert-danger');
-            return;
-        }
-
-        //remove the associated workDates
-        foreach ($subTask->workDates as $workDate) {
-            WorkDateService::delete($workDate);
-        }
-
-        //remove the public subtasks
-        PublicActionSubTask::where('subtask_id', $id)->delete();
-
-        $subTask->checklist()->delete();
-        $subTask->delete();
+        SubtaskService::delete($subTask);
 
         \Session::flash('flash_message', 'Το subtask διαγράφηκε.');
         \Session::flash('flash_type', 'alert-success');

@@ -20,11 +20,8 @@ class WorkDateService
 
         //remove the volunteers from the action
         foreach ($workDate->volunteers as $volunteer) {
-            $volunteer->workDates()->detach();
-
-           // if($volunteer->action)
-
-            VolunteerService::removeFromAction($volunteer, $action);
+            $volunteer->workDates()->detach([$workDate->id]);
+            //VolunteerService::removeFromAction($volunteer, $action);
         }
 
         $workDate->subtask()->dissociate();
