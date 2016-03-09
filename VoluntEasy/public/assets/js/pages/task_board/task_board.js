@@ -3,51 +3,61 @@
 //global variables to keep the task and subtask
 var task;
 var subTask;
+var isPermitted = $("#actionId").attr('data-is-permitted');
 
+//only let allowed user to move the cards
+if (isPermitted == 'true') {
 
-$(".board-card").draggable({
-    containment: ".task-" + $(this).attr('data-task') + " .board-column ",
-    connectToSortable: ".board-column"
-});
+    $(".board-card").draggable({
+        containment: ".task-" + $(this).attr('data-task') + " .board-column ",
+        connectToSortable: ".board-column"
+    });
 
-$(".board-column").sortable({
-    placeholder: "ui-state-highlight",
-    stop: function (event, ui) {
-        var status;
+    $(".board-column").sortable({
+        placeholder: "ui-state-highlight",
+        stop: function (event, ui) {
+            var status;
 
-        //when the task is moved, the status changes
-        if ($(this).hasClass('todo'))
-            status = 'To Do';
-        else if ($(this).hasClass('doing'))
-            status = 'Doing';
-        else
-            status = 'Done';
+            //when the task is moved, the status changes
+            if ($(this).hasClass('todo'))
+                status = 'To Do';
+            else if ($(this).hasClass('doing'))
+                status = 'Doing';
+            else
+                status = 'Done';
 
-        taskId = $(ui.item).attr("data-task");
+            taskId = $(ui.item).attr("data-task");
 
-        //change the status while remaining at the same page
-        $.ajax({
-            url: $("body").attr('data-url') + "/actions/tasks/subtasks/updateStatus",
-            method: 'GET',
-            data: {
-                "action_id": $("#actionId").attr("data-action-id"),
-                "task_id": taskId,
-                "subTaskId": $(ui.item).attr("data-subtask"),
-                "status": status
-            },
-            success: function (result) {
-                if (result == 'todo')
-                    text = 'TO DO';
-                else if (result == 'doing')
-                    text = 'DOING';
-                else
-                    text = 'DONE';
+            //change the status while remaining at the same page
+            $.ajax({
+                url: $("body").attr('data-url') + "/actions/tasks/subtasks/updateStatus",
+                method: 'GET',
+                data: {
+                    "action_id": $("#actionId").attr("data-action-id"),
+                    "task_id": taskId,
+                    "subTaskId": $(ui.item).attr("data-subtask"),
+                    "status": status
+                },
+                success: function (result) {
+                    if (result == 'todo')
+                        text = 'TO DO';
+                    else if (result == 'doing')
+                        text = 'DOING';
+                    else
+                        text = 'DONE';
 
-                $("span.status.task-" + taskId).removeClass().addClass('status task-' + taskId + ' ' + result).text(text);
-            }
-        });
-    }
-});
+                    $("span.status.task-" + taskId).removeClass().addClass('status task-' + taskId + ' ' + result).text(text);
+                }
+            });
+        }
+    });
+}
+else {
+    //display disabled cursor
+    $(".board-card").css({
+        cursor: 'not-allowed'
+    });
+}
 
 //save the new open task id to the local storage
 $(".task-title").click(function () {
@@ -77,7 +87,7 @@ function setOpenTask() {
 //retrieve the last opened tab from the local storage and set as open
 function setOpenTab() {
     var tabId = localStorage.getItem("openTab");
-    console.log(".tab." + tabId);
+
     if (tabId != null) {
         $(".tab ." + tabId).trigger("click");
     }

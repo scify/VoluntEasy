@@ -7,7 +7,8 @@ use App\Services\Facades\SearchService as Search;
 use App\Services\Facades\UnitService as UnitServiceFacade;
 
 
-class UserService {
+class UserService
+{
 
     private $unitsIds = [];
     private $permittedUsers = [];
@@ -31,7 +32,8 @@ class UserService {
      *
      * @return array
      */
-    public function userUnits() {
+    public function userUnits()
+    {
         return $this->userUnitsIds(\Auth::user());
     }
 
@@ -41,12 +43,41 @@ class UserService {
      * @param User $user
      * @return array
      */
-    public function userUnitsIds(User $user) {
+    public function userUnitsIds(User $user)
+    {
         $user->units->load('allChildren');
 
         $this->withChildren($user->units);
 
         return $this->unitsIds;
+    }
+
+    /**
+     * Get the action ids that the user is assigned to
+     *
+     * @return array
+     */
+    public function userActions()
+    {
+        return $this->userActionsIds(\Auth::user());
+    }
+
+    /**
+     * Get the unit ids of all the actions that the user is assigned to
+     *
+     * @param User $user
+     * @return array
+     */
+    public function userActionsIds(User $user)
+    {
+        $user->load('actions');
+
+        $actionIds = [];
+        foreach ($user->actions as $action) {
+            array_push($actionIds, $action->id);
+        }
+
+        return $actionIds;
     }
 
 
@@ -56,7 +87,8 @@ class UserService {
      * @param $units
      * @return array
      */
-    public function withChildren($units) {
+    public function withChildren($units)
+    {
         foreach ($units as $unit) {
             if (sizeof($unit->allChildren) > 0) {
                 if (!in_array($unit->id, $this->unitsIds))
@@ -77,7 +109,8 @@ class UserService {
      * @param $users
      * @return array
      */
-    public function userIds($users) {
+    public function userIds($users)
+    {
         $ids = array();
         foreach ($users as $user) {
             array_push($ids, $user->id);
@@ -91,7 +124,8 @@ class UserService {
      *
      * @return mixed
      */
-    public function isAdmin($userId = null) {
+    public function isAdmin($userId = null)
+    {
         $rootId = UnitServiceFacade::getRoot()->id;
 
         if ($userId == null)
@@ -113,7 +147,8 @@ class UserService {
      *
      * @return mixed
      */
-    public function getAdmins() {
+    public function getAdmins()
+    {
         $rootId = UnitServiceFacade::getRoot()->id;
 
         $users = User::whereHas('units', function ($q) use ($rootId) {
@@ -129,7 +164,8 @@ class UserService {
      *
      * @return array
      */
-    public function permittedUnits() {
+    public function permittedUnits()
+    {
 
         if ($this->isAdmin()) {
             $units = Unit::all();
@@ -156,7 +192,8 @@ class UserService {
      *
      * @return array
      */
-    public function permittedVolunteers() {
+    public function permittedVolunteers()
+    {
         $permittedVolunteers = [];
 
         //user is admin/assigned to root
@@ -206,7 +243,8 @@ class UserService {
      *
      * @return array
      */
-    public function permittedVolunteersIds() {
+    public function permittedVolunteersIds()
+    {
         $volunteers = $this->permittedVolunteers();
         $permittedVolunteersIds = [];
 
@@ -227,7 +265,8 @@ class UserService {
      *
      * @return array
      */
-    public function permittedUsers() {
+    public function permittedUsers()
+    {
         $permittedUsers = [];
 
         //user is admin/assigned to root
@@ -263,7 +302,8 @@ class UserService {
      * @param $parent
      * @return mixed
      */
-    public function recursiveUsers($parent) {
+    public function recursiveUsers($parent)
+    {
 
         foreach ($parent->users as $user)
             array_push($this->permittedUsers, $user);
@@ -286,7 +326,8 @@ class UserService {
      *
      * @return array
      */
-    public function permittedUsersIds() {
+    public function permittedUsersIds()
+    {
         $users = $this->permittedUsers();
         $permittedUsersIds = [];
 
@@ -305,7 +346,8 @@ class UserService {
      * @param $unitId
      * @return mixed
      */
-    public function assignableUsersIds($unitId) {
+    public function assignableUsersIds($unitId)
+    {
         $permitted = $this->permittedUsersIds();
 
         $unit = Unit::with('allParents')->findOrFail($unitId);
@@ -326,7 +368,8 @@ class UserService {
     }
 
 
-    public function prepareForDataTable($users) {
+    public function prepareForDataTable($users)
+    {
         $permittedUsers = UserService::permittedUsersIds();
 
         foreach ($users as $user) {
@@ -353,7 +396,8 @@ class UserService {
      * @param $email
      * @return string
      */
-    public function storeImage($image, $email) {
+    public function storeImage($image, $email)
+    {
 
         //get the image and upload it
         $destinationPath = public_path() . '/assets/uploads/users';
@@ -369,7 +413,8 @@ class UserService {
      *
      * @return mixed
      */
-    public function search() {
+    public function search()
+    {
 
         $query = User::select();
 

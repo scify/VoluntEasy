@@ -147,8 +147,10 @@ function showSubTaskInfo(subTaskId) {
                     else
                         html += '<td>-</td>';
 
-                    html += '<td><button class="btn btn-sm btn-success edit-btn" onclick="editWorkDate(' + date.id + ')"><i class="fa fa-edit"></i></button>';
-                    html += '<button class="btn btn-sm btn-danger" onclick="deleteWorkDate(' + date.id + ')"><i class="fa fa-trash"></i></button></td>';
+                    if (isPermitted == 'true') {
+                        html += '<td><button class="btn btn-sm btn-success edit-btn" onclick="editWorkDate(' + date.id + ')"><i class="fa fa-edit"></i></button>';
+                        html += '<button class="btn btn-sm btn-danger" onclick="deleteWorkDate(' + date.id + ')"><i class="fa fa-trash"></i></button></td>';
+                    }
                     html += '</tr>';
 
                     $('.workDatesTable > tbody:last-child').html(html);

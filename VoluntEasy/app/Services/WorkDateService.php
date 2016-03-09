@@ -4,7 +4,7 @@
 use App\Models\Action;
 use App\Models\Volunteer;
 use App\Models\VolunteerWorkDateHistory;
-use App\Services\Facades\VolunteerService;
+use App\Services\Facades\VolunteerService as VolunteerServiceFacade;
 
 class WorkDateService
 {
@@ -21,7 +21,7 @@ class WorkDateService
         //remove the volunteers from the action
         foreach ($workDate->volunteers as $volunteer) {
             $volunteer->workDates()->detach([$workDate->id]);
-            //VolunteerService::removeFromAction($volunteer, $action);
+            //VolunteerServiceFacade::removeFromAction($volunteer, $action);
         }
 
         $workDate->subtask()->dissociate();
@@ -43,7 +43,7 @@ class WorkDateService
         //add the volunteers to the action
         foreach ($volunteers as $volunteer) {
             $volunteer = Volunteer::find($volunteer);
-            WorkDateService::addWorkDateHistory($volunteer->id, $workDateId);
+            $this->addWorkDateHistory($volunteer->id, $workDateId);
 
             //first check that the user is not already assigned to an action
             $flag = false;
@@ -52,7 +52,7 @@ class WorkDateService
                     $flag = true;
             }
             if (!$flag)
-                VolunteerService::addToAction($volunteer, $action);
+                VolunteerServiceFacade::addToAction($volunteer, $action);
         }
 
         return;

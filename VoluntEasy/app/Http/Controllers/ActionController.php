@@ -19,10 +19,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
-class ActionController extends Controller {
+class ActionController extends Controller
+{
 
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
@@ -31,7 +33,8 @@ class ActionController extends Controller {
      *
      * @return Response
      */
-    public function index() {
+    public function index()
+    {
         $actions = Action::with('unit', 'volunteers')->get();
 
         foreach ($actions as $action) {
@@ -50,7 +53,8 @@ class ActionController extends Controller {
      *
      * @return Response
      */
-    public function create() {
+    public function create()
+    {
         $tree = UnitService::getTree();
 
         $userUnits = UserService::userUnits();
@@ -64,7 +68,8 @@ class ActionController extends Controller {
      * @param ActionRequest $request
      * @return Response
      */
-    public function store(ActionRequest $request) {
+    public function store(ActionRequest $request)
+    {
 
         $request['start_date'] = \Carbon::createFromFormat('d/m/Y', $request->start_date);
         $request['end_date'] = \Carbon::createFromFormat('d/m/Y', $request->end_date);
@@ -82,8 +87,9 @@ class ActionController extends Controller {
      * @param  int $id
      * @return Response
      */
-    public function show($id) {
-        $action = Action::with('unit', 'ratings', 'tasks.subtasks.status', 'tasks.subtasks.workDates.ctaVolunteers', 'tasks.subtasks.checklist', 'publicAction.subtasks')->findOrFail($id);
+    public function show($id)
+    {
+        $action = Action::with('unit', 'users', 'ratings', 'tasks.subtasks.status', 'tasks.subtasks.workDates.ctaVolunteers', 'tasks.subtasks.checklist', 'publicAction.subtasks')->findOrFail($id);
 
         $branch = UnitService::getBranch(Unit::where('id', $action->unit->id)->with('actions')->first());
 
@@ -101,6 +107,11 @@ class ActionController extends Controller {
             $action->expired = true;
 
         $userUnits = UserService::userUnits();
+        $userActions = UserService::userActions();
+        if (in_array($action->unit->id, $userUnits) || in_array($action->id, $userActions))
+            $isPermitted = true;
+        else
+            $isPermitted = false;
 
         $taskStatuses = Status::all();
 
@@ -110,7 +121,7 @@ class ActionController extends Controller {
         if ($action->publicAction != null)
             $publicSubtasks = CTAService::getPublicSubtasks($action);
 
-        return view('main.actions.show', compact('action', 'userUnits', 'branch', 'taskStatuses', 'publicSubtasks'));
+        return view('main.actions.show', compact('action', 'userUnits', 'branch', 'taskStatuses', 'publicSubtasks', 'isPermitted'));
     }
 
     /**
@@ -119,7 +130,8 @@ class ActionController extends Controller {
      * @param  int $id
      * @return Response
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         $action = Action::where('id', $id)->first();
         $actives = [$action->id];
 
@@ -134,7 +146,8 @@ class ActionController extends Controller {
      * @param  ActionRequest $request
      * @return Response
      */
-    public function update(ActionRequest $request) {
+    public function update(ActionRequest $request)
+    {
         $action = Action::findOrFail($request->get('id'));
 
         $request['start_date'] = \Carbon::createFromFormat('d/m/Y', $request->start_date);
@@ -151,7 +164,8 @@ class ActionController extends Controller {
      * @param  int $id
      * @return Response
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $action = Action::findOrFail($id);
         $action->load('volunteers');
 
@@ -175,7 +189,8 @@ class ActionController extends Controller {
      *
      * @return mixed
      */
-    public function search() {
+    public function search()
+    {
         $actions = ActionService::search();
 
         return $actions;
@@ -187,7 +202,8 @@ class ActionController extends Controller {
      * @param Request $request
      * @return mixed
      */
-    public function addVolunteers(Request $request) {
+    public function addVolunteers(Request $request)
+    {
 
         $action = Action::whereId($request->get('id'))->first();
 
@@ -215,7 +231,8 @@ class ActionController extends Controller {
     }
 
 
-    public function fullRatings($id) {
+    public function fullRatings($id)
+    {
         $action = Action::findOrFail($id);
         $ratings = ActionScore::where('action_id', $id)->with('ratings')->get();
 

@@ -17,6 +17,10 @@ class Action extends Model {
         return $this->belongsTo('App\Models\Unit');
     }
 
+    public function users() {
+        return $this->belongsToMany('App\Models\User', 'actions_users');
+    }
+
     public function volunteers() {
         return $this->belongsToMany('App\Models\Volunteer', 'actions_volunteers');
     }

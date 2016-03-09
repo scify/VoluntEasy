@@ -28,15 +28,15 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    {!! Form::formInput('name', 'Όνομα υπευθύνου δράσης:', $errors, ['class' => 'form-control', 'id' =>
+                    {!! Form::formInput('name', 'Όνομα υπευθύνου επικοινωνίας:', $errors, ['class' => 'form-control', 'id' =>
                     'actionName']) !!}
-                    <small class="help-block">Ο υπεύθυνος δράσης δεν είναι απαραίτητο να είναι χρήστης του συστήματος
+                    <small class="help-block">Ο υπεύθυνος επικοινωνίας δεν είναι απαραίτητο να είναι χρήστης του συστήματος
                     </small>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    {!! Form::formInput('email', 'Email:', $errors, ['class' => 'form-control', 'id' => 'actionEmail'])
+                    {!! Form::formInput('email', 'Email υπ. επικοινωνίας:', $errors, ['class' => 'form-control', 'id' => 'actionEmail'])
                     !!}
                 </div>
             </div>
@@ -44,7 +44,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    {!! Form::formInput('phone_number', 'Τηλέφωνο:', $errors, ['class' => 'form-control', 'id' =>
+                    {!! Form::formInput('phone_number', 'Τηλέφωνο υπ. επικοινωνίας:', $errors, ['class' => 'form-control', 'id' =>
                     'actionPhone'])
                     !!}
                 </div>

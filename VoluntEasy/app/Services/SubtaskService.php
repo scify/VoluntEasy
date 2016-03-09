@@ -2,7 +2,7 @@
 
 
 use App\Models\CTA\PublicActionSubTask;
-use App\Services\Facades\WorkDateService;
+use App\Services\Facades\WorkDateService as WorkDateServiceFacade;
 
 class SubtaskService
 {
@@ -17,7 +17,7 @@ class SubtaskService
 
         //remove the associated workDates
         foreach ($subTask->workDates as $workDate) {
-            WorkDateService::delete($workDate);
+            WorkDateServiceFacade::delete($workDate);
         }
 
         //remove the public subtasks

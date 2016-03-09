@@ -51,9 +51,10 @@ class ActionService {
 
     public function prepareForDataTable($actions) {
         $userUnits = UserServiceFacade::userUnits();
+        $userActions = UserServiceFacade::userActions();
 
         foreach ($actions as $action) {
-            if (in_array($action->unit->id, $userUnits))
+            if (in_array($action->unit->id, $userUnits) || in_array($action->id, $userActions))
                 $action->permitted = true;
             else
                 $action->permitted = false;

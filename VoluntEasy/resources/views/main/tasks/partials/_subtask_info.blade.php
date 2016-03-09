@@ -23,7 +23,9 @@
                     <th>Ημέρα</th>
                     <th>Ώρες</th>
                     <th># εθελοντών</th>
-                    <th></th>
+                    @if($isPermitted)
+                        <td></td>
+                    @endif
                     </thead>
                     <tbody class="body">
                     <tr>
@@ -31,7 +33,9 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
+                        @if($isPermitted)
+                            <td></td>
+                        @endif
                     </tr>
                     </tbody>
                 </table>
@@ -46,16 +50,18 @@
         </div>
 
     </div>
-    <div class="row">
-        <div class="col-md-12 text-right">
-            <button type="button" class="btn btn-info addWorkDate" data-subtask-id="" data-task-id=""
-                    title="Προσθήκη ημέρας/ώρας"><i class="fa fa-calendar"></i>
-            </button>
-            <button type="button" class="btn btn-success editSubTask" data-subtask-id="" data-task-id=""
-                    title="Επεξεργασία"><i class="fa fa-edit"></i>
-            </button>
-            <button type="button" class="btn btn-danger deleteSubTask" data-subtask-id="" title="Διαγραφή"><i
-                        class="fa fa-trash"></i></button>
+    @if($isPermitted)
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <button type="button" class="btn btn-info addWorkDate" data-subtask-id="" data-task-id=""
+                        title="Προσθήκη ημέρας/ώρας"><i class="fa fa-calendar"></i>
+                </button>
+                <button type="button" class="btn btn-success editSubTask" data-subtask-id="" data-task-id=""
+                        title="Επεξεργασία"><i class="fa fa-edit"></i>
+                </button>
+                <button type="button" class="btn btn-danger deleteSubTask" data-subtask-id="" title="Διαγραφή"><i
+                            class="fa fa-trash"></i></button>
+            </div>
         </div>
-    </div>
+    @endif
 </div>

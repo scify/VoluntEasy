@@ -239,15 +239,18 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                 @endif
-                                                <div class="row top-margin">
-                                                    <div class="col-md-12 subtask">
-                                                        <a href="javascript:void(0);" data-toggle="modal"
-                                                           data-target="#addSubTask"
-                                                           data-task-id="{{$task->id}}" class="addSubTask"><i
-                                                                    class="fa fa-plus"></i> Προσθήκη subtask</a>
+                                                @if($isPermitted)
+                                                    <div class="row top-margin">
+                                                        <div class="col-md-12 subtask">
+                                                            <a href="javascript:void(0);" data-toggle="modal"
+                                                               data-target="#addSubTask"
+                                                               data-task-id="{{$task->id}}" class="addSubTask"><i
+                                                                        class="fa fa-plus"></i> Προσθήκη subtask</a>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                @endif
                                             </div>
                                         </div>
                                     @endforeach
@@ -260,24 +263,36 @@
                             @include('main.tasks.partials._subtask_info')
                         </div>
                     </div>
+
+                    @if($isPermitted)
+                        <div class="row top-margin">
+                            <div class="col-md-12">
+                                <a href="#" data-toggle="modal" data-target="#addTask"><i
+                                            class="fa fa-plus"></i> Προσθήκη task</a>
+                            </div>
+                        </div>
+                    @endif
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <p><strong>Υπόμνημα:</strong> <br/>
+                                <i class="fa fa-calendar"></i> # ημερών/ωρών |
+                                <i class="fa fa-list"></i> # to-dos <br/>
+                                <i class="fa fa-leaf"></i> # εθ/ντών που έχουν εκδηλώσει ενδιαφέρον
+                            </p>
+                        </div>
+                    </div>
                 @else
                     <p>Δεν υπάρχει κανένα task για τη δράση.</p>
+
+                    @if($isPermitted)
+                        <div class="row top-margin">
+                            <div class="col-md-12">
+                                <a href="#" data-toggle="modal" data-target="#addTask"><i
+                                            class="fa fa-plus"></i> Προσθήκη task</a>
+                            </div>
+                        </div>
+                    @endif
                 @endif
-                <div class="row top-margin">
-                    <div class="col-md-12">
-                        <a href="#" data-toggle="modal" data-target="#addTask"><i
-                                    class="fa fa-plus"></i> Προσθήκη task</a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 text-right">
-                        <p><strong>Υπόμνημα:</strong> <br/>
-                            <i class="fa fa-calendar"></i> # ημερών/ωρών |
-                            <i class="fa fa-list"></i> # to-dos <br/>
-                            <i class="fa fa-leaf"></i> # εθ/ντών που έχουν εκδηλώσει ενδιαφέρον
-                        </p>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

@@ -15,10 +15,12 @@
         </div>
 
     </div>
+    @if($isPermitted)
     <div class="row">
         <div class="col-md-12 text-right">
             <button type="button" class="btn btn-success editTask" data-task-id="">Επεξεργασία</button>
             <button type="button" class="btn btn-danger deleteTask" data-task-id="">Διαγραφή</button>
         </div>
     </div>
+        @endif
 </div>
