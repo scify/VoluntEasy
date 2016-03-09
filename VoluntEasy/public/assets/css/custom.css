@@ -668,6 +668,7 @@ table.tasks > tbody > tr > td, table.tasks td{
 .tasks .task{
     background-color:#2b384e;
     color:#ffffff;
+    padding:3px !important;
 }
 
 .tasks .task-info{

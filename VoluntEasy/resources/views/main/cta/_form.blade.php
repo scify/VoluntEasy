@@ -95,7 +95,7 @@
                         {!! Form::formInput('publicUrl', 'URL σελίδας:', $errors, ['class' =>
                         'form-control']) !!}
                     @endif
-                    <small class="help-block">Προτιμήστε λατινικούς χαρακτήρες</small>
+                    <small class="help-block">Χρησιμοποιήστε λατινικούς χαρακτήρες. Αποφύγετε τα κενά, και τον χαρακτήρα "/".</small>
                 </div>
             </div>
         </div>

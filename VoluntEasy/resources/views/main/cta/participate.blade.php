@@ -84,7 +84,7 @@
                                         @foreach($subtask->workDates as $date)
                                         <div class="dateTime">
                                             <label {{ sizeof($date->volunteers)>=$date->volunteer_sum ? 'class=disabled' : ''}} >
-                                                @if($date->volunteer_sum==sizeof($date->volunteers))
+                                                @if(sizeof($date->volunteers)>=$date->volunteer_sum)
                                                 {!! Form::formInput('dates['.$date->id.']', '', $errors, ['class'
                                                 =>'form-control checkbox', 'type' => 'checkbox', 'checked' =>'false',
                                                 'disabled' => 'disabled', 'readonly']) !!}

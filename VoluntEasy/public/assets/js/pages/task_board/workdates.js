@@ -64,7 +64,7 @@ function assignToVolunteer(volunteer_id, cta_volunteer_id) {
 
         $.ajax({
             method: 'GET',
-            url: $("body").attr('data-url') + "/ctaVolunteer/assignToVolunteer/",
+            url: $("body").attr('data-url') + "/ctaVolunteer/assignToVolunteer",
             data: {
                 cta_volunteer_id: cta_volunteer_id,
                 volunteer_id: volunteer_id,
