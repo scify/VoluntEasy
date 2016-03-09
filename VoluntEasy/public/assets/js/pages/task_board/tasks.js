@@ -19,7 +19,7 @@ $("#storeTask").click(function (e) {
             method: 'POST',
             data: $("#createTask").serialize(),
             success: function (result) {
-                reloadToTab('task_board');
+                location.reload();
             }
         });
     }
@@ -38,7 +38,7 @@ $("#updateTask").click(function (e) {
             method: 'GET',
             data: $("#editTaskForm").serialize(),
             success: function (result) {
-                reloadToTab('task_board');
+                location.reload();
             }
         });
     }
@@ -70,7 +70,7 @@ $(".deleteTask").click(function () {
             method: 'GET',
             url: $("body").attr('data-url') + "/actions/tasks/delete/" + $(this).attr('data-task-id'),
             success: function (result) {
-                reloadToTab('task_board');
+                location.reload();
             }
         });
     }

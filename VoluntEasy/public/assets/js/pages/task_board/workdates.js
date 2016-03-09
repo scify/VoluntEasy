@@ -11,7 +11,7 @@ $("#storeWorkDate").click(function (e) {
             method: 'GET',
             data: $("#addWorkDateForm").serialize(),
             success: function (result) {
-                reloadToTab('task_board');
+                location.reload();
             }
         });
     }
@@ -39,7 +39,7 @@ $("#updateWorkDate").click(function (e) {
             method: 'GET',
             data: data,
             success: function (result) {
-                reloadToTab('task_board');
+                location.reload();
                 //console.log(result);
             }
         });
@@ -60,7 +60,7 @@ $(".addWorkDate").click(function (e) {
 
 //assign a ctavolunteer to an existing volunteer
 function assignToVolunteer(volunteer_id, cta_volunteer_id) {
-    if (confirm("Είστε σίγουροι ότι θέλετε να γίνει η ανάθεση του εθελοντή σε υπάρχον προφίλ;") == true) {
+    if (confirm("Είστε σίγουροι ότι θέλετε να γίνει η ανάθεση του εθελοντή στο υπάρχον προφίλ;") == true) {
 
         $.ajax({
             method: 'GET',
@@ -71,7 +71,7 @@ function assignToVolunteer(volunteer_id, cta_volunteer_id) {
                 action_id: $("#actionId").attr('data-action-id')
             },
             success: function (result) {
-                reloadToTab('task_board');
+                location.reload();
             }
         });
     }
@@ -106,7 +106,7 @@ function deleteWorkDate(id) {
                 action_id: $("#actionId").attr('data-action-id')
             },
             success: function (result) {
-                reloadToTab('task_board');
+                location.reload();
             }
         });
     }
@@ -121,7 +121,7 @@ function deleteCTAVolunteer(id) {
             method: 'GET',
             url: $("body").attr('data-url') + "/ctaVolunteer/delete/" + id,
             success: function (result) {
-                reloadToTab('task_board');
+                location.reload();
             }
         });
     }
@@ -158,21 +158,19 @@ function editWorkDate(id) {
                     else
                         html += '</td>';
 
-                    //volunteer was found in platform
-                    if (cta.isVolunteer == 1) {
-                        //ctavolunteer is not assigned to any actual volunteer profile
-                        if (cta.volunteer.length == 0) {
-                            html += '<td>Βρέθηκε <a href="' + $("body").attr("data-url") + '/volunteers/one/' + cta.mightBe + '" target="_blank">εθελοντής</a> με το ίδιο email. Είναι ο ίδιος;</td>';
-                            html += '<td><button type="button" class="btn btn-success btn-sm right-margin" title="Έγκριση" onclick="assignToVolunteer(' + cta.mightBe + ',' + cta.id + ')"><i class="fa fa-check"></i></button>';
-                            html += '<button type="button" class="btn btn-danger btn-sm right-margin" title="Απόρριψη" onclick="deleteCTAVolunteer(' + cta.id + ')"><i class="fa fa-trash"></i></button></td>';
-                        }
-                        else {
-                            //ctavolunteer is assigned to a profile
-                            html += '<td>Έχει γίνει σύνδεση με υπάρχον <a href="' + $("body").attr("data-url") + '/volunteers/one/' + cta.volunteer[0].id + '" target="_blank">προφίλ</a>. Ο εθελοντής θα πρέπει να προστεθεί στη μονάδα της δράσης για να είναι διαθέσιμος.</td>';
-                            html += '<td><button type="button"   class="btn btn-danger btn-sm right-margin" title="Απόρριψη" onclick="deleteCTAVolunteer(' + cta.id + ')"><i class="fa fa-trash"></i></button></td>';
-                        }
+                    if (cta.volunteer.length > 0) {
+                        //ctavolunteer is assigned to a profile
+                        html += '<td>Έχει γίνει σύνδεση με υπάρχον <a href="' + $("body").attr("data-url") + '/volunteers/one/' + cta.volunteer[0].id + '" target="_blank">προφίλ</a>. Ο εθελοντής θα πρέπει να προστεθεί στη μονάδα της δράσης για να είναι διαθέσιμος.</td>';
+                        html += '<td><button type="button"   class="btn btn-danger btn-sm right-margin" title="Απόρριψη" onclick="deleteCTAVolunteer(' + cta.id + ')"><i class="fa fa-trash"></i></button></td>';
+                    }
+                    else if (cta.mightBe != null){
+                        //ctavolunteer found in platform, not assigned to any actual volunteer profile
+                        html += '<td>Βρέθηκε <a href="' + $("body").attr("data-url") + '/volunteers/one/' + cta.mightBe.id + '" target="_blank">εθελοντής</a> με το ίδιο email. Είναι ο ίδιος;</td>';
+                        html += '<td><button type="button" class="btn btn-success btn-sm right-margin" title="Έγκριση" onclick="assignToVolunteer(' + cta.mightBe.id + ',' + cta.id + ')"><i class="fa fa-check"></i></button>';
+                        html += '<button type="button" class="btn btn-danger btn-sm right-margin" title="Απόρριψη" onclick="deleteCTAVolunteer(' + cta.id + ')"><i class="fa fa-trash"></i></button></td>';
                     }
                     else {
+                        //ctavolunteer not found in platform
                         html += '<td>Ο εθελοντής δεν βρέθηκε στην πλατφόρμα. Επικοινωνήστε μαζί του και δημιουργήστε το προφίλ του.</td>';
                         html += '<td><button type="button"  class="btn btn-danger btn-sm right-margin" title="Απόρριψη" onclick="deleteCTAVolunteer(' + cta.id + ')"><i class="fa fa-trash"></i></button></td>';
                     }

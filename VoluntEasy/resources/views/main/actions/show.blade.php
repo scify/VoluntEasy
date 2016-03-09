@@ -23,12 +23,12 @@
         <div role="tabpanel">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="tab details"><a href="#tab1" role="tab" data-toggle="tab"
-                                           aria-expanded="false">Στοιχεία Δράσης</a></li>
-                <li role="presentation" class="tab task_board"><a href="#tab2" role="tab" data-toggle="tab" aria-expanded="false">Task
+                <li role="presentation" class="tab details" data-tab="details"><a href="#tab1" role="tab" data-toggle="tab"
+                                           aria-expanded="false"  class="details">Στοιχεία Δράσης</a></li>
+                <li role="presentation" class="tab task_board" data-tab="task_board"><a href="#tab2" role="tab" data-toggle="tab" aria-expanded="false" class="task_board">Task
                         Board</a></li>
-                <li role="presentation" class="tab public_page"><a href="#tab3" role="tab" data-toggle="tab"
-                                                          aria-expanded="false">{{ (isset($action->publicAction)) ?
+                <li role="presentation" class="tab public_page" data-tab="public_page"><a href="#tab3" role="tab" data-toggle="tab"
+                                                          aria-expanded="false"  class="public_page">{{ (isset($action->publicAction)) ?
                         'Επεξεργασία Δημόσιας Σελίδας' : 'Δημιουργία Δημόσιας Σελίδας' }}</a></li>
             </ul>
             <!-- Tab panes -->

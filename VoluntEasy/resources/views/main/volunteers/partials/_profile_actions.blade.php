@@ -165,3 +165,46 @@
         </div>
     </div>
 </div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default smallHeading">
+            <div class="panel-heading ">
+                <h3 class="panel-title">Εκδήλωση ενδιαφέροντος</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        @if(sizeof($volunteer->ctaVolunteers)>0)
+                            <h4>Ο εθελοντής έχει εκδηλώσει ενδιαφέρον για τις παρακάτω δράσεις:</h4>
+                            <table class="table table-condensed timesheet">
+                                <thead>
+                                <th>Δράση</th>
+                                <th>Task</th>
+                                <th>Subtask</th>
+                                <th>Ημέρα</th>
+                                <th>Ώρες</th>
+                                </thead>
+                                <tbody>
+                                @foreach($volunteer->ctaVolunteers[0]->dates as $date)
+                                   <tr>
+                                       <td>{{ $date->date->subtask->task->action->description }}</td>
+                                       <td>{{ $date->date->subtask->task->name }}</td>
+                                       <td>{{ $date->date->subtask->name }}</td>
+                                       <td>{{ $date->date->from_date }}</td>
+                                       <td>{{ $date->date->from_hour }} - {{ $date->date->to_hour }}</td>
+                                   </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        @else
+                            <br/>
+                            <h4>Ο εθελοντής δεν έχει εκδηλώσει ενδιαφέρον για κάποια δράση.</h4>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

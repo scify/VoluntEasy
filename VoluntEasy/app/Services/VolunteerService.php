@@ -260,7 +260,7 @@ class VolunteerService
             'educationLevel', 'languages.level', 'languages.language',
             'interests', 'workStatus', 'availabilityTimes', 'availabilityFrequencies',
             'availabilityDays', 'actions', 'unitsExcludes', 'files', 'howYouLearned',
-            'ctaVolunteers')
+            'ctaVolunteers.dates.date.subtask.task.action')
             ->with(['units.steps.statuses' => function ($query) use ($id) {
                 $query->where('volunteer_id', $id)->with('status');
             }])

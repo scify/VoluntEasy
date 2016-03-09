@@ -53,10 +53,17 @@ $(".board-column").sortable({
 $(".task-title").click(function () {
 
     var taskId = null;
-    if ($(this).attr('aria-expanded')=='false')
+    if ($(this).attr('aria-expanded') == 'false')
         taskId = $(this).attr('data-task-id');
 
     localStorage.setItem("openTask", taskId);
+});
+
+//save the new open tab id to the local storage
+$(".tab").click(function () {
+
+    tabId = $(this).attr('data-tab');
+    localStorage.setItem("openTab", tabId);
 });
 
 
@@ -65,6 +72,18 @@ function setOpenTask() {
     var taskId = localStorage.getItem("openTask");
     if (taskId != null)
         $(".task-title.task-" + taskId).trigger("click");
+}
+
+//retrieve the last opened tab from the local storage and set as open
+function setOpenTab() {
+    var tabId = localStorage.getItem("openTab");
+    console.log(".tab." + tabId);
+    if (tabId != null) {
+        $(".tab ." + tabId).trigger("click");
+    }
+    else {
+        $(".tab .details").trigger("click");
+    }
 }
 
 
@@ -93,29 +112,7 @@ function refreshDateTime() {
         'timeFormat': 'H:i'
     });
 }
-
-//set the tab and reload
-function reloadToTab(tab) {
-    var url = window.location.href;
-    url = url.substring(0, url.indexOf('&'));
-    if (url.indexOf('?') > -1) {
-        url += '&active=' + tab
-    } else {
-        url += '?active=' + tab
-    }
-    window.location.href = url;
-}
-
-function setToTab() {
-    var tab = getParameterByName('active');
-    if (tab == null)
-        tab = 'details';
-
-    $('.tab.' + tab).addClass('active');
-    $('.tab-pane.' + tab).addClass('active');
-}
-
-setToTab();
+setOpenTab();
 $(".multiple").select2();
 refreshDateTime();
 

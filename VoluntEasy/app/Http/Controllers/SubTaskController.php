@@ -10,10 +10,12 @@ use App\Services\Facades\SubtaskService;
 use App\Services\Facades\TaskService;
 use App\Services\Facades\WorkDateService;
 
-class SubTaskController extends Controller {
+class SubTaskController extends Controller
+{
 
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
@@ -24,7 +26,8 @@ class SubTaskController extends Controller {
      * @param $id
      * @return mixed
      */
-    public function show($id) {
+    public function show($id)
+    {
         $subTask = SubTask::with('workDates.volunteers', 'checklist.createdBy', 'checklist.updatedBy', 'workDates.ctaVolunteers.volunteer', 'action')->findOrFail($id);
 
         $unitId = $subTask->action->unit_id;
@@ -39,8 +42,8 @@ class SubTaskController extends Controller {
         //check if cta volunteer already exists in db, based on the email
         foreach ($subTask->workDates as $i => $date) {
             foreach ($date->ctaVolunteers as $j => $cta) {
-
-                if ($cta->isVolunteer == 1 && sizeof($cta->volunteer) > 0) {
+                //volunteer is already assigned to a profile
+                if (sizeof($cta->volunteer) > 0) {
                     foreach ($unitVolunteers as $k => $uv) {
                         //return $uv['id'];
                         if ($uv['id'] == $cta->volunteer[0]->id)
@@ -55,8 +58,8 @@ class SubTaskController extends Controller {
                                                 }
                         */
                     }
-                } else if ($cta->isVolunteer == 1 && sizeof($cta->volunteer) == 0) {
-                    $cta->mightBe = Volunteer::where('email', $cta->email)->first()->id;
+                } else {
+                    $cta->mightBe = Volunteer::where('email', $cta->email)->first();
                 }
             }
 
@@ -71,7 +74,8 @@ class SubTaskController extends Controller {
     /**
      * Store a subtask
      */
-    public function store() {
+    public function store()
+    {
 
         $todo = Status::todo();
 
@@ -98,7 +102,8 @@ class SubTaskController extends Controller {
     /**
      * Update a subtask
      */
-    public function update() {
+    public function update()
+    {
         $subTask = SubTask::with('workDates')->find(\Request::get('subTaskId'));
 
         if (\Request::has('subtask-due_date'))
@@ -119,7 +124,8 @@ class SubTaskController extends Controller {
     /**
      * Update a subtask's status
      */
-    public function updateStatus() {
+    public function updateStatus()
+    {
 
         $subTask = SubTask::find(\Request::get('subTaskId'));
 
@@ -140,7 +146,8 @@ class SubTaskController extends Controller {
      * @param $id
      * @throws \Exception
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
 
         $subTask = SubTask::with('workDates.volunteers')->find($id);
 
