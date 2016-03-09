@@ -43,7 +43,7 @@
                     url: $('#editPublicAction').attr('action'),
                     data: $('#editPublicAction').serialize(),
                     success: function (data) {
-                        reloadToTab('public_page');
+                        location.reload();
                     }
 
                 });

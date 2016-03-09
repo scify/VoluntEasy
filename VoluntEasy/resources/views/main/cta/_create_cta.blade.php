@@ -41,7 +41,7 @@
                     url: $('#createPublicAction').attr('action'),
                     data: $('#createPublicAction').serialize(),
                     success: function (data) {
-                        reloadToTab('public_page');
+                        location.reload();
                     }
 
                 });
