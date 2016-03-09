@@ -16,24 +16,33 @@ use App\Services\Facades\UserService;
  * Class CTAController
  * @package App\Http\Controllers
  */
-class CTAController extends Controller {
+class CTAController extends Controller
+{
 
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth', ['except' => ['cta']]);
     }
 
 
-    public function cta() {
+    public function cta()
+    {
 
         $action = Action::find(1);
 
         return view('main.cta.cta', compact('action'));
     }
 
-    public function participate($id) {
+    public function participate($id)
+    {
 
         $publicAction = PublicAction::where('public_url', $id)->with('subtasks.subtask.workDates', 'subtasks.subtask.task')->first();
+
+        //if the public action is inactive, return a null obj
+        if ($publicAction != null && $publicAction->isActive == 0) {
+            $publicAction = null;
+        }
 
         if ($publicAction != null) {
             $tasks = [];
@@ -84,7 +93,12 @@ class CTAController extends Controller {
         }
     }
 
-    public function store() {
+    public function store()
+    {
+
+        $isActive = 0;
+        if (\Request::has('isActive') && \Request::get('isActive') == 'on')
+            $isActive = 1;
 
         $publicAction = new PublicAction([
             'description' => \Request::get('public_description'),
@@ -93,8 +107,8 @@ class CTAController extends Controller {
             'executive_name' => \Request::get('public_exec_name'),
             'executive_email' => \Request::get('public_exec_email'),
             'executive_phone' => \Request::get('public_exec_phone'),
-            'public_url' => \Request::get('actionId') . '-' . \Request::get('actionName'),
-            'isActive' => true,
+            'public_url' => $this->getPublicUrl(),
+            'isActive' => $isActive,
             'action_id' => \Request::get('actionId')
         ]);
 
@@ -106,8 +120,14 @@ class CTAController extends Controller {
         return $publicAction;
     }
 
-    public function update() {
+    public function update()
+    {
         $publicAction = PublicAction::find(\Request::get('publicActionId'));
+
+        $isActive = 0;
+        if (\Request::has('isActive') && \Request::get('isActive') == 'on')
+            $isActive = 1;
+
 
         $publicAction->update([
             'description' => \Request::get('public_description'),
@@ -116,8 +136,8 @@ class CTAController extends Controller {
             'executive_name' => \Request::get('public_exec_name'),
             'executive_email' => \Request::get('public_exec_email'),
             'executive_phone' => \Request::get('public_exec_phone'),
-            'public_url' => \Request::get('actionId') . '-' . \Request::get('actionName'),
-            'isActive' => true,
+            'public_url' => $this->getPublicUrl($publicAction),
+            'isActive' => $isActive,
             'action_id' => \Request::get('actionId')
         ]);
 
@@ -132,7 +152,8 @@ class CTAController extends Controller {
      * @param CTAVolunteerRequest $request
      * @return mixed
      */
-    public function volunteerInterested(CTAVolunteerRequest $request) {
+    public function volunteerInterested(CTAVolunteerRequest $request)
+    {
 
         $isVolunteer = 0;
         $volunteer = Volunteer::where('email', $request['email'])->first();
@@ -183,7 +204,8 @@ class CTAController extends Controller {
     /**
      * Save the subtasks that will be displayed on the public page
      */
-    private function savePublicSubtasks($publicAction) {
+    private function savePublicSubtasks($publicAction)
+    {
         $publicSubtasksIds = [];
         foreach (\Request::get('subtasks') as $i => $subtask) {
 
@@ -196,7 +218,7 @@ class CTAController extends Controller {
                     $publicSubtask = new PublicActionSubTask([
                         'public_actions_id' => $publicAction->id,
                         'subtask_id' => $i,
-                       // 'description' => $subtask['comments'],
+                        // 'description' => $subtask['comments'],
                     ]);
 
                     $publicSubtask->save();
@@ -215,5 +237,33 @@ class CTAController extends Controller {
         return PublicActionSubTask::where('public_actions_id', $publicAction->id)->whereNotIn('id', $publicSubtasksIds)->get();
 
         return;
+    }
+
+    /**
+     * Check if the public action url is completed in the form
+     * and that it doesn't already exist in the platform
+     *
+     * @return string
+     */
+    private function getPublicUrl($publicAction = null)
+    {
+
+        if (\Request::has('publicUrl') && \Request::get('publicUrl') != '') {
+
+            if ($publicAction != null && $publicAction->public_url == \Request::get('publicUrl'))
+                $publicUrl = \Request::get('publicUrl');
+            else {
+
+                $tmp = PublicAction::where('public_url', \Request::get('publicUrl'))->first();
+                if ($tmp == null)
+                    $publicUrl = \Request::get('publicUrl');
+                else
+                    $publicUrl = \Request::get('actionId') . '-' . \Request::get('actionName');
+            }
+        } else {
+            $publicUrl = \Request::get('actionId') . '-' . \Request::get('actionName');
+        }
+
+        return $publicUrl;
     }
 }
