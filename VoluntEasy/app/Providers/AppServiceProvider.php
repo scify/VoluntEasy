@@ -28,7 +28,6 @@ class AppServiceProvider extends ServiceProvider {
             'App\Services\Registrar'
         );
 
-
         if (env('MODE') == 'ekpizo') {
 
             //bind the configuration

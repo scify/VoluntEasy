@@ -267,7 +267,7 @@ class VolunteerService
             ->with(['actions.tasks.subtasks.workDates.volunteers' => function ($q) use ($id) {
                 $q->where('volunteer_id', $id);
             }])
-            ->with('units.children', 'units.actions', 'workDateHistory', 'extras')
+            ->with('units.children', 'units.actions', 'workDateHistory', 'extras', 'volunteeringDepartments')
             ->findOrFail($id);
 
         $volunteer->hideStatus = false;

@@ -1,7 +1,6 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Http\Requests\VolunteerRequest;
 use App\Models\Action;
 use App\Models\Descriptions\AvailabilityFrequencies;
 use App\Models\Descriptions\AvailabilityTime;
@@ -11,7 +10,6 @@ use App\Models\Descriptions\EducationLevel;
 use App\Models\Descriptions\Gender;
 use App\Models\Descriptions\HowYouLearned;
 use App\Models\Descriptions\IdentificationType;
-use App\Models\Descriptions\Interest;
 use App\Models\Descriptions\InterestCategory;
 use App\Models\Descriptions\Language;
 use App\Models\Descriptions\LanguageLevel;
@@ -24,7 +22,6 @@ use App\Models\File;
 use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Models\VolunteerAvailabilityTime;
-use App\Models\VolunteerLanguage;
 use App\Services\Facades\RatingService;
 use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
@@ -38,8 +35,8 @@ class VolunteerController extends Controller {
 
     public function __construct() {
         $this->middleware('auth', ['except' => ['publicForm']]);
-        $this->configuration =  \App::make('Interfaces\ConfigurationInterface');
-        $this->volunteerService =  \App::make('Interfaces\VolunteerInterface');
+        $this->configuration = \App::make('Interfaces\ConfigurationInterface');
+        $this->volunteerService = \App::make('Interfaces\VolunteerInterface');
 
     }
 
@@ -136,7 +133,7 @@ class VolunteerController extends Controller {
 
         $saved = $this->volunteerService->store();
 
-        if($saved['failed'])
+        if ($saved['failed'])
             return redirect()->back()->withErrors($saved['messages'])->withInput();
 
 
@@ -156,7 +153,7 @@ class VolunteerController extends Controller {
     public function show($id) {
 
         $volunteer = VolunteerService::fullProfile($id);
-       // return $volunteer;
+        // return $volunteer;
         $timeline = VolunteerService::timeline($id);
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
         $totalWorkingHours = VolunteerService::totalWorkingHours($timeline);
@@ -189,9 +186,11 @@ class VolunteerController extends Controller {
                 $actionsCount++;
         }
 
+        //The extras are the add-on features based on the needs.
         $extras = $this->configuration->getExtras();
+        $extrasPath = $this->configuration->getExtrasPath();
 
-        return view('main.volunteers.show', compact('volunteer', 'pending', 'available', 'timeline', 'userUnits', 'actionsCount', 'actionsRatings', 'totalRatings', 'totalWorkingHours', 'partialsPath'));
+        return view('main.volunteers.show', compact('volunteer', 'pending', 'available', 'timeline', 'userUnits', 'actionsCount', 'actionsRatings', 'totalRatings', 'totalWorkingHours', 'extras', 'extrasPath'));
     }
 
     /**
@@ -220,7 +219,7 @@ class VolunteerController extends Controller {
 
         //get the language levels in a readable array
         $lang_levels = [];
-        foreach($volunteer->languages as $language){
+        foreach ($volunteer->languages as $language) {
             $lang_levels[$language->language->description] = $language->level->id;
         }
 
@@ -291,7 +290,7 @@ class VolunteerController extends Controller {
 
         $saved = $this->volunteerService->update($volunteer);
 
-        if($saved['failed'])
+        if ($saved['failed'])
             return redirect()->back()->withErrors($saved['messages'])->withInput();
 
 
@@ -327,7 +326,7 @@ class VolunteerController extends Controller {
 
         $volunteer->load('files');
 
-        foreach($volunteer->files as $f) {
+        foreach ($volunteer->files as $f) {
             $file = File::find($f->id);
 
             $filename = public_path() . '/assets/uploads/volunteers/' . $file->filename;
@@ -605,7 +604,7 @@ class VolunteerController extends Controller {
         $howYouLearned = HowYouLearned::lists('description', 'id')->all();
         $units = Unit::orderBy('description', 'asc')->get()->all();
 
-        $viewPath = $this->configuration->getViewsPath().'.volunteers._form';
+        $viewPath = $this->configuration->getViewsPath() . '.volunteers._form';
 
         $maritalStatuses[0] = '[- επιλέξτε -]';
         $edLevel[0] = '[- επιλέξτε -]';

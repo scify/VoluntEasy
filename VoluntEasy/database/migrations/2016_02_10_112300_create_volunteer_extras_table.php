@@ -26,6 +26,8 @@ class CreateVolunteerExtrasTable extends Migration
 
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
+            $table->integer('how_you_learned2_id')->unsigned();
+            $table->foreign('how_you_learned2_id')->references('id')->on('how_you_learned2');
 
             $table->softDeletes();
             $table->timestamps();

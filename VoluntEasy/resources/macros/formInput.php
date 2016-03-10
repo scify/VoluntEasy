@@ -73,13 +73,12 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
                     $text_html = Form::select($field, $value, '', $attributes);
                 break;
             case "checkbox":
-                if(isset($attributes['disabled']) && $attributes['disabled']=='disabled' )
-                    $disabled = 'disabled';
-                else
-                    $disabled = '';
                 $checked = $attributes['checked'] == 'true' ? true : false;
                 unset($attributes['checked']);
-                $text_html = Form::checkbox($field, $value, $checked, [$disabled]);
+                if(isset($attributes['disabled']) && $attributes['disabled']=='disabled' )
+                    $text_html = Form::checkbox($field, $value, $checked, ['disabled' => 'disabled']);
+                else
+                    $text_html = Form::checkbox($field, $value, $checked);
                 $type = 'checkbox';
                 break;
             case "radio":

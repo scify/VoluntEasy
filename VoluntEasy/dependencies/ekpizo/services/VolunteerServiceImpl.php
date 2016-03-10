@@ -58,7 +58,6 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
      * Get the extra fields
      */
     function getExtraFields($volunteer) {
-
     }
 
     /**
@@ -68,7 +67,20 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
      */
     function storeExtraFields($volunteer) {
 
+        //dd(\Request::all());
         $this->saveFrequencies($volunteer);
+
+        if (\Request::has('departments'))
+            $volunteer->volunteeringDepartments()->sync(\Request::get('departments'));
+
+        if (\Request::has('has_previous_volunteer_experience') && \Request::get('has_previous_volunteer_experience')=='on')
+            $has_previous_volunteer_experience = true;
+        else
+            $has_previous_volunteer_experience = false;
+        if (\Request::has('has_previous_work_experience') && \Request::get('has_previous_work_experience')=='on')
+            $has_previous_work_experience = true;
+        else
+            $has_previous_work_experience = false;
 
         $volunteer->how_you_learned_id = \Request::get('how_you_learned_id');
         $volunteer->computer_usage_comments = \Request::get('computer_usage_comments');
@@ -79,14 +91,13 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
         $extras->knows_word = \Request::get('knows_word');
         $extras->knows_excel = \Request::get('knows_excel');
         $extras->knows_powerpoint = \Request::get('knows_powerpoint');
-        $extras->has_previous_volunteer_experience = \Request::get('has_previous_volunteer_experience');
-        $extras->has_previous_work_experience = \Request::get('has_previous_work_experience');
+        $extras->has_previous_volunteer_experience = $has_previous_volunteer_experience;
+        $extras->has_previous_work_experience = $has_previous_work_experience;
         $extras->volunteering_work_extra = \Request::get('volunteering_work_extra');
         $extras->other_department = \Request::get('other_department');
 
         $volunteer->extras()->save($extras);
         return $volunteer;
-
     }
 
 
@@ -130,7 +141,6 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
     }
 
 
-
     /**
      * Save data sent from another site
      *
@@ -144,7 +154,7 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
         //first validate input
         $validate = $this->validateInput($data);
 
-        if ($validate==0) {
+        if ($validate == 0) {
 
             $volunteer = new Volunteer(array(
                 'name' => $data['volunteer_info']['name'],
@@ -320,7 +330,6 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
     }
 
 
-
     /**
      * Validate form input before taking any action.
      * Return error codes in order to display appropriate message to the front end.
@@ -342,7 +351,7 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
         )
             return 103;
 
-        if (!isset($data['avail_Inter']['interests']) || sizeof($data['avail_Inter']['interests'])==0)
+        if (!isset($data['avail_Inter']['interests']) || sizeof($data['avail_Inter']['interests']) == 0)
             return 104;
 
         $emails = Volunteer::where('email', $data['volunteer_info']['email'])->get();

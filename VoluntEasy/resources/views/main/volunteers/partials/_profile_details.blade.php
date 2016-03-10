@@ -71,6 +71,11 @@
                                 <p><strong>Χρήση υπολογιστή:</strong> {{ $volunteer->computer_usage=='' ? 'Όχι' :
                                     'Ναι' }}</p>
 
+                                {{-- Extras--}}
+                                @if(in_array('knows_office', $extras))
+                                    @include($extrasPath.'._knows_office_view')
+                                @endif
+
                                 <p><strong>Δεξιότητες υπολογιστή:</strong> {{$volunteer->computer_usage_comments }}</p>
                             </div>
                             <div class="col-md-4">
@@ -110,6 +115,10 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
+                                {{-- Extras--}}
+                                @if(in_array('knows_office', $extras))
+                                @include($extrasPath.'._work_and_volunteering_view')
+                                @else
                                 <p><strong>Εργασιακή κατάσταση:</strong> {{ $volunteer->work_status_id==null || $volunteer->work_status_id=='' ? '' :
                                     $volunteer->workStatus->description }}</p>
 
@@ -126,6 +135,7 @@
 
                                 <p><strong>Λόγος συμμετοχής:</strong> {{ $volunteer->participation_reason=='' ? '-' :
                                     $volunteer->participation_reason }}</p>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -171,6 +181,11 @@
                                         @endforeach
                                     </p>
                                  @endif
+
+                                {{-- Extras--}}
+                                @if(in_array('knows_office', $extras))
+                                @include($extrasPath.'._how_you_learned_view')
+                                @endif
                             </div>
                             <div class="col-md-8">
                                 <h4>Ενδιαφέροντα</h4>
