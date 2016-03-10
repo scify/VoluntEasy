@@ -26,13 +26,16 @@
         <p><strong>Κάτοικος Ελλάδας:</strong> {{ $volunteer->live_in_curr_country=='' ? 'Όχι' : 'Ναι' }}</p>
 
         <p><strong>Τύπος ταυτότητας:</strong> {{
-            $volunteer->identification_type_id=='' || $volunteer->identification_type_id==null ? '-' : $volunteer->identificationType->description }}</p>
+            $volunteer->identification_type_id=='' || $volunteer->identification_type_id==null ? '-' : $volunteer->identificationType->description }}
 
-        <p><strong>Αριθμός Α.Δ.Τ./Διαβατηρίου/Άδειας Παραμονής:</strong> {{
+        <strong>Αριθμός:</strong> {{
             $volunteer->identification_num=='' || $volunteer->identification_num==null ? '-' : $volunteer->identification_num }}</p>
 
         <p><strong>Α.Φ.Μ.:</strong> {{
             $volunteer->afm=='' || $volunteer->afm==null ? '-' : $volunteer->afm }}</p>
+
+        <p><strong>Ημερομηνία υπογραφής σύμβασης:</strong> {{
+            $volunteer->contract_date=='' || $volunteer->contract_date==null ? '-' : $volunteer->contract_date }}</p>
     </div>
 </div>
 

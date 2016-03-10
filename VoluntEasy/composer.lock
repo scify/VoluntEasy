@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2107b75c1d5fd8997192fdb11eb15c27",
-    "content-hash": "8c6328df21612fceb2ff553abc60b225",
+    "hash": "822496a3c6faf8b3de5961411c7f04ca",
+    "content-hash": "d6aedc1bb0739b1667be3e51e841d324",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -849,6 +849,66 @@
                 }
             ],
             "time": "2015-04-20 18:58:01"
+        },
+        {
+            "name": "jaybizzle/laravel-migrations-organiser",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JayBizzle/Laravel-Migrations-Organiser.git",
+                "reference": "5903501d6b49eb1ae2c5f3b33c4cd22c9a59f115"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JayBizzle/Laravel-Migrations-Organiser/zipball/5903501d6b49eb1ae2c5f3b33c4cd22c9a59f115",
+                "reference": "5903501d6b49eb1ae2c5f3b33c4cd22c9a59f115",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.*",
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "illuminate/database": "5.*",
+                "illuminate/filesystem": "5.*",
+                "mockery/mockery": "~0.9",
+                "nesbot/carbon": "~1.18",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jaybizzle\\MigrationsOrganiser\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Beech",
+                    "email": "mbeech@mark-beech.co.uk"
+                },
+                {
+                    "name": "Max King",
+                    "email": "max@kingkreations.co.uk"
+                }
+            ],
+            "description": "A Laravel 5 package to help organise migration files.",
+            "keywords": [
+                "Organizer",
+                "date",
+                "dated",
+                "folder",
+                "laravel",
+                "migrate",
+                "migrations",
+                "organise",
+                "organiser",
+                "organize"
+            ],
+            "time": "2015-06-17 22:15:26"
         },
         {
             "name": "jeremeamia/SuperClosure",

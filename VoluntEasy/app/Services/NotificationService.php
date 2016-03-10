@@ -11,14 +11,16 @@ use App\Services\Facades\UserService;
  */
 class NotificationService {
 
-    //////////////////////////////////////////////////////////////////////////////////
-    //   Notification Types Index                                                   //
-    //   1 = User is assigned to Unit (Unit-Users)                                 //
-    //   2 = Volunteer is assigned to unit (volunteers-units)                     //
-    //   3 = Volunteer is deleted or unassigned                                  //
-    //   4 = Action expires in 7 days                                           //
-    //   5 = Action expired yesterday                                          //
-    //   6 = Volunteer submitted the Questionnaire (parent Unit-Users)        //
+    /////////////////////////////////////////////////////////////////////////////////////
+    //   Notification Types Index                                                     //
+    //   1 = User is assigned to Unit (Unit-Users)                                   //
+    //   2 = Volunteer is assigned to unit (volunteers-units)                       //
+    //   3 = Volunteer is deleted or unassigned                                    //
+    //   4 = Action expires in 7 days                                             //
+    //   5 = Action expired yesterday                                            //
+    //   6 = Volunteer submitted the Questionnaire (parent Unit-Users)          //
+    //   7 = Volunteer contract expired yesterday                              //
+    //   8 = Volunteer contract expires in 6 months                           //
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -147,7 +149,7 @@ class NotificationService {
      */
     public function userToUnit($userId, $unit) {
 
-        $url = '/users/one/'.$userId;
+        $url = '/users/one/' . $userId;
 
         //userId, type of notification, message, url, userId, unitId
         NotificationService::addNotification($userId, 1, $this->userToUnit . $unit->description . '.', $url, $userId, $unit->id);
@@ -178,7 +180,7 @@ class NotificationService {
      */
     public function newVolunteer($volunteerId, $unitId) {
 
-        $url = '/volunteers/one/'.$volunteerId;
+        $url = '/volunteers/one/' . $volunteerId;
 
         $unit = Unit::with('users')->find($unitId);
 
@@ -197,7 +199,7 @@ class NotificationService {
         $action = Action::find($actionId);
         $unit = Unit::with('users')->find($action->unit_id);
 
-        $url = '/actions/one/'.$actionId;
+        $url = '/actions/one/' . $actionId;
 
         //notify the unit's users
         foreach ($unit->users as $user) {
@@ -223,7 +225,7 @@ class NotificationService {
         $action = Action::find($actionId);
         $unit = Unit::with('users')->find($action->unit_id);
 
-        $url = '/actions/one/'.$actionId;
+        $url = '/actions/one/' . $actionId;
 
         //notify the unit's users
         foreach ($unit->users as $user) {
@@ -236,5 +238,54 @@ class NotificationService {
         foreach ($admins as $admin) {
             NotificationService::addNotification($admin->id, 6, 'Η δράση ' . $action->description . ' λήγει στις ' . $action->end_date . '.', $url, $admin->id, $action->id);
         }
+    }
+
+    /**
+     * Notify users about a volunteer's contract expiration
+     * @param $volunteer
+     */
+    public function volunteerContractExpired($volunteer) {
+
+        $url = '/volunteers/one/' . $volunteer->id;
+
+        //notify the unit's users
+        foreach ($volunteer->units as $unit) {
+            foreach ($unit->users as $user) {
+                NotificationService::addNotification($user->id, 7, 'Η σύμβαση του εθελοντή ' . $volunteer->name . ' ' . $volunteer->last_name . ' έληξε χτες', $url, $user->id, $volunteer->id);
+            }
+        }
+
+        $admins = UserService::getAdmins();
+
+        //also notify all the admins
+        foreach ($admins as $admin) {
+            NotificationService::addNotification($admin->id, 7, 'Η σύμβαση του εθελοντή ' . $volunteer->name . ' ' . $volunteer->last_name . ' έληξε χτες', $url, $admin->id, $volunteer->id);
+        }
+
+    }
+
+    /**
+     * Notify users that a volunteer's contract will expire in 6 months
+     *
+     * @param $volunteer
+     */
+    public function volunteerContractToExpire($volunteer) {
+
+        $url = '/volunteers/one/' . $volunteer->id;
+
+        //notify the unit's users
+        foreach ($volunteer->units as $unit) {
+            foreach ($unit->users as $user) {
+                NotificationService::addNotification($user->id, 8, 'Η σύμβαση του εθελοντή ' . $volunteer->name . ' ' . $volunteer->last_name . ' λήγει σε 6 μήνες', $url, $user->id, $volunteer->id);
+            }
+        }
+
+        $admins = UserService::getAdmins();
+
+        //also notify all the admins
+        foreach ($admins as $admin) {
+            NotificationService::addNotification($admin->id, 8, 'Η σύμβαση του εθελοντή ' . $volunteer->name . ' ' . $volunteer->last_name . ' λήγει σε 6 μήνες', $url, $admin->id, $volunteer->id);
+        }
+
     }
 }

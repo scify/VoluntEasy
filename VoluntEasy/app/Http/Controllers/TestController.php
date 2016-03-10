@@ -26,7 +26,8 @@ class TestController extends Controller
     public function test()
     {
 
-
+$today = \Carbon::today();
+        return $today->subMonths(6);
 
 
         $id = 1;

@@ -26,6 +26,7 @@
         "Illuminate\\Broadcasting\\BroadcastServiceProvider",
         "Rap2hpoutre\\LaravelLogViewer\\LaravelLogViewerServiceProvider",
         "Barryvdh\\Cors\\ServiceProvider",
+        "Jaybizzle\\MigrationsOrganiser\\MigrationsOrganiserServiceProvider",
         "App\\Providers\\AppServiceProvider",
         "App\\Providers\\BusServiceProvider",
         "App\\Providers\\ConfigServiceProvider",
@@ -94,16 +95,16 @@
         "command.cache.table": "Illuminate\\Cache\\CacheServiceProvider",
         "command.auth.resets.clear": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
         "Illuminate\\Console\\Scheduling\\ScheduleRunCommand": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
-        "migrator": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
-        "migration.repository": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
-        "command.migrate": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
-        "command.migrate.rollback": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
-        "command.migrate.reset": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
-        "command.migrate.refresh": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
-        "command.migrate.install": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
-        "command.migrate.status": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
-        "migration.creator": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
-        "command.migrate.make": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
+        "migrator": "Jaybizzle\\MigrationsOrganiser\\MigrationsOrganiserServiceProvider",
+        "migration.repository": "Jaybizzle\\MigrationsOrganiser\\MigrationsOrganiserServiceProvider",
+        "command.migrate": "Jaybizzle\\MigrationsOrganiser\\MigrationsOrganiserServiceProvider",
+        "command.migrate.rollback": "Jaybizzle\\MigrationsOrganiser\\MigrationsOrganiserServiceProvider",
+        "command.migrate.reset": "Jaybizzle\\MigrationsOrganiser\\MigrationsOrganiserServiceProvider",
+        "command.migrate.refresh": "Jaybizzle\\MigrationsOrganiser\\MigrationsOrganiserServiceProvider",
+        "command.migrate.install": "Jaybizzle\\MigrationsOrganiser\\MigrationsOrganiserServiceProvider",
+        "command.migrate.status": "Jaybizzle\\MigrationsOrganiser\\MigrationsOrganiserServiceProvider",
+        "migration.creator": "Jaybizzle\\MigrationsOrganiser\\MigrationsOrganiserServiceProvider",
+        "command.migrate.make": "Jaybizzle\\MigrationsOrganiser\\MigrationsOrganiserServiceProvider",
         "seeder": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
         "command.seed": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
         "command.seeder.make": "Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider",
@@ -180,6 +181,9 @@
 
         ],
         "Illuminate\\Broadcasting\\BroadcastServiceProvider": [
+
+        ],
+        "Jaybizzle\\MigrationsOrganiser\\MigrationsOrganiserServiceProvider": [
 
         ]
     }

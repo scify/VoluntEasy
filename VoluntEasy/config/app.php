@@ -140,6 +140,7 @@ return [
         'Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider',
 
         'Barryvdh\Cors\ServiceProvider',
+        'Jaybizzle\MigrationsOrganiser\MigrationsOrganiserServiceProvider',
 
 		/*
 		 * Application Service Providers...

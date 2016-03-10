@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel {
     protected $commands = [
         'App\Console\Commands\Inspire',
         'App\Console\Commands\CheckActions',
+        'App\Console\Commands\CheckVolunteers',
     ];
 
 
@@ -24,8 +25,11 @@ class Kernel extends ConsoleKernel {
      */
     protected function schedule(Schedule $schedule) {
 
-          $schedule->command('checkActions')
-              ->daily();
+        $schedule->command('checkActions')
+            ->daily();
+
+        $schedule->command('checkVolunteers')
+            ->daily();
     }
 
 }

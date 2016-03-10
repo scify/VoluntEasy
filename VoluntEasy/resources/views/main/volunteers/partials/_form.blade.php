@@ -346,6 +346,11 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
+                <div class="form-group">
+                    {!! Form::formInput('contract_date', 'Ημερομηνία υπογραφής σύμβασης:', $errors, ['class' => 'form-control
+                    date', 'id' => 'contract_date']) !!}
+                </div>
+
                 <p>Αποκλεισμός εθελοντή από τις μονάδες:</p>
 
                 <select class="js-states form-control" id="unitList" multiple="multiple" name="unitsSelect[]"
@@ -422,6 +427,12 @@
             $(".under18").hide();
 
     });
+
+    $('.date').datepicker({
+        language: 'el',
+        format: 'dd/mm/yyyy',
+        autoclose: true
+    })
 
     //initialize user select
     $('#unitList').select2();

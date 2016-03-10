@@ -55,11 +55,14 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
             'work_description' => $volunteerRequest['work_description'],
             'participation_actions' => $volunteerRequest['participation_actions'],
             'availability_freqs_id' => $this->checkDropDown(intval($volunteerRequest['availability_freqs_id'])),
-            'comments' => $volunteerRequest['comments']
+            'availability_freqs_id' => $this->checkDropDown(intval($volunteerRequest['availability_freqs_id'])),
         ];
 
         if (isset($volunteerRequest['birth_date']) && $volunteerRequest['birth_date'] != null)
             $baseFields['birth_date'] = \Carbon::createFromFormat('d/m/Y', $volunteerRequest['birth_date'])->toDateString();
+
+        if (isset($volunteerRequest['contract_date']) && $volunteerRequest['contract_date'] != null)
+            $baseFields['contract_date'] = \Carbon::createFromFormat('d/m/Y', $volunteerRequest['contract_date'])->toDateString();
 
         $baseFields['live_in_curr_country'] = 0;
         if (isset($volunteerRequest['live_in_curr_country']) && $volunteerRequest['live_in_curr_country'] == 1)

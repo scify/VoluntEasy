@@ -17,7 +17,7 @@ class Volunteer extends User {
     protected $table = 'volunteers';
 
     protected $fillable = ['name', 'last_name', 'fathers_name', 'identification_num', 'birth_date', 'children', 'address', 'city', 'country', 'post_box', 'participation_reason', 'participation_previous', 'participation_actions', 'email', 'extra_lang', 'work_description', 'additional_skills', 'live_in_curr_country', 'comments', 'gender_id', 'education_level_id', 'comm_method', 'identification_type_id', 'marital_status_id', 'driver_license_type_id', 'availability_freqs_id', 'work_status_id',
-        'home_tel', 'work_tel', 'cell_tel', 'fax', 'comm_method_id', 'specialty', 'department', 'computer_usage', 'availability_time', 'interests', 'blacklisted', 'not_available', 'how_you_learned_id', 'computer_usage_comments', 'afm'];
+        'home_tel', 'work_tel', 'cell_tel', 'fax', 'comm_method_id', 'specialty', 'department', 'computer_usage', 'availability_time', 'interests', 'blacklisted', 'not_available', 'how_you_learned_id', 'computer_usage_comments', 'afm', 'contract_date'];
 
 
     ///////////////
@@ -158,6 +158,10 @@ class Volunteer extends User {
         return \Carbon::parse($this->attributes['birth_date'])->format('d/m/Y');
     }
 
+    public function getContractDateAttribute() {
+        return \Carbon::parse($this->attributes['contract_date'])->format('d/m/Y');
+    }
+
     public function getFullNameAttribute()
     {
         return $this->name . " " . $this->last_name;
@@ -261,6 +265,26 @@ class Volunteer extends User {
 
         $ctaVolunteers = CTAVolunteer::where('email', $this->attributes['email'])->with('dates.date.subtask.task')->get();
         return $ctaVolunteers;
+    }
+
+    /**
+     * Find the volunteers whose contract was signed a year ago
+     *
+     * @return mixed
+     */
+    public function scopeExpiredContract(){
+        $today = \Carbon::today();
+        return $this->where('contract_date', '=', $today->subYear());
+    }
+
+    /**
+     * Find the volunteers whose contract expires in 6 months
+     *
+     * @return mixed
+     */
+    public function scopeToExpireContract(){
+        $today = \Carbon::today();
+        return $this->where('contract_date', '=', $today->subMonths(6));
     }
 
 }

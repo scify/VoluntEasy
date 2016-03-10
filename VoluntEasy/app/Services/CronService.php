@@ -150,4 +150,32 @@ class CronService {
     }
 
 
+    /**
+     * Get the expired contracts and notify users
+     */
+    public function expiredContracts() {
+
+        $expiredContracts = Volunteer::expiredContract()->with('units.users')->get();
+
+        foreach ($expiredContracts as $volunteer) {
+            NotificationServiceFacade::volunteerContractExpired($volunteer);
+        }
+
+        return;
+    }
+
+    /**
+     * Get the contracts about to expire and notify users
+     */
+    public function toExpireContracts() {
+
+        $toExpireContracts = Volunteer::toExpireContract()->with('units.users')->get();
+
+        foreach ($toExpireContracts as $volunteer) {
+            NotificationServiceFacade::volunteerContractToExpire($volunteer);
+        }
+
+        return;
+    }
+
 }
