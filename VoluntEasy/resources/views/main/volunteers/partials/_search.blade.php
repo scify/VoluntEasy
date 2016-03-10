@@ -32,7 +32,11 @@
     <div class="col-md-2">
         <div class="form-group">
             {!! Form::formInput('my_volunteers', 'Μόνο οι εθελοντές μου', $errors, ['class' => 'form-control search searchCheckbox', 'type'
-            => 'checkbox', 'value' => 'true', 'checked' => false]) !!}
+            => 'checkbox', 'value' => '1', 'checked' => false]) !!}
+        </div>
+        <div class="form-group">
+            {!! Form::formInput('contract_date', 'Εθελοντές με ημ. σύμβασης', $errors, ['class' => 'form-control search searchCheckbox', 'type'
+            => 'checkbox', 'value' => '1', 'checked' => false]) !!}
         </div>
     </div>
 </div>

@@ -2,14 +2,10 @@
 
 use App\Http\Requests;
 use App\Models\Action;
-use App\Models\Descriptions\Interest;
-use App\Models\Descriptions\InterestCategory;
 use App\Models\Unit;
-use App\Models\User;
 use App\Models\Volunteer;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\VolunteerService;
-use Dependencies\ekpizo\services\VolunteerService_OLD;
 use Faker\Factory;
 
 /**
@@ -19,28 +15,25 @@ use Faker\Factory;
  * This controller is used to do some tests,
  * ie. print some data, check some routes etc.
  */
-class TestController extends Controller
-{
+class TestController extends Controller {
 
 
-    public function test()
-    {
+    public function test() {
 
-$today = \Carbon::today();
+        $today = \Carbon::today();
         return $today->subMonths(6);
 
 
         $id = 1;
         $volunteer = Volunteer::whereHas('actions.tasks.subtasks.workDates.volunteers', function ($q) use ($id) {
-                $q->where('volunteer_id', $id);
-            })->with('actions.tasks.subtasks.workDates.volunteers')
+            $q->where('volunteer_id', $id);
+        })->with('actions.tasks.subtasks.workDates.volunteers')
             ->find($id);
 
 
-
-                $volunteer = Volunteer::with(['actions.tasks.subtasks.workDates.volunteers' => function($q) {
-                    $q->where('volunteer_id', 1);
-                }])->find($id);
+        $volunteer = Volunteer::with(['actions.tasks.subtasks.workDates.volunteers' => function ($q) {
+            $q->where('volunteer_id', 1);
+        }])->find($id);
 
 
         return $volunteer;
@@ -58,8 +51,7 @@ $today = \Carbon::today();
 
     }
 
-    public function cta()
-    {
+    public function cta() {
 
         $action = Action::find(1);
 
@@ -69,30 +61,26 @@ $today = \Carbon::today();
     }
 
 
-    public function newVolunteers()
-    {
+    public function newVolunteers() {
         $volunteers = VolunteerService::getNew();
 
         return view("main.volunteers.list", compact('volunteers'));
     }
 
-    public function boxytree()
-    {
+    public function boxytree() {
 
         return view("tests.boxytree");
     }
 
 
-    public function cityofathens()
-    {
+    public function cityofathens() {
         return view("tests.cityofathens");
     }
 
     /**
      * generate some dummy data
      */
-    public function faker()
-    {
+    public function faker() {
         $faker = Factory::create();
 
 

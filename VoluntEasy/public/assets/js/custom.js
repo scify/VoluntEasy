@@ -9,7 +9,7 @@ $(document).ready(function () {
         handleSearchFormFieldsReset = function () {
             $(".search").val('');
             $(".searchDropDown").val('0');
-            $('.searchCheckbox').attr('checked', false);
+          //  $('.searchCheckbox').parent().removeClass("checked");
         },
         submitSearchForm = function (event) {
             event.preventDefault();

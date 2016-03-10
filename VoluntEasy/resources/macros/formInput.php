@@ -76,9 +76,9 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
                 $checked = $attributes['checked'] == 'true' ? true : false;
                 unset($attributes['checked']);
                 if(isset($attributes['disabled']) && $attributes['disabled']=='disabled' )
-                    $text_html = Form::checkbox($field, $value, $checked, ['disabled' => 'disabled']);
+                    $text_html = Form::checkbox($field, $value, $checked, array_merge($attributes, ['disabled' => 'disabled']));
                 else
-                    $text_html = Form::checkbox($field, $value, $checked);
+                    $text_html = Form::checkbox($field, $value, $checked, $attributes);
                 $type = 'checkbox';
                 break;
             case "radio":

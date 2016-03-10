@@ -46,7 +46,7 @@ class VolunteerService
         'status_id' => '',
         'interest_id' => '',
         'rating_id' => '',
-
+        'contract_date' => '',
     ];
 
 
@@ -1010,6 +1010,9 @@ class VolunteerService
                                 if (!Search::notDropDown($value, $column)) {
                                     $ratingId = \Input::get('rating_id');
                                 }
+                                break;
+                            case 'contract_date':
+                                $query->whereNotNull('contract_date');
                                 break;
                         }
                     default:

@@ -159,11 +159,12 @@ class Volunteer extends User {
     }
 
     public function getContractDateAttribute() {
-        return \Carbon::parse($this->attributes['contract_date'])->format('d/m/Y');
+        if ($this->attributes['contract_date'] != null)
+            return \Carbon::parse($this->attributes['contract_date'])->format('d/m/Y');
+        else return null;
     }
 
-    public function getFullNameAttribute()
-    {
+    public function getFullNameAttribute() {
         return $this->name . " " . $this->last_name;
     }
 
@@ -260,8 +261,8 @@ class Volunteer extends User {
 
     /**
      * Check if Volunteer is interested in any action
-\     */
-    public function interestedIn(){
+     * \     */
+    public function interestedIn() {
 
         $ctaVolunteers = CTAVolunteer::where('email', $this->attributes['email'])->with('dates.date.subtask.task')->get();
         return $ctaVolunteers;
@@ -272,7 +273,7 @@ class Volunteer extends User {
      *
      * @return mixed
      */
-    public function scopeExpiredContract(){
+    public function scopeExpiredContract() {
         $today = \Carbon::today();
         return $this->where('contract_date', '=', $today->subYear());
     }
@@ -282,7 +283,7 @@ class Volunteer extends User {
      *
      * @return mixed
      */
-    public function scopeToExpireContract(){
+    public function scopeToExpireContract() {
         $today = \Carbon::today();
         return $this->where('contract_date', '=', $today->subMonths(6));
     }
