@@ -68,6 +68,10 @@ class Volunteer extends User {
         return $this->hasOne('App\Models\Descriptions\HowYouLearned', 'id', 'how_you_learned_id');
     }
 
+    public function howYouLearned2() {
+        return $this->hasOne('App\Models\Descriptions\HowYouLearned2', 'id', 'how_you_learned_id2');
+    }
+
     public function languages() {
         return $this->hasMany('App\Models\VolunteerLanguage');
     }

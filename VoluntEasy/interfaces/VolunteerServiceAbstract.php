@@ -1,8 +1,6 @@
 <?php namespace Interfaces;
 
 use App\Models\Descriptions\Interest;
-use App\Models\Descriptions\Language;
-use App\Models\Descriptions\LanguageLevel;
 use App\Models\Volunteer;
 use App\Models\VolunteerLanguage;
 
@@ -95,24 +93,19 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
 
         $volunteer->interests()->sync($interest_array);
 
-        $languages = Language::all();
+        if (\Request::has('lang')) {
+            $langs = \Request::get('lang');
+            $volunteer->languages()->delete();
 
-        //Get all languages, and check if they are selected
-        foreach ($languages as $language) {
-            if (isset($volunteerRequest['lang' . $language->id])) {
-                $level = LanguageLevel::where('id', $volunteerRequest['lang' . $language->id])->first();
-
-                //create a new VolunteerLanguage that has
+            foreach ($langs as $id => $lang) {
                 $volLanguage = new VolunteerLanguage([
                     'volunteer_id' => $volunteer->id,
-                    'language_id' => $language->id,
-                    'language_level_id' => $volunteerRequest['lang' . $language->id]
+                    'language_id' => $id,
+                    'language_level_id' => $lang
                 ]);
 
                 $volunteer->languages()->save($volLanguage);
             }
-
-            //TODO fix the sucker
         }
 
         //get the selected users from the select2 array
@@ -224,7 +217,7 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
     }
 
     private function checkDropDown($input) {
-        if ($input==null || $input == 0)
+        if ($input == null || $input == 0)
             return null;
         else
             return $input;

@@ -218,6 +218,29 @@
             <p>Ξένες γλώσσες:</p>
             @foreach ($languages as $lan => $language)
             <div class="form-group">
+
+
+                <p> {{ $language . ':' }}</p>
+                {!! Form::label('') !!}
+                @foreach ($langLevels as $lev => $level)
+                <label>
+                    <em>{{ $level }}</em>
+                    @if (isset($volunteer) && isset($volunteer->lang_levels[$language]) &&
+                    $volunteer->lang_levels[$language]==$lev)
+                    {!! Form::formInput('lang['.$lan.']', '', $errors, ['class' => 'form-control languages', 'type' =>
+                    'radio', 'value'
+                    => $lev, 'checked' => 'true']) !!}
+                    @else
+                    {!! Form::formInput('lang['.$lan.']', '', $errors, ['class' => 'form-control languages', 'type' =>
+                    'radio', 'value'
+                    => $lev, 'checked' => 'false']) !!}
+                    @endif
+                </label>
+
+                @endforeach
+
+
+             {{--
                 <p> {{ $language . ':' }}</p>
                 {!! Form::label('') !!}
                 @foreach ($langLevels as $lev => $level)
@@ -235,6 +258,7 @@
                     @endif
                 </label>
                 @endforeach
+                --}}
             </div>
             @endforeach
             <div class="form-group">
