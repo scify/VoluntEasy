@@ -13,8 +13,9 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
 
         $volunteer = \Request::all();
 
-        if (isset($volunteer->id) && $volunteer->id != null && $volunteer->id != '')
-            $validator = \Validator::make($volunteer->toArray(), [
+
+        if (isset($volunteer['id']))
+            $validator = \Validator::make($volunteer, [
                 'name' => 'required',
                 'last_name' => 'required',
                 'birth_date' => 'required',
@@ -46,14 +47,22 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
     /**
      * Generate a Volunteer model from a Request
      */
+    public function volunteerHasExtraFields() {
+        return false;
+    }
+
+
+    /**
+     * Generate a Volunteer model from a Request
+     */
     function getExtraFields($volunteer) {
 
         //            'work_status_id' => $this->checkDropDown($volunteerRequest['work_status_id']),
-/*
- *             'participation_reason' => $volunteerRequest['participation_reason'],
-            'participation_previous' => $volunteerRequest['participation_previous'],
+        /*
+         *             'participation_reason' => $volunteerRequest['participation_reason'],
+                    'participation_previous' => $volunteerRequest['participation_previous'],
 
- */
+         */
         $volunteer->work_status_id = \Request::get('how_you_learned_id');
     }
 
@@ -67,7 +76,6 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
         $this->saveFrequencies($volunteer);
 
     }
-
 
     /**
      * Save volunteer frequencies

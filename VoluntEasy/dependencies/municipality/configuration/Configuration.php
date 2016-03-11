@@ -18,4 +18,12 @@ class Configuration implements ConfigurationInterface {
     function getJsonDataPath() {
         return base_path().'/dependencies/'.$this->folderName.'/database/jsondata/';
     }
+
+    function getExtrasPath() {
+        return $this->folderName.'.resources.views.volunteers.extras';
+    }
+
+    function getExtras(){
+        return [];
+    }
 }
