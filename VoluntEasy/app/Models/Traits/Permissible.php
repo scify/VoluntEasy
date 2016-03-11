@@ -106,7 +106,7 @@ trait Permissible {
             if (in_array('unit_manager', $values)) {
                 //refresh user units
                 if (\Request::has('unitsSelect') && sizeof(\Request::get('unitsSelect')) > 0) {
-                    
+
                     $this->units()->sync(\Request::get('unitsSelect'));
 
                     foreach (\Request::get('unitsSelect') as $unitId) {
