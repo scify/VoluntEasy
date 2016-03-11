@@ -102,33 +102,25 @@ trait Permissible {
             $this->units()->sync([UnitService::getRoot()->id]);
             //remove all actions, admin can do anything
             $this->actions()->detach();
-        }
+        } else {
+            if (in_array('unit_manager', $values)) {
+                //refresh user units
+                if (\Request::has('unitsSelect') && sizeof(\Request::get('unitsSelect')) > 0) {
+                    
+                    $this->units()->sync(\Request::get('unitsSelect'));
 
-        if (in_array('unit_manager', $values)) {
-            //refresh user units
-            if (\Request::has('unitsSelect') && sizeof(\Request::get('unitsSelect')) > 0) {
+                    foreach (\Request::get('unitsSelect') as $unitId) {
+                        $unit = Unit::find($unitId);
+                        NotificationService::userToUnit($this->id, $unit);
+                    }
+                }
 
-
-                $this->units()->sync(\Request::get('unitsSelect'));
-
-                foreach (\Request::get('unitsSelect') as $unitId) {
-                    $unit = Unit::find($unitId);
-                    NotificationService::userToUnit($this->id, $unit);
+                if (in_array('action_manager', $values)) {
+                    //refresh user actions
+                    if (\Request::has('actionsSelect') && sizeof(\Request::get('actionsSelect')) > 0)
+                        $this->actions()->sync(\Request::get('actionsSelect'));
                 }
             }
-        } else
-            $this->units()->detach();
-
-
-        if (in_array('action_manager', $values)) {
-
-            //refresh user actions
-            if (\Request::has('actionsSelect') && sizeof(\Request::get('actionsSelect')) > 0)
-                $this->actions()->sync(\Request::get('actionsSelect'));
-        } else
-            $this->actions()->detach();
-
+        }
     }
-
-
 }
