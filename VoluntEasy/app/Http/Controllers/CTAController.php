@@ -36,7 +36,6 @@ class CTAController extends Controller
 
     public function participate($id)
     {
-
         $publicAction = PublicAction::where('public_url', $id)->with('subtasks.subtask.workDates', 'subtasks.subtask.task')->first();
 
         //if the public action is inactive, return a null obj
@@ -141,7 +140,7 @@ class CTAController extends Controller
             'action_id' => \Request::get('actionId')
         ]);
 
-        return $this->savePublicSubtasks($publicAction);
+        $this->savePublicSubtasks($publicAction);
 
         return $publicAction;
     }
@@ -207,36 +206,36 @@ class CTAController extends Controller
     private function savePublicSubtasks($publicAction)
     {
         $publicSubtasksIds = [];
-        foreach (\Request::get('subtasks') as $i => $subtask) {
+        if(\Request::has('subtasks')) {
+            foreach (\Request::get('subtasks') as $i => $subtask) {
 
-            if (isset($subtask['name']) && $subtask['name'] == 'on') {
-                //check if the relationship already exists
-                $publicSubtask = PublicActionSubTask::where('public_actions_id', $publicAction->id)->where('subtask_id', $i)->first();
+                if (isset($subtask['name']) && $subtask['name'] == 'on') {
+                    //check if the relationship already exists
+                    $publicSubtask = PublicActionSubTask::where('public_actions_id', $publicAction->id)->where('subtask_id', $i)->first();
 
-                //if not, create a new publicActionSubtask
-                if ($publicSubtask == null) {
-                    $publicSubtask = new PublicActionSubTask([
-                        'public_actions_id' => $publicAction->id,
-                        'subtask_id' => $i,
-                        // 'description' => $subtask['comments'],
-                    ]);
+                    //if not, create a new publicActionSubtask
+                    if ($publicSubtask == null) {
+                        $publicSubtask = new PublicActionSubTask([
+                            'public_actions_id' => $publicAction->id,
+                            'subtask_id' => $i,
+                            // 'description' => $subtask['comments'],
+                        ]);
 
-                    $publicSubtask->save();
-                } /*else {
+                        $publicSubtask->save();
+                    } /*else {
                     //else update the current one
                     $publicSubtask->update([
                         'description' => $subtask['comments'],
                     ]);
                 }*/
-                array_push($publicSubtasksIds, $publicSubtask->id);
+                    array_push($publicSubtasksIds, $publicSubtask->id);
+                }
             }
+
+            PublicActionSubTask::where('public_actions_id', $publicAction->id)->whereNotIn('id', $publicSubtasksIds)->delete();
+            return PublicActionSubTask::where('public_actions_id', $publicAction->id)->whereNotIn('id', $publicSubtasksIds)->get();
         }
 
-        PublicActionSubTask::where('public_actions_id', $publicAction->id)->whereNotIn('id', $publicSubtasksIds)->delete();
-
-        return PublicActionSubTask::where('public_actions_id', $publicAction->id)->whereNotIn('id', $publicSubtasksIds)->get();
-
-        return;
     }
 
     /**

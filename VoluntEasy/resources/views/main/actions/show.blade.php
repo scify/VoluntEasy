@@ -28,7 +28,7 @@
                                                                                       aria-expanded="false"
                                                                                       class="details">Στοιχεία
                             Δράσης</a></li>
-                 {{--   <li role="presentation" class="tab task_board" data-tab="task_board"><a href="#tab2" role="tab"
+                    <li role="presentation" class="tab task_board" data-tab="task_board"><a href="#tab2" role="tab"
                                                                                             data-toggle="tab"
                                                                                             aria-expanded="false"
                                                                                             class="task_board">Task
@@ -38,7 +38,6 @@
                                                                                               aria-expanded="false"
                                                                                               class="public_page">{{ (isset($action->publicAction)) ?
                         'Επεξεργασία Δημόσιας Σελίδας' : 'Δημιουργία Δημόσιας Σελίδας' }}</a></li>
-                    --}}
                 </ul>
                 <!-- Tab panes -->
                 <div class="tab-content">

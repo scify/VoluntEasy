@@ -41,7 +41,6 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
             return [
                 'failed' => false,
                 'messages' => null];
-
     }
 
     /**
