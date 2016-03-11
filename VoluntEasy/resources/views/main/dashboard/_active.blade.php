@@ -2,17 +2,17 @@
        width="100%">
     <thead>
     <tr>
-        <th>ID</th>
-        <th>Όνομα</th>
-        <th>Δράσεις</th>
+        <th>{{ trans('entities/volunteers.id') }}</th>
+        <th>{{ trans('entities/volunteers.name') }}</th>
+        <th>{{ trans('entities/actions.actions') }}</th>
     </tr>
     </thead>
 
     <tfoot>
     <tr>
-        <th>ID</th>
-        <th>Όνομα</th>
-        <th>Δράσεις</th>
+        <th>{{ trans('entities/volunteers.id') }}</th>
+        <th>{{ trans('entities/volunteers.name') }}</th>
+        <th>{{ trans('entities/actions.actions') }}</th>
     </tr>
     </tfoot>
 </table>
@@ -53,14 +53,13 @@
 
         //custom text
         "language": {
-            "lengthMenu": "_MENU_ γραμμές ανά σελίδα",
-            "zeroRecords": "Δεν υπάρχουν εθελοντές",
-            "info": "Σελίδα _PAGE_ από _PAGES_",
-            "infoEmpty": "Δεν υπάρχουν εθελοντές",
-            "infoFiltered": "(filtered from _MAX_ total records)",
+            "lengthMenu": Lang.get('js-components.lengthMenu'),
+            "zeroRecords": Lang.get('js-components.zeroVolunteers'),
+            "info": Lang.get('js-components.info'),
+            "infoEmpty": Lang.get('js-components.zeroVolunteers'),
             "paginate": {
-                "first": "Πρώτη",
-                "last": "Τελευταία",
+                "first": Lang.get('js-components.first'),
+                "last": Lang.get('js-components.last'),
                 "next": ">",
                 "previous": "<"
             }

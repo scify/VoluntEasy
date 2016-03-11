@@ -141,6 +141,7 @@ return [
 
         'Barryvdh\Cors\ServiceProvider',
         'Jaybizzle\MigrationsOrganiser\MigrationsOrganiserServiceProvider',
+        'Mariuzzo\LaravelJsLocalization\LaravelJsLocalizationServiceProvider',
 
 		/*
 		 * Application Service Providers...
