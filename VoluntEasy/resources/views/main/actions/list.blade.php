@@ -1,10 +1,10 @@
 @extends('default')
 
 @section('title')
-Προβολή Δράσεων
+{{ trans('entities/actions.view') }}
 @stop
 @section('pageTitle')
-Προβολή Δράσεων
+{{ trans('entities/actions.view') }}
 @stop
 
 @section('bodyContent')
@@ -24,7 +24,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Δράσεις</h4>
+                <h4 class="panel-title">{{ trans('entities/actions.actions') }}                </h4>
             </div>
             <div class="panel-body">
                 @include('main.actions.partials._table')

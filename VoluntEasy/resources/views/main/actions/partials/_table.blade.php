@@ -1,23 +1,23 @@
 <table id="actionsTable" class="display table table-striped data-table" cellspacing="0" width="100%">
     <thead>
     <tr>
-        <th>Όνομα</th>
-        <th>Περιγραφή</th>
-        <th>Μονάδα</th>
-        <th>Ημ. Έναρξης</th>
-        <th>Ημ. Λήξης</th>
-        <th>Ενέργειες</th>
+        <th>{{ trans('entities/actions.name')  }}</th>
+        <th>{{ trans('entities/actions.description')  }}</th>
+        <th>{{ trans('entities/units.unit')  }}</th>
+        <th>{{ trans('entities/actions.startDate')  }}</th>
+        <th>{{ trans('entities/actions.endDate')  }}</th>
+        <th>{{ trans('entities/actions.tableActions')  }}</th>
     </tr>
     </thead>
 
     <tfoot>
     <tr>
-        <th>Όνομα</th>
-        <th>Περιγραφή</th>
-        <th>Μονάδα</th>
-        <th>Ημ. Έναρξης</th>
-        <th>Ημ. Λήξης</th>
-        <th>Ενέργειες</th>
+        <th>{{ trans('entities/actions.name')  }}</th>
+        <th>{{ trans('entities/actions.description')  }}</th>
+        <th>{{ trans('entities/units.unit')  }}</th>
+        <th>{{ trans('entities/actions.startDate')  }}</th>
+        <th>{{ trans('entities/actions.endDate')  }}</th>
+        <th>{{ trans('entities/actions.tableActions')  }}</th>
     </tr>
     </tfoot>
 </table>
@@ -59,9 +59,9 @@
                 if (data.permitted) {
                     html = '<ul class="list-inline">';
                     html += '<li><a href="' + $("body").attr('data-url') + '/actions/edit/' + data.id + '"  class="btn btn-success" data-toggle="tooltip"';
-                    html += 'data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit"></i></a></li>';
+                    html += 'data-placement="bottom" title="'+Lang.get('js-components.edit')+'"><i class="fa fa-edit"></i></a></li>';
                     html += '<li><btn class="btn btn-danger" onclick="deleteAction(' + data.id + ');" data-id="' + data.id + '" data-toggle="tooltip"';
-                    html += 'data-placement="bottom" title="Διαγραφή"><i class="fa fa-trash"></i></btn>';
+                    html += 'data-placement="bottom" title="'+Lang.get('js-components.delete')+'"><i class="fa fa-trash"></i></btn>';
                     html += '</li></ul>';
                 }
 
@@ -71,16 +71,15 @@
         ],
         //custom text
         "language": {
-            "lengthMenu": "_MENU_ γραμμές ανά σελίδα",
-            "zeroRecords": "Δεν υπάρχουν δράσεις",
-            "info": "Σελίδα _PAGE_ από _PAGES_",
-            "infoEmpty": "Δεν υπάρχουν δράσεις",
-            "infoFiltered": "(filtered from _MAX_ total records)",
+            "lengthMenu": Lang.get('js-components.lengthMenu'),
+            "zeroRecords": Lang.get('js-components.zeroActions'),
+            "info": Lang.get('js-components.info'),
+            "infoEmpty": Lang.get('js-components.zeroActions'),
             "paginate": {
-                "first": "Πρώτη",
-                "last": "Τελευταία",
-                "next": "Επόμενη",
-                "previous": "Προηγούμενη"
+                "first": Lang.get('js-components.first'),
+                "last": Lang.get('js-components.last'),
+                "next": ">",
+                "previous": "<"
             }
         },
         //disable ordering at the last column (edit, delete buttons)
@@ -93,15 +92,15 @@
             "aButtons": [
                 {
                     "sExtends": "copy",
-                    "sButtonText": "Αντιγραφή"
+                    "sButtonText": Lang.get('js-components.copy')
                 },
                 {
                     "sExtends": "print",
-                    "sButtonText": "Εκτύπωση"
+                    "sButtonText": Lang.get('js-components.print')
                 },
                 {
                     "sExtends": "csv",
-                    "sButtonText": "CSV"
+                    "sButtonText": Lang.get('js-components.csv')
                 }
             ]
         }
@@ -109,7 +108,7 @@
 
 
     function deleteAction(id) {
-        if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε τη δράση;") == true) {
+        if (confirm(Lang.get('js-components.deleteAction')) == true) {
             $.ajax({
                 url: $("body").attr('data-url') + '/actions/delete/' + id,
                 method: 'GET',

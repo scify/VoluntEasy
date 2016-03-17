@@ -1,11 +1,11 @@
 @extends('default')
 
 @section('title')
-Προβολή Οργανωτικής Μονάδας
+{{ trans('entities/units.viewOne') }}
 @stop
 
 @section('pageTitle')
-Προβολή Οργανωτικής Μονάδας
+{{ trans('entities/units.viewOne') }}
 @stop
 
 
@@ -15,7 +15,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h2 class="panel-title">Στοιχεία Μονάδας</h2>
+                <h2 class="panel-title">{{ trans('entities/units.info') }}</h2>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
@@ -25,18 +25,18 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <h3>Μονάδα {{$active->description}}</h3>
+                        <h3>{{ trans('entities/units.unit') }} {{$active->description}}</h3>
 
-                        <p id="unitId" data-unit-id="{{ $active->id }}"><strong>Περιγραφή:</strong>
+                        <p id="unitId" data-unit-id="{{ $active->id }}"><strong>{{ trans('entities/units.description') }}:</strong>
                             {{$active->comments}}</p>
                     </div>
                     <div class="col-md-4">
                         @if(sizeof($active->users)==0)
-                        <h3>Υπεύθυνοι Μονάδας:</h3>
+                        <h3>{{ trans('entities/units.execs') }}:</h3>
 
                         <p>-</p>
                         @elseif(sizeof($active->users)==1)
-                        <h3>Υπεύθυνος Μονάδας</h3>
+                        <h3>{{ trans('entities/units.exec') }}</h3>
                         <ul class="list-unstyled">
                             <li class="user-list">
                                 <div class="msg-img">
@@ -56,7 +56,7 @@
                             </li>
                         </ul>
                         @else
-                        <h3>Υπεύθυνοι Μονάδας:</h3>
+                        <h3>{{ trans('entities/units.execs') }}:</h3>
                         <ul class="list-unstyled">
                             @foreach($active->users as $user)
                             <li class="user-list">
@@ -81,7 +81,7 @@
                     </div>
                     <div class="col-md-4">
                         @if($type=='leaf')
-                        <h3>Ενεργές Δράσεις:</h3>
+                        <h3>{{ trans('entities/units.activeActions') }}:</h3>
                         @if(sizeof($active->actions)==0)
                         <h3>-</h3>
                         @else
@@ -103,10 +103,10 @@
                 @if(in_array($active->id, $userUnits))
                 <div class="text-right">
                     <a href="{{ url('units/edit/'.$active->id) }}" class="btn btn-success"><i
-                            class="fa fa-edit"></i> Επεξεργασία</a>
+                            class="fa fa-edit"></i> {{ trans('default.edit') }}</a>
                     @if($active->parent_unit_id!=null)
                     <button onclick="deleteUnit({{ $active->id }})" class="btn btn-danger"><i
-                            class="fa fa-trash"></i> Διαγραφή
+                            class="fa fa-trash"></i> {{ trans('default.delete') }}
                     </button>
                     @endif
                 </div>
@@ -136,7 +136,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Εθελοντές</h4>
+                <h4 class="panel-title">{{ trans('entities/volunteers.volunteers') }}</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
@@ -156,7 +156,7 @@
                         <div class="text-right">
                             <button type="button" class="btn btn-success" data-toggle="modal"
                                     data-target="#volunteersModal"><i
-                                    class="fa fa-leaf"></i> Προσθήκη Εθελοντών
+                                    class="fa fa-leaf"></i> {{ trans('entities/units.addVolunteers') }}
                             </button>
                         </div>
                     </div>
@@ -172,7 +172,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Όλες οι δράσεις</h4>
+                <h4 class="panel-title">{{ trans('entities/units.allActions') }}</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
@@ -240,7 +240,7 @@
 
     //delete a unit and redirect to unit list
     function deleteUnit(id) {
-        if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε τη μονάδα;") == true) {
+        if (confirm(Lang.get('js-components.deleteUnit')) == true) {
             $.ajax({
                 url: $("body").attr('data-url') + '/units/delete/' + id,
                 method: 'GET',

@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Tasks</h4>
+                <h4 class="panel-title">{{ trans('entities/tasks.tasks') }}</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
@@ -17,10 +17,10 @@
                             <table class="table table-condensed">
                                 <thead>
                                 <tr>
-                                    <th>Όνομα</th>
-                                    <th>Περιγραφή</th>
-                                    <th>Εθελοντές</th>
-                                    <th>Κατάσταση</th>
+                                    <th>{{ trans('entities/tasks.name') }}</th>
+                                    <th>{{ trans('entities/tasks.description') }}</th>
+                                    <th>{{ trans('entities/tasks.volunteers') }}</th>
+                                    <th>{{ trans('entities/tasks.status') }}</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -34,13 +34,13 @@
                                             @if(sizeof($task->volunteers)>0)
                                                 dd
                                             @else
-                                                <p style="color:#aaa;"><em>Το task δεν έχει εθελοντές</em></p>
+                                                <p style="color:#aaa;"><em>{{ trans('entities/tasks.noVolunteers') }}</em></p>
                                             @endif
                                         </td>
                                         <td>@if($task->isComplete)
-                                                <div class="status completed">Ολοκληρωμένο</div>
+                                                <div class="status completed">{{ trans('entities/tasks.complete') }}</div>
                                             @else
-                                                <div class="status incomplete">Μη ολοκληρωμένο</div>
+                                                <div class="status incomplete">{{ trans('entities/tasks.incomplete') }}</div>
                                             @endif
                                         </td>
                                         <td>
@@ -57,9 +57,9 @@
                                 </tbody>
                             </table>
                         @else
-                            <p>Δεν υπάρχει κάνενα task για τη δράση.</p>
+                            <p>{{ trans('entities/tasks.noTask') }}</p>
                         @endif
-                        <a href="{{ url('actions/'.$action->id.'/tasks/create') }}" class="btn btn-success pull-right">Προσθήκη task</a>
+                        <a href="{{ url('actions/'.$action->id.'/tasks/create') }}" class="btn btn-success pull-right">{{ trans('entities/tasks.addTask') }}</a>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
     <script>
         //delete task and redirect to action list
         function deleteTask(id) {
-            if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε το task;") == true) {
+            if (confirm(Lang.get('js-components.deleteTask')) == true) {
                 $.ajax({
                     url: $("body").attr('data-url') + '/actions/tasks/delete/' + id,
                     method: 'GET',

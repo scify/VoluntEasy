@@ -1,24 +1,24 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            {!! Form::formInput('description', 'Όνομα:', $errors, ['class' => 'form-control', 'id' =>
+            {!! Form::formInput('description', trans('entities/actions.name').':', $errors, ['class' => 'form-control', 'id' =>
             'actionDescription', 'required' => 'true']) !!}
         </div>
         <div class="form-group">
-            {!! Form::formInput('comments', 'Περιγραφή:', $errors, ['class' => 'form-control', 'type' => 'textarea',
+            {!! Form::formInput('comments', trans('entities/actions.description').':', $errors, ['class' => 'form-control', 'type' => 'textarea',
             'size' =>
             '5x5', 'id' => 'actionComments']) !!}
         </div>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    {!! Form::formInput('start_date', 'Ημερομηνία Έναρξης:', $errors, ['class' => 'form-control
+                    {!! Form::formInput('start_date', trans('entities/actions.searchStartDate').':', $errors, ['class' => 'form-control
                     startDate', 'id' => 'actionStartDate', 'required' => 'true']) !!}
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    {!! Form::formInput('end_date', 'Ημερομηνία Λήξης:', $errors, ['class' => 'form-control endDate',
+                    {!! Form::formInput('end_date', trans('entities/actions.searchEndDate').':', $errors, ['class' => 'form-control endDate',
                     'id' => 'actionEndDate', 'required' => 'true']) !!}
                 </div>
             </div>
@@ -28,15 +28,15 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    {!! Form::formInput('name', 'Όνομα υπευθύνου επικοινωνίας:', $errors, ['class' => 'form-control', 'id' =>
+                    {!! Form::formInput('name', trans('entities/actions.execName').':', $errors, ['class' => 'form-control', 'id' =>
                     'actionName']) !!}
-                    <small class="help-block">Ο υπεύθυνος επικοινωνίας δεν είναι απαραίτητο να είναι χρήστης του συστήματος
+                    <small class="help-block">{{ trans('entities/actions.execNameExpl') }}
                     </small>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    {!! Form::formInput('email', 'Email υπ. επικοινωνίας:', $errors, ['class' => 'form-control', 'id' => 'actionEmail'])
+                    {!! Form::formInput('email', trans('entities/actions.execEmail').':', $errors, ['class' => 'form-control', 'id' => 'actionEmail'])
                     !!}
                 </div>
             </div>
@@ -44,7 +44,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    {!! Form::formInput('phone_number', 'Τηλέφωνο υπ. επικοινωνίας:', $errors, ['class' => 'form-control', 'id' =>
+                    {!! Form::formInput('phone_number', trans('entities/actions.execPhone').':', $errors, ['class' => 'form-control', 'id' =>
                     'actionPhone'])
                     !!}
                 </div>
@@ -52,11 +52,11 @@
             {{--
             <div class="col-md-6">
                 <div class="form-group">
-                    {!! Form::formInput('volunteer_sum', 'Αριθμός εθελοντών:', $errors, ['class' => 'form-control', 'id'
+                    {!! Form::formInput('volunteer_sum', trans('entities/actions.volNum').':', $errors, ['class' => 'form-control', 'id'
                     =>
                     'actionPhone'])
                     !!}
-                    <small class="help-block">Πόσοι εθελοντές χρειάζονται για τη δράση
+                    <small class="help-block">{{ trans('entities/actions.volNumExpl') }}
                     </small>
                 </div>
             </div>

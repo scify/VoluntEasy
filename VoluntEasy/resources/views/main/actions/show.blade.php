@@ -1,18 +1,18 @@
 @extends('default')
 
 @section('title')
-    Προβολή Δράσης
+{{ trans('entities/actions.viewOne') }}
 @stop
 
 @section('pageTitle')
-    Προβολή Δράσης
+{{ trans('entities/actions.viewOne') }}
 @stop
 
 
 @section('bodyContent')
     <div class="panel panel-white tree">
         <div class="panel-heading clearfix">
-            <h2 class="panel-title">Στοιχεία Δράσης</h2>
+            <h2 class="panel-title">{{ trans('entities/actions.info') }}</h2>
 
             <div class="panel-control">
                 <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="" class="panel-collapse"
@@ -26,25 +26,23 @@
                     <li role="presentation" class="tab details" data-tab="details"><a href="#tab1" role="tab"
                                                                                       data-toggle="tab"
                                                                                       aria-expanded="false"
-                                                                                      class="details">Στοιχεία
-                            Δράσης</a></li>
+                                                                                      class="details">{{ trans('entities/actions.info') }}</a></li>
                     <li role="presentation" class="tab task_board" data-tab="task_board"><a href="#tab2" role="tab"
                                                                                             data-toggle="tab"
                                                                                             aria-expanded="false"
-                                                                                            class="task_board">Task
-                            Board</a></li>
+                                                                                            class="task_board">{{ trans('entities/actions.taskBoard') }}</a></li>
                     <li role="presentation" class="tab public_page" data-tab="public_page"><a href="#tab3" role="tab"
                                                                                               data-toggle="tab"
                                                                                               aria-expanded="false"
                                                                                               class="public_page">{{ (isset($action->publicAction)) ?
-                        'Επεξεργασία Δημόσιας Σελίδας' : 'Δημιουργία Δημόσιας Σελίδας' }}</a></li>
+                            trans('entities/actions.editPublicPage') :  trans('entities/actions.viewPublicPage') }}</a></li>
                 </ul>
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane details" id="tab1">
                         <div class="row">
                             <div class="col-md-6">
-                                <h3>Δράση <span data-action-id="{{ $action->id }}"
+                                <h3>{{ trans('entities/actions.action') }} <span data-action-id="{{ $action->id }}"
                                                 id="actionId"
                                                 data-unit-id="{{$action->unit_id}}"
                                                 data-is-permitted="{{$isPermitted ? 'true' :'false'}}">{{ $action->description }}</span>
@@ -63,26 +61,25 @@
                                         @endforeach
                                     </small>
                                 </p>
-                                <p><strong>Περιγραφή:</strong> {{ $action->comments==null || $action->comments=='' ? '-' :
+                                <p><strong>{{ trans('entities/actions.description') }}:</strong> {{ $action->comments==null || $action->comments=='' ? '-' :
                                 $action->comments }}</p>
 
-                                <p><strong>Διάρκεια:</strong> {{ $action->start_date }} - {{ $action->end_date }}</p>
+                                <p><strong>{{ trans('entities/actions.duration') }}:</strong> {{ $action->start_date }} - {{ $action->end_date }}</p>
 
-                                <p><strong>Αριθμός εθελοντών: {{ $action->volunteerSum }} <i
+                                <p><strong>{{ trans('entities/actions.volNum') }}: {{ $action->volunteerSum }} <i
                                                 class="fa fa-question-circle"
-                                                title="Υπολογίζεται δυναμικά ανάλογα με τον αριθμό εθελοντών που έχει δηλωθεί στα χρονοδιαγράμματα εργασίας των subtasks"></i></strong>
+                                                title="{{ trans('entities/actions.volNumExplDynamic') }}"></i></strong>
                                 </p>
 
                                 @if((isset($action->publicAction)))
-                                    <p><strong>URL δημόσιας σελίδας:</strong> <a
+                                    <p><strong>{{ trans('entities/actions.publicPageUrl') }}:</strong> <a
                                                 href="{{ url('participate/'.$action->publicAction->public_url) }}"
                                                 target="_blank">{{ url('participate/'.$action->publicAction->public_url) }}</a>
                                     </p>
                                 @endif
                             </div>
                             <div class="col-md-6">
-                                <h3>Στοιχεία Υπευθύνου Δράσης
-                                </h3>
+                                <h3>{{ trans('entities/actions.execInfo') }}</h3>
                                 @if(sizeof($action->users)>0)
                                     <ul class="list-unstyled">
                                         @foreach($action->users as $user)
@@ -92,11 +89,11 @@
                                         @endforeach
                                     </ul>
                                 @else
-                                    <p>Δεν έχει οριστεί υπεύθυνος επικοινωνίας</p>
+                                    <p>{{ trans('entities/actions.noExec') }}</p>
                                 @endif
 
 
-                                <h3>Στοιχεία Υπευθύνου Επικοινωνίας</h3>
+                                <h3>{{ trans('entities/actions.commExecInfo') }}</h3>
                                 @if($action->email!=null && $action->email!='')
                                     <ul class="list-unstyled">
                                         <li class="user-list">
@@ -109,7 +106,7 @@
                                         </li>
                                     </ul>
                                 @else
-                                    <p>Δεν έχει οριστεί υπεύθυνος επικοινωνίας</p>
+                                    <p>{{ trans('entities/actions.noCommExec') }}</p>
                                 @endif
                             </div>
                         </div>
@@ -117,9 +114,9 @@
                             <div class="row">
                                 <div class="col-md-12 text-right">
                                     <a href="{{ url('actions/edit/'.$action->id) }}" class="btn btn-success"><i
-                                                class="fa fa-edit"></i> Επεξεργασία</a>
+                                                class="fa fa-edit"></i> {{ trans('default.edit') }}</a>
                                     <button onclick="deleteAction({{ $action->id }})" class="btn btn-danger"><i
-                                                class="fa fa-trash"></i> Διαγραφή
+                                                class="fa fa-trash"></i> {{ trans('default.delete') }}
                                     </button>
                                 </div>
                             </div>
@@ -130,7 +127,7 @@
                                 <div class="col-md-12">
                                     <div class="panel panel-white">
                                         <div class="panel-heading clearfix">
-                                            <h4 class="panel-title">Συνολικές αξιολογήσεις για τη δράση</h4>
+                                            <h4 class="panel-title">{{ trans('default.totalRatings') }}</h4>
 
                                             <div class="panel-control">
                                                 <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top"
@@ -142,8 +139,8 @@
                                         <div class="panel-body">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <p>Για να δείτε τα αποτελέσματα πιο αναλυτικά, πατήστε <a
-                                                                href="http://volunteasy/actions/ratings/{{ $action->id }}">εδώ</a>.
+                                                    <p>{{ trans('default.viewRatings') }}  <a
+                                                                href="http://volunteasy/actions/ratings/{{ $action->id }}">{{ trans('default.here') }}</a>.
                                                     </p>
 
                                                     <div id="container"
@@ -218,7 +215,7 @@
 
         //delete action and redirect to action list
         function deleteAction(id) {
-            if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε τη δράση;") == true) {
+            if (confirm(Lang.get('js-components.deleteAction')) == true) {
                 $.ajax({
                     url: $("body").attr('data-url') + '/actions/delete/' + id,
                     method: 'GET',
@@ -271,7 +268,7 @@
                 yAxis: {
                     min: 0,
                     title: {
-                        text: 'Συνολικές αξιολογήσεις'
+                        text: Lang.get('js-components.totalRatings')
                     }
                 },
                 legend: {

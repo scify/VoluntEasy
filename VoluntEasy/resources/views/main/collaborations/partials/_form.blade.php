@@ -3,24 +3,24 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    {!! Form::formInput('name', 'Όνομα:', $errors, ['class' => 'form-control', 'id' =>
+                    {!! Form::formInput('name', trans('entities/collaborations.name') .':', $errors, ['class' => 'form-control', 'id' =>
                     'collabName', 'required' => 'true']) !!}
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     @if (isset($collaboration))
-                    {!! Form::formInput('type_id', 'Τύπος:', $errors, ['class' => 'form-control', 'type' =>
+                    {!! Form::formInput('type_id', trans('entities/collaborations.type') .':', $errors, ['class' => 'form-control', 'type' =>
                     'select', 'value' => $collaborationTypes, 'key' => $collaboration->type_id, 'required' => 'true']) !!}
                     @else
-                    {!! Form::formInput('type_id', 'Τύπος:', $errors, ['class' => 'form-control', 'type' =>
+                    {!! Form::formInput('type_id', trans('entities/collaborations.type') .':', $errors, ['class' => 'form-control', 'type' =>
                     'select', 'value' => $collaborationTypes, 'required' => 'true']) !!}
                     @endif
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
-                    {!! Form::formInput('comments', 'Περιγραφή:', $errors, ['class' => 'form-control', 'type' =>
+                    {!! Form::formInput('comments', trans('entities/collaborations.description') .':', $errors, ['class' => 'form-control', 'type' =>
                     'textarea',
                     'size' =>
                     '5x5', 'id' => 'collabDescription']) !!}
@@ -28,25 +28,25 @@
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    {!! Form::formInput('start_date', 'Ημερομηνία Έναρξης:', $errors, ['class' => 'form-control
+                    {!! Form::formInput('start_date', trans('entities/collaborations.startDate') .':', $errors, ['class' => 'form-control
                     startDate', 'id' => 'collabStartDate', 'required' => 'true']) !!}
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    {!! Form::formInput('end_date', 'Ημερομηνία Λήξης:', $errors, ['class' => 'form-control endDate',
+                    {!! Form::formInput('end_date', trans('entities/collaborations.endDate') .':', $errors, ['class' => 'form-control endDate',
                     'id' => 'collabEndDate', 'required' => 'true']) !!}
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    {!! Form::formInput('address', 'Διεύθυνση φορέα:', $errors, ['class' => 'form-control', 'id' =>
+                    {!! Form::formInput('address', trans('entities/collaborations.collabAddress') .':', $errors, ['class' => 'form-control', 'id' =>
                     'collabAddress']) !!}
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    {!! Form::formInput('phone', 'Τηλέφωνο φορέα:', $errors, ['class' => 'form-control', 'id' =>
+                    {!! Form::formInput('phone', trans('entities/collaborations.collabPhone') .':', $errors, ['class' => 'form-control', 'id' =>
                     'collabPhone'])
                     !!}
                 </div>
@@ -54,47 +54,47 @@
         </div>
     </div>
     <div class="col-md-6">
-        <h5>Στοιχεία υπευθύνου συνεργαζόμενου φορέα</h5>
+        <h5>{{trans('entities/collaborations.execInfo')}}</h5>
 
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
                     @if (isset($collaboration) && sizeof($collaboration->executives)>0)
                     {!! Form::hidden('executive_id', $collaboration->executives[0]->id, ['id' => 'executive_id']) !!}
-                    {!! Form::formInput('execName', 'Όνομα:', $errors, ['class' => 'form-control', 'value' =>
+                    {!! Form::formInput('execName', trans('entities/collaborations.name') .':', $errors, ['class' => 'form-control', 'value' =>
                     $collaboration->executives[0]->name]) !!}
                     @else
-                    {!! Form::formInput('execName', 'Όνομα:', $errors, ['class' => 'form-control']) !!}
+                    {!! Form::formInput('execName', trans('entities/collaborations.name') .':', $errors, ['class' => 'form-control']) !!}
                     @endif
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     @if (isset($collaboration) && sizeof($collaboration->executives)>0)
-                    {!! Form::formInput('execEmail', 'Email:', $errors, ['class' => 'form-control', 'value' =>
+                    {!! Form::formInput('execEmail', trans('entities/collaborations.email') .':', $errors, ['class' => 'form-control', 'value' =>
                     $collaboration->executives[0]->email]) !!}
                     @else
-                    {!! Form::formInput('execEmail', 'Email:', $errors, ['class' => 'form-control']) !!}
+                    {!! Form::formInput('execEmail', trans('entities/collaborations.email') .':', $errors, ['class' => 'form-control']) !!}
                     @endif
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     @if (isset($collaboration) && sizeof($collaboration->executives)>0)
-                    {!! Form::formInput('execAddress', 'Διεύθυνση:', $errors, ['class' => 'form-control', 'value' =>
+                    {!! Form::formInput('execAddress', trans('entities/collaborations.address') .':', $errors, ['class' => 'form-control', 'value' =>
                     $collaboration->executives[0]->address]) !!}
                     @else
-                    {!! Form::formInput('execAddress', 'Διεύθυνση:', $errors, ['class' => 'form-control']) !!}
+                    {!! Form::formInput('execAddress', trans('entities/collaborations.address') .':', $errors, ['class' => 'form-control']) !!}
                     @endif
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     @if (isset($collaboration) && sizeof($collaboration->executives)>0)
-                    {!! Form::formInput('execPhone', 'Τηλέφωνο:', $errors, ['class' => 'form-control', 'value' =>
+                    {!! Form::formInput('execPhone', trans('entities/collaborations.phone') .':', $errors, ['class' => 'form-control', 'value' =>
                     $collaboration->executives[0]->phone]) !!}
                     @else
-                    {!! Form::formInput('execPhone', 'Τηλέφωνο:', $errors, ['class' => 'form-control']) !!}
+                    {!! Form::formInput('execPhone', trans('entities/collaborations.phone') .':', $errors, ['class' => 'form-control']) !!}
                     @endif
                 </div>
             </div>
@@ -102,17 +102,17 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    {!! Form::formInput('files[]', 'Ανέβασμα αρχείων:', $errors, ['class' => 'form-control', 'type' =>
+                    {!! Form::formInput('files[]', trans('entities/collaborations.uploadFiles') .':', $errors, ['class' => 'form-control', 'type' =>
                     'file', 'multiple' => 'true'])
                     !!}
-                    <small class="help-blocκ">Μπορείτε να ανεβάσετε περισσότερα από 1 αρχεία.</small>
+                    <small class="help-blocκ">{{ trans('entities/collaborations.moreThanOneFile') }}</small>
                     <br/>
-                    <small class="help-blocκ">Τα αρχεία δεν πρέπει να ξεπερνούν σε μέγεθος τα 10mb.</small>
+                    <small class="help-blocκ">{{ trans('entities/collaborations.lessThan10gb') }}</small>
                 </div>
                 @if(isset($collaboration))
                 <div class="form-group">
                     @if(sizeof($collaboration->files)>0)
-                    <p>Ανεβασμένα αρχεία:</p>
+                    <p>{{ trans('entities/collaborations.uploadedFiles') }}:</p>
 
                     <table class="table table-condensed table-bordered">
 

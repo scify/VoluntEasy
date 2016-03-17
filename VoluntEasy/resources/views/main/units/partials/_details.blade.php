@@ -1,9 +1,9 @@
 <p id="unitComments">{{$active->comments}}</p>
 
 @if(sizeof($active->users)==0)
-<h3>Η μονάδα δεν έχει κανέναν υπεύθυνο</h3>
+<h3>{{ trans('entities/units.noExec') }}</h3>
 @elseif(sizeof($active->users)==1)
-<h3>Υπεύθυνος Μονάδας</h3>
+<h3>{{ trans('entities/units.exec') }}:</h3>
 <ul class="list-unstyled">
 <li class="user-list">
         <div class="msg-img"><img src="{{ asset('assets/uploads/users/'.$user->image_name)}}" alt="" class="user-image-small userImage"></div>
@@ -14,7 +14,7 @@
     </li>
     </ul>
 @else
-<h3>Υπεύθυνοι Μονάδας:</h3>
+<h3>{{ trans('entities/units.execs') }}:</h3>
 <ul class="list-unstyled">
     @foreach($active->users as $user)
     <li class="user-list">
@@ -30,7 +30,7 @@
 
 @if($type=='leaf')
 @if(sizeof($active->actions)==0)
-<h3>Η μονάδα δεν έχει καμία δράση</h3>
+<h3>{{ trans('entities/units.noActions') }}</h3>
 @else
 <h3>Δράσεις:</h3>
 <ul class="list-unstyled">

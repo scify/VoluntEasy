@@ -3,6 +3,7 @@
     <thead>
     <tr>
         <th>{{ trans('entities/volunteers.id') }}</th>
+        <th>{{ trans('entities/volunteers.name') }}</th>
         <th>{{ trans('entities/units.units') }}</th>
         <th>{{ trans('entities/volunteers.pendingStuff') }}</th>
     </tr>
@@ -11,6 +12,7 @@
     <tfoot>
     <tr>
         <th>{{ trans('entities/volunteers.id') }}</th>
+        <th>{{ trans('entities/volunteers.name') }}</th>
         <th>{{ trans('entities/units.units') }}</th>
         <th>{{ trans('entities/volunteers.pendingStuff') }}</th>
     </tr>

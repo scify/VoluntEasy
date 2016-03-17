@@ -1,23 +1,23 @@
 <table id="collaborationsTable" class="display table table-striped data-table" cellspacing="0" width="100%">
     <thead>
     <tr>
-        <th>Όνομα</th>
-        <th>Περιγραφή</th>
-        <th>Τύπος</th>
-        <th>Ημ. Έναρξης</th>
-        <th>Ημ. Λήξης</th>
-        <th>Ενέργειες</th>
+        <th>{{ trans('entities/collaborations.name') }}</th>
+        <th>{{ trans('entities/collaborations.description') }}</th>
+        <th>{{ trans('entities/collaborations.type') }}</th>
+        <th>{{ trans('entities/collaborations.startDate') }}</th>
+        <th>{{ trans('entities/collaborations.endDate') }}</th>
+        <th>{{ trans('entities/collaborations.actions') }}</th>
     </tr>
     </thead>
 
     <tfoot>
     <tr>
-        <th>Όνομα</th>
-        <th>Περιγραφή</th>
-        <th>Τύπος</th>
-        <th>Ημ. Έναρξης</th>
-        <th>Ημ. Λήξης</th>
-        <th>Ενέργειες</th>
+        <th>{{ trans('entities/collaborations.name') }}</th>
+        <th>{{ trans('entities/collaborations.description') }}</th>
+        <th>{{ trans('entities/collaborations.type') }}</th>
+        <th>{{ trans('entities/collaborations.startDate') }}</th>
+        <th>{{ trans('entities/collaborations.endDate') }}</th>
+        <th>{{ trans('entities/collaborations.actions') }}</th>
     </tr>
     </tfoot>
 </table>
@@ -62,9 +62,9 @@
 
                 html = '<ul class="list-inline">';
                 html += '<li><a href="' + $("body").attr('data-url') + '/collaborations/edit/' + data.id + '"  class="btn btn-success" data-toggle="tooltip"';
-                html += 'data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit"></i></a></li>';
+                html += 'data-placement="bottom" title="'+Lang.get('js-components.edit')+'"><i class="fa fa-edit"></i></a></li>';
                 html += '<li><btn class="btn btn-danger" onclick="deleteCollaboration(' + data.id + ');" data-id="' + data.id + '" data-toggle="tooltip"';
-                html += 'data-placement="bottom" title="Διαγραφή"><i class="fa fa-trash"></i></btn>';
+                html += 'data-placement="bottom" title="'+Lang.get('js-components.delete')+'"><i class="fa fa-trash"></i></btn>';
                 html += '</li></ul>';
 
 
@@ -74,16 +74,15 @@
         ],
         //custom text
         "language": {
-            "lengthMenu": "_MENU_ γραμμές ανά σελίδα",
-            "zeroRecords": "Δεν υπάρχουν συνεργαζόμενοι φορείς",
-            "info": "Σελίδα _PAGE_ από _PAGES_",
-            "infoEmpty": "Δεν υπάρχουν συνεργαζόμενοι φορείς",
-            "infoFiltered": "(filtered from _MAX_ total records)",
+            "lengthMenu": Lang.get('js-components.lengthMenu'),
+            "zeroRecords": Lang.get('js-components.zeroVolunteers'),
+            "info": Lang.get('js-components.info'),
+            "infoEmpty": Lang.get('js-components.zeroVolunteers'),
             "paginate": {
-                "first": "Πρώτη",
-                "last": "Τελευταία",
-                "next": "Επόμενη",
-                "previous": "Προηγούμενη"
+                "first": Lang.get('js-components.first'),
+                "last": Lang.get('js-components.last'),
+                "next": ">",
+                "previous": "<"
             }
         },
         //disable ordering at the last column (edit, delete buttons)
@@ -96,15 +95,15 @@
             "aButtons": [
                 {
                     "sExtends": "copy",
-                    "sButtonText": "Αντιγραφή"
+                    "sButtonText": Lang.get('js-components.copy')
                 },
                 {
                     "sExtends": "print",
-                    "sButtonText": "Εκτύπωση"
+                    "sButtonText": Lang.get('js-components.print')
                 },
                 {
                     "sExtends": "csv",
-                    "sButtonText": "CSV"
+                    "sButtonText": Lang.get('js-components.csv')
                 }
             ]
         }
@@ -112,7 +111,7 @@
 
 
     function deleteCollaboration(id) {
-        if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε το συνεργαζόμενου φορέα;") == true) {
+        if (confirm(Lang.get('js-components.deleteCollab')) == true) {
             $.ajax({
                 url: $("body").attr('data-url') + '/collaborations/delete/' + id,
                 method: 'GET',

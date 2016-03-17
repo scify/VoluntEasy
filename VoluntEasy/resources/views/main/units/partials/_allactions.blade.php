@@ -1,19 +1,19 @@
 <table id="actionsTable" class="display table table-striped data-table" cellspacing="0" width="100%" data-unit-id="{{ $unit->id }}">
     <thead>
     <tr>
-        <th>Όνομα</th>
-        <th>Σχόλια</th>
-        <th>Ημ. Έναρξης</th>
-        <th>Ημ. Λήξης</th>
+        <th>{{ trans('entities/actions.name') }}</th>
+        <th>{{ trans('entities/actions.comments') }}</th>
+        <th>{{ trans('entities/actions.startDate') }}</th>
+        <th>{{ trans('entities/actions.endDate') }}</th>
     </tr>
     </thead>
 
     <tfoot>
     <tr>
-        <th>Όνομα</th>
-        <th>Σχόλια</th>
-        <th>Ημ. Έναρξης</th>
-        <th>Ημ. Λήξης</th>
+        <th>{{ trans('entities/actions.name') }}</th>
+        <th>{{ trans('entities/actions.comments') }}</th>
+        <th>{{ trans('entities/actions.startDate') }}</th>
+        <th>{{ trans('entities/actions.endDate') }}</th>
     </tr>
     </tfoot>
 </table>
@@ -40,16 +40,15 @@
         ],
         //custom text
         "language": {
-            "lengthMenu": "_MENU_ γραμμές ανά σελίδα",
-            "zeroRecords": "Δεν υπάρχουν εθελοντές",
-            "info": "Σελίδα _PAGE_ από _PAGES_",
-            "infoEmpty": "Δεν υπάρχουν εθελοντές",
-            "infoFiltered": "(filtered from _MAX_ total records)",
+            "lengthMenu": Lang.get('js-components.lengthMenu'),
+            "zeroRecords": Lang.get('js-components.zeroActions'),
+            "info": Lang.get('js-components.info'),
+            "infoEmpty": Lang.get('js-components.zeroActions'),
             "paginate": {
-                "first": "Πρώτη",
-                "last": "Τελευταία",
-                "next": "Επόμενη",
-                "previous": "Προηγούμενη"
+                "first": Lang.get('js-components.first'),
+                "last": Lang.get('js-components.last'),
+                "next": ">",
+                "previous": "<"
             }
         },
         dom: 'T<"clear">lfrtip',
@@ -58,15 +57,15 @@
             "aButtons": [
                 {
                     "sExtends": "copy",
-                    "sButtonText": "Αντιγραφή"
+                    "sButtonText": Lang.get('js-components.copy')
                 },
                 {
                     "sExtends": "print",
-                    "sButtonText": "Εκτύπωση"
+                    "sButtonText": Lang.get('js-components.print')
                 },
                 {
                     "sExtends": "csv",
-                    "sButtonText": "CSV"
+                    "sButtonText": Lang.get('js-components.csv')
                 }
             ]
         }

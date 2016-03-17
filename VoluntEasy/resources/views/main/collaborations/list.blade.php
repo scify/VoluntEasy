@@ -1,10 +1,10 @@
 @extends('default')
 
 @section('title')
-Προβολή Συνεργαζόμενων Φορέων
+{{ trans('entities/collaborations.view') }}
 @stop
 @section('pageTitle')
-Προβολή Συνεργασιών
+{{ trans('entities/collaborations.view') }}
 @stop
 
 @section('bodyContent')
@@ -24,7 +24,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Συνεργαζόμενοι Φορείς</h4>
+                <h4 class="panel-title">{{ trans('entities/collaborations.collabs') }}</h4>
             </div>
             <div class="panel-body">
                 @include('main.collaborations.partials._table')

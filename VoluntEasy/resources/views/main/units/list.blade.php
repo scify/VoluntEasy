@@ -1,10 +1,10 @@
 @extends('default')
 
 @section('title')
-Προβολή Οργανωτικών Μονάδων
+{{ trans('entities/units.view') }}
 @stop
 @section('pageTitle')
-Προβολή Οργανωτικών Μονάδων
+{{ trans('entities/units.view') }}
 @stop
 
 @section('bodyContent')
@@ -26,7 +26,8 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Μονάδες</h4>
+                <h4 class="panel-title">{{ trans('entities/units.units') }}
+                </h4>
             </div>
             <div class="panel-body">
                 @include('main.units.partials._table')

@@ -1,11 +1,11 @@
 @extends('default')
 
 @section('title')
-Δημιουργία Συνεργαζόμενου Φορέα
+{{ trans('entities/collaborations.create') }}
 @stop
 
 @section('pageTitle')
-Δημιουργία Συνεργαζόμενου Φορέα
+{{ trans('entities/collaborations.create') }}
 @stop
 
 @section('bodyContent')
@@ -14,7 +14,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Στοιχεία συνεργαζόμενου φορέα</h4>
+                <h4 class="panel-title">{{ trans('entities/collaborations.info') }}</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
@@ -25,7 +25,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         {!! Form::open(['method' => 'POST', 'action' => ['CollaborationController@store'], 'files'=>true]) !!}
-                        @include('main.collaborations.partials._form', ['submitButtonText' => 'Αποθήκευση'])
+                        @include('main.collaborations.partials._form', ['submitButtonText' => trans('default.save')])
                         {!! Form::close() !!}
                     </div>
                 </div>
@@ -36,8 +36,3 @@
 @stop
 
 
-@section('footerScripts')
-<script>
-
-</script>
-@append

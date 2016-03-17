@@ -1,23 +1,25 @@
-<table id="volunteersTable" class="display table table-striped data-table" cellspacing="0" width="100%" data-unit-id="{{ $unit->id }}">
+<table id="volunteersTable" class="display table table-striped data-table" cellspacing="0" width="100%"
+       data-unit-id="{{ $unit->id }}">
     <thead>
     <tr>
-        <th>ID</th>
-        <th>Όνομα</th>
-        <th>Email</th>
-        <th>Διεύθυνση</th>
-        <th>Τηλέφωνο</th>
-        <th>Κατάσταση</th>
+        <th>{{ trans('entities/volunteers.id') }}</th>
+        <th>{{ trans('entities/volunteers.name') }}</th>
+        <th>{{ trans('entities/volunteers.email') }}</th>
+        <th>{{ trans('entities/volunteers.address') }}</th>
+        <th>{{ trans('entities/volunteers.phone') }}</th>
+        <th>{{ trans('entities/volunteers.status') }}</th>
     </tr>
     </thead>
 
     <tfoot>
     <tr>
-        <th>ID</th>
-        <th>Όνομα</th>
-        <th>Email</th>
-        <th>Διεύθυνση</th>
-        <th>Τηλέφωνο</th>
-        <th>Κατάσταση</th>
+    <tr>
+        <th>{{ trans('entities/volunteers.id') }}</th>
+        <th>{{ trans('entities/volunteers.name') }}</th>
+        <th>{{ trans('entities/volunteers.email') }}</th>
+        <th>{{ trans('entities/volunteers.address') }}</th>
+        <th>{{ trans('entities/volunteers.phone') }}</th>
+        <th>{{ trans('entities/volunteers.status') }}</th>
     </tr>
     </tfoot>
 </table>
@@ -76,13 +78,13 @@
                 // display unit statuses
                 data: null, render: function (data, type, row) {
                 var status = '';
-console.log(data);
+                console.log(data);
                 if (data.units[0].status == 'Pending')
-                    status += '<div class="status pending">Υπό ένταξη</div>';
+                    status += '<div class="status pending">' + Lang.get('js-components.pending') + '</div>';
                 else if (data.units[0].status == 'Available')
-                    status += '<div class="status available">Διαθέσιμος</div>';
+                    status += '<div class="status available">' + Lang.get('js-components.available') + '</div>';
                 else if (data.units[0].status == 'Active')
-                    status += '<div class="status active">Ενεργός</div>';
+                    status += '<div class="status active">' + Lang.get('js-components.active') + '</div>';
 
                 return status;
             }
@@ -90,16 +92,15 @@ console.log(data);
         ],
         //custom text
         "language": {
-            "lengthMenu": "_MENU_ γραμμές ανά σελίδα",
-            "zeroRecords": "Δεν υπάρχουν εθελοντές",
-            "info": "Σελίδα _PAGE_ από _PAGES_",
-            "infoEmpty": "Δεν υπάρχουν εθελοντές",
-            "infoFiltered": "(filtered from _MAX_ total records)",
+            "lengthMenu": Lang.get('js-components.lengthMenu'),
+            "zeroRecords": Lang.get('js-components.zeroVolunteers'),
+            "info": Lang.get('js-components.info'),
+            "infoEmpty": Lang.get('js-components.zeroVolunteers'),
             "paginate": {
-                "first": "Πρώτη",
-                "last": "Τελευταία",
-                "next": "Επόμενη",
-                "previous": "Προηγούμενη"
+                "first": Lang.get('js-components.first'),
+                "last": Lang.get('js-components.last'),
+                "next": ">",
+                "previous": "<"
             }
         },
         dom: 'T<"clear">lfrtip',
@@ -108,15 +109,15 @@ console.log(data);
             "aButtons": [
                 {
                     "sExtends": "copy",
-                    "sButtonText": "Αντιγραφή"
+                    "sButtonText": Lang.get('js-components.copy')
                 },
                 {
                     "sExtends": "print",
-                    "sButtonText": "Εκτύπωση"
+                    "sButtonText": Lang.get('js-components.print')
                 },
                 {
                     "sExtends": "csv",
-                    "sButtonText": "CSV"
+                    "sButtonText": Lang.get('js-components.csv')
                 }
             ]
         }

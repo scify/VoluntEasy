@@ -1,11 +1,11 @@
 @extends('default')
 
 @section('title')
-Προβολή Συνεργαζόμενου Φορέα
+{{ trans('entities/collaborations.viewOne') }}
 @stop
 
 @section('pageTitle')
-Προβολή Συνεργαζόμενου Φορέα
+{{ trans('entities/collaborations.viewOne') }}
 @stop
 
 
@@ -14,7 +14,7 @@
 
 <div class="panel panel-white tree">
     <div class="panel-heading clearfix">
-        <h2 class="panel-title">Στοιχεία συνεργαζόμενου φορέα</h2>
+        <h2 class="panel-title">{{ trans('entities/collaborations.info') }}</h2>
 
         <div class="panel-control">
             <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="" class="panel-collapse"
@@ -24,24 +24,24 @@
     <div class="panel-body" style="display: block;">
         <div class="row">
             <div class="col-md-4">
-                <h3>Συνεργαζόμενος Φορέας {{ $collaboration->name }}</h3>
+                <h3>{{ trans('entities/collaborations.collab') }} {{ $collaboration->name }}</h3>
 
-                <p><strong>Περιγραφή:</strong> {{ $collaboration->comments==null || $collaboration->comments=='' ? '-' :
+                <p><strong>{{ trans('entities/collaborations.description') }}:</strong> {{ $collaboration->comments==null || $collaboration->comments=='' ? '-' :
                     $collaboration->comments }}</p>
 
-                <p><strong>Τύπος:</strong>  {{ $collaboration->type->description }}</p>
+                <p><strong>{{ trans('entities/collaborations.type') }}:</strong>  {{ $collaboration->type->description }}</p>
 
-                <p><strong>Διάρκεια:</strong> {{ $collaboration->start_date }} - {{ $collaboration->end_date }}</p>
+                <p><strong>{{ trans('entities/collaborations.duration') }}:</strong> {{ $collaboration->start_date }} - {{ $collaboration->end_date }}</p>
 
-                <p><strong>Διεύθυνση φορέα:</strong> {{ $collaboration->address==null || $collaboration->address=='' ? '-' :
+                <p><strong>{{ trans('entities/collaborations.collabAddress') }}:</strong> {{ $collaboration->address==null || $collaboration->address=='' ? '-' :
                     $collaboration->address }}</p>
 
-                <p><strong>Τηλέφωνο φορέα:</strong> {{ $collaboration->phone==null || $collaboration->phone=='' ? '-' :
+                <p><strong>{{ trans('entities/collaborations.collabPhone') }}:</strong> {{ $collaboration->phone==null || $collaboration->phone=='' ? '-' :
                     $collaboration->phone }}</p>
             </div>
 
             <div class="col-md-4">
-                <h3>Στοιχεία υπευθύνου συνεργαζόμενου φορέα</h3>
+                <h3>{{ trans('entities/collaborations.execInfo') }}</h3>
                 @if(sizeof($collaboration->executives)>0 && $collaboration->executives[0]->name!=null &&
                 $collaboration->executives[0]->name!='')
                 <ul class="list-unstyled">
@@ -62,13 +62,13 @@
                     </li>
                 </ul>
                 @else
-                <p>Δεν έχει οριστεί υπεύθυνος δράσης</p>
+                <p>{{ trans('entities/collaborations.noExec') }}</p>
                 @endif
             </div>
         </div>
         <div class="row">
             <div class="col-md-4">
-                <h3>Αρχεία συνεργαζόμενου φορέα</h3>
+                <h3>{{ trans('entities/collaborations.files') }}</h3>
                 @if(sizeof($collaboration->files)>0)
                 <table class="table table-condensed table-bordered">
                     @foreach($collaboration->files as $file)
@@ -94,9 +94,9 @@
         <hr/>
         <div class="text-right">
             <a href="{{ url('collaborations/edit/'.$collaboration->id) }}" class="btn btn-success"><i
-                    class="fa fa-edit"></i> Επεξεργασία</a>
+                    class="fa fa-edit"></i> {{ trans('default.edit') }}</a>
             <button onclick="deleteCollaboration({{ $collaboration->id }})" class="btn btn-danger"><i
-                    class="fa fa-trash"></i> Διαγραφή
+                    class="fa fa-trash"></i> {{ trans('default.delete') }}
             </button>
         </div>
     </div>
@@ -108,7 +108,7 @@
 <script>
     //delete collaboration and redirect to collaborations list
     function deleteCollaboration(id) {
-        if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε το συνεργαζόμενο φορέα;") == true) {
+        if (confirm(Lang.get('js-components.deleteCollab')) == true) {
             $.ajax({
                 url: $("body").attr('data-url') + '/collaborations/delete/' + id,
                 method: 'GET',
@@ -124,7 +124,7 @@
 
     //delete a file
     $(".deleteFile").click(function () {
-        if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε το αρχείο;")) {
+        if (confirm(Lang.get('js-components.deleteFile'))) {
             $.ajax({
                 url: $("body").attr('data-url') + '/collaborations/deleteFile',
                 method: 'POST',

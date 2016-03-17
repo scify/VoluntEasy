@@ -1,11 +1,11 @@
 @extends('default')
 
 @section('title')
-Δημιουργία Οργανωτικής Μονάδας
+{{ trans('entities/units.create') }}
 @stop
 
 @section('pageTitle')
-Δημιουργία Οργανωτικής Μονάδας
+{{ trans('entities/units.create') }}
 @stop
 
 @section('bodyContent')
@@ -14,7 +14,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Στοιχεία οργανωτικής μονάδας</h4>
+                <h4 class="panel-title">{{ trans('entities/units.info') }}</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
@@ -30,7 +30,7 @@
                         @include('main.units.partials._form', ['submitButtonText' => 'none', 'type' => 'branch'])
 
                         <div class="form-group text-right">
-                            {!! Form::submit('Αποθήκευση', ['class' => 'btn btn-success']) !!}
+                            {!! Form::submit(trans('default.save'), ['class' => 'btn btn-success']) !!}
                         </div>
                         {!! Form::close() !!}
                     </div>
@@ -45,7 +45,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Επιλογή πατέρα οργανωτικής <span class="star">*</span></h4>
+                <h4 class="panel-title">{{ trans('entities/units.selectParent') }} <span class="star">*</span></h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""

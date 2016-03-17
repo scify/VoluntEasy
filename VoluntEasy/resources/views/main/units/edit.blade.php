@@ -1,11 +1,11 @@
 @extends('default')
 
 @section('title')
-Επεξεργασία Μονάδας
+{{ trans('entities/units.edit') }}
 @stop
 
 @section('pageTitle')
-Επεξεργασία Μονάδας
+{{ trans('entities/units.edit') }}
 @stop
 
 @section('bodyContent')
@@ -14,7 +14,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Στοιχεία οργανωτικής μονάδας</h4>
+                <h4 class="panel-title">{{ trans('entities/units.info') }}</h4>
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
                        class="panel-collapse" data-original-title="Expand/Collapse"><i class="icon-arrow-down"></i></a>
@@ -26,7 +26,7 @@
                 'type' => $type]]) !!}
                 @include('main.units.partials._form', ['submitButtonText' => 'Αποθήκευση', 'unit' => $active])
                 <div class="form-group text-right">
-                    {!! Form::submit('Αποθήκευση', ['class' => 'btn btn-success']) !!}
+                    {!! Form::submit( trans('default.save'), ['class' => 'btn btn-success']) !!}
                 </div>
                 {!! Form::close() !!}
                 {!! Form::hidden('unit_id', $active->id, ['id' => 'unit_id']) !!}
@@ -40,7 +40,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Επιλογή πατέρα οργανωτικής <span class="star">*</span></h4>
+                <h4 class="panel-title">{{ trans('entities/units.selectParent') }} <span class="star">*</span></h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""

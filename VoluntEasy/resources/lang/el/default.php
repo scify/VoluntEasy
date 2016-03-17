@@ -28,4 +28,14 @@ return [
     'priority-medium' => 'Μεσαία',
     'priority-low' => 'Χαμηλή',
 
+
+    /* common words and phrases*/
+    'save' => 'Αποθήκευση',
+    'edit' => 'Επεξεργασία',
+    'delete' => 'Διαγραφή',
+    'search' => 'Αναζήτηση',
+    'clear' => 'Καθαρισμός',
+
+
+
 ];

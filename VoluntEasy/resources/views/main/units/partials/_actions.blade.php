@@ -1,5 +1,5 @@
 @if(sizeof($active->actions)==0)
-<h3>Η μονάδα δεν έχει καμία δράση</h3>
+<h3>{{ trans('entities/units.noActions') }}</h3>
 @else
 <ul class="list-unstyled">
     @foreach($active->actions as $action)
@@ -10,7 +10,7 @@
 @endif
 
 
-<button type="button" class="btn btn-info" data-toggle="modal" data-target="#actionModal">Προσθήκη Δράσης</button>
+<button type="button" class="btn btn-info" data-toggle="modal" data-target="#actionModal">{{ trans('entities/units.addAction') }}</button>
 
 
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" id="actionModal" aria-labelledby="actionModal"
@@ -20,10 +20,10 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
-                <h4 class="modal-title" id="myLargeModalLabel">Προσθήκη Δράσης</h4>
+                <h4 class="modal-title" id="myLargeModalLabel">{{ trans('entities/units.addAction') }}</h4>
             </div>
             <div class="modal-body">
-                @include('main.actions.partials._form', ['submitButtonText' => 'Αποθήκευση'])
+                @include('main.actions.partials._form', ['submitButtonText' => {{ trans('default.save') }}])
             </div>
         </div>
     </div>

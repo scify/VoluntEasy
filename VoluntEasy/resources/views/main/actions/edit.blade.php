@@ -1,11 +1,11 @@
 @extends('default')
 
 @section('title')
-Επεξεργασία Δράσης
+{{ trans('entities/actions.edit') }}
 @stop
 
 @section('pageTitle')
-Επεξεργασία Δράσης
+{{ trans('entities/actions.edit') }}
 @stop
 
 @section('bodyContent')
@@ -14,7 +14,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Στοιχεία δράσης</h4>
+                <h4 class="panel-title">{{ trans('entities/actions.info') }}</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
@@ -25,7 +25,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         {!! Form::model($action, ['method' => 'POST', 'action' => ['ActionController@update', 'id' => $action->id]]) !!}
-                        @include('main.actions.partials._form', ['submitButtonText' => 'Αποθήκευση', 'action' =>$action])
+                        @include('main.actions.partials._form', ['submitButtonText' => trans('default.save'), 'action' =>$action])
                         {!! Form::close() !!}
                         {!! Form::hidden('action_id', $action->id, ['id' => 'action_id']) !!}
                     </div>

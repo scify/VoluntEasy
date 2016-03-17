@@ -3,18 +3,18 @@
 return [
 
 	'units' => 'Management Entities',
-	'showUnits' => 'Show Management Entities',
+	'showUnits' => 'View Management Entities',
 	'createUnit' => 'Create Management Entity',
 	'actions' => 'Actions',
-	'showActions' => 'Show Actions',
+	'showActions' => 'View Actions',
 	'createAction' => 'Create Action',
 	'volunteers' => 'Volunteers',
-	'showVolunteers' => 'Show Volunteers',
+	'showVolunteers' => 'View Volunteers',
 	'createVolunteer' => 'Create Volunteer',
 	'volunteerStatistcs' => 'Statistics',	
 
 	'users' => 'Users',
 	'createUser' => "Create User",
-	'showUsers' => 'Show Users',
+	'showUsers' => 'View Users',
 	'tree' => 'Tree',
 ];

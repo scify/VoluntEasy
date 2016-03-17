@@ -1,11 +1,11 @@
 @extends('default')
 
 @section('title')
-Αξιολογήσεις Δράσης
+{{ trans('entities/actions.ratings') }}
 @stop
 
 @section('pageTitle')
-Αξιολογήσεις Δράσης
+{{ trans('entities/actions.ratings') }}
 @stop
 
 
@@ -15,7 +15,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Συνολικές αξιολογήσεις για τη δράση</h4>
+                <h4 class="panel-title">{{ trans('entities/actions.totalRatings') }}</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
@@ -31,7 +31,7 @@
                     @foreach($attributes as $attribute)
                     <th>{{ $attribute->description }}</th>
                     @endforeach
-                    <th>Σχόλια</th>
+                    <th>{{ trans('entities/actions.comments') }}</th>
 
                     </thead>
                     <tbody>
@@ -51,7 +51,7 @@
                     </tbody>
                 </table>
                 @else
-                <p>Δεν υπάρχουν αξιολογήσεις για τη δράση.</p>
+                <p>{{ trans('entities/actions.noRatings') }}</p>
                 @endif
             </div>
         </div>

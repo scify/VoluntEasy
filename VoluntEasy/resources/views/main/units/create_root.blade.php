@@ -1,11 +1,11 @@
 @extends('default')
 
 @section('title')
-Δημιουργία Μονάδας
+{{ trans('entities/units.create') }}
 @stop
 
 @section('pageTitle')
-Δημιουργία Μονάδας
+{{ trans('entities/units.create') }}
 @stop
 
 @section('bodyContent')
@@ -17,11 +17,11 @@
                 {!! Form::open(['method' => 'POST', 'action' => ['UnitController@store', 'type' => 'root']]) !!}
                 @include('main.units.partials._form', ['submitButtonText' => 'none', 'type' => 'root'])
 
-                <label>Επιλογή Υπευθύνου/ων:</label>
+                <label>{{ trans('entities/units.selectExec') }}:</label>
                 @include('main.units.partials._users', ['userIds' => [], 'users' => $users])
 
                 <div class="form-group text-right">
-                    {!! Form::submit('Αποθήκευση', ['class' => 'btn btn-success']) !!}
+                    {!! Form::submit(trans('default.save'), ['class' => 'btn btn-success']) !!}
                 </div>
                 {!! Form::close() !!}
             </div>
