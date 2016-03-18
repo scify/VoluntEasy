@@ -26,11 +26,11 @@
                                                    onclick="showTaskInfo({{ $task->id }})"> {{$task->name}}</a>
 
                                                 @if($task->status=="todo")
-                                                    <span class="status todo task-{{$task->id}}">TO DO</span>
+                                                    <span class="status todo task-{{$task->id}}">{{ trans('entities/tasks.todoCapitals') }}</span>
                                                 @elseif($task->status=="done")
-                                                    <span class="status done task-{{$task->id}}">DONE</span>
+                                                    <span class="status done task-{{$task->id}}">{{ trans('entities/tasks.doneCapitals') }}</span>
                                                 @elseif($task->status=="doing")
-                                                    <span class="status doing task-{{$task->id}}">DOING</span>
+                                                    <span class="status doing task-{{$task->id}}">{{ trans('entities/tasks.doingCapitals') }}</span>
                                                 @endif
 
                                                 <small> {{ sizeof($task->todoSubtasks) + sizeof($task->doingSubtasks) +
@@ -39,16 +39,16 @@
 
                                                 @if($task->priority==1)
                                                     <i class="fa fa-arrow-up priority-{{$task->priority}}"
-                                                       title="Χαμηλή προτεραιότητα"></i>
+                                                       title="{{ trans('entities/tasks.lowPriority') }}"></i>
                                                 @elseif($task->priority==2)
                                                     <i class="fa fa-arrow-up priority-{{$task->priority}}"
-                                                       title="Μεσαία προτεραιότητα"></i>
+                                                       title="{{ trans('entities/tasks.mediumPriority') }}"></i>
                                                 @elseif($task->priority==3)
                                                     <i class="fa fa-arrow-up priority-{{$task->priority}}"
-                                                       title="Υψηλή προτεραιότητα"></i>
+                                                       title="{{ trans('entities/tasks.mediumPriority') }}"></i>
                                                 @elseif($task->priority==4)
                                                     <i class="fa fa-arrow-up priority-{{$task->priority}}"
-                                                       title="Επείγουσα προτεραιότητα"></i>
+                                                       title="{{ trans('entities/tasks.urgentPriority') }}"></i>
                                                 @endif
 
                                                 <span>
@@ -57,31 +57,31 @@
                                                     @elseif($task->expires==-1)
                                                         <i class="fa fa-calendar"></i>
                                                         <small
-                                                                class="text-danger" title="Το subtask έληξε χτες">Χτες
+                                                                class="text-danger" title="{{ trans('entities/tasks.yesterdayExpired') }}">{{ trans('entities/tasks.yesterday') }}
                                                         </small>
                                                     @elseif($task->expires==0)
                                                         <i class="fa fa-calendar"></i>
                                                         <small
-                                                                class="text-warning" title="Το subtask λήγει σήμερα">
-                                                            Σήμερα
+                                                                class="text-warning" title="{{ trans('entities/tasks.todayExpires') }}">
+                                                            {{ trans('entities/tasks.today') }}
                                                         </small>
                                                     @elseif($task->expires==1)
-                                                        <i class="fa fa-calendar" title="Το subtask αύριο"></i>
+                                                        <i class="fa fa-calendar" title="{{ trans('entities/tasks.tomorrowExpires') }}"></i>
                                                         <small
                                                                 class="text-info">
-                                                            Αύριο
+                                                            {{ trans('entities/tasks.tomorrow') }}
                                                         </small>
                                                     @elseif($task->expires>1)
                                                         <i class="fa fa-calendar"></i>
                                                         <small
-                                                                title="Το subtask λήγει στις {{ $task->due_date }}">{{ $task->due_date
+                                                                title="{{ trans('entities/tasks.expiresAt') }} {{ $task->due_date }}">{{ $task->due_date
                                                  }}
                                                         </small>
                                                     @elseif($task->expires<-1)
                                                         <i class="fa fa-calendar"></i>
                                                         <small
                                                                 class="text-danger"
-                                                                title="Το subtask έληξε">{{ $task->due_date }}
+                                                                title="{{ trans('entities/tasks.expired') }}">{{ $task->due_date }}
                                                         </small>
                                                     @endif
                                          </span>
@@ -99,7 +99,7 @@
 
                                                         {{-- To Do subtasks --}}
                                                         <div class="col-md-4">
-                                                            <h3 class="panel-title">To Do</h3>
+                                                            <h3 class="panel-title">{{ trans('entities/tasks.todo') }}</h3>
 
                                                             <div class="board-column todo">
                                                                 @foreach($task->todoSubtasks as $subtask)
@@ -113,11 +113,11 @@
                                                             @if($subtask->expires=='null')
                                                                 <small></small>
                                                             @elseif($subtask->expires==-1)
-                                                                <small class="text-danger">Χτες</small>
+                                                                <small class="text-danger">{{ trans('entities/tasks.yesterday') }}</small>
                                                             @elseif($subtask->expires==0)
-                                                                <small class="text-warning">Σήμερα</small>
+                                                                <small class="text-warning">{{ trans('entities/tasks.today') }}</small>
                                                             @elseif($subtask->expires==1)
-                                                                <small class="text-info">Αύριο</small>
+                                                                <small class="text-info">{{ trans('entities/tasks.tomorrow') }}</small>
                                                             @elseif($subtask->expires>1)
                                                                 <small>{{ $subtask->due_date }}</small>
                                                             @elseif($subtask->expires<-1)
@@ -128,11 +128,11 @@
                                                                         <div>
                                                                             @if(sizeof($subtask->work_dates) >0 )
                                                                                 <i class="fa fa-calendar"
-                                                                                   title="{{ sizeof($subtask->work_dates) }} ημέρες/ώρες"></i> {{ sizeof($subtask->work_dates) }}
+                                                                                   title="{{ sizeof($subtask->work_dates) }} {{ trans('entities/tasks.daysHours') }}"></i> {{ sizeof($subtask->work_dates) }}
                                                                             @endif
                                                                             @if($subtask->ctaVolunteersCount >0 )
                                                                                 <i class="fa fa-leaf"
-                                                                                   title="{{ $subtask->ctaVolunteersCount }} ενδιαφερόμενοι εθελοντές"></i> {{ $subtask->ctaVolunteersCount }}
+                                                                                   title="{{ $subtask->ctaVolunteersCount }} {{ trans('entities/tasks.interestedVolunteers') }}"></i> {{ $subtask->ctaVolunteersCount }}
                                                                             @endif
                                                                             @if(sizeof($subtask->checklist) >0 )
                                                                                 <i class="fa fa-list"
@@ -146,7 +146,7 @@
 
                                                         {{-- Doing subtasks --}}
                                                         <div class="col-md-4">
-                                                            <h3 class="panel-title">Doing</h3>
+                                                            <h3 class="panel-title">{{ trans('entities/tasks.doing') }}</h3>
 
                                                             <div class="board-column doing">
                                                                 @foreach($task->doingSubtasks as $subtask)
@@ -160,11 +160,11 @@
                                                             @if($subtask->expires=='null')
                                                                 <small></small>
                                                             @elseif($subtask->expires==-1)
-                                                                <small class="text-danger">Χτες</small>
+                                                                <small class="text-danger">{{ trans('entities/tasks.yesterday') }}</small>
                                                             @elseif($subtask->expires==0)
-                                                                <small class="text-warning">Σήμερα</small>
+                                                                <small class="text-warning">{{ trans('entities/tasks.today') }}</small>
                                                             @elseif($subtask->expires==1)
-                                                                <small class="text-info">Αύριο</small>
+                                                                <small class="text-info">{{ trans('entities/tasks.tomorrow') }}</small>
                                                             @elseif($subtask->expires>1)
                                                                 <small>{{ $subtask->due_date }}</small>
                                                             @elseif($subtask->expires<-1)
@@ -175,11 +175,11 @@
                                                                         <div>
                                                                             @if(sizeof($subtask->work_dates) >0 )
                                                                                 <i class="fa fa-calendar"
-                                                                                   title="{{ sizeof($subtask->work_dates) }} ημέρες/ώρες"></i> {{ sizeof($subtask->work_dates) }}
+                                                                                   title="{{ sizeof($subtask->work_dates) }} {{ trans('entities/tasks.daysHours') }}"></i> {{ sizeof($subtask->work_dates) }}
                                                                             @endif
                                                                             @if($subtask->ctaVolunteersCount >0 )
                                                                                 <i class="fa fa-leaf"
-                                                                                   title="{{ $subtask->ctaVolunteersCount }} ενδιαφερόμενοι εθελοντές"></i> {{ $subtask->ctaVolunteersCount }}
+                                                                                   title="{{ $subtask->ctaVolunteersCount }} {{ trans('entities/tasks.interestedVolunteers') }}"></i> {{ $subtask->ctaVolunteersCount }}
                                                                             @endif
                                                                             @if(sizeof($subtask->checklist) >0 )
                                                                                 <i class="fa fa-list"
@@ -194,7 +194,7 @@
 
                                                         {{-- Done subtasks --}}
                                                         <div class="col-md-4">
-                                                            <h3 class="panel-title">Done</h3>
+                                                            <h3 class="panel-title">{{ trans('entities/tasks.done') }}</h3>
 
                                                             <div class="board-column done">
                                                                 @foreach($task->doneSubtasks as $subtask)
@@ -208,11 +208,11 @@
                                                             @if($subtask->expires=='null')
                                                                 <small></small>
                                                             @elseif($subtask->expires==-1)
-                                                                <small class="text-danger">Χτες</small>
+                                                                <small class="text-danger">{{ trans('entities/tasks.yesterday') }}</small>
                                                             @elseif($subtask->expires==0)
-                                                                <small class="text-warning">Σήμερα</small>
+                                                                <small class="text-warning">{{ trans('entities/tasks.today') }}</small>
                                                             @elseif($subtask->expires==1)
-                                                                <small class="text-info">Αύριο</small>
+                                                                <small class="text-info">{{ trans('entities/tasks.tomorrow') }}</small>
                                                             @elseif($subtask->expires>1)
                                                                 <small>{{ $subtask->due_date }}</small>
                                                             @elseif($subtask->expires<-1)
@@ -223,11 +223,11 @@
                                                                         <div>
                                                                             @if(sizeof($subtask->work_dates) >0 )
                                                                                 <i class="fa fa-calendar"
-                                                                                   title="{{ sizeof($subtask->work_dates) }} ημέρες/ώρες"></i> {{ sizeof($subtask->work_dates) }}
+                                                                                   title="{{ sizeof($subtask->work_dates) }} {{ trans('entities/tasks.daysHours') }}"></i> {{ sizeof($subtask->work_dates) }}
                                                                             @endif
                                                                             @if($subtask->ctaVolunteersCount >0 )
                                                                                 <i class="fa fa-leaf"
-                                                                                   title="{{ $subtask->ctaVolunteersCount }} ενδιαφερόμενοι εθελοντές"></i> {{ $subtask->ctaVolunteersCount }}
+                                                                                   title="{{ $subtask->ctaVolunteersCount }} {{ trans('entities/tasks.interestedVolunteers') }}"></i> {{ $subtask->ctaVolunteersCount }}
                                                                             @endif
                                                                             @if(sizeof($subtask->checklist) >0 )
                                                                                 <i class="fa fa-list"
@@ -247,7 +247,7 @@
                                                             <a href="javascript:void(0);" data-toggle="modal"
                                                                data-target="#addSubTask"
                                                                data-task-id="{{$task->id}}" class="addSubTask"><i
-                                                                        class="fa fa-plus"></i> Προσθήκη subtask</a>
+                                                                        class="fa fa-plus"></i> {{ trans('entities/tasks.addSubtask') }}</a>
                                                         </div>
                                                     </div>
                                                 @endif
@@ -268,27 +268,27 @@
                         <div class="row top-margin">
                             <div class="col-md-12">
                                 <a href="#" data-toggle="modal" data-target="#addTask"><i
-                                            class="fa fa-plus"></i> Προσθήκη task</a>
+                                            class="fa fa-plus"></i> {{ trans('entities/tasks.addTask') }}</a>
                             </div>
                         </div>
                     @endif
                     <div class="row">
                         <div class="col-md-12 text-right">
-                            <p><strong>Υπόμνημα:</strong> <br/>
-                                <i class="fa fa-calendar"></i> # ημερών/ωρών |
-                                <i class="fa fa-list"></i> # to-dos <br/>
-                                <i class="fa fa-leaf"></i> # εθ/ντών που έχουν εκδηλώσει ενδιαφέρον
+                            <p><strong>{{ trans('default.legend') }}:</strong> <br/>
+                                <i class="fa fa-calendar"></i> {{ trans('entities/tasks.hoursSum') }} |
+                                <i class="fa fa-list"></i> {{ trans('entities/tasks.todoSum') }} <br/>
+                                <i class="fa fa-leaf"></i> {{ trans('entities/tasks.volunteerSum') }}
                             </p>
                         </div>
                     </div>
                 @else
-                    <p>Δεν υπάρχει κανένα task για τη δράση.</p>
+                    <p>{{ trans('entities/tasks.noTask') }}</p>
 
                     @if($isPermitted)
                         <div class="row top-margin">
                             <div class="col-md-12">
                                 <a href="#" data-toggle="modal" data-target="#addTask"><i
-                                            class="fa fa-plus"></i> Προσθήκη task</a>
+                                            class="fa fa-plus"></i> {{ trans('entities/tasks.addTask') }}</a>
                             </div>
                         </div>
                     @endif

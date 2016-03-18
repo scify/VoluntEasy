@@ -3,11 +3,11 @@
 @extends('default')
 
 @section('title')
-Προβολή Χρήστη
+{{ trans('entities/users.viewOne') }}
 @stop
 
 @section('pageTitle')
-Προβολή Χρήστη
+{{ trans('entities/users.viewOne') }}
 @stop
 
 @section('bodyContent')
@@ -16,7 +16,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Στοιχεία Χρήστη</h4>
+                <h4 class="panel-title">{{ trans('entities/users.info') }}</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
@@ -67,10 +67,10 @@
                     <div class="col-md-12 text-right">
                         @if(in_array($user->id, $permittedUsers))
                         <a href="{{ url('users/edit/'.$user->id) }}" class="btn btn-success"><i
-                                class="fa fa-edit"></i> Επεξεργασία</a>
+                                class="fa fa-edit"></i> {{ trans('default.edit') }}</a>
                         @if(!$isAdmin)
                         <button onclick="deleteUser({{ $user->id }})" class="btn btn-danger"><i
-                                class="fa fa-trash"></i> Διαγραφή
+                                class="fa fa-trash"></i> {{ trans('default.delete') }}
                         </button>
                         @endif
                         @endif
@@ -84,7 +84,7 @@
 
 <div class="panel panel-white tree">
     <div class="panel-heading clearfix">
-        <h2 class="panel-title">Δέντρο</h2>
+        <h2 class="panel-title">{{ trans('entities/tree.tree') }}</h2>
 
         <div class="panel-control">
             <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="" class="panel-collapse"
@@ -92,7 +92,7 @@
         </div>
     </div>
     <div class="panel-body" style="display: block;">
-        <h4>Με πράσινο σημειώνονται οι μονάδες τις οποίες ο χρήστης μπορεί να επεξεργαστεί.</h4>
+        <h4>{{ trans('entities/users.inGreenTheUserUnits') }}</h4>
 
         @include('main.tree._tree')
 
@@ -118,7 +118,7 @@
 
     //delete user and return to user list
     function deleteUser(id) {
-        if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε το χρήστη;") == true) {
+        if (confirm(Lang.get('js-components.deleteUser')) == true) {
             $.ajax({
                 url: $("body").attr('data-url') + '/users/delete/' + id,
                 method: 'GET',

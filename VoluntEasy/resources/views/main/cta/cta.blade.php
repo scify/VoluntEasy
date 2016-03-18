@@ -3,7 +3,7 @@
 <html>
 <head>
     <!-- Title -->
-    <title>Call to action | {{trans($lang.'title')}}</title>
+    <title>{{ trans('entities/cta.cta') }} | {{trans($lang.'title')}}</title>
 
     @include('template.default.headerIncludes')
 </head>
@@ -13,7 +13,7 @@
 <div id="main-wrapper">
 <div class="row">
 <div class="col-md-8 center">
-<h4 class="text-right">Δείγμα δημόσια σελίδας</h4>
+<h4 class="text-right">{{ trans('entities/cta.sample') }} </h4>
 
 <div class="panel panel-white">
 <div class="panel-body">
@@ -25,9 +25,9 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <h2>Κάλεσμα εθελοντών στη δράση <strong>Bazaar</strong></h2>
+        <h2>{{ trans('entities/cta.callVolunteersToAction') }}  <strong>Bazaar</strong></h2>
 
-        <p>Από <strong>22/02/2016</strong> έως
+        <p>{{ trans('entities/cta.from') }} <strong>22/02/2016</strong> {{ trans('entities/cta.to') }}
             <strong>24/02/2016</strong> στην <a href="#">Τεχνόπολη</a></p>
 
         <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
@@ -43,27 +43,12 @@
             esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo
             voluptas nulla pariatur?</p>
 
-        <p>Υπεύθυνος επικοινωνίας: Test Test, 210-123456789, <a href="mailto:info@test.gr">info@test
+        <p>{{ trans('entities/cta.exec') }}: Test Test, 210-123456789, <a href="mailto:info@test.gr">info@test
                 .gr</a>
         </p>
     </div>
 </div>
 
-{{--
-<div class="row">
-    <div class="col-md-2">
-        <div class="circle">Βήμα 1:<br/> Ενημερωθείτε για τη δράση</div>
-    </div>
-    <div class="col-md-2">
-        <div class="circle">Βήμα 2:<br/> Επιλέξτε τις κατάλληλες για εσάς θέσεις</div>
-
-    </div>
-    <div class="col-md-2">
-        <div class="circle">Βήμα 3:<br/> Αποστείλλετε τη φόρμα</div>
-    </div>
-</div>
-
---}}
 <table class="table tasks">
     <tr>
         <td colspan="2">
@@ -83,25 +68,25 @@
                 <input type="checkbox" class="form-control">
                 <label>22/02/2016 <br/>  <span class="hours">09:00-11:00
                                                 </span>
-                    <br/>1/3 εθελοντές</label>
+                    <br/>1/3 {{ trans('entities/cta.volunteers') }}</label>
             </div>
             <div class="dateTime">
                 <input type="checkbox" class="form-control">
                 <label>22/02/2016 <br/>  <span class="hours">11:00-13:00
                                                 </span>
-                    <br/>1/3 εθελοντές</label>
+                    <br/>1/3 {{ trans('entities/cta.volunteers') }}</label>
             </div>
             <div class="dateTime">
                 <input type="checkbox" class="form-control">
                 <label>22/02/2016 <br/>  <span class="hours">13:00-15:00
                                                 </span>
-                    <br/>1/3 εθελοντές</label>
+                    <br/>1/3 {{ trans('entities/cta.volunteers') }}</label>
             </div>
             <div class="dateTime">
                 <input type="checkbox" class="form-control">
                 <label>22/02/2016 <br/>  <span class="hours">15:00-17:00
                                                 </span>
-                    <br/><span class="text-success">3/3 εθελοντές</span></label>
+                    <br/><span class="text-success">3/3 {{ trans('entities/cta.volunteers') }}</span></label>
             </div>
         </td>
     </tr>
@@ -114,13 +99,13 @@
                 <input type="checkbox" class="form-control">
                 <label>22/02/2016 <br/>  <span class="hours">09:00-13:00
                                                 </span>
-                    <br/>1/3 εθελοντές</label>
+                    <br/>1/3 {{ trans('entities/cta.volunteers') }}</label>
             </div>
             <div class="dateTime">
                 <input type="checkbox" class="form-control">
                 <label>22/02/2016 <br/>  <span class="hours">13:00-17:00
                                                 </span>
-                    <br/>1/3 εθελοντές</label>
+                    <br/>1/3 {{ trans('entities/cta.volunteers') }}</label>
             </div>
         </td>
     </tr>
@@ -146,25 +131,25 @@
                 <input type="checkbox" class="form-control">
                 <label>22/02/2016 <br/>  <span class="hours">09:00-11:00
                                                 </span>
-                    <br/>1/3 εθελοντές</label>
+                    <br/>1/3 {{ trans('entities/cta.volunteers') }}</label>
             </div>
             <div class="dateTime">
                 <input type="checkbox" class="form-control">
                 <label>22/02/2016 <br/>  <span class="hours">11:00-13:00
                                                 </span>
-                    <br/>1/3 εθελοντές</label>
+                    <br/>1/3 {{ trans('entities/cta.volunteers') }}</label>
             </div>
             <div class="dateTime">
                 <input type="checkbox" class="form-control">
                 <label>22/02/2016 <br/>  <span class="hours">13:00-15:00
                                                 </span>
-                    <br/>1/3 εθελοντές</label>
+                    <br/>1/3 {{ trans('entities/cta.volunteers') }}</label>
             </div>
             <div class="dateTime">
                 <input type="checkbox" class="form-control">
                 <label>22/02/2016 <br/>  <span class="hours">15:00-17:00
                                                 </span>
-                    <br/><span class="text-success">3/3 εθελοντές</span></label>
+                    <br/><span class="text-success">3/3 {{ trans('entities/cta.volunteers') }}</span></label>
             </div>
         </td>
     </tr>
@@ -190,7 +175,7 @@
                 <input type="checkbox" class="form-control">
                 <label>22/02/2016 - 26/02/2016<br/>  <span class="hours">09:00-11:00
                                                 </span>
-                    <br/>1/3 εθελοντές</label>
+                    <br/>1/3 {{ trans('entities/cta.volunteers') }}</label>
             </div>
 
         </td>
@@ -204,7 +189,7 @@
                 <input type="checkbox" class="form-control">
                 <label>20/02/2016<br/>  <span class="hours">09:00-11:00
                                                 </span>
-                    <br/>1/3 εθελοντές</label>
+                    <br/>1/3 {{ trans('entities/cta.volunteers') }}</label>
             </div>
         </td>
     </tr>
@@ -217,7 +202,7 @@
                 <input type="checkbox" class="form-control">
                 <label>20/02/2016<br/>  <span class="hours">09:00-11:00
                                                 </span>
-                    <br/>1/3 εθελοντές</label>
+                    <br/>1/3 {{ trans('entities/cta.volunteers') }}</label>
             </div>
         </td>
     </tr>
@@ -233,61 +218,9 @@
 <!-- Main Wrapper -->
 </div>
 <!-- Page Inner -->
-@include('main.cta._i_am_interested')
 </main>
 <!-- Page Content -->
 @include('template.default.footerIncludes')
-<script>
-
-    $("#submit").click(function () {
-        if (validate()) {
-            var ratings = [];
-
-            $.each($(".question"), function (key, value) {
-                var group = $(this).attr('data-radio-group');
-
-                ratings.push({
-                    attrId: $("input:radio[name ='" + group + "']:checked").attr('data-attrId'),
-                    score: $("input:radio[name ='" + group + "']:checked").val()
-                });
-            });
-
-            //send data to server to save the ratings
-            $.ajax({
-                url: $("body").attr('data-url') + '/ratings/action/store',
-                method: 'POST',
-                data: {
-                    actionId: $("#actionInformation").attr('data-action-id'),
-                    actionScoreId: $("#actionInformation").attr('data-action-score-id'),
-                    comments: $("#comments").val(),
-                    ratings: ratings
-                },
-                headers: {
-                    'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-                },
-                success: function (data) {
-                    window.location.href = $("body").attr('data-url') + "/ratings/action/thankyou/" + data;
-                }
-            });
-        }
-    });
-
-
-    //check that all radio button have been selected
-    function validate() {
-        var $questions = $(".question");
-        if ($questions.find("input:radio:checked").length === $questions.length) {
-            $(".error-msg").css('visibility', 'hidden');
-            return true;
-        }
-        else {
-            $(".error-msg .error-msg-text").text('Παρακαλώ απαντήστε σε όλες τις ερωτήσεις');
-            $(".error-msg").css('visibility', 'visible');
-            return false;
-        }
-    }
-
-</script>
 @yield('footerScripts')
 </body>
 </html>

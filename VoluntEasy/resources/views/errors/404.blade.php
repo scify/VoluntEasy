@@ -17,8 +17,8 @@
                 <div class="col-md-4 center">
                     <h1 class="text-xxl text-primary text-center">404</h1>
                     <div class="details">
-                        <h3>ΣΦΑΛΜΑ</h3>
-                        <p>Η σελίδα δεν βρέθηκε.</p>
+                        <h3>{{ trans('default.error') }}</h3>
+                        <p>Η σελίδα δεν {{ trans('default.pageNotFound') }}.</p>
                     </div>
                 </div>
             </div><!-- Row -->

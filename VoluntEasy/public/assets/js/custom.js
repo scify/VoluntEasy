@@ -86,17 +86,17 @@ $(document).ready(function () {
      * tooltips for the tree
      */
     $('.node.tooltips.notAssigned.disabled').tooltip({
-        title: 'Δεν είστε υπεύθυνος της μονάδας και δεν μπορείτε να την επιλέξετε.',
+        title: Lang.get('js-components.notUserUnit'),
         placement: 'bottom'
     });
 
     $('.node.tooltips.parent.hasUnits.disabled').tooltip({
-        title: 'Δεν μπορείτε να προσθέσετε δράση σε μονάδα που έχει υπομονάδες.',
+        title: Lang.get('js-components.hasUnits'),
         placement: 'bottom'
     });
 
     $('.node.tooltips.leaf.hasActions.disabled').tooltip({
-        title: 'Δεν μπορείτε να προσθέσετε υπομονάδα σε μονάδα που έχει δράσεις.',
+        title: Lang.get('js-components.hasActions'),
         placement: 'bottom'
     });
 

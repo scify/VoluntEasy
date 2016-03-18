@@ -1,10 +1,10 @@
 @extends('default')
 
 @section('title')
-Ειδοποιήσεις
+{{ trans('entities/notifications.notifications') }}
 @stop
 @section('pageTitle')
-Ειδοποιήσεις
+{{ trans('entities/notifications.notifications') }}
 @stop
 
 @section('bodyContent')
@@ -13,7 +13,7 @@
     <div class="col-md-4">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Ειδοποιήσεις</h4>
+                <h4 class="panel-title">{{ trans('entities/notifications.notifications') }}</h4>
             </div>
             <div class="panel-body">
                 <ul class="list-unstyled" id="notificationList">

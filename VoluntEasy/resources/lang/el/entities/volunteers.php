@@ -5,11 +5,11 @@ return [
     'volunteer' => '',
     'volunteers' => 'Εθελοντές',
 
-
-    'new' => 'Νέοι Εθελοντές',
-    'pending' => 'Υπό Ένταξη Εθελοντές',
-    'available' => 'Διαθέσιμοι Εθελοντές',
-    'active' => 'Ενεργοί Εθελοντές',
+    /* statuses */
+    'new' => 'Νέοι',
+    'pending' => 'Υπό Ένταξη',
+    'available' => 'Διαθέσιμοι',
+    'active' => 'Ενεργοί',
 
     'new.capitals' => 'ΝΕΟΙ ΕΘΕΛΟΝΤΕΣ',
     'pending.capitals' => 'ΥΠΟ ΈΝΤΑΞΗ ΕΘΕΛΟΝΤΕΣ',

@@ -3,7 +3,7 @@
 <html>
 <head>
     <!-- Title -->
-    <title>Call to action | {{trans($lang.'title')}}</title>
+    <title>{{ trans('entities/cta.cta') }} | {{trans($lang.'title')}}</title>
 
     @include('template.default.headerIncludes')
 </head>
@@ -24,7 +24,7 @@
                             @if(isset($publicAction) && $publicAction!=null)
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h2>Κάλεσμα εθελοντών στη δράση <strong>{{ $action->description }}</strong></h2>
+                                    <h2>{{ trans('entities/cta.callVolunteersToAction') }} <strong>{{ $action->description }}</strong></h2>
 
                                     <p><i class="fa fa-calendar"></i> <strong>{{ $action->start_date }}</strong> έως
                                         <strong>{{ $action->end_date }}</strong>
@@ -41,7 +41,7 @@
                                     <p>{{ $publicAction->description }}</p>
 
                                     @if($publicAction->executive_name!=null && $publicAction->executive_name!='')
-                                    <p>Υπεύθυνος επικοινωνίας: {{ $publicAction->executive_name }}
+                                    <p>{{ trans('entities/cta.exec') }}: {{ $publicAction->executive_name }}
                                         @if($publicAction->executive_phone!=null && $publicAction->executive_phone!='')
                                         , {{ $publicAction->executive_phone }}
                                         @endif
@@ -98,10 +98,10 @@
                                                     </span>
                                                     @if(sizeof($date->volunteers)==$date->volunteer_sum)
                                                     <br/><span class="text-success">{{ sizeof($date->volunteers) }}/{{ $date->volunteer_sum }}
-                                                   εθελοντές</span>
+                                                   {{ trans('entities/cta.volunteers') }}</span>
                                                     @else
                                                     <br/>{{ sizeof($date->volunteers) }}/{{ $date->volunteer_sum }}
-                                                    εθελοντές
+                                                    {{ trans('entities/cta.volunteers') }}
                                                     @endif
                                                 </div>
                                             </label>
@@ -117,63 +117,62 @@
                             @if($errors->has('dates'))
                             <div class="row">
                                 <div class="col-md-12">
-                                    <p class="text-danger">Παρακαλώ επιλέξτε τουλάχιστον μία θέση.</p>
+                                    <p class="text-danger">{{ trans('entities/cta.pleaseSelectPosition') }}</p>
                                 </div>
                             </div>
                             @endif
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h3>Αφού επιλέξετε τις θέσεις που σας ενδιαφέρουν, συμπληρώστε τα στοιχεία σας για
-                                        να επικοινωνήσουμε μαζί σας.</h3>
+                                    <h3>{{ trans('entities/cta.weWillContactYou') }}</h3>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        {!! Form::formInput('first_name', 'Όνομα:', $errors, ['class' => 'form-control',
+                                        {!! Form::formInput('first_name', trans('entities/cta.firstName') .':', $errors, ['class' => 'form-control',
                                         'id' =>
                                         'first_name', 'required' => 'true']) !!}
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        {!! Form::formInput('last_name', 'Επώνυμο:', $errors, ['class' =>
+                                        {!! Form::formInput('last_name', trans('entities/cta.lastName') .':', $errors, ['class' =>
                                         'form-control', 'id' =>
                                         'last_name', 'required' => 'true']) !!}
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        {!! Form::formInput('email', 'Email:', $errors, ['class' => 'form-control',
+                                        {!! Form::formInput('email', trans('entities/cta.email') .':', $errors, ['class' => 'form-control',
                                         'required' => 'true']) !!}
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        {!! Form::formInput('phone_number', 'Τηλέφωνο επικοινωνίας:', $errors, ['class'
+                                        {!! Form::formInput('phone_number', trans('entities/cta.phone') .':', $errors, ['class'
                                         => 'form-control',
                                         'required' => 'true']) !!}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        {!! Form::formInput('comments', 'Σχόλια:', $errors, ['class' => 'form-control',
+                                        {!! Form::formInput('comments', trans('entities/cta.comments') .':', $errors, ['class' => 'form-control',
                                         'type' => 'textarea', 'size' =>'2x2']) !!}
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12 text-right">
-                                    {!! Form::submit('Αποστολή', ['class' => 'btn btn-success width-130']) !!}
+                                    {!! Form::submit(trans('default.save') .':', ['class' => 'btn btn-success width-130']) !!}
                                     {!! Form::close() !!}
                                 </div>
                             </div>
                             @else
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h3>Η σελίδα δεν βρέθηκε</h3>
+                                    <h3>{{ trans('entities/cta.pageNotFound') }}</h3>
                                 </div>
                             </div>
                             @endif

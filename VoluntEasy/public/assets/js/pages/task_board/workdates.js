@@ -60,7 +60,7 @@ $(".addWorkDate").click(function (e) {
 
 //assign a ctavolunteer to an existing volunteer
 function assignToVolunteer(volunteer_id, cta_volunteer_id) {
-    if (confirm("Είστε σίγουροι ότι θέλετε να γίνει η ανάθεση του εθελοντή στο υπάρχον προφίλ;") == true) {
+    if (confirm(Lang.get('js-components.assignVolunteer')) == true) {
 
         $.ajax({
             method: 'GET',
@@ -97,7 +97,7 @@ function addWorkDate(parentId) {
 //delete a workdate
 function deleteWorkDate(id) {
 
-    if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε την ημέρα/ώρα;") == true) {
+    if (confirm(Lang.get('js-components.deleteWorkDate')) == true) {
 
         $.ajax({
             method: 'GET',
@@ -115,7 +115,7 @@ function deleteWorkDate(id) {
 //delete a workdate
 function deleteCTAVolunteer(id) {
 
-    if (confirm("Είστε σίγουροι ότι θέλετε να αφαιρέσετε τον ενδιαφερόμενο εθελοντή;") == true) {
+    if (confirm(Lang.get('js-components.removeVolunteer')) == true) {
 
         $.ajax({
             method: 'GET',

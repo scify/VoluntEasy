@@ -17,9 +17,9 @@
                 <div class="col-md-4 center">
                     <h1 class="text-xxl text-primary text-center">550</h1>
                     <div class="details">
-                        <h3>ΣΦΑΛΜΑ</h3>
-                        <p>Δεν έχετε δικαίωμα να κάνετε τη συγκεκριμένη ενέργεια.</p>
-                        <p><a href="{{ url('main') }}">Αρχική</a></p>
+                        <h3>{{ trans('default.error') }}</h3>
+                        <p>{{ trans('default.noRights') }}</p>
+                        <p><a href="{{ url('main') }}">{{ trans('default.back') }}</a></p>
                     </div>
                 </div>
             </div><!-- Row -->

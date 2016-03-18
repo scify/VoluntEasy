@@ -1,3 +1,3 @@
 <body>
-Welcome to VoluntEasy!
+{{ trans('emails/emails.welcome') }}
 </body>

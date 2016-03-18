@@ -12,7 +12,7 @@ Reports
     <div class="col-md-8">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Καταστάσεις εθελοντών ανά μήνα</h4>
+                <h4 class="panel-title">{{ trans('entities/reports.volunteersByStatus') }}</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""

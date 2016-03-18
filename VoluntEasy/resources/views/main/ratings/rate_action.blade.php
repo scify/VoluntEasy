@@ -21,11 +21,11 @@
                                         src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
                                 </a>
                             </div>
-                            <h3 class="text-center">Αξιολόγηση δράσης <span id="actionInformation"
+                            <h3 class="text-center">{{ trans('entities/ratings.actionRating') }} <span id="actionInformation"
                                                                             data-action-id="{{ $action->id }}"
                                                                             data-action-score-id="{{ $actionScore->id }}">{{ $action->description
                                 }}</span></h3>
-                            <h5 class="text-center">Διάρκεια Δράσης: {{ $action->start_date }} - {{
+                            <h5 class="text-center">{{ trans('entities/ratings.actionDuration') }}: {{ $action->start_date }} - {{
                                 $action->end_date }}</h5>
                             <hr/>
 
@@ -33,11 +33,11 @@
                             <table class="table table-striped" id="rateAction">
                                 <thead>
                                 <th></th>
-                                <th class="text-center">Διαφωνώ απόλυτα</th>
-                                <th class="text-center">Διαφωνώ</th>
-                                <th class="text-center">Ούτε διαφωνώ/ούτε συμφωνώ</th>
-                                <th class="text-center">Συμφωνώ</th>
-                                <th class="text-center">Συμφωνώ απόλυτα</th>
+                                <th class="text-center">{{ trans('entities/ratings.fullyDisagree') }}</th>
+                                <th class="text-center">{{ trans('entities/ratings.disagree') }}</th>
+                                <th class="text-center">{{ trans('entities/ratings.neutral') }}</th>
+                                <th class="text-center">{{ trans('entities/ratings.agree') }}</th>
+                                <th class="text-center">{{ trans('entities/ratings.fullyAgree') }}</th>
                                 </thead>
                                 <tbody>
                                 @foreach($attributes as $attribute)
@@ -67,7 +67,7 @@
                                 @endforeach
                                 <tr>
                                     <td>
-                                        Γράψε άλλες παρατηρήσεις (π.χ. μια όμορφη στιγμή, μια δύσκολη στιγμή ή κάτι που θα ήθελες να γίνει διαφορετικά).
+                                        {{ trans('entities/ratings.otherComments') }}
                                     </td>
                                     <td colspan="5">
                                         {!! Form::formInput('comments', '', null, ['class' => 'form-control', 'type' =>
@@ -83,13 +83,13 @@
                                             <p class="text-danger"><em class="error-msg-text"></em></p>
                                         </div>
                                     </div>
-                                    {!! Form::submit('Καταχώρηση', ['class' => 'btn btn-success', 'id' => 'submit']) !!}
+                                    {!! Form::submit(trans('default.submit'), ['class' => 'btn btn-success', 'id' => 'submit']) !!}
                                 </div>
                             </div>
                             <hr/>
                             <div class="row text-center">
                                 <div class="col-md-12">
-                                    <p><em>Λάβατε αυτό το ερωτηματολόγιο επειδή είστε εγγεγραμμένος ως εθελοντής στην πλατφόρμα διαχείρισης εθελοντών <strong>{{trans($lang.'title')}}</strong>.</em></p>
+                                    <p><em>{{ trans('entities/ratings.youReceivedThisEmailVolunteer') }} <strong>{{trans($lang.'title')}}</strong>.</em></p>
                                 </div>
                             </div>
                         </div>
@@ -148,7 +148,7 @@
             return true;
         }
         else {
-            $(".error-msg .error-msg-text").text('Παρακαλώ απαντήστε σε όλες τις ερωτήσεις');
+            $(".error-msg .error-msg-text").text(Lang.get('js-components.answerAllQuestions'));
             $(".error-msg").css('visibility', 'visible');
             return false;
         }

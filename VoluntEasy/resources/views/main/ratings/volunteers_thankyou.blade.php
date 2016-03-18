@@ -21,22 +21,18 @@
                                         src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
                                 </a>
 
-                                <h3 class="text-center">Αξιολόγηση εθελοντών</h3>
+                                <h3 class="text-center">{{ trans('entities/ratings.volunteerRatingHalf') }}</h3>
                                 <hr/>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <h3>Η αξιολόγηση καταχωρήθηκε με επιτυχία. Ευχαριστούμε.</h3>
+                                        <h3>{{ trans('entities/ratings.ratingAdded') }}</h3>
                                     </div>
                                 </div>
                                 <hr/>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <p>
-                                            <small><em>Λάβατε αυτό το ερωτηματολόγιο επειδή το email σας δηλώθηκε ως
-                                                    email
-                                                    υπευθύνου στη δράση {{ $action->description }} μέσω της πλατφόρμας
-                                                    διαχείρισης
-                                                    εθελοντών
+                                            <small><em>{{ trans('entities/ratings.youReceivedThisEmailActionManager') }}
                                                     <strong>{{trans($lang.'title')}}</strong>.</em></small>
                                         </p>
 

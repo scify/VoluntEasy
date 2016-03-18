@@ -1,10 +1,10 @@
 @extends('default')
 
 @section('title')
-Προβολή Χρηστών
+{{ trans('entities/users.view') }}
 @stop
 @section('pageTitle')
-Προβολή Χρηστών
+{{ trans('entities/users.view') }}
 @stop
 
 @section('bodyContent')
@@ -25,7 +25,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Χρήστες</h4>
+                <h4 class="panel-title">{{ trans('entities/users.users') }}</h4>
             </div>
             <div class="panel-body">
                 @include('main.users.partials._table')

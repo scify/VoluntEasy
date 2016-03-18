@@ -68,7 +68,7 @@
     <div class="col-md-6">
         <div class="panel panel-info smallHeading mini-panel">
             <div class="panel-heading clearfix ">
-                <h4 class="panel-title">{{ trans('entities/volunteers.new') }}</h4>
+                <h4 class="panel-title">{{ trans('entities/volunteers.new') }} {{ trans('entities/volunteers.volunteers') }}</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
@@ -84,7 +84,7 @@
     <div class="{{ $isAdmin ? 'col-md-6' : 'col-md-12' }} ">
         <div class="panel panel-warning smallHeading mini-panel">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">{{ trans('entities/volunteers.pending') }}</h4>
+                <h4 class="panel-title">{{ trans('entities/volunteers.pending') }} {{ trans('entities/volunteers.volunteers') }}</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
@@ -102,7 +102,7 @@
     <div class="col-md-6">
         <div class="panel panel-success smallHeading mini-panel">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">{{ trans('entities/volunteers.available') }}</h4>
+                <h4 class="panel-title">{{ trans('entities/volunteers.available') }} {{ trans('entities/volunteers.volunteers') }}</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
@@ -118,7 +118,7 @@
     <div class="col-md-6">
         <div class="panel panel-primary smallHeading mini-panel">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">{{ trans('entities/volunteers.active') }}</h4>
+                <h4 class="panel-title">{{ trans('entities/volunteers.active') }} {{ trans('entities/volunteers.volunteers') }}</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""

@@ -4,15 +4,15 @@
 
 <div class="row">
     <div class="col-md-4">
-        {!! Form::formInput('subtask-name', 'Όνομα sub-task:', $errors, ['class' => 'form-control name', 'required' =>
+        {!! Form::formInput('subtask-name', trans('entities/subtasks.name').':', $errors, ['class' => 'form-control name', 'required' =>
         'true']) !!}
 
-        <p class="text-danger subtask-name_err" style="display:none;">Συμπληρώστε το πεδίο.</p>
+        <p class="text-danger subtask-name_err" style="display:none;">{{ trans('entities/subtasks.fillField') }}</p>
     </div>
 
     <div class="col-md-4">
         <div class="form-group">
-            <label>Λήγει στις:</label>
+            <label>{{ trans('entities/subtasks.expiresAt') }}:</label>
             {!! Form::formInput('subtask-due_date', '', $errors, ['id' => 'subtask-due_date', 'class' => 'form-control
             date due_date', 'data-date-start-date' => $action->start_date, 'data-date-end-date' => $action->end_date])
             !!}
@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="col-md-4">
-        <label>Προτεραιότητα:</label>
+        <label>{{ trans('entities/subtasks.priority') }}:</label>
         <select class="form-control m-b-sm subtask-priorities" name="subtask-priorities">
             <option value="4">{{ trans($lang.'priority-urgent')}}</option>
             <option value="3">{{ trans($lang.'priority-high')}}</option>
@@ -30,7 +30,7 @@
     </div>
     <div class="col-md-12">
         <div class="form-group">
-            {!! Form::formInput('subtask-description', 'Περιγραφή sub-task:', $errors,
+            {!! Form::formInput('subtask-description', trans('entities/subtasks.description').':', $errors,
             ['class' => 'form-control description', 'type' => 'textarea', 'size' => '2x5']) !!}
         </div>
     </div>
@@ -39,7 +39,7 @@
 
 <div class="row todos" style="display:none;">
     <div class="col-md-12">
-        <h4><i class="fa fa-check-square-o"></i> To-do <br/><small>Πατήστε το enter για να αποθηκευτεί το to-do</small></h4>
+        <h4><i class="fa fa-check-square-o"></i> To-do <br/><small>{{ trans('entities/subtasks.toDoExplained') }}</small></h4>
 
         <form action="javascript:void(0);">
             <input type="text" class="form-control add-task" placeholder="Νέο to-do...">

@@ -2,7 +2,7 @@
 <html>
     <head>
         <!-- Title -->
-        <title>VoluntEasy | Login </title>
+        <title>VoluntEasy | {{ trans('auth/login.resetPassword') }} </title>
 
         @include('template.default.headerIncludes')
     </head>
@@ -19,7 +19,7 @@
                                 </div>
 					@if (count($errors) > 0)
 						<div class="alert alert-danger">
-							<strong>Whoops!</strong> There were some problems with your input.<br><br>
+							{{ trans('auth/login.wrongInput') }}<br><br>
 							<ul>
 								@foreach ($errors->all() as $error)
 									<li>{{ $error }}</li>
@@ -33,23 +33,23 @@
 						<input type="hidden" name="token" value="{{ $token }}">
 
 						<div class="form-group">
-							<label>E-Mail address</label>
+							<label>{{ trans('auth/login.email') }}</label>
 							<input type="email" class="form-control" name="email" value="{{ old('email') }}">
 						</div>
 
 						<div class="form-group">
-							<label>New password</label>
+							<label>{{ trans('auth/login.newPassword') }}</label>
 							<input type="password" class="form-control" name="password">
 						</div>
 
 						<div class="form-group">
-							<label>Confirm Password</label>
+							<label>{{ trans('auth/login.passwordConfirm') }}</label>
 							<input type="password" class="form-control" name="password_confirmation">
 						</div>
 
 						<div class="form-group">
 							<div class="btn btn-success btn-block">
-								<button type="submit" class="btn btn-success btn-block">Reset Password</button>
+								<button type="submit" class="btn btn-success btn-block">{{ trans('auth/login.resetPassword') }}</button>
 							</div>
 						</div>
 					</form>

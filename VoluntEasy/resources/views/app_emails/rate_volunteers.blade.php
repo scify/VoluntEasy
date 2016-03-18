@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Αξιολόγηση Εθελοντών</title>
+    <title>{{ trans('emails/emails.volunteerRating') }}</title>
     <style>
         /* -------------------------------------
             GLOBAL
@@ -188,14 +188,13 @@
                                    class="logo-name text-lg text-center"> <img
                                         src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
                                 </a>
-                                <h4>Πλατφόρμα Διαχείρισης Εθελοντών</h4>
+                                <h4>{{ trans('emails/emails.volunteerPlatform') }}</h4>
                             </center>
 
                             @if($action->name!=null && $action->name!='')
-                            <p>Αγαπητέ {{ $action->name }},</p>
+                            <p>{{ trans('emails/emails.dear') }} {{ $action->name }},</p>
                             @endif
-                            <p>Παρακαλούμε συμπληρώστε το ερωτηματολόγιο που ακολουθεί σχετικά με τους εθελοντές που
-                                συμμετείχαν στη δράση {{ $action->description }}.</p>
+                            <p>{{ trans('emails/emails.pleaseFillVolunteerQuestionnaire') }} {{ $action->description }}.</p>
 
                             <p><a href="{{ URL::to('/') }}/ratings/action/volunteers/{{ $token }}">{{ URL::to('/')
                                     }}/ratings/action/volunteers/{{ $token }}</a></p>
@@ -220,11 +219,7 @@
                 <table>
                     <tr>
                         <td align="center">
-                            <p><em>Λάβατε αυτό το ερωτηματολόγιο επειδή το email σας δηλώθηκε ως
-                                    email
-                                    υπευθύνου στη δράση {{ $action->description }} μέσω της πλατφόρμας
-                                    διαχείρισης
-                                    εθελοντών
+                            <p><em>{{ trans('emails/emails.youReceivedThisEmailVolunteer') }}
                                     <strong>{{trans($lang.'title')}}</strong>.</em></p>
                         </td>
                     </tr>

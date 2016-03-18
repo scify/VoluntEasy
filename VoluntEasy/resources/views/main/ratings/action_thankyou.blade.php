@@ -21,18 +21,17 @@
                                         src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
                                 </a>
 
-                                <h3 class="text-center">Αξιολόγηση δράσης</h3>
+                                <h3 class="text-center">{{ trans('entities/ratings.actionRating') }}</h3>
                                 <hr/>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <h3>Η αξιολόγηση καταχωρήθηκε με επιτυχία. Ευχαριστούμε.</h3>
+                                        <h3>{{ trans('entities/ratings.ratingAdded') }}</h3>
                                     </div>
                                 </div>
                                 <hr/>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <p><em>Λάβατε αυτό το ερωτηματολόγιο επειδή είστε εγγεγραμμένος ως εθελοντής
-                                                στην πλατφόρμα διαχείρισης εθελοντών
+                                        <p><em>{{ trans('entities/ratings.youReceivedThisEmailVolunteer') }}
                                                 <strong>{{trans($lang.'title')}}</strong>.</em></p>
                                     </div>
                                 </div>

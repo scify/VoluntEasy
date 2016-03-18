@@ -8,7 +8,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Προσθήκη task στη δράση</h4>
+                <h4 class="modal-title">{{ trans('entities/tasks.addTask') }}</h4>
             </div>
             <div class="modal-body">
                 {!! Form::open(['id' => 'createTask', 'method' => 'POST', 'action' => ['TaskController@store']]) !!}
@@ -17,8 +17,8 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
-                {!! Form::submit('Αποθήκευση', ['class' => 'btn btn-success', 'id' => 'storeTask']) !!}
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('default.close') }}</button>
+                {!! Form::submit(trans('default.save'), ['class' => 'btn btn-success', 'id' => 'storeTask']) !!}
                 {!! Form::close() !!}
             </div>
         </div>

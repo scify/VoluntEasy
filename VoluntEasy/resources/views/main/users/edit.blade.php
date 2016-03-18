@@ -1,11 +1,11 @@
 @extends('default')
 
 @section('title')
-Επεξεργασία Χρήστη
+{{ trans('entities/users.edit') }}
 @stop
 
 @section('pageTitle')
-Επεξεργασία Χρήστη
+{{ trans('entities/users.edit') }}
 @stop
 
 @section('bodyContent')
@@ -14,37 +14,8 @@
     => $user->id], 'files' => true]) !!}
     @include('main.users.partials._form', ['user' =>
     $user])
-    @include('main.users.partials._roles', ['submitButtonText' => 'Αποθήκευση'])
+    @include('main.users.partials._roles', ['submitButtonText' => trans('default.save') ])
     {!! Form::close() !!}
-
-
-{{--
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-white">
-            <div class="panel-body">
-                <div class="row m-b-lg">
-                    <div class="col-md-12 ">
-
-                        <h3>Επιλογή Οργανωτικών Μονάδων</h3>
-
-                        <p>Επιλέξτε τις οργανωτικές μονάδες στις οποίες μπορεί να έχει πρόσβαση ο χρήστης.</p>
-
-                        @include('main.tree._tree')
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 text-right">
-                        <button type="button" class="btn btn-success" id="save" data-user-id="{{$user->id}}">
-                            Αποθήκευση
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
---}}
 
 @stop
 

@@ -21,12 +21,12 @@
                                         src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
                                 </a>
                             </div>
-                            <h3 class="text-center">Αξιολόγηση εθελοντών για τη δράση <span id="actionInformation"
+                            <h3 class="text-center">{{ trans('entities/ratings.volunteerRating') }} <span id="actionInformation"
                                                                                             data-action-id="{{ $action->id }}"
                                                                                             data-email="{{ $action->email }}"
                                                                                             data-action-rating-id="{{ $actionRatingId }}">{{ $action->description
                                 }}</span></h3>
-                            <h5 class="text-center">Διάρκεια Δράσης: {{ $action->start_date }} - {{
+                            <h5 class="text-center">{{ trans('entities/ratings.actionDuration') }}: {{ $action->start_date }} - {{
                                 $action->end_date }}</h5>
                             <hr/>
                             @if(sizeof($action->volunteers)>0)
@@ -52,21 +52,20 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        {!! Form::formInput('comments', 'Σχόλια:', $errors, ['class' =>
+                                                        {!! Form::formInput('comments', trans('entities/ratings.comments').':', $errors, ['class' =>
                                                         'form-control volunteerRating comments',
                                                         'type' =>
                                                         'textarea', 'size' => '2x5', 'data-volunteer-id' =>
                                                         $volunteer->id ]) !!}
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-12"><p>Σημειώστε τις ώρες που απασχολήθηκε ο
-                                                                εθελοντής στη δράση.</p>
+                                                        <div class="col-md-12"><p>{{ trans('entities/ratings.addVolunteerHours') }}</p>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                {!! Form::formInput('hours', 'Ώρες:', $errors, ['class'
+                                                                {!! Form::formInput('hours', 'trans('entities/ratings.hours'):', $errors, ['class'
                                                                 =>
                                                                 'form-control volunteerRating hours',
                                                                 'data-volunteer-id' => $volunteer->id]) !!}
@@ -74,7 +73,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                {!! Form::formInput('minutes', 'Λεπτά:', $errors,
+                                                                {!! Form::formInput('minutes', 'trans('entities/ratings.minutes'):', $errors,
                                                                 ['class'
                                                                 => 'form-control volunteerRating minutes',
                                                                 'data-volunteer-id' => $volunteer->id]) !!}
@@ -102,7 +101,7 @@
 
 
                                         <div class="tab-pane fade" id="tab4">
-                                            <h2 class="no-s">Thank You !</h2>
+                                            <h2 class="no-s">{{ trans('entities/ratings.thankYou') }}</h2>
                                         </div>
 
 
@@ -115,12 +114,10 @@
                                                 </div>
                                             </div>
                                             <ul class="pager wizard">
-                                                <li class="previous"><a href="#" class="btn btn-default">Προηγούμενος
-                                                        εθελοντής</a>
+                                                <li class="previous"><a href="#" class="btn btn-default"{{ trans('entities/ratings.prevVolunteer') }}</a>
                                                 </li>
-                                                <li class="next"><a href="#" class="btn btn-default">Επόμενος
-                                                        εθελοντής</a></li>
-                                                <li class="next finish" style="display:none;"><a href="javascript:;">Καταχώρηση</a>
+                                                <li class="next"><a href="#" class="btn btn-default">{{ trans('entities/ratings.nextVolunteer') }}</a></li>
+                                                <li class="next finish" style="display:none;"><a href="javascript:;">{{ trans('default.submit') }}</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -129,17 +126,13 @@
 
 
                             @else
-                            <p>Δεν υπάρχουν εθελοντές προς αξιολόγηση.</p>
+                            <p>{{ trans('entities/ratings.noVolunteers') }}</p>
                             @endif
                             <hr/>
                             <div class="row">
                                 <div class="col-md-12">
                                     <p>
-                                        <small><em>Λάβατε αυτό το ερωτηματολόγιο επειδή το email σας δηλώθηκε ως
-                                                email
-                                                υπευθύνου στη δράση {{ $action->description }} μέσω της πλατφόρμας
-                                                διαχείρισης
-                                                εθελοντών
+                                        <small><em>{{ trans('entities/ratings.youReceivedThisEmailActionManager') }}
                                                 <strong>{{trans($lang.'title')}}</strong>.</em></small>
                                     </p>
                                 </div>
@@ -270,7 +263,7 @@
 
         volunteerAttributes.each(function (index) {
             if ($(this).raty('score') == undefined) {
-                $(".error-msg .error-msg-text").text('Παρακαλώ αξιολογήστε τον εθελοντή');
+                $(".error-msg .error-msg-text").text(Lang.get('js-components.answerAllQuestions'));
                 $(".error-msg").css('visibility', 'visible');
             }
             else
@@ -278,13 +271,13 @@
         });
 
         if (hours != '' && !$.isNumeric(hours)) {
-            $(".error-msg .error-msg-text").text('Παρακαλώ εισάγετε μόνο αριθμούς στις ώρες συμμετοχής');
+            $(".error-msg .error-msg-text").text(Lang.get('js-components.pleaseRateVolunteer'));
             $(".error-msg").css('visibility', 'visible');
             return false;
         }
 
         if (minutes != '' && !$.isNumeric(minutes)) {
-            $(".error-msg .error-msg-text").text('Παρακαλώ εισάγετε μόνο αριθμούς στις ώρες συμμετοχής');
+            $(".error-msg .error-msg-text").text(Lang.get('js-components.pleaseAddOnlyNumbers'));
             $(".error-msg").css('visibility', 'visible');
             return false;
         }

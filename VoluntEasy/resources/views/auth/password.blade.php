@@ -2,7 +2,7 @@
 <html>
     <head>
         <!-- Title -->
-        <title>VoluntEasy | Reset Password </title>
+        <title>VoluntEasy | {{ trans('auth/login.resetPassword') }} </title>
 
         @include('template.default.headerIncludes')
     </head>
@@ -36,7 +36,7 @@
                                         <div class="form-group">
                                             <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Email" />
                                         </div>
-                                        <button type="submit" class="btn btn-success btn-block">Send Password Reset Link</button>
+                                        <button type="submit" class="btn btn-success btn-block">{{ trans('auth/login.resetPasswordLink') }}</button>
                                    </form>
                             </div>
                         </div>

@@ -2,13 +2,13 @@
     <div class="col-md-6 comments">
         <div class="form-group">
             <input type="hidden" name="subtaskId" class="subtaskId" value="">
-            {!! Form::formInput('comments', 'Περιγραφή:', $errors, ['class' => 'form-control work_date_comments', 'required' => 'true']) !!}
-            <p class="comments_err text-danger" style="display:none;">Συμπληρώστε το πεδίο.</p>
+            {!! Form::formInput('comments', trans('entities/subtasks.description').':', $errors, ['class' => 'form-control work_date_comments', 'required' => 'true']) !!}
+            <p class="comments_err text-danger" style="display:none;">{{ trans('entities/subtasks.fillField') }}</p>
         </div>
     </div>
     <div class="col-md-6 volunteers">
         <div class="form-group">
-            {!! Form::formInput('volunteerSum', 'Αριθμός απαιτούμενων εθελοντών:', $errors, ['class'
+            {!! Form::formInput('volunteerSum', trans('entities/subtasks.volunteersNeeded').':', $errors, ['class'
                         =>
                         'form-control volunteerSum']) !!}
         </div>
@@ -20,7 +20,7 @@
     <div class="col-md-4 workDate">
         <div class="form-group">
             <input type="hidden" name="dateId" class="dateId" value="">
-            {!! Form::formInput('dateFrom', 'Ημερομηνία:', $errors, ['class' =>
+            {!! Form::formInput('dateFrom', trans('entities/subtasks.date').':', $errors, ['class' =>
             'form-control date datetime dateFrom',
             'data-date-start-date' => $action->start_date, 'data-date-end-date' => $action->end_date,
             'data-date-format' => 'dd/mm/yyyy']) !!}
@@ -28,14 +28,14 @@
     </div>
     <div class="col-md-4 workTime">
         <div class="form-group">
-            {!! Form::formInput('hourFrom', 'Ώρα από:', $errors, ['class' =>
+            {!! Form::formInput('hourFrom', trans('entities/subtasks.hourFrom').':', $errors, ['class' =>
                         'form-control
                         time datetime hourFrom']) !!}
         </div>
     </div>
     <div class="col-md-4 workTime">
         <div class="form-group">
-            {!! Form::formInput('hourTo', 'Ώρα έως:', $errors, ['class' => 'form-control time datetime hourTo']) !!}
+            {!! Form::formInput('hourTo', trans('entities/subtasks.hourTo').':', $errors, ['class' => 'form-control time datetime hourTo']) !!}
         </div>
     </div>
 </div>
@@ -44,7 +44,7 @@
 @if(isset($showVolunteers) && $showVolunteers)
 <div class="row">
     <div class="col-sm-5">
-        <p>Διαθέσιμοι εθελοντές:</p>
+        <p>{{ trans('entities/subtasks.availableVolunteers') }}:</p>
         <select name="from" class="form-control sub_volunteers" id="sub_volunteers" size="8" multiple="multiple">
         </select>
     </div>
@@ -63,7 +63,7 @@
     </div>
 
     <div class="col-sm-5">
-        <p>Ανατεθειμένοι εθελοντές:</p>
+        <p>{{ trans('entities/subtasks.assignedVolunteers') }}:</p>
         <select name="to" id="sub_volunteers_to" class="form-control" size="8" multiple="multiple">
         </select>
     </div>
@@ -71,13 +71,13 @@
 
 <div class="row top-margin ctaVolunteers">
     <div class="col-md-12">
-        <p>Εθελοντές που έχουν εκδηλώσει ενδιαφέρον:</p>
+        <p>{{ trans('entities/subtasks.interestedVolunteers') }}:</p>
         <table class="table table-condensed table-bordered ">
             <thead>
-            <th>Εθελοντής</th>
-            <th>Στοιχεία</th>
-            <th>Σχόλια</th>
-            <th>Ενέργειες</th>
+            <th>{{ trans('entities/subtasks.volunteer') }}</th>
+            <th>{{ trans('entities/subtasks.info') }}</th>
+            <th>{{ trans('entities/subtasks.comments') }}</th>
+            <th>{{ trans('entities/subtasks.actions') }}</th>
             </thead>
             <tbody>
             </tbody>

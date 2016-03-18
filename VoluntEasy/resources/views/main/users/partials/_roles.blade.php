@@ -4,7 +4,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Ρόλοι χρήστη</h4>
+                <h4 class="panel-title">{{ trans('entities/users.userRoles') }}</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
@@ -33,7 +33,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group" id="units" style="display: none;">
-                            <p>Οργανωτικές Μονάδες:</p>
+                            <p>{{ trans('entities/units.units') }}:</p>
                             <select class="js-states form-control" id="unitList" multiple="multiple"
                                     name="unitsSelect[]"
                                     tabindex="-1"
@@ -48,14 +48,13 @@
                                 @endforeach
                             </select>
 
-                            <p class="help-block">Κρατήστε πατημένο το πλήκτρο CTRL για να επιλέξετε παραπάνω από μία
-                                μονάδες.<br/>
-                                Οι μονάδες στις οποίες δεν έχετε πρόσβαση είναι μη επιλέξιμες (γκριζαρισμένες).
+                            <p class="help-block">{{ trans('entities/users.unitSelectExpl') }}<br/>
+                                {{ trans('entities/users.unitNotSelectable') }}
                             </p>
                         </div>
 
                         <div class="form-group" id="actions" style="display: none;">
-                            <p>Δράσεις:</p>
+                            <p>{{ trans('entities/actions.actions') }}:</p>
                             <select class="js-states form-control" id="actionList" multiple="multiple"
                                     name="actionsSelect[]"
                                     tabindex="-1"
@@ -68,8 +67,7 @@
                                 @endforeach
                             </select>
 
-                            <p class="help-block">Κρατήστε πατημένο το πλήκτρο CTRL για να επιλέξετε παραπάνω από μία
-                                δράσεις.</p>
+                            <p class="help-block">{{ trans('entities/users.actionSelectExpl') }}</p>
                         </div>
                     </div>
                 </div>

@@ -64,7 +64,7 @@ $(".editTask").click(function (e) {
 
 //delete a task
 $(".deleteTask").click(function () {
-    if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε το task;") == true) {
+    if (confirm(Lang.get('js-components.deleteTask')) == true) {
 
         $.ajax({
             method: 'GET',
@@ -91,13 +91,13 @@ function showTaskInfo(taskId) {
             $(".taskInfo .deleteTask").attr('data-task-id', task.id);
 
             if (task.priority == 1)
-                $(".taskInfo .priority").text('Χαμηλή');
+                $(".taskInfo .priority").text(Lang.get('js-components.low'));
             if (task.priority == 2)
-                $(".taskInfo .priority").text('Μεσαία');
+                $(".taskInfo .priority").text(Lang.get('js-components.medium'));
             if (task.priority == 3)
-                $(".taskInfo .priority").text('Υψηλή');
+                $(".taskInfo .priority").text(Lang.get('js-components.high'));
             if (task.priority == 4)
-                $(".taskInfo .priority").text('Επείγον');
+                $(".taskInfo .priority").text(Lang.get('js-components.urgent'));
 
             $(".taskInfo .priority").attr('data-priority', task.priority);
 

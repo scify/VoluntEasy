@@ -2,7 +2,7 @@
 <html>
     <head>
         <!-- Title -->
-        <title>VoluntEasy | Δημιουργία Λογαριασμού </title>
+        <title>VoluntEasy | {{ trans('auth/login.register') }} </title>
 
         @include('template.default.headerIncludes')
     </head>
@@ -28,24 +28,24 @@
                                 	<form class="m-t-md" role="form" method="POST" action="{{ url('/auth/register') }}">
                                 		<input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <div class="form-group">
-                                                <input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Όνομα" />
+                                                <input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="{{ trans('auth/login.name') }}" />
                                         </div>
                                         <div class="form-group">
-                                                <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Email" />
+                                                <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="{{ trans('auth/login.email') }}" />
                                         </div>
                                         <div class="form-group">
-                                                <input type="password" class="form-control" name="password" placeholder="Κωδικός" />
+                                                <input type="password" class="form-control" name="password" placeholder="{{ trans('auth/login.password') }}" />
                                         </div>
                                         <div class="form-group">
-                                                <input type="password" class="form-control" name="password_confirmation" placeholder="Επαλήθευση Κωδικού" />
+                                                <input type="password" class="form-control" name="password_confirmation" placeholder="{{ trans('auth/login.passwordConfirm') }}" />
                                         </div>
                                         <div class="form-group">
-                                                <input type="text" class="form-control" name="addr" placeholder="Διεύθυνση" />
+                                                <input type="text" class="form-control" name="addr" placeholder="{{ trans('auth/login.address') }}" />
                                         </div>
                                         <div class="form-group">
-                                                <input type="text" class="form-control" name="tel" placeholder="Τηλέφωνο" />
+                                                <input type="text" class="form-control" name="tel" placeholder="{{ trans('auth/login.phone') }}" />
                                         </div>
-                                        <button type="submit" class="btn btn-success btn-block">Δημιουργία Λογαριασμού</button>
+                                        <button type="submit" class="btn btn-success btn-block">{{ trans('auth/login.register') }}</button>
                                    </form>
                             </div>
                         </div>

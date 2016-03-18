@@ -85,7 +85,7 @@ $(".editSubTask").click(function (e) {
 
 //delete a subtask
 $(".deleteSubTask").click(function () {
-    if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε το subtask;") == true) {
+    if (confirm(Lang.get('js-components.deleteSubtask')) == true) {
 
         $.ajax({
             method: 'GET',
@@ -112,13 +112,13 @@ function showSubTaskInfo(subTaskId) {
             $(".subTaskInfo .deleteSubTask").attr('data-subtask-id', subTask.id);
 
             if (subTask.priority == 1)
-                $(".subTaskInfo .priority").text('Χαμηλή');
+                $(".subTaskInfo .priority").text(Lang.get('js-components.low'));
             if (subTask.priority == 2)
-                $(".subTaskInfo .priority").text('Μεσαία');
+                $(".subTaskInfo .priority").text(Lang.get('js-components.medium'));
             if (subTask.priority == 3)
-                $(".subTaskInfo .priority").text('Υψηλή');
+                $(".subTaskInfo .priority").text(Lang.get('js-components.high'));
             if (subTask.priority == 4)
-                $(".subTaskInfo .priority").text('Επείγον');
+                $(".subTaskInfo .priority").text(Lang.get('js-components.urgent'));
 
             $(".subTaskInfo .priority").attr('data-priority', subTask.priority);
 
@@ -163,7 +163,7 @@ function showSubTaskInfo(subTaskId) {
             //add the to-do list
             html = '';
             if (subTask.checklist.length == 0)
-                html = '<p><em>Δεν υπάρχουν To-Dos</em></p>';
+                html = '<p><em>'+Lang.get('js-components.noToDos')+'</em></p>';
             else {
                 $.each(subTask.checklist, function (i, item) {
                     if (item.isComplete == "1")

@@ -1,10 +1,9 @@
 @if($isPermitted)
     <div class="row">
         <div class="col-md-12">
-            <p>Δημιουργήστε τη δημόσια σελίδα που θα βλέπουν οι εθελοντές για να δηλώσουν το ενδιαφέρον τους για τη
-                δράση.</p>
+            <p>{{ trans('entities/cta.createCTA') }}</p>
 
-            <p><a href="{{ url('cta') }}" target="_blank">Δείγμα δημόσιας σελίδας</a></p>
+            <p><a href="{{ url('cta') }}" target="_blank">{{ trans('entities/cta.sample') }}</a></p>
         </div>
     </div>
 
@@ -16,8 +15,8 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group text-right">
-                <p class="text-danger errors" style="display:none;">Συμπληρώστε τα απαιτούμενα πεδία.</p>
-                {!! Form::submit('Αποθήκευση', ['class' => 'btn btn-success', 'id' => 'savePublicAction']) !!}
+                <p class="text-danger errors" style="display:none;">{{ trans('entities/cta.fillFields') }}</p>
+                {!! Form::submit(trans('default.save'), ['class' => 'btn btn-success', 'id' => 'savePublicAction']) !!}
             </div>
         </div>
     </div>
@@ -55,7 +54,7 @@
 @else
     <div class="row">
         <div class="col-md-12">
-            <p>Δεν έχετε δικαίωμα να δημιουργήσετε δημόσια σελίδα για αυτή τη δράση.</p>
+            <p>{{ trans('entities/cta.noRights') }}</p>
         </div>
     </div>
 

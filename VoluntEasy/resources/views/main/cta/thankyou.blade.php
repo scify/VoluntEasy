@@ -3,7 +3,7 @@
 <html>
 <head>
     <!-- Title -->
-    <title>Call to action | {{trans($lang.'title')}}</title>
+    <title>{{ trans('entities/cta.cta') }} | {{trans($lang.'title')}}</title>
 
     @include('template.default.headerIncludes')
 </head>
@@ -24,7 +24,7 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h3>Ευχαριστούμε για τη συμμετοχή! Θα επικοινωνήσουμε σύντομα μαζί σας.</h3>
+                                    <h3>{{ trans('entities/cta.thankYou') }}</h3>
                                 </div>
                             </div>
 

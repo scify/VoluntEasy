@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Νέος Εθελοντής για τη Δράση</title>
+    <title>{{ trans('emails/emails.newCTAVolunteer') }}</title>
     <style>
         /* -------------------------------------
             GLOBAL
@@ -196,31 +196,28 @@
                                    class="logo-name text-lg text-center"> <img
                                         src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
                                 </a>
-                                <h4>Πλατφόρμα Διαχείρισης Εθελοντών</h4>
+                                <h4>{{ trans('emails/emails.volunteerPlatform') }}</h4>
                             </center>
 
                             @if($user->name!=null && $user->name!='')
-                            <p>Αγαπητέ {{ $user->name }},</p>
+                            <p>{{ trans('emails/emails.dear') }} {{ $user->name }},</p>
                             @endif
 
-                            <p>Ένας νέος εθελοντής δήλωσε ενδιαφέρον στη δράση <strong><a href="{{ URL::to('/') }}/actions/one/{{ $publicAction->action->id }}" target="_blank">{{$publicAction->action->description}}</a></strong>.</p>
+                            <p>{{ trans('emails/emails.newVolunteerForAction') }} <strong><a href="{{ URL::to('/') }}/actions/one/{{ $publicAction->action->id }}" target="_blank">{{$publicAction->action->description}}</a></strong>.</p>
 
-                            <p>Όνομα: {{ $ctaVolunteer->first_name }} {{ $ctaVolunteer->last_name }}</p>
-                            <p>Email: {{ $ctaVolunteer->email }}</p>
-                            <p>Σχόλια: {{ $ctaVolunteer->comments }}</p>
+                            <p>{{ trans('emails/emails.name') }}: {{ $ctaVolunteer->first_name }} {{ $ctaVolunteer->last_name }}</p>
+                            <p>{{ trans('emails/emails.email') }}: {{ $ctaVolunteer->email }}</p>
+                            <p>{{ trans('emails/emails.comments') }}: {{ $ctaVolunteer->comments }}</p>
 
                             @if($ctaVolunteer->isVolunteer)
-                            <p class="text-success">Ο εθελοντής υπάρχει ήδη στην πλατφόρμα! Μπορείτε να τον αναθέσετε
-                                στη δράση, εφόσον βρίσκεται στην κατάλληλη μονάδα. Δείτε το προφίλ του <a href="{{ URL::to('/') }}/volunteers/one/{{ $volunteer->id }}" target="_blank">εδώ</a>.</p>
+                            <p class="text-success">{{ trans('emails/emails.volunteerFoundInPlatform') }} <a href="{{ URL::to('/') }}/volunteers/one/{{ $volunteer->id }}" target="_blank">{{ trans('emails/emails.here') }}</a>.</p>
                             @else
-                            <p class="text-danger">Δεν βρέθηκε εθελοντής με αυτό το email στην πλατφόρμα. Αν δεν
-                                υπάρχει σε αυτή, θα πρέπει να γίνει δημιουργία του προφίλ του και να περάσει από
-                                συνέντευξη.</p>
+                            <p class="text-danger">{{ trans('emails/emails.volunteerNotFoundInPlatform') }}</p>
                             @endif
 
                             @foreach($ctaVolunteer->dates as $date)
 
-                             <h4>Task {{ $date->date->subtask->task->name }} / Subtask {{ $date->date->subtask->name }}</h4>
+                             <h4>{{ trans('entities/tasks.task') }} {{ $date->date->subtask->task->name }} / {{ trans('entities/subtasks.subtask') }} {{ $date->date->subtask->name }}</h4>
                              <p>{{ $date->date->from_date }}, {{ $date->date->from_hour }}-{{$date->date->to_hour }}</p>
 
                             @endforeach

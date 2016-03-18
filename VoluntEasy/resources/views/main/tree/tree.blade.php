@@ -1,10 +1,10 @@
 @extends('default')
 
 @section('title')
-Tree
+{{ trans('entities/tree.tree') }}
 @stop
 @section('pageTitle')
-Tree
+{{ trans('entities/tree.tree') }}
 @stop
 
 @section('bodyContent')

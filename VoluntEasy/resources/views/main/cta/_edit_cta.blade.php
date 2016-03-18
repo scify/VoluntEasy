@@ -1,11 +1,9 @@
 @if($isPermitted)
     <div class="row">
         <div class="col-md-12">
-            <p>Επεξεργαστείτε τη δημόσια σελίδα που θα βλέπουν οι εθελοντές για να δηλώσουν το ενδιαφέρον τους για τη
-                δράση.</p>
+            <p>{{ trans('entities/cta.editCTA') }}</p>
 
-            <p><a href="{{ url('participate/'.$action->publicAction->public_url) }}" target="_blank">Προβολή δημόσιας
-                    σελίδας</a></p>
+            <p><a href="{{ url('participate/'.$action->publicAction->public_url) }}" target="_blank">{{ trans('entities/cta.view') }}</a></p>
         </div>
     </div>
 
@@ -17,8 +15,8 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group text-right">
-                <p class="text-danger errors" style="display:none;">Συμπληρώστε τα απαιτούμενα πεδία.</p>
-                {!! Form::submit('Αποθήκευση', ['class' => 'btn btn-success', 'id' => 'updatePublicAction']) !!}
+                <p class="text-danger errors" style="display:none;">{{ trans('entities/cta.fillFields') }}</p>
+                {!! Form::submit( trans('default.save') , ['class' => 'btn btn-success', 'id' => 'updatePublicAction']) !!}
             </div>
         </div>
     </div>
@@ -58,10 +56,9 @@
 @else
     <div class="row">
         <div class="col-md-12">
-            <p>Δεν έχετε δικαίωμα να επεξεργαστείτε τη δημόσια σελίδας αυτής της δράσης.</p>
+            <p>{{ trans('entities/cta.noRights') }}</p>
 
-            <p><a href="{{ url('participate/'.$action->publicAction->public_url) }}" target="_blank">Προβολή δημόσιας
-                    σελίδας</a></p>
+            <p><a href="{{ url('participate/'.$action->publicAction->public_url) }}" target="_blank">{{ trans('entities/cta.view') }}</a></p>
         </div>
     </div>
 @endif

@@ -2,7 +2,7 @@
 <div class="col-md-12">
     <div class="panel panel-white">
         <div class="panel-heading clearfix">
-            <h4 class="panel-title">Στοιχεία χρήστη</h4>
+            <h4 class="panel-title">{{ trans('entities/users.info') }}</h4>
 
             <div class="panel-control">
                 <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
@@ -24,7 +24,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                {!! Form::formInput('image', 'Ανέβασμα φωτογραφίας', $errors, ['class' =>
+                                {!! Form::formInput('image', trans('entities/users.uploadPhoto').':', $errors, ['class' =>
                                 'form-control', 'type' =>
                                 'file'])
                                 !!}
@@ -40,14 +40,14 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                {!! Form::formInput('name', 'Όνομα:', $errors, ['class' => 'form-control', 'required' =>
+                                {!! Form::formInput('name', trans('entities/users.name').':', $errors, ['class' => 'form-control', 'required' =>
                                 'true']) !!}
                             </div>
 
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                {!! Form::formInput('email', 'Email:', $errors, ['class' => 'form-control', 'required'
+                                {!! Form::formInput('email', trans('entities/users.email').':', $errors, ['class' => 'form-control', 'required'
                                 => 'true']) !!}
                             </div>
                         </div>
@@ -55,12 +55,12 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                {!! Form::formInput('addr', 'Διεύθυνση:', $errors, ['class' => 'form-control']) !!}
+                                {!! Form::formInput('addr', trans('entities/users.address').':', $errors, ['class' => 'form-control']) !!}
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                {!! Form::formInput('tel', 'Τηλέφωνο:', $errors, ['class' => 'form-control', 'required'
+                                {!! Form::formInput('tel', trans('entities/users.phone').':', $errors, ['class' => 'form-control', 'required'
                                 => 'true']) !!}
                             </div>
                         </div>
@@ -69,17 +69,15 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                {!! Form::formInput('password', 'Κωδικός:', $errors, ['class' => 'form-control',
+                                {!! Form::formInput('password', trans('entities/users.password').':', $errors, ['class' => 'form-control',
                                 'type' =>'password', 'required' => 'true']) !!}
-                                <small class="help-block">Ο κωδικός πρέπει να έχει μήκος τουλάχιστον 8 χαρακτήρες και να
-                                    περιέχει
-                                    τουλάχιστον έναν αριθμό.
+                                <small class="help-block">{{ trans('entities/users.passwordExpl') }}
                                 </small>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                {!! Form::formInput('password_confirmation', 'Επιβεβαίωση κωδικού:', $errors,
+                                {!! Form::formInput('password_confirmation', trans('entities/users.passwordConfirm').':', $errors,
                                 ['class' => 'form-control', 'type' =>'password', 'required' => 'true']) !!}
                             </div>
                         </div>

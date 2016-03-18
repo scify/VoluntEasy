@@ -21,18 +21,18 @@
                                         src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
                                 </a>
                             </div>
-                            <h3 class="text-center">Αξιολόγηση δράσης {{ $action->description
+                            <h3 class="text-center">{{ trans('entities/ratings.actionRating') }} {{ $action->description
                                 }} </h3>
-                            <h5 class="text-center">Διάρκεια Δράσης: {{ $action->start_date }} - {{
+                            <h5 class="text-center">{{ trans('entities/ratings.actionDuration') }}: {{ $action->start_date }} - {{
                                 $action->end_date }}</h5>
                             <hr/>
 
-                            <p>Έχετε ήδη αξιολογήσει τη δράση.</p>
+                            <p>{{ trans('entities/ratings.alreadyRatedAction') }}</p>
 
                             <hr/>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <p><em>Λάβατε αυτό το ερωτηματολόγιο επειδή είστε εγγεγραμμένος ως εθελοντής στην πλατφόρμα διαχείρισης εθελοντών <strong>{{trans($lang.'title')}}</strong>.</em></p>
+                                    <p><em>{{ trans('entities/ratings.youReceivedThisEmailVolunteer') }} <strong>{{trans($lang.'title')}}</strong>.</em></p>
 
                                 </div>
                             </div>

@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Αξιολόγηση Δράσης</title>
+    <title>{{ trans('emails/emails.actionRating') }}</title>
     <style>
         /* -------------------------------------
             GLOBAL
@@ -188,13 +188,13 @@
                                    class="logo-name text-lg text-center"> <img
                                         src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
                                 </a>
-                                <h4>Πλατφόρμα Διαχείρισης Εθελοντών</h4>
+                                <h4>{{ trans('emails/emails.volunteerPlatform') }}</h4>
                             </center>
 
                             @if($action->name!=null && $action->name!='')
-                            <p>Αγαπητέ {{ $action->name }},</p>
+                            <p>{{ trans('emails/emails.dear') }} {{ $action->name }},</p>
                             @endif
-                            <p>Παρακαλούμε συμπληρώστε το ερωτηματολόγιο που ακολουθεί σχετικά με τη συμμετοχή σας στη δράση {{ $action->description }}.</p>
+                            <p>{{ trans('emails/emails.pleaseFillQuestionnaire') }} {{ $action->description }}.</p>
 
                             <p><a href="{{ URL::to('/') }}/ratings/action/{{ $token }}">{{ URL::to('/')
                                     }}/ratings/action/{{ $token }}</a></p>
@@ -219,7 +219,7 @@
                 <table>
                     <tr>
                         <td align="center">
-                            <p><em>Λάβατε αυτό το ερωτηματολόγιο επειδή είστε εγγεγραμμένος ως εθελοντής στην πλατφόρμα διαχείρισης εθελοντών <strong>{{trans($lang.'title')}}</strong>.</em></p>
+                            <p><em>{{ trans('emails/emails.youReceivedThisEmailActionManager') }} <strong>{{trans($lang.'title')}}</strong>.</em></p>
 
                         </td>
                     </tr>
