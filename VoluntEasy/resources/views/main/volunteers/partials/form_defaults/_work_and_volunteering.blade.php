@@ -1,34 +1,31 @@
 <div class="col-md-4">
     <div class="form-group">
         @if (isset($volunteer))
-        {!! Form::formInput('work_status_id', 'Εργασιακή κατάσταση:', $errors, ['class' => 'form-control',
+        {!! Form::formInput('work_status_id', trans('entities/volunteers.workStatus').':', $errors, ['class' => 'form-control',
         'type' => 'select', 'value' => $workStatuses, 'key' => $volunteer->work_status_id]) !!}
         @else
-        {!! Form::formInput('work_status_id', 'Εργασιακή κατάσταση:', $errors, ['class' => 'form-control',
+        {!! Form::formInput('work_status_id', trans('entities/volunteers.workStatus').':', $errors, ['class' => 'form-control',
         'type' => 'select', 'value' => $workStatuses]) !!}
         @endif
     </div>
     <div class="form-group">
-        {!! Form::formInput('work_description', 'Εργασία:', $errors, ['class' => 'form-control', 'type' =>
-        'textarea', 'placeholder' => 'Περιγράψτε τη θέση σας στην παρούσα ή πιο πρόσφατη εργασία.']) !!}
+        {!! Form::formInput('work_description', trans('entities/volunteers.workDescription').':', $errors, ['class' => 'form-control', 'type' =>
+        'textarea', 'placeholder' => trans('entities/volunteers.workDescriptionExpl')]) !!}
     </div>
 
     <div class="form-group">
-        {!! Form::formInput('participation_reason', 'Λόγος συμμετοχής:', $errors, ['class' => 'form-control',
-        'required' => 'true', 'type' => 'textarea', 'placeholder' => 'Περιγράψτε τους λόγους που θέλετε να
-        γίνετε εθελοντής.']) !!}
+        {!! Form::formInput('participation_reason', trans('entities/volunteers.participationReason'), $errors, ['class' => 'form-control',
+        'required' => 'true', 'type' => 'textarea', 'placeholder' => trans('entities/volunteers.participationReasonExpl')]) !!}
     </div>
 </div>
 <div class="col-md-4">
     <div class="form-group">
-        {!! Form::formInput('participation_actions', 'Εθελοντική οργάνωση:', $errors, ['class' =>
+        {!! Form::formInput('participation_actions', trans('entities/volunteers.volunteeringOrg').':', $errors, ['class' =>
         'form-control',
-        'type' => 'textarea', 'placeholder' => 'Εαν ανήκετε ή ανήκατε σε κάποιες εθελοντικές οργανώσεις ποιο
-        ήταν το αντικείμενο τους και για πόσο χρονικό διάστημα είχατε συμετοχή.']) !!}
+        'type' => 'textarea', 'placeholder' => trans('entities/volunteers.volunteeringOrgExpl')]) !!}
     </div>
     <div class="form-group">
-        {!! Form::formInput('participation_previous', 'Εθελοντικές δράσεις:', $errors, ['class' =>
-        'form-control', 'type' => 'textarea', 'placeholder' => 'Εαν έχετε πάρει μέρος σε εθελοντικές δράσεις στο
-        παρελθόν περιγράψτε ποιο ήταν/είναι το αντικείμενο.']) !!}
+        {!! Form::formInput('participation_previous', trans('entities/volunteers.volunteeringPrev').':', $errors, ['class' =>
+        'form-control', 'type' => 'textarea', 'placeholder' => trans('entities/volunteers.volunteeringPrevExpl')]) !!}
     </div>
 </div>

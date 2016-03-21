@@ -36,11 +36,22 @@ return [
     'totalRatings' => 'Συνολικές αξιολογήσεις',
 
 
-    /* volunteer statuses */
-    'new' => 'Νέοι',
+    /* volunteers */
+    'new' => 'Νέος|Νέοι',
     'pending' => 'Υπό ένταξη',
-    'available' => 'Διαθέσιμος',
-    'active' => 'Ενεργός',
+    'available' => 'Διαθέσιμος|Διαθέσιμοι',
+    'active' => 'Ενεργός|Ενεργoί',
+    'notAvailable' => 'Μη διαθέσιμος|Μη διαθέσιμοι',
+    'blacklisted' => 'Blacklisted',
+    'deleteVolunteer' => 'Είστε σίγουροι ότι θέλετε να διαγράψετε τον εθελοντή;',
+    'removeVolunteerFromUnit' => 'Είστε σίγουροι ότι θέλετε να αφαιρέσετε τον εθελοντή από τη μονάδα;',
+    'removeVolunteerFromAction' => 'Είστε σίγουροι ότι θέλετε να αφαιρέσετε τον εθελοντή από τη δράση;',
+    'volunteerPendingUnit' => 'Ο εθελοντής είναι υπό ένταξη στη μονάδα ',
+    'volunteerAvailableUnit' => 'Ο εθελοντής είναι διαθέσιμος στη μονάδα ',
+    'volunteerActiveUnit' => 'Ο εθελοντής είναι ενεργός σε δράσεις  στη μονάδα ',
+    'viewProfile' => 'Προβολή Προφίλ',
+    'assignToMyUnit' => 'Ανάθεση στη μονάδα μου',
+
 
     /* ratings */
     'answerAllQuestions' => 'Παρακαλώ απαντήστε σε όλες τις ερωτήσεις',
@@ -68,6 +79,8 @@ return [
     /* generic */
     'edit' => 'Επεξεργασία',
     'delete' => 'Διαγραφή',
+    'reject' => 'Απόρριψη',
+    'approve' => 'Έγκριση',
 
 
     /* months */
@@ -92,6 +105,14 @@ return [
     'hasActions' => 'Δεν μπορείτε να προσθέσετε υπομονάδα σε μονάδα που έχει δράσεις.',
 
 
+    /* workdates.js */
+    'volunterComments' => 'Σχόλια εθελοντή',
+    'assignedToProfile' => 'Έχει γίνει σύνδεση με υπάρχον :linkStartπροφίλ:linkEnd. . Ο εθελοντής θα πρέπει να προστεθεί στη μονάδα της δράσης για να είναι διαθέσιμος.',
+    'volunteerFound' => 'Βρέθηκε :linkStartεθελοντής:linkEnd με το ίδιο email. Είναι ο ίδιος;',
+    'volunteerNotFound' => 'Ο εθελοντής δεν βρέθηκε στην πλατφόρμα. Επικοινωνήστε μαζί του και δημιουργήστε το προφίλ του.',
+
+    /* to-do */
+    'todoDone' => 'Ολοκληρώθηκε από :user στις :date',
 
 
 ];

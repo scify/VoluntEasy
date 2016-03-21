@@ -43,15 +43,15 @@
                     if (data.permitted) {
                         html = '<ul class="list-inline">';
                         html += '<li><a href="' + $("body").attr('data-url') + '/volunteers/edit/' + data.id + '" class=" btn btn-success" data-toggle="tooltip"';
-                        html += 'data-placement="bottom" title="Επεξεργασία"><i class="fa fa-edit"></i></a></li>';
+                        html += 'data-placement="bottom" title="{{ trans('default.edit') }}"><i class="fa fa-edit"></i></a></li>';
                         html += '<li><button class=" btn btn-danger" onclick="deleteVolunteer(' + data.id + ')" data-id="' + data.id + '" data-toggle="tooltip"';
-                        html += 'data-placement="bottom" title="Διαγραφή"><i class="fa fa-trash"></i></a>';
+                        html += 'data-placement="bottom" title="{{ trans('default.delete') }}"><i class="fa fa-trash"></i></a>';
                         html += '</li>';
 
                         //if the volunteer has not been assigned to root unit, display appropriate button
                         if (data.assignToRoot) {
                             html += '<li><a href="' + $("body").attr('data-url') + '/volunteers/addToRootUnit/' + data.id + '" data-toggle="tooltip"';
-                            html += 'class=" btn btn-info" data-placement="bottom" title="Ανάθεση στη μονάδα μου"><i class="fa fa-home"></i></a></li>';
+                            html += 'class=" btn btn-info" data-placement="bottom" title="{{ trans('entities/volunteers.assignToMyUnit') }}"><i class="fa fa-home"></i></a></li>';
                         }
 
                         html += '</ul>';
@@ -76,28 +76,7 @@
                 "next": ">",
                 "previous": "<"
             }
-        }/*,
-        dom: 'T<"clear">lfrtip',
-        "tableTools": {
-            "sSwfPath": $("body").attr('data-url') + "/assets/plugins/data-tables/extras/tabletools/swf/copy_csv_xls_pdf.swf",
-            "aButtons": [
-                {
-                    "sExtends": "copy",
-                    "sButtonText": "Αντιγραφή"
-                },
-                {
-                    "sExtends": "print",
-                    "sButtonText": "Εκτύπωση"
-                },
-                {
-                    "sExtends": "csv",
-                    "sButtonText": "CSV"
-                },
-                {
-                    "sExtends": "xls"
-                }
-            ]
-        }*/
+        }
     });
 </script>
 @append

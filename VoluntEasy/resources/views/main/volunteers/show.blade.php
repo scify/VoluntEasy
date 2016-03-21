@@ -1,11 +1,11 @@
 @extends('default')
 
 @section('title')
-Προβολή Εθελοντή
+{{ trans('entities/volunteers.viewOne') }}
 @stop
 
 @section('pageTitle')
-Προβολή Εθελοντή
+{{ trans('entities/volunteers.viewOne') }}
 @stop
 
 
@@ -24,18 +24,18 @@
                             | <i class="fa fa-venus"></i>
                             @endif
                             @if($volunteer->age>0)
-                            | {{ $volunteer->age }} ετών</h3>
+                            | {{ $volunteer->age }} {{ trans('entities/volunteers.yeardOld') }}</h3>
                         @endif
                         <p><i class="fa fa-envelope"></i> <a href="mailto:{{ $volunteer->email }}">{{ $volunteer->email
                                 }}</a> @if ($volunteer->comm_method_id==1) <i class="fa fa-star" data-toggle="tooltip"
-                                                                              title="Προτιμώμενος τρόπος επικοινωνίας"></i>
+                                                                              title="{{ trans('entities/volunteers.preferredContactWay') }}"></i>
                             @endif
 
                             @if($volunteer->cell_tel!=null && $volunteer->cell_tel!='')
                             | <i class="fa fa-phone"></i> {{ $volunteer->cell_tel }} @if ($volunteer->comm_method_id==4)
                             <i
                                 class="fa fa-star" data-toggle="tooltip"
-                                title="Προτιμώμενος τρόπος επικοινωνίας"></i>
+                                title="{{ trans('entities/volunteers.preferredContactWay') }}"></i>
                             @endif
                             @endif
                             @if($volunteer->city!=null && $volunteer->country!='')
@@ -47,10 +47,9 @@
                 @if($volunteer->blacklisted)
                 <div class="row">
                     <div class="col-md-12">
-                        <h3 class="text-danger">Ο εθελοντής έχει επισημανθεί ως blacklisted <br/>
+                        <h3 class="text-danger">{{ trans('entities/volunteers.markedAsBlacklisted') }}<br/>
                             @if($volunteer->permitted)
-                            <small><a href="#" data-toggle="modal" data-target="#unblacklisted">Σήμανση εθελοντή ως
-                                    μη blacklisted</a></small>
+                            <small><a href="#" data-toggle="modal" data-target="#unblacklisted">{{ trans('entities/volunteers.markAsNotBlacklisted') }}</a></small>
                             @endif
                         </h3>
                     </div>
@@ -59,14 +58,13 @@
                 @if($volunteer->not_available)
                 <div class="row">
                     <div class="col-md-12">
-                        <h4 class="text-danger">Ο εθελοντής έχει επισημανθεί ως μη διαθέσιμος για το διάστημα <strong>{{
+                        <h4 class="text-danger">{{ trans('entities/volunteers.markedAsNotAvailable') }} <strong>{{
                                 $volunteer->not_availableFrom}} - {{ $volunteer->not_availableTo}}</strong> <br/>
                             @if($volunteer->permitted)
-                            <small><a href="#" data-toggle="modal" data-target="#notAvailableInfo">Πληροφορίες</a>
+                            <small><a href="#" data-toggle="modal" data-target="#notAvailableInfo">{{ trans('entities/volunteers.information') }}</a>
                             </small>
                             |
-                            <small><a href="#" data-toggle="modal" data-target="#available">Σήμανση εθελοντή ως
-                                    διαθέσιμος</a></small>
+                            <small><a href="#" data-toggle="modal" data-target="#available">{{ trans('entities/volunteers.markAsAvailable') }}</a></small>
                             @endif
                         </h4>
                     </div>
@@ -79,19 +77,18 @@
                         <ul class="nav nav-tabs" role="tablist">
                             <li role="presentation" class="active"><a href="#tab1" data-toggle="tab"
                                                                       class="{{ $errors->has('name') || $errors->has('last_name') || $errors->has('fathers_name') ||$errors->has('birth_date') ? 'tab has-error' : ''}}"><i
-                                        class="fa fa-user m-r-xs"></i>Ατομικά
-                                    Στοιχεία</a></li>
+                                        class="fa fa-user m-r-xs"></i>{{ trans('entities/volunteers.personalInfo') }}</a></li>
                             @if(!$volunteer->blacklisted && !$volunteer->hideStatus)
                             <li role="presentation"><a href="#tab2" data-toggle="tab"
                                                        class="{{ $errors->has('email') ? 'tab has-error' : ''}}"><i
-                                        class="fa fa-circle-o-notch m-r-xs"></i>Τρέχουσα κατάσταση</a></li>
+                                        class="fa fa-circle-o-notch m-r-xs"></i>{{ trans('entities/volunteers.currentStatus') }}</a></li>
                             @endif
                             <li role="presentation"><a href="#tab3" data-toggle="tab"
                                                        class="{{ $errors->has('participation_reason') ? 'tab has-error' : ''}}"><i
-                                        class="fa fa-bullseye m-r-xs"></i>Συμμετοχή σε δράσεις</a></li>
+                                        class="fa fa-bullseye m-r-xs"></i>{{ trans('entities/volunteers.actionParticipation') }}</a></li>
                             <li role="presentation"><a href="#tab4" data-toggle="tab"
                                                        class="{{ $errors->has('participation_reason') ? 'tab has-error' : ''}}"><i
-                                        class="fa fa-history m-r-xs"></i>Ιστορικό</a></li>
+                                        class="fa fa-history m-r-xs"></i>{{ trans('entities/volunteers.history') }}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -133,19 +130,19 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Σήμανση εθελοντή ως διαθέσιμος</h4>
+                <h4 class="modal-title">{{ trans('entities/volunteers.markAsAvailable') }}</h4>
             </div>
             <div class="modal-body">
-                {!! Form::formInput('notAvailableComments', 'Σχόλια', $errors, ['class' => 'form-control', 'type' =>
+                {!! Form::formInput('notAvailableComments', trans('entities/volunteers.comments'), $errors, ['class' => 'form-control', 'type' =>
                 'textarea', 'value' => $volunteer->not_availableComments, 'id'
                 =>
                 'notAvailableComments']) !!}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('default.close') }}</button>
                 <button type="button" class="btn btn-success available" data-volunteer-id="{{ $volunteer->id }}"
                         data-status-duration-id="{{ $volunteer->not_availableId }}">
-                    Αποθήκευση
+                    {{ trans('default.save') }}
                 </button>
             </div>
         </div>
@@ -161,22 +158,21 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Πληροφορίες διαθεσιμότητας</h4>
+                <h4 class="modal-title">{{ trans('entities/volunteers.availabilityInfo') }}</h4>
             </div>
             <div class="modal-body">
-                <p>Μη διαθέσιμος από <strong>{{ $volunteer->not_availableFrom }}</strong> έως <strong>{{
-                        $volunteer->not_availableTo }}</strong></p>
+                <p>{!! trans('entities/volunteers.notAvailableFromTo', ['from' => $volunteer->not_availableFrom, 'to' => $volunteer->not_availableTo]) !!}</p>
 
-                <p>Σχόλια<br/>
+                <p>{{ trans('entities/volunteers.comments') }}<br/>
                     @if($volunteer->not_availableComments==null || $volunteer->not_availableComments=='')
-                    <em>Κανένα σχόλιο</em>
+                    <em>{{ trans('entities/volunteers.noComment') }}</em>
                     @else
                     {{ $volunteer->not_availableComments }}
                     @endif
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('default.save') }}</button>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -194,21 +190,19 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Σήμανση εθελοντή ως διαθέσιμος</h4>
+                <h4 class="modal-title">{{ trans('entities/volunteers.markAsAvailable') }}</h4>
             </div>
             <div class="modal-body">
-                <p>Σε περίπτωση που θέλετε να επισημάνετε τον εθελοντή ως διαθέσιμο, ο εθελοντής θα μπορεί να
-                    ενταχθεί
-                    ξανά σε δράσεις και μονάδες.</p>
-                {!! Form::formInput('comments', 'Σχόλια', $errors, ['class' => 'form-control', 'type' =>
-                'textarea', 'placeholder' => 'Σχόλια σχετικά με τον εθελοντή', 'value' => $volunteer->comments, 'id'
+                <p>{{ trans('entities/volunteers.markAsAvailableExpl') }}</p>
+                {!! Form::formInput('comments', trans('entities/volunteers.comments') , $errors, ['class' => 'form-control', 'type' =>
+                'textarea', 'placeholder' => trans('entities/volunteers.commentsAboutVolunteer') , 'value' => $volunteer->comments, 'id'
                 =>
                 'blacklistedComments']) !!}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('default.close') }}</button>
                 <button type="button" class="btn btn-danger unblacklisted" data-volunteer-id="{{ $volunteer->id }}">
-                    Αποθήκευση
+                    {{ trans('default.save') }}
                 </button>
             </div>
         </div>
@@ -228,7 +222,6 @@
 
     //change volunteer status to available
     $(".available").click(function () {
-        console.log('clicky')
         $.ajax({
             url: $("body").attr('data-url') + '/volunteers/available',
             method: 'POST',
@@ -267,7 +260,7 @@
 
     //delete user and return to user list
     function deleteVolunteer(id) {
-        if (confirm("Είστε σίγουροι ότι θέλετε να διαγράψετε τον εθελοντή;") == true) {
+        if (confirm(Lang.get('js-components.deleteVolunteer')) == true) {
             $.ajax({
                 url: $("body").attr('data-url') + '/volunteers/delete/' + id,
                 method: 'GET',

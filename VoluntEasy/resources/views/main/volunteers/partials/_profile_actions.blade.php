@@ -98,7 +98,7 @@
     <div class="col-md-12">
         <div class="panel panel-default smallHeading">
             <div class="panel-heading ">
-                <h3 class="panel-title">Συμμετοχή σε δράσεις</h3>
+                <h3 class="panel-title">{{ trans('entities/volunteers.participationToActions') }}</h3>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -107,16 +107,16 @@
                             <table class="table table-condensed timesheet">
                                 <thead>
                                 <th></th>
-                                <th>Ημέρα</th>
-                                <th>Ώρα</th>
-                                <th>Σχόλια</th>
-                                <th>Συνολικές ώρες</th>
+                                <th>{{ trans('entities/volunteers.date') }}</th>
+                                <th>{{ trans('entities/volunteers.time') }}</th>
+                                <th>{{ trans('entities/volunteers.comments') }}</th>
+                                <th>{{ trans('entities/volunteers.totalHours') }}</th>
                                 </thead>
                                 <tbody>
                                 @foreach($volunteer->actions as $action)
                                     @if(sizeof($action->tasks)>0)
                                         <tr class="action">
-                                            <td>Δράση <a href="{{  url('actions/one/'.$action->id) }}"
+                                            <td>{{ trans('entities/actions.action') }} <a href="{{  url('actions/one/'.$action->id) }}"
                                                          target="_blank">{{ $action->description }}</a></td>
                                             <td colspan="3">
                                                 <small>{{ $action->start_date }} - {{ $action->end_date }}</small>
@@ -125,14 +125,14 @@
                                         </tr>
                                         @foreach($action->tasks as $task)
                                             <tr class="task">
-                                                <td colspan="4">Task {{ $task->name }}</td>
+                                                <td colspan="4">{{ trans('entities/tasks.task') }} {{ $task->name }}</td>
                                                 <td class="col-md-2 text-center">
                                                     <strong>{{ $task->work_hours }}</strong></td>
                                             </tr>
                                             @foreach($task->subtasks as $subtask)
                                                 @if(sizeof($subtask->workDates)>0)
                                                     <tr class="subtask">
-                                                        <td colspan="4">Subtask {{ $subtask->name }}</td>
+                                                        <td colspan="4">{{ trans('entities/subtask.subtask') }} {{ $subtask->name }}</td>
                                                         <td class="col-md-2 text-center">
                                                             <strong>{{ $subtask->workHours }}</strong></td>
                                                     </tr>
@@ -157,7 +157,7 @@
                             </table>
                         @else
                             <br/>
-                            <h4>Ο εθελοντής δεν έχει πάρει μέρος σε καμία δράση.</h4>
+                            <h4>{{ trans('entities/volunteers.volunteerHasnotParticipated') }}</h4>
                         @endif
                     </div>
                 </div>
@@ -171,20 +171,20 @@
     <div class="col-md-12">
         <div class="panel panel-default smallHeading">
             <div class="panel-heading ">
-                <h3 class="panel-title">Εκδήλωση ενδιαφέροντος</h3>
+                <h3 class="panel-title">{{ trans('entities/volunteers.ctaInterested') }}</h3>
             </div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-12">
                         @if(sizeof($volunteer->ctaVolunteers)>0)
-                            <h4>Ο εθελοντής έχει εκδηλώσει ενδιαφέρον για τις παρακάτω δράσεις:</h4>
+                            <h4>{{ trans('entities/volunteers.volunteerIsInterestedIn') }}:</h4>
                             <table class="table table-condensed timesheet">
                                 <thead>
-                                <th>Δράση</th>
-                                <th>Task</th>
-                                <th>Subtask</th>
-                                <th>Ημέρα</th>
-                                <th>Ώρες</th>
+                                <th>{{ trans('entities/actions.action') }}</th>
+                                <th>{{ trans('entities/tasks.task') }}</th>
+                                <th>{{ trans('entities/subtask.subtask') }}</th>
+                                <th>{{ trans('entities/volunteers.date') }}</th>
+                                <th>{{ trans_choice('entities/volunteers.time', 10) }}</th>
                                 </thead>
                                 <tbody>
                                 @foreach($volunteer->ctaVolunteers[0]->dates as $date)
@@ -200,7 +200,7 @@
                             </table>
                         @else
                             <br/>
-                            <h4>Ο εθελοντής δεν έχει εκδηλώσει ενδιαφέρον για κάποια δράση.</h4>
+                            <h4>{{ trans('entities/volunteers.volunteerNotInterested') }}</h4>
                         @endif
                     </div>
                 </div>

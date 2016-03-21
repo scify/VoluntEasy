@@ -2,16 +2,16 @@
     <div class="col-md-12">
         <div class="panel panel-default smallHeading">
             <div class="panel-heading ">
-                <h3 class="panel-title">Ολοκληρωμένα Βήματα</h3>
+                <h3 class="panel-title">{{ trans('entities/volunteers.completeSteps') }}</h3>
             </div>
             <div class="panel-body">
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Οργανωτική Μονάδα</th>
-                        <th>Βήμα 1</th>
-                        <th>Βήμα 2</th>
-                        <th>Βήμα 3</th>
+                        <th>{{ trans('entities/units.unit') }}</th>
+                        <th>{{ trans('entities/volunteers.step') }} 1</th>
+                        <th>{{ trans('entities/volunteers.step') }} 2</th>
+                        <th>{{ trans('entities/volunteers.step') }} 3</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -26,9 +26,9 @@
                         <td>
                             @if($step->type=='Assignment')
                             @if(sizeof($unit->actions)>0)
-                            <span class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">Ανάθεση σε δράση</span>
+                            <span class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">{{ trans('entities/volunteers.assignToAction') }}</span>
                             @else
-                            <span class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">Ανάθεση σε μονάδα</span>
+                            <span class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">{{ trans('entities/volunteers.assignToUnit') }}</span>
                             @endif
                             @else
                             <span class="status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}">{{ $step->description }}</span>

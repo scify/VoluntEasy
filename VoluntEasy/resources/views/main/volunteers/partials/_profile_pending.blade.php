@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="panel panel-default smallHeading">
             <div class="panel-heading ">
-                <h3 class="panel-title">Εκκρεμότητες</h3>
+                <h3 class="panel-title">{{ trans_choice('entities/volunteers.pendingStuff', 1) }}</h3>
             </div>
             <div class="panel-body">
                 @if($pending==0)
@@ -12,13 +12,13 @@
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h4>Ο εθελοντής δεν έχει καμία εκκρεμότητα.</h4>
+                                        <h4>{{ trans('entities/volunteers.noPendingStuff') }}</h4>
                                     </div>
                                     <div class="col-md-6 text-right">
                                         @if($volunteer->permitted)
                                         <button type="button" class="btn btn-info" data-toggle="modal"
                                                 data-target="#selectUnit">
-                                            <i class="fa fa-home"></i> Ένταξη σε μονάδα
+                                            <i class="fa fa-home"></i> {{ trans('entities/volunteers.assignToUnit') }}
                                         </button>
                                         @include('main.volunteers.partials.modals._select_unit', ['units' =>
                                         $volunteer->availableUnits, 'divId' => 'selectUnit'])
@@ -33,18 +33,18 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Οργανωτική Μονάδα</th>
+                        <th>{{ trans('entities/units.unit') }}</th>
                         <th>
-                            <small> Βήμα 1:</small>
-                            <br/> Επικοινωνία με εθελοντή
+                            <small> {{ trans('entities/volunteers.step') }} 1:</small>
+                            <br/> {{ trans('entities/volunteers.communicationStep') }}
                         </th>
                         <th>
-                            <small> Βήμα 2:</small>
-                            <br/> Συνέντευξη με εθελοντή
+                            <small> {{ trans('entities/volunteers.step') }} 2:</small>
+                            <br/> {{ trans('entities/volunteers.interviewStep') }}
                         </th>
                         <th>
-                            <small> Βήμα 3:</small>
-                            <br/> Ανάθεση σε μονάδα
+                            <small> {{ trans('entities/volunteers.step') }} 3:</small>
+                            <br/> {{ trans('entities/volunteers.assignmentStep') }}
                         </th>
                     </tr>
                     </thead>
@@ -65,16 +65,16 @@
                             $step->statuses[0]->status->description=='Incomplete')))
                             <button type="button" class="btn btn-danger btn-sm width-110" data-toggle="modal"
                                     data-target="#step-{{ $step->statuses[0]->id }}">
-                                <i class="fa fa-edit"></i> Επεξεργασία
+                                <i class="fa fa-edit"></i> {{ trans('default.edit') }}
                             </button>
                             @elseif($step->statuses[0]->status->description=='Complete')
                             <button type="button" class="btn btn-success btn-sm  width-110" data-toggle="modal"
                                     data-target="#step-{{ $step->statuses[0]->id }}">
-                                <i class="fa fa-info-circle"></i> Προβολή
+                                <i class="fa fa-info-circle"></i> {{ trans('default.view') }}
                             </button>
                             @else
                             <button type="button" class="btn btn-danger disabled btn-sm width-110">
-                                <i class="fa fa-edit"></i> Επεξεργασία
+                                <i class="fa fa-edit"></i> {{ trans('default.edit') }}
                             </button>
                             @endif
                             @include('main.volunteers.partials.modals._step', ['step' => $step, 'parentId' => $unit->id])
@@ -91,7 +91,7 @@
                     <div class="col-md-2">
                         @if($volunteer->permitted)
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#selectUnit">
-                            <i class="fa fa-home"></i> Ένταξη σε μονάδα
+                            <i class="fa fa-home"></i> {{ trans('entities/volunteers.assignToUnit') }}
                         </button>
                         @include('main.volunteers.partials.modals._select_unit', ['units' => $volunteer->availableUnits,
                         'divId' => 'selectUnit'])
@@ -99,11 +99,11 @@
                     </div>
                     <div class="col-md-10">
                         <div class="pull-right">
-                            <h5>Υπόμνημα:</h5>
-                            <i class="fa fa-square" style="color:#f25656;"></i> Το βήμα εκκρεμεί | <i
+                            <h5>{{ trans('default.legend') }}:</h5>
+                            <i class="fa fa-square" style="color:#f25656;"></i> {{ trans('entities/volunteers.pendingStep') }} | <i
                                 class="fa fa-square"
                                 style="color:#22BAA0;"></i>
-                            Το βήμα έχει ολοκληρωθεί
+                            {{ trans('entities/volunteers.completedtep') }}
                         </div>
                     </div>
                 </div>

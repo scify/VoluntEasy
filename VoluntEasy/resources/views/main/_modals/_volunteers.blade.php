@@ -6,7 +6,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
-                <h4 class="modal-title" id="myLargeModalLabel">Προσθήκη Εθελοντών</h4>
+                <h4 class="modal-title" id="myLargeModalLabel">{{ trans('entities/volunteers.addVolunteers') }}</h4>
             </div>
             <div class="modal-body">
                 @if(sizeof($allVolunteers)>0)
@@ -17,7 +17,7 @@
                     @endforeach
                 </select>
                 @else
-                <h3>Δεν υπάρχουν διαθέσιμοι εθελοντές.</h3>
+                <h3>{{ trans('entities/volunteers.noVolunteersAvailable') }}</h3>
                 @endif
             </div>
             <div class="modal-footer">

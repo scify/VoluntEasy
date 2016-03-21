@@ -126,16 +126,6 @@
                                         'form-control', 'type' => 'checkbox', 'checked' =>'false']) !!}
                                     @endif
                                 </td>
-                                {{-- <td>
-                                     @if(isset($publicSubtasks[$subtask->id]))
-                                     {!! Form::formInput('subtasks['.$subtask->id.'][comments]', '', $errors, ['class' =>
-                                     'form-control', 'value' => $publicSubtasks[$subtask->id]]) !!}
-                                     @else
-                                     {!! Form::formInput('subtasks['.$subtask->id.'][comments]', '', $errors, ['class' =>
-                                     'form-control', 'placeholder' => 'Περιγραφή']) !!}
-                                     @endif
-                                 </td>
-                                 --}}
                             </tr>
                         @endforeach
                         @foreach($task->doingSubtasks as $subtask)

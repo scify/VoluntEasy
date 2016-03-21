@@ -56,8 +56,12 @@ $(".editSubTask").click(function (e) {
             $.each(subTask.checklist, function (i, item) {
                 html += '<div class="todo-item added ' + (item.isComplete == 1 ? 'complete' : '') + '"><input type="checkbox"' + (item.isComplete == 1 ? 'checked=checked' : '') + ' data-id="' + item.id + '">';
                 html += '<span class="todo-description">' + item.comments + '</span>';
-                html += '<span class="created_updated"><small>Δημιουργήθηκε από ' + item.created_by.name + ' στις ' + item.created_at;
-                html += ', τροποποιήθηκε από ' + item.updated_by.name + ' στις ' + item.updated_at + '</small></span>';
+                if (item.isComplete == 1)
+                    html += '<span class="created_updated"><small>' + Lang.get('js-components.todoDone', {
+                        user: item.updated_by.name,
+                        date: item.updated_at
+                    })
+                +'</small></span>';
                 html += '<a href="javascript:void(0);" class="pull-right remove-todo-item" data-id="' + item.id + '"><i class="fa fa-times"></i></a></div>';
             });
 
@@ -163,7 +167,7 @@ function showSubTaskInfo(subTaskId) {
             //add the to-do list
             html = '';
             if (subTask.checklist.length == 0)
-                html = '<p><em>'+Lang.get('js-components.noToDos')+'</em></p>';
+                html = '<p><em>' + Lang.get('js-components.noToDos') + '</em></p>';
             else {
                 $.each(subTask.checklist, function (i, item) {
                     if (item.isComplete == "1")
@@ -172,8 +176,12 @@ function showSubTaskInfo(subTaskId) {
                         icon = '<i class="fa fa-square-o"></i> ';
 
                     html += '<p>' + icon + item.comments;
-                    /*  html += '<br/><small>Δημιουργήθηκε από ' + item.created_by.name + ' στις ' + item.created_at;
-                     html += ', τροποποιήθηκε από ' + item.updated_by.name + ' στις ' + item.updated_at + '</small></p>';*/
+                    if (item.isComplete == 1)
+                        html += '<span class="created_updated"><small>' + Lang.get('js-components.todoDone', {
+                            user: item.updated_by.name,
+                            date: item.updated_at
+                        })
+                    +'</small></span>';
                 });
             }
 

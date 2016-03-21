@@ -24,7 +24,7 @@
                 {!! Form::model($active, ['method' => 'POST', 'action' => ['UnitController@update', 'id'
                 => $active->id,
                 'type' => $type]]) !!}
-                @include('main.units.partials._form', ['submitButtonText' => 'Αποθήκευση', 'unit' => $active])
+                @include('main.units.partials._form', ['submitButtonText' => trans('default.save'), 'unit' => $active])
                 <div class="form-group text-right">
                     {!! Form::submit( trans('default.save'), ['class' => 'btn btn-success']) !!}
                 </div>

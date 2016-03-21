@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="panel panel-default smallHeading">
             <div class="panel-heading ">
-                <h3 class="panel-title">Κατάσταση Εθελοντή</h3>
+                <h3 class="panel-title">{{ trans_choice('entities/volunteers.volunteerStatus', 1) }}</h3>
             </div>
             <div class="panel-body">
                 @if(sizeof($volunteer->units)==0)
@@ -12,7 +12,7 @@
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <h4>Ο εθελοντής δεν ανήκει σε καμία οργανωτική μονάδα ή δράση.</h4>
+                                            <h4>{{ trans('entities/volunteers.volunteerDoesnotBelongToUnitAction') }}</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -23,14 +23,14 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th>Οργανωτική Μονάδα</th>
-                            <th>Κατάσταση</th>
-                            <th>Δράσεις</th>
+                            <th>{{ trans('entities/units.unit') }}</th>
+                            <th>{{ trans('entities/volunteers.status') }}</th>
+                            <th>{{ trans('entities/actions.action') }}</th>
                             <th class="text-center">
-                                <small>Ανάθεση σε υπομονάδα</small>
+                                <small>{{ trans('entities/volunteers.assignToSubUnit') }}</small>
                             </th>
                             <th class="text-center">
-                                <small>Αφαίρεση<br/>από μονάδα</small>
+                                <small>{{ trans('entities/volunteers.removeFromUnit') }}</small>
                             </th>
                         </tr>
                         </thead>
@@ -42,11 +42,11 @@
                                 </td>
                                 <td class="col-md-2">
                                     @if($unit->status=='Pending')
-                                        <div class="status pending width-110">Υπό ένταξη</div>
+                                        <div class="status pending width-110">{{ trans('entities/volunteers.pending') }}</div>
                                     @elseif($unit->status=='Available')
-                                        <div class="status available width-110">Διαθέσιμος</div>
+                                        <div class="status available width-110">{{ trans('entities/volunteers.available') }}</div>
                                     @elseif($unit->status=='Active')
-                                        <div class="status active width-110">Ενεργός</div>
+                                        <div class="status active width-110">{{ trans('entities/volunteers.active') }}</div>
                                     @else
                                     @endif
                                 </td>
@@ -54,7 +54,7 @@
                                     @if($unit->status=='Active')
                                         @foreach($volunteer->actions as $action)
                                             @if($action->unit_id==$unit->id)
-                                                <p>Δράση <strong><a href="{{ url('actions/one/'.$action->id) }}">{{
+                                                <p>{{ trans('entities/actions.action') }} <strong><a href="{{ url('actions/one/'.$action->id) }}">{{
                                 $action->description
                                 }}</a></strong>
                                                     <small>({{ $action->start_date }} - {{ $action->end_date }})</small>
@@ -63,17 +63,15 @@
                                                         <small><a href="#" class="removeFromAction"
                                                                   data-volunteer-id="{{ $volunteer->id }}"
                                                                   data-action-id="{{ $action->id }}"><i
-                                                                        class="fa fa-remove fa-1x"></i> Αφαίρεση από τη
-                                                                δράση</a></small>
+                                                                        class="fa fa-remove fa-1x"></i> {{ trans('entities/volunteers.removeFromAction') }}</a></small>
                                                     @endif
                                                 </p>
                                             @endif
                                         @endforeach
                                     @elseif(sizeof($unit->actions)>0 && $unit->status=='Available')
-                                        <p style="color:#aaa;"><em>Ο εθελοντής δε συμμετέχει σε κάποια δράση της
-                                                μονάδας</em></p>
+                                        <p style="color:#aaa;"><em>{{ trans('entities/volunteers.volunteerNotInAction') }}</em></p>
                                     @elseif(sizeof($unit->actions)==0)
-                                        <p style="color:#aaa;"><em>Η μονάδα δεν έχει δράσεις</em></p>
+                                        <p style="color:#aaa;"><em>{{ trans('entities/volunteers.unitNoActions') }}</em></p>
                                     @endif
                                 </td>
                                 <td class="col-md-2">
@@ -124,7 +122,7 @@
         //display appropriate message before removing volunteer from action
         $(".removeFromAction").click(function (event) {
             event.preventDefault();
-            if (confirm("Είστε σίγουροι ότι θέλετε να αφαιρέσετε τον εθελοντή από τη δράση;") == true) {
+            if (confirm(Lang.get('js-components.removeVolunteerFromAction')) == true) {
                 volunteerId = $(this).attr('data-volunteer-id');
                 actionId = $(this).attr('data-action-id');
 
@@ -145,7 +143,7 @@
         $(".removeFromUnit").click(function (event) {
             event.preventDefault();
             console.log($(this).attr('data-unit-id'))
-            if (confirm("Είστε σίγουροι ότι θέλετε να αφαιρέσετε τον εθελοντή από τη μονάδα;") == true) {
+            if (confirm(Lang.get('js-components.removeVolunteerFromUnit')) == true) {
                 volunteerId = $(this).attr('data-volunteer-id');
                 unitId = $(this).attr('data-unit-id');
 

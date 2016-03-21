@@ -1,10 +1,10 @@
 @extends('default')
 
 @section('title')
-Προβολή Εθελοντών
+{{ trans('entities/volunteers.view') }}
 @stop
 @section('pageTitle')
-Προβολή Εθελοντών
+{{ trans('entities/volunteers.view') }}
 @stop
 
 @section('bodyContent')
@@ -12,9 +12,6 @@
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-white">
-            <!--div class="panel-heading clearfix">
-                <h4 class="panel-title">Αναζήτηση</h4>
-            </div-->
             <div class="panel-body">
                 {!! Form::open(['method' => 'POST', 'action' => ['VolunteerController@search'], 'id' => 'searchForm'])
                 !!}
@@ -29,7 +26,7 @@
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Εθελοντές</h4>
+                <h4 class="panel-title">{{ trans('entities/volunteers.volunteers') }}</h4>
             </div>
             <div class="panel-body">
                 @include('main.volunteers.partials._table')
@@ -46,7 +43,7 @@
 <script>
     //check this
     $(".delete").click(function () {
-        if (confirm("Delete volunteer?") == true) {
+        if (confirm(Lang.get('js-components.deleteVolunteer')) == true) {
             $.ajax({
                 url: $("body").attr('data-url') + '/volunteers/delete/' + $(this).attr('data-id'),
                 method: 'GET',

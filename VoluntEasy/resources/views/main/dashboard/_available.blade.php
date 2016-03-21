@@ -67,28 +67,7 @@
                 "next": ">",
                 "previous": "<"
             }
-        }/*,
-         dom: 'T<"clear">lfrtip',
-         "tableTools": {
-         "sSwfPath": $("body").attr('data-url') + "/assets/plugins/data-tables/extras/tabletools/swf/copy_csv_xls_pdf.swf",
-         "aButtons": [
-         {
-         "sExtends": "copy",
-         "sButtonText": "Αντιγραφή"
-         },
-         {
-         "sExtends": "print",
-         "sButtonText": "Εκτύπωση"
-         },
-         {
-         "sExtends": "csv",
-         "sButtonText": "CSV"
-         },
-         {
-         "sExtends": "xls"
-         }
-         ]
-         }*/
+        }
     });
 </script>
 @append

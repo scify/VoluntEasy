@@ -80,7 +80,7 @@
                         </td>
                         <td class="text-center">
                             <button class="btn btn-danger btn-xs deleteFile" data-id="{{ $file->id }}"
-                                    data-toggle="tooltip" data-placement="bottom" title="Διαγραφή"><i
+                                    data-toggle="tooltip" data-placement="bottom" title="{{ trans('default.delete') }}"><i
                                     class="fa fa-trash"></i></button>
                         </td>
                     </tr>

@@ -41,6 +41,8 @@ return [
     'toDoExplained' => 'Πατήστε το enter για να αποθηκευτεί το to-do',
 
 
+    /* work dates */
+    'editWorkDate' => 'Επεξεργασία ημέρας/ώρας',
 
 
 ];

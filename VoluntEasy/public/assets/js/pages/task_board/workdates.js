@@ -142,6 +142,7 @@ function editWorkDate(id) {
 
             console.log(date.cta_volunteers);
 
+
             //check if ctaVolunteers table should be displayed,
             //aka the table that holds the volunteers that have claimed interest in the action
             if (date.cta_volunteers.length == 0) {
@@ -154,25 +155,33 @@ function editWorkDate(id) {
                     html += '<td><a href="mailto:' + cta.email + '">' + cta.email + '</a>, ' + cta.phone_number;
 
                     if (cta.comments != null && cta.comments != '')
-                        html += '<br/>Σχόλια εθελοντή: ' + cta.comments + '</td>';
+                        html += '<br/>' + Lang.get('js-components.volunterComments') + ': ' + cta.comments + '</td>';
                     else
                         html += '</td>';
 
                     if (cta.volunteer.length > 0) {
                         //ctavolunteer is assigned to a profile
-                        html += '<td>Έχει γίνει σύνδεση με υπάρχον <a href="' + $("body").attr("data-url") + '/volunteers/one/' + cta.volunteer[0].id + '" target="_blank">προφίλ</a>. Ο εθελοντής θα πρέπει να προστεθεί στη μονάδα της δράσης για να είναι διαθέσιμος.</td>';
-                        html += '<td><button type="button"   class="btn btn-danger btn-sm right-margin" title="Απόρριψη" onclick="deleteCTAVolunteer(' + cta.id + ')"><i class="fa fa-trash"></i></button></td>';
+                        html += '<td>' + Lang.get('js-components.assignedToProfile', {
+                            linkStart: '<a href="' + $("body").attr("data-url") + '/volunteers/one/' + cta.volunteer[0].id + '" target="_blank">',
+                            linkEnd: '</a>'
+                        }) + '</td>';
+
+                        html += '<td><button type="button"   class="btn btn-danger btn-sm right-margin" title="' + Lang.get('js-components.reject') + '" onclick="deleteCTAVolunteer(' + cta.id + ')"><i class="fa fa-trash"></i></button></td>';
                     }
-                    else if (cta.mightBe != null){
+                    else if (cta.mightBe != null) {
                         //ctavolunteer found in platform, not assigned to any actual volunteer profile
-                        html += '<td>Βρέθηκε <a href="' + $("body").attr("data-url") + '/volunteers/one/' + cta.mightBe.id + '" target="_blank">εθελοντής</a> με το ίδιο email. Είναι ο ίδιος;</td>';
-                        html += '<td><button type="button" class="btn btn-success btn-sm right-margin" title="Έγκριση" onclick="assignToVolunteer(' + cta.mightBe.id + ',' + cta.id + ')"><i class="fa fa-check"></i></button>';
-                        html += '<button type="button" class="btn btn-danger btn-sm right-margin" title="Απόρριψη" onclick="deleteCTAVolunteer(' + cta.id + ')"><i class="fa fa-trash"></i></button></td>';
+                        html += '<td>' + Lang.get('js-components.volunteerFound', {
+                            linkStart: '<a href="' + $("body").attr("data-url") + '/volunteers/one/' + cta.mightBe.id + '" target="_blank">',
+                            linkEnd: '</a>'
+                        }) + '</td>';
+
+                        html += '<td><button type="button" class="btn btn-success btn-sm right-margin" title="' + Lang.get('js-components.approve') + '" onclick="assignToVolunteer(' + cta.mightBe.id + ',' + cta.id + ')"><i class="fa fa-check"></i></button>';
+                        html += '<button type="button" class="btn btn-danger btn-sm right-margin" title="' + Lang.get('js-components.reject') + '" onclick="deleteCTAVolunteer(' + cta.id + ')"><i class="fa fa-trash"></i></button></td>';
                     }
                     else {
                         //ctavolunteer not found in platform
-                        html += '<td>Ο εθελοντής δεν βρέθηκε στην πλατφόρμα. Επικοινωνήστε μαζί του και δημιουργήστε το προφίλ του.</td>';
-                        html += '<td><button type="button"  class="btn btn-danger btn-sm right-margin" title="Απόρριψη" onclick="deleteCTAVolunteer(' + cta.id + ')"><i class="fa fa-trash"></i></button></td>';
+                        html += '<td>' + Lang.get('js-components.volunteerNotFound') + '</td>';
+                        html += '<td><button type="button"  class="btn btn-danger btn-sm right-margin" title="' + Lang.get('js-components.reject') + '" onclick="deleteCTAVolunteer(' + cta.id + ')"><i class="fa fa-trash"></i></button></td>';
                     }
 
                     html += '</tr>';

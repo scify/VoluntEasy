@@ -37,14 +37,14 @@
                     <tbody>
                     @foreach($ratings as $rating)
                     <tr>
-                        <td>Αξιολόγηση #{{$rating->id}}</td>
+                        <td>{{ trans('entities/ratings.rating') }} #{{$rating->id}}</td>
                         @if(sizeof($rating->ratings)>0)
                             @foreach($rating->ratings as $score)
                                 <td>{{ $score->description }}</td>
                             @endforeach
                             <td>{{ $rating->comments }}</td>
                         @else
-                            <td colspan="{{ $sizeof($attributes) }}">dsdfs</td>
+                            <td colspan="{{ $sizeof($attributes) }}"></td>
                         @endif
                     </tr>
                     @endforeach

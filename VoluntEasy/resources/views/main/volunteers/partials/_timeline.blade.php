@@ -1,5 +1,5 @@
 @if(sizeof($timeline)==0)
-    <h3>Το ιστορικό του εθελοντή είναι άδειο.</h3>
+    <h3>{{ trans('entities/volunteers.noHistory') }}</h3>
 @else
     <section id="cd-timeline" class="cd-container">
         @foreach($timeline as $timelineBlock)
@@ -13,39 +13,12 @@
                     <!-- cd-timeline-img -->
 
                     <div class="cd-timeline-content">
-                        <h2>Ανάθεση στη δράση <strong>{{ $timelineBlock->action->description }}</strong></h2>
+                        <h2>{{ trans('entities/volunteers.assignToAction') }} <strong>{{ $timelineBlock->action->description }}</strong></h2>
 
-                        <p>Διάρκεια δράσης: {{ $timelineBlock->action->start_date }}
+                        <p>{{ trans('entities/volunteers.actionDuration') }}: {{ $timelineBlock->action->start_date }}
                             - {{ $timelineBlock->action->end_date }}</p>
 
-                        {{-- Rating is not needed right now --}}
-                        <!-- RATING STARS -->
-                        {{--@if($timelineBlock->action->ratings!=null)
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h4>Συνέπεια</h4>
-
-                                <div id="attr1" class="attribute rating"
-                                     data-score="{{ $volunteer->ratings->rating_attr1 / $volunteer->ratings->rating_attr1_count }}"></div>
-                            </div>
-                            <div class="col-md-4">
-                                <h4>Στυλ</h4>
-
-                                <div id="attr2" class="attribute rating"
-                                     data-score="{{ $volunteer->ratings->rating_attr2 / $volunteer->ratings->rating_attr2_count }}"></div>
-                            </div>
-                            <div class="col-md-4">
-                                <h4>Αγάπη για γάτες</h4>
-
-                                <div id="attr3" class="attribute rating"
-                                     data-score="{{ $volunteer->ratings->rating_attr3 / $volunteer->ratings->rating_attr3_count }}"></div>
-                            </div>
-                        </div>
-                        <p>Η αξιολόγηση έγινε από τον υπεύθυνο της δράσης (email: <a
-                                href="mailto:{{$timelineBlock->action->email}}">{{$timelineBlock->action->email}}</a>)</p>
-                        @endif
-                        --}}
-                        <small class="pull-right">Η ανάθεση έγινε από το χρήστη {{ $timelineBlock->user->name }}</small>
+                        <small class="pull-right">{{ trans('entities/volunteers.assignedFromUser') }} {{ $timelineBlock->user->name }}</small>
 
                         <span class="cd-date">{{ Carbon::parse($timelineBlock->created_at)->format('d/m/Y') }}</span>
                     </div>
@@ -58,13 +31,13 @@
                         <i class="fa fa-home"></i>
                     </div>
                     <div class="cd-timeline-content">
-                        <h2>Ένταξη στη μονάδα <strong>{{ $timelineBlock->unit->description }}</strong></h2>
+                        <h2>{{ trans('entities/volunteers.assignedToUnit') }} <strong>{{ $timelineBlock->unit->description }}</strong></h2>
 
                         @foreach($timelineBlock->unit->steps as $i => $step)
                             @if($step->type=='Assignment')
                                 <span>
                                     <i class="fa fa-circle status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}"></i>
-                                    Ανάθεση στη {{ $step->statuses[0]->assignedTo=='action' ? 'δράση' : 'μονάδα'}}
+                                    {{ trans('entities/volunteers.assignedTo') }} {{ $step->statuses[0]->assignedTo=='action' ? trans('entities/actions.action') : trans('entities/units.unit') }}
                                     <strong>{{
                 $step->statuses[0]->comments }}</strong></span>
                                     @else
@@ -72,15 +45,14 @@
                                         <span>  <i class="fa fa-circle status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}"></i>{{ $step->description }}</span>
 
                                         @if(in_array($timelineBlock->unit->id, $userUnits) && ($step->statuses[0]->comments!=null && $step->statuses[0]->comments!=''))
-                                            <p>Σχόλια: {{ $step->statuses[0]->comments}}</p>
+                                            <p> {{ trans('entities/volunteers.comments') }}: {{ $step->statuses[0]->comments}}</p>
                                         @endif
 
                                     @endif
                                     @endforeach
 
                                     <p>
-                                        <small class="pull-right">Η ένταξη έγινε από το
-                                            χρήστη {{ $timelineBlock->user->name }}</small>
+                                        <small class="pull-right"> {{ trans('entities/volunteers.assignedFromUser') }} {{ $timelineBlock->user->name }}</small>
                                     </p>
 
                                     <span class="cd-date">{{ Carbon::parse($timelineBlock->created_at)->format('d/m/Y') }}</span>
@@ -94,11 +66,11 @@
                         <i class="fa fa-exclamation"></i>
                     </div>
                     <div class="cd-timeline-content">
-                        <h4>Ο εθελοντής δεν ήταν διαθέσιμος το διάστημα {{ $timelineBlock->from_date}}
+                        <h4>{{ trans('entities/volunteers.volunteerWasNotAvailableFromTo') }} {{ $timelineBlock->from_date}}
                             - {{ $timelineBlock->to_date}}</h4>
 
                         @if($timelineBlock->comments!=null && $timelineBlock->comments!='')
-                            <p>Σχόλια: {{ $timelineBlock->comments}}</p>
+                            <p>{{ trans('entities/volunteers.comments') }}: {{ $timelineBlock->comments}}</p>
                         @endif
 
                         <span class="cd-date">{{ $timelineBlock->to_date }}</span>

@@ -7,13 +7,13 @@
 
     <div class="col-md-6">
         <div>
-            <h4>Υπόμνημα</h4>
-           <i class="fa fa-square" style="color:#12AFCB"></i> <span id="newVolunteers" data-volunteers="{{ $new }}">Νέοι Εθελοντές</span><br/>
-           <i class="fa fa-square" style="color:#E26E27"></i> <span id="pendingVolunteers" data-volunteers="{{ $pending }}">Υπό Ένταξη Εθελοντές</span><br/>
-           <i class="fa fa-square" style="color:#22BAA0"></i> <span id="availableVolunteers" data-volunteers="{{ $available }}">Διαθέσιμοι Εθελοντές</span><br/>
-           <i class="fa fa-square" style="color:#7a6fbe"></i> <span id="activeVolunteers" data-volunteers="{{ $active }}">Ενεργοί Εθελοντές</span><br/>
-           <i class="fa fa-square" style="color:#f25656"></i> <span id="blacklistedVolunteers" data-volunteers="{{ $blacklisted }}">Μη διαθέσιμοι Εθελοντές</span><br/>
-           <p><strong>Σύνολο Εθελοντών: {{ $new + $pending + $available + $active + $blacklisted}}</strong></p>
+            <h4>{{ trans('default.legend') }}</h4>
+           <i class="fa fa-square" style="color:#12AFCB"></i> <span id="newVolunteers" data-volunteers="{{ $new }}">{{ trans('entities/volunteers.new') }}</span><br/>
+           <i class="fa fa-square" style="color:#E26E27"></i> <span id="pendingVolunteers" data-volunteers="{{ $pending }}">{{ trans('entities/volunteers.pending') }}</span><br/>
+           <i class="fa fa-square" style="color:#22BAA0"></i> <span id="availableVolunteers" data-volunteers="{{ $available }}">{{ trans('entities/volunteers.available') }}</span><br/>
+           <i class="fa fa-square" style="color:#7a6fbe"></i> <span id="activeVolunteers" data-volunteers="{{ $active }}">{{ trans('entities/volunteers.active') }}</span><br/>
+           <i class="fa fa-square" style="color:#f25656"></i> <span id="blacklistedVolunteers" data-volunteers="{{ $blacklisted }}">{{ trans('entities/volunteers.blacklisted') }}</span><br/>
+           <p><strong>{{ trans('entities/volunteers.volunteerSum') }}: {{ $new + $pending + $available + $active + $blacklisted}}</strong></p>
         </div>
     </div>
 </div>
@@ -29,31 +29,31 @@
             value: parseInt($("#newVolunteers").attr('data-volunteers')),
             color:"#12AFCB",
             highlight: "#30E0FF",
-            label: "Νέοι"
+            label: Lang.get('js-components.new', 10)
         },
         {
             value: parseInt($("#pendingVolunteers").attr('data-volunteers')),
             color: "#E26E27",
             highlight: "#FFE04E",
-            label: "Υπό Ένταξη"
+            label: Lang.get('js-components.pending', 10)
         },
         {
             value: parseInt($("#availableVolunteers").attr('data-volunteers')),
             color: "#22BAA0",
             highlight: "#48FFE0",
-            label: "Διαθέσιμοι"
+            label: Lang.get('js-components.available', 10)
         },
         {
             value: parseInt($("#activeVolunteers").attr('data-volunteers')),
             color: "#7a6fbe",
             highlight: "#BAAEFF",
-            label: "Ενεργοί"
+            label: Lang.get('js-components.active', 10)
         },
         {
             value: parseInt($("#blacklistedVolunteers").attr('data-volunteers')),
             color: "#f25656",
             highlight: "#FF7474",
-            label: "Μη διαθέσιμοι"
+            label: Lang.get('js-components.blacklisted', 10)
         }
     ];
 

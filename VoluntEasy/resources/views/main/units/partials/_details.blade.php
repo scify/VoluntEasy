@@ -32,7 +32,7 @@
 @if(sizeof($active->actions)==0)
 <h3>{{ trans('entities/units.noActions') }}</h3>
 @else
-<h3>Δράσεις:</h3>
+<h3>{{ trans('entities/actions.actions') }}:</h3>
 <ul class="list-unstyled">
     @foreach($active->actions as $action)
     <li><p class="user-list"><a href="{{ url('actions/one/'.$action->id) }}">{{$action->description}}</a></p>

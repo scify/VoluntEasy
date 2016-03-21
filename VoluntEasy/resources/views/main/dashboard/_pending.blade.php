@@ -5,7 +5,7 @@
         <th>{{ trans('entities/volunteers.id') }}</th>
         <th>{{ trans('entities/volunteers.name') }}</th>
         <th>{{ trans('entities/units.units') }}</th>
-        <th>{{ trans('entities/volunteers.pendingStuff') }}</th>
+        <th>{{ trans_choice('entities/volunteers.pendingStuff', 10) }}</th>
     </tr>
     </thead>
 
@@ -14,7 +14,7 @@
         <th>{{ trans('entities/volunteers.id') }}</th>
         <th>{{ trans('entities/volunteers.name') }}</th>
         <th>{{ trans('entities/units.units') }}</th>
-        <th>{{ trans('entities/volunteers.pendingStuff') }}</th>
+        <th>{{ trans_choice('entities/volunteers.pendingStuff', 10) }}</th>
     </tr>
     </tfoot>
 </table>
@@ -77,28 +77,7 @@
                 "next": ">",
                 "previous": "<"
             }
-        }/*,
-         dom: 'T<"clear">lfrtip',
-         "tableTools": {
-         "sSwfPath": $("body").attr('data-url') + "/assets/plugins/data-tables/extras/tabletools/swf/copy_csv_xls_pdf.swf",
-         "aButtons": [
-         {
-         "sExtends": "copy",
-         "sButtonText": "Αντιγραφή"
-         },
-         {
-         "sExtends": "print",
-         "sButtonText": "Εκτύπωση"
-         },
-         {
-         "sExtends": "csv",
-         "sButtonText": "CSV"
-         },
-         {
-         "sExtends": "xls"
-         }
-         ]
-         }*/
+        }
     });
 </script>
 @append

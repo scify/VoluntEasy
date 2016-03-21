@@ -6,13 +6,13 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Βήμα {{ $step->step_order }}: {{ $step->description }}</h4>
+                <h4 class="modal-title" id="myModalLabel">{{ trans('entities/volunteers.step') }} {{ $step->step_order }}: {{ $step->description }}</h4>
 
                 <small>
                     @if($step->statuses[0]->status->description=='Incomplete')
-                    <span class="incomplete"><em>Βήμα μη ολοκληρωμένο</em></span>
+                    <span class="incomplete"><em>{{ trans('entities/volunteers.stepComplete') }}</em></span>
                     @else
-                    <span class="complete"><em>Βήμα ολοκληρωμένο</em></span>
+                    <span class="complete"><em>{{ trans('entities/volunteers.stepIncomplete') }}</em></span>
                     @endif
                 </small>
             </div>
@@ -31,21 +31,21 @@
                 @endif
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Κλείσιμο</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('default.close') }}</button>
 
                 @if($step->statuses[0]->status->description=='Incomplete')
                     @if($step->type!='Assignment')
-                    <button type="button" class="btn btn-primary saveStep" data-id="{{ $step->statuses[0]->id }}" data-toggle="tooltip" data-placement="bottom" title="Προσωρινή αποθήκευση σχολίων">
-                        Αποθήκευση
+                    <button type="button" class="btn btn-primary saveStep" data-id="{{ $step->statuses[0]->id }}" data-toggle="tooltip" data-placement="bottom" title="{{ trans('entities/volunteers.tmpSave') }}">
+                        {{ trans('default.save') }}
                     </button>
                     <button type="button" class="btn btn-success completeStep" data-id="{{ $step->statuses[0]->id }}"
-                            data-type="{{ $step->type }}" data-toggle="tooltip" data-placement="bottom" title="Ολοκλήρωση βήματος">
-                        Ολοκλήρωση
+                            data-type="{{ $step->type }}" data-toggle="tooltip" data-placement="bottom" title="{{ trans('entities/volunteers.completeStep') }}">
+                        {{ trans('default.finish') }}
                     </button>
                     @else
                     <button type="button" class="btn btn-success {{ sizeof($unit->actions)>0 ? 'assignToActionOrUnit' : 'assignToNextUnit'}}" data-id="{{ $step->statuses[0]->id }}"
-                            data-volunteer-id="{{ $volunteer->id }}" data-type="{{ $step->type }}" {{ isset($parentId) ? 'data-parent='.$parentId : ''}}  data-toggle="tooltip" data-placement="bottom" title="Ολοκλήρωση βήματος">
-                        Ολοκλήρωση
+                            data-volunteer-id="{{ $volunteer->id }}" data-type="{{ $step->type }}" {{ isset($parentId) ? 'data-parent='.$parentId : ''}}  data-toggle="tooltip" data-placement="bottom" title="{{ trans('entities/volunteers.completeStep') }}">
+                        {{ trans('default.finish') }}
                     </button>
                     @endif
                 @endif

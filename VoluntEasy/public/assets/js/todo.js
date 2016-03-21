@@ -58,8 +58,12 @@ $(".add-task").keypress(function (e) {
 
             html = '<div class="todo-item added ' + (item.isComplete == 1 ? 'complete' : '') + '"><input type="checkbox"' + (item.isComplete == 1 ? 'checked=checked' : '') + ' data-id="' + item.id + '">';
             html += '<span class="todo-description">' + item.comments + '</span>';
-            html += '<span class="created_updated"><small>Δημιουργήθηκε από ' + item.created_by.name + ' στις ' + item.created_at;
-            html += ', τροποποιήθηκε από ' + item.updated_by.name + ' στις ' + item.updated_at + '</small></span>';
+            if (item.isComplete == 1)
+                html += '<span class="created_updated"><small>' + Lang.get('js-components.todoDone', {
+                    user: item.updated_by.name,
+                    date: item.updated_at
+                })
+            +'</small></span>';
             html += '<a href="javascript:void(0);" class="pull-right remove-todo-item" data-id="' + item.id + '"><i class="fa fa-times"></i></a></div>';
 
             if ($('.todo-list').is(':empty'))
