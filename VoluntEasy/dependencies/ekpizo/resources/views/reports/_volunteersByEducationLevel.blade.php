@@ -5,7 +5,7 @@
 </div>
 <div class="col-md-12">
     <div>
-        <h4>Υπόμνημα</h4>
+        <h4>{{ trans('default.legend') }}</h4>
         <div class="educationChartLegend"></div>
     </div>
 </div>

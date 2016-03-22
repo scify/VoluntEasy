@@ -3,17 +3,17 @@
        width="100%">
     <thead>
     <tr>
-        <th>ID</th>
-        <th>Όνομα</th>
-        <th>Ώρες</th>
+        <th>{{ trans('entities/volunteers.id') }}</th>
+        <th>{{ trans('entities/volunteers.name') }}</th>
+        <th>{{ trans_choice('entities/volunteers.time', 10) }}</th>
     </tr>
     </thead>
 
     <tfoot>
     <tr>
-        <th>ID</th>
-        <th>Όνομα</th>
-        <th>Ώρες</th>
+        <th>{{ trans('entities/volunteers.id') }}</th>
+        <th>{{ trans('entities/volunteers.name') }}</th>
+        <th>{{ trans_choice('entities/volunteers.time', 10) }}</th>
     </tr>
     </tfoot>
 </table>
@@ -32,7 +32,7 @@
             volunteersByAction = result;
 
             //First we need to initialize the dropdown from where the user can filter the report by year
-            var actionsdDropDown = '<label>Δράση</label><select class="form-control">';
+            var actionsdDropDown = '<label>' + Lang.get('js-components.action') + '</label><select class="form-control">';
 
             //Add the years options and set the current year as selected
             $.each(result, function (key, value) {
@@ -68,28 +68,21 @@
             "bFilter": false,
             "bLengthChange": false,
             data: dataSet,
-            columns: [
-                {title: "Id"},
-                {title: "Όνομα"},
-                {title: "Ώρες"}
-            ],
-            //custom text
             "language": {
-                "lengthMenu": "_MENU_ γραμμές ανά σελίδα",
-                "zeroRecords": "Δεν υπάρχουν εθελοντές",
-                "info": "Σελίδα _PAGE_ από _PAGES_",
-                "infoEmpty": "Δεν υπάρχουν εθελοντές",
-                "infoFiltered": "(filtered from _MAX_ total records)",
+                "lengthMenu": Lang.get('js-components.lengthMenu'),
+                "zeroRecords": Lang.get('js-components.zeroVolunteers'),
+                "info": Lang.get('js-components.info'),
+                "infoEmpty": Lang.get('js-components.zeroVolunteers'),
                 "paginate": {
-                    "first": "Πρώτη",
-                    "last": "Τελευταία",
+                    "first": Lang.get('js-components.first'),
+                    "last": Lang.get('js-components.last'),
                     "next": ">",
                     "previous": "<"
                 }
             }, "footerCallback": function (row, data, start, end, display) {
                 var api = this.api(), data;
                 // Update footer
-                $(api.column(2).footer()).html('Συνολικές ώρες: ' + totalHours);
+                $(api.column(2).footer()).html(Lang.get('js-components.totalHours')+': ' + totalHours);
             }
         });
     }

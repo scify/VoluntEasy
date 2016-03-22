@@ -91,6 +91,22 @@ return [
 
     'howYouLearned' => 'Πως μάθατε για εμάς;',
     'howYouLearned2' => 'Πώς ενημερώθηκε για τη θέση εργασίας εθελοντισμού;',
+    'howTheyLearned' => 'Πως έμαθε για εμάς;',
+    'howTheyLearned2' => 'Πώς ενημερώθηκε για τη θέση εργασίας εθελοντισμού;',
+
+    'knowsWord' => 'Γνώση Word',
+    'knowsExcel' => 'Γνώση Excel',
+    'knowsPowerpoint' => 'Γνώση Powerpoint',
+    'volunteeringDepartments' => 'Τομείς προσφοράς εθελοντικής υπηρεσίας',
+    'otherDepartment' => 'Άλλος τομέας ενασχόλησης',
+    'hasPreviousVolunteeringExperience' => 'Εθελοντική Εμπειρία',
+    'previousVolunteeringExperience' => 'Εθελοντική εμπειρία - σχόλια',
+    'hasPreviousWorkingExperience' => 'Εργασιακή Εμπειρία',
+    'previousWorkingExperience' => 'Εργασιακή εμπειρία - σχόλια',
+
+    'morning' => 'Πρωί',
+    'afternoon' => 'Μεσημέρι',
+    'evening' => 'Απόγευμα',
 
     'files' => 'Αρχεία',
     'uploadFiles' => 'Ανέβασμα αρχείων',
@@ -118,9 +134,6 @@ return [
     'volunteeringPrevExpl' => 'Εαν έχετε πάρει μέρος σε εθελοντικές δράσεις στο παρελθόν περιγράψτε ποιο ήταν/είναι το αντικείμενο.',
 
 
-
-
-
     /* search */
     'belongsTo' => 'Ανήκει στη μονάδα',
     'onlyMyVolunteers' => 'Μόνο οι εθελοντές μου',
@@ -128,7 +141,6 @@ return [
     'moreFilters' => 'Περισσότερα Φίλτρα...',
     'phoneNumber' => 'Τηλέφωνο',
     'ageRange' => 'Ηλικιακό Εύρος',
-
 
 
     'addVolunteers' => 'Προσθήκη Εθελοντών',
@@ -203,7 +215,6 @@ return [
     'completedtep' => 'Το βήμα είναι ολοκληρωμένο',
 
 
-
     /* history */
     'noHistory' => 'Το ιστορικό του εθελοντή είναι άδειο.',
     'actionDuration' => 'Διάρκεια δράσης',
@@ -250,5 +261,13 @@ return [
     'from' => 'Από',
     'to' => 'Εώς',
 
+    /* days of the week */
+    'monday' => 'Δευτέρα',
+    'tuesday' => 'Τρίτη',
+    'wednesday' => 'Τετάρτη',
+    'thursday' => 'Πέμπτη',
+    'friday' => 'Παρασκευή',
+    'saturday' => 'Σάββατο',
+    'sunday' => 'Κυριακή',
 
 ];

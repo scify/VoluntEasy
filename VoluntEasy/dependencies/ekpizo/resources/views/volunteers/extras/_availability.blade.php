@@ -1,10 +1,10 @@
     <div class="form-group">
         @if (isset($volunteer))
-        {!! Form::formInput('availability_freqs_id', 'Συχνότητα συνεισφοράς:', $errors, ['class' =>
+        {!! Form::formInput('availability_freqs_id', trans('entities/volunteers.contributionRate').':', $errors, ['class' =>
         'form-control', 'type' => 'select', 'value' => $availabilityFreqs, 'key' =>
         $volunteer->availability_freqs_id]) !!}
         @else
-        {!! Form::formInput('availability_freqs_id', 'Συχνότητα συνεισφοράς:', $errors, ['class' =>
+        {!! Form::formInput('availability_freqs_id', trans('entities/volunteers.contributionRate').':', $errors, ['class' =>
         'form-control', 'type' => 'select', 'value' => $availabilityFreqs]) !!}
         @endif
     </div>
@@ -13,126 +13,126 @@
         <div class="col-md-12">
             <table class="table table-condensed table-bordered" id="daysTable">
                 <thead>
-                <th>Ημέρα</th>
-                <th>Πρωί</th>
-                <th>Μεσημέρι</th>
-                <th>Απόγευμα</th>
+                <th>{{ trans('entities/volunteers.date') }}</th>
+                <th>{{ trans('entities/volunteers.morning') }}</th>
+                <th>{{ trans('entities/volunteers.afternoon') }}</th>
+                <th>{{ trans('entities/volunteers.evening') }}</th>
                 </thead>
                 <tr>
-                    <td>Δευτέρα</td>
+                    <td>{{ trans('entities/volunteers.monday') }}</td>
                     @foreach($availabilityTimes as $a_t_id => $availability_time)
                     <td class="text-center">
                         <?php $checked = 'false' ?>
                         @if (isset($volunteer))
                         @foreach($volunteer->availabilityDays as $day)
-                        @if($day->day == 'Δευτέρα' && $day->time == $availability_time)
+                        @if($day->day == trans('entities/volunteers.monday') && $day->time == $availability_time)
                         <?php $checked = 'true' ?>
                         @endif
                         @endforeach
                         @endif
-                        {!! Form::formInput('Δευτέρα[]', '', $errors, ['class' =>
+                        {!! Form::formInput(trans('entities/volunteers.monday').'[]', '', $errors, ['class' =>
                         'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => $checked]) !!}
                     </td>
                     @endforeach
                 </tr>
                 <tr>
-                    <td>Τρίτη</td>
+                    <td>{{ trans('entities/volunteers.tuesday') }}</td>
                     @foreach($availabilityTimes as $a_t_id => $availability_time)
                     <td class="text-center">
                         <?php $checked = 'false' ?>
                         @if (isset($volunteer))
                         @foreach($volunteer->availabilityDays as $day)
-                        @if($day->day == 'Τρίτη' && $day->time == $availability_time)
+                        @if($day->day == trans('entities/volunteers.tuesday') && $day->time == $availability_time)
                         <?php $checked = 'true' ?>
                         @endif
                         @endforeach
                         @endif
-                        {!! Form::formInput('Τρίτη[]', '', $errors, ['class' =>
+                        {!! Form::formInput(trans('entities/volunteers.tuesday').'[]', '', $errors, ['class' =>
                         'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => $checked]) !!}
                     </td>
                     @endforeach
                 </tr>
                 <tr>
-                    <td>Τετάρτη</td>
+                    <td>{{ trans('entities/volunteers.wednesday') }}</td>
                     @foreach($availabilityTimes as $a_t_id => $availability_time)
                     <td class="text-center">
                         <?php $checked = 'false' ?>
                         @if (isset($volunteer))
                         @foreach($volunteer->availabilityDays as $day)
-                        @if($day->day == 'Τετάρτη' && $day->time == $availability_time)
+                        @if($day->day == trans('entities/volunteers.wednesday') && $day->time == $availability_time)
                         <?php $checked = 'true' ?>
                         @endif
                         @endforeach
                         @endif
-                        {!! Form::formInput('Τετάρτη[]', '', $errors, ['class' =>
+                        {!! Form::formInput(trans('entities/volunteers.wednesday').'[]', '', $errors, ['class' =>
                         'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => $checked]) !!}
                     </td>
                     @endforeach
                 </tr>
                 <tr>
-                    <td>Πέμπτη</td>
+                    <td>{{ trans('entities/volunteers.thursday') }}</td>
                     @foreach($availabilityTimes as $a_t_id => $availability_time)
                     <td class="text-center">
                         <?php $checked = 'false' ?>
                         @if (isset($volunteer))
                         @foreach($volunteer->availabilityDays as $day)
-                        @if($day->day == 'Πέμπτη' && $day->time == $availability_time)
+                        @if($day->day == trans('entities/volunteers.thursday') && $day->time == $availability_time)
                         <?php $checked = 'true' ?>
                         @endif
                         @endforeach
                         @endif
-                        {!! Form::formInput('Πέμπτη[]', '', $errors, ['class' =>
+                        {!! Form::formInput(trans('entities/volunteers.thursday').'[]', '', $errors, ['class' =>
                         'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => $checked]) !!}
                     </td>
                     @endforeach
                 </tr>
                 <tr>
-                    <td>Παρασκευή</td>
+                    <td>{{ trans('entities/volunteers.friday') }}</td>
                     @foreach($availabilityTimes as $a_t_id => $availability_time)
                     <td class="text-center">
                         <?php $checked = 'false' ?>
                         @if (isset($volunteer))
                         @foreach($volunteer->availabilityDays as $day)
-                        @if($day->day == 'Παρασκευή' && $day->time == $availability_time)
+                        @if($day->day == trans('entities/volunteers.friday') && $day->time == $availability_time)
                         <?php $checked = 'true' ?>
                         @endif
                         @endforeach
                         @endif
-                        {!! Form::formInput('Παρασκευή[]', '', $errors, ['class' =>
+                        {!! Form::formInput(trans('entities/volunteers.friday').'[]', '', $errors, ['class' =>
                         'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => $checked]) !!}
                     </td>
                     @endforeach
                 </tr>
                 <tr>
-                    <td>Σάββατο</td>
+                    <td>{{ trans('entities/volunteers.saturday') }}</td>
                     @foreach($availabilityTimes as $a_t_id => $availability_time)
                     <td class="text-center">
                         <?php $checked = 'false' ?>
                         @if (isset($volunteer))
                         @foreach($volunteer->availabilityDays as $day)
-                        @if($day->day == 'Σάββατο' && $day->time == $availability_time)
+                        @if($day->day == trans('entities/volunteers.saturday') && $day->time == $availability_time)
                         <?php $checked = 'true' ?>
                         @endif
                         @endforeach
                         @endif
-                        {!! Form::formInput('Σάββατο[]', '', $errors, ['class' =>
+                        {!! Form::formInput(trans('entities/volunteers.saturday').'[]', '', $errors, ['class' =>
                         'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => $checked]) !!}
                     </td>
                     @endforeach
                 </tr>
                 <tr>
-                    <td>Κυριακή</td>
+                    <td>{{ trans('entities/volunteers.sunday') }}</td>
                     @foreach($availabilityTimes as $a_t_id => $availability_time)
                     <td class="text-center">
                         <?php $checked = 'false' ?>
                         @if (isset($volunteer))
                         @foreach($volunteer->availabilityDays as $day)
-                        @if($day->day == 'Κυριακή' && $day->time == $availability_time)
+                        @if($day->day == trans('entities/volunteers.sunday') && $day->time == $availability_time)
                         <?php $checked = 'true' ?>
                         @endif
                         @endforeach
                         @endif
-                        {!! Form::formInput('Κυριακή[]', '', $errors, ['class' =>
+                        {!! Form::formInput(trans('entities/volunteers.sunday').'[]', '', $errors, ['class' =>
                         'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => $checked]) !!}
                     </td>
                     @endforeach
@@ -140,7 +140,7 @@
             </table>
 
             <div class="form-group" id="dailyFrequencies">
-                <p>Χρόνοι συνεισφοράς:</p>
+                <p>{{ trans('entities/volunteers.availabilityTimes') }}:</p>
                 @foreach($availabilityTimes as $a_t_id => $availability_time)
                 @if (isset($volunteer) && in_array($a_t_id, $volunteer->availabilityTimes->lists('id')->all()) )
                 {!! Form::formInput('availability_time[]', $availability_time, $errors, ['class' =>

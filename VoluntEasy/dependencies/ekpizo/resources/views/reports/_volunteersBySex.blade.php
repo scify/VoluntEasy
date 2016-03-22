@@ -5,9 +5,9 @@
 </div>
 <div class="col-md-12">
     <div>
-        <h4>Υπόμνημα</h4>
-        <i class="fa fa-square" style="color:#12AFCB"></i> Άνδρες |
-        <i class="fa fa-square" style="color:#7a6fbe"></i> Γυναίκες
+        <h4>{{ trans('default.legend') }}</h4>
+        <i class="fa fa-square" style="color:#12AFCB"></i> {{ trans('default.men') }} |
+        <i class="fa fa-square" style="color:#7a6fbe"></i> {{ trans('default.women') }}
     </div>
 </div>
 
@@ -30,13 +30,13 @@
                     value: result.men,
                     color:"#12AFCB",
                     highlight: "#30E0FF",
-                    label: "Άνδρες"
+                    label: Lang.get('js-components.men')
                 },
                 {
                     value: result.women,
                     color: "#7a6fbe",
                     highlight: "#BAAEFF",
-                    label: "Γυναίκες"
+                    label: Lang.get('js-components.women')
                 }
             ]
 

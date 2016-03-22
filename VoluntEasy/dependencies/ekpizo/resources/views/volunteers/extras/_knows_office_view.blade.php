@@ -1,3 +1,5 @@
-<p><strong>Γνώση Word:</strong> {{ $volunteer->extras!=null && $volunteer->extras->knows_word ? 'Ναι' : 'Όχι' }}</strong></p>
-<p><strong>Γνώση Excel:</strong> {{ $volunteer->extras!=null && $volunteer->extras->knows_excel ? 'Ναι' : 'Όχι' }}</p>
-<p><strong>Γνώση Powerpoint:</strong> {{ $volunteer->extras!=null && $volunteer->extras->knows_powerpoint ? 'Ναι' : 'Όχι' }}</p>
+<p><strong>{{ trans('entities/volunteers.knowsWord') }}:</strong> {{ $volunteer->extras!=null && $volunteer->extras->knows_word ? trans('default.yes') : trans('default.no') }}</strong></p>
+
+<p><strong>{{ trans('entities/volunteers.knowsExcel') }}:</strong> {{ $volunteer->extras!=null && $volunteer->extras->knows_excel ? trans('default.yes') : trans('default.no') }}</p>
+
+<p><strong>{{ trans('entities/volunteers.knowsPowerpoint') }}:</strong> {{ $volunteer->extras!=null && $volunteer->extras->knows_powerpoint ? trans('default.yes') : trans('default.no') }}</p>

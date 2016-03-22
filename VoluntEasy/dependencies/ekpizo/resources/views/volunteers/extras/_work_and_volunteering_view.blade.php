@@ -1,4 +1,4 @@
-<p><strong>Τομείς προσφοράς εθελοντικής υπηρεσίας:</strong>
+<p><strong>{{ trans('entities/volunteers.volunteeringDepartments') }}:</strong>
     @if($volunteer->extras!=null && sizeof($volunteer->volunteeringDepartments)==0)
     -
     @else
@@ -11,10 +11,14 @@
     @endforeach
     @endif
 </p>
-<p><strong>Άλλος τομέας ενασχόλησης:</strong> {{ $volunteer->extras!=null && ($volunteer->extras->other_department!=null || $volunteer->extras->other_department!='') ? $volunteer->extras->other_department : '-' }}</p>
-<p><strong>Εθελοντική Εμπειρία:</strong> {{ $volunteer->extras!=null && $volunteer->extras->has_previous_volunteer_experience ? 'Ναι' : 'Όχι' }}</p>
-<p><strong>Εθελοντική εμπειρία - σχόλια:</strong> {{ $volunteer->extras!=null && ($volunteer->participation_actions!=null ||
+<p><strong>{{ trans('entities/volunteers.otherDepartment') }}:</strong> {{ $volunteer->extras!=null && ($volunteer->extras->other_department!=null || $volunteer->extras->other_department!='') ? $volunteer->extras->other_department : '-' }}</p>
+
+<p><strong>{{ trans('entities/volunteers.hasPreviousVolunteeringExperience') }}:</strong> {{ $volunteer->extras!=null && $volunteer->extras->has_previous_volunteer_experience ? 'Ναι' : 'Όχι' }}</p>
+
+<p><strong>{{ trans('entities/volunteers.previousVolunteeringExperience') }}:</strong> {{ $volunteer->extras!=null && ($volunteer->participation_actions!=null ||
     $volunteer->participation_actions!='') ? $volunteer->participation_actions : '-' }}</p>
-<p><strong>Εργασιακή Εμπειρία:</strong> {{ $volunteer->extras!=null && $volunteer->extras->has_previous_work_experience ? 'Ναι' : 'Όχι' }}</p>
-<p><strong>Εργασιακή εμπειρία - σχόλια:</strong> {{ $volunteer->extras!=null && ($volunteer->work_description!=null ||
+
+<p><strong>{{ trans('entities/volunteers.hasPreviousWorkingExperience') }}:</strong> {{ $volunteer->extras!=null && $volunteer->extras->has_previous_work_experience ? 'Ναι' : 'Όχι' }}</p>
+
+<p><strong>{{ trans('entities/volunteers.previousWorkingExperience') }}:</strong> {{ $volunteer->extras!=null && ($volunteer->work_description!=null ||
     $volunteer->work_description!='') ? $volunteer->work_description : '-'}}</p>
