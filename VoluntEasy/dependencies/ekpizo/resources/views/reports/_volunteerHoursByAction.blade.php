@@ -61,8 +61,10 @@
         var actionId = $("#actionsdDropDown option:selected").val();
 
         byHoursTable.fnClearTable();
+        data = initVolunteerActionsDataset(actionId);
 
-        byHoursTable.fnAddData(initVolunteerActionsDataset(actionId));
+        if(data.length>0)
+            byHoursTable.fnAddData(data);
     });
 
     function initActionsTable(dataSet) {
@@ -94,24 +96,6 @@
                 var api = this.api(), data;
                 // Update footer
                 $(api.column(2).footer()).html('Συνολικές ώρες: ' + totalHours);
-            },
-            dom: 'T<"clear">lfrtip',
-            "tableTools": {
-                "sSwfPath": $("body").attr('data-url') + "/assets/plugins/data-tables/extras/tabletools/swf/copy_csv_xls_pdf.swf",
-                "aButtons": [
-                    {
-                        "sExtends": "copy",
-                        "sButtonText": "Αντιγραφή"
-                    },
-                    {
-                        "sExtends": "print",
-                        "sButtonText": "Εκτύπωση"
-                    },
-                    {
-                        "sExtends": "csv",
-                        "sButtonText": "CSV"
-                    }
-                ]
             }
         });
     }
@@ -120,13 +104,14 @@
         var dataSet = [];
 
         $.each(volunteersByAction, function (key, value) {
-            if (value.id == actionId) {
+
+            if (value.id == actionId && value.volunteers.length>0) {
 
                 $.each(value.volunteers, function (i, volunteer) {
                     dataSet.push([volunteer.id, volunteer.name, volunteer.hours]);
                 });
-
                 totalHours = value.totalHours;
+                                return false;
             }
         });
 

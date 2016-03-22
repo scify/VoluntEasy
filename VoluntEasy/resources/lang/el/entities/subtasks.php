@@ -38,6 +38,7 @@ return [
     'comments' => 'Σχόλια',
     'actions' => 'Ενέργειες',
 
+    'newToDo' => 'Νέο to-do...',
     'toDoExplained' => 'Πατήστε το enter για να αποθηκευτεί το to-do',
 
 

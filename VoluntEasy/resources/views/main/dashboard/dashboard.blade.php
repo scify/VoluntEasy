@@ -1,9 +1,9 @@
 @extends('default')
 @section('title')
-Αρχική
+{{ trans('home.home') }}
 @stop
 @section('pageTitle')
-Αρχική
+{{ trans('home.home') }}
 @stop
 
 @section('bodyContent')

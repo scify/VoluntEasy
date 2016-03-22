@@ -118,7 +118,7 @@
 
 <div class="panel panel-white tree">
     <div class="panel-heading clearfix">
-        <h2 class="panel-title">Δέντρο</h2>
+        <h2 class="panel-title">{{ trans('entities/tree.tree') }}</h2>
 
         <div class="panel-control">
             <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="" class="panel-collapse"

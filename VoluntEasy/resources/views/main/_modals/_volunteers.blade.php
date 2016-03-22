@@ -21,7 +21,7 @@
                 @endif
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" id="saveVolunteers" data-id="{{ $active->id }}">Αποθήκευση</button>
+                <button class="btn btn-success" id="saveVolunteers" data-id="{{ $active->id }}">{{ trans('default.save') }}</button>
             </div>
         </div>
     </div>

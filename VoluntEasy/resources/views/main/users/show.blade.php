@@ -41,7 +41,7 @@
                             @endif
                             <i class="fa fa-phone"></i> {{ $user->tel }}</p>
                         <hr/>
-                        <h3>Ρόλοι</h3>
+                        <h3>{{ trans('entities/users.roles') }}</h3>
                         @foreach($user->roles as $role)
                         <p>{{trans($lang.$role->name.'-at')}}</p>
                         @if('unit_manager' == $role->name)

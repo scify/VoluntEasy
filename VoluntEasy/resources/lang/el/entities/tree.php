@@ -2,7 +2,7 @@
 
 return [
 
-    'tree' => 'VoluntEasy',
+    'tree' => 'Δέντρο',
 
     'notToChooseUnit' => 'Μη Επιλέξιμη Οργανωτική Μονάδα',
     'toChooseUnit' => 'Επιλέξιμη Οργανωτική Μονάδα',

@@ -140,7 +140,7 @@
     <div class="col-md-12">
         <div class="form-group ">
             <div class="form-group ">
-                <button type="submit" id="search" class="btn btn-default"><i class="fa fa-search"></i> {{ trans('default.save') }}
+                <button type="submit" id="search" class="btn btn-default"><i class="fa fa-search"></i> {{ trans('default.search') }}
                 </button>
                 <button type="button" id="clear" class="btn btn-default"><i class="fa fa-remove"></i> {{ trans('default.clear') }}
                 </button>

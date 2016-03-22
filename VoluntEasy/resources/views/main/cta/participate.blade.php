@@ -26,7 +26,7 @@
                                 <div class="col-md-12">
                                     <h2>{{ trans('entities/cta.callVolunteersToAction') }} <strong>{{ $action->description }}</strong></h2>
 
-                                    <p><i class="fa fa-calendar"></i> <strong>{{ $action->start_date }}</strong> έως
+                                    <p><i class="fa fa-calendar"></i> <strong>{{ $action->start_date }}</strong> {{ trans('default.to') }}
                                         <strong>{{ $action->end_date }}</strong>
                                         @if($publicAction->address!=null && $publicAction->address!='')
                                         @if($publicAction->map_url!=null && $publicAction->map_url!='')

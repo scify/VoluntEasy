@@ -42,7 +42,7 @@
         <h4><i class="fa fa-check-square-o"></i> To-do <br/><small>{{ trans('entities/subtasks.toDoExplained') }}</small></h4>
 
         <form action="javascript:void(0);">
-            <input type="text" class="form-control add-task" placeholder="Νέο to-do...">
+            <input type="text" class="form-control add-task" placeholder="{{ trans('entities/subtasks.newToDo') }}">
         </form>
         <div class="todo-list">
         </div>

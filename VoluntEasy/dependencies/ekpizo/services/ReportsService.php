@@ -232,10 +232,49 @@ class ReportsService implements ReportsInterface {
 
     function volunteerHoursByAction() {
 
+        $dbactions = Action::with('volunteers.workDates')->get();
+
+        $actions = [];
+
+        foreach ($dbactions as $a => $action) {
+            $volunteers = [];
+            $totalHours = 0;
+
+            foreach ($action->volunteers as $v => $volunteer) {
+                $totalVolunteerHours = 0;
+                foreach ($volunteer->workDates as $w => $workDate) {
+                    $to_time = strtotime($workDate->to_hour);
+                    $from_time = strtotime($workDate->from_hour);
+                    $workHours = (($to_time - $from_time) / 60) / 60;
+                    $totalVolunteerHours += $workHours;
+                    $totalHours += $workHours;
+                }
+
+                array_push($volunteers, [
+                    'id' => $volunteer->id,
+                    'name' => $volunteer->name . ' ' . $volunteer->last_name,
+                    'hours' => $totalVolunteerHours,
+                ]);
+            }
+            array_push($actions, [
+                'id' => $action->id,
+                'description' => $action->description,
+                'volunteers' => $volunteers,
+                'totalHours' => $totalHours
+            ]);
+        }
+
+
+        return $actions;
+
+    }
+
+    /*
+    function volunteerHoursByAction() {
+
         $dbactions = Action::with('ratings.volunteerRatings.volunteer')->get();
 
         //  return $dbactions;
-
 
         $actions = [];
         foreach ($dbactions as $action) {
@@ -296,5 +335,5 @@ class ReportsService implements ReportsInterface {
 
         return $actions;
 
-    }
+    }*/
 }
