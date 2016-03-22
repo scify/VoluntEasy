@@ -54,18 +54,11 @@
                                     @if($unit->status=='Active')
                                         @foreach($volunteer->actions as $action)
                                             @if($action->unit_id==$unit->id)
-                                                <p>{{ trans('entities/actions.action') }} <strong><a href="{{ url('actions/one/'.$action->id) }}">{{
+                                                {{ trans('entities/actions.action') }} <strong><a href="{{ url('actions/one/'.$action->id) }}">{{
                                 $action->description
                                 }}</a></strong>
                                                     <small>({{ $action->start_date }} - {{ $action->end_date }})</small>
-                                                    @if($volunteer->permitted)
-                                                        <br/>
-                                                        <small><a href="#" class="removeFromAction"
-                                                                  data-volunteer-id="{{ $volunteer->id }}"
-                                                                  data-action-id="{{ $action->id }}"><i
-                                                                        class="fa fa-remove fa-1x"></i> {{ trans('entities/volunteers.removeFromAction') }}</a></small>
-                                                    @endif
-                                                </p>
+                                                <br/>
                                             @endif
                                         @endforeach
                                     @elseif(sizeof($unit->actions)>0 && $unit->status=='Available')

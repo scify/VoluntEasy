@@ -22,7 +22,7 @@ class CTAController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['cta']]);
+        $this->middleware('auth', ['except' => ['cta', 'participate']]);
     }
 
 

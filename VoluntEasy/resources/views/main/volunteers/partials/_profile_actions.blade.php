@@ -108,7 +108,7 @@
                                 <thead>
                                 <th></th>
                                 <th>{{ trans('entities/volunteers.date') }}</th>
-                                <th>{{ trans('entities/volunteers.time') }}</th>
+                                <th>{{ trans_choice('entities/volunteers.time', 10) }}</th>
                                 <th>{{ trans('entities/volunteers.comments') }}</th>
                                 <th>{{ trans('entities/volunteers.totalHours') }}</th>
                                 </thead>
@@ -132,7 +132,7 @@
                                             @foreach($task->subtasks as $subtask)
                                                 @if(sizeof($subtask->workDates)>0)
                                                     <tr class="subtask">
-                                                        <td colspan="4">{{ trans('entities/subtask.subtask') }} {{ $subtask->name }}</td>
+                                                        <td colspan="4">{{ trans('entities/subtasks.subtask') }} {{ $subtask->name }}</td>
                                                         <td class="col-md-2 text-center">
                                                             <strong>{{ $subtask->workHours }}</strong></td>
                                                     </tr>

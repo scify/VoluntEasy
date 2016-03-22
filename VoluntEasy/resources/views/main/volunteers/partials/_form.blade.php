@@ -350,8 +350,7 @@
                 {!! Form::formInput('files[]', trans('entities/volunteers.uploadFiles').':', $errors, ['class' => 'form-control', 'type' =>
                 'file', 'multiple' => 'true'])
                 !!}
-                <small class="help-block">{{ trans('entities/volunteers.moreThanOne') }}</small>
-                <br/>
+                <small class="help-block">{{ trans('entities/volunteers.moreThanOne') }}</small><br/>
                 <small class="help-block">{{ trans('entities/volunteers.lessThan10gb') }}</small>
             </div>
             @if(isset($volunteer))

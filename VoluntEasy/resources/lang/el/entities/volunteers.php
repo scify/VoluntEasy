@@ -188,6 +188,7 @@ return [
     'volunteerDoesnotBelongToUnitAction' => 'Ο εθελοντής δεν ανήκει σε καμία οργανωτική μονάδα ή δράση.',
     'assignToSubUnit' => 'Ανάθεση σε υπομονάδα',
     'removeFromUnit' => 'Αφαίρεση από μονάδα',
+    'removeFromAction' => 'Αφαίρεση από τη δράση',
     'volunteerNotInAction' => 'Ο εθελοντής δε συμμετέχει σε κάποια δράση της μονάδας',
     'unitNoActions' => 'Η μονάδα δεν έχει δράσεις',
 
@@ -197,8 +198,8 @@ return [
     'communicationStep' => 'Επικοινωνία με εθελοντή',
     'interviewStep' => 'Συνέντευξη με εθελοντή',
     'assignmentStep' => 'Ανάθεση σε μονάδα',
-    'pendingStep' => 'Ανάθεση σε μονάδα',
-    'completedtep' => 'Ανάθεση σε μονάδα',
+    'pendingStep' => 'Το βήμα εκκρεμεί',
+    'completedtep' => 'Το βήμα είναι ολοκληρωμένο',
 
 
 

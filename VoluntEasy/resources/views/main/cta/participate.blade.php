@@ -85,12 +85,10 @@
                                         <div class="dateTime">
                                             <label {{ sizeof($date->volunteers)>=$date->volunteer_sum ? 'class=disabled' : ''}} >
                                                 @if(sizeof($date->volunteers)>=$date->volunteer_sum)
-                                                {!! Form::formInput('dates['.$date->id.']', '', $errors, ['class'
-                                                =>'form-control checkbox', 'type' => 'checkbox', 'checked' =>'false',
+                                                {!! Form::formInput('dates['.$date->id.']', '', $errors, ['type' => 'checkbox', 'checked' =>'false',
                                                 'disabled' => 'disabled', 'readonly']) !!}
                                                 @else
-                                                {!! Form::formInput('dates['.$date->id.']', '', $errors, ['class'
-                                                =>'form-control checkbox', 'type' => 'checkbox', 'checked' =>'false'])
+                                                {!! Form::formInput('dates['.$date->id.']', '', $errors, ['type' => 'checkbox', 'checked' =>'false'])
                                                 !!}
                                                 @endif
                                                 <div class="dates"> {{$date->from_date}} <br/>  <span

@@ -825,6 +825,8 @@ class VolunteerService
 
         //detach from action
         $volunteer->actions()->detach($action->id);
+
+
         return;
     }
 
