@@ -58,7 +58,7 @@ class CollaborationController extends Controller {
         $collaboration = Collaboration::create($request->only('start_date', 'end_date', 'name', 'type_id', 'phone', 'address', 'comments'));
 
         //create the executive obj
-        if ($request['execName']) {
+        if ($request['execName'] || $request['address'] || $request['phone'] || $request['email']) {
             $executive = Executive::create([
                 'name' => $request['execName'],
                 'address' => $request['execAddress'],
@@ -223,7 +223,7 @@ class CollaborationController extends Controller {
 
         $collaboration->delete();
 
-        Session::flash('flash_message', 'Η δράση διαγράφηκε.');
+        Session::flash('flash_message', 'Ο φορέας διαγράφηκε.');
         Session::flash('flash_type', 'alert-success');
 
 

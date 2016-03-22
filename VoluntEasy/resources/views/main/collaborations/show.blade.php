@@ -42,8 +42,7 @@
 
             <div class="col-md-4">
                 <h3>{{ trans('entities/collaborations.execInfo') }}</h3>
-                @if(sizeof($collaboration->executives)>0 && $collaboration->executives[0]->name!=null &&
-                $collaboration->executives[0]->name!='')
+                @if(sizeof($collaboration->executives)>0)
                 <ul class="list-unstyled">
                     <li class="user-list">
                         <p>{{$collaboration->executives[0]->name}}</p>

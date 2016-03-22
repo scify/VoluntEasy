@@ -55,7 +55,7 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
             'work_description' => $volunteerRequest['work_description'],
             'participation_actions' => $volunteerRequest['participation_actions'],
             'availability_freqs_id' => $this->checkDropDown(intval($volunteerRequest['availability_freqs_id'])),
-            'availability_freqs_id' => $this->checkDropDown(intval($volunteerRequest['availability_freqs_id'])),
+            'computer_usage_comments' => $volunteerRequest['computer_usage_comments'],
         ];
 
         if (isset($volunteerRequest['birth_date']) && $volunteerRequest['birth_date'] != null)
@@ -71,6 +71,7 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
         $baseFields['computer_usage'] = 0;
         if (isset($volunteerRequest['computer_usage']) && $volunteerRequest['computer_usage'] == 1)
             $baseFields['computer_usage'] = 1;
+
 
         return $baseFields;
     }

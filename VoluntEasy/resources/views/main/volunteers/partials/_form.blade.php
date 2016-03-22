@@ -312,14 +312,10 @@
             </div>
 
             <div class="form-group">
-                @if (isset($volunteer))
-                {!! Form::formInput('howYouLearned', trans('entities/volunteers.howYouLearned'), $errors, ['class' =>
-                'form-control', 'type' => 'select', 'value' => $howYouLearned, 'key' =>
-                $volunteer->how_you_learned_id]) !!}
-                @else
-                {!! Form::formInput('howYouLearned', trans('entities/volunteers.howYouLearned'), $errors, ['class' =>
-                'form-control', 'type' => 'select', 'value' => $howYouLearned]) !!}
-                @endif
+                 {{-- Extras--}}
+                 @if(in_array('knows_office', $extras))
+                    @include($extrasPath.'._how_you_learned')
+                 @endif
             </div>
         </div>
         <div class="col-md-4">

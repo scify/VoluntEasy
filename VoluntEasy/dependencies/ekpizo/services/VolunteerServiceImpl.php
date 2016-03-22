@@ -67,23 +67,26 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
      */
     function storeExtraFields($volunteer) {
 
-        //dd(\Request::all());
         $this->saveFrequencies($volunteer);
 
         if (\Request::has('departments'))
             $volunteer->volunteeringDepartments()->sync(\Request::get('departments'));
 
-        if (\Request::has('has_previous_volunteer_experience') && \Request::get('has_previous_volunteer_experience')=='on')
+        if (\Request::has('has_previous_volunteer_experience') && \Request::get('has_previous_volunteer_experience') == 'on')
             $has_previous_volunteer_experience = true;
         else
             $has_previous_volunteer_experience = false;
-        if (\Request::has('has_previous_work_experience') && \Request::get('has_previous_work_experience')=='on')
+        if (\Request::has('has_previous_work_experience') && \Request::get('has_previous_work_experience') == 'on')
             $has_previous_work_experience = true;
         else
             $has_previous_work_experience = false;
 
-        $volunteer->how_you_learned_id = \Request::get('how_you_learned_id');
+        $volunteer->how_you_learned_id = \Request::get('howYouLearned');
+        $volunteer->how_you_learned2_id = \Request::get('howYouLearned2');
         $volunteer->computer_usage_comments = \Request::get('computer_usage_comments');
+        $volunteer->afm = \Request::get('afm');
+
+        $volunteer->update();
 
         $extras = $volunteer->extras ?: new VolunteerExtras();
 
@@ -109,8 +112,9 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
     private function saveFrequencies($volunteer) {
 
         if ($volunteer->availability_freqs_id == "1") {
-            if (isset($volunteerRequest['availability_time']) && sizeof($volunteerRequest['availability_time']) > 0)
-                $volunteer->availabilityTimes()->sync($volunteerRequest['availability_time']);
+            if (\Request::get('availability_time')) {
+                $volunteer->availabilityTimes()->sync(\Request::get('availability_time'));
+            }
         } else {
             $weekDays = ['Δευτέρα', 'Τρίτη', 'Τετάρτη', 'Πέμπτη', 'Παρασκευή', 'Σάββατο', 'Κυριακή'];
 

@@ -33,6 +33,7 @@ class Configuration implements ConfigurationInterface {
             'has_previous_work_experience',
             'volunteering_work_extra',
             'availability',
+            'afm',
         ];
     }
 }

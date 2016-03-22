@@ -9,6 +9,7 @@ use App\Models\Descriptions\DriverLicenceType;
 use App\Models\Descriptions\EducationLevel;
 use App\Models\Descriptions\Gender;
 use App\Models\Descriptions\HowYouLearned;
+use App\Models\Descriptions\HowYouLearned2;
 use App\Models\Descriptions\IdentificationType;
 use App\Models\Descriptions\InterestCategory;
 use App\Models\Descriptions\Language;
@@ -214,6 +215,7 @@ class VolunteerController extends Controller {
         $genders = Gender::lists('description', 'id')->all();
         $commMethod = CommunicationMethod::lists('description', 'id')->all();
         $howYouLearned = HowYouLearned::lists('description', 'id')->all();
+        $howYouLearned2 = HowYouLearned2::lists('description', 'id')->all();
         $edLevel = EducationLevel::lists('description', 'id')->all();
         $volunteeringDepartments = VolunteeringDepartment::get()->all();
 
@@ -235,6 +237,7 @@ class VolunteerController extends Controller {
         $workStatuses[0] = '[- επιλέξτε -]';
         $availabilityFreqs[0] = '[- επιλέξτε -]';
         $howYouLearned[0] = '[- επιλέξτε -]';
+        $howYouLearned2[0] = '[- επιλέξτε -]';
         ksort($maritalStatuses);
         ksort($edLevel);
         ksort($genders);
@@ -243,13 +246,14 @@ class VolunteerController extends Controller {
         ksort($workStatuses);
         ksort($availabilityFreqs);
         ksort($howYouLearned);
+        ksort($howYouLearned2);
 
         //The extras are the add-on features based on the needs.
         $extras = $this->configuration->getExtras();
         $extrasPath = $this->configuration->getExtrasPath();
 
         return view('main.volunteers.edit', compact('volunteer', 'identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
-            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'volunteeringDepartments', 'units', 'howYouLearned', 'extras', 'extrasPath'));
+            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'volunteeringDepartments', 'units', 'howYouLearned', 'howYouLearned2', 'extras', 'extrasPath'));
     }
 
     /**

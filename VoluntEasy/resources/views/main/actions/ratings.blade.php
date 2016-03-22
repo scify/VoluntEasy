@@ -44,7 +44,7 @@
                             @endforeach
                             <td>{{ $rating->comments }}</td>
                         @else
-                            <td colspan="{{ $sizeof($attributes) }}"></td>
+                            <td colspan="{{ sizeof($attributes) }}"></td>
                         @endif
                     </tr>
                     @endforeach

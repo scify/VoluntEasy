@@ -12,7 +12,7 @@ class CronService {
 
     public function expiredActions() {
 
-        $expiredActions = Action::expiredYesterday()->with('volunteers')->get();
+        $expiredActions = Action::expiredYesterday()->with('volunteers.workDates', 'users', 'tasks.subtasks.workDates')->get();
 
         foreach ($expiredActions as $expired) {
 
@@ -39,14 +39,9 @@ class CronService {
                 }
             }
 
-            //check if there are any action ratings with the same email for the action
-            //(that means that there is already a link for the action and the user)
-            $actionRatings = ActionRating::where('email', $expired->email)->where('action_id', $expired->id)->get();
 
-            //we should only send an email if we haven't already sent one,
-            //and if the required data is provided (the email)
-            if ($expired->email != null && $expired->email != '' /*&& ($actionRatings == null || sizeof($actionRatings) == 0)*/) {
-
+            //send emails to all action users to reate volunteers
+            foreach ($expired->users as $user) {
                 $token = str_random(30);
                 //create a new action rating
                 //with the action id, the email and the token
@@ -60,17 +55,31 @@ class CronService {
 
                 //then send an email to the person responsible for the action
 
-                \Mail::send('app_emails.rate_volunteers', ['action' => $expired, 'token' => $token], function ($message) use ($expired) {
-                    $message->to($expired->email, $expired->name)->subject('[VoluntEasy] Αξιολόγηση εθελοντών');
+                \Mail::send('app_emails.rate_volunteers', ['action' => $expired, 'token' => $token], function ($message) use ($user, $expired) {
+                    $message->to($user->email, $user->name)->subject('[VoluntEasy] Αξιολόγηση εθελοντών');
                 });
+            }
+
+            $workDates = [];
+            foreach ($expired->tasks as $task) {
+                foreach ($task->subtasks as $subtask) {
+                    foreach ($subtask->workDates as $workDate) {
+                        array_push($workDates, $workDate->id);
+                    }
+                }
             }
 
             //for all volunteers, set their unit status to available
             foreach ($expired->volunteers as $volunteer) {
                 $statusId = VolunteerStatus::available();
-
                 VolunteerServiceFacade::changeUnitStatus($volunteer->id, $expired->unit_id, $statusId);
+
+                foreach ($volunteer->workDates as $workDate) {
+                    if (in_array($workDate->id, $workDates))
+                        $volunteer->workDates()->detach($workDate->id);
+                }
             }
+
 
             if (sizeof($expired->volunteers) > 0) {
                 //detach all volunteers

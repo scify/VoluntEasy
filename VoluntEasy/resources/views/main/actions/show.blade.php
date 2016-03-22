@@ -127,7 +127,7 @@
                                 <div class="col-md-12">
                                     <div class="panel panel-white">
                                         <div class="panel-heading clearfix">
-                                            <h4 class="panel-title">{{ trans('default.totalRatings') }}</h4>
+                                            <h4 class="panel-title">{{ trans('entities/actions.totalRatings') }}</h4>
 
                                             <div class="panel-control">
                                                 <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top"
@@ -139,8 +139,8 @@
                                         <div class="panel-body">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <p>{{ trans('default.viewRatings') }}  <a
-                                                                href="http://volunteasy/actions/ratings/{{ $action->id }}">{{ trans('default.here') }}</a>.
+                                                    <p>{{ trans('entities/actions.viewRatings') }}  <a
+                                                                href="http://volunteasy/actions/ratings/{{ $action->id }}">{{ trans('entities/actions.here') }}</a>.
                                                     </p>
 
                                                     <div id="container"

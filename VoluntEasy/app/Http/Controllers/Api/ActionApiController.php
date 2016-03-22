@@ -70,7 +70,7 @@ class ActionApiController extends Controller {
             $tmp = ([
                 'title' => $action->description,
                 'start' => \Carbon::parse(\Carbon::createFromFormat('d/m/Y', $action->start_date))->format('Y-m-d'),
-                'end' => \Carbon::parse(\Carbon::createFromFormat('d/m/Y', $action->end_date))->format('Y-m-d'),
+                'end' => \Carbon::parse(\Carbon::createFromFormat('d/m/Y', $action->end_date)->addDay())->format('Y-m-d'),
                 'start_date' => $action->start_date,
                 'end_date' => $action->end_date,
                 'description' => $action->comments,

@@ -65,7 +65,7 @@
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                {!! Form::formInput('hours', 'trans('entities/ratings.hours'):', $errors, ['class'
+                                                                {!! Form::formInput('hours', trans('entities/ratings.hours').':', $errors, ['class'
                                                                 =>
                                                                 'form-control volunteerRating hours',
                                                                 'data-volunteer-id' => $volunteer->id]) !!}
@@ -73,7 +73,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
-                                                                {!! Form::formInput('minutes', 'trans('entities/ratings.minutes'):', $errors,
+                                                                {!! Form::formInput('minutes', trans('entities/ratings.minutes').':', $errors,
                                                                 ['class'
                                                                 => 'form-control volunteerRating minutes',
                                                                 'data-volunteer-id' => $volunteer->id]) !!}

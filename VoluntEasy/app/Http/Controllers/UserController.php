@@ -67,6 +67,7 @@ class UserController extends Controller {
         }
 
         //refresh user roles
+        if (\Request::has('roles'))
         $user->refreshRoles(\Request::get('roles'));
 
         return Redirect::route('user/profile', ['id' => $user->id]);
@@ -133,7 +134,8 @@ class UserController extends Controller {
         }
 
         //refresh user roles
-        $user->refreshRoles(\Request::get('roles'));
+        if(\Request::has('roles'))
+            $user->refreshRoles(\Request::get('roles'));
 
         //store the user image
         if (\Input::file('image') != null) {

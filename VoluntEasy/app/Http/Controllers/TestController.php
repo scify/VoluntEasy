@@ -20,34 +20,31 @@ class TestController extends Controller {
 
     public function test() {
 
-        $today = \Carbon::today();
-        return $today->subMonths(6);
+        $expiredActions = Action::expiredYesterday()->with('volunteers.workDates', 'users', 'tasks.subtasks.workDates')->get();
 
+        foreach ($expiredActions as $expired) {
 
-        $id = 1;
-        $volunteer = Volunteer::whereHas('actions.tasks.subtasks.workDates.volunteers', function ($q) use ($id) {
-            $q->where('volunteer_id', $id);
-        })->with('actions.tasks.subtasks.workDates.volunteers')
-            ->find($id);
+            $workDates = [];
+            foreach ($expired->tasks as $task) {
+                foreach ($task->subtasks as $subtask) {
+                    foreach ($subtask->workDates as $workDate) {
+                        array_push($workDates, $workDate->id);
+                    }
+                }
+            }
 
+            //for all volunteers, set their unit status to available
+            foreach ($expired->volunteers as $volunteer) {
+                //$statusId = VolunteerStatus::available();
+              //  VolunteerServiceFacade::changeUnitStatus($volunteer->id, $expired->unit_id, $statusId);
+                foreach ($volunteer->workDates as $workDate) {
+                    if (in_array($workDate->id, $workDates)) {
 
-        $volunteer = Volunteer::with(['actions.tasks.subtasks.workDates.volunteers' => function ($q) {
-            $q->where('volunteer_id', 1);
-        }])->find($id);
-
-
-        return $volunteer;
-
-
-        $volunteer = Volunteer::find(1);
-        return $volunteer->interestedIn();
-
-
-        $emails = Volunteer::where('email', 'test@test.gr')->get();
-
-        return sizeof($emails);
-
-        return view("main.tasks.board");
+                        $volunteer->workDates()->detach($workDate->id);
+                    }
+                }
+            }
+        }
 
     }
 
