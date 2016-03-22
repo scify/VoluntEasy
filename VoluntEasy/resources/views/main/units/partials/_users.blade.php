@@ -5,7 +5,7 @@
                     style="display: none; width: 100%">
                 @foreach($users as $user)
                 <option value="{{ $user->id }}"
-                {{ isset($userIds) && in_array($user->id, $userIds) ? 'selected' : '' }} name="user-{{$user->id}}">{{ $user->name }}</option>
+                {{ isset($userIds) && in_array($user->id, $userIds) ? 'selected' : '' }} name="user-{{$user->id}}">{{ $user->name }} {{ $user->last_name }}</option>
                 @endforeach
             </select>
         </div>

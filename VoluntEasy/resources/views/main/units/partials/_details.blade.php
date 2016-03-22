@@ -19,7 +19,7 @@
     @foreach($active->users as $user)
     <li class="user-list">
         <div class="msg-img"><img src="{{ asset('assets/uploads/users/'.$user->image_name)}}" alt="" class="user-image-small userImage"></div>
-        <p class="msg-name"> <a href="{{ url('users/one/'.$user->id) }}">{{$user->name}}</a><p>
+        <p class="msg-name"> <a href="{{ url('users/one/'.$user->id) }}">{{$user->name}} {{ $user->last_name }}</a><p>
         <p class="msg-text"><i class="fa fa-envelope"></i> <a href="mail:to{{ $user->email }}">{{ $user->email }}</a> |
             <i class="fa fa-home"></i> {{ $user->addr }} |
             <i class="fa fa-phone"></i> {{ $user->tel }}</p>

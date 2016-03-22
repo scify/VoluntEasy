@@ -13,7 +13,7 @@ class AddLastNameToUsers extends Migration
     public function up()
     {
         Schema::table('users', function ($table) {
-            $table->date('last_name')->nullable();
+            $table->string('last_name')->nullable();
         });
     }
 

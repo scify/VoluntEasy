@@ -200,7 +200,7 @@
                             </center>
 
                             @if($user->name!=null && $user->name!='')
-                            <p>{{ trans('emails/emails.dear') }} {{ $user->name }},</p>
+                            <p>{{ trans('emails/emails.dear') }} {{ $user->name }} {{ $user->last_name }},</p>
                             @endif
 
                             <p>{{ trans('emails/emails.newVolunteerForAction') }} <strong><a href="{{ URL::to('/') }}/actions/one/{{ $publicAction->action->id }}" target="_blank">{{$publicAction->action->description}}</a></strong>.</p>

@@ -16,6 +16,7 @@ class UserRequest extends Request {
         if (Request::get('id') == null)
             return [
                 'name' => 'required|max:255',
+                'last_name' => 'required|max:255',
                 'email' => 'required|email|max:255|unique:users',
                 'password' => 'required|confirmed|min:8|regex:#[0-9]+#',
                 'tel' => 'required|max:50',
@@ -24,6 +25,7 @@ class UserRequest extends Request {
         else
             return [
                 'name' => 'required|max:255',
+                'last_name' => 'required|max:255',
                 'email' => 'required|email|max:255',
                 'password' => 'confirmed|min:8',
                 'tel' => 'required|max:50',

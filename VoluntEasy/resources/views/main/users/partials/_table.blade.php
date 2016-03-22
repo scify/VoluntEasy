@@ -35,7 +35,11 @@
                 //show user name with link
                 data: null, render: function (data, type, row) {
                 var html = '';
-                html += '<a href="' + $("body").attr('data-url') + '/users/one/' + data.id + '">' + data.name + '</a>';
+                html += '<a href="' + $("body").attr('data-url') + '/users/one/' + data.id + '">' + data.name;
+                 if(data.last_name!=null)
+                 html += ' ' + data.last_name;
+                  html += '</a>';
+
                 return html;
             }
             },

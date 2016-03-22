@@ -33,7 +33,7 @@
                         </div>
                     </div>
                     <div class="col-md-10">
-                        <p class="lead" id="userId" data-id="{{ $user->id }}">{{ $user->name }}</p>
+                        <p class="lead" id="userId" data-id="{{ $user->id }}">{{ $user->name }} {{ $user->last_name }}</p>
 
                         <p><i class="fa fa-envelope"></i> <a href="mailto:{{ $user->email }}">{{ $user->email }}</a> |
                             @if($user->addr!=null && $user->addr!='')

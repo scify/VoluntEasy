@@ -65,7 +65,7 @@
                                     asset('assets/images/default.png') : asset('assets/uploads/users/'.$user->image_name) }}"
                                          alt="" class="user-image-small userImage">
 
-                                    <p class="msg-name"><a href="{{ url('users/one/'.$user->id) }}">{{$user->name}}</a>
+                                    <p class="msg-name"><a href="{{ url('users/one/'.$user->id) }}">{{$user->name}} {{ $user->last_name }}</a>
 
                                     <p>
 

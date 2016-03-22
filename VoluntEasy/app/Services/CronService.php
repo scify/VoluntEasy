@@ -56,7 +56,7 @@ class CronService {
                 //then send an email to the person responsible for the action
 
                 \Mail::send('app_emails.rate_volunteers', ['action' => $expired, 'token' => $token], function ($message) use ($user, $expired) {
-                    $message->to($user->email, $user->name)->subject('[VoluntEasy] Αξιολόγηση εθελοντών');
+                    $message->to($user->email, $user->name.' '.$user->last_name)->subject('[VoluntEasy] Αξιολόγηση εθελοντών');
                 });
             }
 

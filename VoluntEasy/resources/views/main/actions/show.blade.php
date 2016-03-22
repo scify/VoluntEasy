@@ -84,7 +84,7 @@
                                     <ul class="list-unstyled">
                                         @foreach($action->users as $user)
                                             <li class="user-list">
-                                                <a href=" {{ url('users/one/'.$user->id) }}">{{$user->name}}</a>
+                                                <a href=" {{ url('users/one/'.$user->id) }}">{{$user->name}} {{ $user->last_name }}</a>
                                             </li>
                                         @endforeach
                                     </ul>

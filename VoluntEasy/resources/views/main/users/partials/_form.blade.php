@@ -45,26 +45,35 @@
                             </div>
 
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                {!! Form::formInput('email', trans('entities/users.email').':', $errors, ['class' => 'form-control', 'required'
-                                => 'true']) !!}
-                            </div>
-                        </div>
+                         <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        {!! Form::formInput('last_name', trans('entities/users.lastName').':', $errors, ['class' => 'form-control', 'required' =>
+                                                        'true']) !!}
+                                                    </div>
+
+                                                </div>
                     </div>
                     <div class="row">
+                       <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {!! Form::formInput('email', trans('entities/users.email').':', $errors, ['class' => 'form-control', 'required'
+                                                    => 'true']) !!}
+                                                </div>
+                        </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 {!! Form::formInput('addr', trans('entities/users.address').':', $errors, ['class' => 'form-control']) !!}
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                {!! Form::formInput('tel', trans('entities/users.phone').':', $errors, ['class' => 'form-control', 'required'
-                                => 'true']) !!}
-                            </div>
-                        </div>
                     </div>
+                     <div class="row">
+                    <div class="col-md-6">
+                                                <div class="form-group">
+                                                    {!! Form::formInput('tel', trans('entities/users.phone').':', $errors, ['class' => 'form-control', 'required'
+                                                    => 'true']) !!}
+                                                </div>
+                                            </div>
+                                            </div>
                     @if(!isset($user) || (isset($user) && Auth::user()->id==$user->id))
                     <div class="row">
                         <div class="col-md-6">

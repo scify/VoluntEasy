@@ -19,6 +19,7 @@ return [
     'uploadPhoto' => 'Ανέβασμα φωτογραφίας',
     'id' => 'ID',
     'name' => 'Όνομα',
+    'lastName' => 'Επώνυμο',
     'email' => 'Email',
     'address' => 'Διεύθυνση',
     'phone' => 'Τηλέφωνο',

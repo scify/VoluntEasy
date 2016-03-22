@@ -18,7 +18,7 @@
                         <p>{{ trans('entities/volunteers.actionDuration') }}: {{ $timelineBlock->action->start_date }}
                             - {{ $timelineBlock->action->end_date }}</p>
 
-                        <small class="pull-right">{{ trans('entities/volunteers.assignedFromUser') }} {{ $timelineBlock->user->name }}</small>
+                        <small class="pull-right">{{ trans('entities/volunteers.assignedFromUser') }} {{ $timelineBlock->user->name }} {{ $timelineBlock->user->last_name }}</small>
 
                         <span class="cd-date">{{ Carbon::parse($timelineBlock->created_at)->format('d/m/Y') }}</span>
                     </div>

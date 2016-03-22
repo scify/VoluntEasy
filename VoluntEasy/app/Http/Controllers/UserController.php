@@ -57,7 +57,7 @@ class UserController extends Controller {
         /*
                 //send email to notify user for new account
                 \Mail::send('emails.new_user', ['user' => $user], function ($message) use ($user) {
-                    $message->to($user->email, $user->name)->subject('Welcome to VoluntEasy');
+                    $message->to($user->email, $user->name.' '.$user->last_name)->subject('Welcome to VoluntEasy');
                 });
         */
 
@@ -127,6 +127,7 @@ class UserController extends Controller {
         } else {
             $user->update([
                 'name' => $request['name'],
+                'last_name' => $request['last_name'],
                 'email' => $request['email'],
                 'addr' => $request['addr'],
                 'tel' => $request['tel'],
