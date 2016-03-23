@@ -81,8 +81,10 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
         else
             $has_previous_work_experience = false;
 
-        $volunteer->how_you_learned_id = \Request::get('howYouLearned');
-        $volunteer->how_you_learned2_id = \Request::get('howYouLearned2');
+        if (\Request::has('howYouLearned') && \Request::get('howYouLearned') != 0)
+            $volunteer->how_you_learned_id = \Request::get('howYouLearned');
+        if (\Request::has('howYouLearned2') && \Request::get('howYouLearned2') != 0)
+            $volunteer->how_you_learned2_id = \Request::get('howYouLearned2');
         $volunteer->computer_usage_comments = \Request::get('computer_usage_comments');
         $volunteer->afm = \Request::get('afm');
 

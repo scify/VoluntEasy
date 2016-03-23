@@ -91,8 +91,8 @@ return [
 
     'howYouLearned' => 'Πως μάθατε για εμάς;',
     'howYouLearned2' => 'Πώς ενημερώθηκε για τη θέση εργασίας εθελοντισμού;',
-    'howTheyLearned' => 'Πως έμαθε για εμάς;',
-    'howTheyLearned2' => 'Πώς ενημερώθηκε για τη θέση εργασίας εθελοντισμού;',
+    'howTheyLearned' => 'Πως έμαθε για εμάς',
+    'howTheyLearned2' => 'Πώς ενημερώθηκε για τη θέση εργασίας εθελοντισμού',
 
     'knowsWord' => 'Γνώση Word',
     'knowsExcel' => 'Γνώση Excel',

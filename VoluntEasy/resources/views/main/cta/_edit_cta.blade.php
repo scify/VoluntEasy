@@ -27,7 +27,7 @@
 
 @section('footerScripts')
     <script>
-        $('#updatePublicAction').click(function () {
+        $('#updatePublicAction').click(function (event) {
             event.preventDefault();
 
             if ($('#public_description').val() == null || $('#public_description').val() == '' || $('#public_address').val() == null || $('#public_address').val() == '') {

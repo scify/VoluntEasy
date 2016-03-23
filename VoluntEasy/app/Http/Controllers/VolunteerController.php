@@ -71,6 +71,7 @@ class VolunteerController extends Controller {
         $commMethod = CommunicationMethod::lists('description', 'id')->all();
         $edLevel = EducationLevel::lists('description', 'id')->all();
         $howYouLearned = HowYouLearned::lists('description', 'id')->all();
+        $howYouLearned2 = HowYouLearned2::lists('description', 'id')->all();
         $units = Unit::orderBy('description', 'asc')->get()->all();
         $volunteeringDepartments = VolunteeringDepartment::get()->all();
 
@@ -86,6 +87,7 @@ class VolunteerController extends Controller {
         $workStatuses[0] = '[- επιλέξτε -]';
         $availabilityFreqs[0] = '[- επιλέξτε -]';
         $howYouLearned[0] = '[- επιλέξτε -]';
+        $howYouLearned2[0] = '[- επιλέξτε -]';
         ksort($maritalStatuses);
         ksort($edLevel);
         ksort($genders);
@@ -94,9 +96,10 @@ class VolunteerController extends Controller {
         ksort($workStatuses);
         ksort($availabilityFreqs);
         ksort($howYouLearned);
+        ksort($howYouLearned2);
 
         return view('main.volunteers.create', compact('identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
-            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'volunteeringDepartments', 'units', 'howYouLearned', 'extras', 'extrasPath'));
+            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'volunteeringDepartments', 'units', 'howYouLearned', 'howYouLearned2', 'extras', 'extrasPath'));
     }
 
     /**

@@ -78,5 +78,18 @@
             }
         }
     });
+
+    //delete user and return to user list
+    function deleteVolunteer(id) {
+        if (confirm(Lang.get('js-components.deleteVolunteer')) == true) {
+            $.ajax({
+                url: $("body").attr('data-url') + '/volunteers/delete/' + id,
+                method: 'GET',
+                success: function () {
+                    window.location = $("body").attr('data-url') + '/volunteers';
+                }
+            });
+        }
+    }
 </script>
 @append
