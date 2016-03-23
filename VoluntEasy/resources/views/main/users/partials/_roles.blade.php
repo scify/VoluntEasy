@@ -61,7 +61,9 @@
                                     style="width: 100%">
 
                                 @foreach($actions as $action)
-                                <option value="{{ $action->id }}" name="action-{{$action->id}}">{{
+                                <option value="{{ $action->id }}" name="action-{{$action->id}}"
+                                    {{ isset($user) && in_array($action->id, $user->actions()->lists('id')->toArray()) ?
+                                    'selected' : '' }} {{ !in_array($action->unit_id, $permittedUnits) ? 'disabled' : '' }}>{{
                                     $action->description }}
                                 </option>
                                 @endforeach

@@ -113,13 +113,18 @@ trait Permissible {
                         $unit = Unit::find($unitId);
                         NotificationService::userToUnit($this->id, $unit);
                     }
+                } else {
+                    $this->units()->sync([]);
                 }
 
                 if (in_array('action_manager', $values)) {
                     //refresh user actions
                     if (\Request::has('actionsSelect') && sizeof(\Request::get('actionsSelect')) > 0)
                         $this->actions()->sync(\Request::get('actionsSelect'));
+                } else {
+                    $this->actions()->sync([]);
                 }
+
             }
         }
     }
