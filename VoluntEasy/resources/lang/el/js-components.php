@@ -87,6 +87,11 @@ return [
     'master' => 'Μεταπτυχιακά',
 
 
+    /* user roles */
+    'admin' => 'Διαχειριστής',
+    'unitManager' => 'Υπεύθυνος Μονάδας',
+    'actionManager' => 'Υπεύθυνος Δράσης',
+
 
     /* workdates.js */
     'volunterComments' => 'Σχόλια εθελοντή',

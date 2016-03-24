@@ -3,10 +3,8 @@
     <tr>
         <th>{{ trans('entities/users.id') }}</th>
         <th>{{ trans('entities/users.name') }}</th>
-        <th>{{ trans('entities/users.email') }}</th>
-        <th>{{ trans('entities/users.address') }}</th>
-        <th>{{ trans('entities/users.phone') }}</th>
-        <th>{{ trans('entities/users.units') }}</th>
+        <th>{{ trans('entities/users.information') }}</th>
+        <th>{{ trans('entities/users.roles') }}</th>
         <th>{{ trans('entities/users.actions') }}</th>
     </tr>
     </thead>
@@ -14,10 +12,8 @@
     <tr>
         <th>{{ trans('entities/users.id') }}</th>
         <th>{{ trans('entities/users.name') }}</th>
-        <th>{{ trans('entities/users.email') }}</th>
-        <th>{{ trans('entities/users.address') }}</th>
-        <th>{{ trans('entities/users.phone') }}</th>
-        <th>{{ trans('entities/users.units') }}</th>
+        <th>{{ trans('entities/users.information') }}</th>
+        <th>{{ trans('entities/users.roles') }}</th>
         <th>{{ trans('entities/users.actions') }}</th>
     </tr>
     </tfoot>
@@ -36,27 +32,67 @@
                 data: null, render: function (data, type, row) {
                 var html = '';
                 html += '<a href="' + $("body").attr('data-url') + '/users/one/' + data.id + '">' + data.name;
-                 if(data.last_name!=null)
-                 html += ' ' + data.last_name;
-                  html += '</a>';
+                if (data.last_name != null)
+                    html += ' ' + data.last_name;
+                html += '</a>';
 
                 return html;
             }
             },
-            {data: "email"},
-            {data: "addr"},
-            {data: "tel"},
+            {
+                //show user address and phone
+                data: null, render: function (data, type, row) {
+                var html = '';
+                if (data.email)
+                    html += '<i class="fa fa-envelope"></i> ' + data.email;
+                if ((data.email && data.addr) || (data.email && data.tel))
+                    html += '<br/>';
+                if (data.addr)
+                    html += '<i class="fa fa-map-marker"></i> ' + data.addr;
+                if (data.addr && data.tel)
+                    html += '<br/>';
+                if (data.tel)
+                    html += '<i class="fa fa-phone"></i> ' + data.tel;
+
+                return html;
+            }
+            },
             {
                 //show user units
                 data: null, render: function (data, type, row) {
                 var html = '';
 
-                $.each(data.units, function (key, unit) {
-                    if (key == 0)
-                        html += '<a href="' + $("body").attr('data-url') + '/units/one/' + unit.id + '">' + unit.description + '</a>';
-                    else
-                        html += ', <a href="' + $("body").attr('data-url') + '/units/one/' + unit.id + '">' + unit.description + '</a>';
+                $.each(data.roles, function (key, role) {
+
+                    if (role.name == 'admin')
+                        html += Lang.get('js-components.admin');
+                    else {
+
+                        if (role.name == 'unit_manager') {
+                            html += Lang.get('js-components.unitManager') + ': ';
+
+                            $.each(data.units, function (key, unit) {
+                                if (key == 0)
+                                    html += '<a href="' + $("body").attr('data-url') + '/units/one/' + unit.id + '">' + unit.description + '</a>';
+                                else
+                                    html += ', <a href="' + $("body").attr('data-url') + '/units/one/' + unit.id + '">' + unit.description + '</a>';
+                            });
+                        }
+
+                        if (role.name == 'action_manager') {
+                            html += Lang.get('js-components.actionManager') + ': ';
+
+                            $.each(data.actions, function (key, action) {
+                                if (key == 0)
+                                    html += '<a href="' + $("body").attr('data-url') + '/actions/one/' + action.id + '">' + action.description + '</a>';
+                                else
+                                    html += ', <a href="' + $("body").attr('data-url') + '/actions/one/' + action.id + '">' + action.description + '</a>';
+                            });
+                        }
+                    }
+                    html += '<br/>';
                 });
+
 
                 return html;
             }
@@ -97,7 +133,7 @@
         },
         //disable ordering at the last column (edit, delete buttons)
         "aoColumnDefs": [
-            {'bSortable': false, 'aTargets': [6]}
+            {'bSortable': false, 'aTargets': [4]}
         ],
         dom: 'T<"clear">lfrtip',
         "tableTools": {

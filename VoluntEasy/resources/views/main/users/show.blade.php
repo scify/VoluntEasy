@@ -33,7 +33,8 @@
                         </div>
                     </div>
                     <div class="col-md-10">
-                        <p class="lead" id="userId" data-id="{{ $user->id }}">{{ $user->name }} {{ $user->last_name }}</p>
+                        <p class="lead" id="userId" data-id="{{ $user->id }}">{{ $user->name }} {{ $user->last_name
+                            }}</p>
 
                         <p><i class="fa fa-envelope"></i> <a href="mailto:{{ $user->email }}">{{ $user->email }}</a> |
                             @if($user->addr!=null && $user->addr!='')
@@ -42,6 +43,7 @@
                             <i class="fa fa-phone"></i> {{ $user->tel }}</p>
                         <hr/>
                         <h3>{{ trans('entities/users.roles') }}</h3>
+                        @if(sizeof($user->roles)>0)
                         @foreach($user->roles as $role)
                         <p>{{trans($lang.$role->name.'-at')}}</p>
                         @if('unit_manager' == $role->name)
@@ -59,7 +61,9 @@
                         </ul>
                         @endif
                         @endforeach
-
+                        @else
+                        <p>{{ trans('entities/users.noRoles') }}</p>
+                        @endif
                     </div>
                 </div>
                 <hr/>

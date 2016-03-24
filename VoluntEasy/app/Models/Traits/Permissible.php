@@ -93,39 +93,49 @@ trait Permissible {
      */
     public function refreshRoles($values) {
 
-        $roles = Role::whereIn('name', $values)->get(['id']);
+        $roles = [];
+        $units = [];
+        $actions = [];
 
-        $this->roles()->sync($roles);
+        if ($values != null) {
 
-        if (in_array('admin', $values)) {
-            //only sync with root unit
-            $this->units()->sync([UnitService::getRoot()->id]);
-            //remove all actions, admin can do anything
-            $this->actions()->detach();
-        } else {
-            if (in_array('unit_manager', $values)) {
-                //refresh user units
-                if (\Request::has('unitsSelect') && sizeof(\Request::get('unitsSelect')) > 0) {
+            if (in_array('admin', $values)) {
+                //only sync with root unit
+                $this->units()->sync([UnitService::getRoot()->id]);
+                //remove all actions, admin can do anything
+                $this->actions()->detach();
+            } else {
+                if (in_array('unit_manager', $values)) {
+                    //refresh user units
+                    if (\Request::has('unitsSelect') && sizeof(\Request::get('unitsSelect')) > 0) {
 
-                    $this->units()->sync(\Request::get('unitsSelect'));
+                        $units = \Request::get('unitsSelect');
 
-                    foreach (\Request::get('unitsSelect') as $unitId) {
-                        $unit = Unit::find($unitId);
-                        NotificationService::userToUnit($this->id, $unit);
+                        foreach (\Request::get('unitsSelect') as $unitId) {
+                            $unit = Unit::find($unitId);
+                            NotificationService::userToUnit($this->id, $unit);
+                        }
                     }
-                } else {
-                    $this->units()->sync([]);
                 }
 
                 if (in_array('action_manager', $values)) {
                     //refresh user actions
                     if (\Request::has('actionsSelect') && sizeof(\Request::get('actionsSelect')) > 0)
-                        $this->actions()->sync(\Request::get('actionsSelect'));
-                } else {
-                    $this->actions()->sync([]);
+                        $actions = \Request::get('actionsSelect');
                 }
-
             }
+
+
+            if ((\Request::has('unitsSelect') && sizeof(\Request::get('unitsSelect')) > 0) ||
+                (\Request::has('actionsSelect') && sizeof(\Request::get('actionsSelect')) > 0)
+            )
+                $roles = Role::whereIn('name', $values)->get(['id']);
         }
+
+        $this->roles()->sync($roles);
+        $this->units()->sync($units);
+        $this->actions()->sync($actions);
+
+        return;
     }
 }

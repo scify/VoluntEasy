@@ -67,7 +67,6 @@ class UserController extends Controller {
         }
 
         //refresh user roles
-        if (\Request::has('roles'))
         $user->refreshRoles(\Request::get('roles'));
 
         return Redirect::route('user/profile', ['id' => $user->id]);
@@ -135,8 +134,7 @@ class UserController extends Controller {
         }
 
         //refresh user roles
-        if(\Request::has('roles'))
-            $user->refreshRoles(\Request::get('roles'));
+        $user->refreshRoles(\Request::get('roles'));
 
         //store the user image
         if (\Input::file('image') != null) {
@@ -176,11 +174,17 @@ class UserController extends Controller {
      * @return Response
      */
     public function destroy($id) {
-        $user = User::findOrFail($id);
+        $user = User::with('units', 'actions')->findOrFail($id);
 
         //if the unit has users, do not delete
         if (sizeof($user->units) > 0) {
             Session::flash('flash_message', 'Ο χρήστης είναι υπεύθυνος σε μονάδες και δεν μπορεί να διαγραφεί.');
+            Session::flash('flash_type', 'alert-danger');
+
+            return;
+        }
+        if (sizeof($user->actions) > 0) {
+            Session::flash('flash_message', 'Ο χρήστης είναι υπεύθυνος σε δράσεις και δεν μπορεί να διαγραφεί.');
             Session::flash('flash_type', 'alert-danger');
 
             return;

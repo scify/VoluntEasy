@@ -9,7 +9,7 @@ use App\Services\Facades\VolunteerService;
 class UserApiController extends Controller{
 
     public function all(){
-        $users = User::with('units')->orderBy('name', 'ASC')->get();
+        $users = User::with('units', 'actions', 'roles')->orderBy('name', 'ASC')->get();
 
         $data = UserService::prepareForDataTable($users);
 
