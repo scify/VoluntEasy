@@ -48,6 +48,12 @@ class AppServiceProvider extends ServiceProvider {
                 'Dependencies\ekpizo\services\VolunteerServiceImpl'
             );
 
+            //bind the rating service
+            $this->app->bind(
+                'Interfaces\RatingInterface',
+                'Dependencies\ekpizo\services\RatingServiceImpl'
+            );
+
         } else if (env('MODE') == 'municipality') {
 
             //bind the configuration

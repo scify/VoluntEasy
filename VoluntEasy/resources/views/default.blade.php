@@ -41,10 +41,6 @@
 @include('etc._bottom_egg')
 @include('template.default.footerIncludes')
 <script src="{{ asset('assets/js/notification.js')}}"></script>
-<script src="{{ asset('messages.js')}}"></script>
-<script>
-    Lang.setLocale('el');
-</script>
 @yield('footerScripts')
 
 </body>

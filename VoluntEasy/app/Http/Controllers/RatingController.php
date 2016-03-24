@@ -13,6 +13,13 @@ use App\Models\Volunteer;
 
 class RatingController extends Controller {
 
+    private $ratingService;
+
+    public function __construct() {
+        $this->ratingService = \App::make('Interfaces\RatingInterface');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +36,9 @@ class RatingController extends Controller {
      */
     public function rateVolunteers($token) {
 
-        $actionRating = ActionRating::where('token', $token)->firstOrFail();
+        return  $this->ratingService->rateVolunteers($token);
+
+       /* $actionRating = ActionRating::where('token', $token)->firstOrFail();
         $actionId = $actionRating->action_id;
         $action = Action::findOrFail($actionId);
 
@@ -50,7 +59,7 @@ class RatingController extends Controller {
             return view('main.ratings.rate_volunteers', compact('action', 'ratingAttributes', 'actionRatingId'));
         } else {
             return view('main.ratings.volunteers_rated_already', compact('action'));
-        }
+        }*/
     }
 
     /**
@@ -82,6 +91,10 @@ class RatingController extends Controller {
      * @return Response
      */
     public function storeVolunteersRating() {
+
+        return 'a';
+        return (\Request::all());
+
         $actionId = \Request::get('actionId');
         $actionRatingId = \Request::get('actionRatingId');
         $volunteers = \Request::get('volunteers');

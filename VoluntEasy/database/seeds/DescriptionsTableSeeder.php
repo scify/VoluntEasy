@@ -43,6 +43,8 @@ class DescriptionsTableSeeder extends Seeder {
             'volunteer_statuses',
             'volunteering_departments',
             'work_statuses',
+            'opa_labor_skills',
+            'opa_interpersonal_skills',
         ];
 
         foreach ($tables as $table) {

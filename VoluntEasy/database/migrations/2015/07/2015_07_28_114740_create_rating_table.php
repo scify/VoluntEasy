@@ -18,12 +18,15 @@ class CreateRatingTable extends Migration {
             $table->timestamps();
         });
 
-        //table to keep the token that is send to each upeu8unos
+        //table to keep the token that is send to each action manager
         Schema::create('action_ratings', function ($table) {
             $table->increments('id');
             $table->string('email');
             $table->string('token', 30)->nullable();
             $table->boolean('rated')->default(0);
+
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
 
             $table->integer('action_id')->unsigned();
             $table->foreign('action_id')->references('id')->on('actions');
@@ -38,8 +41,12 @@ class CreateRatingTable extends Migration {
             $table->integer('hours')->nullable();
             $table->integer('minutes')->nullable();
 
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
+
             $table->integer('action_rating_id')->unsigned();
             $table->foreign('action_rating_id')->references('id')->on('action_ratings');
 

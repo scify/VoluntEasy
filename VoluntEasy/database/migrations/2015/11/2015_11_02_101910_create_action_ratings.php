@@ -49,7 +49,6 @@ class CreateActionRatings extends Migration {
         Schema::dropIfExists('action_rating_scores');
         Schema::dropIfExists('action_scores');
         Schema::dropIfExists('action_rating_attributes');
-
     }
 
 }
