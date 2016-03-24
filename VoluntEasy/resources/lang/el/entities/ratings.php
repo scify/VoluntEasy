@@ -42,6 +42,7 @@ return [
 
     /* OPA ratings */
     'volunteerParticipatedTo'	=> 'Ο εθελοντής πήρε μέρος στα παρακάτω tasks:',
+    'charsRemaining'	=> 'χαρακτήρες απομένουν',
 
 
     'actionDescription'	=> 'Καταγράψτε τα προφορικά σχόλια του εθελοντή σχετικά με τη δράση',

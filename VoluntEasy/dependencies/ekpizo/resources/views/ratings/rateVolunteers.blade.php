@@ -84,13 +84,19 @@ $user->last_name }}
                     {!! Form::formInput('actionDescription',
                     '', $errors,
                     ['class' => 'form-control actionDescription', 'type' => 'textarea', 'size' =>
-                    '2x5', 'data-volunteer-id' => $volunteer->id]) !!}
+                    '2x5', 'data-volunteer-id' => $volunteer->id, 'data-question'=> '1']) !!}
+                    <p class="text-right">
+                        <small><span class="chars" data-question="1">900</span> {{trans('entities/ratings.charsRemaining')}}</small>
+                    </p>
                 </div>
                 <div class="col-md-6">
                     <p><strong>2. {{trans('entities/ratings.problemsOccured')}}:</strong></p>
                     {!! Form::formInput('problemsOccured','', $errors,
                     ['class' => 'form-control problemsOccured', 'type' => 'textarea', 'size' =>
-                    '2x5', 'data-volunteer-id' => $volunteer->id]) !!}
+                    '2x5', 'data-volunteer-id' => $volunteer->id, 'data-question'=> '2']) !!}
+                    <p class="text-right">
+                        <small><span class="chars" data-question="2">900</span> {{trans('entities/ratings.charsRemaining')}}</small>
+                    </p>
                 </div>
             </div>
             <div class="row bottom-margin">
@@ -179,15 +185,21 @@ $user->last_name }}
                     <p> {{ trans('entities/ratings.fieldsToImprove') }}</p>
                     {!! Form::formInput('fieldsToImprove','', $errors, ['class'
                     => 'form-control fieldsToImprove', 'type' => 'textarea', 'size' => '2x5', 'data-volunteer-id' =>
-                    $volunteer->id])
+                    $volunteer->id, 'data-question'=> '3'])
                     !!}
+                    <p class="text-right">
+                        <small><span class="chars" data-question="3">900</span> {{trans('entities/ratings.charsRemaining')}}</small>
+                    </p>
                 </div>
                 <div class="col-md-6">
                     <p>{{ trans('entities/ratings.training') }}</p>
                     {!! Form::formInput('training','', $errors, ['class'
                     => 'form-control training', 'type' => 'textarea', 'size' => '2x5', 'data-volunteer-id' =>
-                    $volunteer->id])
+                    $volunteer->id, 'data-question'=> '4'])
                     !!}
+                    <p class="text-right">
+                        <small><span class="chars" data-question="4">900</span> {{trans('entities/ratings.charsRemaining')}}</small>
+                    </p>
                 </div>
             </div>
             <div class="row bottom-margin">
@@ -195,15 +207,21 @@ $user->last_name }}
                     <p>{{ trans('entities/ratings.objectives') }}</p>
                     {!! Form::formInput('objectives','', $errors, ['class'
                     => 'form-control objectives', 'type' => 'textarea', 'size' => '2x5', 'data-volunteer-id' =>
-                    $volunteer->id])
+                    $volunteer->id, 'data-question'=> '5'])
                     !!}
+                    <p class="text-right">
+                        <small><span class="chars" data-question="5">900</span> {{trans('entities/ratings.charsRemaining')}}</small>
+                    </p>
                 </div>
                 <div class="col-md-6">
                     <p>{{ trans('entities/ratings.support') }}</p>
                     {!! Form::formInput('support','', $errors, ['class'
                     => 'form-control support', 'type' => 'textarea', 'size' => '2x5', 'data-volunteer-id' =>
-                    $volunteer->id])
+                    $volunteer->id, 'data-question'=> '6'])
                     !!}
+                    <p class="text-right">
+                        <small><span class="chars" data-question="6">900</span> {{trans('entities/ratings.charsRemaining')}}</small>
+                    </p>
                 </div>
             </div>
 
@@ -213,8 +231,11 @@ $user->last_name }}
 
                     {!! Form::formInput('generalComments','', $errors, ['class'
                     => 'form-control generalComments', 'type' => 'textarea', 'size' => '2x5', 'data-volunteer-id' =>
-                    $volunteer->id])
+                    $volunteer->id, 'data-question'=> '7'])
                     !!}
+                    <p class="text-right">
+                        <small><span class="chars" data-question="7">900</span> {{trans('entities/ratings.charsRemaining')}}</small>
+                    </p>
                 </div>
             </div>
 
@@ -281,6 +302,15 @@ $user->last_name }}
 <script src="{{ asset('assets/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
 
 <script>
+
+    //for the maxlength
+    var maxLength = 900;
+    $('textarea').keyup(function () {
+        var length = $(this).val().length;
+        length = maxLength - length;
+        console.log(length);
+        $('.chars[data-question="' + $(this).attr('data-question') + '"]').text(length);
+    });
 
     //keep an array with all the volunteers ids
     var volunteerIds = [];
