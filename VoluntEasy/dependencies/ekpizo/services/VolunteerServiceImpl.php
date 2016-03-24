@@ -123,9 +123,11 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
             $days = [];
             $time = '';
 
+            $volunteer->availabilityDays()->detach();
+
             foreach ($weekDays as $weekDay) {
-                if (isset($volunteerRequest[$weekDay])) {
-                    foreach ($volunteerRequest[$weekDay] as $availability) {
+                if (\Request::has($weekDay)) {
+                    foreach (\Request::get($weekDay) as $availability) {
 
                         if ($availability == "1")
                             $time = 'Πρωί';

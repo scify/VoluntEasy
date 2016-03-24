@@ -120,6 +120,7 @@ return [
 
     'excludeFromUnits' => 'Αποκλεισμός εθελοντή από τις μονάδες',
 
+    'daysAndTimes' => 'Ημέρες και ώρες',
 
     /* form defaults */
     'contributionRate' => 'Συχνότητα συνεισφοράς',
