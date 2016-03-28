@@ -14,9 +14,9 @@
                 <div class="col-md-2">
                     @if(isset($user))
                     <div class="profile-image-container user-image text-center">
-                        <img src="{{ ($user->image_name==null || $user->image_name=='') ?
-                                    asset('assets/images/default.png') : asset('assets/uploads/users/'.$user->image_name) }}"
-                             alt="" class="user-image-small userImage">
+                        <div class="user_image" style="background-image: url('{{ ($user->image_name==null || $user->image_name=='') ?
+                                    asset('assets/images/default.png') : asset('assets/uploads/users/'.$user->image_name) }}')">
+                        </div>
                     </div>
                     @endif
 

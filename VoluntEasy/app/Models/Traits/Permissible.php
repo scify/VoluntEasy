@@ -93,6 +93,7 @@ trait Permissible {
      */
     public function refreshRoles($values) {
 
+
         $roles = [];
         $units = [];
         $actions = [];
@@ -101,9 +102,9 @@ trait Permissible {
 
             if (in_array('admin', $values)) {
                 //only sync with root unit
-                $this->units()->sync([UnitService::getRoot()->id]);
-                //remove all actions, admin can do anything
-                $this->actions()->detach();
+                array_push($units, UnitService::getRoot()->id);
+
+                $roles = Role::whereIn('name', $values)->get(['id']);
             } else {
                 if (in_array('unit_manager', $values)) {
                     //refresh user units
