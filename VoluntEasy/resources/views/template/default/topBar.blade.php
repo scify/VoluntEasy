@@ -38,10 +38,10 @@
                                     <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic"
                                         data-toggle="dropdown">
                                         <!-- Display the username -->
-                                        <span class="user-name">{{{ isset(Auth::user()->name) ? Auth::user()->name : 'not logged in' }}}<i class="fa fa-angle-down"></i></span>
                                         <img class="img-circle avatar userImage" src="{{ (\Auth::user()->image_name==null || \Auth::user()->image_name=='') ?
-                                    asset('assets/images/default.png') : asset('assets/uploads/users/'.\Auth::user()->image_name) }}" width="40" height="40"
-                                         alt="">
+                                    asset('assets/images/default.png') : asset('assets/uploads/users/'.\Auth::user()->image_name) }}" width="30" height="30"
+                                             alt="">
+                                        <span class="user-name">{{{ isset(Auth::user()->name) ? Auth::user()->name : 'not logged in' }}}<i class="fa fa-angle-down"></i></span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-list" role="menu">
                                         <li role="presentation"><a href="{!! url('users/one/'.Auth::user()->id) !!}"><i class="fa fa-user"></i> {{trans($lang.'profile')}}</a></li>

@@ -88,6 +88,19 @@ thead.middle th {
     margin-left: 5px;
 }
 
+.user_image{
+    width: 200px;
+    height: 200px;
+    -webkit-border-radius: 200px;
+    -webkit-background-clip: padding-box;
+    -moz-border-radius: 200px;
+    -moz-background-clip: padding;
+    border-radius: 200px;
+    background-clip: padding-box;
+    background-size: cover;
+    background-position: center center;
+}
+
 /* steps */
 .panel-grey {
     background-color: #E9EDF2;
@@ -448,7 +461,7 @@ div#unitsTree {
     background-color: #F6F6F6;
     padding: 5px;
     width: 80%;
-    height:65px;
+   /* height:65px;*/
     border: solid 1px #DBE0E8;
     margin-bottom: 10px;
     border-radius: 2px;
