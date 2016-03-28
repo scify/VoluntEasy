@@ -268,6 +268,7 @@ class VolunteerService
                 $q->where('volunteer_id', $id);
             }])
             ->with('units.children', 'units.actions', 'workDateHistory', 'extras', 'volunteeringDepartments')
+            ->with('opaRatings.laborSkills', 'opaRatings.interpersonalSkills', 'opaRatings.action')
             ->findOrFail($id);
 
         $volunteer->hideStatus = false;

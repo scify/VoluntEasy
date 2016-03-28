@@ -20,6 +20,8 @@ use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Descriptions\VolunteerStatusDuration;
 use App\Models\Descriptions\WorkStatus;
 use App\Models\File;
+use App\Models\OPARating\InterpersonalSkill;
+use App\Models\OPARating\LaborSkill;
 use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Models\VolunteerAvailabilityTime;
@@ -194,7 +196,7 @@ class VolunteerController extends Controller {
         $extras = $this->configuration->getExtras();
         $extrasPath = $this->configuration->getExtrasPath();
 
-        return view('main.volunteers.show', compact('volunteer', 'pending', 'available', 'timeline', 'userUnits', 'actionsCount', 'actionsRatings', 'totalRatings', 'totalWorkingHours', 'extras', 'extrasPath'));
+        return view('main.volunteers.show', compact('volunteer', 'pending', 'available', 'timeline', 'userUnits', 'actionsCount', 'actionsRatings', 'totalRatings', 'totalWorkingHours', 'extras', 'extrasPath', 'laborSkills', 'intepersonalSkills'));
     }
 
     /**

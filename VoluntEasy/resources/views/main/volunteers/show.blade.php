@@ -75,20 +75,18 @@
                 <div class="row top-margin">
                     <div class="col-md-12">
                         <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#tab1" data-toggle="tab"
-                                                                      class="{{ $errors->has('name') || $errors->has('last_name') || $errors->has('fathers_name') ||$errors->has('birth_date') ? 'tab has-error' : ''}}"><i
+                            <li role="presentation" class="active"><a href="#tab1" data-toggle="tab"><i
                                         class="fa fa-user m-r-xs"></i>{{ trans('entities/volunteers.personalInfo') }}</a></li>
                             @if(!$volunteer->blacklisted && !$volunteer->hideStatus)
-                            <li role="presentation"><a href="#tab2" data-toggle="tab"
-                                                       class="{{ $errors->has('email') ? 'tab has-error' : ''}}"><i
+                            <li role="presentation"><a href="#tab2" data-toggle="tab"><i
                                         class="fa fa-circle-o-notch m-r-xs"></i>{{ trans('entities/volunteers.currentStatus') }}</a></li>
                             @endif
-                            <li role="presentation"><a href="#tab3" data-toggle="tab"
-                                                       class="{{ $errors->has('participation_reason') ? 'tab has-error' : ''}}"><i
+                            <li role="presentation"><a href="#tab3" data-toggle="tab"><i
                                         class="fa fa-bullseye m-r-xs"></i>{{ trans('entities/volunteers.actionParticipation') }}</a></li>
-                            <li role="presentation"><a href="#tab4" data-toggle="tab"
-                                                       class="{{ $errors->has('participation_reason') ? 'tab has-error' : ''}}"><i
+                            <li role="presentation"><a href="#tab4" data-toggle="tab"><i
                                         class="fa fa-history m-r-xs"></i>{{ trans('entities/volunteers.history') }}</a></li>
+                            <li role="presentation"><a href="#tab5" data-toggle="tab"><i
+                                        class="fa fa-star m-r-xs"></i>{{ trans('entities/volunteers.ratings') }}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -114,6 +112,10 @@
 
                     <div class="tab-pane fade in" id="tab4">
                         @include('main.volunteers.partials._timeline')
+                    </div>
+
+                    <div class="tab-pane fade in" id="tab5">
+                        @include('main.volunteers.partials._ratings')
                     </div>
                 </div>
             </div>

@@ -10,11 +10,19 @@ class VolunteerRating extends Model {
 
 
     public function laborSkills(){
-        return $this->hasMany('App\Models\OPARating\VolunteerInterpersonalSkill', 'opa_rating_id', 'id');
+        return $this->hasMany('App\Models\OPARating\VolunteerLaborSkill', 'opa_rating_id', 'id');
     }
 
     public function interpersonalSkills(){
         return $this->hasMany('App\Models\OPARating\VolunteerInterpersonalSkill', 'opa_rating_id', 'id');
+    }
+
+    public function action(){
+        return $this->belongsTo('App\Models\Action');
+    }
+
+    public function user(){
+        return $this->belongsTo('App\Models\User');
     }
 
 }

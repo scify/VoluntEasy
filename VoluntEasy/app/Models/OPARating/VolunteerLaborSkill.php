@@ -9,7 +9,7 @@ class VolunteerLaborSkill extends Model {
     protected $fillable = ['comments', 'needsImprovement', 'labor_skill_id', 'opa_rating_id'];
 
     public function skill() {
-        return $this->hasOne('App\OPARating\LaborSkill', 'id', 'labor_skill_id');
+        return $this->hasOne('App\Models\OPARating\LaborSkill', 'id', 'labor_skill_id');
     }
 
 }

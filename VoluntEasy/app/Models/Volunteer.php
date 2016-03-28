@@ -140,6 +140,10 @@ class Volunteer extends User {
         return $this->belongsToMany('App\Models\CTA\CTAVolunteer', 'cta_volunteers_platform_volunteers', 'volunteer_id', 'cta_volunteers_id');
     }
 
+    public function opaRatings() {
+        return $this->hasMany('App\Models\OPARating\VolunteerRating');
+    }
+
     /*
     public function ratings() {
         return $this->hasOne('App\Models\Rating');

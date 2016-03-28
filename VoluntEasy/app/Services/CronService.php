@@ -40,7 +40,7 @@ class CronService {
             }
 
 
-            //send emails to all action users to reate volunteers
+            //send emails to all action users to rate volunteers
             foreach ($expired->users as $user) {
 
                 $token = str_random(30);

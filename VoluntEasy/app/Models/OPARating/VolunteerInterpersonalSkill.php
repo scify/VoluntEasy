@@ -9,7 +9,7 @@ class VolunteerInterpersonalSkill extends Model {
     protected $fillable = ['comments', 'needsImprovement', 'intp_skill_id', 'opa_rating_id'];
 
     public function skill(){
-        return $this->hasOne('App\OPARating\InterpersonalSkill', 'id', 'intp_skill_id');
+        return $this->hasOne('App\Models\OPARating\InterpersonalSkill', 'id', 'intp_skill_id');
     }
 
 }

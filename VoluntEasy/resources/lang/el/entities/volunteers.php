@@ -159,6 +159,7 @@ return [
 
     'currentStatus' => 'Τρέχουσα κατάσταση',
     'actionParticipation' => 'Συμμετοχή σε δράσεις',
+    'ratings' => 'Αξιολογήσεις',
     'history' => 'Ιστορικό',
 
     /* show one */
@@ -222,6 +223,11 @@ return [
     'assignedFromUser' => 'Η ανάθεση έγινε από το χρήστη',
     'assignedTo' => 'Ανάθεση στη',
     'volunteerWasNotAvailableFromTo' => 'Ο εθελοντής δεν ήταν διαθέσιμος το διάστημα',
+
+    /* ratings */
+    'ratedBy' => 'αξιολογήθηκε από',
+    'noRatings' => 'Δεν υπάρχουν αξιολογήσεις για τον εθελοντή.',
+    'ratedWhen' => 'στις',
 
 
     /* step */
