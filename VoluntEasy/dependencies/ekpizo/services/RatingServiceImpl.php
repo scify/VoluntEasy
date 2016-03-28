@@ -4,6 +4,9 @@
 use App\Models\Action;
 use App\Models\OPARating\InterpersonalSkill;
 use App\Models\OPARating\LaborSkill;
+use App\Models\OPARating\VolunteerInterpersonalSkill;
+use App\Models\OPARating\VolunteerLaborSkill;
+use App\Models\OPARating\VolunteerRating;
 use App\Models\Rating\ActionRating;
 use App\Models\Rating\RatingAttribute;
 use App\Models\User;
@@ -14,7 +17,7 @@ class RatingServiceImpl extends RatingServiceAbstract {
 
     private $folderName = 'ekpizo';
 
-
+    /* do stuff and return the path */
     public function rateVolunteers($token) {
         $actionRating = ActionRating::where('token', $token)->firstOrFail();
         $actionId = $actionRating->action_id;
@@ -44,11 +47,73 @@ class RatingServiceImpl extends RatingServiceAbstract {
         }
     }
 
-    function getVolunteerRatingPage(){
-        return $this->folderName.'.resources.views.ratings.rateVolunteers';
+    /* get the path of the view */
+    function getVolunteerRatingPage() {
+        return $this->folderName . '.resources.views.ratings.rateVolunteers';
     }
 
+    /* store a volunteer rating*/
     function storeVolunteerRating() {
-        // TODO: Implement storeVolunteerRating() method.
+        // return (\Request::all());
+
+        $userId = \Request::get('user_id');
+        $actionId = \Request::get('action_id');
+
+        foreach (\Request::get('volunteers') as $volunteer) {
+
+            $volunteerOpaRating = new VolunteerRating([
+                'actionDescription' => $volunteer['actionDescription'],
+                'problemsOccured' => $volunteer['problemsOccured'],
+                'training' => $volunteer['training'],
+                'fieldsToImprove' => $volunteer['fieldsToImprove'],
+                'objectives' => $volunteer['objectives'],
+                'support' => $volunteer['support'],
+                'generalComments' => $volunteer['generalComments'],
+                'volunteer_id' => $volunteer['volunteer_id'],
+                'user_id' => $userId,
+                'action_id' => $actionId,
+            ]);
+            $volunteerOpaRating->save();
+
+            if (isset($volunteer['laborSkills'])) {
+
+                foreach ($volunteer['laborSkills'] as $laborSkill) {
+
+                    if (!isset($laborSkill['needsImprovement']))
+                        $laborSkill['needsImprovement'] = null;
+                    if (!isset($laborSkill['comments']))
+                        $laborSkill['comments'] = null;
+
+                    VolunteerLaborSkill::create([
+                        'comments' => $laborSkill['comments'],
+                        'needsImprovement' => $laborSkill['needsImprovement'],
+                        'labor_skill_id' => $laborSkill['id'],
+                        'opa_rating_id' => $volunteerOpaRating->id,
+                    ]);
+                }
+            }
+
+            if (isset($volunteer['laborSkills'])) {
+                foreach ($volunteer['interpersonalSkills'] as $interpersonalSkill) {
+
+                    if (!isset($interpersonalSkill['needsImprovement']))
+                        $interpersonalSkill['needsImprovement'] = null;
+                    if (!isset($interpersonalSkill['comments']))
+                        $interpersonalSkill['comments'] = null;
+
+                    VolunteerInterpersonalSkill::create([
+                        'comments' => $interpersonalSkill['comments'],
+                        'needsImprovement' => $interpersonalSkill['needsImprovement'],
+                        'intp_skill_id' => $interpersonalSkill['id'],
+                        'opa_rating_id' => $volunteerOpaRating->id,
+                    ]);
+                }
+            }
+        }
+
+        return;
+
     }
+
+
 }

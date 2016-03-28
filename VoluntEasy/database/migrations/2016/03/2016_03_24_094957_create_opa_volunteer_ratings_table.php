@@ -44,6 +44,9 @@ class CreateOpaVolunteerRatingsTable extends Migration
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
 
+            $table->integer('action_id')->unsigned();
+            $table->foreign('action_id')->references('id')->on('actions');
+
             $table->timestamps();
         });
 
@@ -57,8 +60,8 @@ class CreateOpaVolunteerRatingsTable extends Migration
             $table->integer('labor_skill_id')->unsigned();
             $table->foreign('labor_skill_id')->references('id')->on('opa_labor_skills');
 
-            $table->integer('volunteer_opa_rating_id')->unsigned();
-            $table->foreign('volunteer_opa_rating_id')->references('id')->on('volunteer_opa_ratings');
+            $table->integer('opa_rating_id')->unsigned();
+            $table->foreign('opa_rating_id')->references('id')->on('volunteer_opa_ratings');
             $table->timestamps();
         });
 

@@ -6,7 +6,7 @@ class VolunteerRating extends Model {
 
     protected $table = 'volunteer_opa_ratings';
 
-    protected $fillable = ['actionDescription', 'problemsOccured', 'fieldsToImprove', 'training', 'objectives', 'support', 'generalComments', 'user_id', 'volunteer_id'];
+    protected $fillable = ['actionDescription', 'problemsOccured', 'fieldsToImprove', 'training', 'objectives', 'support', 'generalComments', 'user_id', 'volunteer_id', 'action_id'];
 
 
     public function laborSkills(){

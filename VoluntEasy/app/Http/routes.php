@@ -133,13 +133,12 @@ Route::get('steps/volunteer/{id}', 'StepController@volunteerSteps');
 ////////////////
 //Rating Routes //
 ////////////////
-Route::get('ratings/action/{token}', 'RatingController@rateAction');
-Route::get('ratings/action/volunteers/{token}', 'RatingController@rateVolunteers');
 Route::post('ratings/action/store', 'RatingController@storeActionRating');
-Route::post('ratings/action/volunteers/store', 'RatingController@storeVolunteersRating');
+Route::get('ratings/action/volunteers/store', 'RatingController@storeVolunteersRating');
 Route::get('ratings/action/thankyou/{actionId}', 'RatingController@actionThankyou');
 Route::get('ratings/action/volunteers/thankyou/{actionId}', 'RatingController@volunteersThankyou');
-
+Route::get('ratings/action/{token}', 'RatingController@rateAction');
+Route::get('ratings/action/volunteers/{token}', 'RatingController@rateVolunteers');
 
 ////////////////////
 // Notifications //

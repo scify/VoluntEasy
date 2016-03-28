@@ -6,9 +6,9 @@ class VolunteerLaborSkill extends Model {
 
     protected $table = 'volunteer_opa_labor_skills';
 
-    protected $fillable = ['description'];
+    protected $fillable = ['comments', 'needsImprovement', 'labor_skill_id', 'opa_rating_id'];
 
-    public function skill(){
+    public function skill() {
         return $this->hasOne('App\OPARating\LaborSkill', 'id', 'labor_skill_id');
     }
 

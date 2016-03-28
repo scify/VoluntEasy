@@ -18,7 +18,7 @@
                     <h1 class="text-xxl text-primary text-center">404</h1>
                     <div class="details">
                         <h3>{{ trans('default.error') }}</h3>
-                        <p>{{ trans('default.pageNotFound') }}.</p>
+                        <p>{{ trans('default.pageNotFound') }}</p>
                     </div>
                 </div>
             </div><!-- Row -->

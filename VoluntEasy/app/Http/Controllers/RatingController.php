@@ -92,9 +92,9 @@ class RatingController extends Controller {
      */
     public function storeVolunteersRating() {
 
-        return 'a';
-        return (\Request::all());
+        return  $this->ratingService->storeVolunteerRating();
 
+/*
         $actionId = \Request::get('actionId');
         $actionRatingId = \Request::get('actionRatingId');
         $volunteers = \Request::get('volunteers');
@@ -130,6 +130,7 @@ class RatingController extends Controller {
         $actionRating->update(['rated' => true]);
 
         return $actionId;
+*/
     }
 
 
