@@ -69,11 +69,13 @@ $user->last_name }}</span>
             <p>{{ trans('entities/ratings.volunteerParticipatedTo') }}</p>
             <ul>
                 @foreach($volunteer->workDateHistory as $workDate)
+                @if($workDate->workDate->subtask->task->action_id==$action->id)
                 <li>{{ trans('entities/tasks.task') }} {{ $workDate->workDate->subtask->task->name }} / {{
                     trans('entities/subtasks.subtask') }} {{ $workDate->workDate->subtask->name }}: {{
                     $workDate->workDate->from_date }}, {{ $workDate->workDate->from_hour}}-{{
                     $workDate->workDate->to_hour }}
                 </li>
+                @endif
                 @endforeach
             </ul>
         </div>
@@ -86,7 +88,7 @@ $user->last_name }}</span>
             ['class' => 'form-control actionDescription', 'type' => 'textarea', 'size' =>
             '2x5', 'data-volunteer-id' => $volunteer->id, 'data-question'=> '1', 'maxlength'=>'900']) !!}
             <p class="text-right">
-                <small><span class="chars" data-question="1">900</span> {{trans('entities/ratings.charsRemaining')}}
+                <small><span class="chars" data-question="1" data-volunteer-id="{{ $volunteer->id }}">900</span> {{trans('entities/ratings.charsRemaining')}}
                 </small>
             </p>
         </div>
@@ -96,7 +98,7 @@ $user->last_name }}</span>
             ['class' => 'form-control problemsOccured', 'type' => 'textarea', 'size' =>
             '2x5', 'data-volunteer-id' => $volunteer->id, 'data-question'=> '2', 'maxlength'=>'900']) !!}
             <p class="text-right">
-                <small><span class="chars" data-question="2">900</span> {{trans('entities/ratings.charsRemaining')}}
+                <small><span class="chars" data-question="2" data-volunteer-id="{{ $volunteer->id }}">900</span> {{trans('entities/ratings.charsRemaining')}}
                 </small>
             </p>
         </div>
@@ -192,7 +194,7 @@ $user->last_name }}</span>
             $volunteer->id, 'data-question'=> '3', 'maxlength'=>'900'])
             !!}
             <p class="text-right">
-                <small><span class="chars" data-question="3">900</span> {{trans('entities/ratings.charsRemaining')}}
+                <small><span class="chars" data-question="3" data-volunteer-id="{{ $volunteer->id }}">900</span> {{trans('entities/ratings.charsRemaining')}}
                 </small>
             </p>
         </div>
@@ -203,7 +205,7 @@ $user->last_name }}</span>
             $volunteer->id, 'data-question'=> '4', 'maxlength'=>'900'])
             !!}
             <p class="text-right">
-                <small><span class="chars" data-question="4">900</span> {{trans('entities/ratings.charsRemaining')}}
+                <small><span class="chars" data-question="4" data-volunteer-id="{{ $volunteer->id }}">900</span> {{trans('entities/ratings.charsRemaining')}}
                 </small>
             </p>
         </div>
@@ -216,7 +218,7 @@ $user->last_name }}</span>
             $volunteer->id, 'data-question'=> '5', 'maxlength'=>'900'])
             !!}
             <p class="text-right">
-                <small><span class="chars" data-question="5">900</span> {{trans('entities/ratings.charsRemaining')}}
+                <small><span class="chars" data-question="5" data-volunteer-id="{{ $volunteer->id }}">900</span> {{trans('entities/ratings.charsRemaining')}}
                 </small>
             </p>
         </div>
@@ -227,7 +229,7 @@ $user->last_name }}</span>
             $volunteer->id, 'data-question'=> '6', 'maxlength'=>'900'])
             !!}
             <p class="text-right">
-                <small><span class="chars" data-question="6">900</span> {{trans('entities/ratings.charsRemaining')}}
+                <small><span class="chars" data-question="6" data-volunteer-id="{{ $volunteer->id }}">900</span> {{trans('entities/ratings.charsRemaining')}}
                 </small>
             </p>
         </div>
@@ -242,7 +244,7 @@ $user->last_name }}</span>
             $volunteer->id, 'data-question'=> '7', 'maxlength'=>'900'])
             !!}
             <p class="text-right">
-                <small><span class="chars" data-question="7">900</span> {{trans('entities/ratings.charsRemaining')}}
+                <small><span class="chars" data-question="7" data-volunteer-id="{{ $volunteer->id }}">900</span> {{trans('entities/ratings.charsRemaining')}}
                 </small>
             </p>
         </div>
@@ -315,14 +317,14 @@ $user->last_name }}</span>
     //for the maxlength
     var maxLength = 900;
     $('textarea').keyup(function () {
+        volunteerId = $(this).attr('data-volunteer-id');
         var length = $(this).val().length;
         length = maxLength - length;
-        $('.chars[data-question="' + $(this).attr('data-question') + '"]').text(length);
+        $('.chars[data-question="' + $(this).attr('data-question') + '"][data-volunteer-id="' + volunteerId + '"]').text(length);
     });
 
     //keep an array with all the volunteers ids
     var volunteerIds = [];
-    var ratingFlag = false;
 
     //wizard properties
     $('#rootwizard').bootstrapWizard({
@@ -330,15 +332,8 @@ $user->last_name }}</span>
         'onNext': function (tab, navigation, index) {
             var volunteerId = tab.attr('data-volunteer-id');
 
-            if (!validate(volunteerId)) {
-                ratingFlag = false;
-                return false;
-            }
-            else
-                ratingFlag = true;
-
             //if we are at the last tab, and there are no errors, then send the ratings to the server
-            if (ratingFlag && tab.hasClass('last')) {
+            if (tab.hasClass('last')) {
                 sendRatings();
             }
         },
@@ -413,7 +408,7 @@ $user->last_name }}</span>
             },
             success: function (data) {
                 //console.log(data);
-                window.location.href = $("body").attr('data-url') + "/ratings/action/volunteers/thankyou/" + data;
+                window.location.href = $("body").attr('data-url') + "/ratings/action/volunteers/thankyou/"+data;
             }
         });
     }
@@ -434,7 +429,7 @@ $user->last_name }}</span>
                 laborSkills.push({
                     id: skillId,
                     strongOrWeak: strongOrWeak,
-                    commentsEtc: commentsEtc
+                    comments: commentsEtc
                 });
         });
 
@@ -459,7 +454,7 @@ $user->last_name }}</span>
             if (strongOrWeak || commentsEtc)
                 interpersonalSkills.push({
                     id: skillId,
-                    needsImprovement: strongOrWeak,
+                    strongOrWeak: strongOrWeak,
                     comments: commentsEtc
                 });
         });

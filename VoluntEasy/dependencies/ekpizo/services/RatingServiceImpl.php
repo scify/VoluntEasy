@@ -54,7 +54,6 @@ class RatingServiceImpl extends RatingServiceAbstract {
 
     /* store a volunteer rating*/
     function storeVolunteerRating() {
-        // return (\Request::all());
 
         $userId = \Request::get('user_id');
         $actionId = \Request::get('action_id');
@@ -76,34 +75,33 @@ class RatingServiceImpl extends RatingServiceAbstract {
             $volunteerOpaRating->save();
 
             if (isset($volunteer['laborSkills'])) {
-
                 foreach ($volunteer['laborSkills'] as $laborSkill) {
 
-                    if (!isset($laborSkill['needsImprovement']))
-                        $laborSkill['needsImprovement'] = null;
+                    if (!isset($laborSkill['strongOrWeak']))
+                        $laborSkill['strongOrWeak'] = -1;
                     if (!isset($laborSkill['comments']))
                         $laborSkill['comments'] = null;
 
                     VolunteerLaborSkill::create([
                         'comments' => $laborSkill['comments'],
-                        'needsImprovement' => $laborSkill['needsImprovement'],
+                        'needsImprovement' => $laborSkill['strongOrWeak'],
                         'labor_skill_id' => $laborSkill['id'],
                         'opa_rating_id' => $volunteerOpaRating->id,
                     ]);
                 }
             }
 
-            if (isset($volunteer['laborSkills'])) {
+            if (isset($volunteer['interpersonalSkills'])) {
                 foreach ($volunteer['interpersonalSkills'] as $interpersonalSkill) {
 
-                    if (!isset($interpersonalSkill['needsImprovement']))
-                        $interpersonalSkill['needsImprovement'] = null;
+                    if (!isset($interpersonalSkill['strongOrWeak']))
+                        $interpersonalSkill['strongOrWeak'] = -1;
                     if (!isset($interpersonalSkill['comments']))
                         $interpersonalSkill['comments'] = null;
 
                     VolunteerInterpersonalSkill::create([
                         'comments' => $interpersonalSkill['comments'],
-                        'needsImprovement' => $interpersonalSkill['needsImprovement'],
+                        'needsImprovement' => $interpersonalSkill['strongOrWeak'],
                         'intp_skill_id' => $interpersonalSkill['id'],
                         'opa_rating_id' => $volunteerOpaRating->id,
                     ]);
@@ -111,7 +109,7 @@ class RatingServiceImpl extends RatingServiceAbstract {
             }
         }
 
-        return;
+        return $actionId;
 
     }
 

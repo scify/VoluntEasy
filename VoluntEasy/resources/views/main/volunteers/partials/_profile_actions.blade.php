@@ -103,7 +103,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-12">
-                        @if(sizeof($volunteer->actions)>0)
+                        @if(sizeof($volunteer->actionHistory)>0)
                             <table class="table table-condensed timesheet">
                                 <thead>
                                 <th></th>
@@ -113,17 +113,17 @@
                                 <th>{{ trans('entities/volunteers.totalHours') }}</th>
                                 </thead>
                                 <tbody>
-                                @foreach($volunteer->actions as $action)
-                                    @if(sizeof($action->tasks)>0)
+                                @foreach($volunteer->actionHistory as $history)
+                                    @if(sizeof($history->action->tasks)>0)
                                         <tr class="action">
-                                            <td>{{ trans('entities/actions.action') }} <a href="{{  url('actions/one/'.$action->id) }}"
-                                                         target="_blank">{{ $action->description }}</a></td>
+                                            <td>{{ trans('entities/actions.action') }} <a href="{{  url('actions/one/'.$history->action->id) }}"
+                                                         target="_blank">{{ $history->action->description }}</a></td>
                                             <td colspan="3">
-                                                <small>{{ $action->start_date }} - {{ $action->end_date }}</small>
+                                                <small>{{ $history->action->start_date }} - {{ $history->action->end_date }}</small>
                                             </td>
-                                            <td class="col-md-2 text-center">{{ $action->workHours }}</td>
+                                            <td class="col-md-2 text-center">{{ $history->action->workHours }}</td>
                                         </tr>
-                                        @foreach($action->tasks as $task)
+                                        @foreach($history->action->tasks as $task)
                                             <tr class="task">
                                                 <td colspan="4">{{ trans('entities/tasks.task') }} {{ $task->name }}</td>
                                                 <td class="col-md-2 text-center">
@@ -136,16 +136,18 @@
                                                         <td class="col-md-2 text-center">
                                                             <strong>{{ $subtask->workHours }}</strong></td>
                                                     </tr>
-                                                    @foreach($subtask->workDates as $workDate)
+                                                    @foreach($volunteer->workDateHistory as $wdHistory)
+                                                        @if($wdHistory->workDate->subtask->id==$subtask->id)
                                                         <tr>
-                                                            <td>{{ $workDate->comments }}</td>
-                                                            <td>{{ $workDate->from_date }}</td>
-                                                            <td>{{ $workDate->from_hour }}
-                                                                - {{ $workDate->to_hour }}</td>
+                                                            <td>{{ $wdHistory->workDate->comments }}</td>
+                                                            <td>{{ $wdHistory->workDate->from_date }}</td>
+                                                            <td>{{ $wdHistory->workDate->from_hour }}
+                                                                - {{ $wdHistory->workDate->to_hour }}</td>
                                                             <td>-</td>
                                                             <td class="col-md-2 text-center">
-                                                                <strong>{{ $workDate->workHours }}</strong></td>
+                                                                <strong>{{ $wdHistory->workDate->workHours }}</strong></td>
                                                         </tr>
+                                                        @endif
                                                     @endforeach
                                                 @endif
                                             @endforeach

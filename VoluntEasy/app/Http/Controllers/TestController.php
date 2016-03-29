@@ -20,6 +20,11 @@ class TestController extends Controller {
 
     public function test() {
 
+
+        $expiredActions = Action::expiredYesterday()->with('volunteers.workDates', 'users', 'tasks.subtasks.workDates')->get();
+
+        return $expiredActions;
+
         $expiredActions = Action::expiredYesterday()->with('volunteers.workDates', 'users', 'tasks.subtasks.workDates')->get();
 
         foreach ($expiredActions as $expired) {
