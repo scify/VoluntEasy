@@ -44,7 +44,7 @@ class CronService {
             foreach ($expired->users as $user) {
 
                 $token = str_random(30);
-                $url = \URL::to('/').'/ratings/action/volunteers/'.$token;
+                $url = env('ROOT_URL') . '/ratings/action/volunteers/' . $token;
                 //create a new action rating
                 //with the action id, the email and the token
                 $actionRating = new ActionRating([
