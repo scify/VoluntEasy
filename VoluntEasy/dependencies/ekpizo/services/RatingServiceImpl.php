@@ -17,6 +17,10 @@ class RatingServiceImpl extends RatingServiceAbstract {
 
     private $folderName = 'ekpizo';
 
+    public function hasCustomRatings(){
+        return true;
+    }
+
     /* do stuff and return the path */
     public function rateVolunteers($token) {
         $actionRating = ActionRating::where('token', $token)->firstOrFail();

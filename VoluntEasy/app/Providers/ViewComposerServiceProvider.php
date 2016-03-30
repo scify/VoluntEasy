@@ -52,11 +52,11 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $units = Unit::lists('description', 'id')->all();
 
 
-            $maritalStatuses[0] = '[- επιλέξτε -]';
-            $educationLevels[0] = '[- επιλέξτε -]';
-            $genders[0] = '[- επιλέξτε -]';
-            $interests[0] = '[- επιλέξτε -]';
-            $units[0] = '[- επιλέξτε -]';
+            $maritalStatuses[0] = trans('entities/search.choose');
+            $educationLevels[0] = trans('entities/search.choose');
+            $genders[0] = trans('entities/search.choose');
+            $interests[0] = trans('entities/search.choose');
+            $units[0] = trans('entities/search.choose');
             ksort($maritalStatuses);
             ksort($educationLevels);
             ksort($genders);
@@ -65,13 +65,13 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
             //create the statuses dropdown
             $statuses = [];
-            array_push($statuses, '[- επιλέξτε -]');
-            array_push($statuses, 'Νέος');
-            array_push($statuses, 'Υπό ένταξη');
-            array_push($statuses, 'Διαθέσιμος');
-            array_push($statuses, 'Ενεργός');
-            array_push($statuses, 'Μη Διαθέσιμος');
-            array_push($statuses, 'Blacklisted');
+            array_push($statuses, trans('entities/search.choose'));
+            array_push($statuses, trans('entities/volunteers.new'));
+            array_push($statuses, trans('entities/volunteers.pending'));
+            array_push($statuses, trans('entities/volunteers.available'));
+            array_push($statuses, trans('entities/volunteers.active'));
+            array_push($statuses, trans('entities/volunteers.notAvailable'));
+            array_push($statuses, trans('entities/volunteers.blacklisted'));
 
             //create the ratings dropdown
             $ratings = [];
@@ -94,9 +94,9 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $units = Unit::lists('description', 'id')->all();
             $users = User::lists('name', 'id')->all();
 
-            $units[0] = '[- επιλέξτε -]';
+            $units[0] = trans('entities/search.choose');
             ksort($units);
-            $users[0] = '[- επιλέξτε -]';
+            $users[0] = trans('entities/search.choose');
             ksort($users);
 
             $view->with('units', $units)->with('users', $users);
@@ -107,7 +107,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
             $units = Unit::whereDoesntHave('children')->lists('description', 'id')->all();
 
-            $units[0] = '[- επιλέξτε -]';
+            $units[0] = trans('entities/search.choose');
             ksort($units);
 
             $view->with('units', $units);
@@ -118,7 +118,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
             $units = Unit::lists('description', 'id')->all();
 
-            $units[0] = '[- επιλέξτε -]';
+            $units[0] = trans('entities/search.choose');
             ksort($units);
 
             $view->with('units', $units);

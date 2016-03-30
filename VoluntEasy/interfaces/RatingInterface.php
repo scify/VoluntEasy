@@ -8,6 +8,8 @@
  */
 interface RatingInterface{
 
+    function hasCustomRatings();
+
     function rateVolunteers($token);
 
 }

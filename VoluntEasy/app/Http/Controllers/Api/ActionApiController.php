@@ -99,19 +99,19 @@ class ActionApiController extends Controller {
 
         //initialize answers array
         $answers[0] = [
-            'name' => 'Διαφωνώ απόλυτα',
+            'name' => trans('entities/ratings.fullyDisagree') ,
             'data' => []];
         $answers[1] = [
-            'name' => 'Διαφωνώ',
+            'name' => trans('entities/ratings.disagree'),
             'data' => []];
         $answers[2] = [
-            'name' => 'Ούτε διαφωνώ/ούτε συμφωνώ',
+            'name' => trans('entities/ratings.neutral'),
             'data' => []];
         $answers[3] = [
-            'name' => 'Συμφωνώ',
+            'name' => trans('entities/ratings.agree'),
             'data' => []];
         $answers[4] = [
-            'name' => 'Συμφωνώ απόλυτα',
+            'name' => trans('entities/ratings.fullyAgree'),
             'data' => []];
 
         for($i=0; $i<sizeof($attributes); $i++) {

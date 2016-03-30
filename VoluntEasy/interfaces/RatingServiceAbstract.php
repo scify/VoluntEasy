@@ -23,6 +23,9 @@ use App\Models\Volunteer;
  */
 abstract class RatingServiceAbstract implements RatingInterface {
 
+    public function hasCustomRatings(){
+        return false;
+    }
 
     public function rateVolunteers($token) {
         $actionRating = ActionRating::where('token', $token)->firstOrFail();

@@ -98,7 +98,6 @@ class UserController extends Controller {
      */
     public function edit($id) {
 
-        //  $roles = ['admin' => 'Διαχειριστής', 'unit_manager' => 'Υπεύθυνος Μονάδων', 'action_manager' => 'Υπεύθυνος Δράσης'];
         $roles = Role::all(['name', 'id']);
         //get all units except for the root unit
         $units = Unit::whereNotNull('parent_unit_id')->get(['description', 'id']);
@@ -178,13 +177,13 @@ class UserController extends Controller {
 
         //if the unit has users, do not delete
         if (sizeof($user->units) > 0) {
-            Session::flash('flash_message', 'Ο χρήστης είναι υπεύθυνος σε μονάδες και δεν μπορεί να διαγραφεί.');
+            Session::flash('flash_message', trans('entities/users.hasUnits'));
             Session::flash('flash_type', 'alert-danger');
 
             return;
         }
         if (sizeof($user->actions) > 0) {
-            Session::flash('flash_message', 'Ο χρήστης είναι υπεύθυνος σε δράσεις και δεν μπορεί να διαγραφεί.');
+            Session::flash('flash_message', trans('entities/users.hasActions'));
             Session::flash('flash_type', 'alert-danger');
 
             return;
@@ -192,7 +191,7 @@ class UserController extends Controller {
 
         $user->delete();
 
-        Session::flash('flash_message', 'Ο χρήστης διαγράφηκε.');
+        Session::flash('flash_message', trans('entities/users.deleted'));
         Session::flash('flash_type', 'alert-success');
 
         return;

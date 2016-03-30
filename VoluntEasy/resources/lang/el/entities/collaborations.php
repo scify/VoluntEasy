@@ -44,4 +44,13 @@ return [
 
     'actions' => 'Ενέργειες',
 
+    /* form validation */
+    'endDateAfter' => 'Η ημερομηνία λήξης πρέπει να είναι μετά την ημερομηνία έναρξης.',
+    'typeIdEmpty' => 'Παρακαλώ επιλέξτε τύπο φορέα.',
+
+    /* controllers */
+    'alreadyExists' => 'Το αρχείο :filename υπάρχει ήδη.',
+    'moreThan10mb' => 'Το αρχείο :filename ξεπερνά σε μέγεθος τα 10mb.',
+    'deleted' => 'Ο φορέας διαγράφηκε.',
+
 ];

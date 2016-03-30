@@ -85,8 +85,10 @@
                                         class="fa fa-bullseye m-r-xs"></i>{{ trans('entities/volunteers.actionParticipation') }}</a></li>
                             <li role="presentation"><a href="#tab4" data-toggle="tab"><i
                                         class="fa fa-history m-r-xs"></i>{{ trans('entities/volunteers.history') }}</a></li>
+                            @if($customRatings)
                             <li role="presentation"><a href="#tab5" data-toggle="tab"><i
                                         class="fa fa-star m-r-xs"></i>{{ trans('entities/volunteers.ratings') }}</a></li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -114,9 +116,11 @@
                         @include('main.volunteers.partials._timeline')
                     </div>
 
+                    @if($customRatings)
                     <div class="tab-pane fade in" id="tab5">
                         @include('main.volunteers.partials._ratings')
                     </div>
+                    @endif
                 </div>
             </div>
         </div>

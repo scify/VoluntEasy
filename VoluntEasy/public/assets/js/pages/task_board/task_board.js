@@ -115,8 +115,8 @@ function refreshDateTime() {
 
     $(".time").timepicker({
         lang: {
-            'am': ' π.μ.',
-            'pm': ' μ.μ.'
+            'am': Lang.get('js-components.am'),
+            'pm': Lang.get('js-components.pm')
         },
         'minTime': '07:00',
         'timeFormat': 'H:i'

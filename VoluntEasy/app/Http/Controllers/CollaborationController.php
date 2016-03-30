@@ -1,17 +1,12 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests\CollaborationRequest;
-use App\Models\Action;
 use App\Models\ActionVolunteerHistory;
 use App\Models\Collaboration;
 use App\Models\CollaborationFile;
 use App\Models\Descriptions\CollaborationType;
-use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Executive;
-use App\Services\Facades\ActionService;
 use App\Services\Facades\CollaborationService;
-use App\Services\Facades\VolunteerService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
@@ -39,7 +34,7 @@ class CollaborationController extends Controller {
      */
     public function create() {
         $collaborationTypes = CollaborationType::all()->lists('description', 'id')->all();
-        $collaborationTypes[0] = '[- επιλέξτε -]';
+        $collaborationTypes[0] = trans('entities/search.choose');
         ksort($collaborationTypes);
 
         return view('main.collaborations.create', compact('collaborationTypes'));
@@ -81,14 +76,14 @@ class CollaborationController extends Controller {
 
                 //if file already exists, redirect back with error message
                 if (file_exists($filename)) {
-                    \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' υπάρχει ήδη.');
+                    \Session::flash('flash_message', trans('entities/collaborations.alreadyExists', ['filename' => $file->getClientOriginalName()]));
                     \Session::flash('flash_type', 'alert-danger');
 
                     return \Redirect::back()->withInput();
                 }
                 //if file exceeds maximum allowed size, redirect back with error message
                 if ($file->getSize() > 10000000) {
-                    \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' ξεπερνά σε μέγεθος τα 10mb.');
+                    \Session::flash('flash_message', trans('entities/collaborations.moreThan10mb', ['filename' => $file->getClientOriginalName()]));
                     \Session::flash('flash_type', 'alert-danger');
 
                     return \Redirect::back()->withInput();
@@ -129,7 +124,7 @@ class CollaborationController extends Controller {
      */
     public function edit($id) {
         $collaborationTypes = CollaborationType::all()->lists('description', 'id')->all();
-        $collaborationTypes[0] = '[- επιλέξτε -]';
+        $collaborationTypes[0] = trans('entities/search.choose');
         ksort($collaborationTypes);
 
         $collaboration = Collaboration::with('executives', 'files')->findOrFail($id);
@@ -175,7 +170,7 @@ class CollaborationController extends Controller {
 
                 //if file already exists, redirect back with error message
                 if (file_exists($filename)) {
-                    \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' υπάρχει ήδη.');
+                    \Session::flash('flash_message', trans('entities/collaborations.alreadyExists', ['filename' => $file->getClientOriginalName()]));
                     \Session::flash('flash_type', 'alert-danger');
 
                     return \Redirect::back();
@@ -183,7 +178,7 @@ class CollaborationController extends Controller {
 
                 //if file exceeds maximum allowed size, redirect back with error message
                 if ($file->getSize() > 10000000) {
-                    \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' ξεπερνά σε μέγεθος τα 10mb.');
+                    \Session::flash('flash_message', trans('entities/collaborations.moreThan10mb', ['filename' => $file->getClientOriginalName()]));
                     \Session::flash('flash_type', 'alert-danger');
 
                     return \Redirect::back();
@@ -208,7 +203,7 @@ class CollaborationController extends Controller {
         $collaboration->load('files');
 
 
-        foreach($collaboration->files as $f) {
+        foreach ($collaboration->files as $f) {
             $file = CollaborationFile::find($f->id);
 
             $filename = public_path() . '/assets/uploads/collaborations/' . $file->filename;
@@ -223,7 +218,7 @@ class CollaborationController extends Controller {
 
         $collaboration->delete();
 
-        Session::flash('flash_message', 'Ο φορέας διαγράφηκε.');
+        Session::flash('flash_message', trans('entities/collaborations.deleted'));
         Session::flash('flash_type', 'alert-success');
 
 
@@ -240,7 +235,6 @@ class CollaborationController extends Controller {
 
         return $collaborations;
     }
-
 
 
     /**

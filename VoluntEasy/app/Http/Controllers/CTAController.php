@@ -16,26 +16,22 @@ use App\Services\Facades\UserService;
  * Class CTAController
  * @package App\Http\Controllers
  */
-class CTAController extends Controller
-{
+class CTAController extends Controller {
 
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth', ['except' => ['cta', 'participate']]);
     }
 
 
-    public function cta()
-    {
+    public function cta() {
 
         $action = Action::find(1);
 
         return view('main.cta.cta', compact('action'));
     }
 
-    public function participate($id)
-    {
+    public function participate($id) {
         $publicAction = PublicAction::where('public_url', $id)->with('subtasks.subtask.workDates', 'subtasks.subtask.task')->first();
 
         //if the public action is inactive, return a null obj
@@ -92,8 +88,7 @@ class CTAController extends Controller
         }
     }
 
-    public function store()
-    {
+    public function store() {
 
         $isActive = 0;
         if (\Request::has('isActive') && \Request::get('isActive') == 'on')
@@ -119,8 +114,7 @@ class CTAController extends Controller
         return $publicAction;
     }
 
-    public function update()
-    {
+    public function update() {
         $publicAction = PublicAction::find(\Request::get('publicActionId'));
 
         $isActive = 0;
@@ -151,8 +145,7 @@ class CTAController extends Controller
      * @param CTAVolunteerRequest $request
      * @return mixed
      */
-    public function volunteerInterested(CTAVolunteerRequest $request)
-    {
+    public function volunteerInterested(CTAVolunteerRequest $request) {
 
         $isVolunteer = 0;
         $volunteer = Volunteer::where('email', $request['email'])->first();
@@ -193,7 +186,7 @@ class CTAController extends Controller
         foreach ($admins as $admin) {
 
             \Mail::send('app_emails.cta_new_volunteer', ['user' => $admin, 'ctaVolunteer' => $ctaVolunteer, 'volunteer' => $volunteer, 'publicAction' => $publicAction], function ($message) use ($admin) {
-                $message->to($admin->email, $admin->name)->subject('[VoluntEasy] Εκδήλωση ενδιαφέροντος από εθελοντή');
+                $message->to($admin->email, $admin->name)->subject('[' . trans('default.title') . '] ' . trans('emails/emails.ctaVolunteeerInterested'));
             });
         }
 
@@ -203,10 +196,9 @@ class CTAController extends Controller
     /**
      * Save the subtasks that will be displayed on the public page
      */
-    private function savePublicSubtasks($publicAction)
-    {
+    private function savePublicSubtasks($publicAction) {
         $publicSubtasksIds = [];
-        if(\Request::has('subtasks')) {
+        if (\Request::has('subtasks')) {
             foreach (\Request::get('subtasks') as $i => $subtask) {
 
                 if (isset($subtask['name']) && $subtask['name'] == 'on') {
@@ -244,8 +236,7 @@ class CTAController extends Controller
      *
      * @return string
      */
-    private function getPublicUrl($publicAction = null)
-    {
+    private function getPublicUrl($publicAction = null) {
 
         if (\Request::has('publicUrl') && \Request::get('publicUrl') != '') {
 

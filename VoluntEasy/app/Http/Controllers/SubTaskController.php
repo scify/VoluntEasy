@@ -153,7 +153,7 @@ class SubTaskController extends Controller
 
         SubtaskService::delete($subTask);
 
-        \Session::flash('flash_message', 'Το subtask διαγράφηκε.');
+        \Session::flash('flash_message', trans('entities/subtasks.deleted'));
         \Session::flash('flash_type', 'alert-success');
 
         return;

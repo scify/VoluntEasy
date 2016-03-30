@@ -97,7 +97,7 @@ class TaskController extends Controller {
            SubtaskService::delete($subtask);
        }
 
-        \Session::flash('flash_message', 'Το task διαγράφηκε.');
+        \Session::flash('flash_message', trans('entities/tasks.deleted'));
         \Session::flash('flash_type', 'alert-success');
 
         $task->delete();

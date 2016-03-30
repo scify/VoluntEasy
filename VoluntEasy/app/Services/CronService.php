@@ -34,7 +34,7 @@ class CronService {
 
                     //then send an email to the volunteer
                     \Mail::send('app_emails.rate_action', ['volunteer' => $volunteer, 'action' => $expired, 'token' => $token], function ($message) use ($volunteer) {
-                        $message->to($volunteer->email, $volunteer->name . ' ' . $volunteer->last_name)->subject('[VoluntEasy] Αξιολόγηση δράσης');
+                        $message->to($volunteer->email, $volunteer->name . ' ' . $volunteer->last_name)->subject('[' . trans('default.title') . '] ' . trans('emails/emails.actionRating'));
                     });
                 }
             }
@@ -57,7 +57,7 @@ class CronService {
                 //then send an email to the person responsible for the action
 
                 \Mail::send('app_emails.rate_volunteers', ['action' => $expired, 'token' => $token], function ($message) use ($user, $expired) {
-                    $message->to($user->email, $user->name . ' ' . $user->last_name)->subject('[VoluntEasy] Αξιολόγηση εθελοντών');
+                    $message->to($user->email, $user->name . ' ' . $user->last_name)->subject('[' . trans('default.title') . '] ' . trans('entities/ratings.volunteerRatingHalf'));
                 });
             }
 

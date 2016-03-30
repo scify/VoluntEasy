@@ -23,8 +23,8 @@ class CollaborationRequest extends Request
     public function messages()
     {
         return [
-            'end_date.after' => 'Η ημερομηνία λήξης πρέπει να είναι μετά την ημερομηνία έναρξης.',
-            'type_id.not_in' => 'Παρακαλώ επιλέξτε τύπο φορέα.',
+            'end_date.after' => trans('entities/collaborations.typeIdEmpty'),
+            'type_id.not_in' => trans('entities/collaborations.typeIdEmpty'),
         ];
     }
 }

@@ -292,6 +292,7 @@
 </div>
 </div>
 
+@if(!$customRatings)
 <div class="row">
     <div class="col-md-12">
         <h3>{{ trans('entities/volunteers.commentsAboutVolunteer') }}</h3>
@@ -341,6 +342,7 @@
         @endif
     </div>
 </div>
+@endif
 
 @if(!$volunteer->blacklisted && !$volunteer->not_available && $volunteer->permitted)
 <!-- Select unit modal -->

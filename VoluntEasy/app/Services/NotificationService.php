@@ -25,9 +25,14 @@ class NotificationService {
 
 
     /** Messages **/
-    private $userToUnit = 'Είστε υπεύθυνος της μονάδας ';
-    private $newVolunteer = 'Ένας νέος εθελοντής ανατέθηκε στη μονάδα ';
+    private $userToUnit;
+    private $newVolunteer;
 
+
+    public function __construct(){
+        $this->userToUnit = trans('entities/notifications.userToUnit');
+        $this->userToUnit = trans('entities/notifications.newVolunteer');
+    }
 
     /**
      * create a new Notification Instance
@@ -203,14 +208,14 @@ class NotificationService {
 
         //notify the unit's users
         foreach ($unit->users as $user) {
-            NotificationService::addNotification($user->id, 5, 'Η δράση ' . $action->description . ' έληξε στις ' . $action->end_date . '.', $url, $user->id, $action->id);
+            NotificationService::addNotification($user->id, 5, trans('entities/notifications.actionExpired', ['action' => $action->description, 'date' => $action->end_date]), $url, $user->id, $action->id);
         }
 
         $admins = UserService::getAdmins();
 
         //also notify all the admins
         foreach ($admins as $admin) {
-            NotificationService::addNotification($admin->id, 5, 'Η δράση ' . $action->description . ' έληξε στις ' . $action->end_date . '.', $url, $admin->id, $action->id);
+            NotificationService::addNotification($admin->id, 5, trans('entities/notifications.actionExpired', ['action' => $action->description, 'date' => $action->end_date]), $url, $admin->id, $action->id);
         }
 
     }
@@ -229,14 +234,14 @@ class NotificationService {
 
         //notify the unit's users
         foreach ($unit->users as $user) {
-            NotificationService::addNotification($user->id, 6, 'Η δράση ' . $action->description . ' λήγει στις ' . $action->end_date . '.', $url, $user->id, $action->id);
+            NotificationService::addNotification($user->id, 6, trans('entities/notifications.actionExpires', ['action' => $action->description, 'date' => $action->end_date]), $url, $user->id, $action->id);
         }
 
         $admins = UserService::getAdmins();
 
         //also notify all the admins
         foreach ($admins as $admin) {
-            NotificationService::addNotification($admin->id, 6, 'Η δράση ' . $action->description . ' λήγει στις ' . $action->end_date . '.', $url, $admin->id, $action->id);
+            NotificationService::addNotification($admin->id, 6, trans('entities/notifications.actionExpires', ['action' => $action->description, 'date' => $action->end_date]), $url, $admin->id, $action->id);
         }
     }
 
@@ -251,7 +256,7 @@ class NotificationService {
         //notify the unit's users
         foreach ($volunteer->units as $unit) {
             foreach ($unit->users as $user) {
-                NotificationService::addNotification($user->id, 7, 'Η σύμβαση του εθελοντή ' . $volunteer->name . ' ' . $volunteer->last_name . ' έληξε χτες', $url, $user->id, $volunteer->id);
+                NotificationService::addNotification($user->id, 7, trans('entities/notifications.volunteerContractExpired', ['volunteer' => $volunteer->name . ' ' . $volunteer->last_name]), $url, $user->id, $volunteer->id);
             }
         }
 
@@ -259,7 +264,7 @@ class NotificationService {
 
         //also notify all the admins
         foreach ($admins as $admin) {
-            NotificationService::addNotification($admin->id, 7, 'Η σύμβαση του εθελοντή ' . $volunteer->name . ' ' . $volunteer->last_name . ' έληξε χτες', $url, $admin->id, $volunteer->id);
+            NotificationService::addNotification($admin->id, 7, trans('entities/notifications.volunteerContractExpired', ['volunteer' => $volunteer->name . ' ' . $volunteer->last_name]), $url, $admin->id, $volunteer->id);
         }
 
     }
@@ -276,7 +281,7 @@ class NotificationService {
         //notify the unit's users
         foreach ($volunteer->units as $unit) {
             foreach ($unit->users as $user) {
-                NotificationService::addNotification($user->id, 8, 'Η σύμβαση του εθελοντή ' . $volunteer->name . ' ' . $volunteer->last_name . ' λήγει σε 6 μήνες', $url, $user->id, $volunteer->id);
+                NotificationService::addNotification($user->id, 8, trans('entities/notifications.volunteerContractExpires', ['volunteer' => $volunteer->name . ' ' . $volunteer->last_name]), $url, $user->id, $volunteer->id);
             }
         }
 
@@ -284,7 +289,7 @@ class NotificationService {
 
         //also notify all the admins
         foreach ($admins as $admin) {
-            NotificationService::addNotification($admin->id, 8, 'Η σύμβαση του εθελοντή ' . $volunteer->name . ' ' . $volunteer->last_name . ' λήγει σε 6 μήνες', $url, $admin->id, $volunteer->id);
+            NotificationService::addNotification($admin->id, 8, trans('entities/notifications.volunteerContractExpires', ['volunteer' => $volunteer->name . ' ' . $volunteer->last_name]), $url, $admin->id, $volunteer->id);
         }
 
     }

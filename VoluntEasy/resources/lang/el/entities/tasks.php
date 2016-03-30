@@ -62,7 +62,8 @@ return [
     'fillField' => 'Συμπληρώστε το πεδίο.',
 
 
-
+    /* controller */
+    'deleted' => 'Το task διαγράφηκε.',
 
 
 ];

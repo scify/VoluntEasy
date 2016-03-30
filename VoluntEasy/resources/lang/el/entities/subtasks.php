@@ -45,5 +45,8 @@ return [
     /* work dates */
     'editWorkDate' => 'Επεξεργασία ημέρας/ώρας',
 
+    /* controller */
+    'deleted' => 'Το subtask διαγράφηκε.',
+
 
 ];

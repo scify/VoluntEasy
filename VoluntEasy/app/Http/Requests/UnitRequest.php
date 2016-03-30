@@ -33,7 +33,7 @@ class UnitRequest extends Request {
     public function messages()
     {
         return [
-            'parent_unit_id.required' => 'Παρακαλώ επιλέξτε Οργανωτική Μονάδα.',
+            'parent_unit_id.required' => trans('entities/units.parentUniRequired') ,
         ];
     }
 

@@ -35,12 +35,13 @@ class VolunteerController extends Controller {
 
     private $configuration;
     private $volunteerService;
+    private $ratingService;
 
     public function __construct() {
         $this->middleware('auth', ['except' => ['publicForm']]);
         $this->configuration = \App::make('Interfaces\ConfigurationInterface');
         $this->volunteerService = \App::make('Interfaces\VolunteerInterface');
-
+        $this->ratingService = \App::make('Interfaces\RatingInterface');
     }
 
     /**
@@ -81,15 +82,15 @@ class VolunteerController extends Controller {
         $extras = $this->configuration->getExtras();
         $extrasPath = $this->configuration->getExtrasPath();
 
-        $maritalStatuses[0] = '[- επιλέξτε -]';
-        $edLevel[0] = '[- επιλέξτε -]';
-        $genders[0] = '[- επιλέξτε -]';
-        $identificationTypes[0] = '[- επιλέξτε -]';
-        $driverLicenseTypes[0] = '[- επιλέξτε -]';
-        $workStatuses[0] = '[- επιλέξτε -]';
-        $availabilityFreqs[0] = '[- επιλέξτε -]';
-        $howYouLearned[0] = '[- επιλέξτε -]';
-        $howYouLearned2[0] = '[- επιλέξτε -]';
+        $maritalStatuses[0] = trans('entities/search.choose');
+        $edLevel[0] = trans('entities/search.choose');
+        $genders[0] = trans('entities/search.choose');
+        $identificationTypes[0] = trans('entities/search.choose');
+        $driverLicenseTypes[0] = trans('entities/search.choose');
+        $workStatuses[0] = trans('entities/search.choose');
+        $availabilityFreqs[0] = trans('entities/search.choose');
+        $howYouLearned[0] = trans('entities/search.choose');
+        $howYouLearned2[0] = trans('entities/search.choose');
         ksort($maritalStatuses);
         ksort($edLevel);
         ksort($genders);
@@ -122,14 +123,14 @@ class VolunteerController extends Controller {
 
                 //if file already exists, redirect back with error message
                 if (file_exists($filename)) {
-                    \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' υπάρχει ήδη.');
+                    \Session::flash('flash_message', trans('entities/volunteers.alreadyExists', ['filename' => $file->getClientOriginalName()]));
                     \Session::flash('flash_type', 'alert-danger');
 
                     return \Redirect::back()->withInput();
                 }
                 //if file exceeds mazimum allowed size, redirect back with error message
                 if ($file->getSize() > 10000000) {
-                    \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' ξεπερνά σε μέγεθος τα 10mb.');
+                    \Session::flash('flash_message', trans('entities/volunteers.moreThan10mb', ['filename' => $file->getClientOriginalName()]));
                     \Session::flash('flash_type', 'alert-danger');
 
                     return \Redirect::back()->withInput();
@@ -196,7 +197,9 @@ class VolunteerController extends Controller {
         $extras = $this->configuration->getExtras();
         $extrasPath = $this->configuration->getExtrasPath();
 
-        return view('main.volunteers.show', compact('volunteer', 'pending', 'available', 'timeline', 'userUnits', 'actionsCount', 'actionsRatings', 'totalRatings', 'totalWorkingHours', 'extras', 'extrasPath', 'laborSkills', 'intepersonalSkills'));
+        $customRatings = $this->ratingService->hasCustomRatings();
+
+        return view('main.volunteers.show', compact('volunteer', 'pending', 'available', 'timeline', 'userUnits', 'actionsCount', 'actionsRatings', 'totalRatings', 'totalWorkingHours', 'extras', 'extrasPath', 'laborSkills', 'intepersonalSkills', 'customRatings'));
     }
 
     /**
@@ -234,15 +237,15 @@ class VolunteerController extends Controller {
 
         $units = Unit::orderBy('description', 'asc')->get();
 
-        $maritalStatuses[0] = '[- επιλέξτε -]';
-        $edLevel[0] = '[- επιλέξτε -]';
-        $genders[0] = '[- επιλέξτε -]';
-        $identificationTypes[0] = '[- επιλέξτε -]';
-        $driverLicenseTypes[0] = '[- επιλέξτε -]';
-        $workStatuses[0] = '[- επιλέξτε -]';
-        $availabilityFreqs[0] = '[- επιλέξτε -]';
-        $howYouLearned[0] = '[- επιλέξτε -]';
-        $howYouLearned2[0] = '[- επιλέξτε -]';
+        $maritalStatuses[0] = trans('entities/search.choose');
+        $edLevel[0] = trans('entities/search.choose');
+        $genders[0] = trans('entities/search.choose');
+        $identificationTypes[0] = trans('entities/search.choose');
+        $driverLicenseTypes[0] = trans('entities/search.choose');
+        $workStatuses[0] = trans('entities/search.choose');
+        $availabilityFreqs[0] = trans('entities/search.choose');
+        $howYouLearned[0] = trans('entities/search.choose');
+        $howYouLearned2[0] = trans('entities/search.choose');
         ksort($maritalStatuses);
         ksort($edLevel);
         ksort($genders);
@@ -281,7 +284,7 @@ class VolunteerController extends Controller {
 
                 //if file already exists, redirect back with error message
                 if (file_exists($filename)) {
-                    \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' υπάρχει ήδη.');
+                    \Session::flash('flash_message', trans('entities/volunteers.alreadyExists', ['filename' => $file->getClientOriginalName()]));
                     \Session::flash('flash_type', 'alert-danger');
 
                     return \Redirect::back();
@@ -289,7 +292,7 @@ class VolunteerController extends Controller {
 
                 //if file exceeds maximum allowed size, redirect back with error message
                 if ($file->getSize() > 10000000) {
-                    \Session::flash('flash_message', 'Το αρχείο ' . $file->getClientOriginalName() . ' ξεπερνά σε μέγεθος τα 10mb.');
+                    \Session::flash('flash_message', trans('entities/volunteers.moreThan10mb', ['filename' => $file->getClientOriginalName()]));
                     \Session::flash('flash_type', 'alert-danger');
 
                     return \Redirect::back();
@@ -320,14 +323,14 @@ class VolunteerController extends Controller {
 
         //if the volunteer has units, do not delete
         if (sizeof($volunteer->units) > 0) {
-            Session::flash('flash_message', 'Ο εθελοντής ανήκει σε οργανωτική μονάδα και δεν μπορεί να διαγραφεί.');
+            Session::flash('flash_message', trans('entities/volunteers.inUnit'));
             Session::flash('flash_type', 'alert-danger');
 
             return;
         }
         //if the volunteer has actions, do not delete
         if (sizeof($volunteer->actions) > 0) {
-            Session::flash('flash_message', 'Ο εθελοντής είναι ενεργός σε δράση και δεν μπορεί να διαγραφεί.');
+            Session::flash('flash_message', trans('entities/volunteers.inAction'));
             Session::flash('flash_type', 'alert-danger');
 
             return;
@@ -352,7 +355,7 @@ class VolunteerController extends Controller {
 
         $volunteer->delete();
 
-        Session::flash('flash_message', 'Ο εθελοντής διαγράφηκε.');
+        Session::flash('flash_message', trans('entities/volunteers.deleted'));
         Session::flash('flash_type', 'alert-success');
 
 
@@ -615,14 +618,14 @@ class VolunteerController extends Controller {
 
         $viewPath = $this->configuration->getViewsPath() . '.volunteers._form';
 
-        $maritalStatuses[0] = '[- επιλέξτε -]';
-        $edLevel[0] = '[- επιλέξτε -]';
-        $genders[0] = '[- επιλέξτε -]';
-        $identificationTypes[0] = '[- επιλέξτε -]';
-        $driverLicenseTypes[0] = '[- επιλέξτε -]';
-        $workStatuses[0] = '[- επιλέξτε -]';
-        $availabilityFreqs[0] = '[- επιλέξτε -]';
-        $howYouLearned[0] = '[- επιλέξτε -]';
+        $maritalStatuses[0] = trans('entities/search.choose');
+        $edLevel[0] = trans('entities/search.choose');
+        $genders[0] = trans('entities/search.choose');
+        $identificationTypes[0] = trans('entities/search.choose');
+        $driverLicenseTypes[0] = trans('entities/search.choose');
+        $workStatuses[0] = trans('entities/search.choose');
+        $availabilityFreqs[0] = trans('entities/search.choose');
+        $howYouLearned[0] = trans('entities/search.choose');
         ksort($maritalStatuses);
         ksort($edLevel);
         ksort($genders);

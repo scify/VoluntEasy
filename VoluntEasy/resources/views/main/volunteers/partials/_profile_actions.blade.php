@@ -1,8 +1,9 @@
-{{-- <div class="row">
+@if(!$customRatings)
+ <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default smallHeading">
             <div class="panel-heading ">
-                <h3 class="panel-title">Συμμετοχή σε δράσεις</h3>
+                <h3 class="panel-title">{{ trans('entities/volunteers.participationToActions') }}</h3>
             </div>
             <div class="panel-body">
                 @if($actionsCount==0)
@@ -12,7 +13,7 @@
                                 <div class="panel-body">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <h4>Ο εθελοντής δεν έχει πάρει μέρος σε καμία δράση.</h4>
+                                            <h4>{{ trans('entities/volunteers.volunteerHasnotParticipated') }}</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -23,12 +24,12 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th>Δράση</th>
-                            <th>Task > Subtask</th>
-                            <th>Διάρκεια</th>
-                            <th>'Ωρες απασχόλησης</th>
-                            <th>Αξιολόγηση</th>
-                            <th>Σχόλια</th>
+                            <th>{{ trans('entities/actions.action') }}</th>
+                            <th>{{ trans('entities/tasks.task') }} > {{ trans('entities/subtasks.subtask') }}</th>
+                            <th>{{ trans('entities/volunteers.duration') }}</th>
+                            <th>{{ trans('entities/volunteers.workHours') }}</th>
+                            <th>{{ trans('entities/volunteers.rating') }}</th>
+                            <th>{{ trans('entities/volunteers.comments') }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -58,7 +59,7 @@
                                         {{ $action->ratingHours<10 ? '0'.$action->ratingHours : $action->ratingHours }}
                                         :{{ $action->ratingMinutes<10 ? '0'.$action->ratingMinutes : $action->ratingMinutes }}
                                     @else
-                                        <p style="color:#aaa;"><em>Δεν έχουν σημειωθεί ώρες απασχόλησης</em></p>
+                                        <p style="color:#aaa;"><em>{{ trans('entities/volunteers.noWorkHours') }}</em></p>
                                     @endif
                                 </td>
                                 <td class="col-md-5">
@@ -70,14 +71,14 @@
                                             <br/>
                                         @endforeach
                                     @else
-                                        <p style="color:#aaa;"><em>Δεν έχει γίνει αξιολόγηση</em></p>
+                                        <p style="color:#aaa;"><em>{{ trans('entities/volunteers.noRating') }}</em></p>
                                     @endif
                                 </td>
                                 <td class="col-md-2">
                                     @if(sizeof($action->ratings)>0 && isset($action->ratingComments) && $action->ratingComments!='')
                                         {{ $action->ratingComments }}
                                     @else
-                                        <p style="color:#aaa;"><em>Δεν υπάρχουν σχόλια</em></p>
+                                        <p style="color:#aaa;"><em>{{ trans('entities/volunteers.noComments') }}</em></p>
                                     @endif
                                 </td>
                             </tr>
@@ -85,14 +86,15 @@
                         </tbody>
                     </table>
                     <hr/>
-                    <h3 class="text-right">Συνολικές ώρες απασχόλησης: <strong>{{ $totalWorkingHours['hours'] }}
-                            ώρες, {{ $totalWorkingHours['minutes'] }} λεπτά</strong></h3>
+                    <h3 class="text-right">trans('entities/volunteers.noComments'): <strong>{{ $totalWorkingHours['hours'] }}
+                            {{ trans('entities/volunteers.hours') }}, {{ $totalWorkingHours['minutes'] }} {{ trans('entities/volunteers.minutes') }}</strong></h3>
                 @endif
             </div>
         </div>
     </div>
 </div>
---}}
+
+@else
 
 <div class="row">
     <div class="col-md-12">
@@ -210,3 +212,4 @@
         </div>
     </div>
 </div>
+@endif

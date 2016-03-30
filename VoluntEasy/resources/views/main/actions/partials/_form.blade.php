@@ -28,7 +28,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    {!! Form::formInput('name', trans('entities/actions.execName').':', $errors, ['class' => 'form-control', 'id' =>
+                    {!! Form::formInput('name', trans('entities/actions.commExecInfo').':', $errors, ['class' => 'form-control', 'id' =>
                     'actionName']) !!}
                     <small class="help-block">{{ trans('entities/actions.execNameExpl') }}
                     </small>

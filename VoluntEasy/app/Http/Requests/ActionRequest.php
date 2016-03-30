@@ -25,9 +25,9 @@ class ActionRequest extends Request
     public function messages()
     {
         return [
-            'unit_id.required' => 'Παρακαλώ επιλέξτε Οργανωτική Μονάδα.',
-            'end_date.after' => 'Η ημερομηνία λήξης πρέπει να είναι μετά την ημερομηνία έναρξης.',
-            'volunteer_sum.numeric' => 'Το πεδίο πρέπει να είναι αριθμός.',
+            'unit_id.required' => trans('entities/actions.unitIdRequired'),
+            'end_date.after' => trans('entities/actions.endDateAfter'),
+            'volunteer_sum.numeric' => trans('entities/actions.volunteerSumNumeric'),
         ];
     }
 }

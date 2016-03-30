@@ -74,6 +74,12 @@ class AppServiceProvider extends ServiceProvider {
                 'Dependencies\municipality\services\VolunteerServiceImpl'
             );
 
+            //bind the rating service
+            $this->app->bind(
+                'Interfaces\RatingInterface',
+                'Dependencies\municipality\services\RatingServiceImpl'
+            );
+
         } else if (env('MODE') == 'scify') {
 
             //bind the configuration
@@ -92,6 +98,12 @@ class AppServiceProvider extends ServiceProvider {
             $this->app->bind(
                 'Interfaces\VolunteerInterface',
                 'Dependencies\scify\services\VolunteerServiceImpl'
+            );
+
+            //bind the rating service
+            $this->app->bind(
+                'Interfaces\RatingInterface',
+                'Dependencies\scify\services\RatingServiceImpl'
             );
         }
 

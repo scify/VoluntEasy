@@ -171,12 +171,12 @@ class ActionController extends Controller
 
         //if the action has volunteers, do not delete
         if (sizeof($action->volunteers) > 0) {
-            Session::flash('flash_message', 'Η δράση περιέχει εθελοντές και δεν μπορεί να διαγραφεί.');
+            Session::flash('flash_message', trans('entities/actions.hasVolunteers'));
             Session::flash('flash_type', 'alert-danger');
             return;
         }
 
-        Session::flash('flash_message', 'Η δράση διαγράφηκε.');
+        Session::flash('flash_message', trans('entities/actions.deleted'));
         Session::flash('flash_type', 'alert-success');
 
         $action->delete();
@@ -242,19 +242,19 @@ class ActionController extends Controller
             foreach ($rating->ratings as $score) {
                 switch ($score->score) {
                     case "-2":
-                        $score->description = "Διαφωνώ απόλυτα";
+                        $score->description = trans('entities/ratings.fullyDisagree');
                         break;
                     case "-1":
-                        $score->description = "Διαφωνώ";
+                        $score->description = trans('entities/ratings.disagree');
                         break;
                     case "0":
-                        $score->description = "Ούτε διαφωνώ/ούτε συμφωνώ";
+                        $score->description = trans('entities/ratings.neutral');
                         break;
                     case "1":
-                        $score->description = "Συμφωνώ";
+                        $score->description = trans('entities/ratings.Agree');
                         break;
                     case "2":
-                        $score->description = "Συμφωνώ απόλυτα";
+                        $score->description = trans('entities/ratings.fullyAgree');
                         break;
                 }
             }

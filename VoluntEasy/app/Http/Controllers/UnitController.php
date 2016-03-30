@@ -218,7 +218,7 @@ class UnitController extends Controller {
 
         //if the unit has actions, do not delete
         if (sizeof($unit->allActions) > 0) {
-            Session::flash('flash_message', 'Η οργανωτική μονάδα περιέχει δράσεις και δεν μπορεί να διαγραφεί.');
+            Session::flash('flash_message', trans('entities/units.hasActions'));
             Session::flash('flash_type', 'alert-danger');
 
             return;
@@ -226,7 +226,7 @@ class UnitController extends Controller {
         }
         //if the unit has children units, do not delete
         if (sizeof($unit->allChildren) > 0) {
-            Session::flash('flash_message', 'Η οργανωτική μονάδα δεν μπορεί να διαγραφεί γιατί εξαρτώνται άλλες μονάδες από αυτή.');
+            Session::flash('flash_message', trans('entities/units.isParent'));
             Session::flash('flash_type', 'alert-danger');
 
             return;
@@ -234,7 +234,7 @@ class UnitController extends Controller {
         }
         //if the unit has volunteers, do not delete
         if (sizeof($unit->volunteers) > 0) {
-            Session::flash('flash_message', 'Η οργανωτική μονάδα περιέχει εθελοντές και δεν μπορεί να διαγραφεί.');
+            Session::flash('flash_message', trans('entities/units.hasVolunteers'));
             Session::flash('flash_type', 'alert-danger');
 
             return;
@@ -242,7 +242,7 @@ class UnitController extends Controller {
         }
         //if the unit has users, do not delete
         if (sizeof($unit->users) > 0) {
-            Session::flash('flash_message', 'Η οργανωτική μονάδα περιέχει χρήστες και δεν μπορεί να διαγραφεί.');
+            Session::flash('flash_message', trans('entities/units.hasUsers'));
             Session::flash('flash_type', 'alert-danger');
 
             return;
@@ -252,7 +252,7 @@ class UnitController extends Controller {
         $unit->steps()->delete();
         $unit->delete();
 
-        Session::flash('flash_message', 'Η οργανωτική μονάδα διαγράφηκε.');
+        Session::flash('flash_message', trans('entities/units.deleted'));
         Session::flash('flash_type', 'alert-success');
 
 

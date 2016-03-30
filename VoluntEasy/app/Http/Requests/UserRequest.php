@@ -41,12 +41,6 @@ class UserRequest extends Request {
      */
     public function messages() {
         return [
-            'email.unique' => 'Το email χρησιμοποιείται ήδη.',
-            'password.min' => 'Ο κωδικός πρέπει να έχει μήκος πάνω από 8 χαρακτήρες.',
-            'password.confirmed' => 'Οι κωδικοί δεν είναι ίδιοι.',
-            'image.image' => 'Το αρχείο πρέπει να είναι εικόνα (jpeg, jpg, ή png).',
-            /*'image.mimes' => 'Το αρχείο πρέπει να είναι εικόνα (jpeg, jpg, ή png).',
-            'image.max' => 'Το αρχείο πρέπει να έχει μέγεθος μικρότερο από 1mb.',*/
         ];
     }
 

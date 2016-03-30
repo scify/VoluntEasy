@@ -56,7 +56,7 @@ return [
     /* ratings */
     'answerAllQuestions' => 'Παρακαλώ απαντήστε σε όλες τις ερωτήσεις',
     'pleaseRateVolunteer' => 'Παρακαλώ αξιολογήστε τον εθελοντή',
-    'pleaseAddOnlyNumbers' => 'Παρακαλώ αξιολογήστε τον εθελοντή',
+    'pleaseAddOnlyNumbers' => 'Παρακαλώ εισάγετε μόνο αριθμούς.',
 
 
     /* users */
@@ -129,6 +129,9 @@ return [
     'october' => 'Οκτώβριος',
     'november' => 'Νοέμβριος',
     'december' => 'Δεκέμβριος',
+
+    'am' => ' π.μ.',
+    'pm' => ' μ.μ.',
 
 
 ];
