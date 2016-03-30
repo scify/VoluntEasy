@@ -1,7 +1,7 @@
 [
-    { "description": "Ελληνικά" },
-    { "description": "Αγγλικά" },
-    { "description": "Γαλλικά" },
-    { "description": "Ισπανικά" },
-    { "description": "Γερμανικά" }
+    { "description": "greek" },
+    { "description": "english" },
+    { "description": "french" },
+    { "description": "spanish" },
+    { "description": "german" }
 ]

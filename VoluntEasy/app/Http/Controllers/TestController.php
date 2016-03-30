@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Models\Action;
+use App\Models\Descriptions\Language;
 use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Services\Facades\UnitService;
@@ -19,7 +20,12 @@ class TestController extends Controller {
 
 
     public function test() {
-        return env('LOCALE');
+
+
+        $lang = Language::all();
+
+        return $lang;
+
     }
 
 

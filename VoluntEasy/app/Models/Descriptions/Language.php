@@ -13,8 +13,8 @@ class Language extends Model {
         return $this->hasManyThrough('App\Models\Descriptions\LanguageLevel', 'App\Models\VolunteerLanguage', 'language_level_id', 'id');
     }
 
-    public function getDescription() {
-        $this->attributes['description'] = trans('database/volunteer_info.' . $this->attributes['description']);
+    public function getDescriptionAttribute() {
+        return trans('database/volunteer_info.' . $this->attributes['description']);
     }
 
 }
