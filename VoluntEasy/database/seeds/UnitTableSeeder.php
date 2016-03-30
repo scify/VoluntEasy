@@ -17,7 +17,7 @@ class UnitTableSeeder extends Seeder {
     public function run()
     {
         $unit = Unit::create([
-            'description' => 'root',
+            'description' => 'Root',
             'comments' => 'Root unit',
         ]);
 

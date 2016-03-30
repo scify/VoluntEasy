@@ -6,7 +6,6 @@ use Interfaces\ConfigurationInterface;
 class Configuration implements ConfigurationInterface {
 
     private $folderName = 'scify';
-    
     function getViewsPath() {
         return $this->folderName.'.resources.views';
     }
@@ -16,6 +15,14 @@ class Configuration implements ConfigurationInterface {
     }
 
     function getJsonDataPath() {
-        return base_path().'/dependencies/'.$this->folderName.'/database/jsondata/';
+        return base_path() . '/dependencies/' . $this->folderName . '/database/jsondata/';
+    }
+
+    function getExtrasPath() {
+        // TODO: Implement getExtrasPath() method.
+    }
+
+    function getExtras() {
+        // TODO: Implement getExtras() method.
     }
 }

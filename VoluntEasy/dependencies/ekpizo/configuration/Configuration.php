@@ -8,23 +8,23 @@ class Configuration implements ConfigurationInterface {
     private $folderName = 'ekpizo';
 
     function getViewsPath() {
-        return $this->folderName.'.resources.views';
+        return $this->folderName . '.resources.views';
     }
 
     function getPartialsPath() {
-        return $this->folderName.'.resources.views.volunteers.partials';
+        return $this->folderName . '.resources.views.volunteers.partials';
     }
 
     function getJsonDataPath() {
-        return base_path().'/dependencies/'.$this->folderName.'/database/jsondata/';
+        return base_path() . '/dependencies/' . $this->folderName . '/database/jsondata/';
     }
 
 
     function getExtrasPath() {
-        return $this->folderName.'.resources.views.volunteers.extras';
+        return $this->folderName . '.resources.views.volunteers.extras';
     }
 
-    function getExtras(){
+    function getExtras() {
         return [
             'knows_office',
             'knows_excel',

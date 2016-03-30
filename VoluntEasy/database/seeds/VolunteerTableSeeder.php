@@ -18,9 +18,9 @@ class VolunteerTableSeeder extends Seeder {
 	    DB::table('identification_types')->delete();
 
 	    $types = [
-		    ['description' => 'Α.Δ.Τ.'],
-		    ['description' => 'Διαβατήριο'],
-		    ['description' => 'Άδεια παραμονής'],
+		    ['description' => 'id'],
+		    ['description' => 'passport'],
+		    ['description' => 'resPermit'],
 	    ];
 
 	    DB::table('identification_types')->insert($types);
@@ -29,10 +29,10 @@ class VolunteerTableSeeder extends Seeder {
 	    DB::table('marital_statuses')->delete();
 
 	    $statuses = [
-		    ['description' => 'Άγαμος/η'],
-		    ['description' => 'Παντρεμένος/η'],
-		    ['description' => 'Χήρος/α'],
-		    ['description' => 'Διαζευγμένος/η'],
+		    ['description' => 'notMarried'],
+		    ['description' => 'married'],
+		    ['description' => 'widowed'],
+		    ['description' => 'divorsed'],
 	    ];
 
 	    DB::table('marital_statuses')->insert($statuses);
@@ -41,10 +41,10 @@ class VolunteerTableSeeder extends Seeder {
 	    DB::table('work_statuses')->delete();
 
 	    $statuses = [
-		    ['description' => 'Φοιτητής'],
-		    ['description' => 'Εργαζόμενος'],
-		    ['description' => 'Άνεργος'],
-		    ['description' => 'Συνταξιούχος'],
+		    ['description' => 'student'],
+		    ['description' => 'worker'],
+		    ['description' => 'unemployed'],
+		    ['description' => 'retired'],
 	    ];
 
 	    DB::table('work_statuses')->insert($statuses);
@@ -53,9 +53,9 @@ class VolunteerTableSeeder extends Seeder {
 	    DB::table('availability_time')->delete();
 
 	    $availability = [
-		    ['description' => 'Πρωί'],
-		    ['description' => 'Μεσημέρι'],
-		    ['description' => 'Απόγευμα'],
+		    ['description' => 'morning'],
+		    ['description' => 'afternoon'],
+		    ['description' => 'evening'],
 	    ];
 
 	    DB::table('availability_time')->insert($availability);
@@ -65,8 +65,8 @@ class VolunteerTableSeeder extends Seeder {
 	    DB::table('genders')->delete();
 
 	    $genders = [
-		    ['description' => 'Άνδρας'],
-		    ['description' => 'Γυναίκα'],
+		    ['description' => 'man'],
+		    ['description' => 'woman'],
 	    ];
 
 	    DB::table('genders')->insert($genders);
@@ -75,11 +75,11 @@ class VolunteerTableSeeder extends Seeder {
 	    DB::table('languages')->delete();
 
 	    $languages = [
-		    ['description' => 'Ελληνικά'],
-		    ['description' => 'Αγγλικά'],
-		    ['description' => 'Γαλλικά'],
-		    ['description' => 'Ισπανικά'],
-		    ['description' => 'Γερμανικά'],
+		    ['description' => 'greek'],
+		    ['description' => 'english'],
+		    ['description' => 'french'],
+		    ['description' => 'spanish'],
+		    ['description' => 'german'],
 	    ];
 
 	    DB::table('languages')->insert($languages);
@@ -88,11 +88,11 @@ class VolunteerTableSeeder extends Seeder {
 	    DB::table('education_levels')->delete();
 
 	    $ed_levels = [
-		    ['description' => 'Γυμνάσιο'],
-		    ['description' => 'Λύκειο'],
-		    ['description' => 'Ανώτερη'],
-		    ['description' => 'Ανώτατη'],
-		    ['description' => 'Μεταπτυχιακά'],
+		    ['description' => 'gymnasium'],
+		    ['description' => 'highschool'],
+		    ['description' => 'tei'],
+		    ['description' => 'university'],
+		    ['description' => 'masters'],
 	    ];
 
 	    DB::table('education_levels')->insert($ed_levels);
@@ -101,10 +101,10 @@ class VolunteerTableSeeder extends Seeder {
 	    DB::table('comm_method')->delete();
 
 	    $comm_choice = [
-		    ['description' => 'Ηλεκτρονικό ταχυδρομείο'],
-		    ['description' => 'Τηλέφωνο οικίας'],
-		    ['description' => 'Τηλέφωνο εργασίας'],
-		    ['description' => 'Κινητό τηλέφωνο'],
+		    ['description' => 'email'],
+		    ['description' => 'homeTel'],
+		    ['description' => 'workTel'],
+		    ['description' => 'cellTel'],
 	    ];
 
 	    DB::table('comm_method')->insert($comm_choice);
@@ -113,9 +113,9 @@ class VolunteerTableSeeder extends Seeder {
 	    DB::table('language_levels')->delete();
 
 	    $levels = [
-		    ['description' => 'Βασικό'],
-		    ['description' => 'Καλό'],
-		    ['description' => 'Πολύ καλό'],
+		    ['description' => 'basic'],
+		    ['description' => 'good'],
+		    ['description' => 'veryGood'],
 	    ];
 
 	    DB::table('language_levels')->insert($levels);

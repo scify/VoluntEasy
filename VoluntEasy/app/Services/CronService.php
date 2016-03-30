@@ -44,6 +44,7 @@ class CronService {
             foreach ($expired->users as $user) {
 
                 $token = str_random(30);
+                $url = \URL::to('/').'/ratings/action/volunteers/'.$token;
                 //create a new action rating
                 //with the action id, the email and the token
                 $actionRating = new ActionRating([
@@ -56,7 +57,7 @@ class CronService {
 
                 //then send an email to the person responsible for the action
 
-                \Mail::send('app_emails.rate_volunteers', ['action' => $expired, 'token' => $token], function ($message) use ($user, $expired) {
+                \Mail::send('app_emails.rate_volunteers', ['action' => $expired, 'token' => $token, 'url' => $url], function ($message) use ($user, $expired) {
                     $message->to($user->email, $user->name . ' ' . $user->last_name)->subject('[' . trans('default.title') . '] ' . trans('entities/ratings.volunteerRatingHalf'));
                 });
             }

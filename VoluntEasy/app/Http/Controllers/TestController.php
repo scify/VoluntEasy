@@ -19,39 +19,10 @@ class TestController extends Controller {
 
 
     public function test() {
-
-
-        $expiredActions = Action::expiredYesterday()->with('volunteers.workDates', 'users', 'tasks.subtasks.workDates')->get();
-
-        return $expiredActions;
-
-        $expiredActions = Action::expiredYesterday()->with('volunteers.workDates', 'users', 'tasks.subtasks.workDates')->get();
-
-        foreach ($expiredActions as $expired) {
-
-            $workDates = [];
-            foreach ($expired->tasks as $task) {
-                foreach ($task->subtasks as $subtask) {
-                    foreach ($subtask->workDates as $workDate) {
-                        array_push($workDates, $workDate->id);
-                    }
-                }
-            }
-
-            //for all volunteers, set their unit status to available
-            foreach ($expired->volunteers as $volunteer) {
-                //$statusId = VolunteerStatus::available();
-              //  VolunteerServiceFacade::changeUnitStatus($volunteer->id, $expired->unit_id, $statusId);
-                foreach ($volunteer->workDates as $workDate) {
-                    if (in_array($workDate->id, $workDates)) {
-
-                        $volunteer->workDates()->detach($workDate->id);
-                    }
-                }
-            }
-        }
-
+        return env('LOCALE');
     }
+
+
 
     public function cta() {
 

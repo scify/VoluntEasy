@@ -196,8 +196,7 @@
                             @endif
                             <p>{{ trans('emails/emails.pleaseFillVolunteerQuestionnaire') }} {{ $action->description }}.</p>
 
-                            <p><a href="{{ URL::to('/') }}/ratings/action/volunteers/{{ $token }}">{{ URL::to('/')
-                                    }}/ratings/action/volunteers/{{ $token }}</a></p>
+                            <p><a href="{{ $url }}">{{ $url }}</a></p>
                         </td>
                     </tr>
                 </table>

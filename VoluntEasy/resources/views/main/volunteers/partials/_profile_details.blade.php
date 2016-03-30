@@ -292,7 +292,6 @@
 </div>
 </div>
 
-@if(!$customRatings)
 <div class="row">
     <div class="col-md-12">
         <h3>{{ trans('entities/volunteers.commentsAboutVolunteer') }}</h3>
@@ -301,6 +300,7 @@
         @else
         <p>{{ $volunteer->comments }}</p>
         @endif
+        @if(!$customRatings)
         <h3>{{ trans('entities/volunteers.totalVolunteerRating') }}</h3>
         @foreach($totalRatings as $rating)
         @if($rating['count']!=0)
@@ -313,6 +313,7 @@
         <br/>
         @endif
         @endforeach
+        @endif
         @if($volunteer->permitted)
         <div class="row">
             <div class="col-md-12 text-right">
@@ -342,7 +343,7 @@
         @endif
     </div>
 </div>
-@endif
+
 
 @if(!$volunteer->blacklisted && !$volunteer->not_available && $volunteer->permitted)
 <!-- Select unit modal -->
