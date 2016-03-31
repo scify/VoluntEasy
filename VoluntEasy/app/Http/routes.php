@@ -138,7 +138,7 @@ Route::post('ratings/action/volunteers/store', 'RatingController@storeVolunteers
 Route::get('ratings/action/thankyou/{actionId}', 'RatingController@actionThankyou');
 Route::get('ratings/action/volunteers/thankyou/{actionId}', 'RatingController@volunteersThankyou');
 Route::get('ratings/action/{token}', 'RatingController@rateAction');
-Route::get('ratings/action/volunteers/{token}', 'RatingController@rateVolunteers');
+Route::get('rateVolunteers/{token}', 'RatingController@rateVolunteers');
 
 ////////////////////
 // Notifications //
