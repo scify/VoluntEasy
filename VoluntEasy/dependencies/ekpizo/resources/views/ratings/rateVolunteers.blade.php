@@ -121,13 +121,13 @@ $user->last_name }}</span>
                     data-skill-id="{{$skill->id}}">
                     <td>{{ $skill->description }}</td>
                     <td><label>
-                            {!! Form::formInput('strongOrWeak['.$skill->id.']', '', $errors,
+                            {!! Form::formInput('labor-strongOrWeak['.$skill->id.']', '', $errors,
                             ['class' => 'form-control strongOrWeak laborSkills', 'type' =>
                             'radio', 'value' => 1, 'checked' => 'false', 'data-volunteer-id' =>
                             $volunteer->id, 'data-skill-id' => $skill->id]) !!}
                             {{ trans('entities/ratings.strong') }}</label>
                         <label>
-                            {!! Form::formInput('strongOrWeak['.$skill->id.']', '', $errors,
+                            {!! Form::formInput('labor-strongOrWeak['.$skill->id.']', '', $errors,
                             ['class' => 'form-control strongOrWeak laborSkills', 'type' =>
                             'radio', 'value' => 0, 'checked' => 'false', 'data-volunteer-id' =>
                             $volunteer->id, 'data-skill-id' => $skill->id]) !!}
@@ -155,13 +155,13 @@ $user->last_name }}</span>
                     data-skill-id="{{$skill->id}}">
                     <td>{{ $skill->description }}</td>
                     <td><label>
-                            {!! Form::formInput('strongOrWeak['.$skill->id.']', '', $errors,
+                            {!! Form::formInput('intp-strongOrWeak['.$skill->id.']', '', $errors,
                             ['class' => 'form-control strongOrWeak interpersonalSkills', 'type' =>
                             'radio', 'value' => 1, 'checked' => 'false', 'data-volunteer-id' =>
                             $volunteer->id, 'data-skill-id' => $skill->id]) !!}
                             {{ trans('entities/ratings.strong') }}</label>
                         <label>
-                            {!! Form::formInput('strongOrWeak['.$skill->id.']', '', $errors,
+                            {!! Form::formInput('intp-strongOrWeak['.$skill->id.']', '', $errors,
                             ['class' => 'form-control strongOrWeak interpersonalSkills', 'type' =>
                             'radio', 'value' => 0, 'checked' => 'false', 'data-volunteer-id' =>
                             $volunteer->id, 'data-skill-id' => $skill->id]) !!}
@@ -422,7 +422,7 @@ $user->last_name }}</span>
         $.each($('.laborSkillsRow[data-volunteer-id="' + volunteerId + '"]'), function (k, v) {
 
             skillId = $(v).attr('data-skill-id');
-            strongOrWeak = $('.strongOrWeak.laborSkills[data-volunteer-id="' + volunteerId + '"][data-skill-id="' + skillId + '"]:checked').val();
+            strongOrWeak = $('.labor-strongOrWeak.laborSkills[data-volunteer-id="' + volunteerId + '"][data-skill-id="' + skillId + '"]:checked').val();
             commentsEtc = $('.commentsEtc.laborSkills[data-volunteer-id="' + volunteerId + '"][data-skill-id="' + skillId + '"]').val();
 
             if (strongOrWeak || commentsEtc)
@@ -445,7 +445,7 @@ $user->last_name }}</span>
         $.each($('.interpersonalSkillsRow[data-volunteer-id="' + volunteerId + '"]'), function (k, v) {
 
             skillId = $(v).attr('data-skill-id');
-            strongOrWeak = $('.strongOrWeak.interpersonalSkills[data-volunteer-id="' + volunteerId + '"][data-skill-id="' + skillId + '"]:checked').val();
+            strongOrWeak = $('.intp-strongOrWeak.interpersonalSkills[data-volunteer-id="' + volunteerId + '"][data-skill-id="' + skillId + '"]:checked').val();
             commentsEtc = $('.commentsEtc.interpersonalSkills[data-volunteer-id="' + volunteerId + '"][data-skill-id="' + skillId + '"]').val();
 
             if (strongOrWeak == undefined)
