@@ -13,4 +13,8 @@ class CollaborationType extends Model {
     protected $table = 'collaboration_types';
 
     protected $fillable = ['description'];
+
+    public function getDescriptionAttribute() {
+        return trans('database/db_tables.' . $this->attributes['description']);
+    }
 }

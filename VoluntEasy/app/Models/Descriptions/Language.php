@@ -14,7 +14,7 @@ class Language extends Model {
     }
 
     public function getDescriptionAttribute() {
-        return trans('database/volunteer_info.' . $this->attributes['description']);
+        return trans('database/db_tables.' . $this->attributes['description']);
     }
 
 }

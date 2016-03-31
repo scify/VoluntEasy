@@ -1,7 +1,7 @@
 {
     "categories": [
         {
-            "description": "Γενικά generalInterests",
+            "description": "generalInterests",
             "interests": [
                 {"description": "graphics"},
                 {"description": "research"},

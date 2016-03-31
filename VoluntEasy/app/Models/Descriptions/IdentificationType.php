@@ -8,4 +8,8 @@ class IdentificationType extends Model {
 
     protected $fillable = ['description'];
 
+    public function getDescriptionAttribute() {
+        return trans('database/db_tables.' . $this->attributes['description']);
+    }
+
 }

@@ -15,6 +15,10 @@ class Interest extends Model {
     protected $fillable = ['description', 'category_id'];
 
 
+    public function getDescriptionAttribute() {
+        return trans('database/db_tables.' . $this->attributes['description']);
+    }
+
     public function category() {
         return $this->hasOne('App\Models\Descriptions\InterestCategory', 'id', 'category_id');
     }

@@ -66,7 +66,7 @@ return [
     'everyDay' => 'Καθημερινά',
     'perWeek' => '1-2 φορές την εβδομάδα',
     'perFortnight' => '1-2 φορές το δεκαπενθήμερο',
-    'perMonth' => 'Πολύ 1-2 φορές τον μήνα',
+    'perMonth' => '1-2 φορές τον μήνα',
 
 
     /* driver_licence_types */

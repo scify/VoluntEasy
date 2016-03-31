@@ -8,4 +8,8 @@ class HowYouLearned extends Model {
 
     protected $fillable = ['description', 'comments'];
 
+    public function getDescriptionAttribute() {
+        return trans('database/db_tables.' . $this->attributes['description']);
+    }
+
 }
