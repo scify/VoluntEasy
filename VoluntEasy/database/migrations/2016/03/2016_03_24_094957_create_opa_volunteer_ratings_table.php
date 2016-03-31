@@ -55,7 +55,7 @@ class CreateOpaVolunteerRatingsTable extends Migration
         Schema::create('volunteer_opa_labor_skills', function ($table) {
             $table->increments('id');
             $table->string('comments')->nullable();
-            $table->integer('needsImprovemnet')->nullable();
+            $table->integer('needsImprovement')->nullable();
 
             $table->integer('labor_skill_id')->unsigned();
             $table->foreign('labor_skill_id')->references('id')->on('opa_labor_skills');
@@ -69,7 +69,7 @@ class CreateOpaVolunteerRatingsTable extends Migration
         Schema::create('volunteer_opa_interpersonal_skills', function ($table) {
             $table->increments('id');
             $table->string('comments')->nullable();
-            $table->integer('needsImprovemnet')->nullable();
+            $table->integer('needsImprovement')->nullable();
 
             $table->integer('intp_skill_id')->unsigned();
             $table->foreign('intp_skill_id')->references('id')->on('opa_interpersonal_skills');

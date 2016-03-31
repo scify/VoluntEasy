@@ -207,6 +207,7 @@
 
                             <p>{{ trans('emails/emails.name') }}: {{ $ctaVolunteer->first_name }} {{ $ctaVolunteer->last_name }}</p>
                             <p>{{ trans('emails/emails.email') }}: {{ $ctaVolunteer->email }}</p>
+                            <p>{{ trans('login.phone') }}: {{ $ctaVolunteer->phone_number }}</p>
                             <p>{{ trans('emails/emails.comments') }}: {{ $ctaVolunteer->comments }}</p>
 
                             @if($ctaVolunteer->isVolunteer)
