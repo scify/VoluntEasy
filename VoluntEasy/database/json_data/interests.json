@@ -1,16 +1,16 @@
 {
     "categories": [
         {
-            "description": "Γενικά ενδιαφέροντα",
+            "description": "generalInterests",
             "interests": [
-                {"description": "Αλληλεγγύη"},
-                {"description": "Πολιτισμός"},
-                {"description": "Αθλητισμός"},
-                {"description": "Παιδί"},
-                {"description": "Δημόσιος Χώρος"},
-                {"description": "Περιβάλλον"},
-                {"description": "Καθαριότητα"},
-                {"description": "Τουρισμός"}
+                {"description": "solidarity"},
+                {"description": "culture"},
+                {"description": "sports"},
+                {"description": "child"},
+                {"description": "publicSpace"},
+                {"description": "environment"},
+                {"description": "clean"},
+                {"description": "tourism"}
             ]
         }
     ]

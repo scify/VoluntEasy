@@ -1,5 +1,5 @@
 [
-    { "description": "Δευτεροβάθμια" },
-    { "description": "Τριτοβάθμια" },
-    { "description": "Μεταπτυχιακά" }
+    { "description": "secondary" },
+    { "description": "higher" },
+    { "description": "masters" }
 ]

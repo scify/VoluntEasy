@@ -1,63 +1,63 @@
 {
     "categories": [
         {
-            "description": "Τομείς ενδιαφέροντος (Οριζόντιοι Άξονες)",
+            "description": "areasOfInterest",
             "interests": [
-                {"description": "Βοηθητικές τεχνολογίες"},
-                {"description": "Οργανωσιακή ευφυΐα"},
-                {"description": "e - Δημοκρατία"},
-                {"description": "Υποστήριξη κοινωνίας πολιτών"}
+                {"description": "assistiveTechnologies"},
+                {"description": "orgIntelligence"},
+                {"description": "eDemocracy"},
+                {"description": "civilSociety"}
             ]
         },
         {
-            "description": "Development",
+            "description": "development",
             "interests": [
-                {"description": "Software"},
-                {"description": "Hardware"}
+                {"description": "software"},
+                {"description": "hardware"}
             ]
         },
         {
-            "description": "Management",
+            "description": "management",
             "interests": [
-                {"description": "Project & Organisation Management"},
-                {"description": "HRM"}
+                {"description": "projectManagement"},
+                {"description": "hrm"}
             ]
         },
         {
-            "description": "Marketing",
+            "description": "marketing",
             "interests": [
-                {"description": "Δράσεις Επικοινωνίας"},
-                {"description": "Social media"},
-                {"description": "Content creator"},
-                {"description": "Community Building"}
+                {"description": "commActions"},
+                {"description": "socialMedia"},
+                {"description": "contentCreator"},
+                {"description": "communityBuilding"}
             ]
         },
         {
-            "description": "Support",
+            "description": "support",
             "interests": [
-                {"description": "Γραφιστική / Παραγωγή Προωθητικού Υλικού"},
-                {"description": "Φωτογραφία / Video"},
-                {"description": "Μεταφράσεις"},
-                {"description": "Ηχοληψία"},
-                {"description": "Νομικά Θέματα"},
-                {"description": "Ειδική Αγωγή"}
+                {"description": "promoMaterial"},
+                {"description": "photoVideo"},
+                {"description": "translations"},
+                {"description": "sound"},
+                {"description": "legalIssues"},
+                {"description": "specialEd"}
             ]
         },
         {
-            "description": "Finance & Fundraising",
+            "description": "finance",
             "interests": [
-                {"description": "Financial"},
-                {"description": "Call research"},
-                {"description": "Necessity research"},
-                {"description": "Feasibility study"},
-                {"description": "Proposal development"}
+                {"description": "financial"},
+                {"description": "callResearch"},
+                {"description": "necessityResearch"},
+                {"description": "feasibilityStudy"},
+                {"description": "proposalDevelopment"}
             ]
         },
         {
-            "description": "Άλλα",
+            "description": "others",
             "interests": [
-                {"description": "Beta tester"},
-                {"description": "Annotation"}
+                {"description": "betaTester"},
+                {"description": "annotation"}
             ]
         }
     ]

@@ -1,6 +1,6 @@
 [
-    { "description": "Ηλεκτρονικό ταχυδρομείο" },
-    { "description": "Τηλέφωνο οικίας" },
-    { "description": "Τηλέφωνο εργασίας" },
-    { "description": "Κινητό τηλέφωνο" }
+    { "description": "email" },
+    { "description": "homeTel" },
+    { "description": "workTel" },
+    { "description": "cellTel" }
 ]

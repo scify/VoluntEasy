@@ -1,6 +1,6 @@
 [
-    {"description": "Βασικό"},
-    {"description": "Καλό"},
-    {"description": "Πολύ καλό"},
-    {"description": "Μητρική γλώσσα"}
+    {"description": "basic"},
+    {"description": "good"},
+    {"description": "veryGood"},
+    {"description": "native"}
 ]

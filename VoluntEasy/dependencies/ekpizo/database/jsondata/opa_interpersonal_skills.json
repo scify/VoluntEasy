@@ -1,7 +1,7 @@
 [
-    {"description": "Ικανότητα γραπτής και προφορικής επικοινωνίας"},
-    {"description": "Πειθώ"},
-    {"description": "Ενσυναίσθηση"},
-    {"description": "Ικανότητα συνεργασίας"},
-    {"description": "Υπομονή"}
+    {"description": "writtenOralComm"},
+    {"description": "persuasion"},
+    {"description": "empathy"},
+    {"description": "coopAbility"},
+    {"description": "patience"}
 ]

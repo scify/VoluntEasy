@@ -1,7 +1,7 @@
 [
-    { "description": "Γυμνάσιο" },
-    { "description": "Λύκειο" },
-    { "description": "Ανώτερη" },
-    { "description": "Ανώτατη" },
-    { "description": "Μεταπτυχιακά" }
+    { "description": "gymnasium" },
+    { "description": "highschool" },
+    { "description": "tei" },
+    { "description": "university" },
+    { "description": "masters" }
 ]

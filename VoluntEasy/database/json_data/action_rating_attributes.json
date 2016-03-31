@@ -1,11 +1,12 @@
 [
-    {"description": "Στην αρχή της δράσης έγινε σαφές ποιος θα είναι ο ρόλος μου."},
-    {"description": "Κατά τη διάρκεια της δράσης, ήξερα ποιος ήταν ο ρόλος και τα καθήκοντά μου."},
-    {"description": "Είχα καλή συνεργασία με τον/την επικεφαλής της δράσης."},
-    {"description": "Είχα καλή συνεργασία με τους άλλους εθελοντές/εμπλεκόμενους στη δράση."},
-    {"description": "Βρήκα το περιεχόμενο της δράσης ενδιαφέρον."},
-    {"description": "Κατά τη διάρκεια της δράσης είχα όση αυτονομία χρειαζόταν για την αποτελεσματική εκτέλεση των καθηκόντων μου."},
-    {"description": "Μέσα από αυτή τη δράση ανέπτυξα νέες ή εξέλιξα υπάρχουσες δεξιότητες."},
-    {"description": "Είμαι ικανοποιημένος από τη συμμετοχή μου στη δράση."},
-    {"description": "Αισθάνθηκα ότι εκτιμήθηκε η συνεισφορά μου."}
+    {"description": "clearRole"},
+    {"description": "knewRoleDuties"},
+    {"description": "cooperationWithActionManager"},
+    {"description": "cooperationWithVolunteers"},
+    {"description": "interestingAction"},
+    {"description": "autonomy"},
+    {"description": "developedSkills"},
+    {"description": "satisfied"},
+    {"description": "contribution"}
+
 ]

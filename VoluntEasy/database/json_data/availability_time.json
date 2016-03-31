@@ -1,5 +1,5 @@
 [
-    { "description": "Πρωί" },
-    { "description": "Μεσημέρι" },
-    { "description": "Απόγευμα" }
+    { "description": "morning" },
+    { "description": "afternoon" },
+    { "description": "evening" }
 ]

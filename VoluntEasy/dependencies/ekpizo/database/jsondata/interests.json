@@ -1,15 +1,15 @@
 {
     "categories": [
         {
-            "description": "Γενικά ενδιαφέροντα",
+            "description": "Γενικά generalInterests",
             "interests": [
-                {"description": "Γραφιστικά"},
-                {"description": "Διεξαγωγή ερευνών"},
-                {"description": "Επικοινωνία/Social media"},
-                {"description": "Μεταφράσεις"},
-                {"description": "Νομική υποστήριξη καταναλωτών"},
-                {"description": "Οργάνωση Εκδηλώσεων"},
-                {"description": "Άλλα ενδιαφέροντα"}
+                {"description": "graphics"},
+                {"description": "research"},
+                {"description": "communicationSocialMedia"},
+                {"description": "translations"},
+                {"description": "customLegalSupport"},
+                {"description": "eventOrg"},
+                {"description": "otherInterests"}
             ]
         }
     ]

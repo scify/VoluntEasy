@@ -1,11 +1,11 @@
 [
-    {"description": "Πρωτοβουλία/Επίλυση προβλημάτων"},
-    {"description": "Κριτική σκέψη"},
-    {"description": "Ικανότητες σχεδιασμού και υλοποίησης έργου"},
-    {"description": "Ικανότητα Προγραμματισμού"},
-    {"description": "Οργανωτική ικανότητα, μεθοδικότητα"},
-    {"description": "Έλλειψη αναβλητικότητας"},
-    {"description": "Υπευθυνότητα, αξιοπιστία"},
-    {"description": "Συνέπεια"},
-    {"description": "Υπομονή"}
+    {"description": "troubleshooting"},
+    {"description": "criticalThinking"},
+    {"description": "projectImpl"},
+    {"description": "capacityPlanning"},
+    {"description": "orderliness"},
+    {"description": "procrastinationLack"},
+    {"description": "credibility"},
+    {"description": "consistency"},
+    {"description": "patience"}
 ]

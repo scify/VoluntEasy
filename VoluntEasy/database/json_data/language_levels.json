@@ -1,5 +1,5 @@
 [
-    {"description": "Βασικό"},
-    {"description": "Καλό"},
-    {"description": "Πολύ καλό"}
+    {"description": "basic"},
+    {"description": "good"},
+    {"description": "veryGood"}
 ]

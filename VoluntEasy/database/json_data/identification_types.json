@@ -1,5 +1,5 @@
 [
-    { "description": "Α.Δ.Τ." },
-    { "description": "Διαβατήριο" },
-    { "description": "Άδεια παραμονής" }
+    { "description": "id" },
+    { "description": "passport" },
+    { "description": "resPermit" }
 ]

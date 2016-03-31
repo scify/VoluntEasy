@@ -1,6 +1,6 @@
 [
-    { "description": "Φοιτητής" },
-    { "description": "Εργαζόμενος" },
-    { "description": "Άνεργος" },
-    { "description": "Συνταξιούχος" }
+    { "description": "student" },
+    { "description": "worker" },
+    { "description": "unemployed" },
+    { "description": "retired" }
 ]

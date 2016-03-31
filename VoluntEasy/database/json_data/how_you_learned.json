@@ -1,9 +1,9 @@
 [
-    { "description": "Ιστοσελίδα" },
-    { "description": "Αγγελία" },
-    { "description": "Newsletter" },
-    { "description": "Φίλο" },
-    { "description": "Άλλο ΜΚΟ" },
-    { "description": "Δημοσίευμα" },
-    { "description": "Άλλο" }
+    { "description": "website" },
+    { "description": "ad" },
+    { "description": "newsletter" },
+    { "description": "friend" },
+    { "description": "otherNPO" },
+    { "description": "article" },
+    { "description": "etc" }
 ]

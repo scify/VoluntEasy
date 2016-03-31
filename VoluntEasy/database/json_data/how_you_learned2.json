@@ -1,8 +1,8 @@
 [
-    { "description": "Ιστοσελίδα του οργανισμού" },
-    { "description": "Διαδίκτυο/ Κοινωνικά Δίκτυα" },
-    { "description": "Μέσω φίλων" },
-    { "description": "Από τις δράσεις του οργανισμού" },
-    { "description": "Μέσα από εκδηλώσεις/ ημερίδες για τον εθελοντισμό" },
-    { "description": "Άλλο" }
+    { "description": "orgSite" },
+    { "description": "webSocial" },
+    { "description": "throughFriends" },
+    { "description": "orgActions" },
+    { "description": "thoughVolunteerActions" },
+    { "description": "etc" }
 ]

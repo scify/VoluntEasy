@@ -1,7 +1,7 @@
 [
-    { "description": "Συνέπεια" },
-    { "description": "Ομαδικότητα" },
-    { "description": "Εργατικότητα" },
-    { "description": "Προθυμία" },
-    { "description": "Ικανότητα/Αποτελεσματικότητα" }
+    { "description": "consistency" },
+    { "description": "teamwork" },
+    { "description": "diligence" },
+    { "description": "willingness" },
+    { "description": "effectiveness" }
 ]

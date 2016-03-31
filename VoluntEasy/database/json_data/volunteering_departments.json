@@ -1,7 +1,7 @@
 [
-    {"description": "Νομική Υποστήριξη"},
-    {"description": "Μελέτες - Έρευνες (ασφάλεια, υγεία, διατροφή, περιβάλλον)"},
-    {"description": "Αγωγή του Καταναλωτή (εκπαίδευση, ενημέρωση)"},
-    {"description": "Διοικητική Υποστήριξη (γραμματεία, αρχειοθέτηση κ.α.)"},
-    {"description": "Επικοινωνία (ιστοσελίδα, social media, καμπάνιες)"}
+    {"description": "legalSupport"},
+    {"description": "studiesResearch"},
+    {"description": "consumerEducation"},
+    {"description": "administrativeSupport"},
+    {"description": "communication"}
 ]

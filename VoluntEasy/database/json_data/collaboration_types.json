@@ -1,6 +1,6 @@
 [
-    { "description": "ΜΚΟ" },
-    { "description": "Δημόσιος Φορέας" },
-    { "description": "Ιδιωτικός Φορέας" },
-    { "description": "Άλλο" }
+    { "description": "npo" },
+    { "description": "public" },
+    { "description": "private" },
+    { "description": "etc" }
 ]
