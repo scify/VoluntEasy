@@ -24,6 +24,10 @@ class SubTask extends Model {
         return $this->belongsTo('App\Models\ActionTasks\Task', 'task_id', 'id');
     }
 
+    public function trashedTask() {
+        return $this->belongsTo('App\Models\ActionTasks\Task', 'task_id', 'id')->withTrashed();
+    }
+
     public function status() {
         return $this->hasOne('App\Models\ActionTasks\Status', 'id', 'status_id');
     }

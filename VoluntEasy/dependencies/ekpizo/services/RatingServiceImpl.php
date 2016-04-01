@@ -33,7 +33,7 @@ class RatingServiceImpl extends RatingServiceAbstract {
 
             //since the action has expired, and the volunteers are detached from it (a.k.a no rows at the pivot table)
             //we can easily retrieve the volunteers from the history tables
-            $volunteers = Volunteer::with('workDateHistory.workDate.subtask.task')->whereHas('actionHistory', function ($q) use ($actionId) {
+            $volunteers = Volunteer::with('workDateHistory.workDate.trashedSubtask.trashedTask')->whereHas('actionHistory', function ($q) use ($actionId) {
                 $q->where('action_id', $actionId);
             })->get();
 

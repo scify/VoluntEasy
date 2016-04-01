@@ -69,9 +69,9 @@ $user->last_name }}</span>
             <p>{{ trans('entities/ratings.volunteerParticipatedTo') }}</p>
             <ul>
                 @foreach($volunteer->workDateHistory as $workDate)
-                @if($workDate->workDate->subtask->task->action_id==$action->id)
-                <li>{{ trans('entities/tasks.task') }} {{ $workDate->workDate->subtask->task->name }} / {{
-                    trans('entities/subtasks.subtask') }} {{ $workDate->workDate->subtask->name }}: {{
+                @if($workDate->workDate->trashedSubtask->trashedTask->action_id==$action->id)
+                <li>{{ trans('entities/tasks.task') }} {{ $workDate->workDate->trashedSubtask->trashedTask->name }} / {{
+                    trans('entities/subtasks.subtask') }} {{ $workDate->workDate->trashedSubtask->name }}: {{
                     $workDate->workDate->from_date }}, {{ $workDate->workDate->from_hour}}-{{
                     $workDate->workDate->to_hour }}
                 </li>

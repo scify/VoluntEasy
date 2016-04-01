@@ -3,7 +3,6 @@
 use App\Models\Action;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Rating\ActionRating;
-use App\Models\Rating\ActionScore;
 use App\Models\Volunteer;
 use App\Services\Facades\NotificationService as NotificationServiceFacade;
 use App\Services\Facades\VolunteerService as VolunteerServiceFacade;
@@ -16,29 +15,30 @@ class CronService {
 
         foreach ($expiredActions as $expired) {
 
-            //check that the action has a questionnaire link
-            if (sizeof($expired->volunteers) > 0) {
+            /*
+                        //check that the action has a questionnaire link
+                        if (sizeof($expired->volunteers) > 0) {
 
-                //first send emails to all the volunteers
-                foreach ($expired->volunteers as $volunteer) {
+                            //first send emails to all the volunteers
+                            foreach ($expired->volunteers as $volunteer) {
 
-                    $token = str_random(30);
-                    //create a new action rating
-                    //with the action id, the email and the token
-                    $actionScore = new ActionScore([
-                        "action_id" => $expired->id,
-                        "token" => $token,
-                    ]);
+                                $token = str_random(30);
+                                //create a new action rating
+                                //with the action id, the email and the token
+                                $actionScore = new ActionScore([
+                                    "action_id" => $expired->id,
+                                    "token" => $token,
+                                ]);
 
-                    $actionScore->save();
+                                $actionScore->save();
 
-                    //then send an email to the volunteer
-                    \Mail::send('app_emails.rate_action', ['volunteer' => $volunteer, 'action' => $expired, 'token' => $token], function ($message) use ($volunteer) {
-                        $message->to($volunteer->email, $volunteer->name . ' ' . $volunteer->last_name)->subject('[' . trans('default.title') . '] ' . trans('emails/emails.actionRating'));
-                    });
-                }
-            }
-
+                                //then send an email to the volunteer
+                                \Mail::send('app_emails.rate_action', ['volunteer' => $volunteer, 'action' => $expired, 'token' => $token], function ($message) use ($volunteer) {
+                                    $message->to($volunteer->email, $volunteer->name . ' ' . $volunteer->last_name)->subject('[' . trans('default.title') . '] ' . trans('emails/emails.actionRating'));
+                                });
+                            }
+                        }
+            */
 
             //send emails to all action users to rate volunteers
             foreach ($expired->users as $user) {

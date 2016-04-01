@@ -31,7 +31,7 @@ class Task extends Model {
     }
 
     public function subtasks() {
-        return $this->hasMany('App\Models\ActionTasks\SubTask');
+        return $this->hasMany('App\Models\ActionTasks\SubTask')->withTrashed();
     }
 
     public function status() {

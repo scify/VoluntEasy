@@ -218,7 +218,7 @@
                 <table>
                     <tr>
                         <td align="center">
-                            <p><em>{{ trans('emails/emails.youReceivedThisEmailVolunteer') }}
+                            <p><em>{{ trans('emails/emails.youReceivedThisEmailActionManager') }}
                                     <strong>{{trans($lang.'title')}}</strong>.</em></p>
                         </td>
                     </tr>

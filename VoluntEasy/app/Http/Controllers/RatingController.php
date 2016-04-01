@@ -36,16 +36,16 @@ class RatingController extends Controller {
      */
     public function rateVolunteers($token) {
 
-        if ($this->ratingService->hasCustomRatings())
-            return $this->ratingService->rateVolunteers($token);
+        $actionRating = ActionRating::where('token', $token)->firstOrFail();
 
-        else {
-            $actionRating = ActionRating::where('token', $token)->firstOrFail();
-            $actionId = $actionRating->action_id;
-            $action = Action::findOrFail($actionId);
+        if (!$actionRating->rated) {
+            if ($this->ratingService->hasCustomRatings()) {
+                return $this->ratingService->rateVolunteers($token);
+            } else {
+                $actionId = $actionRating->action_id;
+                $action = Action::findOrFail($actionId);
 
-            //first check if the user that requested the rating has already rated the action
-            if (!$actionRating->rated) {
+                //first check if the user that requested the rating has already rated the action
 
                 //since the action has expired, and the volunteers are detached from it (a.k.a no rows at the pivot table)
                 //we can easily retrieve the volunteers from the history tables
@@ -59,9 +59,12 @@ class RatingController extends Controller {
                 $actionRatingId = $actionRating->id;
 
                 return view('main.ratings.rate_volunteers', compact('action', 'ratingAttributes', 'actionRatingId'));
-            } else {
-                return view('main.ratings.volunteers_rated_already', compact('action'));
+
             }
+        } else {
+            $actionId = $actionRating->action_id;
+            $action = Action::findOrFail($actionId);
+            return view('main.ratings.volunteers_rated_already', compact('action'));
         }
     }
 
@@ -95,8 +98,11 @@ class RatingController extends Controller {
      */
     public function storeVolunteersRating() {
 
-        if ($this->ratingService->hasCustomRatings())
+        if ($this->ratingService->hasCustomRatings()) {
+            $actionRating = ActionRating::find(\Request::get('actionRatingId'));
+            $actionRating->update(['rated' => true]);
             return $this->ratingService->storeVolunteerRating();
+        }
         else {
             $actionId = \Request::get('actionId');
             $actionRatingId = \Request::get('actionRatingId');

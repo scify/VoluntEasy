@@ -2,7 +2,7 @@
 
 return [
 
-    'title' => 'VoluntEasy',
+    'title' => env('PLATFORM_NAME'),
     'volRating' => 'Αξιολόγηση',
 
     'admin' => 'Διαχειριστής',

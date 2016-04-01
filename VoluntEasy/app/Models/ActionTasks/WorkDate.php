@@ -23,6 +23,10 @@ class WorkDate extends Model {
         return $this->belongsTo('App\Models\ActionTasks\SubTask', 'subtask_id', 'id');
     }
 
+    public function trashedSubtask() {
+        return $this->belongsTo('App\Models\ActionTasks\SubTask', 'subtask_id', 'id')->withTrashed();
+    }
+
     public function volunteers() {
         return $this->belongsToMany('App\Models\Volunteer', 'volunteer_work_dates', 'subtask_work_dates_id', 'volunteer_id');
     }
