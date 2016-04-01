@@ -75,9 +75,9 @@
         //custom text
         "language": {
             "lengthMenu": Lang.get('js-components.lengthMenu'),
-            "zeroRecords": Lang.get('js-components.zeroVolunteers'),
+            "zeroRecords": Lang.get('js-components.zeroCollaborators'),
             "info": Lang.get('js-components.info'),
-            "infoEmpty": Lang.get('js-components.zeroVolunteers'),
+            "infoEmpty": Lang.get('js-components.zeroCollaborators'),
             "paginate": {
                 "first": Lang.get('js-components.first'),
                 "last": Lang.get('js-components.last'),

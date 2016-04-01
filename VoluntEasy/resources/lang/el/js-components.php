@@ -14,6 +14,7 @@ return [
     'zeroUnits' => 'Δεν υπάρχουν οργανωτικές μονάδες',
     'zeroActions' => 'Δεν υπάρχουν δράσεις',
     'zeroUsers' => 'Δεν υπάρχουν χρήστες',
+    'zeroCollaborators' => 'Δεν υπάρχουν συνεργαζόμενοι φορείς',
 
     /* dashboard calendar */
     'unit' => 'Μονάδα:',

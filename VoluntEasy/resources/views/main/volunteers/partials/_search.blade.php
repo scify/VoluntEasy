@@ -127,11 +127,20 @@
                     'type' => 'select', 'value' => $interests]) !!}
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
+                <div class="form-group">
+                    {!! Form::formInput('additional_skills', trans('entities/volunteers.additionalSkills').':', $errors, ['class' => 'form-control input-sm search volunteer additionalSkills', 'placeholder' => '...']) !!}
+                </div>
             </div>
             <div class="col-md-2">
+                <div class="form-group">
+                    {!! Form::formInput('extra_lang', trans('entities/volunteers.extraLanguages').':', $errors, ['class' => 'form-control input-sm search volunteer extraLang', 'placeholder' => '...']) !!}
+                </div>
             </div>
             <div class="col-md-2">
+                <div class="form-group">
+                    {!! Form::formInput('work_description', trans('entities/volunteers.workDescription').':', $errors, ['class' => 'form-control input-sm search volunteer workDescription', 'placeholder' => '...']) !!}
+                </div>
             </div>
         </div>
     </div>

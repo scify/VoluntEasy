@@ -30,6 +30,10 @@ class Task extends Model {
         return $this->hasMany('App\Models\ActionTasks\VolunteerTask');
     }
 
+    public function subtasks() {
+        return $this->hasMany('App\Models\ActionTasks\SubTask');
+    }
+
     public function allSubtasks() {
         return $this->hasMany('App\Models\ActionTasks\SubTask')->withTrashed();
     }

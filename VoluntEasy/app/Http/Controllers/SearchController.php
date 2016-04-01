@@ -66,4 +66,30 @@ class SearchController extends Controller {
         return Volunteer::distinct()->where('last_name', 'like', \Request::get('term') . '%')->lists('last_name')->all();
     }
 
+    /**
+     * Volunteer additional skillsautocomplete
+     *
+     * @return mixed
+     */
+    public function volunteerAdditionalSkills() {
+        return Volunteer::distinct()->where('additional_skills', 'like', '%' . \Request::get('term') . '%')->lists('additional_skills')->all();
+    }
+
+    /**
+     * Volunteer additional skillsautocomplete
+     *
+     * @return mixed
+     */
+    public function volunteerExtraLang() {
+        return Volunteer::distinct()->where('extra_lang', 'like', '%' . \Request::get('term') . '%')->lists('extra_lang')->all();
+    }
+
+    /**
+     * Volunteer additional skillsautocomplete
+     *
+     * @return mixed
+     */
+    public function volunteerWorkDescription() {
+        return Volunteer::distinct()->where('work_description', 'like', '%' . \Request::get('term') . '%')->lists('work_description')->all();
+    }
 }

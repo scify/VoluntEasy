@@ -172,6 +172,9 @@ Route::get('search/actionUser', 'SearchController@actionUser');
 Route::get('search/collabType', 'SearchController@collabType');
 Route::get('search/volunteers/firstName', 'SearchController@volunteerFirstName');
 Route::get('search/volunteers/lastName', 'SearchController@volunteerLastName');
+Route::get('search/volunteers/additionalSkills', 'SearchController@volunteerAdditionalSkills');
+Route::get('search/volunteers/extraLang', 'SearchController@volunteerExtraLang');
+Route::get('search/volunteers/workDescription', 'SearchController@volunteerWorkDescription');
 
 
 ///////////////////

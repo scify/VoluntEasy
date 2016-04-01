@@ -32,6 +32,9 @@ class VolunteerService {
     private $filters = [
         'name' => 'like%',
         'last_name' => 'like%',
+        'additional_skills' => '%like%',
+        'extra_lang' => '%like%',
+        'work_description' => '%like%',
         'email' => '=',
         'marital_status_id' => '=',
         'gender_id' => '=',
@@ -946,6 +949,9 @@ class VolunteerService {
                         break;
                     case 'like%':
                         $query->where($column, 'like', $value . '%');
+                        break;
+                    case '%like%':
+                        $query->where($column, 'like', '%' . $value . '%');
                         break;
                     case '':
                         switch ($column) {

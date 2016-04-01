@@ -54,3 +54,21 @@ $( ".volunteer.search.lastName" ).autocomplete({
     source: $("body").attr('data-url') + '/search/volunteers/lastName',
     minLength: 3
 });
+
+/*** Volunteer additional skills autocomplete ***/
+$( ".volunteer.search.additionalSkills" ).autocomplete({
+    source: $("body").attr('data-url') + '/search/volunteers/additionalSkills',
+    minLength: 3
+});
+
+/*** Volunteer extra lang autocomplete ***/
+$( ".volunteer.search.extraLang" ).autocomplete({
+    source: $("body").attr('data-url') + '/search/volunteers/extraLang',
+    minLength: 3
+});
+
+/*** Volunteer additional skills autocomplete ***/
+$( ".volunteer.search.workDescription" ).autocomplete({
+    source: $("body").attr('data-url') + '/search/volunteers/workDescription',
+    minLength: 3
+});
