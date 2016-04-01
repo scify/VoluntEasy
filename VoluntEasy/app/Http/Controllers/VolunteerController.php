@@ -20,8 +20,6 @@ use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Descriptions\VolunteerStatusDuration;
 use App\Models\Descriptions\WorkStatus;
 use App\Models\File;
-use App\Models\OPARating\InterpersonalSkill;
-use App\Models\OPARating\LaborSkill;
 use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Models\VolunteerAvailabilityTime;

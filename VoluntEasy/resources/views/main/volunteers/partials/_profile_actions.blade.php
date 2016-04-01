@@ -116,7 +116,7 @@
                                 </thead>
                                 <tbody>
                                 @foreach($volunteer->actionHistory as $history)
-                                    @if(sizeof($history->action->tasks)>0)
+                                    @if(sizeof($history->action->allTasks)>0)
                                         <tr class="action">
                                             <td>{{ trans('entities/actions.action') }} <a href="{{  url('actions/one/'.$history->action->id) }}"
                                                          target="_blank">{{ $history->action->description }}</a></td>
@@ -125,21 +125,21 @@
                                             </td>
                                             <td class="col-md-2 text-center">{{ $history->action->workHours }}</td>
                                         </tr>
-                                        @foreach($history->action->tasks as $task)
+                                        @foreach($history->action->allTasks as $task)
                                             <tr class="task">
                                                 <td colspan="4">{{ trans('entities/tasks.task') }} {{ $task->name }}</td>
                                                 <td class="col-md-2 text-center">
                                                     <strong>{{ $task->work_hours }}</strong></td>
                                             </tr>
-                                            @foreach($task->subtasks as $subtask)
-                                                @if(sizeof($subtask->workDates)>0)
+                                            @foreach($task->allSubtasks as $subtask)
+                                                @if(sizeof($subtask->allWorkDates)>0)
                                                     <tr class="subtask">
                                                         <td colspan="4">{{ trans('entities/subtasks.subtask') }} {{ $subtask->name }}</td>
                                                         <td class="col-md-2 text-center">
                                                             <strong>{{ $subtask->workHours }}</strong></td>
                                                     </tr>
                                                     @foreach($volunteer->workDateHistory as $wdHistory)
-                                                        @if($wdHistory->workDate->subtask->id==$subtask->id)
+                                                        @if($wdHistory->workDate->trashedSubtask->id==$subtask->id)
                                                         <tr>
                                                             <td>{{ $wdHistory->workDate->comments }}</td>
                                                             <td>{{ $wdHistory->workDate->from_date }}</td>
@@ -156,7 +156,6 @@
                                         @endforeach
                                     @endif
                                 @endforeach
-
                                 </tbody>
                             </table>
                         @else

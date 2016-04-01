@@ -134,7 +134,7 @@ Route::get('steps/volunteer/{id}', 'StepController@volunteerSteps');
 //Rating Routes //
 ////////////////
 Route::post('ratings/action/store', 'RatingController@storeActionRating');
-Route::get('ratings/action/volunteers/store', 'RatingController@storeVolunteersRating');
+Route::post('ratings/action/volunteers/store', 'RatingController@storeVolunteersRating');
 Route::get('ratings/action/thankyou/{actionId}', 'RatingController@actionThankyou');
 Route::get('ratings/action/volunteers/thankyou/{actionId}', 'RatingController@volunteersThankyou');
 Route::get('ratings/action/{token}', 'RatingController@rateAction');
@@ -264,6 +264,7 @@ Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 // TESTS  //
 ////////////
 Route::get('test', 'TestController@test');
+Route::post('testPost', 'TestController@test');
 Route::get('faker', 'TestController@faker');
 Route::get('boxytree', 'TestController@boxytree');
 Route::get('experiment', 'TestController@experiment');

@@ -39,6 +39,10 @@ class Action extends Model {
         return $this->hasMany('App\Models\ActionTasks\Task', 'action_id', 'id');
     }
 
+    public function allTasks() {
+        return $this->hasMany('App\Models\ActionTasks\Task', 'action_id', 'id')->withTrashed();
+    }
+
     //public action
     public function publicAction() {
         return $this->hasOne('App\Models\CTA\PublicAction', 'action_id', 'id');

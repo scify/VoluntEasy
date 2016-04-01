@@ -2,6 +2,7 @@
 <?php $lang = "/default."; ?> {{--  resource label path --}}
 <html>
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Title -->
     <title>{{trans($lang.'volRating')}} | {{trans($lang.'title')}}</title>
 
@@ -377,7 +378,7 @@ $user->last_name }}</span>
 
             laborSkills = getLaborSkills(value);
             interpersonalSkills = getInterpersonalSkills(value);
-            console.log(interpersonalSkills);
+
             volunteers.push({
                 volunteer_id: value,
                 user_id: $("#user_id").attr('data-user-id'),
@@ -393,13 +394,15 @@ $user->last_name }}</span>
             });
         });
 
-        console.log(volunteers);
 
         //send data to server to save the ratings
         $.ajax({
             url: $("body").attr('data-url') + '/ratings/action/volunteers/store',
-            method: 'GET',
-            data: {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+           data: {
                 volunteers: volunteers,
                 user_id: $("#user_id").attr('data-user-id'),
                 action_id: $("#actionInformation").attr('data-action-id'),
@@ -407,8 +410,10 @@ $user->last_name }}</span>
                 actionRatingId: $("#actionInformation").attr('data-action-rating-id')
             },
             success: function (data) {
-                //console.log(data);
                 window.location.href = $("body").attr('data-url') + "/ratings/action/volunteers/thankyou/"+data;
+            },
+            error:function(err){
+                console.log(err);
             }
         });
     }

@@ -254,7 +254,7 @@ class VolunteerService {
             ->with(['units.steps.statuses' => function ($query) use ($id) {
                 $query->where('volunteer_id', $id)->with('status');
             }])
-            ->with(['actionHistory.action.tasks.subtasks.workDates.volunteers' => function ($q) use ($id) {
+            ->with(['actionHistory.action.allTasks.allSubtasks.allWorkDates.volunteers' => function ($q) use ($id) {
                 $q->where('volunteer_id', $id);
             }])
             ->with('units.children', 'units.actions', 'workDateHistory.workDate.subtask', 'extras', 'volunteeringDepartments')
@@ -359,12 +359,11 @@ class VolunteerService {
         //remove the subtasks that have no volunteers assigned
         //(the work dates will either have one volunteer, the current one, or no volunteers
         foreach ($volunteer->actionHistory as $h => $history) {
-            foreach ($history->action->tasks as $t => $task) {
-                foreach ($task->subtasks as $s => $subtask) {
-
+            foreach ($history->action->allTasks as $t => $task) {
+                foreach ($task->allSubtasks as $s => $subtask) {
                     foreach ($volunteer->workDateHistory as $wdHistory) {
 
-                        if ($wdHistory->workDate->subtask->id == $subtask->id) {
+                        if ($wdHistory->workDate->trashedSubtask->id == $subtask->id) {
                             $to_time = strtotime($wdHistory->workDate->to_hour);
                             $from_time = strtotime($wdHistory->workDate->from_hour);
                             $workHours = (($to_time - $from_time) / 60) / 60;

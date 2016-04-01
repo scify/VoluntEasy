@@ -16,7 +16,7 @@ class VolunteerActionHistory extends Model {
 
 
     public function action() {
-        return $this->hasOne('App\Models\Action', 'id', 'action_id');
+        return $this->hasOne('App\Models\Action', 'id', 'action_id')->withTrashed();
     }
 
     public function user() {
