@@ -34,7 +34,7 @@
         </p>
 
         <p><strong>{{ trans('entities/volunteers.livesInCurrCountry') }}:</strong> {{
-            $volunteer->live_in_curr_country=='' ? trans('default.no') : trans('default.yes') }}</p>
+            $volunteer->live_in_curr_country==0 ? trans('default.no') : trans('default.yes') }}</p>
 
         <p><strong>{{ trans('entities/volunteers.idType') }}:</strong> {{
             $volunteer->identification_type_id=='' || $volunteer->identification_type_id==null ? '-' :
