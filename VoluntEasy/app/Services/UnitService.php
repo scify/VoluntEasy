@@ -122,17 +122,17 @@ class UnitService {
     public function createSteps() {
         $steps = [
             new Step([
-                'description' => trans('entities/volunteers.communicationStep'),
+                'description' => 'communicationStep',
                 'step_order' => 1,
                 'type' => 'Communication'
             ]),
             new Step([
-                'description' => trans('entities/volunteers.interviewStep'),
+                'description' => 'interviewStep',
                 'step_order' => 2,
                 'type' => 'Interview'
             ]),
             new Step([
-                'description' => trans('entities/volunteers.assignmentStep'),
+                'description' => 'assignmentStep',
                 'step_order' => 3,
                 'type' => 'Assignment'
             ])

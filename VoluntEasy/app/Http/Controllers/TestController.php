@@ -2,6 +2,8 @@
 
 use App\Http\Requests;
 use App\Models\Action;
+use App\Models\Descriptions\Interest;
+use App\Models\Descriptions\InterestCategory;
 use App\Models\Descriptions\Language;
 use App\Models\Unit;
 use App\Models\Volunteer;
@@ -21,10 +23,31 @@ class TestController extends Controller {
 
     public function test() {
 
+        $configuration = \App::make('Interfaces\ConfigurationInterface');
 
-        $lang = Language::all();
+        $filepath = $configuration->getJsonDataPath() . 'interests.json';
 
-        return $lang;
+        if (!\File::exists($filepath)) {
+            $filepath = $this->defaultFilePath . 'interests.json';
+        }
+
+        $json = \File::get($filepath);
+
+        $array = json_decode($json);
+        $categories = $array->categories;
+
+        foreach ($categories as $category) {
+            $cat = InterestCategory::create([
+                'description' => $category->description
+            ]);
+
+            foreach ($category->interests as $interest) {
+                $int = Interest::create([
+                    'category_id' => $cat->id,
+                    'description' => $interest->description
+                ]);
+            }
+        }
 
     }
 
