@@ -3,11 +3,13 @@
 ### Starting the project
 
 For installing Laravel, please refer to [Official Laravel installation
-guide](http://laravel.com/docs/5.0).
+guide](http://laravel.com/docs/5.1).
+
+Check the server eequirements of the version in the project, install and enable the required php modules.
 
 ### Installing dependencies (assuming apache as web server and mysql as db):
 
-In a nutchell (assuming debian-based OS), first install the dependencies needed:
+In a nutshell (assuming debian-based OS), first install the dependencies needed:
 
 Note: php5 package installs apache2 as a dependency so we have no need to add
 it manually.
