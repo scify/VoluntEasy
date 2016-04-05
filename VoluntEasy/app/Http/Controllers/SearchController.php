@@ -119,4 +119,13 @@ class SearchController extends Controller {
     public function volunteerParticipationΑctions() {
         return Volunteer::distinct()->where('participation_actions', 'like', '%' . \Request::get('term') . '%')->lists('participation_actions')->all();
     }
+
+    /**
+     * Volunteer computerUsageComments autocomplete
+     *
+     * @return mixed
+     */
+    public function volunteerComputerUsageComments() {
+        return Volunteer::distinct()->where('computer_usage_comments', 'like', '%' . \Request::get('term') . '%')->lists('computer_usage_comments')->all();
+    }
 }

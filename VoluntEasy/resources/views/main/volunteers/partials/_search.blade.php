@@ -194,7 +194,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label for="languages">{{ trans('entities/volunteers.foreignLanguages') }}:</label>
-                    <select class="js-states form-control" id="languages" multiple="multiple" name="unitsSelect[]"
+                    <select class="js-states form-control" id="languages" multiple="multiple" name="languages[]"
                             tabindex="-1"
                             style="display: none; width: 100%">
                         @foreach($languages as $id => $lang)
@@ -211,9 +211,15 @@
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    {!! Form::formInput('my_volunteers', trans('entities/volunteers.computerUsage'), $errors, ['class' =>
+                    {!! Form::formInput('computer_usage', trans('entities/volunteers.computerUsage'), $errors, ['class' =>
                     'form-control search searchCheckbox', 'type'
                     => 'checkbox', 'value' => '1', 'checked' => false]) !!}
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    {!! Form::formInput('computer_usage_comments', trans('entities/volunteers.computerUsageComments').':', $errors, ['class'
+                    => 'form-control input-sm search volunteer computerUsageComments', 'placeholder' => '...']) !!}
                 </div>
             </div>
         </div>

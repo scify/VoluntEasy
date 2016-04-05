@@ -45,6 +45,8 @@ class VolunteerService {
         'department' => '=',
         'phoneNumber' => '=',
         'participation_actions' => '=',
+        'computer_usage' => '=',
+        'computer_usage_comments' => '=',
 
         'age-range' => '',
         'unit_id' => '',
@@ -53,6 +55,7 @@ class VolunteerService {
         'interest_id' => '',
         'rating_id' => '',
         'contract_date' => '',
+        'languages' => '',
     ];
 
 
@@ -999,6 +1002,13 @@ class VolunteerService {
                                 break;
                             case 'contract_date':
                                 $query->whereNotNull('contract_date');
+                                break;
+                            case 'languages':
+                                foreach($value as $v){
+                                    $query->whereHas('languages', function ($query) use ($v) {
+                                        $query->where('language_id', $v);
+                                    });
+                                }
                                 break;
                         }
                     default:

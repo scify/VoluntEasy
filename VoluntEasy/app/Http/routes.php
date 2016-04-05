@@ -179,6 +179,7 @@ Route::get('search/volunteers/workDescription', 'SearchController@volunteerWorkD
 Route::get('search/volunteers/specialty', 'SearchController@volunteerSpecialty');
 Route::get('search/volunteers/department', 'SearchController@volunteerDepartment');
 Route::get('search/volunteers/participationΑctions', 'SearchController@volunteerParticipationΑctions');
+Route::get('search/volunteers/computerUsageComments', 'SearchController@volunteerComputerUsageComments');
 
 
 

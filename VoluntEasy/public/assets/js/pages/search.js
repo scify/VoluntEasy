@@ -92,3 +92,9 @@ $( ".volunteer.search.participationΑctions" ).autocomplete({
     source: $("body").attr('data-url') + '/search/volunteers/participationΑctions',
     minLength: 3
 });
+
+/*** Volunteer participationΑctions autocomplete ***/
+$( ".volunteer.search.computerUsageComments" ).autocomplete({
+    source: $("body").attr('data-url') + '/search/volunteers/computerUsageComments',
+    minLength: 3
+});
