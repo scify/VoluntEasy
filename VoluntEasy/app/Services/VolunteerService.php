@@ -20,9 +20,6 @@ use App\Services\Facades\UserService as UserServiceFacade;
 
 class VolunteerService {
 
-    //path
-    private $filePath = '';
-
     /**
      * This array holds the names of the filters that the user is able to search by.
      * Filters correspond to column names.
@@ -32,17 +29,24 @@ class VolunteerService {
     private $filters = [
         'name' => 'like%',
         'last_name' => 'like%',
-        'additional_skills' => '%like%',
-        'extra_lang' => '%like%',
-        'work_description' => '%like%',
+
         'email' => '=',
         'marital_status_id' => '=',
         'gender_id' => '=',
+        'work_status_id' => '=',
+        'education_level_id' => '=',
+
         'city' => '=',
         'country' => '=',
+        'additional_skills' => '=',
+        'extra_lang' => '=',
+        'work_description' => '=',
+        'specialty' => '=',
+        'department' => '=',
+        'phoneNumber' => '=',
+        'participation_actions' => '=',
+
         'age-range' => '',
-        'phoneNumber' => '',
-        'education_level_id' => '=',
         'unit_id' => '',
         'my_volunteers' => '',
         'status_id' => '',
@@ -261,7 +265,7 @@ class VolunteerService {
                 $q->where('volunteer_id', $id);
             }])
             ->with('units.children', 'units.actions', 'workDateHistory.workDate.subtask', 'extras', 'volunteeringDepartments')
-            ->with('opaRatings.laborSkills', 'opaRatings.interpersonalSkills', 'opaRatings.action')
+            ->with('opaRatings.laborSkills', 'opaRatings.interpersonalSkills', 'opaRatings.action', 'opaRatings.actionRating')
             ->findOrFail($id);
 
         $volunteer->hideStatus = false;

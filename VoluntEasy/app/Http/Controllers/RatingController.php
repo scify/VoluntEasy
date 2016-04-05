@@ -185,4 +185,8 @@ class RatingController extends Controller {
         return view('main.ratings.volunteers_thankyou', compact('action'));
     }
 
+
+    public function deleteVolunteerRating($id){
+        return $this->ratingService->deleteRating($id);
+    }
 }

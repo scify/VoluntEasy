@@ -67,7 +67,7 @@ class SearchController extends Controller {
     }
 
     /**
-     * Volunteer additional skillsautocomplete
+     * Volunteer additional skills autocomplete
      *
      * @return mixed
      */
@@ -76,7 +76,7 @@ class SearchController extends Controller {
     }
 
     /**
-     * Volunteer additional skillsautocomplete
+     * Volunteer extra lang sautocomplete
      *
      * @return mixed
      */
@@ -85,11 +85,38 @@ class SearchController extends Controller {
     }
 
     /**
-     * Volunteer additional skillsautocomplete
+     * Volunteer work descr autocomplete
      *
      * @return mixed
      */
     public function volunteerWorkDescription() {
         return Volunteer::distinct()->where('work_description', 'like', '%' . \Request::get('term') . '%')->lists('work_description')->all();
+    }
+
+    /**
+     * Volunteer specialty autocomplete
+     *
+     * @return mixed
+     */
+    public function volunteerSpecialty() {
+        return Volunteer::distinct()->where('specialty', 'like', '%' . \Request::get('term') . '%')->lists('specialty')->all();
+    }
+
+    /**
+     * Volunteer department autocomplete
+     *
+     * @return mixed
+     */
+    public function volunteerDepartment() {
+        return Volunteer::distinct()->where('department', 'like', '%' . \Request::get('term') . '%')->lists('department')->all();
+    }
+
+    /**
+     * Volunteer participationΑctions autocomplete
+     *
+     * @return mixed
+     */
+    public function volunteerParticipationΑctions() {
+        return Volunteer::distinct()->where('participation_actions', 'like', '%' . \Request::get('term') . '%')->lists('participation_actions')->all();
     }
 }

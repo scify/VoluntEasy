@@ -141,7 +141,7 @@ class Volunteer extends User {
     }
 
     public function opaRatings() {
-        return $this->hasMany('App\Models\OPARating\VolunteerRating');
+        return $this->hasMany('App\Models\OPARating\VolunteerRating')->withTrashed();
     }
 
     /*

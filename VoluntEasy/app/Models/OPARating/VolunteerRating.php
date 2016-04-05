@@ -4,9 +4,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class VolunteerRating extends Model {
 
+    use \SoftDeletes;
+    protected $dates = ['deleted_at'];
+
     protected $table = 'volunteer_opa_ratings';
 
-    protected $fillable = ['actionDescription', 'problemsOccured', 'fieldsToImprove', 'training', 'objectives', 'support', 'generalComments', 'user_id', 'volunteer_id', 'action_id'];
+    protected $fillable = ['actionDescription', 'problemsOccured', 'fieldsToImprove', 'training', 'objectives', 'support', 'generalComments', 'user_id', 'volunteer_id', 'action_id', 'action_rating_id'];
 
 
     public function laborSkills(){
@@ -15,6 +18,10 @@ class VolunteerRating extends Model {
 
     public function interpersonalSkills(){
         return $this->hasMany('App\Models\OPARating\VolunteerInterpersonalSkill', 'opa_rating_id', 'id');
+    }
+
+    public function actionRating(){
+        return $this->belongsTo('App\Models\Rating\ActionRating');
     }
 
     public function action(){

@@ -87,6 +87,7 @@ return [
     'interests' => 'Ενδιαφέροντα',
     'noInterest' => 'Δεν έχει δηλωθεί κανένα ενδιαφέρον.',
     'additionalSkills' => 'Πρόσθετες ικανότητες, προσόντα και εμπειρία',
+    'additionalSkillsHalf' => 'Πρόσθετες ικανότητες',
     'interestsArea' => 'Περιοχές ενδιαφερόντων',
 
     'howYouLearned' => 'Πως μάθατε για εμάς;',

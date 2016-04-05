@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddLastNameToUsers extends Migration
+class AddForeighnKeyOpaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddLastNameToUsers extends Migration
     {
         Schema::table('volunteer_opa_ratings', function ($table) {
             $table->integer('action_rating_id')->unsigned();
-            $table->foreign('action_rating_id')->references('id')->on('volunteers');
+            $table->foreign('action_rating_id')->references('id')->on('action_ratings');
         });
     }
 
@@ -25,8 +25,8 @@ class AddLastNameToUsers extends Migration
      */
     public function down()
     {
-        Schema::table('users', function ($table) {
-            $table->dropColumn(['last_name']);
+        Schema::table('volunteer_opa_ratings', function ($table) {
+            $table->dropForeign('action_rating_id');
         });
     }
 }

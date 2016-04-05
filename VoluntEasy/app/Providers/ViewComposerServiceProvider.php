@@ -14,6 +14,7 @@ use App\Models\Descriptions\MaritalStatus;
 use App\Models\Descriptions\WorkStatus;
 use App\Models\Unit;
 use App\Models\User;
+use App\Models\Volunteer;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
 use Illuminate\Support\Facades\View;
@@ -40,28 +41,34 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $driverLicenseTypes = DriverLicenceType::lists('description', 'id')->all();
             $maritalStatuses = MaritalStatus::lists('description', 'id')->all();
             $languages = Language::lists('description', 'id')->all();
-            $langLevels = LanguageLevel::lists('description', 'id')->all();
             $workStatuses = WorkStatus::lists('description', 'id')->all();
             $availabilityFreqs = AvailabilityFrequencies::lists('description', 'id')->all();
-            $availabilityTimes = AvailabilityTime::lists('description', 'id')->all();
             $genders = Gender::lists('description', 'id')->all();
-            $commMethod = CommunicationMethod::lists('description', 'id')->all();
             $educationLevels = EducationLevel::lists('description', 'id')->all();
-            //$interests = Interest::orderBy('description', 'asc')->lists('description', 'id')->all();
             $interests = Interest::orderBy('description', 'asc')->lists('description', 'id')->all();
             $units = Unit::lists('description', 'id')->all();
+            $cities = Volunteer::distinct()->orderBy('city')->lists('city')->all();
+            $countries = Volunteer::distinct()->orderBy('country')->lists('country')->all();
 
 
             $maritalStatuses[0] = trans('entities/search.choose');
             $educationLevels[0] = trans('entities/search.choose');
             $genders[0] = trans('entities/search.choose');
             $interests[0] = trans('entities/search.choose');
+            $driverLicenseTypes[0] = trans('entities/search.choose');
             $units[0] = trans('entities/search.choose');
+            $workStatuses[0] = trans('entities/search.choose');
+            $cities[0] = trans('entities/search.choose');
+            $countries[0] = trans('entities/search.choose');
             ksort($maritalStatuses);
             ksort($educationLevels);
             ksort($genders);
             ksort($interests);
+            ksort($driverLicenseTypes);
             ksort($units);
+            ksort($workStatuses);
+            ksort($cities);
+            ksort($countries);
 
             //create the statuses dropdown
             $statuses = [];
@@ -85,6 +92,9 @@ class ViewComposerServiceProvider extends ServiceProvider {
                 ->with('statuses', $statuses)
                 ->with('interests', $interests)
                 ->with('ratings', $ratings)
+                ->with('workStatuses', $workStatuses)
+                ->with('cities', $cities)
+                ->with('countries', $countries)
                 ->with('units', $units);
         });
 

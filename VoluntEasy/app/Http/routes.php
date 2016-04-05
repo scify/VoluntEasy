@@ -135,6 +135,7 @@ Route::get('steps/volunteer/{id}', 'StepController@volunteerSteps');
 ////////////////
 Route::post('ratings/action/store', 'RatingController@storeActionRating');
 Route::post('ratings/action/volunteers/store', 'RatingController@storeVolunteersRating');
+Route::get('ratings/action/volunteers/delete/{id}', 'RatingController@deleteVolunteerRating');
 Route::get('ratings/action/thankyou/{actionId}', 'RatingController@actionThankyou');
 Route::get('ratings/action/volunteers/thankyou/{actionId}', 'RatingController@volunteersThankyou');
 Route::get('ratings/action/{token}', 'RatingController@rateAction');
@@ -175,6 +176,10 @@ Route::get('search/volunteers/lastName', 'SearchController@volunteerLastName');
 Route::get('search/volunteers/additionalSkills', 'SearchController@volunteerAdditionalSkills');
 Route::get('search/volunteers/extraLang', 'SearchController@volunteerExtraLang');
 Route::get('search/volunteers/workDescription', 'SearchController@volunteerWorkDescription');
+Route::get('search/volunteers/specialty', 'SearchController@volunteerSpecialty');
+Route::get('search/volunteers/department', 'SearchController@volunteerDepartment');
+Route::get('search/volunteers/participationΑctions', 'SearchController@volunteerParticipationΑctions');
+
 
 
 ///////////////////

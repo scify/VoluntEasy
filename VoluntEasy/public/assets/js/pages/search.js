@@ -18,17 +18,19 @@ $("#age").text($("#age-slider-range").slider("values", 0) + "-" + $("#age-slider
 
 
 /*** City autocomplete ***/
+/*
 $( "#city" ).autocomplete({
     source: $("body").attr('data-url') + '/search/city',
     minLength: 1
 });
-
+*/
 /*** Country autocomplete ***/
+/*
 $( "#country" ).autocomplete({
     source: $("body").attr('data-url') + '/search/country',
     minLength: 1
 });
-
+*/
 
 /*** Action user autocomplete ***/
 $( "#actionUser" ).autocomplete({
@@ -70,5 +72,23 @@ $( ".volunteer.search.extraLang" ).autocomplete({
 /*** Volunteer additional skills autocomplete ***/
 $( ".volunteer.search.workDescription" ).autocomplete({
     source: $("body").attr('data-url') + '/search/volunteers/workDescription',
+    minLength: 3
+});
+
+/*** Volunteer specialty autocomplete ***/
+$( ".volunteer.search.specialty" ).autocomplete({
+    source: $("body").attr('data-url') + '/search/volunteers/specialty',
+    minLength: 3
+});
+
+/*** Volunteer department autocomplete ***/
+$( ".volunteer.search.department" ).autocomplete({
+    source: $("body").attr('data-url') + '/search/volunteers/department',
+    minLength: 3
+});
+
+/*** Volunteer participationΑctions autocomplete ***/
+$( ".volunteer.search.participationΑctions" ).autocomplete({
+    source: $("body").attr('data-url') + '/search/volunteers/participationΑctions',
     minLength: 3
 });

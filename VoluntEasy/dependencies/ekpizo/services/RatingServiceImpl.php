@@ -61,6 +61,7 @@ class RatingServiceImpl extends RatingServiceAbstract {
 
         $userId = \Request::get('user_id');
         $actionId = \Request::get('action_id');
+        $actionRatingId = \Request::get('actionRatingId');
 
         foreach (\Request::get('volunteers') as $volunteer) {
 
@@ -75,6 +76,7 @@ class RatingServiceImpl extends RatingServiceAbstract {
                 'volunteer_id' => $volunteer['volunteer_id'],
                 'user_id' => $userId,
                 'action_id' => $actionId,
+                'action_rating_id' => $actionRatingId,
             ]);
             $volunteerOpaRating->save();
 
@@ -118,4 +120,13 @@ class RatingServiceImpl extends RatingServiceAbstract {
     }
 
 
+    function deleteRating($id){
+        $rating = VolunteerRating::with('actionRating')->find($id);
+        $rating->actionRating->update(['rated'=>false]);
+        $rating->laborSkills()->delete();
+        $rating->interpersonalSkills()->delete();
+        $rating->delete();
+
+        return;
+    }
 }

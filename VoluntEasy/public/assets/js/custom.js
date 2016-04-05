@@ -9,15 +9,28 @@ $(document).ready(function () {
         handleSearchFormFieldsReset = function () {
             $(".search").val('');
             $(".searchDropDown").val('0');
-          //  $('.searchCheckbox').parent().removeClass("checked");
+            //  $('.searchCheckbox').parent().removeClass("checked");
         },
         submitSearchForm = function (event) {
             event.preventDefault();
 
+            var data = $(this).serializeArray();
+
+            $(".searchDropDown.getValue").each(function (index, element) {
+                delete data[$(this).attr('data-name')];
+                data.push({
+                    name: $(this).attr('data-name'),
+                    value: $("#" + $(element).attr('id') + " option:selected").text()
+                });
+               // data[$(this).attr('data-name')] = $("#" + $(element).attr('id') + " option:selected").text();
+            });
+
+            console.log(data);
+
             $.ajax({
                 type: $(this).attr('method'),
                 url: $(this).attr('action'),
-                data: $(this).serialize(),
+                data: data,
                 cache: false,
                 headers: {
                     'X-CSRF-Token': $('meta[name="_token"]').attr('content')
@@ -26,16 +39,16 @@ $(document).ready(function () {
                     table.fnClearTable();
                     if (data.data.length > 0) {
                         table.fnAddData(data.data);
-                      /*  $('.attribute.rating').raty({
-                            starOff: '/assets/plugins/raty/lib/images/star-off.png',
-                            starOn: '/assets/plugins/raty/lib/images/star-on.png',
-                            starHalf: '/assets/plugins/raty/lib/images/star-half.png',
-                            readOnly: true,
-                            score: function () {
-                                console.log('raty');
-                                return $(this).attr('data-score');
-                            }
-                        });*/
+                        /*  $('.attribute.rating').raty({
+                         starOff: '/assets/plugins/raty/lib/images/star-off.png',
+                         starOn: '/assets/plugins/raty/lib/images/star-on.png',
+                         starHalf: '/assets/plugins/raty/lib/images/star-half.png',
+                         readOnly: true,
+                         score: function () {
+                         console.log('raty');
+                         return $(this).attr('data-score');
+                         }
+                         });*/
                     }
 
                 }
@@ -63,8 +76,8 @@ $(document).ready(function () {
         $('.endDate').datepicker('setStartDate', null);
     });
 
-    //add restrictions: user should not be able to check
-    //an end_date after start_date and vice-versa
+//add restrictions: user should not be able to check
+//an end_date after start_date and vice-versa
     $('.endDate').datepicker({
         language: 'el',
         format: 'dd/mm/yyyy',
@@ -77,7 +90,7 @@ $(document).ready(function () {
     });
 
 
-    //default user image
+//default user image
     $('img.userImage').one('error', function () {
         this.src = '/assets/images/default.png';
     });
@@ -100,9 +113,10 @@ $(document).ready(function () {
         placement: 'bottom'
     });
 
-});
+})
+;
 
-function getParameterByName(name ) {
+function getParameterByName(name) {
     var url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
     var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
