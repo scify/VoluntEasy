@@ -17,12 +17,18 @@ $(document).ready(function () {
             var data = $(this).serializeArray();
 
             $(".searchDropDown.getValue").each(function (index, element) {
-                delete data[$(this).attr('data-name')];
-                data.push({
-                    name: $(this).attr('data-name'),
-                    value: $("#" + $(element).attr('id') + " option:selected").text()
+
+                $.each(data, function( i, e ) {
+
+                    if(e.name==$(element).attr('data-name') && $("#" + $(element).attr('id') + " option:selected").val()!=0) {
+                        e.value = $("#" + $(element).attr('id') + " option:selected").text();
+                        return false;
+                    }
+                    else if(e.name==$(element).attr('data-name') && $("#" + $(element).attr('id') + " option:selected").val()==0){
+                        e.value = "";
+                        return false;
+                    }
                 });
-               // data[$(this).attr('data-name')] = $("#" + $(element).attr('id') + " option:selected").text();
             });
 
             console.log(data);

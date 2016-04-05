@@ -75,8 +75,8 @@
                 <div class="form-group">
                     {!! Form::formInput('country', trans('entities/volunteers.country').':', $errors, ['class' =>
                     'form-control input-sm
-                    searchDropDown',
-                    'type' => 'select', 'value' => $countries]) !!}
+                    searchDropDown getValue',
+                    'type' => 'select', 'data-name' => 'country', 'value' => $countries]) !!}
                 </div>
             </div>
             <div class="col-md-2">
@@ -211,7 +211,7 @@
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    {!! Form::formInput('computerUsage', trans('entities/volunteers.computerUsage'), $errors, ['class' =>
+                    {!! Form::formInput('my_volunteers', trans('entities/volunteers.computerUsage'), $errors, ['class' =>
                     'form-control search searchCheckbox', 'type'
                     => 'checkbox', 'value' => '1', 'checked' => false]) !!}
                 </div>
