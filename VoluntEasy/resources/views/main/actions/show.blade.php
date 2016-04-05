@@ -29,6 +29,7 @@
                                                                                   class="details">{{
                         trans('entities/actions.info') }}</a></li>
 
+                {{--
                 <li role="presentation" class="tab task_board" data-tab="task_board"><a href="#tab2" role="tab"
                                                                                         data-toggle="tab"
                                                                                         aria-expanded="false"
@@ -40,7 +41,7 @@
                                                                                           class="public_page">{{
                         (isset($action->publicAction)) ?
                         trans('entities/actions.editPublicPage') : trans('entities/actions.viewPublicPage') }}</a></li>
-
+                --}}
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
