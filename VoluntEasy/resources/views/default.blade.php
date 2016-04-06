@@ -2,7 +2,7 @@
 <html>
 <head>
     <!-- Title -->
-    <title> @yield('title') | {{trans('/default.title')}}</title>
+    <title> @yield('title') | {{trans('default.title')}}</title>
 
     <!-- Include css, js files-->
     @include('template.default.headerIncludes')
