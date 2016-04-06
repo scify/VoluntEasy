@@ -2,55 +2,52 @@
 
 return [
 
-    'collab' => 'Συνεργαζόμενος Φορέας',
-    'collabs' => 'Συνεργαζόμενοι Φορείς',
+    'collab' => 'Collaboration',
+    'collabs' => 'Collaborations',
 
-    'view' => 'Προβολή Συνεργασιών',
-    'viewOne' => 'Προβολή Συνεργαζόμενου Φορέα',
-    'create' => 'Δημιουργία Συνεργαζόμενου Φορέα',
-    'edit' => 'Επεξεργασία Συνεργαζόμενου Φορέα',
-    'info' => 'Στοιχεία συνεργαζόμενου φορέα',
+    'view' => 'View Collaborations',
+    'viewOne' => 'View Collaborator',
+    'create' => 'Create Collaborator',
+    'edit' => 'Edit Collaborator',
+    'info' => 'Collaborator Info',
 
 
-    'duration' => 'VoluntEasy',
-    'execEmail' => 'Αξιολόγηση',
+    'name' => 'Name',
+    'type' => 'Type',
+    'description' => 'Description',
+    'duration' => 'Duration',
+    'startDate' => 'Start Date',
+    'endDate' => 'End Date',
+    'collabAddress' => 'Collaborator Address',
+    'collabPhone' => 'Collaborator Phone Number',
 
-    'name' => 'Όνομα',
-    'type' => 'Τύπος',
-    'description' => 'Περιγραφή',
-    'duration' => 'Διάρκεια',
-    'startDate' => 'Ημερομηνία Έναρξης',
-    'endDate' => 'Ημερομηνία Λήξης',
-    'collabAddress' => 'Διεύθυνση φορέα',
-    'collabPhone' => 'Τηλέφωνο φορέα',
-
-    'execInfo' => 'Στοιχεία υπευθύνου συνεργαζόμενου φορέα',
+    'execInfo' => 'Collaborator Manager Info',
     'email' => 'Email',
-    'address' => 'Διεύθυνση',
-    'phone' => 'Τηλέφωνο',
-    'uploadFiles' => 'Ανέβασμα αρχείων',
-    'moreThanOneFile' => 'Μπορείτε να ανεβάσετε περισσότερα από 1 αρχεία.',
-    'lessThan10gb' => 'Τα αρχεία δεν πρέπει να ξεπερνούν σε μέγεθος τα 10mb.',
-    'uploadedFiles' => 'Ανεβασμένα αρχεία',
-    'noExec' => 'Δεν έχει οριστεί υπεύθυνoς φορέα',
-    'files' => 'Αρχεία συνεργαζόμενου φορέα',
+    'address' => 'Address',
+    'phone' => 'Phone Number',
+    'uploadFiles' => 'Upload Files',
+    'moreThanOneFile' => 'You may upload more than 1 files.',
+    'lessThan10gb' => 'Filesize may not exceed 10mb.',
+    'uploadedFiles' => 'Uploaded files',
+    'noExec' => 'No collaborator manager has been assigned',
+    'files' => 'Collaborator Files',
 
 
     /*search*/
-    'collabName' => 'Όνομα συνεργαζόμενου φορέα',
-    'startDateExpl' => 'Συμβάσεις που ξεκινούν μετά από την ημερομηνία',
-    'endDateExpl' => 'Συμβάσεις που λήγουν πριν από την ημερομηνία',
-    'activeOnly' => 'Μόνο οι ενεργές συμβάσεις',
+    'collabName' => 'Collaborator Name',
+    'startDateExpl' => 'Contracts that start after date',
+    'endDateExpl' => 'Contracts that expire before date',
+    'activeOnly' => 'Only active contracts',
 
-    'actions' => 'Ενέργειες',
+    'actions' => 'Actions',
 
     /* form validation */
-    'endDateAfter' => 'Η ημερομηνία λήξης πρέπει να είναι μετά την ημερομηνία έναρξης.',
-    'typeIdEmpty' => 'Παρακαλώ επιλέξτε τύπο φορέα.',
+    'endDateAfter' => 'End date must be after start date.',
+    'typeIdEmpty' => 'Please choose agent type.',
 
     /* controllers */
-    'alreadyExists' => 'Το αρχείο :filename υπάρχει ήδη.',
-    'moreThan10mb' => 'Το αρχείο :filename ξεπερνά σε μέγεθος τα 10mb.',
-    'deleted' => 'Ο φορέας διαγράφηκε.',
+    'alreadyExists' => 'File :filename already exists.',
+    'moreThan10mb' => 'File :filename exceeds 10mb in size.',
+    'deleted' => 'Agent deleted.',
 
 ];

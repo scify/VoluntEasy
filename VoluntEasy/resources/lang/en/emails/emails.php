@@ -5,36 +5,36 @@ return [
     'resetPassword' => 'Click here to reset your password',
     'welcome' => 'Welcome to VoluntEasy!',
 
-    'volunteerPlatform' => 'Νέος Εθελοντής για τη Δράση',
+    'volunteerPlatform' => 'New Volunteer for the Action',
 
     /* cta new volunteer */
-    'newCTAVolunteer' => 'Νέος Εθελοντής για τη Δράση',
-    'dear' => 'Αγαπητέ',
-    'newVolunteerForAction' => 'Ένας νέος εθελοντής δήλωσε ενδιαφέρον στη δράση',
+    'newCTAVolunteer' => 'New Volunteer for the Action',
+    'dear' => 'Dear',
+    'newVolunteerForAction' => 'A new volunteer has expressed interest for action',
 
-    'name' => 'Όνομα',
+    'name' => 'Name',
     'email' => 'Email',
 
-    'comments' => 'Σχόλια',
-    'volunteerFoundInPlatform' => 'Ο εθελοντής υπάρχει ήδη στην πλατφόρμα! Μπορείτε να τον αναθέσετε στη δράση, εφόσον βρίσκεται στην κατάλληλη μονάδα. Δείτε το προφίλ του',
-    'volunteerNotFoundInPlatform' => 'Δεν βρέθηκε εθελοντής με αυτό το email στην πλατφόρμα. Αν δεν υπάρχει σε αυτή, θα πρέπει να γίνει δημιουργία του προφίλ του και να περάσει από συνέντευξη.',
-    'here' => 'εδώ',
+    'comments' => 'Comments',
+    'volunteerFoundInPlatform' => 'Volunteer already in the platform! You may assign them to action, if they are on the appropriate unit. View their profile',
+    'volunteerNotFoundInPlatform' => 'A volunteer with this email was not found on the platform. If they are not found, profile setup is required and an interview must be scheduled.',
+    'here' => 'here',
 
 
     /* action rating */
-    'actionRating' => 'Αξιολόγηση Δράσης',
-    'pleaseFillQuestionnaire' => 'Παρακαλούμε συμπληρώστε το ερωτηματολόγιο που ακολουθεί σχετικά με τη συμμετοχή σας στη δράση',
-    'youReceivedThisEmailActionManager' => 'Λάβατε αυτό το ερωτηματολόγιο επειδή είστε υπεύθυνος της δράσης στην πλατφόρμα διαχείρισης εθελοντών ',
-    'youReceivedThisEmailVolunteer' => 'Λάβατε αυτό το ερωτηματολόγιο επειδή είστε εγγεγραμμένος ως εθελοντής στην πλατφόρμα διαχείρισης εθελοντών ',
+    'actionRating' => 'Action Rating',
+    'pleaseFillQuestionnaire' => 'Please fill in the following Questionnaire in regard of your participation in the action',
+    'youReceivedThisEmailActionManager' => 'You received this Questionnaire because you are action manager on the volunteer management platform ',
+    'youReceivedThisEmailVolunteer' => 'You received this Questionnaire because you are a registered volunteer in the  volunteer management platform ',
 
 
     /* volunteer rating */
-    'volunteerRating' => 'Αξιολόγηση Εθελοντών',
-    'pleaseFillVolunteerQuestionnaire' => 'Παρακαλούμε συμπληρώστε το ερωτηματολόγιο που ακολουθεί σχετικά με τους εθελοντές που συμμετείχαν στη δράση',
+    'volunteerRating' => 'Volunteer Rating',
+    'pleaseFillVolunteerQuestionnaire' => 'Please fill in the following Questionnaire in regard of volunteers who participated in the action',
 
 
     /* cta */
-    'ctaVolunteeerInterested' => 'Εκδήλωση ενδιαφέροντος από εθελοντή',
+    'ctaVolunteeerInterested' => 'Interest expression by volunteer',
 
 
 ];

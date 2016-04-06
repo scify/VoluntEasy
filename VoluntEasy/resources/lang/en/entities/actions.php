@@ -52,7 +52,7 @@ return [
     'editPublicPage'	=> 'Edit Public Page',
     'execInfo'	=> 'Action Manager',
     'noExec'	=> 'No action manager has been set',
-    'commExecInfo'	=> 'Contact Manager',
+    'commExecInfo'	=> 'Contact manager',
     'noCommExec'	=> 'No contact manager has been set',
     'viewRatings' => 'to view detailed ratings, press ',
     'here' => 'here',

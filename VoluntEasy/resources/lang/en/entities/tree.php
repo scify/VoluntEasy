@@ -2,12 +2,12 @@
 
 return [
 
-    'tree' => 'Δέντρο',
+    'tree' => 'Tree',
 
-    'notToChooseUnit' => 'Μη Επιλέξιμη Οργανωτική Μονάδα',
-    'toChooseUnit' => 'Επιλέξιμη Οργανωτική Μονάδα',
-    'chosenUnitAction' => 'Επιλεγμένη Οργανωτική Μονάδα/Δράση',
-    'action' => 'Δράση',
+    'notToChooseUnit' => 'Non Eligible Organisation Unit',
+    'toChooseUnit' => 'Eligible Organisation Unit',
+    'chosenUnitAction' => 'Selected Organisation Unit/Action',
+    'action' => 'Action',
 
 
 

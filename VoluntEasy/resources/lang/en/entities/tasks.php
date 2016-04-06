@@ -5,27 +5,27 @@ return [
     'task' => 'Task',
     'tasks' => 'Tasks',
 
-    'create' => 'Δημιουργία task',
-    'edit' => 'Επεξεργασία task',
-    'info' => 'Στοιχεία task',
+    'create' => 'Create task',
+    'edit' => 'Edit task',
+    'info' => 'Task Info',
 
-    'new.capitals' => 'ΕΝΕΡΓΕΣ ΔΡΑΣΕΙΣ',
-    'calendar' => 'Ημερολόγιο Δράσεων',
+    'new.capitals' => 'ACTIVE ACTIONS',
+    'calendar' => 'Action calendar',
 
     /* fields */
-    'name' => 'Όνομα',
-    'comments' => 'Σχόλια',
-    'description' => 'Περιγραφή',
-    'volunteers' => 'Εθελοντές',
-    'status' => 'Κατάσταση',
-    'complete' => 'Ολοκληρωμένο',
-    'incomplete' => 'Μη ολοκληρωμένο',
-    'expires' => 'Λήγει στις',
+    'name' => 'Name',
+    'comments' => 'Comments',
+    'description' => 'Description',
+    'volunteers' => 'Volunteers',
+    'status' => 'Status',
+    'complete' => 'Completed',
+    'incomplete' => 'Incomplete',
+    'expires' => 'Expires on',
 
-    'noVolunteers' => 'Το task δεν έχει εθελοντές',
-    'noTask' => 'Δεν υπάρχει κάνενα task για τη δράση.',
-    'addTask' => 'Προσθήκη task',
-    'addSubtask' => 'Προσθήκη subtask',
+    'noVolunteers' => 'This task has no volunteers',
+    'noTask' => 'There is no task for the action.',
+    'addTask' => 'Add task',
+    'addSubtask' => 'Add subtask',
 
     /* statuses */
     'todo' => 'To Do',
@@ -36,34 +36,34 @@ return [
     'doneCapitals' => 'DONE',
 
     /* priorities */
-    'priority' => 'Προτεραιότητα',
-    'lowPriority' => 'Χαμηλή προτεραιότητα',
-    'mediumPriority' => 'Μεσαία προτεραιότητα',
-    'highPriority' => 'Υψηλή προτεραιότητα',
-    'urgentPriority' => 'Επείγουσα προτεραιότητα',
+    'priority' => 'Priority',
+    'lowPriority' => 'Low priority',
+    'mediumPriority' => 'Medium priority',
+    'highPriority' => 'High priority',
+    'urgentPriority' => 'Urgent priority',
 
     /* expiration times */
-    'yesterday' => 'Χτες',
-    'yesterdayExpired' => 'Το subtask έληξε χτες',
+    'yesterday' => 'Yesterday',
+    'yesterdayExpired' => 'This subtask expired yesterday',
     'today' => 'Σήμερα',
-    'todayExpires' => 'Το subtask λήγει σήμερα',
-    'tomorrow' => 'Αύριο',
-    'tomorrowExpires' => 'Το subtask λήγει αύριο',
-    'expiresAt' => 'Το subtask λήγει στις',
-    'expired' => 'Το subtask έληξε',
+    'todayExpires' => 'This subtask expires today',
+    'tomorrow' => 'Tomorrow',
+    'tomorrowExpires' => 'This subtask expires tomorrow',
+    'expiresAt' => 'This subtask expires on',
+    'expired' => 'This subtask expired',
 
-    'hoursSum' => '# ημερών/ωρών',
+    'hoursSum' => '# days/hours',
     'todoSum' => '# to-dos',
-    'volunteerSum' => '# εθ/ντών που έχουν εκδηλώσει ενδιαφέρον',
+    'volunteerSum' => '# εθ/ντών who have expressed interest',
 
-    'daysHours' => 'ημέρες/ώρες',
-    'interestedVolunteers' => 'ενδιαφερόμενοι εθελοντές',
+    'daysHours' => 'days/hours',
+    'interestedVolunteers' => 'interested volunteers',
 
-    'fillField' => 'Συμπληρώστε το πεδίο.',
+    'fillField' => 'Fill in this field.',
 
 
     /* controller */
-    'deleted' => 'Το task διαγράφηκε.',
+    'deleted' => 'Task has been deleted.',
 
 
 ];

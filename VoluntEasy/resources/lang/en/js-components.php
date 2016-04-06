@@ -10,10 +10,11 @@ return [
     'copy' => 'Copy',
     'print' => 'Print',
     'csv' => 'CSV',
-    'zeroVolunteers' => 'There are zero Volunteers',
+    'zeroVolunteers' => 'There are zero volunteers',
     'zeroUnits' => 'There are zero organisational units',
     'zeroActions' => 'There are zero actions',
     'zeroUsers' => 'There are zero users',
+    'zeroCollaborators' => 'There are zero colllaborations',
 
     /* dashboard calendar */
     'unit' => 'Unit:',

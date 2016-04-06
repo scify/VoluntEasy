@@ -2,7 +2,7 @@
 
 return [
 
-    'choose'	=> '[- επιλέξτε -]',
+    'choose'	=> '[- choose -]',
 
 
 ];

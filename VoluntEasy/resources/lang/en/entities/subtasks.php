@@ -5,48 +5,48 @@ return [
     'subtask' => 'Subtask',
     'subtasks' => 'Subtasks',
 
-    'create' => 'Δημιουργία subtask',
-    'edit' => 'Επεξεργασία subtask',
-    'info' => 'Στοιχεία subtask',
+    'create' => 'Create subtask',
+    'edit' => 'Edit subtask',
+    'info' => 'Subtask info',
 
-    'name' => 'Όνομα',
-    'expiresAt' => 'Λήγει στις',
-    'priority' => 'Προτεραιότητα',
-    'description' => 'Περιγραφή',
-    'date' => 'Ημέρα',
-    'time' => 'Ώρες',
-    'hourFrom' => 'Ώρα από',
-    'hourTo' => 'Ώρα έως',
-    'volunteerSum' => '# εθελοντών',
+    'name' => 'Name',
+    'expiresAt' => 'Expires on',
+    'priority' => 'Priority',
+    'description' => 'Description',
+    'date' => 'Date',
+    'time' => 'Hours',
+    'hourFrom' => 'Hour from',
+    'hourTo' => 'Hour to',
+    'volunteerSum' => ' volunteer # ',
 
-    'volunteerSum' => '# εθελοντών',
+    'volunteerSum' => ' volunteer # ',
 
-    'addWorkDate' => 'Προσθήκη ημέρας/ώρας',
+    'addWorkDate' => 'Add date/time',
 
-    'workDateDiagram' => 'Χρονοδιάγραμμα εργασιών εθελοντών',
-    'noWorkDateDiagram' => 'Δεν έχει οριστεί χρονοδιάγραμμα',
+    'workDateDiagram' => 'Volunteer workdate diagram',
+    'noWorkDateDiagram' => 'No workdate diagram has been set',
 
 
-    'fillField' => 'Συμπληρώστε το πεδίο.',
+    'fillField' => 'Fill in this field.',
 
-    'volunteersNeeded' => 'Αριθμός απαιτούμενων εθελοντών',
-    'availableVolunteers' => 'Διαθέσιμοι εθελοντές',
-    'assignedVolunteers' => 'Ανατεθειμένοι εθελοντές',
-    'interestedVolunteers' => 'Εθελοντές που έχουν εκδηλώσει ενδιαφέρον',
-    'volunteer' => 'Εθελοντής',
-    'info' => 'Στοιχεία',
-    'comments' => 'Σχόλια',
-    'actions' => 'Ενέργειες',
+    'volunteersNeeded' => 'Number of required volunteers',
+    'availableVolunteers' => 'Available volunteers',
+    'assignedVolunteers' => 'Assigned volunteers',
+    'interestedVolunteers' => 'Volunteers that have expressed interest',
+    'volunteer' => 'Volunteer',
+    'info' => 'Info',
+    'comments' => 'Comments',
+    'actions' => 'actions',
 
-    'newToDo' => 'Νέο to-do...',
-    'toDoExplained' => 'Πατήστε το enter για να αποθηκευτεί το to-do',
+    'newToDo' => 'New to-do...',
+    'toDoExplained' => 'Press enter to save to-do',
 
 
     /* work dates */
-    'editWorkDate' => 'Επεξεργασία ημέρας/ώρας',
+    'editWorkDate' => 'Edit date/time',
 
     /* controller */
-    'deleted' => 'Το subtask διαγράφηκε.',
+    'deleted' => 'Subtask deleted.',
 
 
 ];

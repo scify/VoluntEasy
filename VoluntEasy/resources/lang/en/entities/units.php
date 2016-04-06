@@ -2,40 +2,40 @@
 
 return [
 
-    'unit'		=> 'Μονάδα',
-    'units'	=> 'Μονάδες',
+    'unit'		=> 'Unit',
+    'units'	=> 'Units',
 
-    'view' => 'Προβολή Οργανωτικών Μονάδων',
-    'viewOne' => 'Προβολή Οργανωτικής Μονάδας',
-    'create' => 'Δημιουργία Οργανωτικής Μονάδας',
-    'edit' => 'Επεξεργασία Μονάδας',
-    'info' => 'Στοιχεία οργανωτικής μονάδας',
+    'view' => 'View Organisational Units',
+    'viewOne' => 'View Organisational Unit',
+    'create' => 'Create Organisational Unit',
+    'edit' => 'Edit Unit',
+    'info' => 'Organisational Unit Info',
 
     /* search */
-    'unitName' => 'Όνομα Μονάδας',
-    'belongsTo' => 'Ανήκει στη μονάδα',
-    'executive' => 'Υπεύθυνος',
-    'myUnits' => 'Οι μονάδες μου',
+    'unitName' => 'Unit Name',
+    'belongsTo' => 'Belongs to unit',
+    'executive' => 'Manager',
+    'myUnits' => 'My units',
 
     /* table and form */
-    'name' => 'Όνομα',
-    'description' => 'Περιγραφή',
-    'comments' => 'Σχόλια',
-    'actions' => 'Ενέργειες',
-    'selectExec' => 'Επιλογή Υπευθύνου/ων',
-    'selectParent' => 'Επιλογή πατέρα οργανωτικής',
-    'activeActions' => 'Ενεργές Δράσεις',
+    'name' => 'Name',
+    'description' => 'Description',
+    'comments' => 'Comments',
+    'actions' => 'Actions',
+    'selectExec' => 'Select Manager/s',
+    'selectParent' => 'Select unit parent',
+    'activeActions' => 'Active Actions',
 
-    'noActions' => 'Η μονάδα δεν έχει καμία δράση',
-    'allActions' => 'Όλες οι δράσεις',
-    'addAction' => 'Προσθήκη Δράσης',
-    'addVolunteers' => 'Προσθήκη Εθελοντών',
-    'noExec' => 'Η μονάδα δεν έχει κανέναν υπεύθυνο',
-    'exec' => 'Υπεύθυνος Μονάδας',
-    'execs' => 'Υπεύθυνοι Μονάδας',
+    'noActions' => 'Unit has no action',
+    'allActions' => 'All actions',
+    'addAction' => 'Add Action',
+    'addVolunteers' => 'Add Volunteers',
+    'noExec' => 'Unit has no manager',
+    'exec' => 'Unit Manager',
+    'execs' => 'Unit Managers',
 
     /* form validation */
-    'parentUniRequired' => 'Παρακαλώ επιλέξτε Οργανωτική Μονάδα.',
+    'parentUniRequired' => 'Please select Organisational Unit.',
 
     /* controller */
     'hasActions' => 'Η οργανωτική μονάδα περιέχει δράσεις και δεν μπορεί να διαγραφεί.',

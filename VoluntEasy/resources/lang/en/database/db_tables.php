@@ -5,134 +5,134 @@ return [
     /*** Basic Volunteer Info ***/
 
     /* identification_types */
-    'id' => 'Α.Δ.Τ.',
-    'passport' => 'Διαβατήριο',
-    'resPermit' => 'Άδεια παραμονής',
+    'id' => 'Identity Card number',
+    'passport' => 'Passport',
+    'resPermit' => 'Residence permit',
 
 
     /* marital_statuses */
-    'notMarried' => 'Άγαμος/η',
-    'married' => 'Παντρεμένος/η',
-    'widowed' => 'Χήρος/α',
-    'divorsed' => 'Διαζευγμένος/η',
+    'notMarried' => 'Not married',
+    'married' => 'Married',
+    'widowed' => 'Widowed',
+    'divorsed' => 'Divorced',
 
 
     /* work_statuses */
-    'student' => 'Φοιτητής',
-    'worker' => 'Εργαζόμενος',
-    'unemployed' => 'Άνεργος',
-    'retired' => 'Συνταξιούχος',
+    'student' => 'Student',
+    'worker' => 'Employed',
+    'unemployed' => 'Unemployed',
+    'retired' => 'Retired',
 
     /* availability_time */
-    'morning' => 'Πρωί',
-    'afternoon' => 'Μεσημέρι',
-    'evening' => 'Απόγευμα',
+    'morning' => 'Morning',
+    'afternoon' => 'Afternoon',
+    'evening' => 'Evening',
 
     /* genders */
-    'man' => 'Άνδρας',
-    'woman' => 'Γυναίκα',
+    'man' => 'Male',
+    'woman' => 'Female',
 
 
     /* languages */
-    'greek' => 'Ελληνικά',
-    'english' => 'Αγγλικά',
-    'french' => 'Γαλλικά',
-    'spanish' => 'Ισπανικά',
-    'german' => 'Γερμανικά',
+    'greek' => 'Greek',
+    'english' => 'English',
+    'french' => 'French',
+    'spanish' => 'Spanish',
+    'german' => 'German',
 
     /* education_levels */
-    'gymnasium' => 'Γυμνάσιο',
-    'highschool' => 'Λύκειο',
-    'tei' => 'Ανώτερη',
-    'university' => 'Ανώτατη',
-    'masters' => 'Μεταπτυχιακά',
-    'secondary' => 'Δευτεροβάθμια',
-    'higher' => 'Τριτοβάθμια',
+    'gymnasium' => 'Gymnasium',
+    'highschool' => 'Highschool',
+    'tei' => 'Technical',
+    'university' => 'University',
+    'masters' => 'Masters degree',
+    'secondary' => 'Secondary',
+    'higher' => 'Higher',
 
     /* comm_method */
-    'email' => 'Ηλεκτρονικό ταχυδρομείο',
-    'homeTel' => 'Τηλέφωνο οικίας',
-    'workTel' => 'Τηλέφωνο εργασίας',
-    'cellTel' => 'Κινητό τηλέφωνο',
+    'email' => 'Email address',
+    'homeTel' => 'Home phone number',
+    'workTel' => 'Workplace phone number',
+    'cellTel' => 'Mobile phone number',
 
 
     /* language_levels */
-    'basic' => 'Βασικό',
-    'good' => 'Καλό',
-    'veryGood' => 'Πολύ καλό',
-    'native' => 'Μητρική γλώσσα',
+    'basic' => 'Basic',
+    'good' => 'Good',
+    'veryGood' => 'Very Good',
+    'native' => 'Native speaker',
 
     /* availability_info */
-    'everyDay' => 'Καθημερινά',
-    'perWeek' => '1-2 φορές την εβδομάδα',
-    'perFortnight' => '1-2 φορές το δεκαπενθήμερο',
-    'perMonth' => '1-2 φορές τον μήνα',
+    'everyDay' => 'Everyday',
+    'perWeek' => '1-2 times per week',
+    'perFortnight' => '1-2 per fortnight',
+    'perMonth' => '1-2 per month',
 
 
     /* driver_licence_types */
-    'noDriverLicence' => 'Χωρίς δίπλωμα',
-    'aDriverLicence' => 'Α κατηγορίας',
-    'a1DriverLicence' => 'A1 κατηγορίας',
-    'bDriverLicence' => 'Β κατηγορίας',
-    'gDriverLicence' => 'Γ κατηγορίας',
-    'geDriverLicence' => 'Γ+Ε κατηγορίας',
-    'yes' => 'Ναι',
-    'no' => 'Όχι',
+    'noDriverLicence' => 'No driver license',
+    'aDriverLicence' => 'A category driver license',
+    'a1DriverLicence' => 'A1 category driver license',
+    'bDriverLicence' => 'Β category driver license',
+    'gDriverLicence' => 'Γ category driver license',
+    'geDriverLicence' => 'Γ+Ε category driver license',
+    'yes' => 'Yes',
+    'no' => 'No',
 
 
     /* how_you_learned */
-    'website' => 'Ιστοσελίδα',
-    'ad' => 'Αγγελία',
+    'website' => 'Website',
+    'ad' => 'Advertisement',
     'newsletter' => 'Newsletter',
-    'friend' => 'Φίλο',
-    'otherNPO' => 'Άλλο ΜΚΟ',
-    'article' => 'Δημοσίευμα',
+    'friend' => 'Friend',
+    'otherNPO' => 'Other NPO',
+    'article' => 'Article',
 
 
     /* how_you_learned2 */
-    'orgSite' => 'Ιστοσελίδα του οργανισμού',
-    'webSocial' => 'Διαδίκτυο/ Κοινωνικά Δίκτυα',
-    'throughFriends' => 'Μέσω φίλων',
-    'orgActions' => 'Από τις δράσεις του οργανισμού',
-    'thoughVolunteerActions' => 'Μέσα από εκδηλώσεις/ ημερίδες για τον εθελοντισμό',
+    'orgSite' => 'Organisation Website',
+    'webSocial' => 'Web/ Social Networks',
+    'throughFriends' => 'Through friends',
+    'orgActions' => 'Organisation Actions',
+    'thoughVolunteerActions' => 'Through volunteer actions',
 
     /* interest_categories */
-    'generalInterests' => 'Γενικά ενδιαφέροντα',
-    'areasOfInterest' => 'Τομείς ενδιαφέροντος (Οριζόντιοι Άξονες)',
+    'generalInterests' => 'General interests',
+    'areasOfInterest' => 'Areas of interest (Horizontal Approaches)',
     'development' => 'Development',
     'management' => 'Management',
     'marketing' => 'Marketing',
     'support' => 'Support',
     'finance' => 'Finance & Fundraising',
-    'others' => 'Άλλα',
+    'others' => 'Other',
 
 
     /* interests */
     //municipality
-    'solidarity' => 'Αλληλεγγύη',
-    'culture' => 'Πολιτισμός',
-    'sports' => 'Αθλητισμός',
-    'child' => 'Παιδί',
-    'publicSpace' => 'Δημόσιος Χώρος',
-    'environment' => 'Περιβάλλον',
-    'clean' => 'Καθαριότητα',
-    'tourism' => 'Τουρισμός',
+    'solidarity' => 'Solidarity',
+    'culture' => 'Culture',
+    'sports' => 'Sports',
+    'child' => 'Child',
+    'publicSpace' => 'Public space',
+    'environment' => 'Environment',
+    'clean' => 'City clean services',
+    'tourism' => 'Tourism',
 
     //ekpizo
-    'graphics' => 'Γραφιστικά',
-    'research' => 'Διεξαγωγή ερευνών',
-    'communicationSocialMedia' => 'Επικοινωνία/Social media',
-    'translations' => 'Μεταφράσεις',
-    'customLegalSupport' => 'Νομική υποστήριξη καταναλωτών',
-    'eventOrg' => 'Οργάνωση Εκδηλώσεων',
-    'otherInterests' => 'Άλλα ενδιαφέροντα',
+    'graphics' => 'Graphics',
+    'research' => 'Research',
+    'communicationSocialMedia' => 'Contact/Social media',
+    'translations' => 'Translations',
+    'customLegalSupport' => 'Customer legal support',
+    'eventOrg' => 'Event organising',
+    'otherInterests' => 'Other interests',
 
 
     //scify
-    'assistiveTechnologies' => 'Βοηθητικές τεχνολογίες',
-    'orgIntelligence' => 'Οργανωσιακή ευφυΐα',
-    'eDemocracy' => 'e - Δημοκρατία',
-    'civilSociety' => 'Υποστήριξη κοινωνίας πολιτών',
+    'assistiveTechnologies' => 'Assistive technologies',
+    'orgIntelligence' => 'Organisational intelligence',
+    'eDemocracy' => 'e - Democracy',
+    'civilSociety' => 'Civil Society Support',
 
     'software' => 'Software',
     'hardware' => 'Hardware',
@@ -140,16 +140,16 @@ return [
     'projectManagement' => 'Project & Organisation Management',
     'hrm' => 'HRM',
 
-    'commActions' => 'Δράσεις Επικοινωνίας',
+    'commActions' => 'Communication Actions',
     'socialMedia' => 'Social media',
     'contentCreator' => 'Content creator',
     'communityBuilding' => 'Community Building',
 
-    'promoMaterial' => 'Γραφιστική / Παραγωγή Προωθητικού Υλικού',
-    'photoVideo' => 'Φωτογραφία / Video',
+    'promoMaterial' => 'Graphics / Promotional material production',
+    'photoVideo' => 'Photography / Video',
     'sound' => 'Ηχοληψία',
-    'legalIssues' => 'Νομικά Θέματα',
-    'specialEd' => 'Ειδική Αγωγή',
+    'legalIssues' => 'legal issues',
+    'specialEd' => 'Special education',
 
     'financial' => 'Financial',
     'callResearch' => 'Call research',
@@ -162,19 +162,19 @@ return [
 
 
     /* volunteer_departments */
-    'legalSupport' => 'Νομική Υποστήριξη',
-    'studiesResearch' => 'Μελέτες - Έρευνες (ασφάλεια, υγεία, διατροφή, περιβάλλον)',
-    'consumerEducation' => 'Αγωγή του Καταναλωτή (εκπαίδευση, ενημέρωση)',
-    'administrativeSupport' => 'Διοικητική Υποστήριξη (γραμματεία, αρχειοθέτηση κ.α.)',
-    'communication' => 'Επικοινωνία (ιστοσελίδα, social media, καμπάνιες)',
+    'legalSupport' => 'Legal Support',
+    'studiesResearch' => 'Studies - Research (insurance, health, nutrition, environment)',
+    'consumerEducation' => 'Consumer Education (education, information)',
+    'administrativeSupport' => 'Administrative Support (secretariat, filing etc)',
+    'communication' => 'Contact (website, social media, campaigns)',
 
 
     /*** ETC ***/
 
     /* collaboration_types */
-    'npo' => 'ΜΚΟ',
-    'public' => 'Δημόσιος Φορέας',
-    'private' => 'Ιδιωτικός Φορέας',
-    'etc' => 'Άλλο',
+    'npo' => 'NPO',
+    'public' => 'Public Agent',
+    'private' => 'Private Agent',
+    'etc' => 'Other',
 
 ];

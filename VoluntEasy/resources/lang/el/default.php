@@ -48,6 +48,8 @@ return [
     'women' => 'Γυναίκες',
 
     'legend' => 'Υπόμνημα',
+    'greek' => 'Ελληνικά',
+    'english' => 'English',
 
 
     /* error pages */

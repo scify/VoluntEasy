@@ -3,42 +3,42 @@
 return [
 
     /* action_rating_attributes */
-    'clearRole' => 'Στην αρχή της δράσης έγινε σαφές ποιος θα είναι ο ρόλος μου.',
-    'knewRoleDuties' => 'Κατά τη διάρκεια της δράσης, ήξερα ποιος ήταν ο ρόλος και τα καθήκοντά μου.',
-    'cooperationWithActionManager' => 'Είχα καλή συνεργασία με τον/την επικεφαλής της δράσης.',
-    'cooperationWithVolunteers' => 'Είχα καλή συνεργασία με τους άλλους εθελοντές/εμπλεκόμενους στη δράση.',
-    'interestingAction' => 'Βρήκα το περιεχόμενο της δράσης ενδιαφέρον.',
-    'autonomy' => 'Κατά τη διάρκεια της δράσης είχα όση αυτονομία χρειαζόταν για την αποτελεσματική εκτέλεση των καθηκόντων μου.',
-    'developedSkills' => 'Μέσα από αυτή τη δράση ανέπτυξα νέες ή εξέλιξα υπάρχουσες δεξιότητες.',
-    'satisfied' => 'Είμαι ικανοποιημένος από τη συμμετοχή μου στη δράση.',
-    'contribution' => 'Αισθάνθηκα ότι εκτιμήθηκε η συνεισφορά μου.',
+    'clearRole' => 'In the beginning of the action my role was clear.',
+    'knewRoleDuties' => 'During the action, I knew my role and duties.',
+    'cooperationWithActionManager' => 'I had a good cooperation with the action managers.',
+    'cooperationWithVolunteers' => 'I had a good cooperation with other volunteers/involved parties in the action.',
+    'interestingAction' => 'I found the goal of the action interesting.',
+    'autonomy' => 'During the action I had the autonomy required for the effective execution of my duties.',
+    'developedSkills' => 'Through this action I developed new or enhanced existing skills.',
+    'satisfied' => 'I am satisfied with my participation in the action.',
+    'contribution' => 'I felt that my contribution was worthwhile.',
 
 
     /*volunteer_rating_attributes*/
-    'consistency' => 'Συνέπεια',
-    'teamwork' => 'Ομαδικότητα',
-    'diligence' => 'Εργατικότητα',
-    'willingness' => 'Προθυμία',
-    'effectiveness' => 'Ικανότητα/Αποτελεσματικότητα',
+    'consistency' => 'Consistency',
+    'teamwork' => 'Teamwork',
+    'diligence' => 'Diligence',
+    'willingness' => 'Willingness',
+    'effectiveness' => 'Capability/Effectiveness',
 
 
     /* opa_labor_skills */
-    'troubleshooting' => 'Πρωτοβουλία/Επίλυση προβλημάτων',
-    'criticalThinking' => 'Κριτική σκέψη',
-    'projectImpl' => 'Ικανότητες σχεδιασμού και υλοποίησης έργου',
-    'capacityPlanning' => 'Ικανότητα Προγραμματισμού',
-    'orderliness' => 'Οργανωτική ικανότητα, μεθοδικότητα',
-    'procrastinationLack' => 'Έλλειψη αναβλητικότητας',
-    'credibility' => 'Υπευθυνότητα, αξιοπιστία',
-    'consistency' => 'Συνέπεια',
-    'patience' => 'Υπομονή',
+    'troubleshooting' => 'Initiative/Problem resolve',
+    'criticalThinking' => 'Critical Thinking',
+    'projectImpl' => 'Project planning and implementation skills',
+    'capacityPlanning' => 'Planning skills',
+    'orderliness' => 'Organisational skills, methodicalness',
+    'procrastinationLack' => 'Absence of procrastination',
+    'credibility' => 'Responsibility, credibility',
+    'consistency' => 'Consistency',
+    'patience' => 'Patience',
 
     /* opa_interpersonal_skill */
-    'writtenOralComm' => 'Ικανότητα γραπτής και προφορικής επικοινωνίας',
-    'persuasion' => 'Πειθώ',
-    'empathy' => 'Ενσυναίσθηση',
-    'coopAbility' => 'Ικανότητα συνεργασίας',
-    'patience' => 'Υπομονή',
+    'writtenOralComm' => 'Written and oral communication abilities',
+    'persuasion' => 'Persuasion',
+    'empathy' => 'Empathy',
+    'coopAbility' => 'Cooperation ability',
+    'patience' => 'Patience',
 
 
 

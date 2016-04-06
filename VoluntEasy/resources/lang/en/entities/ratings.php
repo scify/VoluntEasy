@@ -2,7 +2,7 @@
 
 return [
 
-    'rating'	=> 'Αξιολόγηση',
+    'rating'	=> 'Rating',
 
     /* action rating */
     'actionRating'	=> 'Αξιολόγηση δράσης',

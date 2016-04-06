@@ -2,12 +2,17 @@
 
 return [
 
-	'units' => 'Management Entities',
-	'showUnits' => 'View Management Entities',
-	'createUnit' => 'Create Management Entity',
+    'dashboard' => 'Αρχική',
+
+    'units' => 'Organisational Units',
+	'showUnits' => 'View Organisational Units',
+	'createUnit' => 'Create Organisational Unit',
 	'actions' => 'Actions',
 	'showActions' => 'View Actions',
 	'createAction' => 'Create Action',
+    'collaborations' => "Collaborations",
+    'showCollaborations' => 'View Collaborations',
+    'createCollaboration' => 'Create Collaboration',
 	'volunteers' => 'Volunteers',
 	'showVolunteers' => 'View Volunteers',
 	'createVolunteer' => 'Create Volunteer',
@@ -17,4 +22,6 @@ return [
 	'createUser' => "Create User",
 	'showUsers' => 'View Users',
 	'tree' => 'Tree',
+    'tasks' => 'My tasks',
+    'reports' => 'Reports',
 ];

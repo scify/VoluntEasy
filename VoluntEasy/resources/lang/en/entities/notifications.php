@@ -4,17 +4,17 @@ return [
 
 
 
-    'notification'	=> 'Ειδοποίηση',
-    'notifications'	=> 'Ειδοποιήσεις',
+    'notification'	=> 'Notification',
+    'notifications'	=> 'Notifications',
 
 
 
-    'userToUnit'	=> 'Είστε υπεύθυνος της μονάδας',
-    'newVolunteer'	=> 'Ένας νέος εθελοντής ανατέθηκε στη μονάδα ',
-    'actionExpired'	=> 'Η δράση :action έληξε στις :date',
-    'actionExpires'	=> 'Η δράση :action λήγει στις :date',
-    'volunteerContractExpired'	=> 'Η σύμβαση του εθελοντή :volunteer έληξε χτες',
-    'volunteerContractExpires'	=> 'Η σύμβαση του εθελοντή :volunteer λήγει σε 6 μήνες',
+    'userToUnit'	=> 'You are Unit Manager',
+    'newVolunteer'	=> 'New volunteer assigned to unit ',
+    'actionExpired'	=> 'action :action expired on :date',
+    'actionExpires'	=> 'action :action expires on :date',
+    'volunteerContractExpired'	=> ' :volunteer Volunteer contract expired yesterday',
+    'volunteerContractExpires'	=> ' :volunteer Volunteer contract expires in 6 months',
 
 
 

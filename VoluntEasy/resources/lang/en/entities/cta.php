@@ -2,49 +2,48 @@
 
 return [
 
-    'createCTA'	=> 'Δημιουργήστε τη δημόσια σελίδα που θα βλέπουν οι εθελοντές για να δηλώσουν το ενδιαφέρον τους για τη δράση.',
-    'editCTA'	=> 'Επεξεργαστείτε τη δημόσια σελίδα που θα βλέπουν οι εθελοντές για να δηλώσουν το ενδιαφέρον τους για τη δράση.',
-    'sample'	=> 'Δείγμα δημόσιας σελίδας',
-    'view'	=> 'Προβολή δημόσιας σελίδας',
-    'fillFields'	=> 'Συμπληρώστε τα απαιτούμενα πεδία.',
-    'noRights'	=> 'Δεν έχετε δικαίωμα να δημιουργήσετε δημόσια σελίδα για αυτή τη δράση.',
+    'createCTA'	=> 'Create the public page which will be viewd by volunteers who would like to express interest for the action.',
+    'editCTA'	=> 'Edit the public page which will be viewd by volunteers who would like to express interest for the action.',
+    'sample'	=> 'Sample of public page',
+    'view'	=> 'View public page',
+    'fillFields'	=> 'Fill in the required fields.',
+    'noRights'	=> 'You have no rights to create a public page for this action.',
 
     /* form */
-    'activatePage'	=> 'Ενεργοποίηση σελίδας (η σελίδα θα είναι ορατή στο κοινό)',
-    'description'	=> 'Περιγραφή',
-    'address'	=> 'Διεύθυνση/Χώρος διεξαγωγής',
-    'mapURL'	=> 'URL χάρτη',
-    'execName'	=> 'Όνομα υπεύθυνου επικοινωνίας',
-    'execEmail'	=> 'Email υπεύθυνου επικοινωνίας',
-    'execPhone'	=> 'Τηλέφωνο υπεύθυνου επικοινωνίας',
-    'pageURL'	=> 'URL σελίδας',
-    'pageURLExpl'	=> 'Χρησιμοποιήστε λατινικούς χαρακτήρες. Αποφύγετε τα κενά, και τον χαρακτήρα "/".',
+    'activatePage'	=> 'Activate page (page will be publicly viewed)',
+    'description'	=> 'Description',
+    'address'	=> 'Address/Venue',
+    'mapURL'	=> 'map URL',
+    'execName'	=> 'Contact manager name',
+    'execEmail'	=> 'Contact manager Email',
+    'execPhone'	=> 'Contact manager phone number',
+    'pageURL'	=> 'page URL',
+    'pageURLExpl'	=> 'Please use latin characters. Avoid gaps, and character "/".',
 
 
     /* public subtasks */
-    'choosePublicSubtasks'	=> 'Επιλέξτε ποια subtasks θέλετε να εμφανίζονται στη δημόσια σελίδα.',
-    'atLeastOneWorkDate'	=> 'Για τη σωστή εμφάνιση των subtasks, θα πρέπει να έχουν τουλάχιστον μία βάρδια το καθένα.',
+    'choosePublicSubtasks'	=> 'Choose which subtasks you would like to view on a public page.',
+    'atLeastOneWorkDate'	=> 'For the proper view of subtasks, each one must have at least one shift.',
 
 
     /* public cta sample page */
     'cta'	=> 'Call To Action',
-    'callVolunteersToAction'	=> 'Κάλεσμα εθελοντών στη δράση',
-    'from'	=> 'Από',
-    'to'	=> 'έως',
-    'exec'	=> 'Υπεύθυνος επικοινωνίας',
-    'volunteers'	=> 'εθελοντές',
+    'callVolunteersToAction'	=> 'Call of volunteers to action',
+    'from'	=> 'from',
+    'to'	=> 'to',
+    'exec'	=> 'Contact manager',
+    'volunteers'	=> 'volunteers',
 
-    'pleaseSelectPosition'	=> 'Παρακαλώ επιλέξτε τουλάχιστον μία θέση.',
-    'weWillContactYou'	=> 'Αφού επιλέξετε τις θέσεις που σας ενδιαφέρουν, συμπληρώστε τα στοιχεία σας για
-                                        να επικοινωνήσουμε μαζί σας.',
+    'pleaseSelectPosition'	=> 'Please select at least one position.',
+    'weWillContactYou'	=> 'After choosing the positions you are interested in, fill in your info and we will contact you.',
 
 
-    'firstName'	=> 'Όνομα',
-    'lastName'	=> 'Επώνυμο',
+    'firstName'	=> 'Name',
+    'lastName'	=> 'Last name',
     'email'	=> 'Email',
-    'phone'	=> 'Τηλέφωνο επικοινωνίας',
-    'comments'	=> 'Σχόλια',
+    'phone'	=> 'Contact phone number',
+    'comments'	=> 'Comments',
 
-    'pageNotFound'	=> 'Η σελίδα δεν βρέθηκε',
-    'thankYou'	=> 'Ευχαριστούμε για τη συμμετοχή! Θα επικοινωνήσουμε σύντομα μαζί σας.',
+    'pageNotFound'	=> 'Page not Found',
+    'thankYou'	=> 'Thank you for your participation! We will soon contact you.',
 ];

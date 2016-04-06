@@ -2,23 +2,23 @@
 
 return [
 
-    'helpAndFaq' => 'Βοήθεια και Συχνές Ερωτήσεις',
-    'faq' => 'Συχνές Ερωτήσεις',
+    'helpAndFaq' => 'Help and Frequently Asked Questions',
+    'faq' => 'Frequently Asked Questions',
 
-    'question1' => 'Πως αναθέτω εθελοντή σε μία δράση;',
-    'answer1' => '<p>Προκειμένου ένας εθελοντής να μπορεί να πάρει μέρος σε μία δράση, θα πρέπει να περάσει από διάφορα στάδια. Το “ταξίδι” του στην πλατφόρμα ξεκινάει με τη συμπλήρωση της αίτησής του. Ο διαχειριστής της πλατφόρμας, δηλαδή ο χρήστης που είναι υπεύθυνος της μονάδας root, εντάσσει τον εθελοντή στη μονάδα.</p>
-    <p>Για να προχωρήσει σε επόμενες μονάδες, θα πρέπει να γίνουν τα προκαθορισμένα τρία βήματα: <strong>Επικοινωνία</strong> με τον εθελοντή, <strong>Συνέντευξη</strong> και <strong>Ανάθεση</strong> σε επόμενο μονάδα. Τα βήματα αυτά περιέχουν πεδίο σχολίων, και δυνατότητα αποθήκευσης ή ολοκλήρωσης. Για παράδειγμα αν ο διαχειριστής τηλεφωνήσει στον εθελοντή αλλά εκείνος δεν απαντήσει στην κλήση, μπορεί να σημειώσει το παραπάνω συμβάν στο πεδίο σχολίων του βήματος Επικοινωνία και να το αποθηκεύσει. Με αυτόν τον τρόπο, στη σελίδα Εκκρεμότητες, μπορεί να δει εύκολα και γρήγορα το βήμα που εκκρεμεί και να θυμηθεί να καλέσει τον εθελοντή κάποια άλλη στιγμή.</p>
-    <p>Μετά την Επικοινωνία και τη Συνέντευξη, ο διαχειριστής κρίνει σε ποια μονάδα είναι καταλληλότερος ο εθελοντής και τον αναθέτει σε αυτή. Είναι πλέον αρμοδιότητα του υπευθύνου αυτής της μονάδας να επικοινωνήσει και να προγραμματίσει συνέντευξη με τον εθελοντή. Με αυτή τη διαδικασία, ο εθελοντής προχωράει όλο και βαθύτερα στο δέντρο των οργανωτικών μονάδων.</p>
-    <p>Όταν πλέον μια μονάδα έχει δράσεις, ο υπεύθυνός της μπορεί να αποφασίσει αν ο εθελοντής θα πάρει μέρος στις δράσεις της, δηλαδή να έχει κατάσταση <span class="status active">Ενεργός</span>, ή αν θα παραμείνει <span class="status available">Διαθέσιμος</span>. στη μονάδα μέχρι να δημιουργηθεί μια άλλη δράση.</p>
-   <p>Μετά τη λήξη της δράσης, η κατάσταση του εθελοντή αλλάζει αυτόματα από <span class="status active">Ενεργός</span> σε <span class="status available">Διαθέσιμος</span>.</p>',
+    'question1' => 'How do I assign a volunteer to an action?',
+    'answer1' => '<p>A volunteer may participate in an action after completing various stages. Their “journey” through the platform begins with filling in their application. The platform administrator, that is the user responsible for the root unit, assigns the volunteer to the unit.</p>
+    <p>In order to proceed to the next units, three preset steps must be completed: <strong>Contact</strong> with volunteer, <strong>Interview</strong> and <strong>Assign</strong> to next unit. These steps include a comments field, and save or complete options. For example, if the administrator phones the volunteer but the latter does not respond to the call, they may note the above event in the comments field of the Contact step and save it. In this way, they may easily and quickly see the pending step on the Pending page and remember to call the volunteer at some other point.</p>
+    <p>After Contact and Interview, the administrator chooses the most appropriate unit for the volunteer and assigns them to it. It then falls within the responsibility of the manager of this unit to contact and schedule an interview with the volunteer. Following this procedure, the volunteer proceeds even further within the organisation unit tree.</p>
+    <p>When one unit has actions, its manager may decide if the volunteer may participate in its actions, in other words have a status <span class="status active">Active</span>, or if they will remain <span class="status available">Available</span>. at the unit until another action is created.</p>
+   <p>After the action ends, volunteer status changes automatically from <span class="status active">Active</span> to <span class="status available">Available</span>.</p>',
 
-    'question2' => 'Πως αξιολογώ έναν εθελοντή;',
-    'answer2' => '<p>Η αξιολόγηση των εθελοντών γίνεται από τους υπεύθυνους της δράσης στις οποίες έχει πάρει μέρος ο εθελοντής, εφόσον έχουν οριστεί στη δράση. Μετά τη λήξη της δράσης, στέλνεται αυτόματα ένα ενημερωτικό email που καλεί τον υπεύθυνο της δράσης να αξιολογήσει όλους τους εθελοντές που πήραν μέρος σε αυτή.</p>
- <p>Η αξιολόγηση γίνεται βάση διάφορων κριτηρίων που έχουν οριστεί, και υπάρχει πεδίο ανοιχτό σχολίων. Ο υπεύθυνος μπορεί να αξιολογήσει τους εθελοντές μιας δράσης μόνο μία φορά.</p>
- <p>Οι υπεύθυνοι δράσης δεν είναι απαραίτητο να είναι χρήστες του συστήματος. Οι χρήστες της πλατφόρμας δεν έχουν τη δυνατότητα να αξιολογήσουν τον εθελοντή, αν όμως κάποιος χρήστης της πλατφόρμας επιθυμεί να σημειώσει κάτι για έναν εθελοντή, μπορεί να χρησιμοποιήσει το πεδίο “Σχόλια” στο προφίλ του εθελοντή. Το πεδίο αυτό είναι ορατό από όλους τους χρήστες του συστήματος.</p>',
+    'question2' => 'How do I rate a volunteer?',
+    'answer2' => '<p>Volunteer rating is performed by managers of the actions which the volunteer has participated in, if they have been assigned to the action. After the end of the action, an informative email is automatically sent asking the action manager to rate all volunteers who have participated in it.</p>
+ <p>Rating is based on various criteria that have been set, and there is an open comment field. The manager may rate the volunteers of an action only once.</p>
+ <p>Action managers may not necessarily be system users. Platform users may not rate the volunteer, but if a platform user wants to make a note about a volunteer, they may use the field “Comments” at the volunteers profile. This field is visible by all system users.</p>',
 
 
-    'helpFile' => 'Αρχείο οδηγιών',
-    'downloadFile' => 'Για περισσότερες πληροφορίες και οδηγίες χρήσης της πλατφόρμας, μπορείτε να κατεβάσετε το αρχείο οδηγιών.',
+    'helpFile' => 'Help file',
+    'downloadFile' => 'For further information and user guidelines, you may download the help file.',
 
 ];
