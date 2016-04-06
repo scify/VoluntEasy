@@ -5,65 +5,64 @@ return [
     'rating'	=> 'Rating',
 
     /* action rating */
-    'actionRating'	=> 'Αξιολόγηση δράσης',
-    'actionDuration'	=> 'Διάρκεια Δράσης',
-    'alreadyRatedAction'	=> 'Έχετε ήδη αξιολογήσει τη δράση',
-    'youReceivedThisEmailVolunteer'	=> 'Λάβατε αυτό το ερωτηματολόγιο επειδή είστε εγγεγραμμένος ως εθελοντής στην πλατφόρμα διαχείρισης εθελοντών ',
+    'actionRating'	=> 'Action ratings',
+    'actionDuration'	=> 'Action duration',
+    'alreadyRatedAction'	=> 'You have already rated this action',
+    'youReceivedThisEmailVolunteer'	=> 'You recerived this questionnaire because you are registered as a volunteer at the volunteer managment platform ',
 
-    'ratingAdded'	=> 'Η αξιολόγηση καταχωρήθηκε με επιτυχία. Ευχαριστούμε.',
+    'ratingAdded'	=> 'The rating was submitted successfully. Thank you.',
 
-    'fullyDisagree'	=> 'Διαφωνώ απόλυτα',
-    'disagree'	=> 'Διαφωνώ',
-    'neutral'	=> 'Ούτε διαφωνώ/ούτε συμφωνώ',
-    'agree'	=> 'Συμφωνώ',
-    'fullyAgree'	=> 'Συμφωνώ απόλυτα',
+    'fullyDisagree'	=> 'Fully disagree',
+    'disagree'	=> 'Disagree',
+    'neutral'	=> 'Neither agree nor disagree',
+    'agree'	=> 'Agree',
+    'fullyAgree'	=> 'Fully agree',
 
-    'otherComments'	=> 'Γράψε άλλες παρατηρήσεις (π.χ. μια όμορφη στιγμή, μια δύσκολη στιγμή ή κάτι που θα ήθελες να γίνει διαφορετικά).',
+    'otherComments'	=> 'Write down other comments (i.e. a beautiful moment, a difficult moment or something you would like to have happened differently).',
 
-    'pleaseAnswerAllQuestions'	=> 'Παρακαλώ απαντήστε σε όλες τις ερωτήσεις',
+    'pleaseAnswerAllQuestions'	=> 'Please answer all questions',
 
     /* volunteer rating */
-    'volunteerRating'	=> 'Αξιολόγηση εθελοντών για τη δράση',
-    'volunteerRatingHalf'	=> 'Αξιολόγηση εθελοντών',
-    'comments'	=> 'Σχόλια',
-    'addVolunteerHours'	=> 'Σημειώστε τις ώρες που απασχολήθηκε ο
-                                                                εθελοντής στη δράση',
-    'hours'	=> 'Ώρες',
-    'minutes'	=> 'Λεπτά',
+    'volunteerRating'	=> 'Volunteer rating for action ',
+    'volunteerRatingHalf'	=> 'Volunteer rating',
+    'comments'	=> 'Comments',
+    'addVolunteerHours'	=> 'Note the hours worked by volunteer in action',
+    'hours'	=> 'Hours',
+    'minutes'	=> 'Minutes',
 
-    'thankYou'	=> 'Ευχαριστούμε!',
-    'prevVolunteer'	=> 'Προηγούμενος εθελοντής',
-    'nextVolunteer'	=> 'Επόμενος εθελοντής',
-    'noVolunteers'	=> 'Δεν υπάρχουν εθελοντές προς αξιολόγηση.',
-    'youReceivedThisEmailActionManager'	=> 'Λάβατε αυτό το ερωτηματολόγιο επειδή είστε υπεύθυνος της δράσης στην πλατφόρμα διαχείρισης εθελοντών ',
+    'thankYou'	=> 'Thank you!',
+    'prevVolunteer'	=> 'Previous volunteer',
+    'nextVolunteer'	=> 'Next volunteer',
+    'noVolunteers'	=> 'No volunteers to rate.',
+    'youReceivedThisEmailActionManager'	=> 'You received this questionnaire because you are registred as an action manager at the volunteer managment platform ',
 
-    'alreadyRatedVolunteer'	=> 'Έχετε ήδη αξιολογήσει τους εθελοντές αυτής της δράσης.',
+    'alreadyRatedVolunteer'	=> 'You have already rated the volunteers of this action.',
 
 
     /* OPA ratings */
-    'volunteerParticipatedTo'	=> 'Ο εθελοντής πήρε μέρος στα παρακάτω tasks:',
-    'charsRemaining'	=> 'χαρακτήρες απομένουν',
+    'volunteerParticipatedTo'	=> 'Volunteer participated at the following tasks:',
+    'charsRemaining'	=> 'remaining chars',
 
 
-    'actionDescription'	=> 'Καταγράψτε τα προφορικά σχόλια του εθελοντή σχετικά με τη δράση',
+    'actionDescription'	=> 'Write down the commetns the volunteer made for the action.',
 
-    'problemsOccured'	=> 'Τι προβλήματα αντιμετώπισε και πώς',
+    'problemsOccured'	=> 'Whta kind of problems s/he encountered and how.',
 
-    'laborAndInterpersonalSkills'	=> 'Με βάση τις παρακάτω εργασιακές και διαπροσωπικές ικανότητες, εντοπίστε δυνατά ή σημεία προς βελτίωση για τον εθελοντή:',
-    'laborSkills'	=> 'Εργασιακές ικανότητες',
-    'interpersonalSkills'	=> 'Διαπροσωπικές ικανότητες',
-    'strongOrWeak'	=> 'Δυνατά/Σημεία προς βελτίωση',
-    'strong'	=> 'Δυνατό',
-    'weak'	=> 'Προς βελτίωση',
-    'commentsEtc'	=> 'Σχόλια/Παρατηρήσεις',
+    'laborAndInterpersonalSkills'	=> 'Based on the following labor and interpersonal skills, identify strengths and areas for improvement for the volunteer:',
+    'laborSkills'	=> 'Labor skills',
+    'interpersonalSkills'	=> 'Interpersonal skills',
+    'strongOrWeak'	=> 'Strong/weak areas',
+    'strong'	=> 'Strong',
+    'weak'	=> 'Weak',
+    'commentsEtc'	=> 'Comments/Notes',
 
-    'nextSteps'	=> 'Καθορίστε συγκεκριμένα πεδία για βελτίωση, ενέργειες εκπαίδευσης και ανάπτυξης και προγραμματίστε του στόχους και τις ενέργειες για το επόμενο έργο στο οποίο μπορεί να προσφέρει ο εθελοντής',
-    'fieldsToImprove'	=> 'Πεδία βελτίωσης',
-    'training'	=> 'Εκπαίδευση',
-    'objectives'	=> 'Στόχοι και δράσεις',
-    'support'	=> 'Υποστήριξη από τον οργανισμό και τον υπεύθυνο της δράσης',
+    'nextSteps'	=> 'Specify specific areas for improvement, training and development activities and plan of objectives and actions for the next project in which the volunteer may offer',
+    'fieldsToImprove'	=> 'Areas for improvement',
+    'training'	=> 'Training',
+    'objectives'	=> 'Objectives',
+    'support'	=> 'Support from the action manager',
 
-    'generalComments'	=> 'Καταγράψτε τα δικά σας σχόλια για τον εθελοντή (γενικές παρατηρήσεις)',
+    'generalComments'	=> 'Write down your own comments about the volunteer (general notes)',
 
 
 

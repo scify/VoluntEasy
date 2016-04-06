@@ -24,7 +24,7 @@ return [
     'lastName' => 'Last Name',
     'email' => 'Email',
     'address' => 'Address',
-    'phone' => 'Phone Number',
+    'phone' => 'Phone number',
     'password' => 'Password',
     'passwordExpl' => 'Password must be at least 8 characters long and contain at least one number.',
     'passwordConfirm' => 'Password confirm',

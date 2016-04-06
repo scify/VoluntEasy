@@ -18,8 +18,8 @@ return [
     'name'	=> 'Name',
     'comments'	=> 'Comments',
     'description'	=> 'Description',
-    'startDate'	=> 'Starting Date',
-    'endDate'	=> 'End Date',
+    'startDate'	=> 'Start date',
+    'endDate'	=> 'End date',
     'duration'	=> 'Duration',
     'execName'	=> 'Contact manager name',
     'execNameExpl'	=> 'It is not required that the contact manager is also system user',
@@ -29,13 +29,13 @@ return [
     'volNumExpl'	=> 'How many volunteers are needed for this action?',
     'volNumExplDynamic'	=> 'Estimated dynamically depending on number of volunteers that has been recorded in the subtask work schedules',
     'tableActions' => 'Actions',
-    'publicPageUrl' => 'Public Page URL',
+    'publicPageUrl' => 'Public page URL',
 
 
     /* search */
-    'actionName'	=> 'Action Name',
+    'actionName'	=> 'Action name',
     'belongsTo'	=> 'Belongs to unit',
-    'searchStartDate'	=> 'Starting Date',
+    'searchStartDate'	=> 'Start Date',
     'searchStartDateExpl'	=> 'Actions that start after this date',
     'searchEndDate'	=> 'End Date',
     'searchEndDateExpl'	=> 'Actions that expire before this date',

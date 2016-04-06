@@ -9,7 +9,7 @@ return [
 
 
 
-    'userToUnit'	=> 'Είστε υπεύθυνος της μονάδας',
+    'userToUnit'	=> 'Είστε υπεύθυνος της μονάδας ',
     'newVolunteer'	=> 'Ένας νέος εθελοντής ανατέθηκε στη μονάδα ',
     'actionExpired'	=> 'Η δράση :action έληξε στις :date',
     'actionExpires'	=> 'Η δράση :action λήγει στις :date',

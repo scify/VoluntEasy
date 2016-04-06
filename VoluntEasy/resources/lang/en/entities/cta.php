@@ -13,11 +13,11 @@ return [
     'activatePage'	=> 'Activate page (page will be publicly viewed)',
     'description'	=> 'Description',
     'address'	=> 'Address/Venue',
-    'mapURL'	=> 'map URL',
+    'mapURL'	=> 'Map URL',
     'execName'	=> 'Contact manager name',
-    'execEmail'	=> 'Contact manager Email',
+    'execEmail'	=> 'Contact manager email',
     'execPhone'	=> 'Contact manager phone number',
-    'pageURL'	=> 'page URL',
+    'pageURL'	=> 'Page URL',
     'pageURLExpl'	=> 'Please use latin characters. Avoid gaps, and character "/".',
 
 

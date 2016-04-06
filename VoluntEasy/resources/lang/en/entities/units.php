@@ -35,13 +35,13 @@ return [
     'execs' => 'Unit Managers',
 
     /* form validation */
-    'parentUniRequired' => 'Please select Organisational Unit.',
+    'parentUniRequired' => 'Please select parent organisational unit.',
 
     /* controller */
-    'hasActions' => 'Η οργανωτική μονάδα περιέχει δράσεις και δεν μπορεί να διαγραφεί.',
-    'hasVolunteers' => 'Η οργανωτική μονάδα περιέχει εθελοντές και δεν μπορεί να διαγραφεί.',
-    'hasUsers' => 'Η οργανωτική μονάδα περιέχει χρήστες και δεν μπορεί να διαγραφεί.',
-    'isParent' => 'Η οργανωτική μονάδα δεν μπορεί να διαγραφεί γιατί εξαρτώνται άλλες μονάδες από αυτή.',
-    'deleted' => 'Η οργανωτική μονάδα διαγράφηκε.',
+    'hasActions' => 'The unit has actions and cannot be deleted.',
+    'hasVolunteers' => 'The unit has volunteers and cannot be deleted',
+    'hasUsers' => 'The unit has users and cannot be deleted.',
+    'isParent' => 'The unit cannot be deleted because other units depend on it.',
+    'deleted' => 'The unit was deleted.',
 
 ];

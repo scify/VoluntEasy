@@ -9,12 +9,12 @@ return [
 
 
 
-    'userToUnit'	=> 'You are Unit Manager',
+    'userToUnit'	=> 'You are Unit Manager ',
     'newVolunteer'	=> 'New volunteer assigned to unit ',
-    'actionExpired'	=> 'action :action expired on :date',
-    'actionExpires'	=> 'action :action expires on :date',
-    'volunteerContractExpired'	=> ' :volunteer Volunteer contract expired yesterday',
-    'volunteerContractExpires'	=> ' :volunteer Volunteer contract expires in 6 months',
+    'actionExpired'	=> 'Action :action expired on :date',
+    'actionExpires'	=> 'Action :action expires on :date',
+    'volunteerContractExpired'	=> 'Volunteer :volunteer\'s contract expired yesterday',
+    'volunteerContractExpires'	=> 'Volunteer :volunteer\'s contract expires in 6 months',
 
 
 
