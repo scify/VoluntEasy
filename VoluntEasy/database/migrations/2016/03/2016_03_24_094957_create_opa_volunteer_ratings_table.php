@@ -47,7 +47,11 @@ class CreateOpaVolunteerRatingsTable extends Migration
             $table->integer('action_id')->unsigned();
             $table->foreign('action_id')->references('id')->on('actions');
 
+            $table->integer('action_rating_id')->unsigned();
+            $table->foreign('action_rating_id')->references('id')->on('action_ratings');
+
             $table->timestamps();
+            $table->softDeletes();
         });
 
 
@@ -62,7 +66,9 @@ class CreateOpaVolunteerRatingsTable extends Migration
 
             $table->integer('opa_rating_id')->unsigned();
             $table->foreign('opa_rating_id')->references('id')->on('volunteer_opa_ratings');
+
             $table->timestamps();
+            $table->softDeletes();
         });
 
 
@@ -78,6 +84,7 @@ class CreateOpaVolunteerRatingsTable extends Migration
             $table->foreign('opa_rating_id')->references('id')->on('volunteer_opa_ratings');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
