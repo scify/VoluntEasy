@@ -50,6 +50,13 @@
         <p><strong>{{ trans('entities/volunteers.contractDate') }}:</strong> {{
             $volunteer->contract_date=='' || $volunteer->contract_date==null ? '-' : $volunteer->contract_date }}</p>
     </div>
+    <div class="col-md-4">
+        <p><strong>{{ trans('entities/volunteers.maritalStatus') }}:</strong> {{
+            $volunteer->marital_status_id=='' || $volunteer->marital_status_id==null ? '-' :
+            $volunteer->maritalStatus->description }}</p>
+
+            <p><strong>{{ trans('entities/volunteers.childNum') }}:</strong> {{$volunteer->children}}</p>
+    </div>
 </div>
 
 <div class="row">

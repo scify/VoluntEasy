@@ -54,10 +54,9 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
             'extra_lang' => $volunteerRequest['extra_lang'],
             'work_description' => $volunteerRequest['work_description'],
             'participation_actions' => $volunteerRequest['participation_actions'],
-            'participation_reason' => $volunteerRequest['participation_reason'],
-            'participation_previous' => $volunteerRequest['participation_previous'],
             'availability_freqs_id' => $this->checkDropDown(intval($volunteerRequest['availability_freqs_id'])),
             'computer_usage_comments' => $volunteerRequest['computer_usage_comments'],
+            'comments' => $volunteerRequest['comments'],
         ];
 
         if (isset($volunteerRequest['birth_date']) && $volunteerRequest['birth_date'] != null)
@@ -73,6 +72,12 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
         $baseFields['computer_usage'] = 0;
         if (isset($volunteerRequest['computer_usage']) && $volunteerRequest['computer_usage'] == 1)
             $baseFields['computer_usage'] = 1;
+
+        if (isset($volunteerRequest['participation_reason']))
+            $baseFields['participation_reason'] = $volunteerRequest['participation_reason'];
+
+        if (isset($volunteerRequest['participation_previous']))
+            $baseFields['participation_previous'] = $volunteerRequest['participation_previous'];
 
 
         return $baseFields;
