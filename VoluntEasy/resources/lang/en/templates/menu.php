@@ -2,7 +2,7 @@
 
 return [
 
-    'dashboard' => 'Αρχική',
+    'dashboard' => 'Home',
 
     'units' => 'Organisational Units',
 	'showUnits' => 'View Organisational Units',

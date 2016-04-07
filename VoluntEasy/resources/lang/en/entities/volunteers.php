@@ -14,7 +14,7 @@ return [
     /* statuses */
     'new' => 'New',
     'pending' => 'Pending',
-    'available' => 'Avaialable',
+    'available' => 'Available',
     'active' => 'Active',
     'notAvailable' => 'Not available',
     'blacklisted' => 'Blacklisted',

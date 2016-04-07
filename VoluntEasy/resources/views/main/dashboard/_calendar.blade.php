@@ -6,6 +6,17 @@
 
 
 @section('footerScripts')
+@if (\Cookie::get('locale') === 'el')
+<script>
+    var lang='el';
+</script>
+@else
+<script>
+    var lang='en';
+</script>
+@endif
+
+
 <script>
     $('#calendar').fullCalendar({
         header: {
@@ -13,7 +24,7 @@
             center: 'title',
             right: 'prev,next today'
         },
-        lang: 'el',
+        lang: lang,
         editable: false,
         eventLimit: true, // allow "more" link when too many events
         events: {
