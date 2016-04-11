@@ -173,8 +173,8 @@ class ReportsService implements ReportsInterface {
 
     function volunteersBySex() {
 
-        $manId = Gender::where('description', 'Άνδρας')->first()->id;
-        $womanId = Gender::where('description', 'Γυναίκα')->first()->id;
+        $manId = Gender::where('description', 'man')->first()->id;
+        $womanId = Gender::where('description', 'woman')->first()->id;
 
         $men = Volunteer::where('gender_id', $manId)->count();
         $women = Volunteer::where('gender_id', $womanId)->count();

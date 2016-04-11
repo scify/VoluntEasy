@@ -123,6 +123,7 @@ class ReportsService implements ReportsInterface {
 
     function volunteersByAgeGroup() {
         // age groups:  18-24, 25-34, 35-49, 50-64, 65+
+
         $ageGroups = [
             ['ageGroup' => '<18',
                 'count' => 0],
@@ -141,28 +142,31 @@ class ReportsService implements ReportsInterface {
 
         foreach ($volunteers as $volunteer) {
             //get volunteer's age
-            $birth_date = \Carbon::createFromFormat('d/m/Y', $volunteer->birth_date);
-            $age = \Carbon::createFromDate($birth_date->year, $birth_date->month, $birth_date->day)->age;
+            if ($volunteer->birth_date != null) {
+                $birth_date = \Carbon::createFromFormat('d/m/Y', $volunteer->birth_date);
+                $age = \Carbon::createFromDate($birth_date->year, $birth_date->month, $birth_date->day)->age;
 
-            foreach ($ageGroups as $key => $ageGroup) {
 
-                if ($age < 18 && $ageGroup['ageGroup'] == '<18') {
-                    $ageGroups[$key]['count']++;
-                }
-                if ($age >= 18 && $age <= 24 && $ageGroup['ageGroup'] == '18-24') {
-                    $ageGroups[$key]['count']++;
-                }
-                if ($age >= 25 && $age <= 34 && $ageGroup['ageGroup'] == '25-34') {
-                    $ageGroups[$key]['count']++;
-                }
-                if ($age >= 35 && $age <= 49 && $ageGroup['ageGroup'] == '35-49') {
-                    $ageGroups[$key]['count']++;
-                }
-                if ($age >= 50 && $age <= 64 && $ageGroup['ageGroup'] == '50-64') {
-                    $ageGroups[$key]['count']++;
-                }
-                if ($age >= 65 && $ageGroup['ageGroup'] == '>65') {
-                    $ageGroups[$key]['count']++;
+                foreach ($ageGroups as $key => $ageGroup) {
+
+                    if ($age < 18 && $ageGroup['ageGroup'] == '<18') {
+                        $ageGroups[$key]['count']++;
+                    }
+                    if ($age >= 18 && $age <= 24 && $ageGroup['ageGroup'] == '18-24') {
+                        $ageGroups[$key]['count']++;
+                    }
+                    if ($age >= 25 && $age <= 34 && $ageGroup['ageGroup'] == '25-34') {
+                        $ageGroups[$key]['count']++;
+                    }
+                    if ($age >= 35 && $age <= 49 && $ageGroup['ageGroup'] == '35-49') {
+                        $ageGroups[$key]['count']++;
+                    }
+                    if ($age >= 50 && $age <= 64 && $ageGroup['ageGroup'] == '50-64') {
+                        $ageGroups[$key]['count']++;
+                    }
+                    if ($age >= 65 && $ageGroup['ageGroup'] == '>65') {
+                        $ageGroups[$key]['count']++;
+                    }
                 }
             }
         }
@@ -173,8 +177,8 @@ class ReportsService implements ReportsInterface {
 
     function volunteersBySex() {
 
-        $manId = Gender::where('description', 'Άνδρας')->first()->id;
-        $womanId = Gender::where('description', 'Γυναίκα')->first()->id;
+        $manId = Gender::where('description', 'man')->first()->id;
+        $womanId = Gender::where('description', 'woman')->first()->id;
 
         $men = Volunteer::where('gender_id', $manId)->count();
         $women = Volunteer::where('gender_id', $womanId)->count();

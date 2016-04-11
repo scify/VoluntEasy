@@ -159,7 +159,9 @@ class Volunteer extends User {
     }
 
     public function getBirthDateAttribute() {
-        return \Carbon::parse($this->attributes['birth_date'])->format('d/m/Y');
+        if ($this->attributes['birth_date'] != null && $this->attributes['birth_date'] != '0000-00-00')
+            return \Carbon::parse($this->attributes['birth_date'])->format('d/m/Y');
+        else return null;
     }
 
     public function getContractDateAttribute() {
