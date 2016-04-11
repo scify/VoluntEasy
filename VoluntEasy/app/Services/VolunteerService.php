@@ -39,7 +39,6 @@ class VolunteerService {
         'city' => '=',
         'country' => '=',
         'additional_skills' => '=',
-        'extra_lang' => '=',
         'work_description' => '=',
         'specialty' => '=',
         'department' => '=',
@@ -47,6 +46,8 @@ class VolunteerService {
         'participation_actions' => '=',
         'computer_usage' => '=',
         'computer_usage_comments' => '=',
+
+        'extra_lang' => '%like%',
 
         'age-range' => '',
         'unit_id' => '',

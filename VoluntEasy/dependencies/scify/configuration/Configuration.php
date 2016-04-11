@@ -6,12 +6,13 @@ use Interfaces\ConfigurationInterface;
 class Configuration implements ConfigurationInterface {
 
     private $folderName = 'scify';
+
     function getViewsPath() {
-        return $this->folderName.'.resources.views';
+        return $this->folderName . '.resources.views';
     }
 
     function getPartialsPath() {
-        return $this->folderName.'.resources.views.volunteers.partials';
+        return $this->folderName . '.resources.views.volunteers.partials';
     }
 
     function getJsonDataPath() {
@@ -19,10 +20,19 @@ class Configuration implements ConfigurationInterface {
     }
 
     function getExtrasPath() {
-        // TODO: Implement getExtrasPath() method.
+        return $this->folderName . '.resources.views.volunteers.extras';
     }
 
     function getExtras() {
-        // TODO: Implement getExtras() method.
+        return [
+            'knows_office',
+            'knows_excel',
+            'knows_powerpoint',
+            'has_previous_volunteer_experience',
+            'has_previous_work_experience',
+            'volunteering_work_extra',
+            'availability',
+            'afm',
+        ];
     }
 }
