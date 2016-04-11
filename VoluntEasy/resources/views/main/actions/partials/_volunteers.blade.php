@@ -89,11 +89,11 @@
                 if ($("#volunteersTable").attr('data-expired') == 0) {
 
                     if (data.units[0].status == 'Pending')
-                        status += '<div class="status pending">' + Lang.get('js-components.pending') + '</div>';
+                        status += '<div class="status pending">' + Lang.choice('js-components.pending', 1) + '</div>';
                     else if (data.units[0].status == 'Available')
-                        status += '<div class="status available">' + Lang.get('js-components.available') + '</div>';
+                        status += '<div class="status available">' + Lang.choice('js-components.available', 1) + '</div>';
                     else if (data.units[0].status == 'Active')
-                        status += '<div class="status active">' + Lang.get('js-components.active') + '</div>';
+                        status += '<div class="status active">' + Lang.choice('js-components.active', 1) + '</div>';
                 }
                 return status;
             }

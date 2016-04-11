@@ -22,10 +22,14 @@ use Illuminate\Support\Facades\Session;
 class ActionController extends Controller
 {
 
+    private $configuration;
+
 
     public function __construct()
     {
         $this->middleware('auth');
+        $this->configuration = \App::make('Interfaces\ConfigurationInterface');
+
     }
 
     /**
@@ -121,7 +125,9 @@ class ActionController extends Controller
         if ($action->publicAction != null)
             $publicSubtasks = CTAService::getPublicSubtasks($action);
 
-        return view('main.actions.show', compact('action', 'userUnits', 'branch', 'taskStatuses', 'publicSubtasks', 'isPermitted'));
+        $hasTasks = $this->configuration->hasTasks();
+
+        return view('main.actions.show', compact('action', 'userUnits', 'branch', 'taskStatuses', 'publicSubtasks', 'isPermitted', 'hasTasks'));
     }
 
     /**

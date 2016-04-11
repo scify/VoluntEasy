@@ -27,4 +27,8 @@ class Configuration implements ConfigurationInterface {
     function getExtras(){
         return [];
     }
+
+    function hasTasks() {
+        return false;
+    }
 }

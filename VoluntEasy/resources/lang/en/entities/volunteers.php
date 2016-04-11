@@ -253,6 +253,7 @@ return [
     'assignToUnitExpl' => 'You may assign volunteer only to immediate subunits of your unit.',
     'assignedToUnit' => 'Assigned to Unit',
     'assignedToActionOrUnit' => 'Assigned to action/unit',
+    'assignToActionOrUnit' => 'Assign to action/unit',
     'assignToUnitAndMakeAvailable' => 'Assign to unit <strong>:unit</strong> and mark volunteer as available',
     'selectUnit' => 'Select unit',
     'selectUnitExpl' => 'You may assign this volunteer either to immediate subunits of your units or to units you manage.',

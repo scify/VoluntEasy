@@ -194,10 +194,11 @@ class VolunteerController extends Controller {
         //The extras are the add-on features based on the needs.
         $extras = $this->configuration->getExtras();
         $extrasPath = $this->configuration->getExtrasPath();
+        $hasTasks = $this->configuration->hasTasks();
 
         $customRatings = $this->ratingService->hasCustomRatings();
 
-        return view('main.volunteers.show', compact('volunteer', 'pending', 'available', 'timeline', 'userUnits', 'actionsCount', 'actionsRatings', 'totalRatings', 'totalWorkingHours', 'extras', 'extrasPath', 'laborSkills', 'intepersonalSkills', 'customRatings'));
+        return view('main.volunteers.show', compact('volunteer', 'pending', 'available', 'timeline', 'userUnits', 'actionsCount', 'actionsRatings', 'totalRatings', 'totalWorkingHours', 'extras', 'extrasPath', 'laborSkills', 'intepersonalSkills', 'customRatings', 'hasTasks'));
     }
 
     /**

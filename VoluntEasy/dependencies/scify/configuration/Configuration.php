@@ -35,4 +35,8 @@ class Configuration implements ConfigurationInterface {
             'afm',
         ];
     }
+
+    function hasTasks() {
+        return true;
+    }
 }

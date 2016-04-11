@@ -17,4 +17,6 @@ interface ConfigurationInterface {
     function getExtrasPath();
 
     function getExtras();
+
+    function hasTasks();
 }

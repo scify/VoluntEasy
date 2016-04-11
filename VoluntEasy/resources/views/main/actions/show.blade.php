@@ -30,6 +30,7 @@
                         trans('entities/actions.info') }}</a></li>
 
 
+                @if($hasTasks)
                 <li role="presentation" class="tab task_board" data-tab="task_board"><a href="#tab2" role="tab"
                                                                                         data-toggle="tab"
                                                                                         aria-expanded="false"
@@ -41,7 +42,7 @@
                                                                                           class="public_page">{{
                         (isset($action->publicAction)) ?
                         trans('entities/actions.editPublicPage') : trans('entities/actions.viewPublicPage') }}</a></li>
-
+                @endif
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
@@ -177,6 +178,22 @@
         </div>
     </div>
 </div>
+
+@if(!$hasTasks)
+<div class="panel panel-white tree">
+    <div class="panel-heading clearfix">
+        <h2 class="panel-title">{{ trans('entities/volunteers.volunteers') }}</h2>
+
+        <div class="panel-control">
+            <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title="" class="panel-collapse"
+               data-original-title="Expand/Collapse"><i class="icon-arrow-down"></i></a>
+        </div>
+    </div>
+    <div class="panel-body">
+        @include('main.actions.partials._volunteers')
+    </div>
+</div>
+@endif
 @stop
 
 
