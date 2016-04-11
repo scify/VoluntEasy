@@ -1,4 +1,4 @@
-<?php namespace Dependencies\ekpizo\services;
+<?php namespace Dependencies\scify\services;
 
 
 use App\Models\Descriptions\AvailabilityDay;
