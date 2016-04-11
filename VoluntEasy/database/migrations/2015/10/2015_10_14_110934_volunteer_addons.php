@@ -17,16 +17,13 @@ class VolunteerAddons extends Migration {
             $table->increments('id');
             $table->string('day', 100);
             $table->string('time', 100);
+
+            $table->integer('volunteer_id')->unsigned();
+            $table->foreign('volunteer_id')->references('id')->on('volunteers');
+
             $table->timestamps();
         });
 
-        Schema::create('volunteer_availability_days', function ($table) {
-            $table->increments('id');
-            $table->integer('volunteer_id')->unsigned();
-            $table->foreign('volunteer_id')->references('id')->on('volunteers');
-            $table->integer('availability_day_id')->unsigned();
-            $table->foreign('availability_day_id')->references('id')->on('availability_days');
-        });
 
         Schema::create('how_you_learned', function ($table) {
             $table->increments('id');
@@ -64,7 +61,6 @@ class VolunteerAddons extends Migration {
 	 */
 	public function down()
 	{
-        Schema::dropIfExists('volunteer_availability_days');
         Schema::dropIfExists('availability_days');
 	}
 

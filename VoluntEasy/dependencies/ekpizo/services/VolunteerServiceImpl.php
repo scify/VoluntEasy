@@ -118,30 +118,30 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
                 $volunteer->availabilityTimes()->sync(\Request::get('availability_time'));
             }
         } else {
-            $weekDays = ['Δευτέρα', 'Τρίτη', 'Τετάρτη', 'Πέμπτη', 'Παρασκευή', 'Σάββατο', 'Κυριακή'];
+            $weekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
             $days = [];
             $time = '';
 
-            $volunteer->availabilityDays()->detach();
+            $volunteer->availabilityDays()->delete();
 
             foreach ($weekDays as $weekDay) {
                 if (\Request::has($weekDay)) {
                     foreach (\Request::get($weekDay) as $availability) {
 
                         if ($availability == "1")
-                            $time = 'Πρωί';
+                            $time = 'morning';
                         else if ($availability == "2")
-                            $time = 'Μεσημέρι';
+                            $time = 'afternoon';
                         else if ($availability == "3")
-                            $time = 'Απόγευμα';
+                            $time = 'evening';
 
                         $day = new AvailabilityDay([
                             'day' => $weekDay,
-                            'time' => $time
+                            'time' => $time,
+                            'volunteer_id' => $volunteer->id
                         ]);
-
-                        $volunteer->availabilityDays()->save($day);
+                        $day->save();
                     }
                 }
             }
@@ -257,41 +257,18 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
                                 foreach ($data['avail_Inter']['contr_days'][$weekDay] as $availability) {
 
                                     if ($availability == "1")
-                                        $time = 'Πρωί';
+                                        $time = 'morning';
                                     else if ($availability == "2")
-                                        $time = 'Μεσημέρι';
+                                        $time = 'afternoon';
                                     else if ($availability == "3")
-                                        $time = 'Απόγευμα';
+                                        $time = 'evening';
 
-                                    switch ($weekDay) {
-                                        case 'monday':
-                                            $day = 'Δευτέρα';
-                                            break;
-                                        case 'tuesday':
-                                            $day = 'Τρίτη';
-                                            break;
-                                        case 'wednesday':
-                                            $day = 'Τετάρτη';
-                                            break;
-                                        case 'thursday':
-                                            $day = 'Πέμπτη';
-                                            break;
-                                        case 'friday':
-                                            $day = 'Παρασκεύη';
-                                            break;
-                                        case 'saturday':
-                                            $day = 'Σάββατο';
-                                            break;
-                                        case 'sunday':
-                                            $day = 'Κυριακή';
-                                            break;
-                                    }
                                     $day = new AvailabilityDay([
-                                        'day' => $day,
-                                        'time' => $time
+                                        'day' => $weekDay,
+                                        'time' => $time,
+                                        'volunteer_id' => $volunteer->id
                                     ]);
-
-                                    $volunteer->availabilityDays()->save($day);
+                                    $day->save();
                                 }
                             }
                         }

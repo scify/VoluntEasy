@@ -5,9 +5,9 @@
 <p><strong>{{ trans('entities/volunteers.daysAndTimes') }}:</strong>
     @foreach($volunteer->availabilityDays as $i => $day)
     @if($i==0)
-    {{ $day->day }} {{ $day->time }}
+    {{ trans('entities/volunteers.'.$day->day) }} {{ trans('entities/volunteers.'.$day->time) }}
     @else
-    , {{ $day->day }} {{ $day->time }}
+    ,  {{ trans('entities/volunteers.'.$day->day) }} {{ trans('entities/volunteers.'.$day->time) }}
     @endif
     @endforeach
 </p>

@@ -31,7 +31,7 @@ class NotificationService {
 
     public function __construct(){
         $this->userToUnit = trans('entities/notifications.userToUnit');
-        $this->userToUnit = trans('entities/notifications.newVolunteer');
+        $this->newVolunteer = trans('entities/notifications.newVolunteer');
     }
 
     /**

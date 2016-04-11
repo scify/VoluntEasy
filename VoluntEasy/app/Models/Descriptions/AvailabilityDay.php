@@ -12,6 +12,6 @@ class AvailabilityDay extends Model {
      */
     protected $table = 'availability_days';
 
-    protected $fillable = ['day', 'time'];
+    protected $fillable = ['day', 'time', 'volunteer_id'];
 
  }

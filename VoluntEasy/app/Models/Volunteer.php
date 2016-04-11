@@ -45,7 +45,7 @@ class Volunteer extends User {
     }
 
     public function availabilityDays() {
-        return $this->belongsToMany('App\Models\Descriptions\AvailabilityDay', 'volunteer_availability_days', 'volunteer_id', 'availability_day_id');
+        return $this->hasMany('App\Models\Descriptions\AvailabilityDay');
     }
 
     public function driverLicenceType() {
