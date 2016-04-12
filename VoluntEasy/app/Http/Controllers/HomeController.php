@@ -5,18 +5,7 @@ use App\Models\Volunteer;
 use App\Services\Facades\UserService;
 
 class HomeController extends Controller {
-
-    /*
-    |--------------------------------------------------------------------------
-    | Home Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller renders your application's "dashboard" for users that
-    | are authenticated. Of course, you are free to change or remove the
-    | controller as you wish. It is just here to get your app started!
-    |
-    */
-
+    
     /**
      * Create a new controller instance.
      *
@@ -48,7 +37,7 @@ class HomeController extends Controller {
 
     /**
      *
-     * Get th3e volunteers that have birthday today
+     * Get the volunteers that have birthday today
      * @return mixed
      */
     private function birthdayToday() {

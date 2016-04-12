@@ -7,6 +7,7 @@ Route::controllers([
     'password' => 'Auth\PasswordController',
 ]);
 
+Route::get('landing', 'WelcomeController@index');
 
 ////////////////
 //User Routes //
