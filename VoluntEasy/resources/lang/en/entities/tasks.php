@@ -20,7 +20,7 @@ return [
     'status' => 'Status',
     'complete' => 'Completed',
     'incomplete' => 'Incomplete',
-    'expires' => 'Expires on',
+    'expires' => 'Due date',
 
     'noVolunteers' => 'This task has no volunteers',
     'noTask' => 'There is no task for the action.',

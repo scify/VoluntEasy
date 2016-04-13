@@ -163,7 +163,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12 text-right">
-                                    {!! Form::submit(trans('default.save'), ['class' => 'btn btn-success width-130']) !!}
+                                    {!! Form::submit(trans('entities/cta.iAmInterested'), ['class' => 'btn btn-success width-140']) !!}
                                     {!! Form::close() !!}
                                 </div>
                             </div>

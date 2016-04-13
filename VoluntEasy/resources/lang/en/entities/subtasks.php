@@ -10,7 +10,7 @@ return [
     'info' => 'Subtask info',
 
     'name' => 'Name',
-    'expiresAt' => 'Expires on',
+    'expiresAt' => 'Due date',
     'priority' => 'Priority',
     'description' => 'Description',
     'date' => 'Date',

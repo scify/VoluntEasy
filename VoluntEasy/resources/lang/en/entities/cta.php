@@ -8,6 +8,7 @@ return [
     'view'	=> 'View public page',
     'fillFields'	=> 'Fill in the required fields.',
     'noRights'	=> 'You have no rights to create a public page for this action.',
+    'iAmInterested'	=> 'Submit interest',
 
     /* form */
     'activatePage'	=> 'Activate page (page will be publicly viewed)',
