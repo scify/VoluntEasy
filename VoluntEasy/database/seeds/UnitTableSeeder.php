@@ -21,9 +21,6 @@ class UnitTableSeeder extends Seeder {
             'comments' => 'Root unit',
         ]);
 
-
-        $unit->users()->attach(User::first()->id);
-
         $unit->steps()->saveMany(UnitService::createSteps());
 
     }

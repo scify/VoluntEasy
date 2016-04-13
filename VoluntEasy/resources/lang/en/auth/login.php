@@ -21,5 +21,6 @@ return [
     'newPassword' => 'New Password',
 
     'wrongInput' => 'There were some problems with your input.',
+    'demoUser' => 'For demo purposes, use the following credentials.',
 
 ];

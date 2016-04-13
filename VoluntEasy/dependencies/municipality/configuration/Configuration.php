@@ -7,13 +7,12 @@ class Configuration implements ConfigurationInterface {
 
     private $folderName = 'municipality';
 
-
     function getViewsPath() {
-        return $this->folderName.'.resources.views';
+        return $this->folderName . '.resources.views';
     }
 
     function getPartialsPath() {
-        return $this->folderName.'.resources.views.volunteers.partials';
+        return $this->folderName . '.resources.views.volunteers.partials';
     }
 
     function getJsonDataPath() {
@@ -21,10 +20,10 @@ class Configuration implements ConfigurationInterface {
     }
 
     function getExtrasPath() {
-        return $this->folderName.'.resources.views.volunteers.extras';
+        return $this->folderName . '.resources.views.volunteers.extras';
     }
 
-    function getExtras(){
+    function getExtras() {
         return [];
     }
 

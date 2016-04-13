@@ -1,8 +1,8 @@
 <?php
 
+use App\Models\Roles\Role;
 use App\Models\User as User;
 use Illuminate\Database\Seeder;
-use App\Models\Roles\Role;
 
 class UserTableSeeder extends Seeder {
 
@@ -23,11 +23,25 @@ class UserTableSeeder extends Seeder {
         ]);
 
         $admin->save();
-
         $adminRole = Role::where('name', 'admin')->first();
-
         $admin->roles()->attach($adminRole->id);
 
-    }
+        if (env('APP_ENV') == 'demo') {
+            $demoUser = new User([
+                'name' => 'demo',
+                'last_name' => 'demo',
+                'email' => 'demo@scify.org',
+                'password' => Hash::make('demo1234'),
+                'addr' => 'demo',
+                'tel' => 'demo',
+            ]);
+            $demoUser->save();
+            $demoUser->roles()->attach($adminRole->id);
+        }
 
+
+        $rootUnit = \App\Models\Unit::first();
+        $rootUnit->users()->attach([$admin->id, $demoUser->id]);
+
+    }
 }

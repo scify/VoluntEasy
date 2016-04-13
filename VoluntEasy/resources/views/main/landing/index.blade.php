@@ -55,7 +55,7 @@
                 <h2>{{ trans('pages/landing.header') }}</h2>
                 <p></p>
                 <a href="#" class="btn pi-btn-default btn-xlg btn-border">{{ trans('pages/landing.learnMore') }}</a>
-                <a href="#" class="btn pi-btn-default btn-xlg">{{ trans('pages/landing.tryIt') }}</a>
+                <a href="{{ url('/') }}" class="btn pi-btn-default btn-xlg">{{ trans('pages/landing.tryIt') }}</a>
             </div>
         </div><!-- end row -->
     </div><!-- end container -->
