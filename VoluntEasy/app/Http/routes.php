@@ -227,6 +227,11 @@ Route::get('checklist/update', 'ChecklistController@update');
 Route::get('checklist/delete', 'ChecklistController@delete');
 
 
+///////////////////
+//Cron Routes ////
+//////////////////
+Route::get('cron/checkActions', 'CronController@checkActions');
+
 
 
 /////////////////
