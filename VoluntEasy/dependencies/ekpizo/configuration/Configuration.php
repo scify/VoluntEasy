@@ -1,6 +1,5 @@
 <?php namespace Dependencies\ekpizo\configuration;
 
-
 use Interfaces\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface {

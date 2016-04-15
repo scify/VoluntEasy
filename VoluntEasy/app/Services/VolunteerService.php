@@ -5,6 +5,8 @@ use App\Models\Descriptions\StepStatus;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Descriptions\VolunteerStatusDuration;
 use App\Models\File;
+use App\Models\OPARating\InterpersonalSkill;
+use App\Models\OPARating\LaborSkill;
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\Volunteer;
@@ -386,6 +388,43 @@ class VolunteerService {
                     $task->workHours += $subtask->workHours;
                 }
                 $history->action->workHours += $task->workHours;
+            }
+        }
+
+        //add the descriptions of the skills
+        //that the volunteer thas not received a rating for to the array
+        $laborSkills = LaborSkill::all();
+        $interpersonalSkills = InterpersonalSkill::all();
+
+        foreach ($volunteer->opaRatings as $opaRating) {
+            foreach ($opaRating->laborSkills as $laborSkill) {
+                foreach ($laborSkills as $id => $lb) {
+                    if ($lb->description == $laborSkill->description) {
+                        unset($laborSkills[$id]);
+                    }
+                }
+            }
+
+            foreach ($opaRating->interpersonalSkills as $intpSkill) {
+                foreach ($interpersonalSkills as $id => $in) {
+                    if ($in->description == $intpSkill->description) {
+                        unset($laborSkills[$id]);
+                    }
+                }
+            }
+
+            foreach ($laborSkills as $i => $lb) {
+                $opaRating->laborSkills[sizeof($laborSkills)+1] = [
+                    'id' => null,
+                    'description' => $lb->description
+                ];
+            }
+
+            foreach ($interpersonalSkills as $i => $int) {
+                $opaRating->interpersonalSkills[sizeof($interpersonalSkills)+1] = [
+                    'id' => null,
+                    'description' => $int->description
+                ];
             }
         }
 
@@ -1005,7 +1044,7 @@ class VolunteerService {
                                 $query->whereNotNull('contract_date');
                                 break;
                             case 'languages':
-                                foreach($value as $v){
+                                foreach ($value as $v) {
                                     $query->whereHas('languages', function ($query) use ($v) {
                                         $query->where('language_id', $v);
                                     });

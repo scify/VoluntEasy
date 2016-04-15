@@ -125,9 +125,9 @@ class ActionController extends Controller
         if ($action->publicAction != null)
             $publicSubtasks = CTAService::getPublicSubtasks($action);
 
-        $hasTasks = $this->configuration->hasTasks();
+        $configuration = $this->configuration;
 
-        return view('main.actions.show', compact('action', 'userUnits', 'branch', 'taskStatuses', 'publicSubtasks', 'isPermitted', 'hasTasks'));
+        return view('main.actions.show', compact('action', 'userUnits', 'branch', 'taskStatuses', 'publicSubtasks', 'isPermitted', 'configuration'));
     }
 
     /**

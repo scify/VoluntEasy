@@ -203,33 +203,36 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
 
             $volunteer->save();
 
-
+            $extras = new VolunteerExtras();
             //word, excel, powerpoint
             if (isset($data['education']['office']['office_word']) && $data['education']['office']['office_word'] == 1)
-                $volunteer->extras()->knows_office = 1;
+                $extras->knows_word = 1;
             if (isset($data['education']['office']['office_excel']) && $data['education']['office']['office_excel'] == 1)
-                $volunteer->extras()->knows_excel = 1;
+                $extras->knows_excel = 1;
             if (isset($data['education']['office']['office_powerpoint']) && $data['education']['office']['office_powerpoint'] == 1)
-                $volunteer->extras()->knows_excel = 1;
+                $extras->knows_powerpoint = 1;
 
             if (isset($data['work_exper']['vol_experience']) && $data['work_exper']['vol_experience'] == 1)
-                $volunteer->extras()->has_previous_volunteer_experience = 1;
+                $extras->has_previous_volunteer_experience = 1;
             if (isset($data['work_exper']['job_experience']) && $data['work_exper']['job_experience'] == 1)
-                $volunteer->extras()->has_has_previous_work_experience = 1;
+                $extras->has_previous_work_experience = 1;
+
+            $extras->other_department = $data['volunteering']['other_department'];
+
+            $volunteer->extras()->save($extras);
 
 
             //Languages
-            if (isset($data['languages']['langGR']))
-                $volunteer->languages()->save($this->createVolunteerLanguage('Ελληνικά', $data['languages']['langGR'], $volunteer->id));
-            if (isset($data['languages']['langGR']))
-                $volunteer->languages()->save($this->createVolunteerLanguage('Αγγλικά', $data['languages']['langGR'], $volunteer->id));
-            if (isset($data['languages']['langFR']))
-                $volunteer->languages()->save($this->createVolunteerLanguage('Γαλλικά', $data['languages']['langFR'], $volunteer->id));
-            if (isset($data['languages']['langSP']))
-                $volunteer->languages()->save($this->createVolunteerLanguage('Ισπανικά', $data['languages']['langSP'], $volunteer->id));
-            if (isset($data['languages']['langDE']))
-                $volunteer->languages()->save($this->createVolunteerLanguage('Γερμανικά', $data['languages']['langDE'], $volunteer->id));
-
+            if (isset($data['education']['languages']['langGR']))
+                $volunteer->languages()->save($this->createVolunteerLanguage('greek', $data['education']['languages']['langGR'], $volunteer->id));
+            if (isset($data['education']['languages']['langGR']))
+                $volunteer->languages()->save($this->createVolunteerLanguage('english', $data['education']['languages']['langEN'], $volunteer->id));
+            if (isset($data['education']['languages']['langFR']))
+                $volunteer->languages()->save($this->createVolunteerLanguage('french', $data['education']['languages']['langFR'], $volunteer->id));
+            if (isset($data['education']['languages']['langSP']))
+                $volunteer->languages()->save($this->createVolunteerLanguage('spanish', $data['education']['languages']['langSP'], $volunteer->id));
+            if (isset($data['education']['languages']['langDE']))
+                $volunteer->languages()->save($this->createVolunteerLanguage('german', $data['education']['languages']['langDE'], $volunteer->id));
 
             //Interests
             $volunteer->interests()->sync($data['avail_Inter']['interests']);

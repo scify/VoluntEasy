@@ -5,7 +5,7 @@ return [
     'resetPassword' => 'Click here to reset your password',
     'welcome' => 'Welcome to VoluntEasy!',
 
-    'volunteerPlatform' => 'Νέος Εθελοντής για τη Δράση',
+    'volunteerPlatform' => 'Πλατφόρμα Διαχείρησης Εθελοντών',
 
     /* cta new volunteer */
     'newCTAVolunteer' => 'Νέος Εθελοντής για τη Δράση',
@@ -24,13 +24,13 @@ return [
     /* action rating */
     'actionRating' => 'Αξιολόγηση Δράσης',
     'pleaseFillQuestionnaire' => 'Παρακαλούμε συμπληρώστε το ερωτηματολόγιο που ακολουθεί σχετικά με τη συμμετοχή σας στη δράση',
-    'youReceivedThisEmailActionManager' => 'Λάβατε αυτό το ερωτηματολόγιο επειδή είστε υπεύθυνος της δράσης στην πλατφόρμα διαχείρισης εθελοντών ',
+    'youReceivedThisEmailActionManager' => 'Λάβατε αυτό τη φόρμα αξιολόγησης επειδή είστε υπεύθυνος της δράσης στην πλατφόρμα διαχείρισης εθελοντών ',
     'youReceivedThisEmailVolunteer' => 'Λάβατε αυτό το ερωτηματολόγιο επειδή είστε εγγεγραμμένος ως εθελοντής στην πλατφόρμα διαχείρισης εθελοντών ',
 
 
     /* volunteer rating */
     'volunteerRating' => 'Αξιολόγηση Εθελοντών',
-    'pleaseFillVolunteerQuestionnaire' => 'Παρακαλούμε συμπληρώστε το ερωτηματολόγιο που ακολουθεί σχετικά με τους εθελοντές που συμμετείχαν στη δράση',
+    'pleaseFillVolunteerQuestionnaire' => 'Παρακαλούμε συμπληρώστε τη φόρμα αξιολόγησης που ακολουθεί σχετικά με τους εθελοντές που συμμετείχαν στη δράση',
 
 
     /* cta */

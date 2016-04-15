@@ -90,7 +90,7 @@ return [
     'additionalSkillsHalf' => 'Πρόσθετες ικανότητες',
     'interestsArea' => 'Περιοχές ενδιαφερόντων',
 
-    'howYouLearned' => 'Πως μάθατε για εμάς;',
+    'howYouLearned' => 'Πώς μάθατε για εμάς;',
     'howYouLearned2' => 'Πώς ενημερώθηκε για τη θέση εργασίας εθελοντισμού;',
     'howTheyLearned' => 'Πως έμαθε για εμάς',
     'howTheyLearned2' => 'Πώς ενημερώθηκε για τη θέση εργασίας εθελοντισμού',

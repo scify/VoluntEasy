@@ -37,7 +37,6 @@
                                 <p><strong>3. {{ trans('entities/ratings.laborAndInterpersonalSkills') }}</strong></p>
 
                                 <div class="row">
-                                    @if(sizeof($rating->laborSkills)>0)
                                     <div class="col-md-6">
                                         <table class="table table-condensed table-bordered">
                                             <thead>
@@ -48,8 +47,18 @@
                                             <tbody>
                                             @foreach($rating->laborSkills as $skill)
                                             <tr>
-                                                <td>{{ $skill->skill->description }}</td>
                                                 <td>
+                                                    {{$skill['id']}}
+                                                    @if($skill['id']==null)
+                                                    {{ $skill['description'] }}
+                                                    @else
+                                                    {{ $skill->skill->description }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if($skill['id']==null)
+                                                    -
+                                                    @else
                                                     @if($skill->needsImprovement==1)
                                                     {{ trans('entities/ratings.weak') }}
                                                     @elseif($skill->needsImprovement==0)
@@ -57,11 +66,17 @@
                                                     @else
                                                     -
                                                     @endif
+                                                    @endif
                                                 </td>
-                                                <td>@if($skill->comments==null || $skill->comments=="")
+                                                <td>
+                                                    @if($skill['id']==null)
+                                                    -
+                                                    @else
+                                                    @if($skill->comments==null || $skill->comments=="")
                                                     -
                                                     @else
                                                     {{ $skill->comments }}
+                                                    @endif
                                                     @endif
                                                 </td>
                                             </tr>
@@ -69,8 +84,6 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    @endif
-                                    @if(sizeof($rating->interpersonalSkills)>0)
                                     <div class="col-md-6">
                                         <table class="table table-condensed table-bordered">
                                             <thead>
@@ -81,8 +94,17 @@
                                             <tbody>
                                             @foreach($rating->interpersonalSkills as $skill)
                                             <tr>
-                                                <td>{{ $skill->skill->description }}</td>
                                                 <td>
+                                                    @if($skill['id']==null)
+                                                    {{ $skill['description'] }}
+                                                    @else
+                                                    {{ $skill->skill->description }}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if($skill['id']==null)
+                                                    -
+                                                    @else
                                                     @if($skill->needsImprovement==1)
                                                     {{ trans('entities/ratings.weak') }}
                                                     @elseif($skill->needsImprovement==0)
@@ -90,12 +112,17 @@
                                                     @else
                                                     -
                                                     @endif
+                                                    @endif
                                                 </td>
                                                 <td>
+                                                    @if($skill['id']==null)
+                                                    -
+                                                    @else
                                                     @if($skill->comments==null || $skill->comments=="")
                                                     -
                                                     @else
                                                     {{ $skill->comments }}
+                                                    @endif
                                                     @endif
                                                 </td>
                                             </tr>
@@ -103,7 +130,6 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    @endif
                                 </div>
 
                                 <p><strong>4. {{ trans('entities/ratings.nextSteps') }}</strong></p>

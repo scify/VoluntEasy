@@ -2,6 +2,5 @@
     {"description": "writtenOralComm"},
     {"description": "persuasion"},
     {"description": "empathy"},
-    {"description": "coopAbility"},
-    {"description": "patience"}
+    {"description": "coopAbility"}
 ]

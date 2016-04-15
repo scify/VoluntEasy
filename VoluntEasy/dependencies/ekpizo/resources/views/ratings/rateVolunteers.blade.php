@@ -427,7 +427,7 @@ $user->last_name }}</span>
         $.each($('.laborSkillsRow[data-volunteer-id="' + volunteerId + '"]'), function (k, v) {
 
             skillId = $(v).attr('data-skill-id');
-            strongOrWeak = $('.labor-strongOrWeak.laborSkills[data-volunteer-id="' + volunteerId + '"][data-skill-id="' + skillId + '"]:checked').val();
+            strongOrWeak = $('.laborSkills.strongOrWeak[data-volunteer-id="' + volunteerId + '"][data-skill-id="' + skillId + '"]:checked').val();
             commentsEtc = $('.commentsEtc.laborSkills[data-volunteer-id="' + volunteerId + '"][data-skill-id="' + skillId + '"]').val();
 
             if (strongOrWeak || commentsEtc)
@@ -450,7 +450,7 @@ $user->last_name }}</span>
         $.each($('.interpersonalSkillsRow[data-volunteer-id="' + volunteerId + '"]'), function (k, v) {
 
             skillId = $(v).attr('data-skill-id');
-            strongOrWeak = $('.intp-strongOrWeak.interpersonalSkills[data-volunteer-id="' + volunteerId + '"][data-skill-id="' + skillId + '"]:checked').val();
+            strongOrWeak = $('.interpersonalSkills.strongOrWeak[data-volunteer-id="' + volunteerId + '"][data-skill-id="' + skillId + '"]:checked').val();
             commentsEtc = $('.commentsEtc.interpersonalSkills[data-volunteer-id="' + volunteerId + '"][data-skill-id="' + skillId + '"]').val();
 
             if (strongOrWeak == undefined)

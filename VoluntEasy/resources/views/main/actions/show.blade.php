@@ -30,7 +30,7 @@
                         trans('entities/actions.info') }}</a></li>
 
 
-                @if($hasTasks)
+                @if($configuration->hasTasks())
                 <li role="presentation" class="tab task_board" data-tab="task_board"><a href="#tab2" role="tab"
                                                                                         data-toggle="tab"
                                                                                         aria-expanded="false"
@@ -132,6 +132,7 @@
                     </div>
                     @endif
 
+                    {{--
                     @if(sizeof($action->ratings)>0)
                     <div class="row">
                         <div class="col-md-12">
@@ -163,6 +164,7 @@
                         </div>
                     </div>
                     @endif
+                    --}}
                 </div>
                 <div role="tabpanel" class="tab-pane task_board" id="tab2">
                     @include('main.tasks._board')
@@ -179,7 +181,7 @@
     </div>
 </div>
 
-@if(!$hasTasks)
+@if(!$configuration->hasTasks())
 <div class="panel panel-white tree">
     <div class="panel-heading clearfix">
         <h2 class="panel-title">{{ trans('entities/volunteers.volunteers') }}</h2>
