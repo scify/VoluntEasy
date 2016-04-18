@@ -2733,7 +2733,7 @@ class Request
     public static function createFromGlobals()
     {
         $server = $_SERVER;
-        if ('cli-server' === php_sapi_name()) {
+        if ('cli-server' === PHP_SAPI) {
             if (array_key_exists('HTTP_CONTENT_LENGTH', $_SERVER)) {
                 $server['CONTENT_LENGTH'] = $_SERVER['HTTP_CONTENT_LENGTH'];
             }
@@ -3011,6 +3011,7 @@ class Request
             }
             if (!filter_var($clientIp, FILTER_VALIDATE_IP)) {
                 unset($clientIps[$key]);
+                continue;
             }
             if (IpUtils::checkIp($clientIp, self::$trustedProxies)) {
                 unset($clientIps[$key]);
@@ -3222,14 +3223,18 @@ class Request
     }
     public function getFormat($mimeType)
     {
+        $canonicalMimeType = null;
         if (false !== ($pos = strpos($mimeType, ';'))) {
-            $mimeType = substr($mimeType, 0, $pos);
+            $canonicalMimeType = substr($mimeType, 0, $pos);
         }
         if (null === static::$formats) {
             static::initializeFormats();
         }
         foreach (static::$formats as $format => $mimeTypes) {
             if (in_array($mimeType, (array) $mimeTypes)) {
+                return $format;
+            }
+            if (null !== $canonicalMimeType && in_array($canonicalMimeType, (array) $mimeTypes)) {
                 return $format;
             }
         }
@@ -13069,10 +13074,14 @@ class StreamHandler extends AbstractProcessingHandler
     }
     public function close()
     {
-        if (is_resource($this->stream)) {
+        if ($this->url && is_resource($this->stream)) {
             fclose($this->stream);
         }
         $this->stream = null;
+    }
+    public function getStream()
+    {
+        return $this->stream;
     }
     protected function write(array $record)
     {
@@ -15907,11 +15916,16 @@ abstract class FilterIterator extends \FilterIterator
         $iterator = $this;
         while ($iterator instanceof \OuterIterator) {
             $innerIterator = $iterator->getInnerIterator();
-            if ($innerIterator instanceof \FilesystemIterator) {
+            if ($innerIterator instanceof RecursiveDirectoryIterator) {
+                if ($innerIterator->isRewindable()) {
+                    $innerIterator->next();
+                    $innerIterator->rewind();
+                }
+            } elseif ($innerIterator instanceof \FilesystemIterator) {
                 $innerIterator->next();
                 $innerIterator->rewind();
             }
-            $iterator = $iterator->getInnerIterator();
+            $iterator = $innerIterator;
         }
         parent::rewind();
     }

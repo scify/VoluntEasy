@@ -149,13 +149,13 @@
 
     //assign to a unit after completing step 3
     $(".assignToNextUnit").click(function () {
-        var id = $(this).attr('data-id'),
+        var id = $(this).attr('data-parent'),
             step, stepStatus;
 
         if (id != null) {
             step = {
                 'volunteer_id': $(this).attr('data-volunteer-id'),
-                'assign_id': $('#unitSelect-' + id).val(),
+                'assign_id': $('#selectUnit-unit' + id).val(),
                 'parent_unit_id': $(this).attr('data-parent')
             };
 
@@ -169,20 +169,20 @@
             console.log(step);
             console.log(stepStatus);
 
-
+/*
            $.when(changeStepStatus(stepStatus, false))
                     .then(assignToUnit(step));
-
+*/
         }
         else {
             step = {
                 'volunteer_id': $(this).attr('data-volunteer-id'),
                 'assign_id': $('#moreUnits').val(),
-                'parent_unit_id': $(this).attr('data-parent')
+                'parent_unit_id': null
             };
 
             console.log(step);
-            assignToUnit(step);
+           // assignToUnit(step);
         }
     });
 

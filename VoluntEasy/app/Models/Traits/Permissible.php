@@ -92,8 +92,7 @@ trait Permissible {
      * @param $values
      */
     public function refreshRoles($values) {
-
-
+        
         $roles = [];
         $units = [];
         $actions = [];

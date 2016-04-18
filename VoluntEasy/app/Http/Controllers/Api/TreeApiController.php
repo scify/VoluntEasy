@@ -3,7 +3,7 @@
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\Facades\TreeService;
-use App\Services\Facades\UnitService;
+use App\Services\Facades\UserService;
 
 class TreeApiController extends Controller {
 
@@ -11,13 +11,13 @@ class TreeApiController extends Controller {
     public function tree() {
 
         $tree = TreeService::getTree();
-
-        $tree = TreeService::setPermissions($tree);
+        $userUnits = UserService::userUnits();
+        $tree = TreeService::setPermissions($tree, $userUnits);
 
         return $tree;
     }
 
-    public function activeUnits($id){
+    public function activeUnits($id) {
 
         $user = User::with('units')->findOrFail($id);
 

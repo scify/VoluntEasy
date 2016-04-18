@@ -5,11 +5,11 @@ return [
     'resetPassword' => 'Click here to reset your password',
     'welcome' => 'Welcome to VoluntEasy!',
 
-    'volunteerPlatform' => 'Πλατφόρμα Διαχείρησης Εθελοντών',
+    'volunteerPlatform' => 'Πλατφόρμα Διαχείρισης Εθελοντών',
 
     /* cta new volunteer */
     'newCTAVolunteer' => 'Νέος Εθελοντής για τη Δράση',
-    'dear' => 'Αγαπητέ',
+    'dear' => 'Αγαπητέ/ή',
     'newVolunteerForAction' => 'Ένας νέος εθελοντής δήλωσε ενδιαφέρον στη δράση',
 
     'name' => 'Όνομα',

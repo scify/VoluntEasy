@@ -7,10 +7,12 @@ use App\Models\ActionVolunteerHistory;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Rating\ActionRatingAttribute;
 use App\Models\Rating\ActionScore;
+use App\Models\Roles\Role;
 use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Services\Facades\ActionService;
 use App\Services\Facades\CTAService;
+use App\Services\Facades\SubtaskService;
 use App\Services\Facades\TaskService;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
@@ -22,7 +24,6 @@ use Illuminate\Support\Facades\Session;
 class ActionController extends Controller {
 
     private $configuration;
-
 
     public function __construct() {
         $this->middleware('auth');
@@ -89,7 +90,7 @@ class ActionController extends Controller {
      * @return Response
      */
     public function show($id) {
-        $action = Action::with('unit', 'users', 'ratings', 'tasks.subtasks.status', 'tasks.subtasks.workDates.ctaVolunteers', 'tasks.subtasks.checklist', 'publicAction.subtasks')->findOrFail($id);
+        $action = Action::with('unit', 'users', 'ratings', 'tasks.subtasks.status', 'tasks.subtasks.workDates', 'tasks.subtasks.checklist', 'publicAction.subtasks')->findOrFail($id);
 
         $branch = UnitService::getBranch(Unit::where('id', $action->unit->id)->with('actions')->first());
 
@@ -167,20 +168,40 @@ class ActionController extends Controller {
      * @return Response
      */
     public function destroy($id) {
-        $action = Action::findOrFail($id);
-        $action->load('volunteers');
+        $action = Action::with('volunteers', 'tasks.subtasks.workDates', 'users', 'ratings', 'actionRatings', 'publicAction')->findOrFail($id);
 
-        //if the action has volunteers, do not delete
-        if (sizeof($action->volunteers) > 0) {
-            Session::flash('flash_message', trans('entities/actions.hasVolunteers'));
-            Session::flash('flash_type', 'alert-danger');
-            return;
+        //first delete any task, subtask and workDate associated with the action
+        foreach ($action->tasks as $task) {
+            foreach ($task->subtasks as $subtask) {
+                SubtaskService::delete($subtask);
+            }
+            $task->delete();
         }
+
+        //remove all volunteers and set their status to available
+        foreach ($action->volunteers as $volunteer) {
+            VolunteerService::removeFromAction($volunteer, $action);
+        }
+
+        //remove all users, and check if their role should be updated
+        foreach ($action->users as $user) {
+            $user->actions()->detach($action->id);
+            $user->load('roles');
+            $user->load('actions');
+            if (in_array('action_manager', $user->roles->lists('name')->toArray()) && sizeof($user->actions) == 0) {
+                $actionManagerId = Role::where('name', 'action_manager')->first(["id"])->id;
+                $user->roles()->detach($actionManagerId);
+            }
+        }
+
+
+        /*$action->ratings()->delete();//check
+        $action->actionRatings()->delete();//check*/
+        $action->publicAction()->delete();
+        $action->delete();
 
         Session::flash('flash_message', trans('entities/actions.deleted'));
         Session::flash('flash_type', 'alert-success');
-
-        $action->delete();
 
         return;
     }

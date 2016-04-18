@@ -158,7 +158,7 @@ class VolunteerController extends Controller {
     public function show($id) {
 
         $volunteer = VolunteerService::fullProfile($id);
-        //return $volunteer;
+        return $volunteer;
         $timeline = VolunteerService::timeline($id);
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
         $totalWorkingHours = VolunteerService::totalWorkingHours($timeline);
@@ -190,7 +190,7 @@ class VolunteerController extends Controller {
             if ($block->type == 'action')
                 $actionsCount++;
         }
-
+        
         //The extras are the add-on features based on the needs.
         $extras = $this->configuration->getExtras();
         $extrasPath = $this->configuration->getExtrasPath();

@@ -95,12 +95,12 @@
                         $volunteer->driver_license_type_id==null || $volunteer->driver_license_type_id=='' ? '' :
                         $volunteer->driverLicenceType->description }}</p>
 
-                    <p><strong>{{ trans('entities/volunteers.computerUsage') }}:</strong> {{
-                        $volunteer->computer_usage=='' ? trans('default.no') : trans('default.yes') }}</p>
-
                     {{-- Extras--}}
                     @if(in_array('knows_office', $extras))
                     @include($extrasPath.'._knows_office_view')
+                    @else
+                        <p><strong>{{ trans('entities/volunteers.computerUsage') }}:</strong> {{
+                        $volunteer->computer_usage=='' ? trans('default.no') : trans('default.yes') }}</p>
                     @endif
 
                     <p><strong>{{ trans('entities/volunteers.computerUsageComments') }}:</strong>
