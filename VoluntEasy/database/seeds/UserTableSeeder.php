@@ -26,6 +26,9 @@ class UserTableSeeder extends Seeder {
         $adminRole = Role::where('name', 'admin')->first();
         $admin->roles()->attach($adminRole->id);
 
+        $rootUnit = \App\Models\Unit::first();
+        $rootUnit->users()->attach([$admin->id]);
+
         if (env('APP_ENV') == 'demo') {
             $demoUser = new User([
                 'name' => 'demo',
@@ -37,11 +40,11 @@ class UserTableSeeder extends Seeder {
             ]);
             $demoUser->save();
             $demoUser->roles()->attach($adminRole->id);
+            $rootUnit->users()->attach([$demoUser->id]);
         }
 
 
-        $rootUnit = \App\Models\Unit::first();
-        $rootUnit->users()->attach([$admin->id, $demoUser->id]);
+
 
     }
 }
