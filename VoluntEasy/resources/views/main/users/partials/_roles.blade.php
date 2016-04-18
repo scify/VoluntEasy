@@ -88,7 +88,7 @@
 
 @section('footerScripts')
 <script>
-
+/*
     //if the role admin is preselected, disable all other fields
     if ($('#admin').attr("checked")) {
         $("#action_manager").attr("disabled", true);
@@ -96,7 +96,7 @@
         $("#action_manager").closest('.roles').addClass("disabled");
         $("#unit_manager").closest('.roles').addClass("disabled");
     }
-
+*/
     $(".role-details").click(function () {
         var role = $(this).attr('data-role');
 
@@ -118,7 +118,7 @@
         }
     });
 
-
+/*
     $(".roles").children("input:checkbox").click(function (e) {
         var role = $(this).val();
 
@@ -142,6 +142,6 @@
             }
         }
     });
-
+*/
 </script>
 @append

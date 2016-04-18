@@ -11,7 +11,7 @@
         </div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-3">
                     @if(isset($user))
                     <div class="profile-image-container user-image text-center">
                         <div class="user_image" style="background-image: url('{{ ($user->image_name==null || $user->image_name=='') ?
@@ -35,7 +35,7 @@
                 </div>
 
 
-                <div class="col-md-6">
+                <div class="col-md-9">
 
                     <div class="row">
                         <div class="col-md-6">
