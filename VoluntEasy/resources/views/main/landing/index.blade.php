@@ -53,7 +53,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <h2>{{ trans('pages/landing.header') }}</h2>
-                <p></p>
+                <h3>{{ trans('pages/landing.subheader') }}</h3>
                 <a href="#" class="btn pi-btn-default btn-xlg btn-border">{{ trans('pages/landing.learnMore') }}</a>
                 <a href="{{ url('/') }}" class="btn pi-btn-default btn-xlg">{{ trans('pages/landing.tryIt') }}</a>
             </div>
@@ -73,7 +73,7 @@
                 </a>
             </li>
             <!-- end LOGO -->
-            <li class="nav"><a href="#" data-scroll="about-us">About Us</a></li>
+            <li class="nav"><a href="#" data-scroll="about-us">About</a></li>
             <li class="nav"><a href="#" data-scroll="services">Services</a></li>
             <li class="nav"><a href="#" data-scroll="contact">Contact</a></li>
 
@@ -87,22 +87,22 @@
 <section id="about-us" data-anchor="about-us" class="content">
     <div class="container what-we-do">
         <div class="row">
-            <div class="col-sm-6 col-md-4">
+            <div class="col-sm-6 col-md-3">
                 <div class="row">
                     <div class="col-sm-12 col-md-12 text-center">
                         <div class="circular-img"
-                             style="background-image: url({{ asset('assets/images/landing/structure.png') }});"></div>
+                             style="background-image: url({{ asset('assets/images/landing/interests.png') }});"></div>
                     </div>
 
                     <div class="row">
                         <div class="col-sm-12 col-md-12 text-center">
-                            <h4>{{ trans('pages/landing.customStructure') }}</h4>
-                            <p>{{ trans('pages/landing.customStructureExpl') }}</p>
+                            <h5>{{ trans('pages/landing.recruitAndSelect') }}</h5>
+                            <p>{{ trans('pages/landing.recruitAndSelectExpl') }}</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-md-4">
+            <div class="col-sm-6 col-md-3">
                 <div class="row">
                     <div class="col-sm-12 col-md-12 text-center">
                         <div class="circular-img"
@@ -111,13 +111,13 @@
 
                     <div class="row">
                         <div class="col-sm-12 col-md-12 text-center">
-                            <h4>{{ trans('pages/landing.createVolunteers') }}</h4>
-                            <p>{{ trans('pages/landing.createVolunteersExpl') }}</p>
+                            <h5>{{ trans('pages/landing.manageVolunteers') }}</h5>
+                            <p>{{ trans('pages/landing.manageVolunteersExpl') }}</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-md-4">
+            <div class="col-sm-6 col-md-3">
                 <div class="row">
                     <div class="col-sm-12 col-md-12 text-center">
                         <div class="circular-img"
@@ -126,8 +126,23 @@
 
                     <div class="row">
                         <div class="col-sm-12 col-md-12 text-center">
-                            <h4>{{ trans('pages/landing.createTasks') }}</h4>
-                            <p>{{ trans('pages/landing.createTasksExpl') }}</p>
+                            <h5>{{ trans('pages/landing.focus') }}</h5>
+                            <p>{{ trans('pages/landing.focusExpl') }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 text-center">
+                        <div class="circular-img"
+                             style="background-image: url({{ asset('assets/images/landing/structure.png') }});"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 text-center">
+                            <h5>{{ trans('pages/landing.makeItYours') }}</h5>
+                            <p>{{ trans('pages/landing.makeItYoursExpl') }}</p>
                         </div>
                     </div>
                 </div>
@@ -141,13 +156,8 @@
 <section class="content-2 section-grey">
     <div class="container">
         <div class="row">
-            <h3 class="text-center">Why you need VoluntEasy</h3>
+            <h3 class="text-center">{{ trans('pages/landing.oneSolutionMultipleNeeds') }}</h3>
             <div class="line"></div>
-
-            <p class="lead text-center margin-bottom-45">Contrary to <b>popular</b> belief, Lorem Ipsum is not simply
-                random text. <br/>
-                It has roots in piece of <b>classical</b>.</p>
-
             <div class="col-sm-6">
                 <div class="col-sm-12">
                     <div class="left_icons">
@@ -155,9 +165,8 @@
                             <i class="fa fa-users"></i>
                         </div>
                         <div class="single_box_right">
-                            <h3>Share with people in your org</h3>
-                            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-                            invidunt ut labore et dolore.
+                            <h3>{{ trans('pages/landing.collaborate') }}</h3>
+                            {!! trans('pages/landing.collaborateExpl') !!}
                         </div>
                     </div>
                 </div>
@@ -168,9 +177,8 @@
                             <i class="fa fa-rocket"></i>
                         </div>
                         <div class="single_box_right">
-                            <h3>8 Skin Color</h3>
-                            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-                            invidunt ut labore et dolore.
+                            <h3>{{ trans('pages/landing.monitor') }}</h3>
+                            {!! trans('pages/landing.monitorExpl') !!}
                         </div>
                     </div>
                 </div>
@@ -181,9 +189,8 @@
                             <i class="fa fa-desktop"></i>
                         </div>
                         <div class="single_box_right">
-                            <h3>Easy to use</h3>
-                            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-                            invidunt ut labore et dolore.
+                            <h3>{{ trans('pages/landing.empower') }}</h3>
+                            {!! trans('pages/landing.empowerExpl') !!}
                         </div>
                     </div>
                 </div>
@@ -217,7 +224,7 @@
 <section id="services" data-anchor="services" class="content-2">
     <div class="container">
         <div class="row">
-            <h2 class="text-center">Features</h2>
+            <h2 class="text-center">{{ trans('pages/landing.keyFeatures') }}</h2>
             <div class="line"></div>
 
             <div class="row">
@@ -228,10 +235,8 @@
                                 <i class="fa fa-leaf"></i>
                             </div>
                             <div class="single_box_right">
-                                <h3>Volunteer Managment</h3>
-                                <p>Create volunteer profiles based on their information</p>
-                                <p>Keep track of the interview notes</p>
-                                <p>Be up-to-date of their status by viewing their history</p>
+                                <h3>{{ trans('pages/landing.multipleAccounts') }}</h3>
+                                <p>{!! trans('pages/landing.multipleAccountsExpl') !!}</p>
                             </div>
                         </div>
                     </div><!-- end left icon -->
@@ -244,15 +249,28 @@
                                 <i class="fa fa-bullseye"></i>
                             </div>
                             <div class="single_box_right">
-                                <h3>Actions management</h3>
-                                <p>Create actions and tasks</p>
-                                <p>Assign volunteers to shifts, keep track of the total hours they worked</p>
+                                <h3>{{ trans('pages/landing.recruitment') }}</h3>
+                                <p>{!! trans('pages/landing.recruitmentExpl') !!}</p>
                             </div>
                         </div><!-- end left icon -->
                     </div>
                 </div><!-- end col-sm-4 -->
             </div>
             <div class="row">
+                <div class="col-sm-6 col-md-4">
+                    <div class="padd">
+                        <div class="left_icons border-color2">
+                            <div class="single_box_left default">
+                                <i class="fa fa-bullseye"></i>
+                            </div>
+                            <div class="single_box_right">
+                                <h3>{{ trans('pages/landing.selection') }}</h3>
+                                <p>{!! trans('pages/landing.selectionExpl') !!}</p>
+                            </div>
+                        </div><!-- end left icon -->
+                    </div>
+                </div><!-- end col-sm-4 -->
+
                 <div class="col-sm-6 col-md-6">
                     <div class="padd">
                         <div class="left_icons border-color2">
@@ -260,8 +278,8 @@
                                 <i class="fa fa-sitemap"></i>
                             </div>
                             <div class="single_box_right">
-                                <h3>Units</h3>
-                                <p>Create the structure for your organization and assign users to units.</p>
+                                <h3>{{ trans('pages/landing.volunteerManagement') }}</h3>
+                                <p>{!! trans('pages/landing.volunteerManagementExpl') !!}</p>
                             </div>
                         </div><!-- end left icon -->
                     </div>
@@ -271,43 +289,93 @@
                     <div class="padd">
                         <div class="left_icons border-color2">
                             <div class="single_box_left default">
-                                <i class="fa fa-bell"></i>
+                                <i class="fa fa-sitemap"></i>
                             </div>
                             <div class="single_box_right">
-                                <h3>Notifications</h3>
-                                <p>You will never miss an important event again. Helpful notifications keep you updated
-                                    about all you need to know.</p>
+                                <h3>{{ trans('pages/landing.actionsManagement') }}</h3>
+                                <p>{!! trans('pages/landing.actionsManagementExpl') !!}</p>
                             </div>
-                        </div>
-                    </div><!-- end left icon -->
+                        </div><!-- end left icon -->
+                    </div>
+                </div><!-- end col-sm-4 -->
+                <div class="col-sm-6 col-md-4">
+                    <div class="padd">
+                        <div class="left_icons border-color2">
+                            <div class="single_box_left default">
+                                <i class="fa fa-sitemap"></i>
+                            </div>
+                            <div class="single_box_right">
+                                <h3>{{ trans('pages/landing.shiftManagement') }}</h3>
+                                <p>{!! trans('pages/landing.shiftManagementExpl') !!}</p>
+                            </div>
+                        </div><!-- end left icon -->
+                    </div>
                 </div><!-- end col-sm-4 -->
             </div>
             <div class="row">
-                <div class="col-sm-6 col-md-6">
+                <div class="col-sm-6 col-md-4">
                     <div class="padd">
                         <div class="left_icons border-color2">
                             <div class="single_box_left default">
-                                <i class="fa fa-pie-chart"></i>
+                                <i class="fa fa-sitemap"></i>
                             </div>
                             <div class="single_box_right">
-                                <h3>Reports</h3>
-                                <p>Reports inform you about volunteers statistics</p>
+                                <h3>{{ trans('pages/landing.jobFit') }}</h3>
+                                <p>{!! trans('pages/landing.jobFitExpl') !!}</p>
                             </div>
                         </div><!-- end left icon -->
                     </div>
                 </div><!-- end col-sm-4 -->
-
-                <div class="col-sm-6 col-md-6">
+                <div class="col-sm-6 col-md-4">
                     <div class="padd">
                         <div class="left_icons border-color2">
                             <div class="single_box_left default">
-                                <i class="fa fa-cogs"></i>
+                                <i class="fa fa-sitemap"></i>
                             </div>
                             <div class="single_box_right">
-                                <h3>Customizable</h3>
-                                <p>Easy to customize and extend</p>
-                                <p>Customize the volunteer form to your needs</p>
-                                <p>Easy to translate to other languages</p>
+                                <h3>{{ trans('pages/landing.onlineCollaboration') }}</h3>
+                                <p>{!! trans('pages/landing.onlineCollaborationExpl') !!}</p>
+                            </div>
+                        </div><!-- end left icon -->
+                    </div>
+                </div><!-- end col-sm-4 -->
+                <div class="col-sm-6 col-md-4">
+                    <div class="padd">
+                        <div class="left_icons border-color2">
+                            <div class="single_box_left default">
+                                <i class="fa fa-sitemap"></i>
+                            </div>
+                            <div class="single_box_right">
+                                <h3>{{ trans('pages/landing.notifications') }}</h3>
+                                <p>{!! trans('pages/landing.notificationsExpl') !!}</p>
+                            </div>
+                        </div><!-- end left icon -->
+                    </div>
+                </div><!-- end col-sm-4 -->
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-md-4">
+                    <div class="padd">
+                        <div class="left_icons border-color2">
+                            <div class="single_box_left default">
+                                <i class="fa fa-sitemap"></i>
+                            </div>
+                            <div class="single_box_right">
+                                <h3>{{ trans('pages/landing.reports') }}</h3>
+                                <p>{!! trans('pages/landing.reportsExpl') !!}</p>
+                            </div>
+                        </div><!-- end left icon -->
+                    </div>
+                </div><!-- end col-sm-4 -->
+                <div class="col-sm-6 col-md-4">
+                    <div class="padd">
+                        <div class="left_icons border-color2">
+                            <div class="single_box_left default">
+                                <i class="fa fa-sitemap"></i>
+                            </div>
+                            <div class="single_box_right">
+                                <h3>{{ trans('pages/landing.easilyCustomizable') }}</h3>
+                                <p>{!! trans('pages/landing.easilyCustomizableExpl') !!}</p>
                             </div>
                         </div><!-- end left icon -->
                     </div>

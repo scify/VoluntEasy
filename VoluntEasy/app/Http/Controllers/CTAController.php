@@ -179,15 +179,26 @@ class CTAController extends Controller {
         //get all the data needed to display the tasks that the volunteers
         //is interested for
         $ctaVolunteer->load('dates.date.subtask.task');
-        $publicAction = PublicAction::with('action')->find($request['publicActionId']);
+        $publicAction = PublicAction::with('action.users')->find($request['publicActionId']);
         $admins = UserService::getAdmins();
 
         //send email to all admins
         foreach ($admins as $admin) {
 
-            \Mail::send('app_emails.cta_new_volunteer', ['user' => $admin, 'ctaVolunteer' => $ctaVolunteer, 'volunteer' => $volunteer, 'publicAction' => $publicAction], function ($message) use ($admin) {
-                $message->to($admin->email, $admin->name)->subject('[' . trans('default.title') . '] ' . trans('emails/emails.ctaVolunteeerInterested'));
-            });
+            if ($admin->email != "test@scify.org") {
+                \Mail::send('app_emails.cta_new_volunteer', ['user' => $admin, 'ctaVolunteer' => $ctaVolunteer, 'volunteer' => $volunteer, 'publicAction' => $publicAction], function ($message) use ($admin) {
+                    $message->to($admin->email, $admin->name . ' ' . $admin->last_name)->subject('[' . trans('default.title') . '] ' . trans('emails/emails.ctaVolunteeerInterested'));
+                });
+            }
+        }
+
+        foreach ($publicAction->action->users as $user) {
+
+            if ($user->email != "test@scify.org") {
+                \Mail::send('app_emails.cta_new_volunteer', ['user' => $user, 'ctaVolunteer' => $ctaVolunteer, 'volunteer' => $volunteer, 'publicAction' => $publicAction], function ($message) use ($user) {
+                    $message->to($user->email, $user->name . ' ' . $user->last_name)->subject('[' . trans('default.title') . '] ' . trans('emails/emails.ctaVolunteeerInterested'));
+                });
+            }
         }
 
         return view('main.cta.thankyou');

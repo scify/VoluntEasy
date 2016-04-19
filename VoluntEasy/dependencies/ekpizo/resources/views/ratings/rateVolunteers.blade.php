@@ -66,7 +66,7 @@ $user->last_name }}</span>
 <div class="tab-pane {{ $i==0 ? 'active' : ''}}"
      id="tab{{ $volunteer->id }}">
     <div class="row bottom-margin">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <p>{{ trans('entities/ratings.volunteerParticipatedTo') }}</p>
             <ul>
                 @foreach($volunteer->workDateHistory as $workDate)
@@ -122,13 +122,13 @@ $user->last_name }}</span>
                     data-skill-id="{{$skill->id}}">
                     <td>{{ $skill->description }}</td>
                     <td><label>
-                            {!! Form::formInput('labor-strongOrWeak['.$skill->id.']', '', $errors,
+                            {!! Form::formInput('volunteer-'.$volunteer->id.'labor-strongOrWeak['.$skill->id.']', '', $errors,
                             ['class' => 'form-control strongOrWeak laborSkills', 'type' =>
                             'radio', 'value' => 1, 'checked' => 'false', 'data-volunteer-id' =>
                             $volunteer->id, 'data-skill-id' => $skill->id]) !!}
                             {{ trans('entities/ratings.strong') }}</label>
                         <label>
-                            {!! Form::formInput('labor-strongOrWeak['.$skill->id.']', '', $errors,
+                            {!! Form::formInput('volunteer-'.$volunteer->id.'labor-strongOrWeak['.$skill->id.']', '', $errors,
                             ['class' => 'form-control strongOrWeak laborSkills', 'type' =>
                             'radio', 'value' => 0, 'checked' => 'false', 'data-volunteer-id' =>
                             $volunteer->id, 'data-skill-id' => $skill->id]) !!}
@@ -156,13 +156,13 @@ $user->last_name }}</span>
                     data-skill-id="{{$skill->id}}">
                     <td>{{ $skill->description }}</td>
                     <td><label>
-                            {!! Form::formInput('intp-strongOrWeak['.$skill->id.']', '', $errors,
+                            {!! Form::formInput('volunteer-'.$volunteer->id.'intp-strongOrWeak['.$skill->id.']', '', $errors,
                             ['class' => 'form-control strongOrWeak interpersonalSkills', 'type' =>
                             'radio', 'value' => 1, 'checked' => 'false', 'data-volunteer-id' =>
                             $volunteer->id, 'data-skill-id' => $skill->id]) !!}
                             {{ trans('entities/ratings.strong') }}</label>
                         <label>
-                            {!! Form::formInput('intp-strongOrWeak['.$skill->id.']', '', $errors,
+                            {!! Form::formInput('volunteer-'.$volunteer->id.'intp-strongOrWeak['.$skill->id.']', '', $errors,
                             ['class' => 'form-control strongOrWeak interpersonalSkills', 'type' =>
                             'radio', 'value' => 0, 'checked' => 'false', 'data-volunteer-id' =>
                             $volunteer->id, 'data-skill-id' => $skill->id]) !!}
@@ -393,7 +393,6 @@ $user->last_name }}</span>
                 interpersonalSkills: interpersonalSkills
             });
         });
-
 
         //send data to server to save the ratings
         $.ajax({

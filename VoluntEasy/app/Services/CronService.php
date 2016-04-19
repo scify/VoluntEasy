@@ -55,6 +55,7 @@ class CronService {
 
                 $actionRating->save();
 
+             
                 //then send an email to the person responsible for the action
 
                 \Mail::send('app_emails.rate_volunteers', ['action' => $expired, 'token' => $token, 'url' => $url], function ($message) use ($user, $expired) {

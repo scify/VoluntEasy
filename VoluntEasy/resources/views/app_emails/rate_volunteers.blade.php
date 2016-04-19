@@ -186,15 +186,18 @@
                             <center>
                                 <a href="{{ URL::to('/') }}"
                                    class="logo-name text-lg text-center"> <img
-                                        src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
+                                            src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
                                 </a>
                                 <h4>{{ trans('emails/emails.volunteerPlatform') }}</h4>
                             </center>
 
+                            {{--
                             @if($action->name!=null && $action->name!='')
                             <p>{{ trans('emails/emails.dear') }} {{ $action->name }},</p>
                             @endif
-                            <p>{{ trans('emails/emails.pleaseFillVolunteerQuestionnaire') }} {{ $action->description }}.</p>
+                            --}}
+                            <p>{{ trans('emails/emails.pleaseFillVolunteerQuestionnaire') }} {{ $action->description }}
+                                .</p>
 
                             <p><a href="{{ $url }}">{{ $url }}</a></p>
                         </td>
