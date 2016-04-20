@@ -15,7 +15,15 @@
                         <div class="col-md-10 center">
                             <div class="login-box">
                                 <div class="text-center">
-                                    <a href="{{ url('/') }}"><img src="{{ asset('assets/images/compact_logo.png') }}" class="logo"/></a>
+                                    <a href="{{ url('/') }}">
+                                        @if(env('PLATFORM_NAME')=='VoluntAction')
+                                            <img src="{{ asset('assets/images/voluntaction/compact_logo.png') }}"
+                                                 class="logo"/>
+                                        @else
+                                            <img src="{{ asset('assets/images/volunteasy/compact_logo.png') }}"
+                                                 class="logo"/>
+                                        @endif
+                                    </a>
                                 </div>                                   @if (count($errors) > 0)
                                 		<div class="alert alert-danger">
                                 			<ul>

@@ -49,6 +49,11 @@ class AuthController extends Controller {
 
         $footerLogoPath = $this->configuration->getViewsPath().'._login_footer';
 
+        if(env('APP_ENV')=='demo') {
+            \App::setLocale('en');
+            \Cookie::queue('locale', 'en', 60 * 24 * 365);
+        }
+
         return view('auth/login', compact('footerLogoPath'));
     }
 
