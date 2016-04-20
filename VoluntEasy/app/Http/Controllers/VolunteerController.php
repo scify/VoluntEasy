@@ -160,7 +160,7 @@ class VolunteerController extends Controller {
     public function show($id) {
 
         $volunteer = VolunteerService::fullProfile($id);
-        //return $volunteer;
+       // return $volunteer;
         $timeline = VolunteerService::timeline($id);
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
         $totalWorkingHours = VolunteerService::totalWorkingHours($timeline);

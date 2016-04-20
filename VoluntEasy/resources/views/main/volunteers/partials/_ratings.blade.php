@@ -146,8 +146,7 @@
                                 trans('entities/actions.action') }}
                                 <strong>{{
                                     $rating->action->description }}</strong>, {{ trans('entities/volunteers.ratedBy') }}
-                                {{
-                                $rating->user->name }} {{ $rating->user->last_name }} {{
+                                {{ $rating->user->name }} {{ $rating->user->last_name }} {{
                                 trans('entities/volunteers.ratedWhen') }} {{
                                 \Carbon::parse($rating->created_at)->format('d/m/Y') }}</strike>
                         </a>

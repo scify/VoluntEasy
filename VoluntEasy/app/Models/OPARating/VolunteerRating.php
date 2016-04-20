@@ -25,7 +25,7 @@ class VolunteerRating extends Model {
     }
 
     public function action(){
-        return $this->belongsTo('App\Models\Action');
+        return $this->belongsTo('App\Models\Action')->withTrashed();
     }
 
     public function user(){
