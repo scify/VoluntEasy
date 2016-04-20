@@ -179,7 +179,7 @@
                 <div class="col-sm-12">
                     <div class="left_icons">
                         <div class="single_box_left default">
-                            <i class="fa fa-rocket"></i>
+                            <i class="fa fa-line-chart"></i>
                         </div>
                         <div class="single_box_right">
                             <h3>{{ trans('pages/landing.monitor') }}</h3>
@@ -191,7 +191,7 @@
                 <div class="col-sm-12">
                     <div class="left_icons">
                         <div class="single_box_left default">
-                            <i class="fa fa-desktop"></i>
+                            <i class="fa fa-star"></i>
                         </div>
                         <div class="single_box_right">
                             <h3>{{ trans('pages/landing.empower') }}</h3>
