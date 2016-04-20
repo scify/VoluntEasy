@@ -73,7 +73,11 @@
         <ul id="nav" onClick="" class="zetta-menu zm-response-switch zm-full-width zm-effect-slide-top">
             <!-- LOGO -->
             <li class="zm-logo">
-                <a href="#onepage"><img src="{{ asset('assets/images/logo_150w.png') }}" style="height:100%;"/>
+                @if(env('PLATFORM_NAME')=='VoluntAction')
+                    <img src="{{ asset('assets/images/voluntaction/logo.png') }}" style="height:100%;"/>
+                @else
+                    <img src="{{ asset('assets/images/volunteasy/logo.png') }}" style="height:100%;"/>
+                @endif
                 </a>
             </li>
             <!-- end LOGO -->
