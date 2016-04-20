@@ -21,7 +21,7 @@
                                             <i class="fa fa-home"></i> {{ trans('entities/volunteers.assignToUnit') }}
                                         </button>
                                         @include('main.volunteers.partials.modals._select_unit', ['units' =>
-                                        $volunteer->availableUnits, 'divId' => 'selectUnit'])
+                                        $volunteer->availableUnits, 'divId' => 'selectUnit', 'selectId'=>'moreUnits'])
                                         @endif
                                     </div>
                                 </div>
@@ -94,7 +94,7 @@
                             <i class="fa fa-home"></i> {{ trans('entities/volunteers.assignToUnit') }}
                         </button>
                         @include('main.volunteers.partials.modals._select_unit', ['units' => $volunteer->availableUnits,
-                        'divId' => 'selectUnit'])
+                        'divId' => 'selectUnit', 'selectId'=>'moreUnits'])
                         @endif
                     </div>
                     <div class="col-md-10">
@@ -155,7 +155,7 @@
         if (id != null) {
             step = {
                 'volunteer_id': $(this).attr('data-volunteer-id'),
-                'assign_id': $('#selectUnit-unit' + id).val(),
+                'assign_id': $('#moreUnits-unit' + id).val(),
                 'parent_unit_id': $(this).attr('data-parent')
             };
 
@@ -166,13 +166,13 @@
                 'status': 'Complete'
             };
 
-            console.log(step);
+           /* console.log(step);
             console.log(stepStatus);
+*/
 
-/*
            $.when(changeStepStatus(stepStatus, false))
                     .then(assignToUnit(step));
-*/
+
         }
         else {
             step = {
@@ -181,8 +181,8 @@
                 'parent_unit_id': null
             };
 
-            console.log(step);
-           // assignToUnit(step);
+           // console.log(step);
+           assignToUnit(step);
         }
     });
 
