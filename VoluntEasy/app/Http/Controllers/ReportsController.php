@@ -134,4 +134,14 @@ class ReportsController extends Controller {
 
         return $this->reportsService->volunteerHoursByAction();
     }
+
+    /**
+     * Get active and available volunteers per unit
+     *
+     * @return mixed
+     */
+    public function activeAndAvailableVolunteersByUnit() {
+
+        return $this->reportsService->activeAndAvailableVolunteersByUnit();
+    }
 }

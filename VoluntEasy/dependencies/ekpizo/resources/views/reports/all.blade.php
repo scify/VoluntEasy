@@ -93,6 +93,25 @@ Reports
     </div>
 </div>
 
+{{--
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-white">
+            <div class="panel-heading clearfix">
+                <h4 class="panel-title">{{ trans('entities/reports._activeAndAvailableVolunteers') }}</h4>
+
+                <div class="panel-control">
+                    <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
+                       class="panel-collapse" data-original-title="Expand/Collapse"><i class="icon-arrow-down"></i></a>
+                </div>
+            </div>
+            <div class="panel-body">
+                @include('ekpizo.resources.views.reports._activeAndAvailableVolunteers')
+            </div>
+        </div>
+    </div>
+</div>
+--}}
 
 <div class="row">
     <div class="col-md-6">

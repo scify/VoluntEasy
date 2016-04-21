@@ -105,7 +105,7 @@ class Volunteer extends User {
     }
 
     public function units() {
-        return $this->belongsToMany('App\Models\Unit', 'volunteer_unit_status');
+        return $this->belongsToMany('App\Models\Unit', 'volunteer_unit_status')->whereNull('volunteer_unit_status.deleted_at');
     }
 
     public function unitsExcludes() {

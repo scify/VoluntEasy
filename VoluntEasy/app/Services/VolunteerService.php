@@ -179,7 +179,9 @@ class VolunteerService {
             $statusId = \DB::table('volunteer_unit_status')
                 ->select('volunteer_status_id')
                 ->where('volunteer_id', $volunteer->id)
-                ->where('unit_id', $unit->id)->first()->volunteer_status_id;
+                ->where('unit_id', $unit->id)
+                ->whereNull('deleted_at')
+                ->first()->volunteer_status_id;
             $status = VolunteerStatus::findOrFail($statusId)->description;
             $unit->status = $status;
         }
@@ -619,7 +621,7 @@ class VolunteerService {
 
     /**
      * Change the volunteer's unit status.
-     * For example change to active f volunteer
+     * For example change to active if volunteer
      * is assigned to an action
      * or change back to available if volunteer is removed from action.
      *
@@ -634,8 +636,10 @@ class VolunteerService {
 
         if ($volunteerUnitStatus == null)
             $this->addUnitStatus($volunteerId, $unitId, $statusId);
-        else
-            $volunteerUnitStatus->update(['volunteer_status_id' => $statusId]);
+        else {
+            $volunteerUnitStatus->delete();
+            $this->addUnitStatus($volunteerId, $unitId, $statusId);
+        }
 
         return;
     }
@@ -645,18 +649,17 @@ class VolunteerService {
      *
      * @param $volunteerId
      * @param $unitId
-     * @param $statusId
      */
-    /*
+
     public function deleteUnitStatus($volunteerId, $unitId) {
         $volunteerUnitStatus = VolunteerUnitStatus::where('volunteer_id', $volunteerId)
-            ->where('unit_id', $unitId)->first();
+            ->where('unit_id', $unitId)->whereNull('deleted_at')->first();
 
         $volunteerUnitStatus->delete();
 
         return;
     }
-    */
+
 
     /**
      * After the volunteer has the status of 'not available',
@@ -711,8 +714,8 @@ class VolunteerService {
                 $volunteer->steps()->saveMany($steps);
             }
 
-            $rootUnit->volunteers()->attach($volunteer, ['volunteer_status_id' => VolunteerStatus::pending()]);
-            // $this->changeUnitStatus($volunteer->id, $rootUnit->id, VolunteerStatus::pending());
+            //$rootUnit->volunteers()->attach($volunteer, ['volunteer_status_id' => VolunteerStatus::pending()]);
+             $this->changeUnitStatus($volunteer->id, $rootUnit->id, VolunteerStatus::pending());
 
 
             $this->unitHistory($volunteer->id, $rootUnit->id);
@@ -727,8 +730,11 @@ class VolunteerService {
     /**
      * Add a volunteer to a unit
      * and also create the steps that are needed (status set to incomplete).
-     * Also send notifications to the users that are aasigned to that unit.
+     * Also send notifications to the users that are assigned to that unit.
      *
+     * @param $unitId
+     * @param $parentUnitId
+     * @param $volunteerId
      * @return mixed
      */
     public function addToUnit($unitId, $parentUnitId = null, $volunteerId) {
@@ -786,7 +792,7 @@ class VolunteerService {
                     });
                 }])->findOrFail($volunteerId);
 
-                //if the volunteer has pending steps on that unit, then the status is pending
+                //if the volunteer has pending steps on that unit, then the status is pending (fetched before)
                 //else the status is available
                 if (sizeof($volunteer->steps) == 0)
                     $volunteerStatus = VolunteerStatus::where('description', 'Available')->first()->id;
@@ -795,15 +801,15 @@ class VolunteerService {
             //if the user is assigned to a child unit, then detach it from its parent
             if (\Request::has('parent_unit_id') && \Request::get('parent_unit_id') != '') {
                 $parentUnit = Unit::find(\Request::get('parent_unit_id'));
-                $parentUnit->volunteers()->detach($volunteer->id);
-                // $this->deleteUnitStatus($volunteer->id, \Request::get('parent_unit_id'));
+                //$parentUnit->volunteers()->detach($volunteer->id);
+                 $this->deleteUnitStatus($volunteer->id, \Request::get('parent_unit_id'));
             }
 
             //attach the volunteer to the unit with the appropriate status
             //status can be either pending, if the volunteer has never completed the steps for that unit before
             //or available, if the volunteer has completed the steps
-            $unit->volunteers()->attach($volunteer, ['volunteer_status_id' => $volunteerStatus]);
-            //$this->changeUnitStatus($volunteer->id, $unit->id, $volunteerStatus);
+            //$unit->volunteers()->attach($volunteer, ['volunteer_status_id' => $volunteerStatus]);
+            $this->changeUnitStatus($volunteer->id, $unit->id, $volunteerStatus);
 
             //also add an entry to the history table
             $this->unitHistory($volunteer->id, $unit->id);

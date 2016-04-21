@@ -197,6 +197,7 @@ Route::get('reports/volunteersByEducationLevel', 'ReportsController@volunteersBy
 Route::get('reports/volunteersByInterest', 'ReportsController@volunteersByInterest');
 Route::get('reports/volunteersByAction', 'ReportsController@volunteersByAction');
 Route::get('reports/volunteerHoursByAction', 'ReportsController@volunteerHoursByAction');
+Route::get('reports/activeAndAvailableVolunteersByUnit', 'ReportsController@activeAndAvailableVolunteersByUnit');
 
 
 

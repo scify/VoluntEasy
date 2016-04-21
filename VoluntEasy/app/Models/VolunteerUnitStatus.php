@@ -17,7 +17,6 @@ class VolunteerUnitStatus extends Model {
         return $this->hasOne('App\Models\Unit', 'id', 'unit_id');
     }
 
-
     public function volunteer() {
         return $this->hasOne('App\Models\Volunteer', 'id', 'volunteer_id');
     }

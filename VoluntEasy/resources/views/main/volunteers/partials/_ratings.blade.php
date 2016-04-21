@@ -48,7 +48,6 @@
                                             @foreach($rating->laborSkills as $skill)
                                             <tr>
                                                 <td>
-                                                    {{$skill['id']}}
                                                     @if($skill['id']==null)
                                                     {{ $skill['description'] }}
                                                     @else

@@ -338,4 +338,33 @@ class ReportsService implements ReportsInterface {
 
         return $actions;
     }
+
+    /**
+     * Get the active and available volunteer
+     * per unit by year and month
+     */
+    public function activeAndAvailableVolunteersByUnit() {
+        $volunteerUnitStatuses = VolunteerUnitStatus::with('volunteer', 'unit', 'status')->get();
+        $units = [];
+
+        foreach ($volunteerUnitStatuses as $vus) {
+            $foundUnit = false;
+            foreach ($units as $unit) {
+                if ($unit['unit'] == $vus->unit->description) {
+                    $foundUnit = true;
+                    if ($vus->status->description == 'Active')
+                        $units['activeVolunteers'] = $units['activeVolunteers']++;
+                    else
+                        $units['availableVolunteers'] = $units['availableVolunteers']++;
+                }
+            }
+            if (!$foundUnit) {
+                $units['unit'] = $vus->unit->description;
+                $units['activeVolunteers'] = 0;
+                $units['availableVolunteers'] = 0;
+            }
+        }
+
+        return $units;
+    }
 }
