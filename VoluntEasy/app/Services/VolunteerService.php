@@ -627,12 +627,8 @@ class VolunteerService {
      * @param $unitId
      */
 
-<<<<<<< HEAD
     public function deleteUnitStatus($volunteerId, $unitId) {
-=======
-    public
-    function deleteUnitStatus($volunteerId, $unitId) {
->>>>>>> dbce65803bb4e2d9d8f82790ba4d937e797d2775
+
         $volunteerUnitStatus = VolunteerUnitStatus::where('volunteer_id', $volunteerId)
             ->where('unit_id', $unitId)->whereNull('deleted_at')->first();
 
@@ -640,10 +636,6 @@ class VolunteerService {
 
         return;
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> dbce65803bb4e2d9d8f82790ba4d937e797d2775
 
     /**
      * After the volunteer has the status of 'not available',
@@ -787,15 +779,9 @@ class VolunteerService {
 
             //if the user is assigned to a child unit, then detach it from its parent
             if (\Request::has('parent_unit_id') && \Request::get('parent_unit_id') != '') {
-<<<<<<< HEAD
                 $parentUnit = Unit::find(\Request::get('parent_unit_id'));
                 //$parentUnit->volunteers()->detach($volunteer->id);
                  $this->deleteUnitStatus($volunteer->id, \Request::get('parent_unit_id'));
-=======
-                //$parentUnit = Unit::find(\Request::get('parent_unit_id'));
-                //$parentUnit->volunteers()->detach($volunteer->id);
-                $this->deleteUnitStatus($volunteer->id, \Request::get('parent_unit_id'));
->>>>>>> dbce65803bb4e2d9d8f82790ba4d937e797d2775
             }
 
             //attach the volunteer to the unit with the appropriate status
