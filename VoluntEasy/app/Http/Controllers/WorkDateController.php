@@ -2,7 +2,7 @@
 
 
 use App\Models\Action;
-use App\Models\ActionTasks\WorkDate;
+use App\Models\ActionTasks\SubtaskWorkDate;
 use App\Models\Volunteer;
 use App\Models\VolunteerWorkDateHistory;
 use App\Services\Facades\VolunteerService;
@@ -35,7 +35,7 @@ class WorkDateController extends Controller
         if (\Request::has('hourTo') && \Request::get('hourTo') != null && \Request::get('hourTo') != '')
             $to_hour = \Request::get('hourTo');
 
-        $workDate = new WorkDate([
+        $workDate = new SubtaskWorkDate([
             'from_date' => $dateFrom,
             'subtask_id' => \Request::get('subtaskId'),
             'from_hour' => $from_hour,
@@ -56,7 +56,7 @@ class WorkDateController extends Controller
     {
 
         //fetch the workdate with the volunteers
-        $workDate = WorkDate::with('volunteers')->find(\Request::get('workdateId'));
+        $workDate = SubtaskWorkDate::with('volunteers')->find(\Request::get('workdateId'));
 
         $dateFrom = null;
         $from_hour = null;
@@ -102,7 +102,7 @@ class WorkDateController extends Controller
      */
     public function destroy($id)
     {
-        $workDate = WorkDate::with('volunteers.actions', 'ctaVolunteers')->find($id);
+        $workDate = SubtaskWorkDate::with('volunteers.actions', 'ctaVolunteers')->find($id);
 
         WorkDateService::delete($workDate);
 

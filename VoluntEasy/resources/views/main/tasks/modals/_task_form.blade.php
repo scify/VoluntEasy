@@ -48,3 +48,25 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>{{ trans('entities/tasks.assignToUser') }}:</label>
+            <select class="form-control m-b-sm priorities" name="priority">
+                @foreach($users as $user)
+                <option value="{{$user->id}}">{{ $user->name }} {{ $user->last_name }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>{{ trans('entities/tasks.assignToVolunteer') }}:</label>
+            <select class="form-control m-b-sm priorities" name="priority">
+                @foreach($action->unit->volunteers as $volunteer)
+                <option value="{{$volunteer->id}}">{{ $volunteer->first_name }} {{ $volunteer->last_name }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+</div>

@@ -37,7 +37,7 @@ class SubTask extends Model {
     }
 
     public function workDates(){
-        return $this->hasMany('App\Models\ActionTasks\WorkDate', 'subtask_id', 'id');
+        return $this->hasMany('App\Models\ActionTasks\SubtaskWorkDate', 'subtask_id', 'id');
     }
 
     public function allWorkDates(){
@@ -46,6 +46,14 @@ class SubTask extends Model {
 
     public function checklist(){
         return $this->hasMany('App\Models\ActionTasks\ChecklistItem', 'subtask_id', 'id');
+    }
+
+    public function users() {
+        return $this->belongsToMany('App\Models\User', 'subtasks_users', 'subtask_id', 'user_id');
+    }
+
+    public function volunteers() {
+        return $this->belongsToMany('App\Models\Volunteer', 'subtasks_volunteers', 'subtask_id', 'volunteer_id');
     }
 
     public function getDueDateAttribute() {

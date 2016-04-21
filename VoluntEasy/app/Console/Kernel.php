@@ -26,12 +26,10 @@ class Kernel extends ConsoleKernel {
     protected function schedule(Schedule $schedule) {
 
         $schedule->command('checkActions')
-            ->everyMinute();
+            ->daily();
 
         $schedule->command('checkVolunteers')
             ->daily();
-
-        $schedule->exec('php -d register_argc_argv=On /voluntaction/artisan checkActions');
 
     }
 

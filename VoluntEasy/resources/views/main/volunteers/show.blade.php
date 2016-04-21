@@ -146,7 +146,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('default.close') }}</button>
-                <button type="button" class="btn btn-success available" data-volunteer-id="{{ $volunteer->id }}"
+                <button type="button" class="btn btn-success makeAvailable" data-volunteer-id="{{ $volunteer->id }}"
                         data-status-duration-id="{{ $volunteer->not_availableId }}">
                     {{ trans('default.save') }}
                 </button>
@@ -227,7 +227,7 @@
 <script>
 
     //change volunteer status to available
-    $(".available").click(function () {
+    $(".makeAvailable").click(function () {
         $.ajax({
             url: $("body").attr('data-url') + '/volunteers/available',
             method: 'POST',

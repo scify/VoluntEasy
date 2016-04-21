@@ -15,7 +15,7 @@
 {{--*/ $availableUnitsWithParent = $unit->availableUnits /*--}}
 {{--*/ $availableUnitsWithParent[$unit->id] = $unit->description /*--}}
 {!! Form::formInput('', trans('entities/volunteers.assignToUnit') .'*:', $errors, ['class' => 'form-control',
-'type' => 'select', 'id' => 'unitSelect-'.$step->statuses[0]->id, 'value' => $availableUnitsWithParent, 'data-parent' => $unit->id]) !!}
+'type' => 'select', 'id' => 'unitSelect-'.$unit->id, 'value' => $availableUnitsWithParent, 'data-parent' => $unit->id]) !!}
 <p class="text-right">
     <small><em>*{{ trans('entities/volunteers.assignToUnitExpl') }}</em>
     </small>

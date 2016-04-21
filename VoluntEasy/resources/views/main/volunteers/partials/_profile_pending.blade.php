@@ -77,7 +77,8 @@
                                 <i class="fa fa-edit"></i> {{ trans('default.edit') }}
                             </button>
                             @endif
-                            @include('main.volunteers.partials.modals._step', ['step' => $step, 'parentId' => $unit->id])
+                            @include('main.volunteers.partials.modals._step', ['step' => $step, 'parentId' =>
+                            $unit->id])
                         </td>
                         @endforeach
                     </tr>
@@ -100,7 +101,8 @@
                     <div class="col-md-10">
                         <div class="pull-right">
                             <h5>{{ trans('default.legend') }}:</h5>
-                            <i class="fa fa-square" style="color:#f25656;"></i> {{ trans('entities/volunteers.pendingStep') }} | <i
+                            <i class="fa fa-square" style="color:#f25656;"></i> {{
+                            trans('entities/volunteers.pendingStep') }} | <i
                                 class="fa fa-square"
                                 style="color:#22BAA0;"></i>
                             {{ trans('entities/volunteers.completedtep') }}
@@ -117,205 +119,205 @@
 @section('footerScripts')
 <script>
 
-    //save a step
-    $(".saveStep").click(function () {
-        var id = $(this).attr('data-id');
+//save a step
+$(".saveStep").click(function () {
+    var id = $(this).attr('data-id');
 
-        var stepStatus = {
-            'id': id,
-            'comments': $('#stepTextarea-' + id).val(),
-            'assignTo': '',
-            'status': 'Incomplete'
+    var stepStatus = {
+        'id': id,
+        'comments': $('#stepTextarea-' + id).val(),
+        'assignTo': '',
+        'status': 'Incomplete'
+    };
+
+    changeStepStatus(stepStatus, true);
+
+});
+
+//complete a step
+$(".completeStep").click(function () {
+    var id = $(this).attr('data-id');
+
+    var stepStatus = {
+        'id': id,
+        'comments': $('#stepTextarea-' + id).val(),
+        'assignTo': '',
+        'status': 'Complete'
+    };
+
+    changeStepStatus(stepStatus, true);
+});
+
+
+//assign to a unit after completing step 3
+$(".assignToNextUnit").click(function () {
+    var id = $(this).attr('data-parent'),
+        step, stepStatus;
+    console.log(id);
+    if (id != null) {
+        step = {
+            'volunteer_id': $(this).attr('data-volunteer-id'),
+            'assign_id': $('#unitSelect-' + id).val(),
+            'parent_unit_id': $(this).attr('data-parent')
         };
 
-        changeStepStatus(stepStatus, true);
-
-    });
-
-    //complete a step
-    $(".completeStep").click(function () {
-        var id = $(this).attr('data-id');
-
-        var stepStatus = {
+        stepStatus = {
             'id': id,
-            'comments': $('#stepTextarea-' + id).val(),
-            'assignTo': '',
+            'comments': $('#unitSelect-' + id + ' option:selected').text(),
+            'assignTo': 'unit',
             'status': 'Complete'
         };
 
-        changeStepStatus(stepStatus, true);
-    });
-
-
-    //assign to a unit after completing step 3
-    $(".assignToNextUnit").click(function () {
-        var id = $(this).attr('data-parent'),
-            step, stepStatus;
-
-        if (id != null) {
-            step = {
-                'volunteer_id': $(this).attr('data-volunteer-id'),
-                'assign_id': $('#moreUnits-unit' + id).val(),
-                'parent_unit_id': $(this).attr('data-parent')
-            };
-
-            stepStatus = {
-                'id': id,
-                'comments': $('#unitSelect-' + id + ' option:selected').text(),
-                'assignTo': 'unit',
-                'status': 'Complete'
-            };
-
-           /* console.log(step);
-            console.log(stepStatus);
-*/
-
-           $.when(changeStepStatus(stepStatus, false))
-                    .then(assignToUnit(step));
-
-        }
-        else {
-            step = {
-                'volunteer_id': $(this).attr('data-volunteer-id'),
-                'assign_id': $('#moreUnits').val(),
-                'parent_unit_id': null
-            };
-
-           // console.log(step);
-           assignToUnit(step);
-        }
-    });
-
-
-    //assign to an action after completing step 3
-    $(".assignToAction").click(function () {
-        var step = {
-            'volunteer_id': $(this).attr('data-volunteer-id'),
-            'assign_id': $('#addToAction-' + $(this).attr('data-unit-id')).val(),
-            'parent_unit_id': ''
-        };
         console.log(step);
-
-         assignToAction(step);
-    });
+        console.log(stepStatus);
 
 
-    //after completing step 3, the volunteer might be to unit
-    //that has actions. the user can assign the volunteer either to an action
-    //or keep thme to the unit they currently are.
-    $(".assignToActionOrUnit").click(function () {
-        var id = $(this).attr('data-id');
-        var assignmentRadio = $('input:radio[name="assignment"]:checked');
-        var stepStatus, step;
+        $.when(changeStepStatus(stepStatus, false))
+            .then(assignToUnit(step));
 
-        if (assignmentRadio.val() == 'action') {
-            stepStatus = {
-                'id': id,
-                'comments': $('#actionSelect-' + id + ' option:selected').text(),
-                'assignTo': 'action',
-                'status': 'Complete'
-            };
-
-            step = {
-                'volunteer_id': $(this).attr('data-volunteer-id'),
-                'assign_id': $('#actionSelect-' + id).val(),
-                'parent_unit_id': ''
-            };
-          /*  console.log('action');
-            console.log(stepStatus);
-            console.log(step);*/
-
-             $.when(changeStepStatus(stepStatus, false))
-             .then(assignToAction(step));
-
-        } else {
-            stepStatus = {
-                'id': id,
-                'comments': assignmentRadio.val(),
-                'assignTo': 'unit',
-                'status': 'Complete'
-            };
-
-            step = {
-                'volunteer_id': $(this).attr('data-volunteer-id'),
-                'assign_id': assignmentRadio.attr('data-unit-id'),
-                'parent_unit_id': assignmentRadio.attr('data-unit-id')
-            };
-
-              /* console.log('unit');
-                 console.log(stepStatus);
-                 console.log(step);
-             */
-
-             $.when(changeStepStatus(stepStatus, false))
-             .then(assignToUnit(step));
-        }
-    });
-
-    //'entakis se monada' button
-    $(".assignToAnotherUnit").click(function () {
-        var step = {
+    }
+    else {
+        step = {
             'volunteer_id': $(this).attr('data-volunteer-id'),
             'assign_id': $('#moreUnits').val(),
-            'parent_unit_id': ''
+            'parent_unit_id': null
         };
 
+        // console.log(step);
         assignToUnit(step);
+    }
+});
+
+
+//assign to an action after completing step 3
+$(".assignToAction").click(function () {
+    var step = {
+        'volunteer_id': $(this).attr('data-volunteer-id'),
+        'assign_id': $('#addToAction-' + $(this).attr('data-unit-id')).val(),
+        'parent_unit_id': ''
+    };
+    console.log(step);
+
+    assignToAction(step);
+});
+
+
+//after completing step 3, the volunteer might be to unit
+//that has actions. the user can assign the volunteer either to an action
+//or keep thme to the unit they currently are.
+$(".assignToActionOrUnit").click(function () {
+    var id = $(this).attr('data-id');
+    var assignmentRadio = $('input:radio[name="assignment"]:checked');
+    var stepStatus, step;
+
+    if (assignmentRadio.val() == 'action') {
+        stepStatus = {
+            'id': id,
+            'comments': $('#actionSelect-' + id + ' option:selected').text(),
+            'assignTo': 'action',
+            'status': 'Complete'
+        };
+
+        step = {
+            'volunteer_id': $(this).attr('data-volunteer-id'),
+            'assign_id': $('#actionSelect-' + id).val(),
+            'parent_unit_id': ''
+        };
+        /*  console.log('action');
+         console.log(stepStatus);
+         console.log(step);*/
+
+        $.when(changeStepStatus(stepStatus, false))
+            .then(assignToAction(step));
+
+    } else {
+        stepStatus = {
+            'id': id,
+            'comments': assignmentRadio.val(),
+            'assignTo': 'unit',
+            'status': 'Complete'
+        };
+
+        step = {
+            'volunteer_id': $(this).attr('data-volunteer-id'),
+            'assign_id': assignmentRadio.attr('data-unit-id'),
+            'parent_unit_id': assignmentRadio.attr('data-unit-id')
+        };
+
+        /* console.log('unit');
+         console.log(stepStatus);
+         console.log(step);
+         */
+
+        $.when(changeStepStatus(stepStatus, false))
+            .then(assignToUnit(step));
+    }
+});
+
+//'entakis se monada' button
+$(".assignToAnotherUnit").click(function () {
+    var step = {
+        'volunteer_id': $(this).attr('data-volunteer-id'),
+        'assign_id': $('#moreUnits').val(),
+        'parent_unit_id': ''
+    };
+
+    assignToUnit(step);
+});
+
+//change the step status
+function changeStepStatus(stepStatus, redirect) {
+    if (redirect)
+        return $.ajax({
+            url: $("body").attr('data-url') + '/volunteers/stepStatus/update',
+            method: 'POST',
+            data: stepStatus,
+            headers: {
+                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+            },
+            success: function (data) {
+                window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
+            }
+        });
+    else
+        return $.ajax({
+            url: $("body").attr('data-url') + '/volunteers/stepStatus/update',
+            method: 'POST',
+            data: stepStatus,
+            headers: {
+                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+            }
+        });
+}
+
+function assignToUnit(step) {
+    return $.ajax({
+        url: $("body").attr('data-url') + '/volunteers/addToUnit',
+        method: 'POST',
+        data: step,
+        headers: {
+            'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+        },
+        success: function (data) {
+            console.log(data);
+            window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
+        }
     });
+}
 
-    //change the step status
-    function changeStepStatus(stepStatus, redirect) {
-        if (redirect)
-            return $.ajax({
-                url: $("body").attr('data-url') + '/volunteers/stepStatus/update',
-                method: 'POST',
-                data: stepStatus,
-                headers: {
-                    'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-                },
-                success: function (data) {
-                    window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
-                }
-            });
-        else
-            return $.ajax({
-                url: $("body").attr('data-url') + '/volunteers/stepStatus/update',
-                method: 'POST',
-                data: stepStatus,
-                headers: {
-                    'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-                }
-            });
-    }
-
-    function assignToUnit(step) {
-        return $.ajax({
-            url: $("body").attr('data-url') + '/volunteers/addToUnit',
-            method: 'POST',
-            data: step,
-            headers: {
-                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-            },
-            success: function (data) {
-               console.log(data);
-                window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
-            }
-        });
-    }
-
-    function assignToAction(step) {
-        return $.ajax({
-            url: $("body").attr('data-url') + '/volunteers/addToAction',
-            method: 'POST',
-            data: step,
-            headers: {
-                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-            },
-            success: function (data) {
-                window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
-            }
-        });
-    }
+function assignToAction(step) {
+    return $.ajax({
+        url: $("body").attr('data-url') + '/volunteers/addToAction',
+        method: 'POST',
+        data: step,
+        headers: {
+            'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+        },
+        success: function (data) {
+            window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
+        }
+    });
+}
 
 </script>
 @append

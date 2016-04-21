@@ -129,7 +129,7 @@ class Volunteer extends User {
     }
 
     public function workDates() {
-        return $this->belongsToMany('App\Models\ActionTasks\WorkDate', 'volunteer_work_dates', 'volunteer_id', 'subtask_work_dates_id');
+        return $this->belongsToMany('App\Models\ActionTasks\SubtaskWorkDate', 'volunteer_work_dates', 'volunteer_id', 'subtask_work_dates_id');
     }
 
     public function extras() {

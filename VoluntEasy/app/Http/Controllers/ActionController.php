@@ -9,6 +9,7 @@ use App\Models\Rating\ActionRatingAttribute;
 use App\Models\Rating\ActionScore;
 use App\Models\Roles\Role;
 use App\Models\Unit;
+use App\Models\User;
 use App\Models\Volunteer;
 use App\Services\Facades\ActionService;
 use App\Services\Facades\CTAService;
@@ -90,7 +91,7 @@ class ActionController extends Controller {
      * @return Response
      */
     public function show($id) {
-        $action = Action::with('unit', 'users', 'ratings', 'tasks.subtasks.status', 'tasks.subtasks.workDates', 'tasks.subtasks.checklist', 'publicAction.subtasks')->findOrFail($id);
+        $action = Action::with('unit.volunteers', 'users', 'ratings', 'tasks.subtasks.status', 'tasks.subtasks.workDates', 'tasks.subtasks.checklist', 'publicAction.subtasks')->findOrFail($id);
 
         $branch = UnitService::getBranch(Unit::where('id', $action->unit->id)->with('actions')->first());
 
@@ -98,7 +99,6 @@ class ActionController extends Controller {
         $volunteerIds = VolunteerService::volunteerIds($action->volunteers);
 */
         $unitId = $action->unit_id;
-
 
         //check if action has expired
         $now = date('Y-m-d');
@@ -119,12 +119,15 @@ class ActionController extends Controller {
         //get subtasks per status, calculate total volunteer sum etc
         $action = TaskService::prepareTasks($action);
 
+        //get all users that can assigned to a task
+        $users = User::all();
+
         if ($action->publicAction != null)
             $publicSubtasks = CTAService::getPublicSubtasks($action);
 
         $configuration = $this->configuration;
 
-        return view('main.actions.show', compact('action', 'userUnits', 'branch', 'taskStatuses', 'publicSubtasks', 'isPermitted', 'configuration'));
+        return view('main.actions.show', compact('action', 'userUnits', 'branch', 'taskStatuses', 'publicSubtasks', 'users', 'isPermitted', 'configuration'));
     }
 
     /**

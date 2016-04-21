@@ -26,9 +26,10 @@ class Task extends Model {
         return $this->belongsTo('App\Models\Action');
     }
 
-    public function volunteers() {
-        return $this->hasMany('App\Models\ActionTasks\VolunteerTask');
-    }
+    /*
+        public function volunteers() {
+            return $this->hasMany('App\Models\ActionTasks\VolunteerTask');
+        }*/
 
     public function subtasks() {
         return $this->hasMany('App\Models\ActionTasks\SubTask');
@@ -42,6 +43,13 @@ class Task extends Model {
         return $this->hasOne('App\Models\ActionTasks\Status', 'id', 'status_id');
     }
 
+    public function users() {
+        return $this->belongsToMany('App\Models\User', 'tasks_users', 'task_id', 'user_id');
+    }
+
+    public function volunteers() {
+        return $this->belongsToMany('App\Models\Volunteer', 'tasks_volunteers', 'task_id', 'volunteer_id');
+    }
 
     public function getDueDateAttribute() {
         if ($this->attributes['due_date'] != null)

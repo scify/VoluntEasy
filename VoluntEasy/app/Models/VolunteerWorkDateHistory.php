@@ -10,6 +10,6 @@ class VolunteerWorkDateHistory extends Model {
     protected $fillable = ['volunteer_id', 'work_date_id'];
 
     public function workDate(){
-        return $this->hasOne('App\Models\ActionTasks\WorkDate', 'id', 'work_date_id')->withTrashed();
+        return $this->hasOne('App\Models\ActionTasks\SubtaskWorkDate', 'id', 'work_date_id')->withTrashed();
     }
 }

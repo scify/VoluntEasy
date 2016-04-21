@@ -19,6 +19,9 @@ return [
     'notAvailable' => 'Μη Διαθέσιμοι',
     'blacklisted' => 'Blacklisted',
     'volunteerSum' => 'Σύνολο Εθελοντών',
+    'availableOne' => 'Διαθέσιμος',
+    'activeOne' => 'Ενεργός',
+    'notAvailableOne' => 'Μη Διαθέσιμος',
 
     'new.capitals' => 'ΝΕΟΙ ΕΘΕΛΟΝΤΕΣ',
     'pending.capitals' => 'ΥΠΟ ΈΝΤΑΞΗ ΕΘΕΛΟΝΤΕΣ',

@@ -11,6 +11,10 @@ class Step extends Model {
 
     protected $fillable = ['description', 'step_order', 'type'];
 
+    public function getDescriptionAttribute() {
+        return trans('database/db_tables.' . $this->attributes['description']);
+    }
+
 
     public function status(){
         return $this->hasManyThrough('App\Models\Descriptions\StepStatus', 'App\Models\VolunteerStepStatus', 'step_status_id', 'id');

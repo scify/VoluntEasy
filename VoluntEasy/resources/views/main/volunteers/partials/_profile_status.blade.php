@@ -48,9 +48,9 @@
                                     @if($unit->status=='Pending')
                                         <div class="status pending width-110">{{ trans('entities/volunteers.pending') }}</div>
                                     @elseif($unit->status=='Available')
-                                        <div class="status available width-110">{{ trans('entities/volunteers.available') }}</div>
+                                        <div class="status available width-110">{{ trans('entities/volunteers.availableOne') }}</div>
                                     @elseif($unit->status=='Active')
-                                        <div class="status active width-110">{{ trans('entities/volunteers.active') }}</div>
+                                        <div class="status active width-110">{{ trans('entities/volunteers.activeOne') }}</div>
                                     @endif
                                 </td>
                                 <td class="col-md-4">

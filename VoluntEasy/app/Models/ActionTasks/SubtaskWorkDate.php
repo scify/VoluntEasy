@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Class Status
  * @package App\Models
  */
-class WorkDate extends Model {
+class SubtaskWorkDate extends Model {
 
     use SoftDeletes;
 

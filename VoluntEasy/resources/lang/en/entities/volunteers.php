@@ -17,6 +17,8 @@ return [
     'available' => 'Available',
     'active' => 'Active',
     'notAvailable' => 'Not available',
+    'availableOne' => 'Available',
+    'activeOne' => 'Active',
     'blacklisted' => 'Blacklisted',
     'volunteerSum' => 'Volunteer Total Number',
 

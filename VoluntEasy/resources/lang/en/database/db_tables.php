@@ -177,4 +177,9 @@ return [
     'private' => 'Private Agent',
     'etc' => 'Other',
 
+    /* steps */
+    'communicationStep' => 'Contact volunteer',
+    'interviewStep' => 'Interview with volunteer',
+    'assignmentStep' => 'Assign to unit',
+
 ];

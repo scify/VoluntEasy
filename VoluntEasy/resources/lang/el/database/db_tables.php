@@ -177,4 +177,9 @@ return [
     'private' => 'Ιδιωτικός Φορέας',
     'etc' => 'Άλλο',
 
+    /* steps */
+    'communicationStep' => 'Επικοινωνία με εθελοντή',
+    'interviewStep' => 'Συνέντευξη με εθελοντή',
+    'assignmentStep' => 'Ανάθεση σε μονάδα',
+
 ];

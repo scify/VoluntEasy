@@ -410,8 +410,7 @@ class VolunteerService {
      * @param $volunteerId
      * @return array[]
      */
-    public
-    function timeline($volunteerId) {
+    public function timeline($volunteerId) {
 
         $volunteer = Volunteer::with('actionHistory.user')
             ->with('unitHistory.user')
@@ -470,8 +469,7 @@ class VolunteerService {
      * @param $timeline
      * @return mixed
      */
-    public
-    function totalWorkingHours($timeline) {
+    public function totalWorkingHours($timeline) {
         $totalHours = 0;
         $totalMinutes = 0;
 
@@ -504,8 +502,7 @@ class VolunteerService {
      * @param $volunteerId
      * @return mixed
      */
-    public
-    function actionsRatings($volunteerId) {
+    public function actionsRatings($volunteerId) {
 
         $volunteer = Volunteer::find($volunteerId)->whereHas('actions.ratings.volunteerRatings', function ($q) use ($volunteerId) {
             $q->where('volunteer_id', $volunteerId);
@@ -559,8 +556,7 @@ class VolunteerService {
      *
      * @return mixed
      */
-    public
-    function updateStepStatus($stepStatusId, $status, $comments, $assignTo) {
+    public function updateStepStatus($stepStatusId, $status, $comments, $assignTo) {
         //the id of the status, either Complete or Incomplete
         $statusId = StepStatus::where('description', $status)->first()->id;
 
@@ -580,8 +576,7 @@ class VolunteerService {
      * @param $unitId
      * @param $statusId
      */
-    public
-    function addUnitStatus($volunteerId, $unitId, $statusId) {
+    public function addUnitStatus($volunteerId, $unitId, $statusId) {
 
         $volunteerUnitStatus = new VolunteerUnitStatus([
             'volunteer_id' => $volunteerId,
@@ -604,8 +599,7 @@ class VolunteerService {
      * @param $unitId
      * @param $statusId
      */
-    public
-    function changeUnitStatus($volunteerId, $unitId, $statusId) {
+    public function changeUnitStatus($volunteerId, $unitId, $statusId) {
 
         $volunteerUnitStatus = VolunteerUnitStatus::where('volunteer_id', $volunteerId)
             ->where('unit_id', $unitId)->first();
@@ -644,8 +638,7 @@ class VolunteerService {
      * @param $durationId
      * @return mixed
      */
-    public
-    function setVolunteerToAvailable($durationId) {
+    public function setVolunteerToAvailable($durationId) {
         $volunteer_status_duration = VolunteerStatusDuration::find($durationId);
 
         $volunteer_status_duration->delete();
@@ -665,8 +658,7 @@ class VolunteerService {
      * @param $id
      * @return bool
      */
-    public
-    function addToRootUnit($id) {
+    public function addToRootUnit($id) {
 
         if (UserServiceFacade::isAdmin()) {
 
@@ -693,7 +685,7 @@ class VolunteerService {
             }
 
             //$rootUnit->volunteers()->attach($volunteer, ['volunteer_status_id' => VolunteerStatus::pending()]);
-             $this->changeUnitStatus($volunteer->id, $rootUnit->id, VolunteerStatus::pending());
+            $this->changeUnitStatus($volunteer->id, $rootUnit->id, VolunteerStatus::pending());
 
 
             $this->unitHistory($volunteer->id, $rootUnit->id);
@@ -715,8 +707,7 @@ class VolunteerService {
      * @param $volunteerId
      * @return mixed
      */
-    public
-    function addToUnit($unitId, $parentUnitId = null, $volunteerId) {
+    public function addToUnit($unitId, $parentUnitId = null, $volunteerId) {
 
         //check if the user assigned the volunteer to his/her unit
         //or to a child unit
@@ -781,7 +772,7 @@ class VolunteerService {
             if (\Request::has('parent_unit_id') && \Request::get('parent_unit_id') != '') {
                 $parentUnit = Unit::find(\Request::get('parent_unit_id'));
                 //$parentUnit->volunteers()->detach($volunteer->id);
-                 $this->deleteUnitStatus($volunteer->id, \Request::get('parent_unit_id'));
+                $this->deleteUnitStatus($volunteer->id, \Request::get('parent_unit_id'));
             }
 
             //attach the volunteer to the unit with the appropriate status
@@ -798,7 +789,9 @@ class VolunteerService {
             //(no need to notify the admin about his/her action.
             if (!UnitServiceFacade::isRoot($unit))
                 NotificationServiceFacade::newVolunteer($volunteerId, $unitId);
+
         }
+
 
         return $volunteerId;
     }
@@ -810,8 +803,7 @@ class VolunteerService {
      * @param $volunteer
      * @param $action
      */
-    public
-    function addToAction($volunteer, $action) {
+    public function addToAction($volunteer, $action) {
         $statusId = VolunteerStatus::active();
 
         //change unit status to active
@@ -932,8 +924,7 @@ class VolunteerService {
      * @param $id
      * @return boolean
      */
-    public
-    function storeFiles($files, $id) {
+    public function storeFiles($files, $id) {
         foreach ($files as $file) {
             if ($file != null) {
                 $destinationPath = public_path() . '/assets/uploads/volunteers';
@@ -962,8 +953,7 @@ class VolunteerService {
      *
      * @return mixed
      */
-    public
-    function search() {
+    public function search() {
         $ratingId = -1;
 
         if (\Input::has('my_volunteers')) {

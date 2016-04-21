@@ -21,6 +21,8 @@ return [
     'complete' => 'Completed',
     'incomplete' => 'Incomplete',
     'expires' => 'Due date',
+    'assignToUser' => 'Assign to user',
+    'assignToVolunteer' => 'Assign to volunteer',
 
     'noVolunteers' => 'This task has no volunteers',
     'noTask' => 'There is no task for the action.',
