@@ -454,12 +454,6 @@
                         <i class="fa fa-youtube social-icon-jump-dark"></i>
                     </div>
                 </a>
-                <a href="http://scify-org.tumblr.com/" target="_blank" class="social-icon-jump-x4 circle">
-                    <div>
-                        <i class="fa fa-tumblr tumblr-icon-jump"></i>
-                        <i class="fa fa-tumblr social-icon-jump-dark"></i>
-                    </div>
-                </a>
             </div>
             <p>2016 &copy; <a href="http://scify.org" target="_blank">SciFY</a></p>
         </div><!-- end row -->
