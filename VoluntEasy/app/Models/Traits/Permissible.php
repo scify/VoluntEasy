@@ -93,7 +93,6 @@ trait Permissible {
      */
     public function refreshRoles($values) {
 
-
         $roles = [];
         $units = [];
         $actions = [];
@@ -105,26 +104,26 @@ trait Permissible {
                 array_push($units, UnitService::getRoot()->id);
 
                 $roles = Role::whereIn('name', $values)->get(['id']);
-            } else {
-                if (in_array('unit_manager', $values)) {
-                    //refresh user units
-                    if (\Request::has('unitsSelect') && sizeof(\Request::get('unitsSelect')) > 0) {
+            } //else {
+            if (in_array('unit_manager', $values)) {
+                //refresh user units
+                if (\Request::has('unitsSelect') && sizeof(\Request::get('unitsSelect')) > 0) {
 
-                        $units = \Request::get('unitsSelect');
+                    $units = \Request::get('unitsSelect');
 
-                        foreach (\Request::get('unitsSelect') as $unitId) {
-                            $unit = Unit::find($unitId);
-                            NotificationService::userToUnit($this->id, $unit);
-                        }
+                    foreach (\Request::get('unitsSelect') as $unitId) {
+                        $unit = Unit::find($unitId);
+                        NotificationService::userToUnit($this->id, $unit);
                     }
                 }
-
-                if (in_array('action_manager', $values)) {
-                    //refresh user actions
-                    if (\Request::has('actionsSelect') && sizeof(\Request::get('actionsSelect')) > 0)
-                        $actions = \Request::get('actionsSelect');
-                }
             }
+
+            if (in_array('action_manager', $values)) {
+                //refresh user actions
+                if (\Request::has('actionsSelect') && sizeof(\Request::get('actionsSelect')) > 0)
+                    $actions = \Request::get('actionsSelect');
+            }
+            //  }
 
 
             if ((\Request::has('unitsSelect') && sizeof(\Request::get('unitsSelect')) > 0) ||

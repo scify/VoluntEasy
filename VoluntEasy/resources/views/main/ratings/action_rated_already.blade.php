@@ -17,8 +17,12 @@
                         <div class="panel-body">
                             <div class=" text-center">
                                 <a href="{{ url('/') }}"
-                                   class="logo-name text-lg"> <img
-                                        src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
+                                   class="logo-name text-lg">
+                                    @if(env('PLATFORM_NAME')=='VoluntAction')
+                                        <img src="{{ asset('assets/images/voluntaction/logo.png') }}" style="height:100%;"/>
+                                    @else
+                                        <img src="{{ asset('assets/images/volunteasy/logo.png') }}" style="height:100%;"/>
+                                    @endif
                                 </a>
                             </div>
                             <h3 class="text-center">{{ trans('entities/ratings.actionRating') }} {{ $action->description

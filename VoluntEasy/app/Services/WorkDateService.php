@@ -24,8 +24,11 @@ class WorkDateService
             //VolunteerServiceFacade::removeFromAction($volunteer, $action);
         }
 
+        foreach($workDate->ctaVolunteers as $cta){
+            $cta->delete();
+        }
+
         $workDate->subtask()->dissociate();
-        $workDate->ctaVolunteers()->detach();
         $workDate->delete();
 
         return;

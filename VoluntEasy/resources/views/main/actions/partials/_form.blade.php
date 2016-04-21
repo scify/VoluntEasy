@@ -49,16 +49,18 @@
                     !!}
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    {!! Form::formInput('volunteer_sum', trans('entities/actions.volNum').':', $errors, ['class' => 'form-control', 'id'
-                    =>
-                    'actionPhone'])
-                    !!}
-                    <small class="help-block">{{ trans('entities/actions.volNumExpl') }}
-                    </small>
+            @if(!$configuration->hasTasks())
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::formInput('volunteer_sum', trans('entities/actions.volNum').':', $errors, ['class' => 'form-control', 'id'
+                        =>
+                        'actionPhone'])
+                        !!}
+                        <small class="help-block">{{ trans('entities/actions.volNumExpl') }}
+                        </small>
+                    </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
     {!! Form::formInput('unit_id', null, $errors, ['type' => 'hidden', 'id' => 'unit_id']) !!}

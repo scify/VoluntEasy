@@ -44,7 +44,7 @@
                                     asset('assets/images/default.png') : asset('assets/uploads/users/'.$active->users[0]->image_name) }}"
                                          alt="" class="user-image-small userImage">
                                 </div>
-                                <p class="msg-name"><a href="{{ url('users/one/'.$active->users[0]->id) }}">{{$active->users[0]->name}}</a>
+                                <p class="msg-name"><a href="{{ url('users/one/'.$active->users[0]->id) }}">{{$active->users[0]->name}} {{$active->users[0]->last_name}}</a>
 
                                 <p>
 
@@ -65,7 +65,8 @@
                                     asset('assets/images/default.png') : asset('assets/uploads/users/'.$user->image_name) }}"
                                          alt="" class="user-image-small userImage">
 
-                                    <p class="msg-name"><a href="{{ url('users/one/'.$user->id) }}">{{$user->name}} {{ $user->last_name }}</a>
+                                    <p class="msg-name"><a href="{{ url('users/one/'.$user->id) }}">
+                                            {{ $user->name }} {{ $user->last_name }}</a>
 
                                     <p>
 
@@ -126,7 +127,7 @@
         </div>
     </div>
     <div class="panel-body" style="display: block;">
-        @include('main.tree._tree')
+        @include('main.tree._showTree')
 
     </div>
 </div>

@@ -7,10 +7,12 @@ use App\Models\ActionVolunteerHistory;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Rating\ActionRatingAttribute;
 use App\Models\Rating\ActionScore;
+use App\Models\Roles\Role;
 use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Services\Facades\ActionService;
 use App\Services\Facades\CTAService;
+use App\Services\Facades\SubtaskService;
 use App\Services\Facades\TaskService;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
@@ -19,14 +21,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
-class ActionController extends Controller
-{
+class ActionController extends Controller {
 
     private $configuration;
 
-
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware('auth');
         $this->configuration = \App::make('Interfaces\ConfigurationInterface');
 
@@ -37,8 +36,7 @@ class ActionController extends Controller
      *
      * @return Response
      */
-    public function index()
-    {
+    public function index() {
         $actions = Action::with('unit', 'volunteers')->get();
 
         foreach ($actions as $action) {
@@ -57,13 +55,14 @@ class ActionController extends Controller
      *
      * @return Response
      */
-    public function create()
-    {
+    public function create() {
         $tree = UnitService::getTree();
 
         $userUnits = UserService::userUnits();
 
-        return view('main.actions.create', compact('tree', 'userUnits'));
+        $configuration = $this->configuration;
+
+        return view('main.actions.create', compact('tree', 'userUnits', 'configuration'));
     }
 
     /**
@@ -72,8 +71,7 @@ class ActionController extends Controller
      * @param ActionRequest $request
      * @return Response
      */
-    public function store(ActionRequest $request)
-    {
+    public function store(ActionRequest $request) {
 
         $request['start_date'] = \Carbon::createFromFormat('d/m/Y', $request->start_date);
         $request['end_date'] = \Carbon::createFromFormat('d/m/Y', $request->end_date);
@@ -91,9 +89,8 @@ class ActionController extends Controller
      * @param  int $id
      * @return Response
      */
-    public function show($id)
-    {
-        $action = Action::with('unit', 'users', 'ratings', 'tasks.subtasks.status', 'tasks.subtasks.workDates.ctaVolunteers', 'tasks.subtasks.checklist', 'publicAction.subtasks')->findOrFail($id);
+    public function show($id) {
+        $action = Action::with('unit', 'users', 'ratings', 'tasks.subtasks.status', 'tasks.subtasks.workDates', 'tasks.subtasks.checklist', 'publicAction.subtasks')->findOrFail($id);
 
         $branch = UnitService::getBranch(Unit::where('id', $action->unit->id)->with('actions')->first());
 
@@ -136,14 +133,15 @@ class ActionController extends Controller
      * @param  int $id
      * @return Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         $action = Action::where('id', $id)->first();
         $actives = [$action->id];
 
         $userUnits = UserService::userUnits();
 
-        return view('main.actions.edit', compact('action', 'actives', 'userUnits'));
+        $configuration = $this->configuration;
+
+        return view('main.actions.edit', compact('action', 'actives', 'userUnits', 'configuration'));
     }
 
     /**
@@ -152,8 +150,7 @@ class ActionController extends Controller
      * @param  ActionRequest $request
      * @return Response
      */
-    public function update(ActionRequest $request)
-    {
+    public function update(ActionRequest $request) {
         $action = Action::findOrFail($request->get('id'));
 
         $request['start_date'] = \Carbon::createFromFormat('d/m/Y', $request->start_date);
@@ -170,22 +167,41 @@ class ActionController extends Controller
      * @param  int $id
      * @return Response
      */
-    public function destroy($id)
-    {
-        $action = Action::findOrFail($id);
-        $action->load('volunteers');
+    public function destroy($id) {
+        $action = Action::with('volunteers', 'tasks.subtasks.workDates', 'users', 'ratings', 'actionRatings', 'publicAction')->findOrFail($id);
 
-        //if the action has volunteers, do not delete
-        if (sizeof($action->volunteers) > 0) {
-            Session::flash('flash_message', trans('entities/actions.hasVolunteers'));
-            Session::flash('flash_type', 'alert-danger');
-            return;
+        //first delete any task, subtask and workDate associated with the action
+        foreach ($action->tasks as $task) {
+            foreach ($task->subtasks as $subtask) {
+                SubtaskService::delete($subtask);
+            }
+            $task->delete();
         }
+
+        //remove all volunteers and set their status to available
+        foreach ($action->volunteers as $volunteer) {
+            VolunteerService::removeFromAction($volunteer, $action);
+        }
+
+        //remove all users, and check if their role should be updated
+        foreach ($action->users as $user) {
+            $user->actions()->detach($action->id);
+            $user->load('roles');
+            $user->load('actions');
+            if (in_array('action_manager', $user->roles->lists('name')->toArray()) && sizeof($user->actions) == 0) {
+                $actionManagerId = Role::where('name', 'action_manager')->first(["id"])->id;
+                $user->roles()->detach($actionManagerId);
+            }
+        }
+
+
+        /*$action->ratings()->delete();//check
+        $action->actionRatings()->delete();//check*/
+        $action->publicAction()->delete();
+        $action->delete();
 
         Session::flash('flash_message', trans('entities/actions.deleted'));
         Session::flash('flash_type', 'alert-success');
-
-        $action->delete();
 
         return;
     }
@@ -195,8 +211,7 @@ class ActionController extends Controller
      *
      * @return mixed
      */
-    public function search()
-    {
+    public function search() {
         $actions = ActionService::search();
 
         return $actions;
@@ -208,8 +223,7 @@ class ActionController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function addVolunteers(Request $request)
-    {
+    public function addVolunteers(Request $request) {
 
         $action = Action::whereId($request->get('id'))->first();
 
@@ -237,8 +251,7 @@ class ActionController extends Controller
     }
 
 
-    public function fullRatings($id)
-    {
+    public function fullRatings($id) {
         $action = Action::findOrFail($id);
         $ratings = ActionScore::where('action_id', $id)->with('ratings')->get();
 

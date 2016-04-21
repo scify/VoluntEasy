@@ -48,7 +48,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                @include('main.tree._tree')
+                @include('main.tree._showTree')
             </div>
         </div>
     </div>

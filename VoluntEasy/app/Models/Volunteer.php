@@ -219,11 +219,11 @@ class Volunteer extends User {
         if ($permitted == null)
             $query->whereHas('units', function ($query) {
                 $query->where('volunteer_status_id', VolunteerStatus::available());
-            })->whereDoesntHave('actions')->where('blacklisted', false)->where('not_available', false)->get();
+            })->where('blacklisted', false)->where('not_available', false)->get();
         else
             $query->whereIn('id', $permitted)->whereHas('units', function ($query) {
                 $query->where('volunteer_status_id', VolunteerStatus::available());
-            })->whereDoesntHave('actions')->where('blacklisted', false)->where('not_available', false)->get();
+            })->where('blacklisted', false)->where('not_available', false)->get();
     }
 
     /**

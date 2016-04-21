@@ -7,7 +7,11 @@
                         </a>
                     </div>
                     <div class="logo-box">
-                      <img src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
+                        @if(env('PLATFORM_NAME')=='VoluntAction')
+                            <img src="{{ asset('assets/images/voluntaction/logo.png') }}" style="height:100%;"/>
+                        @else
+                            <img src="{{ asset('assets/images/volunteasy/logo.png') }}" style="height:100%;"/>
+                        @endif
                     </div>
                     <!-- Logo Box -->
                     <div class="topmenu-outer">

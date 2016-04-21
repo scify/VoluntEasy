@@ -5,15 +5,16 @@ return [
     'resetPassword' => 'Click here to reset your password',
     'welcome' => 'Welcome to VoluntEasy!',
 
-    'volunteerPlatform' => 'Πλατφόρμα Διαχείρησης Εθελοντών',
+    'volunteerPlatform' => 'Πλατφόρμα Διαχείρισης Εθελοντών',
 
     /* cta new volunteer */
     'newCTAVolunteer' => 'Νέος Εθελοντής για τη Δράση',
-    'dear' => 'Αγαπητέ',
+    'dear' => 'Αγαπητέ/ή',
     'newVolunteerForAction' => 'Ένας νέος εθελοντής δήλωσε ενδιαφέρον στη δράση',
 
     'name' => 'Όνομα',
     'email' => 'Email',
+    'phone' => 'Τηλέφωνο',
 
     'comments' => 'Σχόλια',
     'volunteerFoundInPlatform' => 'Ο εθελοντής υπάρχει ήδη στην πλατφόρμα! Μπορείτε να τον αναθέσετε στη δράση, εφόσον βρίσκεται στην κατάλληλη μονάδα. Δείτε το προφίλ του',

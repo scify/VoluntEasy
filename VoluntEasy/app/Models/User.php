@@ -55,7 +55,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     public function roles() {
-        return $this->belongsToMany('App\Models\Roles\Role', 'users_roles', 'user_id', 'role_id');
+        return $this->belongsToMany('App\Models\Roles\Role', 'users_roles', 'user_id', 'role_id')->orderBy('id', 'ASC');
     }
 
     /**

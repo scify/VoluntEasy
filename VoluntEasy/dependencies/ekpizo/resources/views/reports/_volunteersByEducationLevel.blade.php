@@ -24,16 +24,12 @@
             var data = [];
             $.each(result, function (key, value) {
 
-                if (value.description == 'Γυμνάσιο')
+                if (value.description == 'Δευτεροβάθμια')
                     color = 'orange';
-                if (value.description == 'Λύκειο')
+                if (value.description == 'Τριτοβάθμια')
                     color = 'pink';
-                if (value.description == 'Ανώτερη')
-                    color = 'lightblue';
-                if (value.description == 'Ανώτατη')
-                    color = 'green';
                 if (value.description == 'Μεταπτυχιακά')
-                    color = 'yellow';
+                    color = 'green';
 
                 data.push({
                     value: value.count,

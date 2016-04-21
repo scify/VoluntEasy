@@ -12,7 +12,7 @@
                 <p>{{ trans('entities/volunteers.noUnitAvailable') }}</p>
                 @else
                 {!! Form::formInput('', trans('entities/volunteers.assignToUnit').'*:', $errors, ['class' => 'form-control',
-                'type' => 'select', 'value' => $units, 'id' => 'moreUnits']) !!}
+                'type' => 'select', 'value' => $units, 'id' => $selectId]) !!}
                 <p class="text-right">
                     <small><em>*{{ trans('entities/volunteers.selectUnitExpl') }}</em>
                     </small>
@@ -23,7 +23,7 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('default.close') }}</button>
                 @if(sizeof($units)>0)
                 <button type="button" class="btn btn-success assignToNextUnit"
-                        data-volunteer-id="{{ $volunteer->id }}" {{ isset($parentId) ? 'data-parent='.$parentId : '' }}">{{ trans('default.save') }}
+                        data-volunteer-id="{{ $volunteer->id }}" {{ isset($parentId) ? 'data-parent='.$parentId : '' }}>{{ trans('default.save') }}
                 </button>
                 @endif
             </div>

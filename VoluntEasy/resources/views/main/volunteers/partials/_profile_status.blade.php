@@ -28,9 +28,9 @@
                             <th>{{ trans('entities/actions.action') }}</th>
                             <th class="text-center">
                                 @if($hasTasks)
-                                <small>{{ trans('entities/volunteers.assignToSubUnit') }}</small>
+                                    <small>{{ trans('entities/volunteers.assignToSubUnit') }}</small>
                                 @else
-                                <small>{{ trans('entities/volunteers.assignToActionOrUnit') }}</small>
+                                    <small>{{ trans('entities/volunteers.assignToActionOrUnit') }}</small>
                                 @endif
                             </th>
                             <th class="text-center">
@@ -57,29 +57,32 @@
                                     @if($unit->status=='Active')
                                         @foreach($volunteer->actions as $action)
                                             @if($action->unit_id==$unit->id)
-                                                {{ trans('entities/actions.action') }} <strong><a href="{{ url('actions/one/'.$action->id) }}">{{
+                                                {{ trans('entities/actions.action') }} <strong><a
+                                                            href="{{ url('actions/one/'.$action->id) }}">{{
                                 $action->description
                                 }}</a></strong>
-                                                    <small>({{ $action->start_date }} - {{ $action->end_date }})</small>
+                                                <small>({{ $action->start_date }} - {{ $action->end_date }})</small>
                                                 <br/>
                                             @endif
                                         @endforeach
                                     @elseif(sizeof($unit->actions)>0 && $unit->status=='Available')
-                                        <p style="color:#aaa;"><em>{{ trans('entities/volunteers.volunteerNotInAction') }}</em></p>
+                                        <p style="color:#aaa;">
+                                            <em>{{ trans('entities/volunteers.volunteerNotInAction') }}</em></p>
                                     @elseif(sizeof($unit->actions)==0)
-                                        <p style="color:#aaa;"><em>{{ trans('entities/volunteers.unitNoActions') }}</em></p>
+                                        <p style="color:#aaa;"><em>{{ trans('entities/volunteers.unitNoActions') }}</em>
+                                        </p>
                                     @endif
                                 </td>
                                 <td class="col-md-2">
                                     <div class="text-center">
 
                                         @if($volunteer->permitted && $unit->status=='Available' && sizeof($unit->actions)>0)
-                                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                                data-target="#selectAction-unit{{$unit->id}}">
-                                            <i class="fa fa-bullseye"></i>
-                                        </button>
-                                        @include('main.volunteers.partials.modals._select_action', ['divId' =>
-                                        'selectAction-unit'.$unit->id])
+                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                                    data-target="#selectAction-unit{{$unit->id}}">
+                                                <i class="fa fa-bullseye"></i>
+                                            </button>
+                                            @include('main.volunteers.partials.modals._select_action', ['divId' =>
+                                            'selectAction-unit'.$unit->id])
                                         @endif
 
 
@@ -89,7 +92,7 @@
                                                 <i class="fa fa-home"></i>
                                             </button>
                                             @include('main.volunteers.partials.modals._select_unit', ['units' =>
-                                            $unit->availableUnits, 'divId' => 'selectUnit-unit'.$unit->id, 'parentId' => $unit->id])
+                                            $unit->availableUnits, 'divId' => 'selectUnit-unit'.$unit->id, 'parentId' => $unit->id, 'selectId'=>'moreUnits-unit'.$unit->id])
                                         @endif
                                     </div>
                                 </td>

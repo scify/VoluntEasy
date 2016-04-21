@@ -5,7 +5,11 @@
         <meta name="author" content="Steelcoders"/>
         <meta name="_token" content="{{ csrf_token() }}" />
 
-        <link rel="icon" type="image/png" href="{{ asset('favicon.ico')}}">
+        @if(env('PLATFORM_NAME')=='VoluntAction')
+                <link rel="icon" type="image/png" href="{{ asset('assets/images/voluntaction/favicon.ico')}}">
+        @else
+                <link rel="icon" type="image/png" href="{{ asset('assets/images/volunteasy/favicon.ico')}}">
+        @endif
 
 
         <!-- Styles -->

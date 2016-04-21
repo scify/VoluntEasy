@@ -11,7 +11,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class PublicAction extends Model {
 
+    use \SoftDeletes;
+
     protected $table = 'public_actions';
+
+    protected $dates = ['deleted_at'];
 
     protected $fillable = ['description', 'address', 'map_url', 'executive_name', 'executive_email', 'executive_phone', 'public_url', 'isActive', 'action_id'];
 

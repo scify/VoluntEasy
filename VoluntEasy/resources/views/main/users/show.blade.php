@@ -25,12 +25,12 @@
             </div>
             <div class="panel-body">
                 <div class="row m-b-lg">
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="user_image" style="background-image: url('{{ ($user->image_name==null || $user->image_name=='') ?
                                     asset('assets/images/default.png') : asset('assets/uploads/users/'.$user->image_name) }}')">
                         </div>
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-9">
                         <p class="lead" id="userId" data-id="{{ $user->id }}">{{ $user->name }} {{ $user->last_name
                             }}</p>
 
@@ -96,7 +96,7 @@
     <div class="panel-body" style="display: block;">
         <h4>{{ trans('entities/users.inGreenTheUserUnits') }}</h4>
 
-        @include('main.tree._tree')
+        @include('main.tree._showTree')
 
     </div>
 </div>

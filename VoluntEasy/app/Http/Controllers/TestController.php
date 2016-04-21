@@ -5,6 +5,7 @@ use App\Models\Action;
 use App\Models\Descriptions\Interest;
 use App\Models\Descriptions\InterestCategory;
 use App\Models\Descriptions\Language;
+use App\Models\Roles\Role;
 use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Services\Facades\UnitService;
@@ -23,31 +24,14 @@ class TestController extends Controller {
 
     public function test() {
 
-        $configuration = \App::make('Interfaces\ConfigurationInterface');
+        $user = \Auth::user();
+        $user->load('roles');
+        $user->load('actions');
 
-        $filepath = $configuration->getJsonDataPath() . 'interests.json';
 
-        if (!\File::exists($filepath)) {
-            $filepath = $this->defaultFilePath . 'interests.json';
-        }
+        dd(in_array('action_manager', $user->roles->lists('name')->toArray()));
 
-        $json = \File::get($filepath);
-
-        $array = json_decode($json);
-        $categories = $array->categories;
-
-        foreach ($categories as $category) {
-            $cat = InterestCategory::create([
-                'description' => $category->description
-            ]);
-
-            foreach ($category->interests as $interest) {
-                $int = Interest::create([
-                    'category_id' => $cat->id,
-                    'description' => $interest->description
-                ]);
-            }
-        }
+        return sizeof($user->roles);
 
     }
 

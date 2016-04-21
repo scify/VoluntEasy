@@ -185,8 +185,12 @@
                         <td>
                             <center>
                                 <a href="{{ URL::to('/') }}"
-                                   class="logo-name text-lg text-center"> <img
-                                        src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
+                                   class="logo-name text-lg text-center">
+                                    @if(env('PLATFORM_NAME')=='VoluntAction')
+                                        <img src="{{ asset('assets/images/voluntaction/logo.png') }}" style="height:100%;"/>
+                                    @else
+                                        <img src="{{ asset('assets/images/volunteasy/logo.png') }}" style="height:100%;"/>
+                                    @endif
                                 </a>
                                 <h4>{{ trans('emails/emails.volunteerPlatform') }}</h4>
                             </center>

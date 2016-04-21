@@ -101,7 +101,7 @@ class TaskService {
 
         unset($action->tasks);
         $action->tasks = json_decode(json_encode($tasks));
-        $action->volunteerSum = $volunteerSum;
+        $action->volunteerTaskSum = $volunteerSum;
 
         return $action;
     }

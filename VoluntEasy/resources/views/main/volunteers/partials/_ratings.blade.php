@@ -45,38 +45,26 @@
                                             <th>{{ trans('entities/ratings.commentsEtc') }}</th>
                                             </thead>
                                             <tbody>
-                                            @foreach($rating->laborSkills as $skill)
+                                            @foreach($laborSkills as $lb)
                                             <tr>
+                                                <td>{{$lb->description}}</td>
                                                 <td>
-                                                    @if($skill['id']==null)
-                                                    {{ $skill['description'] }}
-                                                    @else
-                                                    {{ $skill->skill->description }}
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if($skill['id']==null)
-                                                    -
-                                                    @else
-                                                    @if($skill->needsImprovement==1)
+                                                    @foreach($rating->laborSkills as $skill)
+                                                    @if($skill->skill->id==$lb->id)
+                                                    @if($skill->needsImprovement=="1")
                                                     {{ trans('entities/ratings.weak') }}
-                                                    @elseif($skill->needsImprovement==0)
+                                                    @elseif($skill->needsImprovement=="0")
                                                     {{ trans('entities/ratings.strong') }}
-                                                    @else
-                                                    -
                                                     @endif
                                                     @endif
+                                                    @endforeach
                                                 </td>
                                                 <td>
-                                                    @if($skill['id']==null)
-                                                    -
-                                                    @else
-                                                    @if($skill->comments==null || $skill->comments=="")
-                                                    -
-                                                    @else
+                                                    @foreach($rating->laborSkills as $skill)
+                                                    @if($skill->skill->id==$lb->id)
                                                     {{ $skill->comments }}
                                                     @endif
-                                                    @endif
+                                                    @endforeach
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -91,38 +79,26 @@
                                             <th>{{ trans('entities/ratings.commentsEtc') }}</th>
                                             </thead>
                                             <tbody>
-                                            @foreach($rating->interpersonalSkills as $skill)
+                                            @foreach($interpersonalSkills as $int)
                                             <tr>
+                                                <td>{{$int->description}}</td>
                                                 <td>
-                                                    @if($skill['id']==null)
-                                                    {{ $skill['description'] }}
-                                                    @else
-                                                    {{ $skill->skill->description }}
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if($skill['id']==null)
-                                                    -
-                                                    @else
-                                                    @if($skill->needsImprovement==1)
+                                                    @foreach($rating->interpersonalSkills as $skill)
+                                                    @if($skill->skill->id==$int->id)
+                                                    @if($skill->needsImprovement=="1")
                                                     {{ trans('entities/ratings.weak') }}
-                                                    @elseif($skill->needsImprovement==0)
+                                                    @elseif($skill->needsImprovement=="0")
                                                     {{ trans('entities/ratings.strong') }}
-                                                    @else
-                                                    -
                                                     @endif
                                                     @endif
+                                                    @endforeach
                                                 </td>
                                                 <td>
-                                                    @if($skill['id']==null)
-                                                    -
-                                                    @else
-                                                    @if($skill->comments==null || $skill->comments=="")
-                                                    -
-                                                    @else
+                                                    @foreach($rating->interpersonalSkills as $skill)
+                                                    @if($skill->skill->id==$int->id)
                                                     {{ $skill->comments }}
                                                     @endif
-                                                    @endif
+                                                    @endforeach
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -170,8 +146,7 @@
                                 trans('entities/actions.action') }}
                                 <strong>{{
                                     $rating->action->description }}</strong>, {{ trans('entities/volunteers.ratedBy') }}
-                                {{
-                                $rating->user->name }} {{ $rating->user->last_name }} {{
+                                {{ $rating->user->name }} {{ $rating->user->last_name }} {{
                                 trans('entities/volunteers.ratedWhen') }} {{
                                 \Carbon::parse($rating->created_at)->format('d/m/Y') }}</strike>
                         </a>
