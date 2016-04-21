@@ -5,7 +5,7 @@ return [
 	'title'		=> 'VoluntEasy',
 	'logIn'		=> 'Login',
 	'remember'	=> 'Remember Me',
-	'entrance'	=> 'Entrance',
+	'entrance'	=> 'Enter',
 	'forgotPass'=> 'Forgot your Password?',
 	'register'	=> 'Create Account',
 
