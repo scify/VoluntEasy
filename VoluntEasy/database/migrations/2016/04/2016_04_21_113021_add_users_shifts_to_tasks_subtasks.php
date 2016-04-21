@@ -108,8 +108,8 @@ class AddUsersShiftsToTasksSubtasks extends Migration {
         Schema::dropIfExists('subtasks_users');
         Schema::dropIfExists('subtasks_volunteers');
         Schema::dropIfExists('volunteer_task_work_dates');
-        Schema::dropIfExists('task_work_dates');
         Schema::dropIfExists('cta_volunteers_task_dates');
+        Schema::dropIfExists('task_work_dates');
 
     }
 }
