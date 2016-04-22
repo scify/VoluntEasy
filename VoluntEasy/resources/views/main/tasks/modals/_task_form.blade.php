@@ -51,20 +51,29 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            <label>{{ trans('entities/tasks.assignToUser') }}:</label>
-            <select class="form-control m-b-sm priorities" name="priority">
-                @foreach($users as $user)
-                <option value="{{$user->id}}">{{ $user->name }} {{ $user->last_name }}</option>
+            <label>
+                {!! Form::formInput('assignTo','', $errors, ['class' => 'form-control assignTo '.$mode, 'type' => 'radio', 'value'  => 'user', 'checked' => 'false']) !!} {{trans('entities/tasks.assignToUser')}}
+            </label>
+        </div>
+        <div class="form-group">
+            <select class="form-control m-b-sm taskUserSelect {{$mode}}" name="taskUserSelect" disabled>
+                @foreach($usersToAssign as $id=>$user)
+                    <option value="{{$id}}">{{ $user }}</option>
                 @endforeach
             </select>
         </div>
     </div>
     <div class="col-md-6">
         <div class="form-group">
-            <label>{{ trans('entities/tasks.assignToVolunteer') }}:</label>
-            <select class="form-control m-b-sm priorities" name="priority">
-                @foreach($action->unit->volunteers as $volunteer)
-                <option value="{{$volunteer->id}}">{{ $volunteer->first_name }} {{ $volunteer->last_name }}</option>
+
+            <label>
+                {!! Form::formInput('assignTo', ''  , $errors, ['class' => 'form-control assignTo '.$mode, 'type' => 'radio', 'value'  => 'volunteer', 'checked' => 'false']) !!} {{trans('entities/tasks.assignToVolunteer')}}
+            </label>
+        </div>
+        <div class="form-group">
+            <select class="form-control m-b-sm taskVolunteerSelect {{$mode}}" name="taskVolunteerSelect" disabled>
+                @foreach($volunteersToAssign as $id=>$volunteer)
+                    <option value="{{$id}}">{{ $volunteer }}</option>
                 @endforeach
             </select>
         </div>

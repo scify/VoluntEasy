@@ -18,7 +18,7 @@
 
             </div>
             <div class="modal-footer">
-                {!! Form::submit( trans('default.save') , ['class' => 'btn btn-success', 'id' => 'updateTask']) !!}
+                {!! Form::submit( trans('default.save') , ['class' => 'btn btn-success edit', 'id' => 'updateTask']) !!}
                 <button type="button" class="btn btn-danger" id="deleteTask">{{ trans('default.delete') }}</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('default.close') }}</button>
                 {!! Form::close() !!}

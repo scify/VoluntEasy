@@ -56,6 +56,14 @@ $(".editTask").click(function (e) {
             $("#editTask .description").val(task.description);
             $("#editTask .priorities option[value='" + task.priority + "']").prop('selected', true);
 
+            if (task.users.length > 0) {
+                //$('#editTask input:radio[name="assignTo"][value="user"]').prop('checked', true);
+                $('#editTask input:radio[name=assignTo]').val('user');
+            }
+            else if (task.volunteers.length > 0) {
+                $('#editTask input:radio[name=assignTo]').filter('[value=volunteer]').prop('checked', true);
+            }
+
             //show modal
             $('#editTask').modal('show');
         });
@@ -73,6 +81,22 @@ $(".deleteTask").click(function () {
                 location.reload();
             }
         });
+    }
+});
+
+//set the userSelect disabled or not depending on checkbox value
+$('.assignTo').click(function () {
+    var mode = 'store';
+    if ($(this).hasClass('edit'))
+        mode = 'edit';
+
+    if ($(this).val() == 'user') {
+        $('.taskUserSelect.' + mode).removeAttr('disabled');
+        $('.taskVolunteerSelect.' + mode).attr('disabled', 'disabled');
+    }
+    else if ($(this).val() == 'volunteer') {
+        $('.taskVolunteerSelect.' + mode).removeAttr('disabled');
+        $('.taskUserSelect.' + mode).attr('disabled', 'disabled');
     }
 });
 

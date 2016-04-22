@@ -58,6 +58,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->belongsToMany('App\Models\Roles\Role', 'users_roles', 'user_id', 'role_id')->orderBy('id', 'ASC');
     }
 
+    public function getFullNameAttribute()
+    {
+        return $this->name . " " . $this->last_name;
+    }
+
     /**
      * Check if user has a certain unit.
      *

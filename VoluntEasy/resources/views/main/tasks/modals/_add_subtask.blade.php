@@ -16,7 +16,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('default.close') }}</button>
-                {!! Form::submit(trans('default.save'), ['class' => 'btn btn-success', 'id' => 'storeSubTask']) !!}
+                {!! Form::submit(trans('default.save'), ['class' => 'btn btn-success store', 'id' => 'storeSubTask']) !!}
                 {!! Form::close() !!}
             </div>
         </div>

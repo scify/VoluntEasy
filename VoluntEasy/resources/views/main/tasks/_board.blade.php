@@ -298,10 +298,10 @@
     </div>
 </div>
 
-@include('main.tasks.modals._add_task')
-@include('main.tasks.modals._edit_task')
-@include('main.tasks.modals._add_subtask')
-@include('main.tasks.modals._edit_subtask')
+@include('main.tasks.modals._add_task', ['mode' =>'store'])
+@include('main.tasks.modals._edit_task', ['mode' =>'store'])
+@include('main.tasks.modals._add_subtask', ['mode' =>'store'])
+@include('main.tasks.modals._edit_subtask', ['mode' =>'store'])
 @include('main.tasks.modals._add_work_date')
 @include('main.tasks.modals._edit_work_date')
 

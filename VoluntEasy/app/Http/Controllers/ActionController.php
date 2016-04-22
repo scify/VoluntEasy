@@ -120,14 +120,23 @@ class ActionController extends Controller {
         $action = TaskService::prepareTasks($action);
 
         //get all users that can assigned to a task
-        $users = User::all();
+        $users = User::orderBy('name')->get();
+        $usersToAssign[0] = trans('entities/search.choose');
+        foreach($users as $user){
+            $usersToAssign[$user->id]=$user->fullName;
+        }
+
+        $volunteersToAssign[0] = trans('entities/search.choose');
+        foreach($action->unit->volunteers as $volunteer){
+            $volunteersToAssign[$volunteer->id]=$volunteer->fullName;
+        }
 
         if ($action->publicAction != null)
             $publicSubtasks = CTAService::getPublicSubtasks($action);
 
         $configuration = $this->configuration;
 
-        return view('main.actions.show', compact('action', 'userUnits', 'branch', 'taskStatuses', 'publicSubtasks', 'users', 'isPermitted', 'configuration'));
+        return view('main.actions.show', compact('action', 'userUnits', 'branch', 'taskStatuses', 'publicSubtasks', 'usersToAssign', 'volunteersToAssign', 'isPermitted', 'configuration'));
     }
 
     /**

@@ -21,7 +21,7 @@ class TaskController extends Controller {
      * @return mixed
      */
     public function show($id) {
-        $task = Task::findOrFail($id);
+        $task = Task::with('users', 'volunteers')->findOrFail($id);
 
         return $task;
     }
@@ -31,12 +31,12 @@ class TaskController extends Controller {
      */
     public function store() {
 
-        if(!\Request::has('status_id'))
+        if (!\Request::has('status_id'))
             $status_id = Status::todo();
         else
             $status_id = \Request::get('status_id');
 
-        if(\Request::has('due_date'))
+        if (\Request::has('due_date'))
             $due_date = \Carbon::createFromFormat('d/m/Y', \Request::get('due_date'));
         else
             $due_date = null;
@@ -52,6 +52,22 @@ class TaskController extends Controller {
 
         $task->save();
 
+        //save the user that may be assigned to the task
+        if (\Request::has('assignTo') && \Request::get('assignTo') == 'user'
+            && \Request::has('taskUserSelect') && \Request::get('taskUserSelect') != 0
+        ) {
+            $task->users()->sync([\Request::get('taskUserSelect')]);
+            $task->volunteers()->sync([]);
+        }
+
+        //save the volunteer that may be assigned to the task
+        if (\Request::has('assignTo') && \Request::get('assignTo') == 'volunteer'
+            && \Request::has('taskVolunteerSelect') && \Request::get('taskVolunteerSelect') != 0
+        ) {
+            $task->volunteers()->sync([\Request::get('taskVolunteerSelect')]);
+            $task->users()->sync([]);
+        }
+
         return $task;
     }
 
@@ -63,12 +79,12 @@ class TaskController extends Controller {
 
         $task = Task::findOrFail(\Request::get('taskId'));
 
-        if(!\Request::has('status_id'))
+        if (!\Request::has('status_id'))
             $status_id = Status::todo();
         else
             $status_id = \Request::get('status_id');
 
-        if(\Request::has('due_date'))
+        if (\Request::has('due_date'))
             $due_date = \Carbon::createFromFormat('d/m/Y', \Request::get('due_date'));
         else
             $due_date = null;
@@ -93,9 +109,9 @@ class TaskController extends Controller {
 
         $task = Task::with('subtasks.workDates.volunteers')->findOrFail($id);
 
-       foreach($task->subtasks as $subtask){
-           SubtaskService::delete($subtask);
-       }
+        foreach ($task->subtasks as $subtask) {
+            SubtaskService::delete($subtask);
+        }
 
         \Session::flash('flash_message', trans('entities/tasks.deleted'));
         \Session::flash('flash_type', 'alert-success');
@@ -115,7 +131,6 @@ class TaskController extends Controller {
             'job_descr' => \Request::get('job_descr'),
         ]);
     }
-
 
 
 }
