@@ -19,6 +19,6 @@ class CTADate extends Model {
     protected $dates = ['deleted_at'];
 
     public function date() {
-        return $this->hasOne('App\Models\ActionTasks\WorkDate', 'id', 'subtask_work_dates_id');
+        return $this->hasOne('App\Models\ActionTasks\SubTaskShift', 'id', 'subtask_work_dates_id');
     }
 }

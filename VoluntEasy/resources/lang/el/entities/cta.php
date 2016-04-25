@@ -24,7 +24,7 @@ return [
 
     /* public subtasks */
     'choosePublicSubtasks'	=> 'Επιλέξτε ποια subtasks θέλετε να εμφανίζονται στη δημόσια σελίδα.',
-    'atLeastOneWorkDate'	=> 'Για τη σωστή εμφάνιση των subtasks, θα πρέπει να έχουν τουλάχιστον μία βάρδια το καθένα.',
+    'atLeastOneShift'	=> 'Για τη σωστή εμφάνιση των subtasks, θα πρέπει να έχουν τουλάχιστον μία βάρδια το καθένα.',
 
 
     /* public cta sample page */

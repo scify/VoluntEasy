@@ -24,7 +24,7 @@ return [
 
     /* public subtasks */
     'choosePublicSubtasks'	=> 'Choose which subtasks you would like to view on a public page.',
-    'atLeastOneWorkDate'	=> 'For the proper view of subtasks, each one must have at least one shift.',
+    'atLeastOneShift'	=> 'For the proper view of subtasks, each one must have at least one shift.',
 
 
     /* public cta sample page */

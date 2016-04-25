@@ -2,7 +2,7 @@
     <div class="col-md-6 comments">
         <div class="form-group">
             <input type="hidden" name="subtaskId" class="subtaskId" value="">
-            {!! Form::formInput('comments', trans('entities/subtasks.description').':', $errors, ['class' => 'form-control work_date_comments', 'required' => 'true']) !!}
+            {!! Form::formInput('comments', trans('entities/subtasks.description').':', $errors, ['class' => 'form-control shift_comments', 'required' => 'true']) !!}
             <p class="comments_err text-danger" style="display:none;">{{ trans('entities/subtasks.fillField') }}</p>
         </div>
     </div>
@@ -17,7 +17,7 @@
 
 <div class="row">
 
-    <div class="col-md-4 workDate">
+    <div class="col-md-4 shift">
         <div class="form-group">
             <input type="hidden" name="dateId" class="dateId" value="">
             {!! Form::formInput('dateFrom', trans('entities/subtasks.date').':', $errors, ['class' =>

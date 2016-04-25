@@ -269,10 +269,10 @@ class VolunteerService {
             ->with(['units.steps.statuses' => function ($query) use ($id) {
                 $query->where('volunteer_id', $id)->with('status');
             }])
-            ->with(['actionHistory.action.allTasks.allSubtasks.allWorkDates.volunteers' => function ($q) use ($id) {
+            ->with(['actionHistory.action.allTasks.allSubtasks.allShifts.volunteers' => function ($q) use ($id) {
                 $q->where('volunteer_id', $id);
             }])
-            ->with('units.children', 'units.actions', 'workDateHistory.workDate.subtask', 'extras', 'volunteeringDepartments')
+            ->with('units.children', 'units.actions', 'shiftHistory.shift.subtask', 'extras', 'volunteeringDepartments')
             ->with('opaRatings.laborSkills.skill', 'opaRatings.interpersonalSkills.skill', 'opaRatings.action', 'opaRatings.actionRating')
             ->findOrFail($id);
 
@@ -376,14 +376,14 @@ class VolunteerService {
         foreach ($volunteer->actionHistory as $h => $history) {
             foreach ($history->action->allTasks as $t => $task) {
                 foreach ($task->allSubtasks as $s => $subtask) {
-                    foreach ($volunteer->workDateHistory as $wdHistory) {
+                    foreach ($volunteer->shiftHistory as $shiftHistory) {
 
-                        if ($wdHistory->workDate->trashedSubtask->id == $subtask->id) {
-                            $to_time = strtotime($wdHistory->workDate->to_hour);
-                            $from_time = strtotime($wdHistory->workDate->from_hour);
+                        if ($shiftHistory->shift->trashedSubtask->id == $subtask->id) {
+                            $to_time = strtotime($shiftHistory->shift->to_hour);
+                            $from_time = strtotime($shiftHistory->shift->from_hour);
                             $workHours = (($to_time - $from_time) / 60) / 60;
-                            $wdHistory->workDate->workHours = $workHours;
-                            $subtask->workHours += $wdHistory->workDate->workHours;
+                            $shiftHistory->shift->workHours = $workHours;
+                            $subtask->workHours += $shiftHistory->shift->workHours;
                             break;
                         }
                     }

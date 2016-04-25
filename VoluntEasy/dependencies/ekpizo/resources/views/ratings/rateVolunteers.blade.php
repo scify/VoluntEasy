@@ -20,9 +20,9 @@
     <a href="{{ url('/') }}"
        class="logo-name text-lg">
         @if(env('PLATFORM_NAME')=='VoluntAction')
-            <img src="{{ asset('assets/images/voluntaction/logo.png') }}" style="height:100%;"/>
+        <img src="{{ asset('assets/images/voluntaction/logo.png') }}" style="height:100%;"/>
         @else
-            <img src="{{ asset('assets/images/volunteasy/logo.png') }}" style="height:100%;"/>
+        <img src="{{ asset('assets/images/volunteasy/logo.png') }}" style="height:100%;"/>
         @endif
     </a>
 </div>
@@ -73,12 +73,12 @@ $user->last_name }}</span>
         <div class="col-md-12">
             <p>{{ trans('entities/ratings.volunteerParticipatedTo') }}</p>
             <ul>
-                @foreach($volunteer->workDateHistory as $workDate)
-                @if($workDate->workDate->trashedSubtask->trashedTask->action_id==$action->id)
-                <li>{{ trans('entities/tasks.task') }} {{ $workDate->workDate->trashedSubtask->trashedTask->name }} / {{
-                    trans('entities/subtasks.subtask') }} {{ $workDate->workDate->trashedSubtask->name }}: {{
-                    $workDate->workDate->from_date }}, {{ $workDate->workDate->from_hour}}-{{
-                    $workDate->workDate->to_hour }}
+                @foreach($volunteer->shiftHistory as $shift)
+                @if($shift->shift->trashedSubtask->trashedTask->action_id==$action->id)
+                <li>{{ trans('entities/tasks.task') }} {{ $shift->shift->trashedSubtask->trashedTask->name }} / {{
+                    trans('entities/subtasks.subtask') }} {{ $shift->shift->trashedSubtask->name }}: {{
+                    $shift->shift->from_date }}, {{ $shift->shift->from_hour}}-{{
+                    $shift->shift->to_hour }}
                 </li>
                 @endif
                 @endforeach
@@ -93,7 +93,8 @@ $user->last_name }}</span>
             ['class' => 'form-control actionDescription', 'type' => 'textarea', 'size' =>
             '2x5', 'data-volunteer-id' => $volunteer->id, 'data-question'=> '1', 'maxlength'=>'900']) !!}
             <p class="text-right">
-                <small><span class="chars" data-question="1" data-volunteer-id="{{ $volunteer->id }}">900</span> {{trans('entities/ratings.charsRemaining')}}
+                <small><span class="chars" data-question="1" data-volunteer-id="{{ $volunteer->id }}">900</span>
+                    {{trans('entities/ratings.charsRemaining')}}
                 </small>
             </p>
         </div>
@@ -103,7 +104,8 @@ $user->last_name }}</span>
             ['class' => 'form-control problemsOccured', 'type' => 'textarea', 'size' =>
             '2x5', 'data-volunteer-id' => $volunteer->id, 'data-question'=> '2', 'maxlength'=>'900']) !!}
             <p class="text-right">
-                <small><span class="chars" data-question="2" data-volunteer-id="{{ $volunteer->id }}">900</span> {{trans('entities/ratings.charsRemaining')}}
+                <small><span class="chars" data-question="2" data-volunteer-id="{{ $volunteer->id }}">900</span>
+                    {{trans('entities/ratings.charsRemaining')}}
                 </small>
             </p>
         </div>
@@ -126,13 +128,15 @@ $user->last_name }}</span>
                     data-skill-id="{{$skill->id}}">
                     <td>{{ $skill->description }}</td>
                     <td><label>
-                            {!! Form::formInput('volunteer-'.$volunteer->id.'labor-strongOrWeak['.$skill->id.']', '', $errors,
+                            {!! Form::formInput('volunteer-'.$volunteer->id.'labor-strongOrWeak['.$skill->id.']', '',
+                            $errors,
                             ['class' => 'form-control strongOrWeak laborSkills', 'type' =>
                             'radio', 'value' => 1, 'checked' => 'false', 'data-volunteer-id' =>
                             $volunteer->id, 'data-skill-id' => $skill->id]) !!}
                             {{ trans('entities/ratings.strong') }}</label>
                         <label>
-                            {!! Form::formInput('volunteer-'.$volunteer->id.'labor-strongOrWeak['.$skill->id.']', '', $errors,
+                            {!! Form::formInput('volunteer-'.$volunteer->id.'labor-strongOrWeak['.$skill->id.']', '',
+                            $errors,
                             ['class' => 'form-control strongOrWeak laborSkills', 'type' =>
                             'radio', 'value' => 0, 'checked' => 'false', 'data-volunteer-id' =>
                             $volunteer->id, 'data-skill-id' => $skill->id]) !!}
@@ -160,13 +164,15 @@ $user->last_name }}</span>
                     data-skill-id="{{$skill->id}}">
                     <td>{{ $skill->description }}</td>
                     <td><label>
-                            {!! Form::formInput('volunteer-'.$volunteer->id.'intp-strongOrWeak['.$skill->id.']', '', $errors,
+                            {!! Form::formInput('volunteer-'.$volunteer->id.'intp-strongOrWeak['.$skill->id.']', '',
+                            $errors,
                             ['class' => 'form-control strongOrWeak interpersonalSkills', 'type' =>
                             'radio', 'value' => 1, 'checked' => 'false', 'data-volunteer-id' =>
                             $volunteer->id, 'data-skill-id' => $skill->id]) !!}
                             {{ trans('entities/ratings.strong') }}</label>
                         <label>
-                            {!! Form::formInput('volunteer-'.$volunteer->id.'intp-strongOrWeak['.$skill->id.']', '', $errors,
+                            {!! Form::formInput('volunteer-'.$volunteer->id.'intp-strongOrWeak['.$skill->id.']', '',
+                            $errors,
                             ['class' => 'form-control strongOrWeak interpersonalSkills', 'type' =>
                             'radio', 'value' => 0, 'checked' => 'false', 'data-volunteer-id' =>
                             $volunteer->id, 'data-skill-id' => $skill->id]) !!}
@@ -199,7 +205,8 @@ $user->last_name }}</span>
             $volunteer->id, 'data-question'=> '3', 'maxlength'=>'900'])
             !!}
             <p class="text-right">
-                <small><span class="chars" data-question="3" data-volunteer-id="{{ $volunteer->id }}">900</span> {{trans('entities/ratings.charsRemaining')}}
+                <small><span class="chars" data-question="3" data-volunteer-id="{{ $volunteer->id }}">900</span>
+                    {{trans('entities/ratings.charsRemaining')}}
                 </small>
             </p>
         </div>
@@ -210,7 +217,8 @@ $user->last_name }}</span>
             $volunteer->id, 'data-question'=> '4', 'maxlength'=>'900'])
             !!}
             <p class="text-right">
-                <small><span class="chars" data-question="4" data-volunteer-id="{{ $volunteer->id }}">900</span> {{trans('entities/ratings.charsRemaining')}}
+                <small><span class="chars" data-question="4" data-volunteer-id="{{ $volunteer->id }}">900</span>
+                    {{trans('entities/ratings.charsRemaining')}}
                 </small>
             </p>
         </div>
@@ -223,7 +231,8 @@ $user->last_name }}</span>
             $volunteer->id, 'data-question'=> '5', 'maxlength'=>'900'])
             !!}
             <p class="text-right">
-                <small><span class="chars" data-question="5" data-volunteer-id="{{ $volunteer->id }}">900</span> {{trans('entities/ratings.charsRemaining')}}
+                <small><span class="chars" data-question="5" data-volunteer-id="{{ $volunteer->id }}">900</span>
+                    {{trans('entities/ratings.charsRemaining')}}
                 </small>
             </p>
         </div>
@@ -234,7 +243,8 @@ $user->last_name }}</span>
             $volunteer->id, 'data-question'=> '6', 'maxlength'=>'900'])
             !!}
             <p class="text-right">
-                <small><span class="chars" data-question="6" data-volunteer-id="{{ $volunteer->id }}">900</span> {{trans('entities/ratings.charsRemaining')}}
+                <small><span class="chars" data-question="6" data-volunteer-id="{{ $volunteer->id }}">900</span>
+                    {{trans('entities/ratings.charsRemaining')}}
                 </small>
             </p>
         </div>
@@ -249,7 +259,8 @@ $user->last_name }}</span>
             $volunteer->id, 'data-question'=> '7', 'maxlength'=>'900'])
             !!}
             <p class="text-right">
-                <small><span class="chars" data-question="7" data-volunteer-id="{{ $volunteer->id }}">900</span> {{trans('entities/ratings.charsRemaining')}}
+                <small><span class="chars" data-question="7" data-volunteer-id="{{ $volunteer->id }}">900</span>
+                    {{trans('entities/ratings.charsRemaining')}}
                 </small>
             </p>
         </div>
@@ -405,7 +416,7 @@ $user->last_name }}</span>
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-           data: {
+            data: {
                 volunteers: volunteers,
                 user_id: $("#user_id").attr('data-user-id'),
                 action_id: $("#actionInformation").attr('data-action-id'),
@@ -413,9 +424,9 @@ $user->last_name }}</span>
                 actionRatingId: $("#actionInformation").attr('data-action-rating-id')
             },
             success: function (data) {
-                window.location.href = $("body").attr('data-url') + "/ratings/action/volunteers/thankyou/"+data;
+                window.location.href = $("body").attr('data-url') + "/ratings/action/volunteers/thankyou/" + data;
             },
-            error:function(err){
+            error: function (err) {
                 console.log(err);
             }
         });

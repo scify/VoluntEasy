@@ -32,7 +32,7 @@ class CTAController extends Controller {
     }
 
     public function participate($id) {
-        $publicAction = PublicAction::where('public_url', $id)->with('subtasks.subtask.workDates', 'subtasks.subtask.task')->first();
+        $publicAction = PublicAction::where('public_url', $id)->with('subtasks.subtask.shifts', 'subtasks.subtask.task')->first();
 
         //if the public action is inactive, return a null obj
         if ($publicAction != null && $publicAction->isActive == 0) {
@@ -169,7 +169,7 @@ class CTAController extends Controller {
             foreach ($request['dates'] as $id => $date) {
                 $date = new CTADate([
                     'cta_volunteers_id' => $ctaVolunteer->id,
-                    'subtask_work_dates_id' => $id,
+                    'subtask_shift_id' => $id,
                 ]);
 
                 $date->save();

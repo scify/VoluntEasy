@@ -1,15 +1,15 @@
 //save a subtask
-$("#storeWorkDate").click(function (e) {
+$("#storeShift").click(function (e) {
     e.preventDefault();
-    if ($("#addWorkDateForm .work_date_comments").val() == null || $("#addWorkDateForm .work_date_comments").val() == '')
-        $("#addWorkDateForm .comments_err").show();
+    if ($("#addShiftForm .shift_comments").val() == null || $("#addShiftForm .shift_comments").val() == '')
+        $("#addShiftForm .comments_err").show();
     else {
-        $("#addWorkDateForm .comments_err").hide();
+        $("#addShiftForm .comments_err").hide();
 
         $.ajax({
-            url: $("body").attr('data-url') + "/actions/tasks/subtasks/workdates/store",
+            url: $("body").attr('data-url') + "/actions/tasks/subtasks/shifts/store",
             method: 'GET',
-            data: $("#addWorkDateForm").serialize(),
+            data: $("#addShiftForm").serialize(),
             success: function (result) {
                 location.reload();
             }
@@ -17,25 +17,25 @@ $("#storeWorkDate").click(function (e) {
     }
 });
 
-//update a workdate
-$("#updateWorkDate").click(function (e) {
+//update a shift
+$("#updateShift").click(function (e) {
     e.preventDefault();
-    if ($("#editWorkDateForm .work_date_comments").val() == null || $("#editWorkDateForm .work_date_comments").val() == '')
-        $("#editWorkDateForm .subtask-comments_err").show();
+    if ($("#editShiftForm .shift_comments").val() == null || $("#editShiftForm .shift_comments").val() == '')
+        $("#editShiftForm .subtask-comments_err").show();
     else {
-        $("#editWorkDateForm .subtask-comments_err").hide();
+        $("#editShiftForm .subtask-comments_err").hide();
 
         volunteers = [];
         $("#sub_volunteers_to option").each(function (name, val) {
             volunteers.push(val.value);
         });
 
-        data = $("#editWorkDateForm").serializeArray();
+        data = $("#editShiftForm").serializeArray();
         data.push({name: 'volunteers', value: volunteers});
         data.push({name: 'action_id', value: $("#actionId").attr('data-action-id')});
 
         $.ajax({
-            url: $("body").attr('data-url') + "/actions/tasks/subtasks/workdates/update",
+            url: $("body").attr('data-url') + "/actions/tasks/subtasks/shifts/update",
             method: 'GET',
             data: data,
             success: function (result) {
@@ -47,15 +47,15 @@ $("#updateWorkDate").click(function (e) {
 });
 
 
-//populate the addWorkDate modal with data before displaying it
-$(".addWorkDate").click(function (e) {
+//populate the addShift modal with data before displaying it
+$(".addShift").click(function (e) {
 
-    $("#addWorkDate .subtaskId").val(subTask.id);
+    $("#addShift .subtaskId").val(subTask.id);
 
     refreshDateTime();
 
     //show modal
-    $('#addWorkDate').modal('show');
+    $('#addShift').modal('show');
 });
 
 //assign a ctavolunteer to an existing volunteer
@@ -79,29 +79,29 @@ function assignToVolunteer(volunteer_id, cta_volunteer_id) {
 
 
 //add another editable fields to fill in work date and hours
-function addWorkDate(parentId) {
+function addShift(parentId) {
 
     if (validateWorkTable(parentId)) {
         $(".workError").show();
     }
     else {
         $(".workError").hide();
-        $(parentId + " .workDates tr:last").clone().find("input").each(function () {
+        $(parentId + " .shifts tr:last").clone().find("input").each(function () {
             $(this).val('');
-        }).end().appendTo(parentId + " .workDates");
+        }).end().appendTo(parentId + " .shifts");
 
         refreshDateTime();
     }
 }
 
-//delete a workdate
-function deleteWorkDate(id) {
+//delete a shift
+function deleteShift(id) {
 
-    if (confirm(Lang.get('js-components.deleteWorkDate')) == true) {
+    if (confirm(Lang.get('js-components.deleteShift')) == true) {
 
         $.ajax({
             method: 'GET',
-            url: $("body").attr('data-url') + "/actions/tasks/subtasks/workdates/delete/" + id,
+            url: $("body").attr('data-url') + "/actions/tasks/subtasks/shifts/delete/" + id,
             data: {
                 action_id: $("#actionId").attr('data-action-id')
             },
@@ -112,7 +112,7 @@ function deleteWorkDate(id) {
     }
 }
 
-//delete a workdate
+//delete a shift
 function deleteCTAVolunteer(id) {
 
     if (confirm(Lang.get('js-components.removeVolunteer')) == true) {
@@ -127,30 +127,30 @@ function deleteCTAVolunteer(id) {
     }
 }
 
-//populate the editWorkDate modal before showing
-function editWorkDate(id) {
+//populate the editShift modal before showing
+function editShift(id) {
 
-    $.each(subTask.work_dates, function (i, date) {
+    $.each(subTask.shifts, function (i, shift) {
 
-        if (id == date.id) {
-            $("#editWorkDate .workdateId").val(date.id);
-            $("#editWorkDate .work_date_comments").val(date.comments);
-            $("#editWorkDate .dateFrom").val(date.from_date);
-            $("#editWorkDate .hourFrom").val(date.from_hour);
-            $("#editWorkDate .hourTo").val(date.to_hour);
-            $("#editWorkDate .volunteerSum").val(date.volunteer_sum);
+        if (id == shift.id) {
+            $("#editShift .shiftId").val(shift.id);
+            $("#editShift .shift_comments").val(shift.comments);
+            $("#editShift .dateFrom").val(shift.from_date);
+            $("#editShift .hourFrom").val(shift.from_hour);
+            $("#editShift .hourTo").val(shift.to_hour);
+            $("#editShift .volunteerSum").val(shift.volunteer_sum);
 
-            console.log(date.cta_volunteers);
+            console.log(shift.cta_volunteers);
 
 
             //check if ctaVolunteers table should be displayed,
             //aka the table that holds the volunteers that have claimed interest in the action
-            if (date.cta_volunteers.length == 0) {
+            if (shift.cta_volunteers.length == 0) {
                 $(".ctaVolunteers").hide();
             }
             else {
                 var html = '';
-                $.each(date.cta_volunteers, function (i, cta) {
+                $.each(shift.cta_volunteers, function (i, cta) {
                     html += '<tr><td>' + cta.first_name + ' ' + cta.last_name + '</td>';
                     html += '<td><a href="mailto:' + cta.email + '">' + cta.email + '</a>, ' + cta.phone_number;
 
@@ -193,22 +193,22 @@ function editWorkDate(id) {
 
             populateVolunteers(id);
             refreshDateTime();
-            $('#editWorkDate').modal('show');
+            $('#editShift').modal('show');
             return false;
         }
     });
 }
 
 //fill the volunteers multiselect
-function populateVolunteers(workDateId) {
+function populateVolunteers(shiftId) {
     $('#sub_volunteers').html('');
 
     //set the already assigned volunteers
     $('#sub_volunteers_to').html('');
     assigned = [];
-    $.each(subTask.work_dates, function (i, date) {
-        if (date.id == workDateId) {
-            $.each(date.volunteers, function (i, volunteer) {
+    $.each(subTask.shifts, function (i, shift) {
+        if (shift.id == shiftId) {
+            $.each(shift.volunteers, function (i, volunteer) {
                 var option = $("<option></option>");
                 option.val(volunteer.id);
                 option.text(volunteer.name + ' ' + volunteer.last_name);

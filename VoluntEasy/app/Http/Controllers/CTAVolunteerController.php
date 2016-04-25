@@ -1,11 +1,7 @@
 <?php namespace App\Http\Controllers;
 
-use App\Models\Action;
 use App\Models\CTA\CTAVolunteer;
-use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Volunteer;
-use App\Services\Facades\VolunteerService;
-use App\Services\Facades\WorkDateService;
 
 /**
  * Responsible for the functions of the CTAVolunteer obj

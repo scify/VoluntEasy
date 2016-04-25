@@ -9,11 +9,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Class Status
  * @package App\Models
  */
-class SubtaskWorkDate extends Model {
+class SubtaskShift extends Model {
 
     use SoftDeletes;
 
-    protected $table = 'subtask_work_dates';
+    protected $table = 'subtask_shift';
 
     protected $fillable = ['from_date', 'to_date', 'subtask_id', 'from_hour', 'to_hour',  'volunteer_sum', 'comments'];
 
@@ -28,11 +28,11 @@ class SubtaskWorkDate extends Model {
     }
 
     public function volunteers() {
-        return $this->belongsToMany('App\Models\Volunteer', 'volunteer_work_dates', 'subtask_work_dates_id', 'volunteer_id');
+        return $this->belongsToMany('App\Models\Volunteer', 'volunteer_subtask_shifts', 'subtask_subtask_id', 'volunteer_id');
     }
 
     public function ctaVolunteers() {
-        return $this->belongsToMany('App\Models\CTA\CTAVolunteer', 'cta_volunteers_dates', 'subtask_work_dates_id', 'cta_volunteers_id');
+        return $this->belongsToMany('App\Models\CTA\CTAVolunteer', 'cta_volunteers_dates', 'subtask_subtask_id', 'cta_volunteers_id');
     }
 
     public function getFromDateAttribute() {

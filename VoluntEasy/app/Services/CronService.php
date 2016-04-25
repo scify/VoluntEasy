@@ -11,7 +11,7 @@ class CronService {
 
     public function expiredActions() {
 
-        $expiredActions = Action::expiredYesterday()->with('volunteers.workDates', 'users', 'tasks.subtasks.workDates')->get();
+        $expiredActions = Action::expiredYesterday()->with('volunteers.shifts', 'users', 'tasks.subtasks.workDates')->get();
 
         foreach ($expiredActions as $expired) {
 
@@ -63,11 +63,11 @@ class CronService {
                 });
             }
 
-            $workDates = [];
+            $shifts = [];
             foreach ($expired->tasks as $task) {
                 foreach ($task->subtasks as $subtask) {
-                    foreach ($subtask->workDates as $workDate) {
-                        array_push($workDates, $workDate->id);
+                    foreach ($subtask->shifts as $shift) {
+                        array_push($shifts, $shift->id);
                     }
                 }
             }
@@ -77,9 +77,9 @@ class CronService {
                 $statusId = VolunteerStatus::available();
                 VolunteerServiceFacade::changeUnitStatus($volunteer->id, $expired->unit_id, $statusId);
 
-                foreach ($volunteer->workDates as $workDate) {
-                    if (in_array($workDate->id, $workDates))
-                        $volunteer->workDates()->detach($workDate->id);
+                foreach ($volunteer->shifts as $shift) {
+                    if (in_array($shift->id, $shifts))
+                        $volunteer->shifts()->detach($shift->id);
                 }
             }
 

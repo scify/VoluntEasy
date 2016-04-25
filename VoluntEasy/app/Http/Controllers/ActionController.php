@@ -91,7 +91,7 @@ class ActionController extends Controller {
      * @return Response
      */
     public function show($id) {
-        $action = Action::with('unit.volunteers', 'users', 'ratings', 'tasks.subtasks.status', 'tasks.subtasks.workDates', 'tasks.subtasks.checklist', 'publicAction.subtasks')->findOrFail($id);
+        $action = Action::with('unit.volunteers', 'users', 'ratings', 'tasks.subtasks.status', 'tasks.subtasks.shifts', 'tasks.subtasks.checklist', 'tasks.users', 'tasks.volunteers', 'publicAction.subtasks')->findOrFail($id);
 
         $branch = UnitService::getBranch(Unit::where('id', $action->unit->id)->with('actions')->first());
 
@@ -180,9 +180,9 @@ class ActionController extends Controller {
      * @return Response
      */
     public function destroy($id) {
-        $action = Action::with('volunteers', 'tasks.subtasks.workDates', 'users', 'ratings', 'actionRatings', 'publicAction')->findOrFail($id);
+        $action = Action::with('volunteers', 'tasks.subtasks.shifts', 'users', 'ratings', 'actionRatings', 'publicAction')->findOrFail($id);
 
-        //first delete any task, subtask and workDate associated with the action
+        //first delete any task, subtask and shifts associated with the action
         foreach ($action->tasks as $task) {
             foreach ($task->subtasks as $subtask) {
                 SubtaskService::delete($subtask);

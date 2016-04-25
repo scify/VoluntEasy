@@ -2,13 +2,11 @@
 
 
 use App\Models\Action;
-use App\Models\ActionTasks\SubtaskWorkDate;
-use App\Models\Volunteer;
-use App\Models\VolunteerWorkDateHistory;
+use App\Models\ActionTasks\SubtaskShift;
+use App\Services\Facades\ShiftService;
 use App\Services\Facades\VolunteerService;
-use App\Services\Facades\WorkDateService;
 
-class WorkDateController extends Controller
+class ShiftController extends Controller
 {
 
 
@@ -35,7 +33,7 @@ class WorkDateController extends Controller
         if (\Request::has('hourTo') && \Request::get('hourTo') != null && \Request::get('hourTo') != '')
             $to_hour = \Request::get('hourTo');
 
-        $workDate = new SubtaskWorkDate([
+        $shift = new SubtaskShift([
             'from_date' => $dateFrom,
             'subtask_id' => \Request::get('subtaskId'),
             'from_hour' => $from_hour,
@@ -44,19 +42,19 @@ class WorkDateController extends Controller
             'volunteer_sum' => \Request::get('volunteerSum')
         ]);
 
-        $workDate->save();
+        $shift->save();
 
-        return $workDate;
+        return $shift;
     }
 
     /*
-     * Update the workdate
+     * Update the shift
      */
     public function update()
     {
 
-        //fetch the workdate with the volunteers
-        $workDate = SubtaskWorkDate::with('volunteers')->find(\Request::get('workdateId'));
+        //fetch the shifts with the volunteers
+        $shift = SubtaskShift::with('volunteers')->find(\Request::get('shiftId'));
 
         $dateFrom = null;
         $from_hour = null;
@@ -68,7 +66,7 @@ class WorkDateController extends Controller
         if (\Request::has('hourTo') && \Request::get('hourTo') != null && \Request::get('hourTo') != '')
             $to_hour = \Request::get('hourTo');
 
-        $workDate->update([
+        $shift->update([
             'from_date' => $dateFrom,
             'from_hour' => $from_hour,
             'to_hour' => $to_hour,
@@ -84,27 +82,27 @@ class WorkDateController extends Controller
         $action = Action::find(\Request::get('action_id'));
 
         //remove all the current volunteers
-        foreach ($workDate->volunteers as $volunteer) {
-            $volunteer->workDates()->detach([$workDate->id]);
+        foreach ($shift->volunteers as $volunteer) {
+            $volunteer->shifts()->detach([$shift->id]);
             VolunteerService::removeFromAction($volunteer, $action);
         }
 
         //add the volunteers to the action
-        WorkDateService::addVolunteersToAction($newVolunteers, $workDate->id, $action);
+        ShiftService::addVolunteersToAction($newVolunteers, $shift->id, $action);
 
-        $workDate->volunteers()->sync($newVolunteers);
+        $shift->volunteers()->sync($newVolunteers);
 
-        return $workDate;
+        return $shift;
     }
 
     /**
-     * Delete a workdate
+     * Delete a shift
      */
     public function destroy($id)
     {
-        $workDate = SubtaskWorkDate::with('volunteers.actions', 'ctaVolunteers')->find($id);
+        $shift = SubtaskShift::with('volunteers.actions', 'ctaVolunteers')->find($id);
 
-        WorkDateService::delete($workDate);
+        ShiftService::delete($shift);
 
         return;
     }

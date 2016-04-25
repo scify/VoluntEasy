@@ -3,33 +3,33 @@
 
 use App\Models\Action;
 use App\Models\Volunteer;
-use App\Models\VolunteerWorkDateHistory;
+use App\Models\VolunteerShiftHistory;
 use App\Services\Facades\VolunteerService as VolunteerServiceFacade;
 
-class WorkDateService
+class ShiftService
 {
 
     /**
-     * Delete a workDate and dissociate any volunteers attached
+     * Delete a shift and dissociate any volunteers attached
      *
-     * @param $workDate
+     * @param $shift
      */
-    public function delete($workDate)
+    public function delete($shift)
     {
         $action = Action::find(\Request::get('action_id'));
 
         //remove the volunteers from the action
-        foreach ($workDate->volunteers as $volunteer) {
-            $volunteer->workDates()->detach([$workDate->id]);
+        foreach ($shift->volunteers as $volunteer) {
+            $volunteer->shifts()->detach([$shift->id]);
             //VolunteerServiceFacade::removeFromAction($volunteer, $action);
         }
 
-        foreach($workDate->ctaVolunteers as $cta){
+        foreach($shift->ctaVolunteers as $cta){
             $cta->delete();
         }
 
-        $workDate->subtask()->dissociate();
-        $workDate->delete();
+        $shift->subtask()->dissociate();
+        $shift->delete();
 
         return;
     }
@@ -38,15 +38,15 @@ class WorkDateService
      * Add the volunteers to a certain action
      *
      * @param $volunteers
-     * @param $workDateId
+     * @param $shiftId
      * @param $action
      */
-    public function addVolunteersToAction($volunteers, $workDateId, $action)
+    public function addVolunteersToAction($volunteers, $shiftId, $action)
     {
         //add the volunteers to the action
         foreach ($volunteers as $volunteer) {
             $volunteer = Volunteer::find($volunteer);
-            $this->addWorkDateHistory($volunteer->id, $workDateId);
+            $this->addShiftHistory($volunteer->id, $shiftId);
 
             //first check that the user is not already assigned to an action
             $flag = false;
@@ -65,17 +65,17 @@ class WorkDateService
      * Add an entry to the history table
      *
      * @param $volunteerId
-     * @param $workDateId
+     * @param $shiftId
      */
-    public function addWorkDateHistory($volunteerId, $workDateId)
+    public function addShiftHistory($volunteerId, $shiftId)
     {
-        $workDateHistory = VolunteerWorkDateHistory::where('volunteer_id', $volunteerId)
-            ->where('work_date_id', $workDateId)->first();
+        $shiftHistory = VolunteerShiftHistory::where('volunteer_id', $volunteerId)
+            ->where('work_date_id', $shiftId)->first();
 
-        if ($workDateHistory == null)
-            VolunteerWorkDateHistory::create([
+        if ($shiftHistory == null)
+            VolunteerShiftHistory::create([
                 'volunteer_id' => $volunteerId,
-                'work_date_id' => $workDateId
+                'work_date_id' => $shiftId
             ]);
 
         return;

@@ -67,7 +67,7 @@ return [
     /* tasks and subtasks */
     'deleteTask' => 'Are you sure you want to delete this task?',
     'deleteSubtask' => 'Are you sure you want to delete this subtask?',
-    'deleteWorkDate' => 'Are you sure you want to delete this date/time?',
+    'deleteShift' => 'Are you sure you want to delete this shift?',
     'low' => 'Low',
     'medium' => 'Medium',
     'high' => 'High',
@@ -94,7 +94,7 @@ return [
     'actionManager' => 'Action Manager',
 
 
-    /* workdates.js */
+    /* shifts.js */
     'volunterComments' => 'Volunteer comments',
     'assignedToProfile' => 'There is a connection with :linkStartprofile:linkEnd. . This volunteer must be added to the action unit so that they become available.',
     'volunteerFound' => ':linkStartvolunteer:linkEnd found with identical email. Are they the same?',

@@ -246,8 +246,8 @@ return [
     'step' => 'Step',
     'stepComplete' => 'Incomplete step',
     'stepIncomplete' => 'Completed step',
-    'completeStep' => 'Completing step',
-    'tmpSave' => 'Temporary comment save',
+    'completeStep' => 'Complete step',
+    'tmpSave' => 'Save comments temporarily',
 
 
     /* step assignment */

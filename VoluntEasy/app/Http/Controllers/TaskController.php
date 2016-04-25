@@ -3,8 +3,8 @@
 use App\Models\ActionTasks\Status;
 use App\Models\ActionTasks\Task;
 use App\Models\ActionTasks\VolunteerTask;
-use App\Models\Unit;
 use App\Services\Facades\SubtaskService;
+use App\Services\Facades\TaskService;
 
 class TaskController extends Controller {
 
@@ -52,21 +52,8 @@ class TaskController extends Controller {
 
         $task->save();
 
-        //save the user that may be assigned to the task
-        if (\Request::has('assignTo') && \Request::get('assignTo') == 'user'
-            && \Request::has('taskUserSelect') && \Request::get('taskUserSelect') != 0
-        ) {
-            $task->users()->sync([\Request::get('taskUserSelect')]);
-            $task->volunteers()->sync([]);
-        }
-
-        //save the volunteer that may be assigned to the task
-        if (\Request::has('assignTo') && \Request::get('assignTo') == 'volunteer'
-            && \Request::has('taskVolunteerSelect') && \Request::get('taskVolunteerSelect') != 0
-        ) {
-            $task->volunteers()->sync([\Request::get('taskVolunteerSelect')]);
-            $task->users()->sync([]);
-        }
+        TaskService::syncUsers($task);
+        TaskService::syncVolunteers($task);
 
         return $task;
     }
@@ -98,6 +85,8 @@ class TaskController extends Controller {
             'due_date' => $due_date
         ]);
 
+        TaskService::syncUsers($task);
+        TaskService::syncVolunteers($task);
 
         return \Redirect::route('action/one', ['id' => $task->action_id]);
     }
@@ -107,7 +96,7 @@ class TaskController extends Controller {
      */
     public function destroy($id) {
 
-        $task = Task::with('subtasks.workDates.volunteers')->findOrFail($id);
+        $task = Task::with('subtasks.shifts.volunteers')->findOrFail($id);
 
         foreach ($task->subtasks as $subtask) {
             SubtaskService::delete($subtask);

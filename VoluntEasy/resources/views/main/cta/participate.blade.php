@@ -74,31 +74,31 @@
                                     </td>
                                 </tr>
                                 @foreach($task->ctaSubtasks as $subtask)
-                                @if(sizeof($subtask->workDates)>0)
+                                @if(sizeof($subtask->shifts)>0)
                                 <tr>
                                     <td class="task col-md-3">
                                         <div class="subtask-info">{{ $subtask->name }}</div>
                                         <div class="subtask-description">{{ $subtask->description }}</div>
                                     </td>
                                     <td class="taskDate">
-                                        @foreach($subtask->workDates as $date)
+                                        @foreach($subtask->shifts as $shift)
                                         <div class="dateTime">
-                                            <label {{ sizeof($date->volunteers)>=$date->volunteer_sum ? 'class=disabled' : ''}} >
-                                                @if(sizeof($date->volunteers)>=$date->volunteer_sum)
-                                                {!! Form::formInput('dates['.$date->id.']', '', $errors, ['type' => 'checkbox', 'checked' =>'false',
+                                            <label {{ sizeof($shift->volunteers)>=$shift->volunteer_sum ? 'class=disabled' : ''}} >
+                                                @if(sizeof($shift->volunteers)>=$shift->volunteer_sum)
+                                                {!! Form::formInput('dates['.$shift->id.']', '', $errors, ['type' => 'checkbox', 'checked' =>'false',
                                                 'disabled' => 'disabled', 'readonly']) !!}
                                                 @else
-                                                {!! Form::formInput('dates['.$date->id.']', '', $errors, ['type' => 'checkbox', 'checked' =>'false'])
+                                                {!! Form::formInput('dates['.$shift->id.']', '', $errors, ['type' => 'checkbox', 'checked' =>'false'])
                                                 !!}
                                                 @endif
-                                                <div class="dates"> {{$date->from_date}} <br/>  <span
-                                                        class="hours">{{ $date->from_hour }}-{{ $date->to_hour }}
+                                                <div class="dates"> {{$shift->from_date}} <br/>  <span
+                                                        class="hours">{{ $shift->from_hour }}-{{ $shift->to_hour }}
                                                     </span>
-                                                    @if(sizeof($date->volunteers)==$date->volunteer_sum)
-                                                    <br/><span class="text-success">{{ sizeof($date->volunteers) }}/{{ $date->volunteer_sum }}
+                                                    @if(sizeof($shift->volunteers)==$shift->volunteer_sum)
+                                                    <br/><span class="text-success">{{ sizeof($shift->volunteers) }}/{{ $shift->volunteer_sum }}
                                                    {{ trans('entities/cta.volunteers') }}</span>
                                                     @else
-                                                    <br/>{{ sizeof($date->volunteers) }}/{{ $date->volunteer_sum }}
+                                                    <br/>{{ sizeof($shift->volunteers) }}/{{ $shift->volunteer_sum }}
                                                     {{ trans('entities/cta.volunteers') }}
                                                     @endif
                                                 </div>

@@ -80,6 +80,32 @@ $(".editSubTask").click(function (e) {
                 $(this).parent().remove();
             });
 
+
+            if (subTask.users.length > 0) {
+                $('#editSubTask input:radio[name=assignToSubtask][value=user]').attr('checked', 'checked');
+                $('#editSubTask input:radio[name=assignToSubtask][value=user]').parent().addClass('checked');
+
+                $('#editSubTask .subtaskUserSelect').removeAttr('disabled');
+                $('#editSubTask .subtaskUserSelect').val(subTask.users[0].id);
+                $('#editSubTask .subtaskVolunteerSelect').attr('disabled', 'disabled');
+            }
+            else {
+                $('#editSubTask .subtaskUserSelect').attr('disabled', 'disabled');
+            }
+
+            if (subTask.volunteers.length > 0) {
+                $('#editSubTask input:radio[name=assignToSubtask][value=volunteer]').attr('checked', 'checked');
+                $('#editSubTask input:radio[name=assignToSubtask][value=volunteer]').parent().addClass('checked');
+
+                $('#editSubTask .subtaskVolunteerSelect').removeAttr('disabled');
+                $('#editSubTask .subtaskVolunteerSelect').val(subTask.volunteers[0].id);
+                $('#editSubTask .subtaskUserSelect').attr('disabled', 'disabled');
+            }
+            else {
+                $('#editSubTask .subtaskVolunteerSelect').attr('disabled', 'disabled');
+            }
+
+
             //show modal
             $('#editSubTask .todos').show();
             $('#editSubTask').modal('show');
@@ -98,6 +124,22 @@ $(".deleteSubTask").click(function () {
                 location.reload();
             }
         });
+    }
+});
+
+//set the userSelect disabled or not depending on checkbox value
+$('.assignToSubtask').click(function () {
+    var mode = 'store';
+    if ($(this).hasClass('edit'))
+        mode = 'edit';
+
+    if ($(this).val() == 'user') {
+        $('.subtaskUserSelect.' + mode).removeAttr('disabled');
+        $('.subtaskVolunteerSelect.' + mode).attr('disabled', 'disabled');
+    }
+    else if ($(this).val() == 'volunteer') {
+        $('.subtaskVolunteerSelect.' + mode).removeAttr('disabled');
+        $('.subtaskUserSelect.' + mode).attr('disabled', 'disabled');
     }
 });
 
@@ -128,38 +170,38 @@ function showSubTaskInfo(subTaskId) {
 
             //add the work dates
             html = '';
-            if (subTask.work_dates.length == 0) {
-                $('.noWorkDates').show();
-                $('.workDatesTable').hide();
+            if (subTask.shifts.length == 0) {
+                $('.noShifts').show();
+                $('.shiftsTable').hide();
             }
             else {
-                $.each(subTask.work_dates, function (i, date) {
+                $.each(subTask.shifts, function (i, shift) {
 
-                    html += '<tr><td>' + date.comments + '</td>';
-                    if (date.from_date != null)
-                        html += '<td>' + date.from_date + '</td>';
+                    html += '<tr><td>' + shift.comments + '</td>';
+                    if (shift.from_date != null)
+                        html += '<td>' + shift.from_date + '</td>';
                     else
                         html += '<td>-</td>';
-                    if (date.from_hour != null && date.to_hour != null)
-                        html += '<td>' + date.from_hour + '-' + date.to_hour + '</td>';
-                    else if (date.from_hour != null)
-                        html += '<td>date.from_hour</td>';
+                    if (shift.from_hour != null && shift.to_hour != null)
+                        html += '<td>' + shift.from_hour + '-' + shift.to_hour + '</td>';
+                    else if (shift.from_hour != null)
+                        html += '<td>shift.from_hour</td>';
                     else
                         html += '<td>-</td>';
-                    if (date.volunteer_sum != null)
-                        html += '<td>' + date.volunteers.length + '/' + date.volunteer_sum + '</td>';
+                    if (shift.volunteer_sum != null)
+                        html += '<td>' + shift.volunteers.length + '/' + shift.volunteer_sum + '</td>';
                     else
                         html += '<td>-</td>';
 
                     if (isPermitted == 'true') {
-                        html += '<td><button class="btn btn-sm btn-success edit-btn" onclick="editWorkDate(' + date.id + ')"><i class="fa fa-edit"></i></button>';
-                        html += '<button class="btn btn-sm btn-danger" onclick="deleteWorkDate(' + date.id + ')"><i class="fa fa-trash"></i></button></td>';
+                        html += '<td><button class="btn btn-sm btn-success edit-btn" onclick="editShift(' + shift.id + ')"><i class="fa fa-edit"></i></button>';
+                        html += '<button class="btn btn-sm btn-danger" onclick="deleteShift(' + shift.id + ')"><i class="fa fa-trash"></i></button></td>';
                     }
                     html += '</tr>';
 
-                    $('.workDatesTable > tbody:last-child').html(html);
-                    $('.workDatesTable').show();
-                    $('.noWorkDates').hide();
+                    $('.shiftsTable > tbody:last-child').html(html);
+                    $('.shiftsTable').show();
+                    $('.noShifts').hide();
                 });
             }
 

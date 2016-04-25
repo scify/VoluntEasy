@@ -393,8 +393,20 @@ div#unitsTree {
     margin-bottom: 20px;
 }
 
+.row.bottom-margin-10 {
+    margin-bottom: 10px;
+}
+
 .row.top-margin {
     margin-top: 20px;
+}
+
+.row.no-left-margin {
+    margin-left: 0px;
+}
+
+.no-padding {
+    padding: 0px;
 }
 
 .text-grey {
@@ -461,7 +473,7 @@ div#unitsTree {
     background-color: #F6F6F6;
     padding: 5px;
     width: 80%;
-   /* height:65px;*/
+    min-height:65px;
     border: solid 1px #DBE0E8;
     margin-bottom: 10px;
     border-radius: 2px;
@@ -511,8 +523,8 @@ i.priority-4 {
 }
 
 .board .panel-default .panel-heading {
-    margin-top: 0px;
-    background-color: #ffffff;
+    margin-top: 5px;
+    background-color: #E9EDF2;
 }
 
 .board .panel-group .panel-heading .panel-title > a.title {
@@ -534,6 +546,10 @@ i.priority-4 {
 
 .board .panel-group .panel-heading .panel-title > a:after, .panel-group .panel-heading .panel-title > a.collapsed:after {
     content: "";
+}
+
+.board .img-circle{
+    border: solid 1px #DBE0E8;
 }
 
 .status {
@@ -559,28 +575,28 @@ i.priority-4 {
     padding-left:20px;
 }
 
-.workDates .date{
+.shifts .date{
     width: 120px;
     display: inline-block;
     margin-bottom:10px;
 }
 
-.workDates .time{
+.shifts .time{
     width: 70px;
     display: inline-block;
 }
 
-.workDatesTable{
+.shiftTable{
     font-size: 11px;
 }
-.workDatesTable thead > tr > th, .workDatesTable.table-condensed > tbody > tr > td{
+.shiftTable thead > tr > th, .shiftTable.table-condensed > tbody > tr > td{
     padding: 3px !important;
 }
-.workDatesTable .btn{
+.shiftTable .btn{
     padding:3px;
     width:20px;
 }
-.workDatesTable .edit-btn{
+.shiftTable .edit-btn{
     margin-right:2px;
 }
 .infoSidebar, .infoSidebar [class*="col-"]{

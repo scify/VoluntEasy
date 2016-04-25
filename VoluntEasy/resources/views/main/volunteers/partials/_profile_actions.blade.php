@@ -132,22 +132,22 @@
                                                     <strong>{{ $task->work_hours }}</strong></td>
                                             </tr>
                                             @foreach($task->allSubtasks as $subtask)
-                                                @if(sizeof($subtask->allWorkDates)>0)
+                                                @if(sizeof($subtask->allShifts)>0)
                                                     <tr class="subtask">
                                                         <td colspan="4">{{ trans('entities/subtasks.subtask') }} {{ $subtask->name }}</td>
                                                         <td class="col-md-2 text-center">
                                                             <strong>{{ $subtask->workHours }}</strong></td>
                                                     </tr>
-                                                    @foreach($volunteer->workDateHistory as $wdHistory)
-                                                        @if($wdHistory->workDate->trashedSubtask->id==$subtask->id)
+                                                    @foreach($volunteer->shiftHistory as $wdHistory)
+                                                        @if($wdHistory->shift->trashedSubtask->id==$subtask->id)
                                                         <tr>
-                                                            <td>{{ $wdHistory->workDate->comments }}</td>
-                                                            <td>{{ $wdHistory->workDate->from_date }}</td>
-                                                            <td>{{ $wdHistory->workDate->from_hour }}
-                                                                - {{ $wdHistory->workDate->to_hour }}</td>
+                                                            <td>{{ $wdHistory->shift->comments }}</td>
+                                                            <td>{{ $wdHistory->shift->from_date }}</td>
+                                                            <td>{{ $wdHistory->shift->from_hour }}
+                                                                - {{ $wdHistory->shift->to_hour }}</td>
                                                             <td>-</td>
                                                             <td class="col-md-2 text-center">
-                                                                <strong>{{ $wdHistory->workDate->workHours }}</strong></td>
+                                                                <strong>{{ $wdHistory->shift->workHours }}</strong></td>
                                                         </tr>
                                                         @endif
                                                     @endforeach

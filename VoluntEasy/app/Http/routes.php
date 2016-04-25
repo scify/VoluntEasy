@@ -104,11 +104,11 @@ Route::get('actions/tasks/subtasks/delete/{id}', 'SubTaskController@destroy');
 
 
 ////////////////////
-//WorkDate Routes //
+//Shifts Routes //
 //////////////////
-Route::get('actions/tasks/subtasks/workdates/store', 'WorkDateController@store');
-Route::get('actions/tasks/subtasks/workdates/update', 'WorkDateController@update');
-Route::get('actions/tasks/subtasks/workdates/delete/{id}', 'WorkDateController@destroy');
+Route::get('actions/tasks/subtasks/shifts/store', 'ShiftController@store');
+Route::get('actions/tasks/subtasks/shifts/update', 'ShiftController@update');
+Route::get('actions/tasks/subtasks/shifts/delete/{id}', 'ShiftController@destroy');
 
 
 //////////////////////////

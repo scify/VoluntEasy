@@ -17,7 +17,7 @@ class Volunteer extends User {
     protected $table = 'volunteers';
 
     protected $fillable = ['name', 'last_name', 'fathers_name', 'identification_num', 'birth_date', 'children', 'address', 'city', 'country', 'post_box', 'participation_reason', 'participation_previous', 'participation_actions', 'email', 'extra_lang', 'work_description', 'additional_skills', 'live_in_curr_country', 'comments', 'gender_id', 'education_level_id', 'comm_method', 'identification_type_id', 'marital_status_id', 'driver_license_type_id', 'availability_freqs_id', 'work_status_id',
-        'home_tel', 'work_tel', 'cell_tel', 'fax', 'comm_method_id', 'specialty', 'department', 'computer_usage', 'availability_time', 'interests', 'blacklisted', 'not_available', 'how_you_learned_id', 'how_you_learned2_id', 'computer_usage_comments', 'afm', 'contract_date'];
+        'home_tel', 'work_tel', 'cell_tel', 'fax', 'comm_method_id', 'specialty', 'department', 'computer_usage', 'availability_time', 'interests', 'blacklisted', 'not_available', 'how_you_learned_id', 'how_you_learned2_id', 'computer_usage_comments', 'afm', 'contract_date', 'image_name'];
 
 
     ///////////////
@@ -100,8 +100,8 @@ class Volunteer extends User {
         return $this->hasMany('App\Models\VolunteerUnitHistory')->orderBy('created_at', 'desc');
     }
 
-    public function workDateHistory() {
-        return $this->hasMany('App\Models\VolunteerWorkDateHistory')->orderBy('created_at', 'desc');
+    public function shiftHistory() {
+        return $this->hasMany('App\Models\VolunteerShiftHistory')->orderBy('created_at', 'desc');
     }
 
     public function units() {
@@ -128,8 +128,8 @@ class Volunteer extends User {
         return $this->hasMany('App\Models\File');
     }
 
-    public function workDates() {
-        return $this->belongsToMany('App\Models\ActionTasks\SubtaskWorkDate', 'volunteer_work_dates', 'volunteer_id', 'subtask_work_dates_id');
+    public function shifts() {
+        return $this->belongsToMany('App\Models\ActionTasks\SubtaskShift', 'volunteer_subtask_shifts', 'volunteer_id', 'subtask_shift_id');
     }
 
     public function extras() {

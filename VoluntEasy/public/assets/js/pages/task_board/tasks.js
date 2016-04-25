@@ -57,11 +57,27 @@ $(".editTask").click(function (e) {
             $("#editTask .priorities option[value='" + task.priority + "']").prop('selected', true);
 
             if (task.users.length > 0) {
-                //$('#editTask input:radio[name="assignTo"][value="user"]').prop('checked', true);
-                $('#editTask input:radio[name=assignTo]').val('user');
+                $('#editTask input:radio[name=assignToTask][value=user]').attr('checked', 'checked');
+                $('#editTask input:radio[name=assignToTask][value=user]').parent().addClass('checked');
+
+                $('#editTask .taskUserSelect').removeAttr('disabled');
+                $('#editTask .taskUserSelect').val(task.users[0].id);
+                $('#editTask .taskVolunteerSelect').attr('disabled', 'disabled');
             }
-            else if (task.volunteers.length > 0) {
-                $('#editTask input:radio[name=assignTo]').filter('[value=volunteer]').prop('checked', true);
+            else {
+                $('#editTask .taskUserSelect').attr('disabled', 'disabled');
+            }
+
+            if (task.volunteers.length > 0) {
+                $('#editTask input:radio[name=assignToTask][value=volunteer]').attr('checked', 'checked');
+                $('#editTask input:radio[name=assignToTask][value=volunteer]').parent().addClass('checked');
+
+                $('#editTask .taskVolunteerSelect').removeAttr('disabled');
+                $('#editTask .taskVolunteerSelect').val(task.volunteers[0].id);
+                $('#editTask .taskUserSelect').attr('disabled', 'disabled');
+            }
+            else {
+                $('#editTask .taskVolunteerSelect').attr('disabled', 'disabled');
             }
 
             //show modal
@@ -85,7 +101,7 @@ $(".deleteTask").click(function () {
 });
 
 //set the userSelect disabled or not depending on checkbox value
-$('.assignTo').click(function () {
+$('.assignToTask').click(function () {
     var mode = 'store';
     if ($(this).hasClass('edit'))
         mode = 'edit';

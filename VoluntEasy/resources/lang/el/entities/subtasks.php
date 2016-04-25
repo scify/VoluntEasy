@@ -7,7 +7,7 @@ return [
 
     'create' => 'Δημιουργία subtask',
     'edit' => 'Επεξεργασία subtask',
-    'info' => 'Στοιχεία subtask',
+    'subtaskInfo' => 'Στοιχεία subtask',
 
     'name' => 'Όνομα',
     'expiresAt' => 'Λήγει στις',
@@ -21,10 +21,10 @@ return [
 
     'volunteerSum' => '# εθελοντών',
 
-    'addWorkDate' => 'Προσθήκη ημέρας/ώρας',
+    'addShift' => 'Προσθήκη βάρδιας',
 
-    'workDateDiagram' => 'Χρονοδιάγραμμα εργασιών εθελοντών',
-    'noWorkDateDiagram' => 'Δεν έχει οριστεί χρονοδιάγραμμα',
+    'shiftDiagram' => 'Βάρδιες εθελοντών',
+    'noShiftDiagram' => 'Δεν έχουν οριστεί βάρδιες',
 
 
     'fillField' => 'Συμπληρώστε το πεδίο.',
@@ -42,8 +42,8 @@ return [
     'toDoExplained' => 'Πατήστε το enter για να αποθηκευτεί το to-do',
 
 
-    /* work dates */
-    'editWorkDate' => 'Επεξεργασία ημέρας/ώρας',
+    /* shifts */
+    'editShift' => 'Επεξεργασία βάρδιας',
 
     /* controller */
     'deleted' => 'Το subtask διαγράφηκε.',

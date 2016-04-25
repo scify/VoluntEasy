@@ -107,7 +107,7 @@
     <div class="row">
         <div class="col-md-6">
             <h4>{{ trans('entities/cta.choosePublicSubtasks') }}<br/>
-                <small>{{ trans('entities/cta.atLeastOneWorkDate') }}</small>
+                <small>{{ trans('entities/cta.atLeastOneShift') }}</small>
             </h4>
             <table class="ctaSubtasks">
                 @foreach($action->tasks as $task)

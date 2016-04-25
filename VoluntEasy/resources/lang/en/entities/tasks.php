@@ -23,9 +23,10 @@ return [
     'expires' => 'Due date',
     'assignToUser' => 'Assign to user',
     'assignToVolunteer' => 'Assign to volunteer',
+    'assignedTo' => 'Assigned to',
 
     'noVolunteers' => 'This task has no volunteers',
-    'noTask' => 'There is no task for the action.',
+    'noTask' => 'There are no tasks for the action.',
     'addTask' => 'Add task',
     'addSubtask' => 'Add subtask',
 

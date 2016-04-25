@@ -36,12 +36,12 @@ class SubTask extends Model {
         return $this->hasOne('App\Models\Action', 'id', 'action_id');
     }
 
-    public function workDates(){
-        return $this->hasMany('App\Models\ActionTasks\SubtaskWorkDate', 'subtask_id', 'id');
+    public function shifts(){
+        return $this->hasMany('App\Models\ActionTasks\SubtaskShift', 'subtask_id', 'id');
     }
 
-    public function allWorkDates(){
-        return $this->hasMany('App\Models\ActionTasks\WorkDate', 'subtask_id', 'id')->withTrashed();
+    public function allShifts(){
+        return $this->hasMany('App\Models\ActionTasks\SubtaskShift', 'subtask_id', 'id')->withTrashed();
     }
 
     public function checklist(){

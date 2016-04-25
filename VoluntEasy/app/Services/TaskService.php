@@ -43,19 +43,32 @@ class TaskService {
 
                 //calculate the total volunteer sum
                 $subtaskVolunteers = 0;
-                foreach ($subtask->workDates as $date) {
-                    $volunteerSum += $date->volunteer_sum;
-                    $subtaskVolunteers += $date->volunteer_sum;
+                foreach ($subtask->shifts as $shift) {
+                    $volunteerSum += $shift->volunteer_sum;
+                    $subtaskVolunteers += $shift->volunteer_sum;
 
                 }
 
                 $subtask->volunteerSum = $subtaskVolunteers;
 
                 $ctaVolunteers = 0;
-                foreach ($subtask->workDates as $workDate) {
-                    $ctaVolunteers += sizeof($workDate->ctaVolunteers);
+                foreach ($subtask->shifts as $shift) {
+                    $ctaVolunteers += sizeof($shift->ctaVolunteers);
                 }
                 $subtask->ctaVolunteersCount = $ctaVolunteers;
+
+                //count the complete checlist items
+                $completed = 0;
+                foreach($subtask->checklist as $item){
+                    if($item->isComplete)
+                        $completed = $completed + 1;
+                }
+                $subtask->completedChecklistItems = $completed;
+
+                //set the due date in a nicer format, ie 28/01
+                $tmpDueDate = \Carbon::createFromFormat('d/m/Y', $subtask->due_date);
+                $subtask->dueDateMin = $tmpDueDate->format('d/m');
+
             }
 
             unset($task->subtasks);
@@ -137,5 +150,46 @@ class TaskService {
         }
 
         return $status;
+    }
+
+    /**
+     * Save the user that may be assigned to the task
+     *
+     * @param $task
+     */
+    public function syncUsers($task) {
+
+        if (\Request::has('assignToTask') && \Request::get('assignToTask') == 'user'
+            && \Request::has('taskUserSelect') && \Request::get('taskUserSelect') != 0
+        ) {
+            $task->users()->sync([\Request::get('taskUserSelect')]);
+            $task->volunteers()->detach();
+            //$task->volunteers()->sync([]);
+        }
+        else if(sizeof($task->users())>0){
+            $task->users()->detach();
+        }
+
+        return;
+    }
+
+    /**
+     * Save the volunteer that may be assigned to the task
+     *
+     * @param $task
+     */
+    public function syncVolunteers($task) {
+
+        if (\Request::has('assignToTask') && \Request::get('assignToTask') == 'volunteer'
+            && \Request::has('taskVolunteerSelect') && \Request::get('taskVolunteerSelect') != 0
+        ) {
+            $task->volunteers()->sync([\Request::get('taskVolunteerSelect')]);
+            $task->users()->sync([]);
+        }
+        else if(sizeof($task->volunteers())>0){
+            $task->volunteers()->detach();
+        }
+
+        return;
     }
 }

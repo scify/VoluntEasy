@@ -68,7 +68,7 @@ return [
     /* tasks and subtasks */
     'deleteTask' => 'Είστε σίγουροι ότι θέλετε να διαγράψετε το task;',
     'deleteSubtask' => 'Είστε σίγουροι ότι θέλετε να διαγράψετε το subtask;',
-    'deleteWorkDate' => 'Είστε σίγουροι ότι θέλετε να διαγράψετε την ημέρα/ώρα;',
+    'deleteShift' => 'Είστε σίγουροι ότι θέλετε να διαγράψετε τη βάρδια;',
     'low' => 'Χαμηλή',
     'medium' => 'Μεσαία',
     'high' => 'Υψηλή',
@@ -95,7 +95,7 @@ return [
     'actionManager' => 'Υπεύθυνος Δράσης',
 
 
-    /* workdates.js */
+    /* shifts.js */
     'volunterComments' => 'Σχόλια εθελοντή',
     'assignedToProfile' => 'Έχει γίνει σύνδεση με υπάρχον :linkStartπροφίλ:linkEnd. . Ο εθελοντής θα πρέπει να προστεθεί στη μονάδα της δράσης για να είναι διαθέσιμος.',
     'volunteerFound' => 'Βρέθηκε :linkStartεθελοντής:linkEnd με το ίδιο email. Είναι ο ίδιος;',

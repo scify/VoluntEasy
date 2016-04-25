@@ -4,7 +4,8 @@
 
 <div class="row">
     <div class="col-md-4">
-        {!! Form::formInput('subtask-name', trans('entities/subtasks.name').':', $errors, ['class' => 'form-control name', 'required' =>
+        {!! Form::formInput('subtask-name', trans('entities/subtasks.name').':', $errors, ['class' => 'form-control
+        name', 'required' =>
         'true']) !!}
 
         <p class="text-danger subtask-name_err" style="display:none;">{{ trans('entities/subtasks.fillField') }}</p>
@@ -36,10 +37,47 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>
+                {!! Form::formInput('assignToSubtask','', $errors, ['class' => 'form-control assignToSubtask '.$mode, 'type' =>
+                'radio', 'value' => 'user', 'checked' => 'false']) !!} {{trans('entities/tasks.assignToUser')}}
+            </label>
+        </div>
+        <div class="form-group">
+            <select class="form-control m-b-sm subtaskUserSelect {{$mode}}" name="subtaskUserSelect" disabled>
+                @foreach($usersToAssign as $id=>$user)
+                <option value="{{$id}}">{{ $user }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+
+            <label>
+                {!! Form::formInput('assignToSubtask', '' , $errors, ['class' => 'form-control assignToSubtask '.$mode, 'type' =>
+                'radio', 'value' => 'volunteer', 'checked' => 'false']) !!}
+                {{trans('entities/tasks.assignToVolunteer')}}
+            </label>
+        </div>
+        <div class="form-group">
+            <select class="form-control m-b-sm subtaskVolunteerSelect {{$mode}}" name="subtaskVolunteerSelect" disabled>
+                @foreach($volunteersToAssign as $id=>$volunteer)
+                <option value="{{$id}}">{{ $volunteer }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+</div>
+
 
 <div class="row todos" style="display:none;">
     <div class="col-md-12">
-        <h4><i class="fa fa-check-square-o"></i> To-do <br/><small>{{ trans('entities/subtasks.toDoExplained') }}</small></h4>
+        <h4><i class="fa fa-check-square-o"></i> To-do <br/>
+            <small>{{ trans('entities/subtasks.toDoExplained') }}</small>
+        </h4>
 
         <form action="javascript:void(0);">
             <input type="text" class="form-control add-task" placeholder="{{ trans('entities/subtasks.newToDo') }}">

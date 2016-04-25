@@ -12,7 +12,7 @@ return [
     'admin-descr' => 'The Administrator is responsible for all units and actions of the organisation.',
     'unit_manager-descr' => 'The Unit Manager is responsible for all organisational units assigned to him/her.',
     'action_manager-descr' => 'The Action Manager is responsible for actions assigned to him/her.',
-    'addWorkDate' => 'Add date/hour',
+    'addShift' => 'Add shift',
 
 
     'admin-at' => 'Administrator',

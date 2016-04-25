@@ -23,6 +23,7 @@ return [
     'expires' => 'Λήγει στις',
     'assignToUser' => 'Ανάθεση σε χρήστη',
     'assignToVolunteer' => 'Ανάθεση σε εθελοντή',
+    'assignedTo' => 'Ανατέθηκε σε',
 
     'noVolunteers' => 'Το task δεν έχει εθελοντές',
     'noTask' => 'Δεν υπάρχει κάνενα task για τη δράση.',

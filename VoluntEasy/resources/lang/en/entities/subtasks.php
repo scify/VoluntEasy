@@ -21,10 +21,10 @@ return [
 
     'volunteerSum' => ' volunteer # ',
 
-    'addWorkDate' => 'Add date/time',
+    'addShift' => 'Add shift',
 
-    'workDateDiagram' => 'Volunteer workdate diagram',
-    'noWorkDateDiagram' => 'No workdate diagram has been set',
+    'shiftDiagram' => 'Volunteer shifts',
+    'noShiftDiagram' => 'No shifts have been set',
 
 
     'fillField' => 'Fill in this field.',
@@ -42,8 +42,8 @@ return [
     'toDoExplained' => 'Press enter to save to-do',
 
 
-    /* work dates */
-    'editWorkDate' => 'Edit date/time',
+    /* shifts */
+    'editShift' => 'Edit shift',
 
     /* controller */
     'deleted' => 'Subtask deleted.',

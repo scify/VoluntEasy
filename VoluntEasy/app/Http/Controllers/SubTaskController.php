@@ -3,12 +3,9 @@
 use App\Models\ActionTasks\Status;
 use App\Models\ActionTasks\SubTask;
 use App\Models\ActionTasks\Task;
-use App\Models\CTA\PublicAction;
-use App\Models\CTA\PublicActionSubTask;
 use App\Models\Volunteer;
 use App\Services\Facades\SubtaskService;
 use App\Services\Facades\TaskService;
-use App\Services\Facades\WorkDateService;
 
 class SubTaskController extends Controller
 {
@@ -28,7 +25,7 @@ class SubTaskController extends Controller
      */
     public function show($id)
     {
-        $subTask = SubTask::with('workDates.volunteers', 'checklist.createdBy', 'checklist.updatedBy', 'workDates.ctaVolunteers.volunteer', 'action')->findOrFail($id);
+        $subTask = SubTask::with('users', 'volunteers', 'shifts.volunteers', 'checklist.createdBy', 'checklist.updatedBy', 'workDates.ctaVolunteers.volunteer', 'action')->findOrFail($id);
 
         $unitId = $subTask->action->unit_id;
         //get all volunteers to show in select box
@@ -40,14 +37,14 @@ class SubTaskController extends Controller
 
 
         //check if cta volunteer already exists in db, based on the email
-        foreach ($subTask->workDates as $i => $date) {
+        foreach ($subTask->shifts as $i => $date) {
             foreach ($date->ctaVolunteers as $j => $cta) {
                 //volunteer is already assigned to a profile
                 if (sizeof($cta->volunteer) > 0) {
                     foreach ($unitVolunteers as $k => $uv) {
                         //return $uv['id'];
                         if ($uv['id'] == $cta->volunteer[0]->id)
-                            unset($subTask->workDates[$i]->ctaVolunteers[$j]);
+                            unset($subTask->shifts[$i]->ctaVolunteers[$j]);
 
                         /*
                                                 //if the volunteer is already assigned to the work date, remove from the array
@@ -96,6 +93,9 @@ class SubTaskController extends Controller
 
         $subTask->save();
 
+        SubtaskService::syncUsers($subTask);
+        SubtaskService::syncVolunteers($subTask);
+
         return $subTask;
     }
 
@@ -104,7 +104,7 @@ class SubTaskController extends Controller
      */
     public function update()
     {
-        $subTask = SubTask::with('workDates')->find(\Request::get('subTaskId'));
+        $subTask = SubTask::with('shifts')->find(\Request::get('subTaskId'));
 
         if (\Request::has('subtask-due_date'))
             $due_date = \Carbon::createFromFormat('d/m/Y', \Request::get('subtask-due_date'));
@@ -117,6 +117,9 @@ class SubTaskController extends Controller
             'priority' => \Request::get('subtask-priorities'),
             'due_date' => $due_date
         ]);
+
+        SubtaskService::syncUsers($subTask);
+        SubtaskService::syncVolunteers($subTask);
 
         return $subTask;
     }

@@ -52,7 +52,7 @@
     <div class="col-md-6">
         <div class="form-group">
             <label>
-                {!! Form::formInput('assignTo','', $errors, ['class' => 'form-control assignTo '.$mode, 'type' => 'radio', 'value'  => 'user', 'checked' => 'false']) !!} {{trans('entities/tasks.assignToUser')}}
+                {!! Form::formInput('assignToTask','', $errors, ['class' => 'form-control assignToTask '.$mode, 'type' => 'radio', 'value'  => 'user', 'checked' => 'false']) !!} {{trans('entities/tasks.assignToUser')}}
             </label>
         </div>
         <div class="form-group">
@@ -67,7 +67,7 @@
         <div class="form-group">
 
             <label>
-                {!! Form::formInput('assignTo', ''  , $errors, ['class' => 'form-control assignTo '.$mode, 'type' => 'radio', 'value'  => 'volunteer', 'checked' => 'false']) !!} {{trans('entities/tasks.assignToVolunteer')}}
+                {!! Form::formInput('assignToTask', ''  , $errors, ['class' => 'form-control assignToTask '.$mode, 'type' => 'radio', 'value'  => 'volunteer', 'checked' => 'false']) !!} {{trans('entities/tasks.assignToVolunteer')}}
             </label>
         </div>
         <div class="form-group">
