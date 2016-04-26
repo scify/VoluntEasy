@@ -91,7 +91,11 @@ class ActionController extends Controller {
      * @return Response
      */
     public function show($id) {
-        $action = Action::with('unit.volunteers', 'users', 'ratings', 'tasks.subtasks.status', 'tasks.subtasks.shifts', 'tasks.subtasks.checklist', 'tasks.users', 'tasks.volunteers', 'tasks.shifts', 'publicAction.subtasks')->findOrFail($id);
+        $action = Action::with('unit.volunteers', 'users', 'ratings',
+            'tasks.users', 'tasks.volunteers', 'tasks.shifts',
+            'tasks.subtasks.status', 'tasks.subtasks.shifts', 'tasks.subtasks.checklist', 'tasks.subtasks.users', 'tasks.subtasks.volunteers',
+            'publicAction.subtasks')
+            ->findOrFail($id);
 
         $branch = UnitService::getBranch(Unit::where('id', $action->unit->id)->with('actions')->first());
 

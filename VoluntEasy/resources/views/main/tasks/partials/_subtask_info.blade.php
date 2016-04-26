@@ -4,14 +4,15 @@
             <h3>{{ trans('entities/subtasks.subtaskInfo') }}</h3>
 
             <div class="padding">
-                <p><strong>{{ trans('entities/subtasks.name') }}:</strong> <span class="name"></span></p>
+                <h4><span class="priority"></span>
+                    <strong><span class="name"></span></strong><span class="due_date"></span>
+                </h4>
+                <p><span class="description"></span></p>
 
-                <p><strong>{{ trans('entities/subtasks.expiresAt') }}:</strong> <span class="due_date"></span></p>
-
-                <p><strong>{{ trans('entities/subtasks.priority') }}:</strong> <span class="priority"></span></p>
-
-                <p><strong>{{ trans('entities/subtasks.description') }}:</strong> <span class="description"></span></p>
+                <p class="assignedTo"></p>
             </div>
+
+
 
             <h3>{{ trans('entities/subtasks.shiftDiagram') }}</h3>
 

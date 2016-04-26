@@ -120,24 +120,49 @@ function showSubTaskInfo(subTaskId) {
 
     $.when(getSubtask(subTaskId))
         .then(function () {
-            $(".subTaskInfo .due_date").text(subTask.due_date == null ? '-' : subTask.due_date);
+            $(".subTaskInfo .due_date").text(subTask.due_date == null ? '' : ', ' + Lang.get('js-components.expires') + ' ' + subTask.due_date);
             $(".subTaskInfo .name").text(subTask.name);
-            $(".subTaskInfo .description").text(subTask.description == null || subTask.description == '' ? '-' : subTask.description);
+            $(".subTaskInfo .description").text(subTask.description == null || subTask.description == '' ? '' : subTask.description);
 
             $(".subTaskInfo .editSubTask").attr('data-subtask-id', subTask.id);
             $(".subTaskInfo .editSubTask").attr('data-task-id', subTask.task_id);
             $(".subTaskInfo .deleteSubTask").attr('data-subtask-id', subTask.id);
 
-            if (subTask.priority == 1)
-                $(".subTaskInfo .priority").text(Lang.get('js-components.low'));
-            if (subTask.priority == 2)
-                $(".subTaskInfo .priority").text(Lang.get('js-components.medium'));
-            if (subTask.priority == 3)
-                $(".subTaskInfo .priority").text(Lang.get('js-components.high'));
-            if (subTask.priority == 4)
-                $(".subTaskInfo .priority").text(Lang.get('js-components.urgent'));
 
+            //set priorities
+            priorityText = '';
+            if (subTask.priority == 1)
+                priorityText = Lang.get('js-components.low');
+            if (subTask.priority == 2)
+                priorityText = Lang.get('js-components.medium');
+            if (subTask.priority == 3)
+                priorityText = Lang.get('js-components.high');
+            if (subTask.priority == 4)
+                priorityText = Lang.get('js-components.urgent');
+
+
+            $(".subTaskInfo .priority").html('<i class="fa fa-arrow-up priority-' + subTask.priority + '" title="' + priorityText + '"></i>');
             $(".subTaskInfo .priority").attr('data-priority', subTask.priority);
+
+
+            //image for assigned to user/volunteer
+            imagePath = '';
+            if (subTask.users.length > 0) {
+                assignedToName = subTask.users[0].name + ' ' + subTask.users[0].last_name;
+                imagePath = (subTask.users[0].image_name == null || subTask.users[0].image_name == "" ?
+                $("body").attr('data-url') + '/assets/images/default.png' : $("body").attr('data-url') + '/assets/uploads/users/' + subTask.users[0].image_name);
+            }
+            if (subTask.volunteers.length > 0) {
+                assignedToName = subTask.volunteers[0].name + ' ' + subTask.volunteers[0].last_name;
+                imagePath = (subTask.volunteers[0].image_name == null || volunteers.users[0].image_name == "" ?
+                $("body").attr('data-url') + '/assets/images/default.png' : $("body").attr('data-url') + '/assets/uploads/users/' + subTask.volunteers[0].image_name);
+            }
+
+            if (imagePath != '')
+                $(".subTaskInfo .assignedTo").html(Lang.get('js-components.assignedTo') + ' <img class="img-circle avatar userImage" src="' + imagePath + '" width="30" height="30" title="' + assignedToName + '">');
+            else
+                $(".subTaskInfo .assignedTo").html('');
+
 
             //add the work dates
             html = '';

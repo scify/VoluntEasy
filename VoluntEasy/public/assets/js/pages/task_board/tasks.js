@@ -123,7 +123,7 @@ function showTaskInfo(taskId) {
     $.when(getTask(taskId))
         .then(function () {
 
-            $(".taskInfo .due_date").text(task.due_date == null ? '-' : task.due_date);
+            $(".taskInfo .due_date").text(task.due_date == null ? '' : ', ' + Lang.get('js-components.expires') + ' ' + task.due_date);
             $(".taskInfo .name").text(task.name);
             $(".taskInfo .description").text(task.description == null || task.description == '' ? '' : task.description);
 
@@ -144,7 +144,7 @@ function showTaskInfo(taskId) {
             }
 
             if (imagePath != '')
-                $(".taskInfo .assignedTo").html(Lang.get('js-components.assignedTo') + '<img class="img-circle avatar userImage" src="' + imagePath + '" width="30" height="30" title="' + assignedToName + '">');
+                $(".taskInfo .assignedTo").html(Lang.get('js-components.assignedTo') + ' <img class="img-circle avatar userImage" src="' + imagePath + '" width="30" height="30" title="' + assignedToName + '">');
             else
                 $(".taskInfo .assignedTo").html('');
 

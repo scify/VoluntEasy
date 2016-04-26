@@ -55,16 +55,16 @@
             @endif
         </div>
         <div class="col-md-2">
-            @if(sizeof($task->users)>0 || sizeof($task->volunteers)>0)
+            @if(sizeof($subtask->users)>0 || sizeof($subtask->volunteers)>0)
             <small>
-                @foreach($task->users as $user)
+                @foreach($subtask->users as $user)
                 <img class="img-circle avatar userImage" src="{{ ($user->image_name==null || $user->image_name=='') ?
                                     asset('assets/images/default.png') : asset('assets/uploads/users/'.$user->image_name) }}"
                      width="30" height="30"
                      alt="{{ trans('entities/tasks.assignedTo') }} {{ $user->name }} {{ $user->last_name }}"
                      title="{{ trans('entities/tasks.assignedTo') }} {{ $user->name }} {{ $user->last_name }}">
                 @endforeach
-                @foreach($task->volunteers as $volunteer)
+                @foreach($subtask->volunteers as $volunteer)
                 <img class="img-circle avatar userImage" src="{{ ($volunteer->image_name==null || $volunteer->image_name=='') ?
                                     asset('assets/images/default.png') : asset('assets/uploads/users/'.$volunteer->image_name) }}"
                      width="30" height="30"

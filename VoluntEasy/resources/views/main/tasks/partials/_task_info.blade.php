@@ -6,7 +6,7 @@
             <div class="padding">
 
                 <h4><span class="priority"></span>
-                    <strong><span class="name"></span></strong>, {{ trans('entities/tasks.expires') }} <span class="due_date"></span>
+                    <strong><span class="name"></span></strong><span class="due_date"></span>
                 </h4>
                 <p><span class="description"></span></p>
 
