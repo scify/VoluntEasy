@@ -18,8 +18,12 @@ class CTAVolunteer extends Model {
 
    protected $dates = ['deleted_at'];
 
-    public function dates() {
-        return $this->hasMany('App\Models\CTA\CTADate', 'cta_volunteers_id', 'id');
+    public function subtaskDates() {
+        return $this->hasMany('App\Models\CTA\CTASubtaskDate', 'cta_volunteers_id', 'id');
+    }
+
+    public function taskDates() {
+        return $this->hasMany('App\Models\CTA\CTATaskDate', 'cta_volunteers_id', 'id');
     }
 
     public function volunteer() {

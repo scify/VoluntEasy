@@ -25,7 +25,7 @@ class SubTaskController extends Controller
      */
     public function show($id)
     {
-        $subTask = SubTask::with('users', 'volunteers', 'shifts.volunteers', 'checklist.createdBy', 'checklist.updatedBy', 'workDates.ctaVolunteers.volunteer', 'action')->findOrFail($id);
+        $subTask = SubTask::with('users', 'volunteers', 'shifts.volunteers', 'checklist.createdBy', 'checklist.updatedBy', 'shifts.ctaVolunteers.volunteer', 'action')->findOrFail($id);
 
         $unitId = $subTask->action->unit_id;
         //get all volunteers to show in select box
@@ -152,7 +152,7 @@ class SubTaskController extends Controller
     public function destroy($id)
     {
 
-        $subTask = SubTask::with('workDates.volunteers')->find($id);
+        $subTask = SubTask::with('shifts.volunteers')->find($id);
 
         SubtaskService::delete($subTask);
 

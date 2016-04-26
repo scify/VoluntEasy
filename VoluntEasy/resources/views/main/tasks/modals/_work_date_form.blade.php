@@ -89,7 +89,7 @@
 @section('footerScripts')
     <script type="text/javascript">
         jQuery(document).ready(function ($) {
-            $("#editWorkDate #sub_volunteers").multiselect();
+            $("#editShift #sub_volunteers").multiselect();
         });
     </script>
 @append

@@ -3,7 +3,7 @@
 
 use App\Http\Requests\CTAVolunteerRequest;
 use App\Models\Action;
-use App\Models\CTA\CTADate;
+use App\Models\CTA\CTASubtaskDate;
 use App\Models\CTA\CTAVolunteer;
 use App\Models\CTA\PublicAction;
 use App\Models\CTA\PublicActionSubTask;
@@ -167,7 +167,7 @@ class CTAController extends Controller {
         //save the dates that the volunteer is interested for
         if (isset($request['dates'])) {
             foreach ($request['dates'] as $id => $date) {
-                $date = new CTADate([
+                $date = new CTASubtaskDate([
                     'cta_volunteers_id' => $ctaVolunteer->id,
                     'subtask_shift_id' => $id,
                 ]);

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWorkDateHistoryTables extends Migration
+class CreateShiftHistoryTables extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateWorkDateHistoryTables extends Migration
     public function up()
     {
 
-        Schema::create('volunteer_work_date_history', function ($table) {
+        Schema::create('volunteer_shift_history', function ($table) {
             $table->increments('id');
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
-            $table->integer('work_date_id')->unsigned();
-            $table->foreign('work_date_id')->references('id')->on('subtask_work_dates');
+            $table->integer('shift_id')->unsigned();
+            $table->foreign('shift_id')->references('id')->on('subtask_shifts');
             $table->timestamps();
         });
     }
@@ -30,7 +30,7 @@ class CreateWorkDateHistoryTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('volunteer_work_date_history');
+        Schema::dropIfExists('volunteer_shift_history');
 
     }
 }

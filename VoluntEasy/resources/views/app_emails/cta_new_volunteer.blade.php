@@ -225,7 +225,7 @@
                                 <p class="text-danger">{{ trans('emails/emails.volunteerNotFoundInPlatform') }}</p>
                             @endif
 
-                            @foreach($ctaVolunteer->dates as $date)
+                            @foreach($ctaVolunteer->subtaskDates as $date)
 
                                 <h4>{{ trans('entities/tasks.task') }} {{ $date->date->subtask->task->name }}
                                     / {{ trans('entities/subtasks.subtask') }} {{ $date->date->subtask->name }}</h4>

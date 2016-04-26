@@ -11,7 +11,7 @@ class CronService {
 
     public function expiredActions() {
 
-        $expiredActions = Action::expiredYesterday()->with('volunteers.shifts', 'users', 'tasks.subtasks.workDates')->get();
+        $expiredActions = Action::expiredYesterday()->with('volunteers.shifts', 'users', 'tasks.subtasks.shifts')->get();
 
         foreach ($expiredActions as $expired) {
 

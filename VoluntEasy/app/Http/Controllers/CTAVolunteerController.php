@@ -56,7 +56,8 @@ class CTAVolunteerController extends Controller {
 
         $ctaVolunteer = CTAVolunteer::find($id);
         $ctaVolunteer->volunteer()->detach();
-        $ctaVolunteer->dates()->delete();
+        $ctaVolunteer->taskDates()->delete();
+        $ctaVolunteer->subtaskDates()->delete();
         $ctaVolunteer->delete();
         return;
     }

@@ -35,8 +35,8 @@ class CreateCtaVolunteersTable extends Migration
             $table->integer('cta_volunteers_id')->unsigned();
             $table->foreign('cta_volunteers_id')->references('id')->on('cta_volunteers');
 
-            $table->integer('subtask_work_dates_id')->unsigned();
-            $table->foreign('subtask_work_dates_id')->references('id')->on('subtask_work_dates');
+            $table->integer('subtask_shifts_id')->unsigned();
+            $table->foreign('subtask_shifts_id')->references('id')->on('subtask_shifts');
 
             $table->softDeletes();
             $table->timestamps();

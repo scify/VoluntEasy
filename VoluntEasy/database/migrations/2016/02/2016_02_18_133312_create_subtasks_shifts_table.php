@@ -2,14 +2,14 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSubtasksWorkHoursTable extends Migration {
+class CreateSubtasksShiftsTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
     public function up() {
-        Schema::create('subtask_work_dates', function ($table) {
+        Schema::create('subtask_shifts', function ($table) {
             $table->increments('id');
             $table->date('from_date')->nullable();
             $table->date('to_date')->nullable();
@@ -25,12 +25,12 @@ class CreateSubtasksWorkHoursTable extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('volunteer_work_dates', function ($table) {
+        Schema::create('volunteer_shifts', function ($table) {
             $table->increments('id');
             $table->string('description', 500)->nullable();
 
-            $table->integer('subtask_work_dates_id')->unsigned();
-            $table->foreign('subtask_work_dates_id')->references('id')->on('subtask_work_dates');
+            $table->integer('subtask_shifts_id')->unsigned();
+            $table->foreign('subtask_shifts_id')->references('id')->on('subtask_shifts');
 
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
@@ -46,7 +46,7 @@ class CreateSubtasksWorkHoursTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('volunteer_work_dates');
-        Schema::dropIfExists('subtask_work_dates');
+        Schema::dropIfExists('volunteer_shifts');
+        Schema::dropIfExists('subtask_shifts');
     }
 }

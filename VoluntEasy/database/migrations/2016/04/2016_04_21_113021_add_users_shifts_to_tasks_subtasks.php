@@ -51,7 +51,7 @@ class AddUsersShiftsToTasksSubtasks extends Migration {
 
         /* shifts to tasks*/
 
-        Schema::create('task_work_dates', function ($table) {
+        Schema::create('task_shifts', function ($table) {
             $table->increments('id');
             $table->date('from_date')->nullable();
             $table->date('to_date')->nullable();
@@ -67,12 +67,12 @@ class AddUsersShiftsToTasksSubtasks extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('volunteer_task_work_dates', function ($table) {
+        Schema::create('volunteer_task_shifts', function ($table) {
             $table->increments('id');
             $table->string('description', 500)->nullable();
 
-            $table->integer('task_work_date_id')->unsigned();
-            $table->foreign('task_work_date_id')->references('id')->on('task_work_dates');
+            $table->integer('task_shift_id')->unsigned();
+            $table->foreign('task_shift_id')->references('id')->on('task_shifts');
 
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');
@@ -89,8 +89,8 @@ class AddUsersShiftsToTasksSubtasks extends Migration {
             $table->integer('cta_volunteers_id')->unsigned();
             $table->foreign('cta_volunteers_id')->references('id')->on('cta_volunteers');
 
-            $table->integer('task_work_dates_id')->unsigned();
-            $table->foreign('task_work_dates_id')->references('id')->on('task_work_dates');
+            $table->integer('task_shifts_id')->unsigned();
+            $table->foreign('task_shifts_id')->references('id')->on('task_shifts');
 
             $table->softDeletes();
             $table->timestamps();
@@ -107,9 +107,9 @@ class AddUsersShiftsToTasksSubtasks extends Migration {
         Schema::dropIfExists('tasks_volunteers');
         Schema::dropIfExists('subtasks_users');
         Schema::dropIfExists('subtasks_volunteers');
-        Schema::dropIfExists('volunteer_task_work_dates');
+        Schema::dropIfExists('volunteer_task_shifts');
         Schema::dropIfExists('cta_volunteers_task_dates');
-        Schema::dropIfExists('task_work_dates');
+        Schema::dropIfExists('task_shifts');
 
     }
 }

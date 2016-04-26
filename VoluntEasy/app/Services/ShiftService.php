@@ -70,12 +70,12 @@ class ShiftService
     public function addShiftHistory($volunteerId, $shiftId)
     {
         $shiftHistory = VolunteerShiftHistory::where('volunteer_id', $volunteerId)
-            ->where('work_date_id', $shiftId)->first();
+            ->where('shift_id', $shiftId)->first();
 
         if ($shiftHistory == null)
             VolunteerShiftHistory::create([
                 'volunteer_id' => $volunteerId,
-                'work_date_id' => $shiftId
+                'shift_id' => $shiftId
             ]);
 
         return;
