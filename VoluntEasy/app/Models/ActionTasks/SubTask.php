@@ -45,7 +45,7 @@ class SubTask extends Model {
     }
 
     public function checklist(){
-        return $this->hasMany('App\Models\ActionTasks\ChecklistItem', 'subtask_id', 'id');
+        return $this->hasMany('App\Models\ActionTasks\SubtaskChecklist', 'subtask_id', 'id');
     }
 
     public function users() {

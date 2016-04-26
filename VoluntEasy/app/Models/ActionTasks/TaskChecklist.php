@@ -4,11 +4,11 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ChecklistItem extends Model {
+class TaskChecklist extends Model {
 
     use SoftDeletes;
 
-    protected $table = 'subtask_checklists';
+    protected $table = 'task_checklists';
 
     protected $fillable = ['comments', 'subtask_id', 'created_by', 'updated_by', 'isComplete'];
 

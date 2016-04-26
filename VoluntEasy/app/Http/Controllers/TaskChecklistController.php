@@ -1,8 +1,8 @@
 <?php namespace App\Http\Controllers;
 
-use App\Models\ActionTasks\ChecklistItem;
+use App\Models\ActionTasks\TaskChecklist;
 
-class ChecklistController extends Controller {
+class TaskChecklistController extends Controller {
 
     public function __construct() {
         $this->middleware('auth');
@@ -14,10 +14,10 @@ class ChecklistController extends Controller {
      */
     public function store() {
 
-        $checklist = new ChecklistItem([
+        $checklist = new TaskChecklist([
             'isComplete' => 0,
             'comments' => \Request::get('comments'),
-            'subtask_id' => \Request::get('subtask_id'),
+            'subtask_id' => \Request::get('mode_id'),
             'created_by' => \Auth::user()->id,
             'updated_by' => \Auth::user()->id
         ]);
@@ -34,7 +34,7 @@ class ChecklistController extends Controller {
      */
     public function update() {
 
-        $checklist = ChecklistItem::find(\Request::get('id'));
+        $checklist = TaskChecklist::find(\Request::get('id'));
 
 
         if (\Request::get('isComplete') == 'true')
@@ -52,7 +52,7 @@ class ChecklistController extends Controller {
      * Delete an item
      */
     public function delete() {
-        $checklist = ChecklistItem::find(\Request::get('id'));
+        $checklist = TaskChecklist::find(\Request::get('id'));
         $checklist->delete();
         return;
     }

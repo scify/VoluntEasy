@@ -11,7 +11,6 @@ class Volunteer extends User {
      *
      * @var string
      */
-    use \SoftDeletes;
     protected $dates = ['deleted_at'];
 
     protected $table = 'volunteers';

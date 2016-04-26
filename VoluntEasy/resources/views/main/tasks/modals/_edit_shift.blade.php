@@ -11,7 +11,7 @@
                 <h4 class="modal-title">{{ trans('entities/subtasks.editShift') }}</h4>
             </div>
             <div class="modal-body">
-                {!! Form::model(null, ['id' => 'editShiftForm', 'method' => 'POST', 'action' => ['ShifteController@update']]) !!}
+                {!! Form::model(null, ['id' => 'editShiftForm', 'method' => 'POST', 'action' => ['ShiftController@update']]) !!}
 
                 <input type="hidden" name="shiftId" class="shiftId" value="">
                 @include('main.tasks.modals._shift_form', ['parentId' => '#editSubTask', 'showVolunteers' => true])

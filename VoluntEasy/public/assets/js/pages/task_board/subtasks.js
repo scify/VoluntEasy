@@ -51,35 +51,6 @@ $(".editSubTask").click(function (e) {
 
             $("#editSubTask .subtask-priorities option[value='" + subTask.priority + "']").prop('selected', true);
 
-            //add the checklist items
-            html = '';
-            $.each(subTask.checklist, function (i, item) {
-                html += '<div class="todo-item added ' + (item.isComplete == 1 ? 'complete' : '') + '"><input type="checkbox"' + (item.isComplete == 1 ? 'checked=checked' : '') + ' data-id="' + item.id + '">';
-                html += '<span class="todo-description">' + item.comments + '</span>';
-                if (item.isComplete == 1)
-                    html += '<span class="created_updated"><small>' + Lang.get('js-components.todoDone', {
-                        user: item.updated_by.name,
-                        date: item.updated_at
-                    })
-                +'</small></span>';
-                html += '<a href="javascript:void(0);" class="pull-right remove-todo-item" data-id="' + item.id + '"><i class="fa fa-times"></i></a></div>';
-            });
-
-            $("#editSubTask .todo-list").html(html);
-            $('.todo-list .todo-item.added input').uniform();
-            $('.todo-list .todo-item.added input').click(function () {
-                if ($(this).is(':checked')) {
-                    $(this).parent().parent().parent().toggleClass('complete');
-                } else {
-                    $(this).parent().parent().parent().toggleClass('complete');
-                }
-                updateToDoItem($(this).attr('data-id'), $(this).is(':checked'));
-            });
-            $('.todo-list .todo-item.added .remove-todo-item').click(function () {
-                deleteToDoItem($(this).attr('data-id'));
-                $(this).parent().remove();
-            });
-
 
             if (subTask.users.length > 0) {
                 $('#editSubTask input:radio[name=assignToSubtask][value=user]').attr('checked', 'checked');
@@ -204,30 +175,6 @@ function showSubTaskInfo(subTaskId) {
                     $('.noShifts').hide();
                 });
             }
-
-
-            //add the to-do list
-            html = '';
-            if (subTask.checklist.length == 0)
-                html = '<p><em>' + Lang.get('js-components.noToDos') + '</em></p>';
-            else {
-                $.each(subTask.checklist, function (i, item) {
-                    if (item.isComplete == "1")
-                        icon = '<i class="fa fa-check-square-o"></i> ';
-                    else
-                        icon = '<i class="fa fa-square-o"></i> ';
-
-                    html += '<p>' + icon + item.comments;
-                    if (item.isComplete == 1)
-                        html += '<span class="created_updated"><small>' + Lang.get('js-components.todoDone', {
-                            user: item.updated_by.name,
-                            date: item.updated_at
-                        })
-                    +'</small></span>';
-                });
-            }
-
-            $(".todo-list").html(html);
 
             $(".taskInfo").hide();
             $(".subTaskInfo").show();

@@ -58,4 +58,16 @@ class Task extends Model {
             return null;
     }
 
+    public function shifts(){
+        return $this->hasMany('App\Models\ActionTasks\TaskShift', 'task_id', 'id');
+    }
+
+    public function allShifts(){
+        return $this->hasMany('App\Models\ActionTasks\TaskShift', 'task_id', 'id')->withTrashed();
+    }
+
+    public function checklist(){
+        return $this->hasMany('App\Models\ActionTasks\TaskChecklist', 'task_id', 'id');
+    }
+
 }

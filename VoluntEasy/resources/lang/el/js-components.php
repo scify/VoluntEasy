@@ -102,7 +102,8 @@ return [
     'volunteerNotFound' => 'Ο εθελοντής δεν βρέθηκε στην πλατφόρμα. Επικοινωνήστε μαζί του και δημιουργήστε το προφίλ του.',
 
     /* to-do */
-    'todoDone' => 'Ολοκληρώθηκε από :user στις :date',
+    'todoCreated' => 'Δημιουργήθηκε από :user στις :date',
+    'todoEdited' => 'Τροποποιήθηκε από :user στις :date',
 
 
     /* custom.js */

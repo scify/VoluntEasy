@@ -45,6 +45,8 @@ return [
     /* shifts */
     'editShift' => 'Επεξεργασία βάρδιας',
 
+    'addChecklist' => 'Προσθήκη To-Do στο subtask',
+
     /* controller */
     'deleted' => 'Το subtask διαγράφηκε.',
 

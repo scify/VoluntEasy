@@ -14,6 +14,7 @@ class TaskService {
     public function prepareTasks($action) {
 
         $volunteerSum = 0;
+        $now = \Carbon::now();
 
         foreach ($action->tasks as $task) {
 
@@ -59,15 +60,21 @@ class TaskService {
 
                 //count the complete checlist items
                 $completed = 0;
-                foreach($subtask->checklist as $item){
-                    if($item->isComplete)
+                foreach ($subtask->checklist as $item) {
+                    if ($item->isComplete)
                         $completed = $completed + 1;
                 }
                 $subtask->completedChecklistItems = $completed;
 
                 //set the due date in a nicer format, ie 28/01
-                $tmpDueDate = \Carbon::createFromFormat('d/m/Y', $subtask->due_date);
-                $subtask->dueDateMin = $tmpDueDate->format('d/m');
+                //only if the due date's year is the current year
+                if ($subtask->due_date != null) {
+                    $tmpDueDate = \Carbon::createFromFormat('d/m/Y', $subtask->due_date);
+                    if ($tmpDueDate && $now->diffInYears($tmpDueDate) == 0)
+                        $subtask->dueDateMin = $tmpDueDate->format('d/m');
+                    else
+                        $subtask->dueDateMin = $tmpDueDate->format('d/m/y');
+                }
 
             }
 
@@ -96,6 +103,16 @@ class TaskService {
             } else if (sizeof($task->doingSubtasks) > 0) {
                 $task->status = "doing";
                 $task->statusOrderId = 2;
+            }
+
+            //set the task's due date in a nicer format, ie 28/01
+            //only if the due date's year is the current year
+            if ($task->due_date != null) {
+                $tmpDueDate = \Carbon::createFromFormat('d/m/Y', $task->due_date);
+                if ($now->diffInYears($tmpDueDate) == 0)
+                    $task->dueDateMin = $tmpDueDate->format('d/m');
+                else
+                    $task->dueDateMin = $tmpDueDate->format('d/m/y');
             }
         }
 
@@ -165,8 +182,7 @@ class TaskService {
             $task->users()->sync([\Request::get('taskUserSelect')]);
             $task->volunteers()->detach();
             //$task->volunteers()->sync([]);
-        }
-        else if(sizeof($task->users())>0){
+        } else if (sizeof($task->users()) > 0) {
             $task->users()->detach();
         }
 
@@ -185,8 +201,7 @@ class TaskService {
         ) {
             $task->volunteers()->sync([\Request::get('taskVolunteerSelect')]);
             $task->users()->sync([]);
-        }
-        else if(sizeof($task->volunteers())>0){
+        } else if (sizeof($task->volunteers()) > 0) {
             $task->volunteers()->detach();
         }
 

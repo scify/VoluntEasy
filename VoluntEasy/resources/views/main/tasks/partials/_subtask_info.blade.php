@@ -56,6 +56,9 @@
                 <button type="button" class="btn btn-info addShift" data-subtask-id="" data-task-id=""
                         title="{{ trans('default.addShift') }}"><i class="fa fa-calendar"></i>
                 </button>
+                <button type="button" class="btn btn-info viewSubtaskChecklist" data-subtask-id="" data-task-id=""
+                        title="{{ trans('default.addChecklist') }}"><i class="fa fa-check-square-o"></i>
+                </button>
                 <button type="button" class="btn btn-success editSubTask" data-subtask-id="" data-task-id=""
                         title="{{ trans('default.edit') }}"><i class="fa fa-edit"></i>
                 </button>

@@ -6,7 +6,10 @@ var todo = function () {
             $(this).parent().parent().parent().toggleClass('complete');
         }
 
-        updateToDoItem($(this).attr('data-id'), $(this).is(':checked'));
+        var mode = $(this).attr('data-id');
+        var item = updateToDoItem(mode, $(this).attr('data-id'), $(this).is(':checked'));
+        $('.created_updated[data-id='+item.id+'][data-mode='+mode+']').html(    );
+
     });
 
     $('.todo-nav .all-task').click(function () {
@@ -39,7 +42,7 @@ var todo = function () {
     });
 
     $('.remove-todo-item').click(function () {
-        deleteToDoItem($(this).attr('data-id'))
+        deleteToDoItem($(this).attr('data-mode'), $(this).attr('data-id'))
         $(this).parent().remove();
     });
 };
@@ -50,20 +53,22 @@ todo();
 $(".add-task").keypress(function (e) {
     if ((e.which == 13) && (!$(this).val().length == 0)) {
 
+        var mode = $(this).attr('data-mode');
+        var modeId = $(this).attr('data-mode-id');
+
         var html = '';
         var comments = $(this).val();
         $(this).val('');
 
-        $.when(storeToDoItem(comments)).then(function (item, textStatus, jqXHR) {
+        $.when(storeToDoItem(mode, modeId, comments)).then(function (item, textStatus, jqXHR) {
 
             html = '<div class="todo-item added ' + (item.isComplete == 1 ? 'complete' : '') + '"><input type="checkbox"' + (item.isComplete == 1 ? 'checked=checked' : '') + ' data-id="' + item.id + '">';
+
             html += '<span class="todo-description">' + item.comments + '</span>';
-            if (item.isComplete == 1)
-                html += '<span class="created_updated"><small>' + Lang.get('js-components.todoDone', {
-                    user: item.updated_by.name,
-                    date: item.updated_at
-                })
-            +'</small></span>';
+            html += '<span class="helper-wrapper"  data-id="' + item.id + '" data-mode="subtask">'
+            html += addHelper(item);
+            html += '</span>';
+
             html += '<a href="javascript:void(0);" class="pull-right remove-todo-item" data-id="' + item.id + '"><i class="fa fa-times"></i></a></div>';
 
             if ($('.todo-list').is(':empty'))
@@ -101,22 +106,22 @@ $(".add-task").keypress(function (e) {
 
 
 //store a new checklist item
-function storeToDoItem(comments) {
+function storeToDoItem(mode, modeId, comments) {
+
     return $.ajax({
-        url: $("body").attr('data-url') + "/checklist/store",
+        url: getUrl(mode) + '/store',
         method: 'GET',
         data: {
             comments: comments,
-            subtask_id: $("#editSubTask .subTaskId").val()
+            mode_id: modeId
         }
     });
 }
 
 //update the status of a checklist item
-function updateToDoItem(id, isComplete) {
-
-    $.ajax({
-        url: $("body").attr('data-url') + "/checklist/update",
+function updateToDoItem(mode, id, isComplete) {
+    return $.ajax({
+        url: getUrl(mode) + '/update',
         method: 'GET',
         data: {
             id: id,
@@ -129,12 +134,22 @@ function updateToDoItem(id, isComplete) {
 }
 
 //delete an item
-function deleteToDoItem(id) {
+function deleteToDoItem(mode, id) {
     $.ajax({
-        url: $("body").attr('data-url') + "/checklist/delete",
+        url: getUrl(mode) + '/delete',
         method: 'GET',
         data: {
             id: id
         }
     });
+}
+
+function getUrl(mode) {
+    var url = '';
+    if (mode == 'task')
+        url = $("body").attr("data-url") + '/actions/tasks/checklist';
+    else
+        url = $("body").attr("data-url") + '/actions/tasks/subtasks/checklist';
+
+    return url;
 }

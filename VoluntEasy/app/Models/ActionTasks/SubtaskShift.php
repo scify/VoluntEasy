@@ -13,7 +13,7 @@ class SubtaskShift extends Model {
 
     use SoftDeletes;
 
-    protected $table = 'subtask_shift';
+    protected $table = 'subtask_shifts';
 
     protected $fillable = ['from_date', 'to_date', 'subtask_id', 'from_hour', 'to_hour',  'volunteer_sum', 'comments'];
 

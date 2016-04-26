@@ -223,9 +223,12 @@ Route::get('ctaVolunteer/assignToVolunteer', 'CTAVolunteerController@assignToVol
 ///////////////////
 //Checklist Routes //
 //////////////////
-Route::get('checklist/store', 'ChecklistController@store');
-Route::get('checklist/update', 'ChecklistController@update');
-Route::get('checklist/delete', 'ChecklistController@delete');
+Route::get('actions/tasks/checklist/store', 'TaskChecklistController@store');
+Route::get('actions/tasks/checklist/update', 'TaskChecklistController@update');
+Route::get('actions/tasks/checklist/delete', 'TaskChecklistController@delete');
+Route::get('actions/tasks/subtasks/checklist/store', 'SubtaskChecklistController@store');
+Route::get('actions/tasks/subtasks/checklist/update', 'SubtaskChecklistController@update');
+Route::get('actions/tasks/subtasks/checklist/delete', 'SubtaskChecklistController@delete');
 
 
 ///////////////////
