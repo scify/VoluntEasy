@@ -57,6 +57,18 @@
                            title="{{ trans('entities/tasks.urgentPriority') }}"></i>
                         @endif
 
+                        @if(sizeof($task->checklist) >0 )
+                       <small><i class="fa fa-list"
+                           title="{{ sizeof($task->checklist) }} to-dos"></i> {{ $task->completedChecklistItems
+                        }}/{{ sizeof($task->checklist) }}</small>
+                        @endif
+
+                        @if(sizeof($task->shifts) >0 )
+                        <small><i class="fa fa-calendar"
+                           title="{{ sizeof($task->shifts) }} {{ trans('entities/tasks.daysHours') }}"></i>
+                        {{ sizeof($task->shifts) }}</small>
+                        @endif
+
                                                 <span>
                                                    @if($task->expires===0)
                                                        <i class="fa fa-clock-o"></i>
@@ -222,6 +234,7 @@
 @include('main.tasks.modals._edit_subtask', ['mode' =>'edit'])
 @include('main.tasks.modals._add_shift')
 @include('main.tasks.modals._edit_shift')
+@include('main.tasks.modals._task_checklist')
 @include('main.tasks.modals._subtask_checklist')
 
 

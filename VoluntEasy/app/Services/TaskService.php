@@ -58,7 +58,7 @@ class TaskService {
                 }
                 $subtask->ctaVolunteersCount = $ctaVolunteers;
 
-                //count the complete checlist items
+                //count the complete checklist items
                 $completed = 0;
                 foreach ($subtask->checklist as $item) {
                     if ($item->isComplete)
@@ -104,6 +104,15 @@ class TaskService {
                 $task->status = "doing";
                 $task->statusOrderId = 2;
             }
+
+
+            //count the complete checklist items
+            $completed = 0;
+            foreach ($task->checklist as $item) {
+                if ($item->isComplete)
+                    $completed = $completed + 1;
+            }
+            $task->completedChecklistItems = $completed;
 
             //set the task's due date in a nicer format, ie 28/01
             //only if the due date's year is the current year

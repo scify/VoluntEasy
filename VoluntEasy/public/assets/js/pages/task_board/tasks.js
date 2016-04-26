@@ -125,20 +125,41 @@ function showTaskInfo(taskId) {
 
             $(".taskInfo .due_date").text(task.due_date == null ? '-' : task.due_date);
             $(".taskInfo .name").text(task.name);
-            $(".taskInfo .description").text(task.description == null || task.description == '' ? '-' : task.description);
+            $(".taskInfo .description").text(task.description == null || task.description == '' ? '' : task.description);
 
             $(".taskInfo .editTask").attr('data-task-id', task.id);
             $(".taskInfo .deleteTask").attr('data-task-id', task.id);
 
-            if (task.priority == 1)
-                $(".taskInfo .priority").text(Lang.get('js-components.low'));
-            if (task.priority == 2)
-                $(".taskInfo .priority").text(Lang.get('js-components.medium'));
-            if (task.priority == 3)
-                $(".taskInfo .priority").text(Lang.get('js-components.high'));
-            if (task.priority == 4)
-                $(".taskInfo .priority").text(Lang.get('js-components.urgent'));
 
+            imagePath = '';
+            if (task.users.length > 0) {
+                assignedToName = task.users[0].name + ' ' + task.users[0].last_name;
+                imagePath = (task.users[0].image_name == null || task.users[0].image_name == "" ?
+                $("body").attr('data-url') + '/assets/images/default.png' : $("body").attr('data-url') + '/assets/uploads/users/' + task.users[0].image_name);
+            }
+            if (task.volunteers.length > 0) {
+                assignedToName = task.volunteers[0].name + ' ' + task.volunteers[0].last_name;
+                imagePath = (task.volunteers[0].image_name == null || volunteers.users[0].image_name == "" ?
+                $("body").attr('data-url') + '/assets/images/default.png' : $("body").attr('data-url') + '/assets/uploads/users/' + task.volunteers[0].image_name);
+            }
+
+            if (imagePath != '')
+                $(".taskInfo .assignedTo").html(Lang.get('js-components.assignedTo') + '<img class="img-circle avatar userImage" src="' + imagePath + '" width="30" height="30" title="' + assignedToName + '">');
+            else
+                $(".taskInfo .assignedTo").html('');
+
+            priorityText = '';
+            if (task.priority == 1)
+                priorityText = Lang.get('js-components.low');
+            if (task.priority == 2)
+                priorityText = Lang.get('js-components.medium');
+            if (task.priority == 3)
+                priorityText = Lang.get('js-components.high');
+            if (task.priority == 4)
+                priorityText = Lang.get('js-components.urgent');
+
+
+            $(".taskInfo .priority").html('<i class="fa fa-arrow-up priority-' + task.priority + '" title="' + priorityText + '"></i>');
             $(".taskInfo .priority").attr('data-priority', task.priority);
 
             $(".subTaskInfo").hide();

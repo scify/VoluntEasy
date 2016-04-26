@@ -10,7 +10,7 @@ class TaskChecklist extends Model {
 
     protected $table = 'task_checklists';
 
-    protected $fillable = ['comments', 'subtask_id', 'created_by', 'updated_by', 'isComplete'];
+    protected $fillable = ['comments', 'task_id', 'created_by', 'updated_by', 'isComplete'];
 
     protected $dates = ['deleted_at'];
 
@@ -23,10 +23,10 @@ class TaskChecklist extends Model {
     }
 
     public function getCreatedAtAttribute() {
-            return \Carbon::parse($this->attributes['created_at'])->format('d/m/Y');
+        return \Carbon::parse($this->attributes['created_at'])->format('H:i, d/m/Y');
     }
 
     public function getUpdatedAtAttribute() {
-        return \Carbon::parse($this->attributes['updated_at'])->format('d/m/Y');
+        return \Carbon::parse($this->attributes['updated_at'])->format('H:i, d/m/Y');
     }
 }

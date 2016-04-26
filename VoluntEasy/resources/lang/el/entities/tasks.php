@@ -64,6 +64,8 @@ return [
 
     'fillField' => 'Συμπληρώστε το πεδίο.',
 
+    /* checklists */
+    'addChecklist' => 'Προσθήκη To-Do στο task',
 
     /* controller */
     'deleted' => 'Το task διαγράφηκε.',

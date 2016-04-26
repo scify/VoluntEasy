@@ -109,7 +109,10 @@ trait Permissible {
                 //refresh user units
                 if (\Request::has('unitsSelect') && sizeof(\Request::get('unitsSelect')) > 0) {
 
-                    $units = \Request::get('unitsSelect');
+                    foreach (\Request::get('unitsSelect') as $unitId) {
+                        array_push($units, $unitId);
+                    }
+
 
                     foreach (\Request::get('unitsSelect') as $unitId) {
                         $unit = Unit::find($unitId);

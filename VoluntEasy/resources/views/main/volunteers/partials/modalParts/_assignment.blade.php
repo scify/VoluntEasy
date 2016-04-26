@@ -6,7 +6,8 @@
     <label>
         {!! Form::formInput('assignment', '', $errors, ['class' => 'form-control', 'type' => 'radio', 'value' =>
         $unit->description,
-        'checked' => 'false', 'data-id' => $step->statuses[0]->id, 'data-unit-id' => $unit->id]) !!} {!! trans('entities/volunteers.assignToUnitAndMakeAvailable', ['unit' => $unit->description]) !!}
+        'checked' => 'false', 'data-id' => $step->statuses[0]->id, 'data-unit-id' => $unit->id]) !!} {!!
+        trans('entities/volunteers.assignToUnitAndMakeAvailable', ['unit' => $unit->description]) !!}
     </label>
 </div>
 
@@ -14,8 +15,10 @@
 {{-- also add the parent unit to the available units --}}
 {{--*/ $availableUnitsWithParent = $unit->availableUnits /*--}}
 {{--*/ $availableUnitsWithParent[$unit->id] = $unit->description /*--}}
+
 {!! Form::formInput('', trans('entities/volunteers.assignToUnit') .'*:', $errors, ['class' => 'form-control',
 'type' => 'select', 'id' => 'unitSelect-'.$unit->id, 'value' => $availableUnitsWithParent, 'data-parent' => $unit->id]) !!}
+
 <p class="text-right">
     <small><em>*{{ trans('entities/volunteers.assignToUnitExpl') }}</em>
     </small>

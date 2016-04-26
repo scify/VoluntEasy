@@ -13,7 +13,7 @@
     <div class="row no-left-margin">
         <div class="col-md-10 no-padding">
             @if(sizeof($subtask->shifts) >0 )
-            <i class="fa fa-clock-o"
+            <i class="fa fa-calendar"
                title="{{ sizeof($subtask->shifts) }} {{ trans('entities/tasks.daysHours') }}"></i>
             {{ sizeof($subtask->shifts) }}
             @endif

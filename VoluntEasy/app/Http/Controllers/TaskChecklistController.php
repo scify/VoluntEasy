@@ -17,7 +17,7 @@ class TaskChecklistController extends Controller {
         $checklist = new TaskChecklist([
             'isComplete' => 0,
             'comments' => \Request::get('comments'),
-            'subtask_id' => \Request::get('mode_id'),
+            'task_id' => \Request::get('mode_id'),
             'created_by' => \Auth::user()->id,
             'updated_by' => \Auth::user()->id
         ]);
@@ -44,6 +44,8 @@ class TaskChecklistController extends Controller {
 
         $checklist->isComplete = $isComplete;
         $checklist->update();
+        $checklist->load('createdBy');
+        $checklist->load('updatedBy');
 
         return $checklist;
     }

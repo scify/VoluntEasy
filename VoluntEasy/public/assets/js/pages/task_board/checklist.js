@@ -43,6 +43,51 @@ $(".viewSubtaskChecklist").click(function (e) {
 });
 
 
+//populate the viewTaskChecklist modal with data before displaying it
+$(".viewTaskChecklist").click(function (e) {
+
+    //add the checklist items
+    html = '';
+    $.each(task.checklist, function (i, item) {
+        html += '<div class="todo-item added ' + (item.isComplete == 1 ? 'complete' : '') + '"><input type="checkbox"' + (item.isComplete == 1 ? 'checked=checked' : '') + ' data-id="' + item.id + '" data-mode="task">';
+
+        html += '<span class="todo-description">' + item.comments + '</span>';
+        html += '<span class="helper-wrapper"  data-id="' + item.id + '" data-mode="task">'
+        html += addHelper(item);
+        html += '</span>';
+
+        html += '<a href="javascript:void(0);" class="pull-right remove-todo-item" data-id="' + item.id + '"><i class="fa fa-times"></i></a></div>';
+    });
+
+    $("#taskChecklist .todo-list").html(html);
+    $('#taskChecklist .todo-list .todo-item.added input').uniform();
+    $('#taskChecklist .todo-list .todo-item.added input').click(function () {
+        if ($(this).is(':checked')) {
+            $(this).parent().parent().parent().toggleClass('complete');
+        } else {
+            $(this).parent().parent().parent().toggleClass('complete');
+        }
+
+        var mode = $(this).attr('data-mode');
+        $.when(updateToDoItem(mode, $(this).attr('data-id'), $(this).is(':checked')))
+            .then(function (item, textStatus, jqXHR) {
+                $('.helper-wrapper[data-id=' + item.id + '][data-mode=' + mode + ']').html(addHelper(item));
+            });
+
+    });
+
+    $('#taskChecklist .todo-list .todo-item.added .remove-todo-item').click(function () {
+        deleteToDoItem($(this).attr('data-id'));
+        $(this).parent().remove();
+    });
+
+    $("#taskChecklist .add-task").attr('data-mode-id', task.id);
+
+    //show modal
+    $('#taskChecklist').modal('show');
+});
+
+
 $(".closeAndRefresh").click(function () {
     location.reload();
 });

@@ -177,6 +177,8 @@ $(".assignToNextUnit").click(function () {
 
     }
     else {
+        console.log(id);
+
         step = {
             'volunteer_id': $(this).attr('data-volunteer-id'),
             'assign_id': $('#moreUnits').val(),
