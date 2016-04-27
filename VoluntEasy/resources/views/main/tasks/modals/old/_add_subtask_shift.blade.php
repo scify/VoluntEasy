@@ -1,7 +1,7 @@
 <?php $lang = "default."; ?>
 
 <!-- Modal -->
-<div class="modal fade" id="addShift" tabindex="-1" role="dialog"
+<div class="modal fade" id="addSubtaskShift" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -11,7 +11,7 @@
                 <h4 class="modal-title">{{ trans('entities/subtasks.addShift') }}</h4>
             </div>
             <div class="modal-body">
-                {!! Form::model(null, ['id' => 'addShiftForm', 'method' => 'POST', 'action' => ['ShiftController@store']]) !!}
+                {!! Form::model(null, ['id' => 'addShiftForm', 'method' => 'POST', 'action' => ['SubtaskShiftController@store']]) !!}
 
                 @include('main.tasks.modals._shift_form', ['parentId' => '#editSubTask'])
 
@@ -24,3 +24,10 @@
         </div>
     </div>
 </div>
+
+
+@section('footerScripts')
+
+
+
+@append

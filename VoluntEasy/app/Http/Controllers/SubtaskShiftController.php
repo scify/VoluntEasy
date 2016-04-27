@@ -6,7 +6,7 @@ use App\Models\ActionTasks\SubtaskShift;
 use App\Services\Facades\ShiftService;
 use App\Services\Facades\VolunteerService;
 
-class ShiftController extends Controller
+class SubtaskShiftController extends Controller
 {
 
 

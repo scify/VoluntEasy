@@ -131,11 +131,8 @@
                      role="tabpanel"
                      aria-labelledby="headingOne" aria-expanded="false" style="height: 0px;">
                     <div class="panel-body">
-
                         @if(sizeof($task->todoSubtasks)+sizeof($task->doingSubtasks)+sizeof($task->doneSubtasks)>0)
-
                         <div class="row task-{{ $task->id }} board-row">
-
                             {{-- To Do subtasks --}}
                             <div class="col-md-4">
                                 <h3 class="panel-title">{{ trans('entities/tasks.todo') }}</h3>
@@ -145,7 +142,6 @@
                                     'status' => 'todo'])
                                 </div>
                             </div>
-
                             {{-- Doing subtasks --}}
                             <div class="col-md-4">
                                 <h3 class="panel-title">{{ trans('entities/tasks.doing') }}</h3>
@@ -155,8 +151,6 @@
                                     'status' => 'doing'])
                                 </div>
                             </div>
-
-
                             {{-- Done subtasks --}}
                             <div class="col-md-4">
                                 <h3 class="panel-title">{{ trans('entities/tasks.done') }}</h3>
@@ -167,11 +161,11 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                     </div>
-                    @endif
                     @if($isPermitted)
-                    <div class="row top-margin">
-                        <div class="col-md-12 subtask">
+                    <div class="row top-margin bottom-margin">
+                        <div class="col-md-12 subtask text-right">
                             <a href="javascript:void(0);" data-toggle="modal"
                                data-target="#addSubTask"
                                data-task-id="{{$task->id}}" class="addSubTask"><i
@@ -212,7 +206,6 @@
 
 @else
 <p>{{ trans('entities/tasks.noTask') }}</p>
-
 @if($isPermitted)
 <div class="row top-margin">
     <div class="col-md-12">
@@ -227,15 +220,17 @@
 </div>
 </div>
 
-
+{{--
 @include('main.tasks.modals._add_task', ['mode' =>'store'])
 @include('main.tasks.modals._edit_task', ['mode' =>'edit'])
 @include('main.tasks.modals._add_subtask', ['mode' =>'store'])
 @include('main.tasks.modals._edit_subtask', ['mode' =>'edit'])
-@include('main.tasks.modals._add_shift')
-@include('main.tasks.modals._edit_shift')
+@include('main.tasks.modals._add_subtask_shift')
+@include('main.tasks.modals._edit_subtask_shift')
 @include('main.tasks.modals._task_checklist')
 @include('main.tasks.modals._subtask_checklist')
+--}}
+@include('main.tasks.modals._view_task')
 
 
 @section('footerScripts')

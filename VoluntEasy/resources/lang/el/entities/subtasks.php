@@ -29,7 +29,7 @@ return [
 
     'fillField' => 'Συμπληρώστε το πεδίο.',
 
-    'volunteersNeeded' => 'Αριθμός απαιτούμενων εθελοντών',
+    'volunteersNeeded' => '# εθελοντών',
     'availableVolunteers' => 'Διαθέσιμοι εθελοντές',
     'assignedVolunteers' => 'Ανατεθειμένοι εθελοντές',
     'interestedVolunteers' => 'Εθελοντές που έχουν εκδηλώσει ενδιαφέρον',
@@ -37,6 +37,7 @@ return [
     'info' => 'Στοιχεία',
     'comments' => 'Σχόλια',
     'actions' => 'Ενέργειες',
+
 
     'newToDo' => 'Νέο to-do...',
     'toDoExplained' => 'Πατήστε το enter για να αποθηκευτεί το to-do',

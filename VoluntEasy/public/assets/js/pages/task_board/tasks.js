@@ -116,6 +116,17 @@ $('.assignToTask').click(function () {
     }
 });
 
+//display all the task details, shifts and checklist
+$('.viewTask').click(function () {
+
+    showTaskInfo(task.id)
+    editTask();
+    drawShiftsTable("#taskShifts", task);
+    $('#viewTask .add-task').attr('data-mode-id', task.id);
+
+    $('#viewTask').modal('show');
+
+});
 
 /* show the task info at the side div */
 function showTaskInfo(taskId) {
@@ -167,6 +178,39 @@ function showTaskInfo(taskId) {
 
         });
 }
+
+function editTask(){
+    $("#taskDetails .taskId").val(task.id);
+    $("#taskDetails .due_date").datepicker("update", task.due_date);
+    $("#taskDetails .name").val(task.name);
+    $("#taskDetails .description").val(task.description);
+    $("#taskDetails .priorities option[value='" + task.priority + "']").prop('selected', true);
+
+    if (task.users.length > 0) {
+        $('#taskDetails input:radio[name=assignToTask][value=user]').attr('checked', 'checked');
+        $('#taskDetails input:radio[name=assignToTask][value=user]').parent().addClass('checked');
+
+        $('#taskDetails .taskUserSelect').removeAttr('disabled');
+        $('#taskDetails .taskUserSelect').val(task.users[0].id);
+        $('#taskDetails .taskVolunteerSelect').attr('disabled', 'disabled');
+    }
+    else {
+        $('#taskDetails .taskUserSelect').attr('disabled', 'disabled');
+    }
+
+    if (task.volunteers.length > 0) {
+        $('#taskDetails input:radio[name=assignToTask][value=volunteer]').attr('checked', 'checked');
+        $('#taskDetails input:radio[name=assignToTask][value=volunteer]').parent().addClass('checked');
+
+        $('#taskDetails .taskVolunteerSelect').removeAttr('disabled');
+        $('#taskDetails .taskVolunteerSelect').val(task.volunteers[0].id);
+        $('#taskDetails .taskUserSelect').attr('disabled', 'disabled');
+    }
+    else {
+        $('#taskDetails .taskVolunteerSelect').attr('disabled', 'disabled');
+    }
+}
+
 
 
 //get a task by its id

@@ -47,15 +47,15 @@ $("#updateShift").click(function (e) {
 });
 
 
-//populate the addShift modal with data before displaying it
-$(".addShift").click(function (e) {
+//populate the addSubtaskShift modal with data before displaying it
+$(".addSubtaskShift").click(function (e) {
 
-    $("#addShift .subtaskId").val(subTask.id);
+    $("#addSubtaskShift .subtaskId").val(subTask.id);
 
     refreshDateTime();
 
     //show modal
-    $('#addShift').modal('show');
+    $('#addSubtaskShift').modal('show');
 });
 
 //assign a ctavolunteer to an existing volunteer
@@ -140,9 +140,6 @@ function editShift(id) {
             $("#editShift .hourTo").val(shift.to_hour);
             $("#editShift .volunteerSum").val(shift.volunteer_sum);
 
-            console.log(shift.cta_volunteers);
-
-
             //check if ctaVolunteers table should be displayed,
             //aka the table that holds the volunteers that have claimed interest in the action
             if (shift.cta_volunteers.length == 0) {
@@ -195,6 +192,120 @@ function editShift(id) {
             refreshDateTime();
             $('#editShift').modal('show');
             return false;
+        }
+    });
+}
+
+//draw the shifts table and add the c-editable fields
+function drawShiftsTable(parentId, type) {
+    //add the work dates
+    html = '';
+    if (type.shifts.length == 0) {
+        // $(parentId + ' .noShifts').hide();
+        //$(parentId + ' .shiftsTable').hide();
+
+        html += '<tr><td><span class="comments editable required" data-name="comments" data-id="0"></span></td>';
+        html += '<td><span class="fromDate editable required" data-name="fromDate" data-id="0"></span></td>';
+        html += '<td><span class="fromHour editable required" data-name="fromHour" data-id="0"></span></td>';
+        html += '<td><span class="toHour editable required" data-name="toHour" data-id="0"></span></td>';
+        html += '<td><span class="volunteerSum editable required" data-name="volunteerSum" data-id="0"></span></td>';
+        html += '<td><span class="availableVolunteers editable select2" data-name="availableVolunteers" data-id="0"></span></td>';
+        html += '</tr>';
+        $(parentId + ' .shiftsTable > tbody:last-child').html(html);
+        $(parentId + ' .shiftsTable').show();
+    }
+    else {
+        $.each(type.shifts, function (i, shift) {
+
+            html += '<tr><td>' + shift.comments + '</td>';
+            if (shift.from_date != null)
+                html += '<td>' + shift.from_date + '</td>';
+            else
+                html += '<td>-</td>';
+            if (shift.from_hour != null && shift.to_hour != null)
+                html += '<td>' + shift.from_hour + '-' + shift.to_hour + '</td>';
+            else if (shift.from_hour != null)
+                html += '<td>shift.from_hour</td>';
+            else
+                html += '<td>-</td>';
+            if (shift.volunteer_sum != null)
+                html += '<td>' + shift.volunteers.length + '/' + shift.volunteer_sum + '</td>';
+            else
+                html += '<td>-</td>';
+
+            if (isPermitted == 'true') {
+                html += '<td><button class="btn btn-sm btn-success edit-btn" onclick="editShift(' + shift.id + ')"><i class="fa fa-edit"></i></button>';
+                html += '<button class="btn btn-sm btn-danger" onclick="deleteShift(' + shift.id + ')"><i class="fa fa-trash"></i></button></td>';
+            }
+            html += '</tr>';
+
+        });
+
+        $(parentId + ' .shiftsTable > tbody:last-child').html(html);
+        $(parentId + ' .shiftsTable').show();
+        $(parentId + ' .noShifts').hide();
+    }
+
+    initEditables(parentId);
+}
+
+//initialize the editable fields
+function initEditables(parentId) {
+
+    $(parentId + ' .editable').editable({
+        name: function (value) {
+            return $(this).attr('data-name');
+        },
+        mode: 'inline',
+        type: 'text',
+        send: 'never',
+        unsavedclass: null,
+        pk: function (value) {
+            return $(this).attr('data-id');
+        },
+        value: '',
+        validate: function (value) {
+            if ($.trim(value) == '') {
+                return 'This field is required';
+            }
+        },
+        url: function (params) {
+            var d = new $.Deferred();
+
+            if ($(this).attr('data-id') == 0) {
+                //check if the other required fields are filled before sending a create shift request
+                var flag = false;
+
+                $('.editable.required').each(function (index) {
+                    console.log($(this).text())
+                    if ($(this).text() == 'Empty') {
+                        flag = true;
+                        return false;
+                    }
+                });
+
+                console.log(flag)
+                if (!flag) {
+                    /*   $.ajax({
+                     //TODO: change tasks to subtasks etc
+                     url: $("body").attr('data-url') + "/actions/tasks/shifts/store",
+                     method: 'GET',
+                     data: {
+                     dateFrom: $(parentId + ' .comments'),
+                     fromDate: $(parentId + ' .fromDate'),
+                     fromHour: $(parentId + ' .fromHour'),
+                     toHour: $(parentId + ' .toHour'),
+                     volunteerSum: $(parentId + ' .volunteerSum'),
+                     taskId: task.id,
+                     },
+                     success: function (result) {
+                     return d.promise();
+                     }
+                     });*/
+                } else {
+                    return d.resolve();
+                }
+            }
         }
     });
 }

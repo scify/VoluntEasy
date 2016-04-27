@@ -29,7 +29,7 @@ return [
 
     'fillField' => 'Fill in this field.',
 
-    'volunteersNeeded' => 'Number of required volunteers',
+    'volunteersNeeded' => '# volunteers',
     'availableVolunteers' => 'Available volunteers',
     'assignedVolunteers' => 'Assigned volunteers',
     'interestedVolunteers' => 'Volunteers that have expressed interest',

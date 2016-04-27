@@ -43,10 +43,10 @@ $(".viewSubtaskChecklist").click(function (e) {
 });
 
 
-//populate the viewTaskChecklist modal with data before displaying it
-$(".viewTaskChecklist").click(function (e) {
+//populate the area that will hold the checklist items
+function viewTaskChecklist() {
 
-    //add the checklist items
+//add the checklist items
     html = '';
     $.each(task.checklist, function (i, item) {
         html += '<div class="todo-item added ' + (item.isComplete == 1 ? 'complete' : '') + '"><input type="checkbox"' + (item.isComplete == 1 ? 'checked=checked' : '') + ' data-id="' + item.id + '" data-mode="task">';
@@ -80,12 +80,7 @@ $(".viewTaskChecklist").click(function (e) {
         deleteToDoItem($(this).attr('data-id'));
         $(this).parent().remove();
     });
-
-    $("#taskChecklist .add-task").attr('data-mode-id', task.id);
-
-    //show modal
-    $('#taskChecklist').modal('show');
-});
+}
 
 
 $(".closeAndRefresh").click(function () {
