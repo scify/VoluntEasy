@@ -1,7 +1,5 @@
-<?php $lang = "default."; ?>
-
 <!-- Modal -->
-<div class="modal fade" id="addShift" tabindex="-1" role="dialog"
+<div class="modal fade" id="addSubtaskShift" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -24,3 +22,10 @@
         </div>
     </div>
 </div>
+
+
+@section('footerScripts')
+
+
+
+@append

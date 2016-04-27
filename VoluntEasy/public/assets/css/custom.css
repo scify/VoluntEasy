@@ -22,7 +22,6 @@ thead.middle th {
     text-align: center;
 }
 
-
 .panel-group .panel-heading .panel-title > a {
     font-weight: 400;
 }
@@ -44,8 +43,8 @@ thead.middle th {
     padding: 7px !important;
 }
 
-.btn.right-margin{
-    margin-right:3px;
+.btn.right-margin {
+    margin-right: 3px;
 }
 
 .modal-header {
@@ -69,8 +68,8 @@ thead.middle th {
     padding: 20px;
 }
 
-.modal-dialog.modal-xl{
-    width:75%;
+.modal-dialog.modal-xl {
+    width: 75%;
 }
 
 .user-image img {
@@ -88,7 +87,7 @@ thead.middle th {
     margin-left: 5px;
 }
 
-.user_image{
+.user_image {
     width: 200px;
     height: 200px;
     -webkit-border-radius: 200px;
@@ -159,12 +158,12 @@ span.status.incomplete {
     background-color: #f25656;
 }
 
-i.status.completed{
-    color:#22BAA0;
+i.status.completed {
+    color: #22BAA0;
 }
 
-i.status.incomplete{
-    color:#f25656;
+i.status.incomplete {
+    color: #f25656;
 }
 
 div.status {
@@ -389,6 +388,14 @@ div#unitsTree {
     border-top: 0;
 }
 
+.tabs-left .tab-content {
+    border: 0;
+}
+
+.tabs-left > .nav-tabs .active > a, .tabs-left > .nav-tabs .active > a:hover, .tabs-left > .nav-tabs .active > a:focus {
+    /* margin:0;*/
+}
+
 .row.bottom-margin {
     margin-bottom: 20px;
 }
@@ -403,6 +410,40 @@ div#unitsTree {
 
 .row.no-left-margin {
     margin-left: 0px;
+}
+
+.row-height {
+    display: table;
+    table-layout: fixed;
+    height: 100%;
+    width: 100%;
+}
+
+.col-height {
+    display: table-cell;
+    float: none;
+    height: 100%;
+}
+
+.col-top {
+    vertical-align: top;
+}
+
+.col-middle {
+    vertical-align: middle;
+}
+
+.col-bottom {
+    vertical-align: bottom;
+}
+
+.modal.scrollable .modal-dialog {
+    overflow-y: initial !important
+}
+
+.modal.scrollable .modal-body {
+    height: 400px;
+    overflow-y: auto;
 }
 
 .no-padding {
@@ -455,8 +496,8 @@ div#unitsTree {
     width: 100%
 }
 
-.board-row{
-    min-height:70px;
+.board-row {
+    min-height: 70px;
 }
 
 .board .row [class*="col-"] {
@@ -465,15 +506,15 @@ div#unitsTree {
     vertical-align: top;
 }
 
-.board-column{
-    min-height:70px;
+.board-column {
+    min-height: 70px;
 }
 
 .board-card {
     background-color: #F6F6F6;
     padding: 5px;
     width: 80%;
-    min-height:65px;
+    min-height: 65px;
     border: solid 1px #DBE0E8;
     margin-bottom: 10px;
     border-radius: 2px;
@@ -486,8 +527,8 @@ div#unitsTree {
     box-shadow: none;
 }
 
-.board .infoSidebar{
-    border-left:solid 1px #D8D9E2;
+.board .infoSidebar {
+    border-left: solid 1px #D8D9E2;
 }
 
 .board-card.priority-1 {
@@ -525,6 +566,7 @@ i.priority-4 {
 .board .panel-default .panel-heading {
     margin-top: 5px;
     background-color: #E9EDF2;
+    height: 60px;
 }
 
 .board .panel-group .panel-heading .panel-title > a.title {
@@ -548,7 +590,7 @@ i.priority-4 {
     content: "";
 }
 
-.board .img-circle{
+.board .img-circle {
     border: solid 1px #DBE0E8;
 }
 
@@ -571,46 +613,49 @@ i.priority-4 {
     background-color: #22BAA0;
 }
 
-.taskInfo .padding, .subTaskInfo .padding, .ctaSubtasks .padding{
-    padding-left:20px;
+.taskInfo .padding, .subTaskInfo .padding, .ctaSubtasks .padding {
+    padding-left: 20px;
 }
 
-.shifts .date{
+.shifts .date {
     width: 120px;
     display: inline-block;
-    margin-bottom:10px;
+    margin-bottom: 10px;
 }
 
-.shifts .time{
+.shifts .time {
     width: 70px;
     display: inline-block;
 }
 
-.shiftTable{
+.shiftTable {
     font-size: 11px;
 }
-.shiftTable thead > tr > th, .shiftTable.table-condensed > tbody > tr > td{
+
+.shiftTable thead > tr > th, .shiftTable.table-condensed > tbody > tr > td {
     padding: 3px !important;
 }
-.shiftTable .btn{
-    padding:3px;
-    width:20px;
-}
-.shiftTable .edit-btn{
-    margin-right:2px;
-}
-.infoSidebar, .infoSidebar [class*="col-"]{
-    padding-right:0px;
+
+.shiftTable .btn {
+    padding: 3px;
+    width: 20px;
 }
 
-    /*
-    .taskInfo, .subTaskInfo{
-        background-color: rgb(233, 237, 242);
-        box-shadow: 0 1px 5px 1px rgb(195, 195, 195);
-        padding: 5px;
-    }
-    */
+.shiftTable .edit-btn {
+    margin-right: 2px;
+}
 
+.infoSidebar, .infoSidebar [class*="col-"] {
+    padding-right: 0px;
+}
+
+/*
+.taskInfo, .subTaskInfo{
+    background-color: rgb(233, 237, 242);
+    box-shadow: 0 1px 5px 1px rgb(195, 195, 195);
+    padding: 5px;
+}
+*/
 
 /* to do list */
 
@@ -666,25 +711,24 @@ i.priority-4 {
     margin-left: 11px;
 }
 
-.created_updated{
-    margin-left:10px;
+.created_updated {
+    margin-left: 10px;
 }
 
 /* public cta page*/
 
-table.tasks > tbody > tr > td, table.tasks td{
-    padding:0 !important;
+table.tasks > tbody > tr > td, table.tasks td {
+    padding: 0 !important;
     vertical-align: middle;
 }
 
-.tasks .subtask-info{
+.tasks .subtask-info {
     color: #fff;
     font-size: 16px;
     text-align: center;
 }
 
-
-.tasks .subtask-description{
+.tasks .subtask-description {
     color: #fff;
     font-size: 12px;
     text-align: center;
@@ -695,55 +739,72 @@ table.tasks > tbody > tr > td, table.tasks td{
     padding: 10px;
 }
 
-.tasks .task{
-    background-color:#2b384e;
-    color:#ffffff;
-    padding:3px !important;
+.tasks .task {
+    background-color: #2b384e;
+    color: #ffffff;
+    padding: 3px !important;
 }
 
-.tasks .task-info{
-    padding:5px;
+.tasks .task-info {
+    padding: 5px;
 }
 
-.tasks .taskDate{
-    padding:5px;
+.tasks .taskDate {
+    padding: 5px;
 }
 
-.tasks .dateTime{
-    display:inline-block;
-    margin:5px;
+.tasks .dateTime {
+    display: inline-block;
+    margin: 5px;
 }
 
-.tasks .dateTime div.dates{
+.tasks .dateTime div.dates {
     border-left: solid 2px rgb(43, 56, 78);
     padding: 3px;
     text-align: center;
-    display:inline-block;
+    display: inline-block;
 }
 
 .tasks .taskDate .hours {
-    font-size:18px;
+    font-size: 18px;
 }
 
-.tasks label.disabled{
+.tasks label.disabled {
     opacity: 0.6;
     filter: alpha(opacity=60);
 }
 
-/* styles for the timesheet in the volunteer profile*/
-.timesheet{
-    font-size:11px;
+.tabbedModal .tabs {
+    background-color: #34425A;
 }
-.timesheet .action{
+
+.tabbedModal .tabs p {
+    font-size: 16px;
+    padding: 20px;
+}
+
+.tabbedModal .tabs a {
+    color: #fff;
+    font-size: 16px;
+}
+
+/* styles for the timesheet in the volunteer profile*/
+.timesheet {
+    font-size: 11px;
+}
+
+.timesheet .action {
     font-size: 14px;
     font-weight: 600;
-    background-color:#D0D4D8;
+    background-color: #D0D4D8;
 }
-.timesheet .task{
+
+.timesheet .task {
     font-size: 12px;
     font-weight: 600;
-    background-color:#E9EDF2;
+    background-color: #E9EDF2;
 }
-.timesheet .subtask{
-    background-color:#F5F9FF;
+
+.timesheet .subtask {
+    background-color: #F5F9FF;
 }

@@ -1,28 +1,33 @@
 <?php $lang = "default."; ?>
 
 <!-- Modal -->
-<div class="modal fade" id="editTask" tabindex="-1" role="dialog"
+<div class="modal fade" id="addSubtaskShift" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">{{ trans('entities/tasks.edit') }}</h4>
+                <h4 class="modal-title">{{ trans('entities/subtasks.addShift') }}</h4>
             </div>
             <div class="modal-body">
-                {!! Form::model(null, ['id' => 'editTaskForm', 'method' => 'POST', 'action' =>
-                ['TaskController@update']]) !!}
+                {!! Form::model(null, ['id' => 'addShiftForm', 'method' => 'POST', 'action' => ['ShiftController@store']]) !!}
 
-                @include('main.tasks.modals._task_form')
+                @include('main.tasks.modals._shift_form', ['parentId' => '#editSubTask'])
 
             </div>
             <div class="modal-footer">
-                {!! Form::submit( trans('default.save') , ['class' => 'btn btn-success edit', 'id' => 'updateTask']) !!}
-                <button type="button" class="btn btn-danger" id="deleteTask">{{ trans('default.delete') }}</button>
+                {!! Form::submit( trans('default.save'), ['class' => 'btn btn-success', 'id' => 'storeShift']) !!}
                 <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('default.close') }}</button>
                 {!! Form::close() !!}
             </div>
         </div>
     </div>
 </div>
+
+
+@section('footerScripts')
+
+
+
+@append

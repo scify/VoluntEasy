@@ -47,15 +47,15 @@ $("#updateShift").click(function (e) {
 });
 
 
-//populate the addShift modal with data before displaying it
-$(".addShift").click(function (e) {
+//populate the addSubtaskShift modal with data before displaying it
+$(".addSubtaskShift").click(function (e) {
 
-    $("#addShift .subtaskId").val(subTask.id);
+    $("#addSubtaskShift .subtaskId").val(subTask.id);
 
     refreshDateTime();
 
     //show modal
-    $('#addShift').modal('show');
+    $('#addSubtaskShift').modal('show');
 });
 
 //assign a ctavolunteer to an existing volunteer

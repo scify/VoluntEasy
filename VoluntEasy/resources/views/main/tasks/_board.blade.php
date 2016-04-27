@@ -170,8 +170,8 @@
                     </div>
                     @endif
                     @if($isPermitted)
-                    <div class="row top-margin">
-                        <div class="col-md-12 subtask">
+                    <div class="row top-margin bottom-margin">
+                        <div class="col-md-12 subtask text-right">
                             <a href="javascript:void(0);" data-toggle="modal"
                                data-target="#addSubTask"
                                data-task-id="{{$task->id}}" class="addSubTask"><i
@@ -212,7 +212,6 @@
 
 @else
 <p>{{ trans('entities/tasks.noTask') }}</p>
-
 @if($isPermitted)
 <div class="row top-margin">
     <div class="col-md-12">
@@ -232,10 +231,12 @@
 @include('main.tasks.modals._edit_task', ['mode' =>'edit'])
 @include('main.tasks.modals._add_subtask', ['mode' =>'store'])
 @include('main.tasks.modals._edit_subtask', ['mode' =>'edit'])
-@include('main.tasks.modals._add_shift')
-@include('main.tasks.modals._edit_shift')
+@include('main.tasks.modals._add_subtask_shift')
+@include('main.tasks.modals._edit_subtask_shift')
 @include('main.tasks.modals._task_checklist')
 @include('main.tasks.modals._subtask_checklist')
+
+@include('main.tasks.modals._view_task')
 
 
 @section('footerScripts')
