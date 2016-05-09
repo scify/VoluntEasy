@@ -128,6 +128,14 @@ $('.viewTask').click(function () {
 
 });
 
+$('.viewTask').click(function () {
+    $('#viewTask .task-tabs').addClass('nav nav-tabs0');
+    $('#viewTask .nav').tab();
+
+    $('#viewTask').modal('show');
+
+});
+
 /* show the task info at the side div */
 function showTaskInfo(taskId) {
     //fetch the task data to show in the sidebar
