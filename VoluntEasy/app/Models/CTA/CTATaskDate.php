@@ -8,17 +8,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @package App\Models
  */
-class CTASubtaskDate extends Model {
+class CTATaskDate extends Model {
 
     use SoftDeletes;
 
-    protected $table = 'cta_volunteers_subtask_dates';
+    protected $table = 'cta_volunteers_task_dates';
 
-    protected $fillable = ['cta_volunteers_id', 'subtask_shift_id'];
+    protected $fillable = ['cta_volunteers_id', 'task_shift_id'];
 
     protected $dates = ['deleted_at'];
 
     public function date() {
-        return $this->hasOne('App\Models\ActionTasks\SubTaskShift', 'id', 'subtask_shift_id');
+        return $this->hasOne('App\Models\ActionTasks\TaskShift', 'id', 'task_shift_id');
     }
 }

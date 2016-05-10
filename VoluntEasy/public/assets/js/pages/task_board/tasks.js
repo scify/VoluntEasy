@@ -119,22 +119,60 @@ $('.assignToTask').click(function () {
 //display all the task details, shifts and checklist
 $('.viewTask').click(function () {
 
-    showTaskInfo(task.id)
-    editTask();
-    drawShiftsTable("#taskShifts", task, 'task');
-    $('#viewTask .add-task').attr('data-mode-id', task.id);
+    var taskId = $(this).attr('data-task-id');
 
-    $('#viewTask').modal('show');
+    $.when(getTask(taskId))
+        .then(function () {
+
+            $(".taskInfo .due_date").text(task.due_date == null ? '' : ', ' + Lang.get('js-components.expires') + ' ' + task.due_date);
+            $(".taskInfo .name").text(task.name);
+            $(".taskInfo .description").text(task.description == null || task.description == '' ? '' : task.description);
+
+            $(".taskInfo .editTask").attr('data-task-id', task.id);
+            $(".taskInfo .deleteTask").attr('data-task-id', task.id);
+
+
+            imagePath = '';
+            if (task.users.length > 0) {
+                assignedToName = task.users[0].name + ' ' + task.users[0].last_name;
+                imagePath = (task.users[0].image_name == null || task.users[0].image_name == "" ?
+                $("body").attr('data-url') + '/assets/images/default.png' : $("body").attr('data-url') + '/assets/uploads/users/' + task.users[0].image_name);
+            }
+            if (task.volunteers.length > 0) {
+                assignedToName = task.volunteers[0].name + ' ' + task.volunteers[0].last_name;
+                imagePath = (task.volunteers[0].image_name == null || volunteers.users[0].image_name == "" ?
+                $("body").attr('data-url') + '/assets/images/default.png' : $("body").attr('data-url') + '/assets/uploads/users/' + task.volunteers[0].image_name);
+            }
+
+            if (imagePath != '')
+                $(".taskInfo .assignedTo").html(Lang.get('js-components.assignedTo') + ' <img class="img-circle avatar userImage" src="' + imagePath + '" width="30" height="30" title="' + assignedToName + '">');
+            else
+                $(".taskInfo .assignedTo").html('');
+
+            priorityText = '';
+            if (task.priority == 1)
+                priorityText = Lang.get('js-components.low');
+            if (task.priority == 2)
+                priorityText = Lang.get('js-components.medium');
+            if (task.priority == 3)
+                priorityText = Lang.get('js-components.high');
+            if (task.priority == 4)
+                priorityText = Lang.get('js-components.urgent');
+
+
+            $(".taskInfo .priority").html('<i class="fa fa-arrow-up priority-' + task.priority + '" title="' + priorityText + '"></i>');
+            $(".taskInfo .priority").attr('data-priority', task.priority);
+
+            editTask();
+            drawShiftsTable("#taskShifts", task, 'task');
+            $('#viewTask .add-task').attr('data-mode-id', task.id);
+
+            $('#viewTask').modal('show');
+
+        });
 
 });
 
-$('.viewTask').click(function () {
-    $('#viewTask .task-tabs').addClass('nav nav-tabs0');
-    $('#viewTask .nav').tab();
-
-    $('#viewTask').modal('show');
-
-});
 
 /* show the task info at the side div */
 function showTaskInfo(taskId) {
@@ -187,7 +225,7 @@ function showTaskInfo(taskId) {
         });
 }
 
-function editTask(){
+function editTask() {
     $("#taskDetails .taskId").val(task.id);
     $("#taskDetails .due_date").datepicker("update", task.due_date);
     $("#taskDetails .name").val(task.name);
@@ -218,7 +256,6 @@ function editTask(){
         $('#taskDetails .taskVolunteerSelect').attr('disabled', 'disabled');
     }
 }
-
 
 
 //get a task by its id

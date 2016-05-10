@@ -17,9 +17,7 @@ return [
     'time' => 'Hours',
     'hourFrom' => 'Hour from',
     'hourTo' => 'Hour to',
-    'volunteerSum' => ' volunteer # ',
-
-    'volunteerSum' => ' volunteer # ',
+    'volunteerSum' => '# of volunteers',
 
     'addShift' => 'Add shift',
 
@@ -44,6 +42,10 @@ return [
 
 
     /* shifts */
+    'taskDetails' => 'Task details',
+    'shifts' => 'Shifts',
+    'toDo' => 'To-Do',
+    'menu' => 'Menu',
     'editShift' => 'Edit shift',
 
     /* controller */

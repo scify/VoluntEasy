@@ -14,7 +14,27 @@ class ShiftService
      *
      * @param $shift
      */
-    public function delete($shift)
+    public function deleteTaskShift($shift)
+    {
+        $action = Action::find(\Request::get('action_id'));
+
+        //remove the volunteers from the action
+        foreach ($shift->volunteers as $volunteer) {
+            $volunteer->shifts()->detach([$shift->id]);
+            //VolunteerServiceFacade::removeFromAction($volunteer, $action);
+        }
+
+        foreach($shift->ctaVolunteers as $cta){
+            $cta->delete();
+        }
+
+        $shift->task()->dissociate();
+        $shift->delete();
+
+        return;
+    }
+
+    public function deleteSubtaskShift($shift)
     {
         $action = Action::find(\Request::get('action_id'));
 

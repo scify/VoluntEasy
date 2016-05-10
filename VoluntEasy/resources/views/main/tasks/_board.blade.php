@@ -8,7 +8,7 @@
 @if(sizeof($action->tasks)>0)
 
 <div class="row board">
-    <div class="col-md-8 allTasks">
+    <div class="col-md-12 allTasks">
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
             <div class="panel panel-default">
 
@@ -23,8 +23,7 @@
                            href="#collapse-{{ $task->id }}"
                            aria-expanded="false" aria-controls="collapse-{{ $task->id }}"
                            class="arrow collapsed task-title task-{{ $task->id }}"
-                           data-task-id="{{ $task->id }}"
-                           onclick="showTaskInfo({{ $task->id }})"> {{$task->name}}</a>
+                           data-task-id="{{ $task->id }}"> {{$task->name}}</a>
 
                         @if($task->status=="todo")
                             <span
@@ -58,15 +57,17 @@
                         @endif
 
                         @if(sizeof($task->checklist) >0 )
-                       <small><i class="fa fa-list"
-                           title="{{ sizeof($task->checklist) }} to-dos"></i> {{ $task->completedChecklistItems
-                        }}/{{ sizeof($task->checklist) }}</small>
+                        <small><i class="fa fa-list"
+                                  title="{{ sizeof($task->checklist) }} to-dos"></i> {{ $task->completedChecklistItems
+                            }}/{{ sizeof($task->checklist) }}
+                        </small>
                         @endif
 
                         @if(sizeof($task->shifts) >0 )
                         <small><i class="fa fa-calendar"
-                           title="{{ sizeof($task->shifts) }} {{ trans('entities/tasks.daysHours') }}"></i>
-                        {{ sizeof($task->shifts) }}</small>
+                                  title="{{ sizeof($task->shifts) }} {{ trans('entities/tasks.daysHours') }}"></i>
+                            {{ sizeof($task->shifts) }}
+                        </small>
                         @endif
 
                                                 <span>
@@ -125,6 +126,12 @@
                                                     </small>
                                                     @endif
                                          </span>
+                        <span class="pull-right">
+                            <button type="button" class="btn btn-info viewTask" data-task-id="{{ $task->id }}"
+                                                          title="{{ trans('default.addShift') }}"><i
+                                    class="fa fa-eye"></i>
+                            </button>
+                        </span>
                     </h4>
                 </div>
                 <div id="collapse-{{ $task->id }}" class="panel-collapse collapse"
@@ -179,11 +186,6 @@
             </div>
         </div>
     </div>
-
-    <div class="col-md-4 infoSidebar">
-        @include('main.tasks.partials._task_info')
-        @include('main.tasks.partials._subtask_info')
-    </div>
 </div>
 
 @if($isPermitted)
@@ -220,16 +222,8 @@
 </div>
 </div>
 
-{{--
 @include('main.tasks.modals._add_task', ['mode' =>'store'])
-@include('main.tasks.modals._edit_task', ['mode' =>'edit'])
 @include('main.tasks.modals._add_subtask', ['mode' =>'store'])
-@include('main.tasks.modals._edit_subtask', ['mode' =>'edit'])
-@include('main.tasks.modals._add_subtask_shift')
-@include('main.tasks.modals._edit_subtask_shift')
-@include('main.tasks.modals._task_checklist')
-@include('main.tasks.modals._subtask_checklist')
---}}
 @include('main.tasks.modals._view_task')
 
 

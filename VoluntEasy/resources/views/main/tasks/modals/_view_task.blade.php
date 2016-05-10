@@ -1,7 +1,7 @@
 <!-- Modal -->
 <div class="modal fade scrollable tabbedModal" id="viewTask" tabindex="-1" role="dialog"
      aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -12,15 +12,14 @@
                 <div class="panel panel-white">
                     <div class="panel-body">
                         <div class="tabs-left" role="tabpanel">
-                            <h4>Επιλογές</h4>
+                            <h4>{{ trans('entities/subtasks.menu') }}</h4>
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs" role="tablist">
                                 <li role="presentation" class="active"><a href="#taskDetails" role="tab"
-                                                                          data-toggle="tab">Task
-                                        details</a></li>
-                                <li role="presentation"><a href="#taskShifts" role="tab" data-toggle="tab">Shifts</a>
+                                                                          data-toggle="tab">{{ trans('entities/subtasks.taskDetails') }}</a></li>
+                                <li role="presentation"><a href="#taskShifts" role="tab" data-toggle="tab">{{ trans('entities/subtasks.shifts') }}</a>
                                 </li>
-                                <li role="presentation"><a href="#taskChecklist" role="tab" data-toggle="tab">To-Do</a>
+                                <li role="presentation"><a href="#taskChecklist" role="tab" data-toggle="tab">{{ trans('entities/subtasks.toDo') }}</a>
                                 </li>
                             </ul>
                             <!-- Tab panes -->
@@ -43,7 +42,7 @@
                                 <div role="tabpanel" class="tab-pane fade" id="taskShifts">
                                     <div class="row">
                                         <div class="col-sm-10 col-md-10 col-lg-10">
-                                            @include('main.tasks.modals._shift_form', ['mode' => 'edit'])
+                                            @include('main.tasks.modals._shifts', ['mode' => 'edit'])
                                         </div>
                                     </div>
                                 </div>
@@ -69,8 +68,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
 
             <div class="modal-footer">

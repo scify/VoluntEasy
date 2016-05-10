@@ -32,7 +32,7 @@ class TaskShift extends Model {
     }
 
     public function ctaVolunteers() {
-        return $this->belongsToMany('App\Models\CTA\CTAVolunteer', 'cta_volunteers_dates', 'task_shift_id', 'cta_volunteers_id');
+        return $this->belongsToMany('App\Models\CTA\CTAVolunteer', 'cta_volunteers_task_dates', 'task_shifts_id', 'cta_volunteers_id');
     }
 
     public function getFromDateAttribute() {

@@ -29,7 +29,7 @@ class CreateCtaVolunteersTable extends Migration
         });
 
         //the dates filled by the volunteer
-        Schema::create('cta_volunteers_dates', function ($table) {
+        Schema::create('cta_volunteers_subtask_dates', function ($table) {
             $table->increments('id');
 
             $table->integer('cta_volunteers_id')->unsigned();
@@ -64,7 +64,7 @@ class CreateCtaVolunteersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cta_volunteers_dates');
+        Schema::dropIfExists('cta_volunteers_subtask_dates');
         Schema::dropIfExists('cta_volunteers_platform_volunteers');
         Schema::dropIfExists('cta_volunteers');
     }

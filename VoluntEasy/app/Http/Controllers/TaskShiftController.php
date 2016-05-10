@@ -102,7 +102,7 @@ class TaskShiftController extends Controller
     {
         $shift = TaskShift::with('volunteers.actions', 'ctaVolunteers')->find($id);
 
-        ShiftService::delete($shift);
+        ShiftService::deleteTaskShift($shift);
 
         return;
     }

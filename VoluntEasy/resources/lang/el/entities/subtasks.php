@@ -45,6 +45,10 @@ return [
 
 
     /* shifts */
+    'taskDetails' => 'Επεξεργασία task',
+    'shifts' => 'Βάρδιες',
+    'toDo' => 'To-Do',
+    'menu' => 'Επιλογές',
     'editShift' => 'Επεξεργασία βάρδιας',
 
     'addChecklist' => 'Προσθήκη To-Do στο subtask',

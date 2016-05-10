@@ -102,7 +102,7 @@ class SubtaskShiftController extends Controller
     {
         $shift = SubtaskShift::with('volunteers.actions', 'ctaVolunteers')->find($id);
 
-        ShiftService::delete($shift);
+        ShiftService::deleteSubtaskShift($shift);
 
         return;
     }
