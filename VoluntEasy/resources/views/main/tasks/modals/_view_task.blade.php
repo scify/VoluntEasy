@@ -6,7 +6,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">{{ trans('entities/tasks.addSubtask') }}</h4>
+                <h4 class="modal-title">{{ trans('entities/tasks.info') }}</h4>
             </div>
             <div class="modal-body">
                 <div class="panel panel-white">
@@ -33,8 +33,8 @@
 
                                             @include('main.tasks.modals._task_form', ['mode' => 'edit'])
 
-                                            {{-- {!! Form::submit( trans('default.save') , ['class' => 'btn btn-success
-                                            edit', 'id' => 'updateTask']) !!} --}}
+                                            {!! Form::submit( trans('default.save') , ['class' => 'btn btn-success
+                                            edit pull-right', 'id' => 'updateTask']) !!}
                                             {!! Form::close() !!}
                                         </div>
                                     </div>
@@ -68,15 +68,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('default.close') }}
-                </button>
-                {!! Form::submit(trans('default.save'), ['class' => 'btn btn-success store', 'id' =>
-                'storeSubTask'])
-                !!}
-                {!! Form::close() !!}
             </div>
 
         </div>

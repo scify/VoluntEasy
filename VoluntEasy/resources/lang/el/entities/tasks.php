@@ -55,11 +55,11 @@ return [
     'expiresAt' => 'Το subtask λήγει στις',
     'expired' => 'Το subtask έληξε',
 
-    'hoursSum' => '# ημερών/ωρών',
+    'hoursSum' => '# βαρδιών',
     'todoSum' => '# to-dos',
     'volunteerSum' => '# εθ/ντών που έχουν εκδηλώσει ενδιαφέρον',
 
-    'daysHours' => 'ημέρες/ώρες',
+    'daysHours' => 'βάρδιες',
     'interestedVolunteers' => 'ενδιαφερόμενοι εθελοντές',
 
     'fillField' => 'Συμπληρώστε το πεδίο.',

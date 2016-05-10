@@ -12,7 +12,7 @@
 <script src="{{ asset('assets/plugins/waypoints/jquery.waypoints.min.js')}}"></script>
 <script src="{{ asset('assets/plugins/jOrgChart/jOrgChart.js')}}"></script>
 <script src="{{ asset('assets/plugins/toastr/toastr.min.js')}}"></script>
-<script src="{{ asset('assets/plugins/select2/js/select2.min.js')}}"></script>
+<script src="{{ asset('assets/plugins/select2/js/select2.js')}}"></script>
 <script src="{{ asset('assets/plugins/fullcalendar/lib/moment.min.js')}}"></script>
 <script src="{{ asset('assets/plugins/fullcalendar/fullcalendar.min.js')}}"></script>
 <script src="{{ asset('assets/plugins/soundmanager2/soundmanager2-nodebug-jsmin.js')}}"></script>

@@ -237,8 +237,7 @@ function drawShiftsTable(parentId, type, mode) {
             html += '<td><span class="fromHour myeditable editable time hours required" data-type="select" data-name="fromHour" data-value="' + shift.from_hour + '"  data-pk="' + shift.id + '"></span>';
             html += '<td><span class="toHour myeditable editable time hours required" data-type="select" data-name="toHour" data-value="' + shift.to_hour + '" data-pk="' + shift.id + '"></span>';
             html += '<td><span class="volunteerSum text myeditable editable required" data-type="text" data-name="volunteerSum"  data-value="' + shift.volunteer_sum + '" data-pk="' + shift.id + '"></span></td>';
-            html += '<td><span class="availableVolunteers myeditable editable select2" data-type="text" data-name="availableVolunteers"  data-value="' + shift.volunteerSum + '" data-pk="' + shift.id + '"></span></td>';
-            html += '';
+            html += '<td><span class="availableVolunteers myeditable editable select2" data-type="select2" data-name="availableVolunteers" data-pk="' + shift.id + '"></span>  <a href="#" id="country" data-type="select2" data-pk="1" data-value="ru" data-url="/post" data-title="Select country"></a></td>';
             if (isPermitted == 'true') {
                 html += '<td><button class="btn btn-sm btn-success save-btn right-margin" onclick="updateShift(\'' + shift.id + '\',\'' + parentId + '\', \'' + mode + '\')"><i class="fa fa-save"></i></button>';
                 html += '<button class="btn btn-sm btn-danger save-btn" onclick="deleteShift(\'' + shift.id + '\', \'' + mode + '\')"><i class="fa fa-trash"></i></button></td>';
@@ -280,7 +279,7 @@ function storeShift(shiftId, parentId, mode) {
                 taskId: task.id,
             },
             success: function (result) {
-                console.log(result);
+                location.reload();
             }
         });
     }
@@ -311,13 +310,31 @@ function updateShift(shiftId, parentId, mode) {
                 shiftId: shiftId,
             },
             success: function (result) {
-                console.log(result);
+                location.reload();
             }
         });
     }
 }
 
 function initEditables(parentId, mode) {
+
+    $('#country').editable({
+        source: [
+            {id: 'gb', text: 'Great Britain'},
+            {id: 'us', text: 'United States'},
+            {id: 'ru', text: 'Russia'}
+        ],
+        // change this from 'show' to 'manual'
+     //   toggle: 'manual',
+        tpl: '<select style="width:150px;">',
+        type: 'select2',
+        select2: {
+            width: 200,
+            placeholder: 'Select country',
+            allowClear: true
+        }
+    });
+
 
     $(parentId + ' .myeditable.text').editable({
         mode: 'inline',
@@ -355,7 +372,26 @@ function initEditables(parentId, mode) {
             weekStart: 1
         }
     });
-
+/*
+    $(parentId + ' .myeditable.select2').editable({
+        /*  send: 'never',
+         value: '',
+         unsavedclass: null,
+         emptytext: function () {
+         return Lang.get('js-components.empty');
+         },
+         validate: function (value) {
+         if ($.trim(value) == '') {
+         return Lang.get('js-components.requiredField');
+         }
+         },
+         url: getShiftUrl(mode) + 'update',
+        source: [{id: 1, text: "text1"}, {id: 2, text: "text2"}],
+        select2: {
+            multiple: true
+        }
+    });
+*/
     $(parentId + ' .myeditable.time.hours').editable({
         mode: 'inline',
         send: 'never',
@@ -421,8 +457,6 @@ function initEditables(parentId, mode) {
             {value: '06:30', text: '06:30'},
         ]
     });
-
-    //$(parentId + ' .myeditable.select2').editable({type: 'select2'});
 }
 
 

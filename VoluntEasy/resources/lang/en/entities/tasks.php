@@ -47,19 +47,19 @@ return [
 
     /* expiration times */
     'yesterday' => 'Yesterday',
-    'yesterdayExpired' => 'This subtask expired yesterday',
-    'today' => 'Σήμερα',
-    'todayExpires' => 'This subtask expires today',
+    'yesterdayExpired' => 'This task expired yesterday',
+    'today' => 'Today',
+    'todayExpires' => 'This task expires today',
     'tomorrow' => 'Tomorrow',
-    'tomorrowExpires' => 'This subtask expires tomorrow',
-    'expiresAt' => 'This subtask expires on',
-    'expired' => 'This subtask expired',
+    'tomorrowExpires' => 'This task expires tomorrow',
+    'expiresAt' => 'This task expires on',
+    'expired' => 'This task expired',
 
-    'hoursSum' => '# days/hours',
+    'hoursSum' => '# shifts',
     'todoSum' => '# to-dos',
     'volunteerSum' => '# εθ/ντών who have expressed interest',
 
-    'daysHours' => 'days/hours',
+    'daysHours' => 'shifts',
     'interestedVolunteers' => 'interested volunteers',
 
     'fillField' => 'Fill in this field.',

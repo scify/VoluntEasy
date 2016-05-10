@@ -36,12 +36,6 @@
                                 class="status doing task-{{$task->id}}">{{ trans('entities/tasks.doingCapitals') }}</span>
                         @endif
 
-                        {{--
-                        <small> {{ sizeof($task->todoSubtasks) + sizeof($task->doingSubtasks) +
-                            sizeof($task->doneSubtasks) }} subtasks
-                        </small>
-                        --}}
-
                         @if($task->priority==1)
                         <i class="fa fa-arrow-up priority-{{$task->priority}}"
                            title="{{ trans('entities/tasks.lowPriority') }}"></i>
@@ -56,15 +50,15 @@
                            title="{{ trans('entities/tasks.urgentPriority') }}"></i>
                         @endif
 
-                        @if(sizeof($task->checklist) >0 )
-                        <small><i class="fa fa-list"
+                        @if(sizeof($task->checklist) > 0)
+                        <small><i class="fa fa-check-square-o"
                                   title="{{ sizeof($task->checklist) }} to-dos"></i> {{ $task->completedChecklistItems
                             }}/{{ sizeof($task->checklist) }}
                         </small>
                         @endif
 
-                        @if(sizeof($task->shifts) >0 )
-                        <small><i class="fa fa-calendar"
+                        @if(sizeof($task->shifts) > 0)
+                        <small><i class="fa fa-clock-o"
                                   title="{{ sizeof($task->shifts) }} {{ trans('entities/tasks.daysHours') }}"></i>
                             {{ sizeof($task->shifts) }}
                         </small>
@@ -72,34 +66,34 @@
 
                                                 <span>
                                                    @if($task->expires===0)
-                                                       <i class="fa fa-clock-o"></i>
+                                                       <i class="fa fa-calendar"></i>
                                                         <small
                                                             class="text-warning"
                                                             title="{{ trans('entities/tasks.todayExpires') }}">
                                                             {{ trans('entities/tasks.today') }}
                                                         </small>
                                                     @elseif($task->expires==-1)
-                                                        <i class="fa fa-clock-o"></i>
+                                                        <i class="fa fa-calendar"></i>
                                                         <small
                                                             class="text-danger"
                                                             title="{{ trans('entities/tasks.yesterdayExpired') }}">{{
                                                             trans('entities/tasks.yesterday') }}
                                                         </small>
                                                     @elseif($task->expires==1)
-                                                        <i class="fa fa-clock-o"
+                                                        <i class="fa fa-calendar"
                                                            title="{{ trans('entities/tasks.tomorrowExpires') }}"></i>
                                                         <small
                                                             class="text-info">
                                                             {{ trans('entities/tasks.tomorrow') }}
                                                         </small>
                                                     @elseif($task->expires>1)
-                                                        <i class="fa fa-clock-o"></i>
+                                                        <i class="fa fa-calendar"></i>
                                                         <small
                                                             title="{{ trans('entities/tasks.expiresAt') }} {{ $task->dueDateMin }}">
                                                             {{ $task->dueDateMin }}
                                                         </small>
                                                     @elseif($task->expires<-1)
-                                                        <i class="fa fa-clock-o"></i>
+                                                        <i class="fa fa-calendar"></i>
                                                         <small
                                                             class="text-danger"
                                                             title="{{ trans('entities/tasks.expired') }}">{{
@@ -128,7 +122,7 @@
                                          </span>
                         <span class="pull-right">
                             <button type="button" class="btn btn-info viewTask" data-task-id="{{ $task->id }}"
-                                                          title="{{ trans('default.addShift') }}"><i
+                                    title="{{ trans('default.addShift') }}"><i
                                     class="fa fa-eye"></i>
                             </button>
                         </span>

@@ -101,10 +101,11 @@ return [
     'volunteerNotFound' => 'Volunteer not found on this platform. You may contact them and create their profile.',
     'empty' => 'Empty',
     'requiredField' => 'This field is required',
-    'newShift' => 'New shift',
+    'newShift' => 'Add new shift',
 
     /* to-do */
-    'todoDone' => 'Completed by :user on :date',
+    'todoCreated' => 'Created by :user at :date',
+    'todoEdited' => 'Edited by :user at :date',
 
 
     /* custom.js */

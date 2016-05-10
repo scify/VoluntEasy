@@ -28,11 +28,10 @@ $("#storeTask").click(function (e) {
 //update a task
 $("#updateTask").click(function (e) {
     e.preventDefault();
-    if ($("#editTask .name").val() == null || $("#editTask .name").val() == '')
-        $("#editTask .name_err").show();
+    if ($("#editTaskForm .name").val() == null || $("#editTaskForm .name").val() == '')
+        $("#editTaskForm .name_err").show();
     else {
-        $("#editTask .name_err").hide();
-
+        $("#editTaskForm .name_err").hide();
         $.ajax({
             url: $("body").attr('data-url') + "/actions/tasks/update",
             method: 'GET',
@@ -165,6 +164,7 @@ $('.viewTask').click(function () {
 
             editTask();
             drawShiftsTable("#taskShifts", task, 'task');
+            viewTaskChecklist();
             $('#viewTask .add-task').attr('data-mode-id', task.id);
 
             $('#viewTask').modal('show');
@@ -173,57 +173,6 @@ $('.viewTask').click(function () {
 
 });
 
-
-/* show the task info at the side div */
-function showTaskInfo(taskId) {
-    //fetch the task data to show in the sidebar
-    $.when(getTask(taskId))
-        .then(function () {
-
-            $(".taskInfo .due_date").text(task.due_date == null ? '' : ', ' + Lang.get('js-components.expires') + ' ' + task.due_date);
-            $(".taskInfo .name").text(task.name);
-            $(".taskInfo .description").text(task.description == null || task.description == '' ? '' : task.description);
-
-            $(".taskInfo .editTask").attr('data-task-id', task.id);
-            $(".taskInfo .deleteTask").attr('data-task-id', task.id);
-
-
-            imagePath = '';
-            if (task.users.length > 0) {
-                assignedToName = task.users[0].name + ' ' + task.users[0].last_name;
-                imagePath = (task.users[0].image_name == null || task.users[0].image_name == "" ?
-                $("body").attr('data-url') + '/assets/images/default.png' : $("body").attr('data-url') + '/assets/uploads/users/' + task.users[0].image_name);
-            }
-            if (task.volunteers.length > 0) {
-                assignedToName = task.volunteers[0].name + ' ' + task.volunteers[0].last_name;
-                imagePath = (task.volunteers[0].image_name == null || volunteers.users[0].image_name == "" ?
-                $("body").attr('data-url') + '/assets/images/default.png' : $("body").attr('data-url') + '/assets/uploads/users/' + task.volunteers[0].image_name);
-            }
-
-            if (imagePath != '')
-                $(".taskInfo .assignedTo").html(Lang.get('js-components.assignedTo') + ' <img class="img-circle avatar userImage" src="' + imagePath + '" width="30" height="30" title="' + assignedToName + '">');
-            else
-                $(".taskInfo .assignedTo").html('');
-
-            priorityText = '';
-            if (task.priority == 1)
-                priorityText = Lang.get('js-components.low');
-            if (task.priority == 2)
-                priorityText = Lang.get('js-components.medium');
-            if (task.priority == 3)
-                priorityText = Lang.get('js-components.high');
-            if (task.priority == 4)
-                priorityText = Lang.get('js-components.urgent');
-
-
-            $(".taskInfo .priority").html('<i class="fa fa-arrow-up priority-' + task.priority + '" title="' + priorityText + '"></i>');
-            $(".taskInfo .priority").attr('data-priority', task.priority);
-
-            $(".subTaskInfo").hide();
-            $(".taskInfo").show();
-
-        });
-}
 
 function editTask() {
     $("#taskDetails .taskId").val(task.id);

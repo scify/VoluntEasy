@@ -28,7 +28,6 @@ $(".viewSubtaskChecklist").click(function (e) {
             .then(function (item, textStatus, jqXHR) {
                 $('.helper-wrapper[data-id=' + item.id + '][data-mode=' + mode + ']').html(addHelper(item));
             });
-
     });
 
     $('#subtaskChecklist .todo-list .todo-item.added .remove-todo-item').click(function () {
@@ -56,7 +55,7 @@ function viewTaskChecklist() {
         html += addHelper(item);
         html += '</span>';
 
-        html += '<a href="javascript:void(0);" class="pull-right remove-todo-item" data-id="' + item.id + '"><i class="fa fa-times"></i></a></div>';
+        html += '<a href="javascript:void(0);" class="pull-right remove-todo-item" data-mode="task" data-id="' + item.id + '"><i class="fa fa-times"></i></a></div>';
     });
 
     $("#taskChecklist .todo-list").html(html);
@@ -77,7 +76,7 @@ function viewTaskChecklist() {
     });
 
     $('#taskChecklist .todo-list .todo-item.added .remove-todo-item').click(function () {
-        deleteToDoItem($(this).attr('data-id'));
+        deleteToDoItem($(this).attr('data-mode'), $(this).attr('data-id'));
         $(this).parent().remove();
     });
 }

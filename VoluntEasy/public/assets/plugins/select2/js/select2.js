@@ -4861,7 +4861,7 @@ S2.define('select2/core',[
     // Hide the original select
     $element.addClass('select2-hidden-accessible');
 	$element.attr('aria-hidden', 'true');
-	
+
     // Synchronize any monitored attributes
     this._syncAttributes();
 

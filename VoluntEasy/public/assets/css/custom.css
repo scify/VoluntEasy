@@ -790,6 +790,11 @@ table.tasks > tbody > tr > td, table.tasks td {
 .tabbedModal .tabs-left > .nav-tabs {
     border: none;
 }
+
+.tabbedModal .panel-body, .tabbedModal .tab-content{
+    padding:0
+}
+
 /* styles for the timesheet in the volunteer profile */
 .timesheet {
     font-size: 11px;
