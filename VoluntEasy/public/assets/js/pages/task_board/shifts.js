@@ -331,7 +331,8 @@ function initEditables(parentId, mode) {
         select2: {
             width: 200,
             placeholder: 'Select country',
-            allowClear: true
+            allowClear: true,
+            multiple:true
         }
     });
 
