@@ -106,9 +106,9 @@ Route::get('actions/tasks/subtasks/delete/{id}', 'SubTaskController@destroy');
 ////////////////////
 //Shifts Routes //
 //////////////////
-Route::get('actions/tasks/subtasks/shifts/store', 'TaskShiftController@store');
-Route::get('actions/tasks/subtasks/shifts/update', 'TaskShiftController@update');
-Route::get('actions/tasks/subtasks/shifts/delete/{id}', 'TaskShiftController@destroy');
+Route::get('actions/tasks/shifts/store', 'TaskShiftController@store');
+Route::get('actions/tasks/shifts/update', 'TaskShiftController@update');
+Route::get('actions/tasks/shifts/delete/{id}', 'TaskShiftController@destroy');
 Route::get('actions/tasks/subtasks/shifts/store', 'SubtaskShiftController@store');
 Route::get('actions/tasks/subtasks/shifts/update', 'SubtaskShiftController@update');
 Route::get('actions/tasks/subtasks/shifts/delete/{id}', 'SubtaskShiftController@destroy');

@@ -121,7 +121,7 @@ $('.viewTask').click(function () {
 
     showTaskInfo(task.id)
     editTask();
-    drawShiftsTable("#taskShifts", task);
+    drawShiftsTable("#taskShifts", task, 'task');
     $('#viewTask .add-task').attr('data-mode-id', task.id);
 
     $('#viewTask').modal('show');

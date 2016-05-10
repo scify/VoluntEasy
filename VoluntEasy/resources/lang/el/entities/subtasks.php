@@ -28,6 +28,7 @@ return [
 
 
     'fillField' => 'Συμπληρώστε το πεδίο.',
+    'fillFields' => 'Συμπληρώστε τα πεδία.',
 
     'volunteersNeeded' => '# εθελοντών',
     'availableVolunteers' => 'Διαθέσιμοι εθελοντές',

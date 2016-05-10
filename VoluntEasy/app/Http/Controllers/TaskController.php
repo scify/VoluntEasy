@@ -21,7 +21,7 @@ class TaskController extends Controller {
      * @return mixed
      */
     public function show($id) {
-        $task = Task::with('users', 'volunteers', 'checklist.createdBy', 'checklist.updatedBy', 'shifts')->findOrFail($id);
+        $task = Task::with('users', 'volunteers', 'checklist.createdBy', 'checklist.updatedBy', 'shifts.volunteers')->findOrFail($id);
 
         return $task;
     }

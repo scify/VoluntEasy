@@ -11,6 +11,9 @@
                 <th>{{ trans('entities/subtasks.hourTo') }}</th>
                 <th>{{ trans('entities/subtasks.volunteerSum') }}</th>
                 <th>{{ trans('entities/subtasks.availableVolunteers') }}</th>
+                @if($isPermitted)
+                <th></th>
+                @endif
                 </thead>
                 <tbody class="body">
                 <tr>
@@ -22,6 +25,7 @@
                 </tr>
                 </tbody>
             </table>
+            <p class="text-danger" id="shiftError"  style="display:none">{{ trans('entities/subtasks.fillFields') }}</p>
         </div>
     </div>
 </div>

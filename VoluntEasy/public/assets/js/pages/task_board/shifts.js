@@ -196,21 +196,35 @@ function editShift(id) {
     });
 }
 
-//draw the shifts table and add the c-editable fields
-function drawShiftsTable(parentId, type) {
+//draw the row that holds empty fields to be filled
+function drawNewShiftRow(parentId, mode) {
+    var html = '';
+
+    html += '<tr><td colspan="7"><i>' + Lang.get('js-components.newShift') + '</i></td></tr>';
+    html += '<tr><td><span class="comments myeditable editable text required" data-type="text" data-name="comments" data-pk="0"></span></td>';
+    html += '<td><span class="fromDate myeditable editable date required" data-type="date" data-name="fromDate" data-pk="0"></span></td>';
+    html += '<td><span class="fromHour myeditable editable time hours required" data-type="select" data-name="fromHour" data-value="09" data-pk="0"></span>:<span class="fromHour myeditable editable time minutes required" data-type="select" data-name="fromMinute" data-value="00" data-pk="0"></span></td>';
+    html += '<td><span class="toHour myeditable editable time hours required" data-type="select" data-name="toHour" data-value="11" data-pk="0"></span>:<span class="toHour myeditable editable time minutes required" data-type="select" data-name="toMinute" data-value="30" data-pk="0"></span></td>';
+    html += '<td><span class="volunteerSum text myeditable editable required" data-type="text" data-name="volunteerSum" data-pk="0"></span></td>';
+    html += '<td><span class="availableVolunteers myeditable editable select2" data-type="text" data-name="availableVolunteers" data-pk="0"></span></td>';
+    html += '';
+    if (isPermitted == 'true') {
+        html += '<td><button class="btn btn-sm btn-success save-btn" onclick="storeShift(\'' + parentId + '\', \'' + mode + '\')"><i class="fa fa-save"></i></button>';
+    }
+    html += '</tr>';
+
+    return html;
+}
+
+//draw the shifts table and add the x-editable fields
+function drawShiftsTable(parentId, type, mode) {
     //add the work dates
-    html = '';
+    var html = '';
+
     if (type.shifts.length == 0) {
         // $(parentId + ' .noShifts').hide();
         //$(parentId + ' .shiftsTable').hide();
-
-        html += '<tr><td><span class="comments editable required" data-name="comments" data-id="0"></span></td>';
-        html += '<td><span class="fromDate editable required" data-name="fromDate" data-id="0"></span></td>';
-        html += '<td><span class="fromHour editable required" data-name="fromHour" data-id="0"></span></td>';
-        html += '<td><span class="toHour editable required" data-name="toHour" data-id="0"></span></td>';
-        html += '<td><span class="volunteerSum editable required" data-name="volunteerSum" data-id="0"></span></td>';
-        html += '<td><span class="availableVolunteers editable select2" data-name="availableVolunteers" data-id="0"></span></td>';
-        html += '</tr>';
+        html = drawNewShiftRow(parentId, mode);
         $(parentId + ' .shiftsTable > tbody:last-child').html(html);
         $(parentId + ' .shiftsTable').show();
     }
@@ -222,93 +236,168 @@ function drawShiftsTable(parentId, type) {
                 html += '<td>' + shift.from_date + '</td>';
             else
                 html += '<td>-</td>';
-            if (shift.from_hour != null && shift.to_hour != null)
-                html += '<td>' + shift.from_hour + '-' + shift.to_hour + '</td>';
-            else if (shift.from_hour != null)
-                html += '<td>shift.from_hour</td>';
-            else
-                html += '<td>-</td>';
+
+            html += '<td>' + shift.from_hour + '</td>';
+            html += '<td>' + shift.to_hour + '</td>';
             if (shift.volunteer_sum != null)
                 html += '<td>' + shift.volunteers.length + '/' + shift.volunteer_sum + '</td>';
             else
                 html += '<td>-</td>';
+            html += '<td>-</td>';
 
             if (isPermitted == 'true') {
-                html += '<td><button class="btn btn-sm btn-success edit-btn" onclick="editShift(' + shift.id + ')"><i class="fa fa-edit"></i></button>';
                 html += '<button class="btn btn-sm btn-danger" onclick="deleteShift(' + shift.id + ')"><i class="fa fa-trash"></i></button></td>';
             }
             html += '</tr>';
-
         });
+
+        html += drawNewShiftRow(parentId, mode);
 
         $(parentId + ' .shiftsTable > tbody:last-child').html(html);
         $(parentId + ' .shiftsTable').show();
         $(parentId + ' .noShifts').hide();
     }
 
-    initEditables(parentId);
+    initEditables(parentId, mode);
 }
 
-//initialize the editable fields
-function initEditables(parentId) {
+//store a new shift
+function storeShift(parentId, mode) {
 
-    $(parentId + ' .editable').editable({
-        name: function (value) {
-            return $(this).attr('data-name');
-        },
+    var comments = $(parentId + ' .comments').text();
+    var dateFrom = $(parentId + ' .fromDate').text();
+    var volunteerSum = $(parentId + ' .volunteerSum').text();
+
+    if (comments == 'Empty' || dateFrom == 'Empty' || volunteerSum == 'Empty') {
+        $("#shiftError").show();
+    }
+    else {
+        $("#shiftError").hide();
+        $.ajax({
+            url: getStoreShiftUrl(mode) + 'store',
+            method: 'GET',
+            data: {
+                comments: $(parentId + ' .comments').text(),
+                dateFrom: $(parentId + ' .fromDate').text(),
+                hourFrom: $(parentId + ' .fromHour.hours').text() + ':' + $(parentId + ' .fromHour.minutes').text(),
+                hourTo: $(parentId + ' .toHour.hours').text() + ':' + $(parentId + ' .toHour.minutes').text(),
+                volunteerSum: $(parentId + ' .volunteerSum').text(),
+                taskId: task.id,
+            },
+            success: function (result) {
+                console.log(result);
+            }
+        });
+    }
+}
+
+function initEditables(parentId, mode) {
+
+    $(parentId + ' .myeditable.text').editable({
         mode: 'inline',
-        type: 'text',
         send: 'never',
-        unsavedclass: null,
-        pk: function (value) {
-            return $(this).attr('data-id');
-        },
         value: '',
+        unsavedclass: null,
+        emptytext: function () {
+            return Lang.get('js-components.empty');
+        },
         validate: function (value) {
             if ($.trim(value) == '') {
-                return 'This field is required';
+                return Lang.get('js-components.requiredField');
             }
         },
-        url: function (params) {
-            var d = new $.Deferred();
+        url: getStoreShiftUrl(mode) + 'update'
+    });
 
-            if ($(this).attr('data-id') == 0) {
-                //check if the other required fields are filled before sending a create shift request
-                var flag = false;
-
-                $('.editable.required').each(function (index) {
-                    console.log($(this).text())
-                    if ($(this).text() == 'Empty') {
-                        flag = true;
-                        return false;
-                    }
-                });
-
-                console.log(flag)
-                if (!flag) {
-                    /*   $.ajax({
-                     //TODO: change tasks to subtasks etc
-                     url: $("body").attr('data-url') + "/actions/tasks/shifts/store",
-                     method: 'GET',
-                     data: {
-                     dateFrom: $(parentId + ' .comments'),
-                     fromDate: $(parentId + ' .fromDate'),
-                     fromHour: $(parentId + ' .fromHour'),
-                     toHour: $(parentId + ' .toHour'),
-                     volunteerSum: $(parentId + ' .volunteerSum'),
-                     taskId: task.id,
-                     },
-                     success: function (result) {
-                     return d.promise();
-                     }
-                     });*/
-                } else {
-                    return d.resolve();
-                }
+    $(parentId + ' .myeditable.date').editable({
+        send: 'never',
+        value: '',
+        unsavedclass: null,
+        emptytext: function () {
+            return Lang.get('js-components.empty');
+        },
+        validate: function (value) {
+            if ($.trim(value) == '') {
+                return Lang.get('js-components.requiredField');
             }
+        },
+        url: getStoreShiftUrl(mode) + 'update',
+        format: 'dd/mm/yyyy',
+        viewformat: 'dd/mm/yyyy',
+        placement: "bottom",
+        datetimepicker: {
+            weekStart: 1
         }
     });
+
+    $(parentId + ' .myeditable.time.hours').editable({
+        mode: 'inline',
+        send: 'never',
+        value: '',
+        unsavedclass: null,
+        emptytext: function () {
+            return Lang.get('js-components.empty');
+        },
+        validate: function (value) {
+            if ($.trim(value) == '') {
+                return Lang.get('js-components.requiredField');
+            }
+        },
+        url: getStoreShiftUrl(mode) + 'update',
+        source: [
+            {value: '07', text: '07'},
+            {value: '08', text: '08'},
+            {value: '09', text: '09'},
+            {value: '10', text: '10'},
+            {value: '10', text: '10'},
+            {value: '11', text: '11'},
+            {value: '12', text: '12'},
+            {value: '13', text: '13'},
+            {value: '14', text: '14'},
+            {value: '15', text: '15'},
+            {value: '16', text: '16'},
+            {value: '17', text: '17'},
+            {value: '18', text: '18'},
+            {value: '19', text: '19'},
+            {value: '20', text: '20'},
+            {value: '21', text: '21'},
+            {value: '22', text: '22'},
+            {value: '23', text: '23'},
+            {value: '00', text: '00'},
+            {value: '01', text: '01'},
+            {value: '02', text: '02'},
+            {value: '03', text: '03'},
+            {value: '04', text: '04'},
+            {value: '05', text: '05'},
+            {value: '06', text: '06'},
+        ]
+    });
+    $(parentId + ' .myeditable.time.minutes').editable({
+        mode: 'inline',
+        send: 'never',
+        value: '',
+        unsavedclass: null,
+        emptytext: function () {
+            return Lang.get('js-components.empty');
+        },
+        validate: function (value) {
+            if ($.trim(value) == '') {
+                return Lang.get('js-components.requiredField');
+            }
+        },
+        url: getStoreShiftUrl(mode) + 'update',
+        source: [
+            {value: '00', text: '00'},
+            {value: '10', text: '10'},
+            {value: '20', text: '20'},
+            {value: '30', text: '30'},
+            {value: '40', text: '40'},
+            {value: '50', text: '50'}
+        ]
+    });
+    //$(parentId + ' .myeditable.select2').editable({type: 'select2'});
 }
+
 
 //fill the volunteers multiselect
 function populateVolunteers(shiftId) {
@@ -343,4 +432,13 @@ function populateVolunteers(shiftId) {
             $('#sub_volunteers').append(option);
         }
     });
+}
+
+
+//return the url for storing/updating a task shoft or a subtask shift
+function getStoreShiftUrl(mode) {
+    if (mode == 'task')
+        return $("body").attr('data-url') + "/actions/tasks/shifts/";
+    else
+        return $("body").attr('data-url') + "/actions/tasks/subtasks/shifts/";
 }

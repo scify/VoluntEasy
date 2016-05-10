@@ -99,6 +99,9 @@ return [
     'assignedToProfile' => 'There is a connection with :linkStartprofile:linkEnd. . This volunteer must be added to the action unit so that they become available.',
     'volunteerFound' => ':linkStartvolunteer:linkEnd found with identical email. Are they the same?',
     'volunteerNotFound' => 'Volunteer not found on this platform. You may contact them and create their profile.',
+    'empty' => 'Empty',
+    'requiredField' => 'This field is required',
+    'newShift' => 'New shift',
 
     /* to-do */
     'todoDone' => 'Completed by :user on :date',

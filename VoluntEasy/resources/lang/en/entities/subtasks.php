@@ -28,6 +28,7 @@ return [
 
 
     'fillField' => 'Fill in this field.',
+    'fillFields' => 'Fill in all fields.',
 
     'volunteersNeeded' => '# volunteers',
     'availableVolunteers' => 'Available volunteers',

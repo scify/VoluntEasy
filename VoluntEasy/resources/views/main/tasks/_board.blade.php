@@ -232,8 +232,6 @@
 --}}
 @include('main.tasks.modals._view_task')
 
-@include('main.tasks.modals._view_task')
-
 
 @section('footerScripts')
 <script src="{{ asset('assets/js/pages/task_board/task_board.js')}}"></script>
