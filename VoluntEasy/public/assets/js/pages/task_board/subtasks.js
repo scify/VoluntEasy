@@ -1,3 +1,10 @@
+//set the task id in the modal
+$(".addSubTask").click(function () {
+    $(".modal-body .taskId").val($(this).attr('data-task-id'));
+    $('#addSubTask .todos').hide();
+    $("#subtask-priorities option[value='2']").prop('selected', true);
+})
+
 //save a subtask
 $("#storeSubTask").click(function (e) {
     e.preventDefault();
@@ -20,10 +27,10 @@ $("#storeSubTask").click(function (e) {
 //update a subtask
 $("#updateSubTask").click(function (e) {
     e.preventDefault();
-    if ($("#editSubTask .name").val() == null || $("#editSubTask .name").val() == '')
-        $("#editSubTask .subtask-name_err").show();
+    if ($("#editSubTaskForm .name").val() == null || $("#editSubTaskForm .name").val() == '')
+        $("#editSubTaskForm .subtask-name_err").show();
     else {
-        $("#editSubTask .subtask-name_err").hide();
+        $("#editSubTaskForm .subtask-name_err").hide();
 
         $.ajax({
             url: $("body").attr('data-url') + "/actions/tasks/subtasks/update",
@@ -37,50 +44,64 @@ $("#updateSubTask").click(function (e) {
 });
 
 
-//populate the edit subtask modal with data before displaying it
-$(".editSubTask").click(function (e) {
+//display all the subtask details, shifts and checklist
+$('.viewSubtask').click(function () {
 
-    $.when(getSubtask($(this).attr('data-subtask-id')))
+    var subtaskId = $(this).attr('data-subtask');
+
+    $.when(getSubtask(subtaskId))
         .then(function () {
 
-            $("#editSubTask .taskId").val(subTask.task_id);
-            $("#editSubTask .subTaskId").val(subTask.id);
-            $("#editSubTask .name").val(subTask.name);
-            $("#editSubTask .description").val(subTask.description);
-            $("#editSubTask .due_date").datepicker("update", subTask.due_date);
+            $(".subtaskInfo .due_date").text(subTask.due_date == null ? '' : ', ' + Lang.get('js-components.expires') + ' ' + subTask.due_date);
+            $(".subtaskInfo .name").text(subTask.name);
+            $(".subtaskInfo .description").text(subTask.description == null || subTask.description == '' ? '' : subTask.description);
 
-            $("#editSubTask .subtask-priorities option[value='" + subTask.priority + "']").prop('selected', true);
+            $(".subtaskInfo .editTask").attr('data-task-id', subTask.id);
+            $(".subtaskInfo .deleteTask").attr('data-task-id', subTask.id);
 
+
+            var imagePath = '';
+            var assignedToName = '';
 
             if (subTask.users.length > 0) {
-                $('#editSubTask input:radio[name=assignToSubtask][value=user]').attr('checked', 'checked');
-                $('#editSubTask input:radio[name=assignToSubtask][value=user]').parent().addClass('checked');
-
-                $('#editSubTask .subtaskUserSelect').removeAttr('disabled');
-                $('#editSubTask .subtaskUserSelect').val(subTask.users[0].id);
-                $('#editSubTask .subtaskVolunteerSelect').attr('disabled', 'disabled');
+                assignedToName = subTask.users[0].name + ' ' + subTask.users[0].last_name;
+                imagePath = (subTask.users[0].image_name == null || subTask.users[0].image_name == "" ?
+                $("body").attr('data-url') + '/assets/images/default.png' : $("body").attr('data-url') + '/assets/uploads/users/' + subTask.users[0].image_name);
             }
-            else {
-                $('#editSubTask .subtaskUserSelect').attr('disabled', 'disabled');
-            }
-
             if (subTask.volunteers.length > 0) {
-                $('#editSubTask input:radio[name=assignToSubtask][value=volunteer]').attr('checked', 'checked');
-                $('#editSubTask input:radio[name=assignToSubtask][value=volunteer]').parent().addClass('checked');
-
-                $('#editSubTask .subtaskVolunteerSelect').removeAttr('disabled');
-                $('#editSubTask .subtaskVolunteerSelect').val(subTask.volunteers[0].id);
-                $('#editSubTask .subtaskUserSelect').attr('disabled', 'disabled');
-            }
-            else {
-                $('#editSubTask .subtaskVolunteerSelect').attr('disabled', 'disabled');
+                assignedToName = subTask.volunteers[0].name + ' ' + subTask.volunteers[0].last_name;
+                imagePath = (subTask.volunteers[0].image_name == null || volunteers.users[0].image_name == "" ?
+                $("body").attr('data-url') + '/assets/images/default.png' : $("body").attr('data-url') + '/assets/uploads/users/' + subTask.volunteers[0].image_name);
             }
 
+            if (imagePath != '')
+                $(".subtaskInfo .assignedTo").html(Lang.get('js-components.assignedTo') + ' <img class="img-circle avatar userImage" src="' + imagePath + '" width="30" height="30" title="' + assignedToName + '">');
+            else
+                $(".subtaskInfo .assignedTo").html('');
 
-            //show modal
-            $('#editSubTask .todos').show();
-            $('#editSubTask').modal('show');
+            var priorityText = '';
+            if (subTask.priority == 1)
+                priorityText = Lang.get('js-components.low');
+            if (subTask.priority == 2)
+                priorityText = Lang.get('js-components.medium');
+            if (subTask.priority == 3)
+                priorityText = Lang.get('js-components.high');
+            if (subTask.priority == 4)
+                priorityText = Lang.get('js-components.urgent');
+
+
+            $(".subtaskInfo .priority").html('<i class="fa fa-arrow-up priority-' + subTask.priority + '" title="' + priorityText + '"></i>');
+            $(".subtaskInfo .priority").attr('data-priority', subTask.priority);
+
+            fillSubtaskFields();
+            drawShiftsTable("#subtaskShifts", subTask, 'subtask');
+            drawChecklist('subtask');
+            $('#viewSubtask .add-task').attr('data-mode-id', subTask.id);
+
+            $('#viewSubtask').modal('show');
+
         });
+
 });
 
 
@@ -98,7 +119,7 @@ $(".deleteSubTask").click(function () {
     }
 });
 
-//set the userSelect disabled or not depending on checkbox value
+//set the userSelect and volunteerSelect disabled or not depending on checkbox value
 $('.assignToSubtask').click(function () {
     var mode = 'store';
     if ($(this).hasClass('edit'))
@@ -115,97 +136,41 @@ $('.assignToSubtask').click(function () {
 });
 
 
-/* show the subtask info at the side div */
-function showSubTaskInfo(subTaskId) {
+function fillSubtaskFields() {
 
-    $.when(getSubtask(subTaskId))
-        .then(function () {
-            $(".subTaskInfo .due_date").text(subTask.due_date == null ? '' : ', ' + Lang.get('js-components.expires') + ' ' + subTask.due_date);
-            $(".subTaskInfo .name").text(subTask.name);
-            $(".subTaskInfo .description").text(subTask.description == null || subTask.description == '' ? '' : subTask.description);
+    $("#editSubTaskForm .taskId").val(subTask.task_id);
+    $("#editSubTaskForm .subTaskId").val(subTask.id);
+    $("#editSubTaskForm .name").val(subTask.name);
+    $("#editSubTaskForm .description").val(subTask.description);
+    $("#editSubTaskForm .due_date").datepicker("update", subTask.due_date);
 
-            $(".subTaskInfo .editSubTask").attr('data-subtask-id', subTask.id);
-            $(".subTaskInfo .editSubTask").attr('data-task-id', subTask.task_id);
-            $(".subTaskInfo .deleteSubTask").attr('data-subtask-id', subTask.id);
+    $("#editSubTask .subtask-priorities option[value='" + subTask.priority + "']").prop('selected', true);
 
 
-            //set priorities
-            priorityText = '';
-            if (subTask.priority == 1)
-                priorityText = Lang.get('js-components.low');
-            if (subTask.priority == 2)
-                priorityText = Lang.get('js-components.medium');
-            if (subTask.priority == 3)
-                priorityText = Lang.get('js-components.high');
-            if (subTask.priority == 4)
-                priorityText = Lang.get('js-components.urgent');
+    if (subTask.users.length > 0) {
+        $('#editSubTaskForm input:radio[name=assignToSubtask][value=user]').attr('checked', 'checked');
+        $('#editSubTaskForm input:radio[name=assignToSubtask][value=user]').parent().addClass('checked');
 
+        $('#editSubTaskForm .subtaskUserSelect').removeAttr('disabled');
+        $('#editSubTaskForm .subtaskUserSelect').val(subTask.users[0].id);
+        $('#editSubTaskForm .subtaskVolunteerSelect').attr('disabled', 'disabled');
+    }
+    else {
+        $('#editSubTaskForm .subtaskUserSelect').attr('disabled', 'disabled');
+    }
 
-            $(".subTaskInfo .priority").html('<i class="fa fa-arrow-up priority-' + subTask.priority + '" title="' + priorityText + '"></i>');
-            $(".subTaskInfo .priority").attr('data-priority', subTask.priority);
+    if (subTask.volunteers.length > 0) {
+        $('#editSubTaskForm input:radio[name=assignToSubtask][value=volunteer]').attr('checked', 'checked');
+        $('#editSubTaskForm input:radio[name=assignToSubtask][value=volunteer]').parent().addClass('checked');
 
-
-            //image for assigned to user/volunteer
-            imagePath = '';
-            if (subTask.users.length > 0) {
-                assignedToName = subTask.users[0].name + ' ' + subTask.users[0].last_name;
-                imagePath = (subTask.users[0].image_name == null || subTask.users[0].image_name == "" ?
-                $("body").attr('data-url') + '/assets/images/default.png' : $("body").attr('data-url') + '/assets/uploads/users/' + subTask.users[0].image_name);
-            }
-            if (subTask.volunteers.length > 0) {
-                assignedToName = subTask.volunteers[0].name + ' ' + subTask.volunteers[0].last_name;
-                imagePath = (subTask.volunteers[0].image_name == null || volunteers.users[0].image_name == "" ?
-                $("body").attr('data-url') + '/assets/images/default.png' : $("body").attr('data-url') + '/assets/uploads/users/' + subTask.volunteers[0].image_name);
-            }
-
-            if (imagePath != '')
-                $(".subTaskInfo .assignedTo").html(Lang.get('js-components.assignedTo') + ' <img class="img-circle avatar userImage" src="' + imagePath + '" width="30" height="30" title="' + assignedToName + '">');
-            else
-                $(".subTaskInfo .assignedTo").html('');
-
-
-            //add the work dates
-            html = '';
-            if (subTask.shifts.length == 0) {
-                $('.noShifts').show();
-                $('.shiftsTable').hide();
-            }
-            else {
-                $.each(subTask.shifts, function (i, shift) {
-
-                    html += '<tr><td>' + shift.comments + '</td>';
-                    if (shift.from_date != null)
-                        html += '<td>' + shift.from_date + '</td>';
-                    else
-                        html += '<td>-</td>';
-                    if (shift.from_hour != null && shift.to_hour != null)
-                        html += '<td>' + shift.from_hour + '-' + shift.to_hour + '</td>';
-                    else if (shift.from_hour != null)
-                        html += '<td>shift.from_hour</td>';
-                    else
-                        html += '<td>-</td>';
-                    if (shift.volunteer_sum != null)
-                        html += '<td>' + shift.volunteers.length + '/' + shift.volunteer_sum + '</td>';
-                    else
-                        html += '<td>-</td>';
-
-                    if (isPermitted == 'true') {
-                        html += '<td><button class="btn btn-sm btn-success edit-btn" onclick="editShift(' + shift.id + ')"><i class="fa fa-edit"></i></button>';
-                        html += '<button class="btn btn-sm btn-danger" onclick="deleteShift(' + shift.id + ')"><i class="fa fa-trash"></i></button></td>';
-                    }
-                    html += '</tr>';
-
-                    $('.shiftsTable > tbody:last-child').html(html);
-                    $('.shiftsTable').show();
-                    $('.noShifts').hide();
-                });
-            }
-
-            $(".taskInfo").hide();
-            $(".subTaskInfo").show();
-        });
+        $('#editSubTaskForm .subtaskVolunteerSelect').removeAttr('disabled');
+        $('#editSubTaskForm .subtaskVolunteerSelect').val(subTask.volunteers[0].id);
+        $('#editSubTaskForm .subtaskUserSelect').attr('disabled', 'disabled');
+    }
+    else {
+        $('#editSubTaskForm .subtaskVolunteerSelect').attr('disabled', 'disabled');
+    }
 }
-
 
 //get a subtask by its id
 function getSubtask(id) {

@@ -1,11 +1,3 @@
-//set the task id in the modal
-$(".addSubTask").click(function () {
-    $(".modal-body .taskId").val($(this).attr('data-task-id'));
-    $('#addSubTask .todos').hide();
-    $("#subtask-priorities option[value='2']").prop('selected', true);
-})
-
-
 //save a task
 $("#storeTask").click(function (e) {
     e.preventDefault();
@@ -44,47 +36,6 @@ $("#updateTask").click(function (e) {
 });
 
 
-//populate the edit task modal with data before displaying it
-$(".editTask").click(function (e) {
-
-    $.when(getTask($(this).attr('data-task-id')))
-        .then(function () {
-            $("#editTask .taskId").val(task.id);
-            $("#editTask .due_date").datepicker("update", task.due_date);
-            $("#editTask .name").val(task.name);
-            $("#editTask .description").val(task.description);
-            $("#editTask .priorities option[value='" + task.priority + "']").prop('selected', true);
-
-            if (task.users.length > 0) {
-                $('#editTask input:radio[name=assignToTask][value=user]').attr('checked', 'checked');
-                $('#editTask input:radio[name=assignToTask][value=user]').parent().addClass('checked');
-
-                $('#editTask .taskUserSelect').removeAttr('disabled');
-                $('#editTask .taskUserSelect').val(task.users[0].id);
-                $('#editTask .taskVolunteerSelect').attr('disabled', 'disabled');
-            }
-            else {
-                $('#editTask .taskUserSelect').attr('disabled', 'disabled');
-            }
-
-            if (task.volunteers.length > 0) {
-                $('#editTask input:radio[name=assignToTask][value=volunteer]').attr('checked', 'checked');
-                $('#editTask input:radio[name=assignToTask][value=volunteer]').parent().addClass('checked');
-
-                $('#editTask .taskVolunteerSelect').removeAttr('disabled');
-                $('#editTask .taskVolunteerSelect').val(task.volunteers[0].id);
-                $('#editTask .taskUserSelect').attr('disabled', 'disabled');
-            }
-            else {
-                $('#editTask .taskVolunteerSelect').attr('disabled', 'disabled');
-            }
-
-            //show modal
-            $('#editTask').modal('show');
-        });
-});
-
-
 //delete a task
 $(".deleteTask").click(function () {
     if (confirm(Lang.get('js-components.deleteTask')) == true) {
@@ -99,7 +50,8 @@ $(".deleteTask").click(function () {
     }
 });
 
-//set the userSelect disabled or not depending on checkbox value
+
+//set the userSelect and volunteerSelect disabled or not depending on checkbox value
 $('.assignToTask').click(function () {
     var mode = 'store';
     if ($(this).hasClass('edit'))
@@ -114,6 +66,7 @@ $('.assignToTask').click(function () {
         $('.taskUserSelect.' + mode).attr('disabled', 'disabled');
     }
 });
+
 
 //display all the task details, shifts and checklist
 $('.viewTask').click(function () {
@@ -162,9 +115,9 @@ $('.viewTask').click(function () {
             $(".taskInfo .priority").html('<i class="fa fa-arrow-up priority-' + task.priority + '" title="' + priorityText + '"></i>');
             $(".taskInfo .priority").attr('data-priority', task.priority);
 
-            editTask();
+            fillTaskFields();
             drawShiftsTable("#taskShifts", task, 'task');
-            viewTaskChecklist();
+            drawChecklist('task');
             $('#viewTask .add-task').attr('data-mode-id', task.id);
 
             $('#viewTask').modal('show');
@@ -173,8 +126,8 @@ $('.viewTask').click(function () {
 
 });
 
-
-function editTask() {
+//prefill the task fields at the edit form
+function fillTaskFields() {
     $("#taskDetails .taskId").val(task.id);
     $("#taskDetails .due_date").datepicker("update", task.due_date);
     $("#taskDetails .name").val(task.name);

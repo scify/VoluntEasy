@@ -518,7 +518,7 @@ div#unitsTree {
     border: solid 1px #DBE0E8;
     margin-bottom: 10px;
     border-radius: 2px;
-    cursor: move;
+    cursor: pointer;
 }
 
 .board .panel {
@@ -628,34 +628,26 @@ i.priority-4 {
     display: inline-block;
 }
 
-.shiftTable {
-    font-size: 11px;
+.shiftsTable {
+    font-size: 12px;
 }
 
-.shiftTable thead > tr > th, .shiftTable.table-condensed > tbody > tr > td {
-    padding: 3px !important;
+.shiftsTable thead > tr > th, .shiftTable.table-condensed > tbody > tr > td {
+    padding: 5px !important;
 }
 
-.shiftTable .btn {
+.shiftsTable thead > tr > th, .shiftsTable .newShift {
+    background-color: #F1F1F1;
+}
+
+.shifstTable .btn {
     padding: 3px;
     width: 20px;
 }
 
-.shiftTable .edit-btn {
+.shiftsTable .edit-btn {
     margin-right: 2px;
 }
-
-.infoSidebar, .infoSidebar [class*="col-"] {
-    padding-right: 0px;
-}
-
-/*
-.taskInfo, .subTaskInfo{
-    background-color: rgb(233, 237, 242);
-    box-shadow: 0 1px 5px 1px rgb(195, 195, 195);
-    padding: 5px;
-}
-*/
 
 /* to do list */
 
@@ -778,21 +770,23 @@ table.tasks > tbody > tr > td, table.tasks td {
 .tabbedModal .tabs-left > .nav-tabs .active > a,
 .tabbedModal .tabs-left > .nav-tabs .active > a:hover,
 .tabbedModal .tabs-left > .nav-tabs .active > a:focus {
-   border: solid 1px #ddd;
+    border: solid 1px #ddd;
 }
-.tabbedModal .tabs-left > .nav-tabs > li > a:hover, .tabs-left > .nav-tabs > li > a:focus{
+
+.tabbedModal .tabs-left > .nav-tabs > li > a:hover, .tabs-left > .nav-tabs > li > a:focus {
     border: solid 1px #ddd;
 }
 
 .tabbedModal .tabs-left > .nav-tabs .active > a {
-    background-color:#ddd;
+    background-color: #ddd;
 }
+
 .tabbedModal .tabs-left > .nav-tabs {
     border: none;
 }
 
-.tabbedModal .panel-body, .tabbedModal .tab-content{
-    padding:0
+.tabbedModal .panel-body, .tabbedModal .tab-content {
+    padding: 0
 }
 
 /* styles for the timesheet in the volunteer profile */

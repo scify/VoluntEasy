@@ -17,6 +17,8 @@ if (isPermitted == 'true') {
         placeholder: "ui-state-highlight",
         stop: function (event, ui) {
             var status;
+            var taskId = $(ui.item).attr("data-task");
+            var text = '';
 
             //when the task is moved, the status changes
             if ($(this).hasClass('todo'))
@@ -25,8 +27,6 @@ if (isPermitted == 'true') {
                 status = 'Doing';
             else
                 status = 'Done';
-
-            taskId = $(ui.item).attr("data-task");
 
             //change the status while remaining at the same page
             $.ajax({
@@ -58,6 +58,7 @@ else {
         cursor: 'not-allowed'
     });
 }
+
 
 //save the new open task id to the local storage
 $(".task-title").click(function () {

@@ -139,7 +139,7 @@
                                 <h3 class="panel-title">{{ trans('entities/tasks.todo') }}</h3>
 
                                 <div class="board-column todo">
-                                    @include('main.tasks.partials._subtasks', ['subtasks' => $task->todoSubtasks,
+                                    @include('main.tasks._subtasks', ['subtasks' => $task->todoSubtasks,
                                     'status' => 'todo'])
                                 </div>
                             </div>
@@ -148,7 +148,7 @@
                                 <h3 class="panel-title">{{ trans('entities/tasks.doing') }}</h3>
 
                                 <div class="board-column doing">
-                                    @include('main.tasks.partials._subtasks', ['subtasks' => $task->doingSubtasks,
+                                    @include('main.tasks._subtasks', ['subtasks' => $task->doingSubtasks,
                                     'status' => 'doing'])
                                 </div>
                             </div>
@@ -157,7 +157,7 @@
                                 <h3 class="panel-title">{{ trans('entities/tasks.done') }}</h3>
 
                                 <div class="board-column done">
-                                    @include('main.tasks.partials._subtasks', ['subtasks' => $task->doneSubtasks,
+                                    @include('main.tasks._subtasks', ['subtasks' => $task->doneSubtasks,
                                     'status' => 'done'])
                                 </div>
                             </div>
@@ -219,6 +219,7 @@
 @include('main.tasks.modals._add_task', ['mode' =>'store'])
 @include('main.tasks.modals._add_subtask', ['mode' =>'store'])
 @include('main.tasks.modals._view_task')
+@include('main.tasks.modals._view_subtask')
 
 
 @section('footerScripts')

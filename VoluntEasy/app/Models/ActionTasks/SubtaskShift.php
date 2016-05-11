@@ -28,11 +28,11 @@ class SubtaskShift extends Model {
     }
 
     public function volunteers() {
-        return $this->belongsToMany('App\Models\Volunteer', 'volunteer_subtask_shifts', 'subtask_subtask_id', 'volunteer_id');
+        return $this->belongsToMany('App\Models\Volunteer', 'volunteer_subtask_shifts', 'subtask_shifts_id', 'volunteer_id');
     }
 
     public function ctaVolunteers() {
-        return $this->belongsToMany('App\Models\CTA\CTAVolunteer', 'cta_volunteers_subtask_dates', 'subtask_subtask_id', 'cta_volunteers_id');
+        return $this->belongsToMany('App\Models\CTA\CTAVolunteer', 'cta_volunteers_subtask_dates', 'subtask_shifts_id', 'cta_volunteers_id');
     }
 
     public function getFromDateAttribute() {

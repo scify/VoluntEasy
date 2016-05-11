@@ -1,13 +1,11 @@
 @foreach($subtasks as $subtask)
-<div class="board-card priority-{{ $subtask->priority }}"
+<div class="board-card priority-{{ $subtask->priority }} viewSubtask"
      data-task="{{ $task->id }}"
      data-subtask="{{ $subtask->id }}"
      data-status="{{$status}}">
 
     <div class="row no-left-margin bottom-margin-10">
-        <div class="col-12"><a href="javascript:void(0);"
-                               onclick="showSubTaskInfo({{ $subtask->id }})">{{$subtask->name}}</a>
-        </div>
+        <div class="col-12"><strong>{{$subtask->name}}</strong></div>
     </div>
 
     <div class="row no-left-margin">

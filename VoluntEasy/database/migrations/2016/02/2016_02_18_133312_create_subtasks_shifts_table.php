@@ -25,7 +25,7 @@ class CreateSubtasksShiftsTable extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('volunteer_shifts', function ($table) {
+        Schema::create('volunteer_subtask_shifts', function ($table) {
             $table->increments('id');
             $table->string('description', 500)->nullable();
 
@@ -46,7 +46,7 @@ class CreateSubtasksShiftsTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('volunteer_shifts');
+        Schema::dropIfExists('volunteer_subtask_shifts');
         Schema::dropIfExists('subtask_shifts');
     }
 }
