@@ -88,7 +88,7 @@ class SubtaskShiftController extends Controller
         }
 
         //add the volunteers to the action
-        ShiftService::addVolunteersToAction($newVolunteers, $shift->id, $action);
+        ShiftService::addVolunteersToSubtask($newVolunteers, $shift->id, $action);
 
         $shift->volunteers()->sync($newVolunteers);
 

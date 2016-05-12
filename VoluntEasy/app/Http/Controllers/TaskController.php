@@ -5,6 +5,7 @@ use App\Models\ActionTasks\Task;
 use App\Models\ActionTasks\VolunteerTask;
 use App\Services\Facades\SubtaskService;
 use App\Services\Facades\TaskService;
+use App\Services\Facades\VolunteerService;
 
 class TaskController extends Controller {
 
@@ -21,7 +22,8 @@ class TaskController extends Controller {
      * @return mixed
      */
     public function show($id) {
-        $task = Task::with('users', 'volunteers', 'checklist.createdBy', 'checklist.updatedBy', 'shifts.volunteers')->findOrFail($id);
+        $task = Task::with('action', 'users', 'volunteers', 'checklist.createdBy', 'checklist.updatedBy', 'shifts.volunteers')->findOrFail($id);
+        $task->unitVolunteers = VolunteerService::getAvailableUnitVolunteers($task->action->unit_id);
 
         return $task;
     }

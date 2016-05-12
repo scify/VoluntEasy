@@ -85,6 +85,7 @@ function drawShiftRow(shift, parentId, mode) {
 function drawShiftsTable(parentId, type, mode) {
     //add the work dates
     var html = '';
+    var shiftIds = [];
 
     if (type.shifts.length == 0) {
         html += drawShiftRow(null, parentId, mode);
@@ -92,6 +93,7 @@ function drawShiftsTable(parentId, type, mode) {
     else {
         $.each(type.shifts, function (i, shift) {
             html += drawShiftRow(shift, parentId, mode);
+            shiftIds.push(shift.id);
         });
 
         html += '<tr><td colspan="7" class="newShift"><strong>' + Lang.get('js-components.newShift') + '</strong></td></tr>';
@@ -99,6 +101,10 @@ function drawShiftsTable(parentId, type, mode) {
     }
 
     $(parentId + ' .shiftsTable > tbody:last-child').html(html);
+
+    $.each(shiftIds, function (i, id) {
+        initAvailableVolunteersEditable(id, mode, parentId, type);
+    });
 
     initEditables(parentId, mode);
 }
@@ -132,6 +138,7 @@ function updateShift(shiftId, parentId, mode) {
     var comments = $(parentId + ' .comments[data-pk=' + shiftId + ']').text();
     var dateFrom = $(parentId + ' .fromDate[data-pk=' + shiftId + ']').text();
     var volunteerSum = $(parentId + ' .volunteerSum[data-pk=' + shiftId + ']').text();
+    var volunteers = $(parentId + ' .availableVolunteers[data-pk=' + shiftId + ']').attr('data-values');
 
     if (comments == 'Empty' || dateFrom == 'Empty' || volunteerSum == 'Empty') {
         $("#shiftError").show();
@@ -141,7 +148,7 @@ function updateShift(shiftId, parentId, mode) {
         $.ajax({
             url: getShiftUrl(mode) + 'update',
             method: 'GET',
-            data: getShiftData(mode, shiftId, parentId, comments, dateFrom, volunteerSum),
+            data: getShiftData(mode, shiftId, parentId, comments, dateFrom, volunteerSum, volunteers),
             success: function (result) {
                 location.reload();
             }
@@ -149,15 +156,10 @@ function updateShift(shiftId, parentId, mode) {
     }
 }
 
-function getShiftData(mode, shiftId, parentId, comments, dateFrom, volunteerSum) {
+function getShiftData(mode, shiftId, parentId, comments, dateFrom, volunteerSum, volunteers) {
 
     var data;
     console.log($('.selectAvailableVolunteers').val())
-
-
-    if ($(".availableVolunteers").text() != 'Empty') {
-        volunteers
-    }
 
     if (mode == "task" && shiftId == 0)
         data = {
@@ -176,7 +178,9 @@ function getShiftData(mode, shiftId, parentId, comments, dateFrom, volunteerSum)
             hourTo: $(parentId + ' .toHour.hours[data-pk=' + shiftId + ']').text(),
             volunteerSum: volunteerSum,
             taskId: task.id,
-            shiftId: shiftId
+            shiftId: shiftId,
+            volunteers: volunteers,
+            action_id: $("#actionId").attr('data-action-id')
         }
     else if (mode == "subtask" && shiftId == 0)
         data = {
@@ -195,7 +199,9 @@ function getShiftData(mode, shiftId, parentId, comments, dateFrom, volunteerSum)
             hourTo: $(parentId + ' .toHour.hours[data-pk=' + shiftId + ']').text(),
             volunteerSum: volunteerSum,
             subtaskId: subTask.id,
-            shiftId: shiftId
+            shiftId: shiftId,
+            volunteers: volunteers,
+            action_id: $("#actionId").attr('data-action-id')
         }
 
     return data;
@@ -237,25 +243,6 @@ function initEditables(parentId, mode) {
         placement: "bottom",
         datetimepicker: {
             weekStart: 1
-        }
-    });
-
-    $(parentId + ' .myeditable.select2').editable({
-        value: null,
-        source: [
-            {id: 'gb', text: 'Great Britain'},
-            {id: 'us', text: 'United States'},
-            {id: 'ru', text: 'Russia'}
-        ],
-        autotext: 'always',
-        tpl: '<select style="width:200px;" class="selectAvailableVolunteers" data-mode="' + mode + '" data-parent-id="' + parentId + '" data-pk="' + $(this).attr('data-pk') + '"></select>',
-        type: 'select2',
-        placement: 'bottom',
-        select2: {
-            width: 200,
-            placeholder: 'Select volunteers',
-            allowClear: true,
-            multiple: true
         }
     });
 
@@ -326,14 +313,41 @@ function initEditables(parentId, mode) {
     });
 }
 
+//init only the available volunteers select2
+function initAvailableVolunteersEditable(shiftId, mode, parentId, type) {
 
+    $(parentId + ' .myeditable.select2[data-pk=' + shiftId + '][data-mode=' + mode + ']').editable({
+        value: null,
+        source: type.unitVolunteers,
+        autotext: 'always',
+        tpl: '<select style="width:200px;" class="selectAvailableVolunteers" data-mode="' + mode + '" data-parent-id="' + parentId + '" data-pk="' + shiftId + '"></select>',
+        type: 'select2',
+        placement: 'bottom',
+        select2: {
+            width: 200,
+            placeholder: 'Select volunteers',
+            allowClear: true,
+            multiple: true
+        }
+    });
+}
+
+//set the data-values when available volunteers are set
 $("body").on("select2:select", ".selectAvailableVolunteers", function () {
-    console.log($(this).val());
     mode = $(this).attr('data-mode');
     parentId = $(this).attr('data-parent-id');
     pk = $(this).attr('data-pk');
 
-    $(parentId + '.availableVolunteers[data-mode=' + mode + '][data-pk=' + pk + ']').attr('data - values', values);
+    $(parentId + ' .availableVolunteers[data-mode=' + mode + '][data-pk=' + pk + ']').attr('data-values', $(this).val());
+});
+
+//set the data-values when available volunteers are unset
+$("body").on("select2:unselect", ".selectAvailableVolunteers", function () {
+    mode = $(this).attr('data-mode');
+    parentId = $(this).attr('data-parent-id');
+    pk = $(this).attr('data-pk');
+
+    $(parentId + ' .availableVolunteers[data-mode=' + mode + '][data-pk=' + pk + ']').attr('data-values', $(this).val());
 });
 
 

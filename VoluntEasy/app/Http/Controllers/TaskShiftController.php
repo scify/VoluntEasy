@@ -88,7 +88,7 @@ class TaskShiftController extends Controller
         }
 
         //add the volunteers to the action
-        ShiftService::addVolunteersToAction($newVolunteers, $shift->id, $action);
+        ShiftService::addVolunteersToTask($newVolunteers, $shift->id, $action);
 
         $shift->volunteers()->sync($newVolunteers);
 

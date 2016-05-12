@@ -31,51 +31,7 @@
     </div>
 </div>
 
-{{--
-<div class="row">
-    <h4>Προσθήκη βάρδιας</h4>
 
-    <div class="col-md-3 comments">
-        <div class="form-group">
-            <input type="hidden" name="subtaskId" class="subtaskId" value="">
-            {!! Form::formInput('comments', trans('entities/subtasks.description').':', $errors, ['class' =>
-            'form-control shift_comments', 'required' => 'true']) !!}
-            <p class="comments_err text-danger" style="display:none;">{{ trans('entities/subtasks.fillField') }}</p>
-        </div>
-    </div>
-    <div class="col-md-2 volunteers">
-        <div class="form-group">
-            {!! Form::formInput('volunteerSum', trans('entities/subtasks.volunteersNeeded').':', $errors, ['class'
-            =>
-            'form-control volunteerSum']) !!}
-        </div>
-    </div>
-
-    <div class="col-md-3 shift">
-        <div class="form-group">
-            <input type="hidden" name="dateId" class="dateId" value="">
-            {!! Form::formInput('dateFrom', trans('entities/subtasks.date').':', $errors, ['class' =>
-            'form-control date datetime dateFrom',
-            'data-date-start-date' => $action->start_date, 'data-date-end-date' => $action->end_date,
-            'data-date-format' => 'dd/mm/yyyy']) !!}
-        </div>
-    </div>
-    <div class="col-md-2 workTime">
-        <div class="form-group">
-            {!! Form::formInput('hourFrom', trans('entities/subtasks.hourFrom').':', $errors, ['class' =>
-            'form-control
-            time datetime hourFrom']) !!}
-        </div>
-    </div>
-    <div class="col-md-2 workTime">
-        <div class="form-group">
-            {!! Form::formInput('hourTo', trans('entities/subtasks.hourTo').':', $errors, ['class' => 'form-control time
-            datetime hourTo']) !!}
-        </div>
-    </div>
-</div>
-
---}}
 @if(isset($showVolunteers) && $showVolunteers)
 <div class="row">
     <div class="col-sm-5">

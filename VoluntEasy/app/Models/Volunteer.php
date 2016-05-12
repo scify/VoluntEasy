@@ -99,8 +99,12 @@ class Volunteer extends User {
         return $this->hasMany('App\Models\VolunteerUnitHistory')->orderBy('created_at', 'desc');
     }
 
-    public function shiftHistory() {
-        return $this->hasMany('App\Models\VolunteerShiftHistory')->orderBy('created_at', 'desc');
+    public function taskShiftHistory() {
+        return $this->hasMany('App\Models\VolunteerTakShiftHistory')->orderBy('created_at', 'desc');
+    }
+
+    public function subtaskShiftHistory() {
+        return $this->hasMany('App\Models\VolunteerSubtaskShiftHistory')->orderBy('created_at', 'desc');
     }
 
     public function units() {

@@ -6,6 +6,7 @@ use App\Models\ActionTasks\Task;
 use App\Models\Volunteer;
 use App\Services\Facades\SubtaskService;
 use App\Services\Facades\TaskService;
+use App\Services\Facades\VolunteerService;
 
 class SubTaskController extends Controller
 {
@@ -27,21 +28,14 @@ class SubTaskController extends Controller
     {
         $subTask = SubTask::with('users', 'volunteers', 'shifts.volunteers', 'checklist.createdBy', 'checklist.updatedBy', 'shifts.ctaVolunteers.volunteer', 'action')->findOrFail($id);
 
-        $unitId = $subTask->action->unit_id;
-        //get all volunteers to show in select box
-        //those should be the volunteers that belong to the same unit
-        //that the action belongs to
-        $unitVolunteers = Volunteer::whereHas('units', function ($query) use ($unitId) {
-            $query->where('unit_id', $unitId);
-        })->orderBy('name', 'asc')->get()->toArray();
-
+        $subTask->unitVolunteers = VolunteerService::getAvailableUnitVolunteers($subTask->action->unit_id);
 
         //check if cta volunteer already exists in db, based on the email
         foreach ($subTask->shifts as $i => $date) {
             foreach ($date->ctaVolunteers as $j => $cta) {
                 //volunteer is already assigned to a profile
                 if (sizeof($cta->volunteer) > 0) {
-                    foreach ($unitVolunteers as $k => $uv) {
+                    foreach ($subTask->unitVolunteers as $k => $uv) {
                         //return $uv['id'];
                         if ($uv['id'] == $cta->volunteer[0]->id)
                             unset($subTask->shifts[$i]->ctaVolunteers[$j]);
@@ -62,7 +56,6 @@ class SubTaskController extends Controller
 
         }
 
-        $subTask->unitVolunteers = $unitVolunteers;
         unset($subTask->action);
 
         return $subTask;

@@ -40,14 +40,14 @@ class VolunteerService {
 
         'city' => '=',
         'country' => '=',
-        'additional_skills' => '=',
-        'work_description' => '=',
-        'specialty' => '=',
-        'department' => '=',
+        'additional_skills' => '%like%',
+        'work_description' => '%like%',
+        'specialty' => '%like%',
+        'department' => '%like%',
         'phoneNumber' => '=',
-        'participation_actions' => '=',
+        'participation_actions' => '%like%',
         'computer_usage' => '=',
-        'computer_usage_comments' => '=',
+        'computer_usage_comments' => '%like%',
 
         'extra_lang' => '%like%',
 
@@ -272,7 +272,7 @@ class VolunteerService {
             ->with(['actionHistory.action.allTasks.allSubtasks.allShifts.volunteers' => function ($q) use ($id) {
                 $q->where('volunteer_id', $id);
             }])
-            ->with('units.children', 'units.actions', 'shiftHistory.shift.subtask', 'extras', 'volunteeringDepartments')
+            ->with('units.children', 'units.actions', 'subtaskshiftHistory.shift.subtask', 'extras', 'volunteeringDepartments')
             ->with('opaRatings.laborSkills.skill', 'opaRatings.interpersonalSkills.skill', 'opaRatings.action', 'opaRatings.actionRating')
             ->findOrFail($id);
 
@@ -876,6 +876,31 @@ class VolunteerService {
         ]);
 
         $actionHistory->save();
+    }
+
+
+    /**
+     * Find the volunteers that are available for a certain unit
+     * and return them in array form
+     *
+     * @param $unitId
+     * @return mixed
+     */
+    public function getAvailableUnitVolunteers($unitId) {
+
+        $volunteers = Volunteer::whereHas('units', function ($query) use ($unitId) {
+            $query->where('unit_id', $unitId);
+        })->orderBy('name', 'asc')->get();
+
+        $unitVolunteers = [];
+        foreach($volunteers as $volunteer){
+            array_push($unitVolunteers, [
+                'id' => $volunteer->id,
+                'text' => $volunteer->fullName
+            ]);
+        }
+
+        return $unitVolunteers;
     }
 
     /**

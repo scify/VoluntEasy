@@ -3,7 +3,8 @@
 
 use App\Models\Action;
 use App\Models\Volunteer;
-use App\Models\VolunteerShiftHistory;
+use App\Models\VolunteerTaskShiftHistory;
+use App\Models\VolunteerSubtaskShiftHistory;
 use App\Services\Facades\VolunteerService as VolunteerServiceFacade;
 
 class ShiftService
@@ -61,12 +62,39 @@ class ShiftService
      * @param $shiftId
      * @param $action
      */
-    public function addVolunteersToAction($volunteers, $shiftId, $action)
+    public function addVolunteersToTask($volunteers, $shiftId, $action)
     {
         //add the volunteers to the action
         foreach ($volunteers as $volunteer) {
             $volunteer = Volunteer::find($volunteer);
-            $this->addShiftHistory($volunteer->id, $shiftId);
+            $this->addTaskShiftHistory($volunteer->id, $shiftId);
+
+            //first check that the user is not already assigned to an action
+            $flag = false;
+            foreach ($volunteer->actions as $a) {
+                if ($a->id == $action->id)
+                    $flag = true;
+            }
+            if (!$flag)
+                VolunteerServiceFacade::addToAction($volunteer, $action);
+        }
+
+        return;
+    }
+
+    /**
+     * Add the volunteers to a certain action
+     *
+     * @param $volunteers
+     * @param $shiftId
+     * @param $action
+     */
+    public function addVolunteersToSubTask($volunteers, $shiftId, $action)
+    {
+        //add the volunteers to the action
+        foreach ($volunteers as $volunteer) {
+            $volunteer = Volunteer::find($volunteer);
+            $this->addSubtaskShiftHistory($volunteer->id, $shiftId);
 
             //first check that the user is not already assigned to an action
             $flag = false;
@@ -87,13 +115,13 @@ class ShiftService
      * @param $volunteerId
      * @param $shiftId
      */
-    public function addShiftHistory($volunteerId, $shiftId)
+    public function addTaskShiftHistory($volunteerId, $shiftId)
     {
-        $shiftHistory = VolunteerShiftHistory::where('volunteer_id', $volunteerId)
+        $shiftHistory = VolunteerTaskShiftHistory::where('volunteer_id', $volunteerId)
             ->where('shift_id', $shiftId)->first();
 
         if ($shiftHistory == null)
-            VolunteerShiftHistory::create([
+            VolunteerTaskShiftHistory::create([
                 'volunteer_id' => $volunteerId,
                 'shift_id' => $shiftId
             ]);
@@ -101,4 +129,23 @@ class ShiftService
         return;
     }
 
+    /**
+     * Add an entry to the history table
+     *
+     * @param $volunteerId
+     * @param $shiftId
+     */
+    public function addSubtaskShiftHistory($volunteerId, $shiftId)
+    {
+        $shiftHistory = VolunteerSubtaskShiftHistory::where('volunteer_id', $volunteerId)
+            ->where('shift_id', $shiftId)->first();
+
+        if ($shiftHistory == null)
+            VolunteerSubtaskShiftHistory::create([
+                'volunteer_id' => $volunteerId,
+                'shift_id' => $shiftId
+            ]);
+
+        return;
+    }
 }
