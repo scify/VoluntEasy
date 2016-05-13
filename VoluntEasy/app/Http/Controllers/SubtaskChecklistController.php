@@ -36,11 +36,9 @@ class SubtaskChecklistController extends Controller {
 
         $checklist = SubtaskChecklist::find(\Request::get('id'));
 
-
+        $isComplete = 0;
         if (\Request::get('isComplete') == 'true')
             $isComplete = 1;
-        else
-            $isComplete = 0;
 
         $checklist->isComplete = $isComplete;
         $checklist->update();

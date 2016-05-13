@@ -419,6 +419,10 @@ div#unitsTree {
     width: 100%;
 }
 
+.margin-right-3{
+    margin-right:3px;
+}
+
 .col-height {
     display: table-cell;
     float: none;
@@ -506,6 +510,11 @@ div#unitsTree {
     vertical-align: top;
 }
 
+.board .board-row .card-wrapper {
+   background-color:#F2F3F5;
+    padding-top:10px;
+}
+
 .board-column {
     min-height: 70px;
 }
@@ -552,7 +561,7 @@ i.priority-1 {
 }
 
 i.priority-2 {
-    color: #f2ca4c;
+    color: #ECB70F;
 }
 
 i.priority-3 {

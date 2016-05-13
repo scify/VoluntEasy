@@ -57,7 +57,7 @@ return [
 
     'hoursSum' => '# shifts',
     'todoSum' => '# to-dos',
-    'volunteerSum' => '# εθ/ντών who have expressed interest',
+    'volunteerSum' => '# of volunteers who have expressed interest',
 
     'daysHours' => 'shifts',
     'interestedVolunteers' => 'interested volunteers',

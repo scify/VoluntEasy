@@ -28,30 +28,27 @@ function drawChecklist(mode) {
 
     $(parentId + ' .todo-list').html(html);
     $(parentId + ' .todo-list .todo-item.added input').uniform();
-    $(parentId + ' .todo-list .todo-item.added input').click(function () {
-        if ($(this).is(':checked')) {
-            $(this).parent().parent().parent().toggleClass('complete');
-        } else {
-            $(this).parent().parent().parent().toggleClass('complete');
-        }
-
-        var mode = $(this).attr('data-mode');
-        $.when(updateToDoItem(mode, $(this).attr('data-id'), $(this).is(':checked')))
-            .then(function (item, textStatus, jqXHR) {
-                $('.helper-wrapper[data-id=' + item.id + '][data-mode=' + mode + ']').html(addHelper(item));
-            });
-
-    });
-
-    $(parentId + ' .todo-list .todo-item.added .remove-todo-item').click(function () {
-        deleteToDoItem($(this).attr('data-mode'), $(this).attr('data-id'));
-        $(this).parent().remove();
-    });
 }
 
 
-$(".closeAndRefresh").click(function () {
-    location.reload();
+$(document).on('click', '.todo-list .todo-item.added input', function () {
+    if ($(this).is(':checked')) {
+        $(this).parent().parent().parent().toggleClass('complete');
+    } else {
+        $(this).parent().parent().parent().toggleClass('complete');
+    }
+
+    var mode = $(this).attr('data-mode');
+    $.when(updateToDoItem(mode, $(this).attr('data-id'), $(this).is(':checked')))
+        .then(function (item, textStatus, jqXHR) {
+            $('.helper-wrapper[data-id=' + item.id + '][data-mode=' + mode + ']').html(addHelper(item));
+        });
+});
+
+
+$(document).on('click', '.todo-list .todo-item.added .remove-todo-item', function () {
+    deleteToDoItem($(this).attr('data-mode'), $(this).attr('data-id'));
+    $(this).parent().remove();
 });
 
 

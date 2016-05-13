@@ -12,6 +12,14 @@
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
             <div class="panel panel-default">
 
+                @if($isPermitted)
+                <div class="row bottom-margin text-right">
+                    <div class="col-md-12">
+                        <a href="#" data-toggle="modal" data-target="#addTask" class="btn btn-info"><i
+                                class="fa fa-plus"></i> {{ trans('entities/tasks.addTask') }}</a>
+                    </div>
+                </div>
+                @endif
                 @foreach($action->tasks as $task)
 
 
@@ -23,7 +31,22 @@
                            href="#collapse-{{ $task->id }}"
                            aria-expanded="false" aria-controls="collapse-{{ $task->id }}"
                            class="arrow collapsed task-title task-{{ $task->id }}"
-                           data-task-id="{{ $task->id }}"> {{$task->name}}</a>
+                           data-task-id="{{ $task->id }}"> </a>
+                        @if($task->priority==1)
+                        <i class="fa fa-circle priority-{{$task->priority}}"
+                           title="{{ trans('entities/tasks.lowPriority') }}"></i>
+                        @elseif($task->priority==2)
+                        <i class="fa fa-circle priority-{{$task->priority}}"
+                           title="{{ trans('entities/tasks.mediumPriority') }}"></i>
+                        @elseif($task->priority==3)
+                        <i class="fa fa-circlep priority-{{$task->priority}}"
+                           title="{{ trans('entities/tasks.mediumPriority') }}"></i>
+                        @elseif($task->priority==4)
+                        <i class="fa fa-circle priority-{{$task->priority}}"
+                           title="{{ trans('entities/tasks.urgentPriority') }}"></i>
+                        @endif
+                        <a href="javascript:void(0);" class="viewTask"
+                           data-task-id="{{ $task->id }}">{{$task->name}}</a>
 
                         @if($task->status=="todo")
                             <span
@@ -36,96 +59,83 @@
                                 class="status doing task-{{$task->id}}">{{ trans('entities/tasks.doingCapitals') }}</span>
                         @endif
 
-                        @if($task->priority==1)
-                        <i class="fa fa-arrow-up priority-{{$task->priority}}"
-                           title="{{ trans('entities/tasks.lowPriority') }}"></i>
-                        @elseif($task->priority==2)
-                        <i class="fa fa-arrow-up priority-{{$task->priority}}"
-                           title="{{ trans('entities/tasks.mediumPriority') }}"></i>
-                        @elseif($task->priority==3)
-                        <i class="fa fa-arrow-up priority-{{$task->priority}}"
-                           title="{{ trans('entities/tasks.mediumPriority') }}"></i>
-                        @elseif($task->priority==4)
-                        <i class="fa fa-arrow-up priority-{{$task->priority}}"
-                           title="{{ trans('entities/tasks.urgentPriority') }}"></i>
-                        @endif
 
                         @if(sizeof($task->checklist) > 0)
-                        <small><i class="fa fa-check-square-o"
-                                  title="{{ sizeof($task->checklist) }} to-dos"></i> {{ $task->completedChecklistItems
+                        <small class="margin-right-3"><i class="fa fa-check-square-o"
+                                                         title="{{ sizeof($task->checklist) }} to-dos"></i> {{
+                            $task->completedChecklistItems
                             }}/{{ sizeof($task->checklist) }}
                         </small>
                         @endif
 
+
                         @if(sizeof($task->shifts) > 0)
-                        <small><i class="fa fa-clock-o"
-                                  title="{{ sizeof($task->shifts) }} {{ trans('entities/tasks.daysHours') }}"></i>
+                        <small class="margin-right-3"><i class="fa fa-clock-o"
+                                                         title="{{ sizeof($task->shifts) }} {{ trans('entities/tasks.daysHours') }}"></i>
                             {{ sizeof($task->shifts) }}
                         </small>
                         @endif
 
-                                                <span>
-                                                   @if($task->expires===0)
-                                                       <i class="fa fa-calendar"></i>
-                                                        <small
-                                                            class="text-warning"
-                                                            title="{{ trans('entities/tasks.todayExpires') }}">
-                                                            {{ trans('entities/tasks.today') }}
-                                                        </small>
-                                                    @elseif($task->expires==-1)
-                                                        <i class="fa fa-calendar"></i>
-                                                        <small
-                                                            class="text-danger"
-                                                            title="{{ trans('entities/tasks.yesterdayExpired') }}">{{
-                                                            trans('entities/tasks.yesterday') }}
-                                                        </small>
-                                                    @elseif($task->expires==1)
-                                                        <i class="fa fa-calendar"
-                                                           title="{{ trans('entities/tasks.tomorrowExpires') }}"></i>
-                                                        <small
-                                                            class="text-info">
-                                                            {{ trans('entities/tasks.tomorrow') }}
-                                                        </small>
-                                                    @elseif($task->expires>1)
-                                                        <i class="fa fa-calendar"></i>
-                                                        <small
-                                                            title="{{ trans('entities/tasks.expiresAt') }} {{ $task->dueDateMin }}">
-                                                            {{ $task->dueDateMin }}
-                                                        </small>
-                                                    @elseif($task->expires<-1)
-                                                        <i class="fa fa-calendar"></i>
-                                                        <small
-                                                            class="text-danger"
-                                                            title="{{ trans('entities/tasks.expired') }}">{{
-                                                            $task->due_date }}
-                                                        </small>
-                                                    @endif
-                                                    @if(sizeof($task->users)>0 || sizeof($task->volunteers)>0)
-                                                    <small>
-                                                        @foreach($task->users as $user)
-                                                        <img class="img-circle avatar userImage" src="{{ ($user->image_name==null || $user->image_name=='') ?
-                                    asset('assets/images/default.png') : asset('assets/uploads/users/'.$user->image_name) }}"
-                                                             width="30" height="30"
-                                                             alt="{{ trans('entities/tasks.assignedTo') }} {{ $user->name }} {{ $user->last_name }}"
-                                                             title="{{ trans('entities/tasks.assignedTo') }} {{ $user->name }} {{ $user->last_name }}">
 
-                                                        @endforeach
-                                                        @foreach($task->volunteers as $volunteer)
-                                                        <img class="img-circle avatar userImage" src="{{ ($volunteer->image_name==null || $volunteer->image_name=='') ?
+                        @if($task->expires===0)
+                        <small><i class="fa fa-calendar"
+                                                         title="{{ trans('entities/tasks.expires') }}"></i></small>
+                        <small
+                            class="text-warning margin-right-3"
+                            title="{{ trans('entities/tasks.todayExpires') }}">
+                            {{ trans('entities/tasks.today') }}
+                        </small>
+                        @elseif($task->expires==-1)
+                        <small><i class="fa fa-calendar"
+                                                         title="{{ trans('entities/tasks.expires') }}"></i></small>
+                        <small
+                            class="text-danger margin-right-3"
+                            title="{{ trans('entities/tasks.yesterdayExpired') }}">
+                            <i class="fa fa-calendar"></i>{{trans('entities/tasks.yesterday') }}
+                        </small>
+                        @elseif($task->expires==1)
+                        <small><i class="fa fa-calendar"
+                                                         title="{{ trans('entities/tasks.expires') }}"></i></small>
+                        <small
+                            class="text-info margin-right-3">
+                            {{ trans('entities/tasks.tomorrow') }}
+                        </small>
+                        @elseif($task->expires>1)
+                        <small><i class="fa fa-calendar"
+                                                         title="{{ trans('entities/tasks.expires') }}"></i></small>
+                        <small class=" margin-right-3"
+                               title="{{ trans('entities/tasks.expiresAt') }} {{ $task->dueDateMin }}">
+                            {{ $task->dueDateMin }}
+                        </small>
+                        @elseif($task->expires<-1)
+                        <small><i class="fa fa-calendar"
+                                                         title="{{ trans('entities/tasks.expires') }}"></i></small>
+                        <small class="text-danger margin-right-3"
+                             title="{{ trans('entities/tasks.expired') }}">{{
+                            $task->due_date }}
+                        </small>
+                        @endif
+
+
+                        @if(sizeof($task->users)>0 || sizeof($task->volunteers)>0)
+                        <small class="margin-right-3">
+                            @foreach($task->users as $user)
+                            <img class="img-circle avatar userImage" src="{{ ($user->image_name==null || $user->image_name=='') ?
+                                    asset('assets/images/default.png') : asset('assets/uploads/users/'.$user->image_name) }}"
+                                 width="30" height="30"
+                                 alt="{{ trans('entities/tasks.assignedTo') }} {{ $user->name }} {{ $user->last_name }}"
+                                 title="{{ trans('entities/tasks.assignedTo') }} {{ $user->name }} {{ $user->last_name }}">
+
+                            @endforeach
+                            @foreach($task->volunteers as $volunteer)
+                            <img class="img-circle avatar userImage" src="{{ ($volunteer->image_name==null || $volunteer->image_name=='') ?
                                     asset('assets/images/default.png') : asset('assets/uploads/users/'.$volunteer->image_name) }}"
-                                                             width="30" height="30"
-                                                             alt="{{ trans('entities/tasks.assignedTo') }} {{ $volunteer->name }} {{ $volunteer->last_name }}"
-                                                             title="{{ trans('entities/tasks.assignedTo') }} {{ $volunteer->name }} {{ $volunteer->last_name }}">
-                                                        @endforeach
-                                                    </small>
-                                                    @endif
-                                         </span>
-                        <span class="pull-right">
-                            <button type="button" class="btn btn-info viewTask" data-task-id="{{ $task->id }}"
-                                    title="{{ trans('default.addShift') }}"><i
-                                    class="fa fa-eye"></i>
-                            </button>
-                        </span>
+                                 width="30" height="30"
+                                 alt="{{ trans('entities/tasks.assignedTo') }} {{ $volunteer->name }} {{ $volunteer->last_name }}"
+                                 title="{{ trans('entities/tasks.assignedTo') }} {{ $volunteer->name }} {{ $volunteer->last_name }}">
+                            @endforeach
+                        </small>
+                        @endif
                     </h4>
                 </div>
                 <div id="collapse-{{ $task->id }}" class="panel-collapse collapse"
@@ -135,7 +145,7 @@
                         @if(sizeof($task->todoSubtasks)+sizeof($task->doingSubtasks)+sizeof($task->doneSubtasks)>0)
                         <div class="row task-{{ $task->id }} board-row">
                             {{-- To Do subtasks --}}
-                            <div class="col-md-4">
+                            <div class="col-md-4 status-columns">
                                 <h3 class="panel-title">{{ trans('entities/tasks.todo') }}</h3>
 
                                 <div class="board-column todo">
@@ -144,7 +154,7 @@
                                 </div>
                             </div>
                             {{-- Doing subtasks --}}
-                            <div class="col-md-4">
+                            <div class="col-md-4 status-columns">
                                 <h3 class="panel-title">{{ trans('entities/tasks.doing') }}</h3>
 
                                 <div class="board-column doing">
@@ -153,7 +163,7 @@
                                 </div>
                             </div>
                             {{-- Done subtasks --}}
-                            <div class="col-md-4">
+                            <div class="col-md-4 status-columns">
                                 <h3 class="panel-title">{{ trans('entities/tasks.done') }}</h3>
 
                                 <div class="board-column done">
@@ -169,7 +179,7 @@
                         <div class="col-md-12 subtask text-right">
                             <a href="javascript:void(0);" data-toggle="modal"
                                data-target="#addSubTask"
-                               data-task-id="{{$task->id}}" class="addSubTask"><i
+                               data-task-id="{{$task->id}}" class="addSubTask btn btn-info"><i
                                     class="fa fa-plus"></i> {{ trans('entities/tasks.addSubtask') }}</a>
                         </div>
                     </div>
@@ -181,20 +191,12 @@
         </div>
     </div>
 </div>
-
-@if($isPermitted)
-<div class="row top-margin">
-    <div class="col-md-12">
-        <a href="#" data-toggle="modal" data-target="#addTask"><i
-                class="fa fa-plus"></i> {{ trans('entities/tasks.addTask') }}</a>
-    </div>
-</div>
-@endif
+<hr/>
 <div class="row">
     <div class="col-md-12 text-right">
         <p><strong>{{ trans('default.legend') }}:</strong> <br/>
             <i class="fa fa-calendar"></i> {{ trans('entities/tasks.hoursSum') }} |
-            <i class="fa fa-list"></i> {{ trans('entities/tasks.todoSum') }} <br/>
+            <i class="fa fa-list"></i> {{ trans('entities/tasks.todoSum') }} |
             <i class="fa fa-leaf"></i> {{ trans('entities/tasks.volunteerSum') }}
         </p>
     </div>

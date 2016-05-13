@@ -34,6 +34,7 @@ class TaskService {
                     $dueDate->second = 0;
                     $subtask->expires = $today->diffInDays($dueDate, false);
                 }
+                else $subtask->expires = 'null';
 
                 if ($subtask->status_id == 1)
                     array_push($todoSubtasks, $subtask);
@@ -91,6 +92,7 @@ class TaskService {
                 $dueDate->second = 0;
                 $task->expires = $today->diffInDays($dueDate, false);
             }
+            else $task->expires = 'null';
 
             $task->status = null;
             $task->statusOrderId = 0;

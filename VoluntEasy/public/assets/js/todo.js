@@ -8,7 +8,7 @@ var todo = function () {
 
         var mode = $(this).attr('data-id');
         var item = updateToDoItem(mode, $(this).attr('data-id'), $(this).is(':checked'));
-        $('.created_updated[data-id='+item.id+'][data-mode='+mode+']').html(    );
+        $('.created_updated[data-id=' + item.id + '][data-mode=' + mode + ']').html();
 
     });
 
@@ -59,13 +59,13 @@ $(".add-task").keypress(function (e) {
         var html = '';
         var comments = $(this).val();
         $(this).val('');
-
+console.log(mode);
         $.when(storeToDoItem(mode, modeId, comments)).then(function (item, textStatus, jqXHR) {
 
-            html = '<div class="todo-item added ' + (item.isComplete == 1 ? 'complete' : '') + '"><input type="checkbox"' + (item.isComplete == 1 ? 'checked=checked' : '') + ' data-id="' + item.id + '">';
+            html = '<div class="todo-item added ' + (item.isComplete == 1 ? 'complete' : '') + '"><input type="checkbox"' + (item.isComplete == 1 ? 'checked=checked' : '') + ' data-id="' + item.id + '" data-mode="' + mode + '">';
 
             html += '<span class="todo-description">' + item.comments + '</span>';
-            html += '<span class="helper-wrapper"  data-id="' + item.id + '" data-mode="subtask">'
+            html += '<span class="helper-wrapper"  data-id="' + item.id + '" data-mode="' + mode + '">'
             html += addHelper(item);
             html += '</span>';
 

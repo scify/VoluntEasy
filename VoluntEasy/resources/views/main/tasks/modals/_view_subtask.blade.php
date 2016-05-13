@@ -16,10 +16,13 @@
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs" role="tablist">
                                 <li role="presentation" class="active"><a href="#subtaskDetails" role="tab"
-                                                                          data-toggle="tab">{{ trans('entities/subtasks.taskDetails') }}</a></li>
-                                <li role="presentation"><a href="#subtaskShifts" role="tab" data-toggle="tab">{{ trans('entities/subtasks.shifts') }}</a>
+                                                                          data-toggle="tab">{{
+                                        trans('entities/subtasks.taskDetails') }}</a></li>
+                                <li role="presentation"><a href="#subtaskShifts" role="tab" data-toggle="tab">{{
+                                        trans('entities/subtasks.shifts') }}</a>
                                 </li>
-                                <li role="presentation"><a href="#subtaskChecklist" role="tab" data-toggle="tab">{{ trans('entities/subtasks.toDo') }}</a>
+                                <li role="presentation"><a href="#subtaskChecklist" role="tab" data-toggle="tab">{{
+                                        trans('entities/subtasks.toDo') }}</a>
                                 </li>
                             </ul>
                             <!-- Tab panes -->
@@ -27,14 +30,19 @@
                                 <div role="tabpanel" class="tab-pane active fade in" id="subtaskDetails">
                                     <div class="row">
                                         <div class="col-sm-10 col-md-10 col-lg-10">
-                                            {!! Form::model(null, ['id' => 'editSubTaskForm', 'method' => 'POST', 'action'
+                                            {!! Form::model(null, ['id' => 'editSubTaskForm', 'method' => 'POST',
+                                            'action'
                                             =>
                                             ['SubTaskController@update']]) !!}
 
                                             @include('main.tasks.modals._subtask_form', ['mode' => 'edit'])
 
-                                            {!! Form::submit( trans('default.save') , ['class' => 'btn btn-success
-                                            edit pull-right', 'id' => 'updateSubTask']) !!}
+                                            <div class="pull-right">
+                                                {!! Form::submit( trans('default.save') , ['class' => 'btn btn-success
+                                                edit pull-right', 'id' => 'updateSubTask']) !!}
+                                                <button class="btn btn-danger deleteSubtask">{{trans('default.delete')}}
+                                                </button>
+                                            </div>
                                             {!! Form::close() !!}
                                         </div>
                                     </div>

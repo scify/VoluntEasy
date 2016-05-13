@@ -52,13 +52,6 @@ $('.viewSubtask').click(function () {
     $.when(getSubtask(subtaskId))
         .then(function () {
 
-            $(".subtaskInfo .due_date").text(subTask.due_date == null ? '' : ', ' + Lang.get('js-components.expires') + ' ' + subTask.due_date);
-            $(".subtaskInfo .name").text(subTask.name);
-            $(".subtaskInfo .description").text(subTask.description == null || subTask.description == '' ? '' : subTask.description);
-
-            $(".subtaskInfo .editTask").attr('data-task-id', subTask.id);
-            $(".subtaskInfo .deleteTask").attr('data-task-id', subTask.id);
-
 
             var imagePath = '';
             var assignedToName = '';
@@ -157,6 +150,10 @@ function fillSubtaskFields() {
     }
     else {
         $('#editSubTaskForm .subtaskUserSelect').attr('disabled', 'disabled');
+        $('#editSubTaskForm input:radio[name=assignToSubtask][value=user]').attr('checked', 'false');
+        $('#editSubTaskForm input:radio[name=assignToSubtask][value=user]').parent().removeClass('checked');
+
+        $('#editSubTaskForm .subtaskUserSelect').val(0);
     }
 
     if (subTask.volunteers.length > 0) {
@@ -169,6 +166,11 @@ function fillSubtaskFields() {
     }
     else {
         $('#editSubTaskForm .subtaskVolunteerSelect').attr('disabled', 'disabled');
+        $('#editSubTaskForm input:radio[name=assignToSubtask][value=volunteer]').attr('checked', 'false');
+        $('#editSubTaskForm input:radio[name=assignToSubtask][value=volunteer]').parent().removeClass('checked');
+
+        $('#editSubTaskForm .subtaskVolunteerSelect').val(0);
+        $('#editSubTaskForm .subtaskVolunteerSelect').val(0);
     }
 }
 

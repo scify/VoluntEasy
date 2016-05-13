@@ -95,6 +95,16 @@ class AddUsersShiftsToTasksSubtasks extends Migration {
             $table->softDeletes();
             $table->timestamps();
         });
+
+
+        Schema::create('volunteer_task_shift_history', function ($table) {
+            $table->increments('id');
+            $table->integer('volunteer_id')->unsigned();
+            $table->foreign('volunteer_id')->references('id')->on('volunteers');
+            $table->integer('shift_id')->unsigned();
+            $table->foreign('shift_id')->references('id')->on('task_shifts');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -109,6 +119,7 @@ class AddUsersShiftsToTasksSubtasks extends Migration {
         Schema::dropIfExists('subtasks_volunteers');
         Schema::dropIfExists('volunteer_task_shifts');
         Schema::dropIfExists('cta_volunteers_task_dates');
+        Schema::dropIfExists('volunteer_task_shift_history');
         Schema::dropIfExists('task_shifts');
 
     }

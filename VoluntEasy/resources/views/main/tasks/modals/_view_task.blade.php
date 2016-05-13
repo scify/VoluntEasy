@@ -16,10 +16,13 @@
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs" role="tablist">
                                 <li role="presentation" class="active"><a href="#taskDetails" role="tab"
-                                                                          data-toggle="tab">{{ trans('entities/subtasks.taskDetails') }}</a></li>
-                                <li role="presentation"><a href="#taskShifts" role="tab" data-toggle="tab">{{ trans('entities/subtasks.shifts') }}</a>
+                                                                          data-toggle="tab">{{
+                                        trans('entities/subtasks.taskDetails') }}</a></li>
+                                <li role="presentation"><a href="#taskShifts" role="tab" data-toggle="tab">{{
+                                        trans('entities/subtasks.shifts') }}</a>
                                 </li>
-                                <li role="presentation"><a href="#taskChecklist" role="tab" data-toggle="tab">{{ trans('entities/subtasks.toDo') }}</a>
+                                <li role="presentation"><a href="#taskChecklist" role="tab" data-toggle="tab">{{
+                                        trans('entities/subtasks.toDo') }}</a>
                                 </li>
                             </ul>
                             <!-- Tab panes -->
@@ -33,8 +36,11 @@
 
                                             @include('main.tasks.modals._task_form', ['mode' => 'edit'])
 
-                                            {!! Form::submit( trans('default.save') , ['class' => 'btn btn-success
-                                            edit pull-right', 'id' => 'updateTask']) !!}
+                                            <div class="pull-right">
+                                                {!! Form::submit( trans('default.save') , ['class' => 'btn btn-success
+                                                edit ', 'id' => 'updateTask']) !!}
+                                                <button class="btn btn-danger deleteTask">{{trans('default.delete')}}</button>
+                                            </div>
                                             {!! Form::close() !!}
                                         </div>
                                     </div>

@@ -71,11 +71,18 @@ function drawShiftRow(shift, parentId, mode) {
     html += '<td class="col-md-1"><span class="toHour myeditable editable time hours required" data-type="select" data-name="toHour" data-value="' + shift.to_hour + '" data-pk="' + shift.id + '"></span></td>';
     html += '<td class="col-md-1"><span class="volunteerSum text myeditable editable required" data-type="text" data-name="volunteerSum" data-value="' + shift.volunteer_sum + '" data-pk="' + shift.id + '"></span></td>';
     html += '<td class="col-md-3"><span class="availableVolunteers myeditable editable select2" data-type="select2" data-name="availableVolunteers" data-pk="' + shift.id + '" data-mode="' + mode + '" data-parent-id="' + parentId + '"></span></td>';
+
     if (isPermitted == 'true') {
-        html += '<td class="col-md-2"><button class="btn btn-sm btn-success save-btn right-margin" onclick="updateShift(\'' + shift.id + '\',\'' + parentId + '\', \'' + mode + '\')"><i class="fa fa-save"></i></button>';
+        //display store or update button
+        if (shift.id == 0)
+            html += '<td class="col-md-2"><button class="btn btn-sm btn-success save-btn right-margin" onclick="storeShift(\'' + shift.id + '\',\'' + parentId + '\', \'' + mode + '\')"><i class="fa fa-save"></i></button>';
+        else
+            html += '<td class="col-md-2"><button class="btn btn-sm btn-success save-btn right-margin" onclick="updateShift(\'' + shift.id + '\',\'' + parentId + '\', \'' + mode + '\')"><i class="fa fa-save"></i></button>';
+
         if (shift.id != 0)
             html += '<button class="btn btn-sm btn-danger save-btn" onclick="deleteShift(\'' + shift.id + '\', \'' + mode + '\')"><i class="fa fa-trash"></i></button></td>';
     }
+
     html += '</tr>';
 
     return html;
@@ -159,7 +166,6 @@ function updateShift(shiftId, parentId, mode) {
 function getShiftData(mode, shiftId, parentId, comments, dateFrom, volunteerSum, volunteers) {
 
     var data;
-    console.log($('.selectAvailableVolunteers').val())
 
     if (mode == "task" && shiftId == 0)
         data = {

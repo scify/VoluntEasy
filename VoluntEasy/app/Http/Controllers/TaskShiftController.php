@@ -83,7 +83,7 @@ class TaskShiftController extends Controller
 
         //remove all the current volunteers
         foreach ($shift->volunteers as $volunteer) {
-            $volunteer->shifts()->detach([$shift->id]);
+            $volunteer->taskShifts()->detach([$shift->id]);
             VolunteerService::removeFromAction($volunteer, $action);
         }
 
