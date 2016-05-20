@@ -17,7 +17,7 @@ class SubtaskService
 
         //remove the associated shifts
         foreach ($subTask->shifts as $shift) {
-            ShiftServiceFacade::delete($shift);
+            ShiftServiceFacade::deleteSubtaskShift($shift);
         }
 
         //remove the public subtasks
