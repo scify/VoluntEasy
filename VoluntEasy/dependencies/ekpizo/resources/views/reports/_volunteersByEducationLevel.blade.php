@@ -33,12 +33,12 @@
                     color = 'green';
                 else {
                     colorPair = Colors.random();
-                    color = Colors.pairs[colorPair][0]
+                    color = Colors.pairs[colorPair][0];
                 }
 
                 data.push({
                     value: value.count,
-                    color: Colors.pairs[color][0],
+                    color: color,
                     highlight: Colors.pairs[color][1],
                     label: value.description
                 });

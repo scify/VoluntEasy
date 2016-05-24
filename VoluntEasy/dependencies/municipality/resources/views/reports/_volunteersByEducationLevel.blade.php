@@ -59,7 +59,7 @@
                 animationEasing: "linear",
                 animateRotate: true,
                 animateScale: false,
-                responsive: true,
+                responsive: true
             });
 
         }
