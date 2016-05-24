@@ -390,11 +390,11 @@ class VolunteerService {
 
                     foreach ($volunteer->taskShiftHistory as $shiftHistory) {
 
-                        if ($shiftHistory->task->trashedTask->id == $task->id) {
-                            $to_time = strtotime($shiftHistory->task->to_hour);
-                            $from_time = strtotime($shiftHistory->task->from_hour);
+                        if ($shiftHistory->shift->trashedTask->id == $task->id) {
+                            $to_time = strtotime($shiftHistory->shift->to_hour);
+                            $from_time = strtotime($shiftHistory->shift->from_hour);
                             $workHours = (($to_time - $from_time) / 60) / 60;
-                            $shiftHistory->task->workHours = $workHours;
+                            $shiftHistory->shift->workHours = $workHours;
                             $task->workHours += $shiftHistory->shift->workHours;
                             break;
                         }
