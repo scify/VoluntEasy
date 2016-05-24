@@ -95,7 +95,7 @@
 </div>
 
 @else
-
+{{--
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default smallHeading">
@@ -131,6 +131,19 @@
                                                 <td class="col-md-2 text-center">
                                                     <strong>{{ $task->work_hours }}</strong></td>
                                             </tr>
+                                            @foreach($volunteer->shiftHistory as $wdHistory)
+                                                @if($wdHistory->shift->trashedSubtask->id==$subtask->id)
+                                                <tr>
+                                                    <td>{{ $wdHistory->shift->comments }}</td>
+                                                    <td>{{ $wdHistory->shift->from_date }}</td>
+                                                    <td>{{ $wdHistory->shift->from_hour }}
+                                                        - {{ $wdHistory->shift->to_hour }}</td>
+                                                    <td>-</td>
+                                                    <td class="col-md-2 text-center">
+                                                        <strong>{{ $wdHistory->shift->workHours }}</strong></td>
+                                                </tr>
+                                                @endif
+                                            @endforeach
                                             @foreach($task->allSubtasks as $subtask)
                                                 @if(sizeof($subtask->allShifts)>0)
                                                     <tr class="subtask">
@@ -168,7 +181,7 @@
         </div>
     </div>
 </div>
-
+--}}
 
 <div class="row">
     <div class="col-md-12">
