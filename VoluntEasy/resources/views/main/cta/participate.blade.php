@@ -18,7 +18,7 @@
 
                             <div class="row">
                                 <div class="col-md-4">
-                                    <img src="{{ asset('assets/images/ekpizo.png') }}" style="width:100%;"/>
+                                    <img src="{{ asset('assets/images/cta_logo.png') }}" style="width:100%;"/>
                                 </div>
                             </div>
                             @if(isset($publicAction) && $publicAction!=null)

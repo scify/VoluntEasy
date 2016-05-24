@@ -29,7 +29,7 @@
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane active fade in" id="taskDetails">
                                     <div class="row">
-                                        <div class="col-sm-10 col-md-10 col-lg-10">
+                                        <div class="col-sm-9 col-md-9 col-lg-9">
                                             {!! Form::model(null, ['id' => 'editTaskForm', 'method' => 'POST', 'action'
                                             =>
                                             ['TaskController@update']]) !!}

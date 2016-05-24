@@ -47,7 +47,7 @@
             @else
 
             <span>  <i
-                    class="fa fa-circle status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}"></i>{{ trans('entities/volunteers.'.$step->description) }}</span>
+                    class="fa fa-circle status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}"></i>{{ $step->description }}</span>
 
             @if(in_array($timelineBlock->unit->id, $userUnits) && ($step->statuses[0]->comments!=null &&
             $step->statuses[0]->comments!=''))

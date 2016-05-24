@@ -6,6 +6,7 @@
 <div class="col-md-12">
     <div>
         <h4>{{ trans('default.legend') }}</h4>
+
         <div class="educationChartLegend"></div>
     </div>
 </div>
@@ -24,12 +25,16 @@
             var data = [];
             $.each(result, function (key, value) {
 
-                if (value.description == 'Δευτεροβάθμια')
+                if (value.description == 'Δευτεροβάθμια' || value.description == 'Secondary')
                     color = 'orange';
-                if (value.description == 'Τριτοβάθμια')
+                if (value.description == 'Τριτοβάθμια' || value.description == 'Higher')
                     color = 'pink';
-                if (value.description == 'Μεταπτυχιακά')
+                if (value.description == 'Μεταπτυχιακά' || value.description == 'Masters degree')
                     color = 'green';
+                else {
+                    colorPair = Colors.random();
+                    color = Colors.pairs[colorPair][0]
+                }
 
                 data.push({
                     value: value.count,
@@ -39,7 +44,7 @@
                 });
 
                 //append the legend
-                if(key>0)
+                if (key > 0)
                     $(".educationChartLegend").append(' | <i class="fa fa-square" style="color:' + Colors.pairs[color][0] + ';"></i> ' + value.description);
                 else
                     $(".educationChartLegend").append('<i class="fa fa-square" style="color:' + Colors.pairs[color][0] + ';"></i> ' + value.description);
@@ -55,7 +60,7 @@
                 animationEasing: "linear",
                 animateRotate: true,
                 animateScale: false,
-                responsive: true,
+                responsive: true
             });
 
         }

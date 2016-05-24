@@ -238,7 +238,7 @@ return [
 
     /* ratings */
     'ratedBy' => 'rated by',
-    'noRatings' => 'No ratings fro this volunteer.',
+    'noRatings' => 'No ratings for this volunteer.',
     'ratedWhen' => 'on',
 
 
