@@ -47,14 +47,14 @@
                                 </div>
                                 <div role="tabpanel" class="tab-pane fade" id="taskShifts">
                                     <div class="row">
-                                        <div class="col-sm-10 col-md-10 col-lg-10">
+                                        <div class="col-sm-9 col-md-9 col-lg-9">
                                             @include('main.tasks.modals._shifts', ['mode' => 'edit'])
                                         </div>
                                     </div>
                                 </div>
                                 <div role="tabpanel" class="tab-pane fade" id="taskChecklist">
                                     <div class="row">
-                                        <div class="col-sm-10 col-md-10 col-lg-10">
+                                        <div class="col-sm-9 col-md-9 col-lg-9">
                                             <h4><i class="fa fa-check-square-o"></i> To-do <br/>
                                                 <small>{{ trans('entities/subtasks.toDoExplained') }}</small>
                                             </h4>
