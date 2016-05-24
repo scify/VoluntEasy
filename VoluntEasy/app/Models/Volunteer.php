@@ -131,11 +131,11 @@ class Volunteer extends User {
         return $this->hasMany('App\Models\File');
     }
 
-    public function taskshifts() {
+    public function taskShifts() {
         return $this->belongsToMany('App\Models\ActionTasks\TaskShift', 'volunteer_task_shifts', 'volunteer_id', 'task_shift_id');
     }
 
-    public function subtaskshifts() {
+    public function subtaskShifts() {
         return $this->belongsToMany('App\Models\ActionTasks\SubtaskShift', 'volunteer_subtask_shifts', 'volunteer_id', 'subtask_shifts_id');
     }
 

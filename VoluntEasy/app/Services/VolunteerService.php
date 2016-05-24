@@ -376,7 +376,7 @@ class VolunteerService {
         foreach ($volunteer->actionHistory as $h => $history) {
             foreach ($history->action->allTasks as $t => $task) {
                 foreach ($task->allSubtasks as $s => $subtask) {
-                    foreach ($volunteer->shiftHistory as $shiftHistory) {
+                    foreach ($volunteer->subtaskShiftHistory as $shiftHistory) {
 
                         if ($shiftHistory->shift->trashedSubtask->id == $subtask->id) {
                             $to_time = strtotime($shiftHistory->shift->to_hour);
@@ -387,7 +387,18 @@ class VolunteerService {
                             break;
                         }
                     }
-                    $task->workHours += $subtask->workHours;
+
+                    foreach ($volunteer->taskShiftHistory as $shiftHistory) {
+
+                        if ($shiftHistory->task->trashedTask->id == $task->id) {
+                            $to_time = strtotime($shiftHistory->task->to_hour);
+                            $from_time = strtotime($shiftHistory->task->from_hour);
+                            $workHours = (($to_time - $from_time) / 60) / 60;
+                            $shiftHistory->task->workHours = $workHours;
+                            $task->workHours += $shiftHistory->shift->workHours;
+                            break;
+                        }
+                    }
                 }
                 $history->action->workHours += $task->workHours;
             }
