@@ -20,7 +20,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <img src="{{ asset('assets/images/cta_logo.png') }}" style="width:100%;"/>
+        <img src="{{ asset('assets/images/cta_logo.png') }}"/>
     </div>
 </div>
 <div class="row">
