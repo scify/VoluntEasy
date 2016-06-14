@@ -137,8 +137,7 @@ function fillSubtaskFields() {
     $("#editSubTaskForm .description").val(subTask.description);
     $("#editSubTaskForm .due_date").datepicker("update", subTask.due_date);
 
-    $("#editSubTask .subtask-priorities option[value='" + subTask.priority + "']").prop('selected', true);
-
+    $("#editSubTaskForm .subtask-priorities option[value='" + subTask.priority + "']").prop('selected', true);
 
     if (subTask.users.length > 0) {
         $('#editSubTaskForm input:radio[name=assignToSubtask][value=user]').attr('checked', 'checked');

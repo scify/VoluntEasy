@@ -92,8 +92,8 @@ class ActionController extends Controller {
      */
     public function show($id) {
         $action = Action::with('unit.volunteers', 'users', 'ratings',
-            'tasks.users', 'tasks.volunteers', 'tasks.shifts',
-            'tasks.subtasks.status', 'tasks.subtasks.shifts', 'tasks.subtasks.checklist', 'tasks.subtasks.users', 'tasks.subtasks.volunteers',
+            'tasks.users', 'tasks.volunteers', 'tasks.shifts.volunteers',
+            'tasks.subtasks.status', 'tasks.subtasks.shifts.volunteers', 'tasks.subtasks.checklist', 'tasks.subtasks.users', 'tasks.subtasks.volunteers',
             'publicAction.subtasks')
             ->findOrFail($id);
 

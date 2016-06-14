@@ -93,6 +93,7 @@ function drawShiftsTable(parentId, type, mode) {
     //add the work dates
     var html = '';
     var shiftIds = [];
+    var volunteers = [];
 
     if (type.shifts.length == 0) {
         html += drawShiftRow(null, parentId, mode);
@@ -101,6 +102,10 @@ function drawShiftsTable(parentId, type, mode) {
         $.each(type.shifts, function (i, shift) {
             html += drawShiftRow(shift, parentId, mode);
             shiftIds.push(shift.id);
+
+            $.each(shift.volunteers, function (i, volunteer) {
+                volunteers.push(volunteer.id);
+            });
         });
 
         html += '<tr><td colspan="7" class="newShift"><strong>' + Lang.get('js-components.newShift') + '</strong></td></tr>';
@@ -110,7 +115,7 @@ function drawShiftsTable(parentId, type, mode) {
     $(parentId + ' .shiftsTable > tbody:last-child').html(html);
 
     $.each(shiftIds, function (i, id) {
-        initAvailableVolunteersEditable(id, mode, parentId, type);
+        initAvailableVolunteersEditable(id, mode, parentId, type, volunteers);
     });
 
     initEditables(parentId, mode);
@@ -320,10 +325,10 @@ function initEditables(parentId, mode) {
 }
 
 //init only the available volunteers select2
-function initAvailableVolunteersEditable(shiftId, mode, parentId, type) {
+function initAvailableVolunteersEditable(shiftId, mode, parentId, type, volunteers) {
 
     $(parentId + ' .myeditable.select2[data-pk=' + shiftId + '][data-mode=' + mode + ']').editable({
-        value: null,
+        value: volunteers,
         source: type.unitVolunteers,
         autotext: 'always',
         tpl: '<select style="width:200px;" class="selectAvailableVolunteers" data-mode="' + mode + '" data-parent-id="' + parentId + '" data-pk="' + shiftId + '"></select>',

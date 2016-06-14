@@ -39,7 +39,7 @@
                         <i class="fa fa-circle priority-{{$task->priority}}"
                            title="{{ trans('entities/tasks.mediumPriority') }}"></i>
                         @elseif($task->priority==3)
-                        <i class="fa fa-circlep priority-{{$task->priority}}"
+                        <i class="fa fa-circle priority-{{$task->priority}}"
                            title="{{ trans('entities/tasks.mediumPriority') }}"></i>
                         @elseif($task->priority==4)
                         <i class="fa fa-circle priority-{{$task->priority}}"

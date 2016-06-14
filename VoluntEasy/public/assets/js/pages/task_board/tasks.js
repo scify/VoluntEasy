@@ -92,7 +92,7 @@ $('.viewTask').click(function () {
             else
                 $(".taskInfo .assignedTo").html('');
 
-            priorityText = '';
+            var priorityText = '';
             if (task.priority == 1)
                 priorityText = Lang.get('js-components.low');
             if (task.priority == 2)
