@@ -84,6 +84,7 @@
             <li class="nav"><a href="#about" data-scroll="about">About</a></li>
             <li class="nav"><a href="#solution" data-scroll="solution">One solution for multiple needs</a></li>
             <li class="nav"><a href="#keyFeatures" data-scroll="keyFeatures">Key Features</a></li>
+            <li class="nav"><a href="#video" data-scroll="video">Usage video</a></li>
             <li class="nav"><a href="#contact" data-scroll="contact">Contact</a></li>
 
         </ul>
@@ -206,7 +207,6 @@
             </div><!-- end col-sm-6 -->
 
             <div class="col-sm-6">
-
                 <div class="owl-carousel owl-item-1 owl-theme">
                     <div class="owl-item">
                         <img src="{{ asset('assets/images/landing/screen_01.png') }}" alt=""/>
@@ -217,12 +217,8 @@
                     <div class="owl-item">
                         <img src="{{ asset('assets/images/landing/screen_03.png') }}" alt=""/>
                     </div>
-
-
                 </div>
-
             </div><!-- end col-sm-6 -->
-
         </div><!-- end row -->
     </div><!-- end container -->
 </section>
@@ -396,6 +392,24 @@
     </div><!-- end container -->
 </section>
 <!-- end services -->
+
+<!-- usage video -->
+<section id="video" data-anchor="video" class="content-2 section-grey">
+    <div class="container">
+        <div class="row">
+            <h1 class="text-center">Usage video - Take a glimpse</h1>
+            <div class="line"></div>
+            <div class="col-md-12 text-center">
+                <div class="padd">
+                    <iframe width="1000" height="500" src="https://www.youtube.com/embed/FosO0VOo0Bw" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div><!-- end col-sm-5 -->
+
+
+        </div><!-- end row -->
+    </div><!-- end container -->
+</section>
+<!-- end video -->
 
 
 <!-- contact -->
