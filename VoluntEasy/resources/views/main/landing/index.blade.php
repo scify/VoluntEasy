@@ -420,7 +420,7 @@
             <div class="line"></div>
             <div class="col-md-12 text-center">
                 <div class="padd">
-                    <p class="lead"><i class="fa fa-phone margin-right-5"></i>0030 2114004192 | <i class="fa fa-map-marker margin-right-5"></i>17 Amfiktionos str, Thisseio Athens,
+                    <p class="lead"><i class="fa fa-phone margin-right-5"></i>+30 2114004192 | <i class="fa fa-map-marker margin-right-5"></i>17 Amfiktionos str, Thisseio Athens,
                         11851 | <i class="fa fa-envelope margin-right-5"></i><a
                                 href="mailto:info@scify.gr">info@scify.gr</a> | <i class="fa fa-globe margin-right-5"></i><a href="http://www.scify.gr/" target="_blank">www.scify.gr</a>
                     </p>
