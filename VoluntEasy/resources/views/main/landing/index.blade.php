@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>{{ trans('pages/landing.title') }}</title>
+    <title>{{ env('PLATFORM_NAME') }}</title>
     <meta charset="utf-8">
-    <meta name="description" content="VoluntEasy - volunteers platform">
+    <meta name="description" content="VoluntAction - volunteers platform">
     <meta name="author" content="SciFY"/>
     <meta name="keywords" content="scify, volunteers"/>
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
@@ -33,10 +33,12 @@
 
     <!-- Favicon -->
     @if(env('PLATFORM_NAME')=='VoluntAction')
-        <link rel="icon" type="image/png" href="{{ asset('assets/images/voluntaction/favicon.ico')}}">
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/voluntaction/favicon.ico')}}">
     @else
-        <link rel="icon" type="image/png" href="{{ asset('assets/images/volunteasy/favicon.ico')}}">
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/volunteasy/favicon.ico')}}">
     @endif
+
+    <script src="{{ asset('assets/js/analyticstracking.js')}}"></script>
 
     <!-- HTML5 elements and media queries Support for IE8 : HTML5 shim and Respond.js -->
     <!--[if lt IE 9]>
@@ -57,12 +59,17 @@
         <div class="row">
             <div class="col-sm-12">
                 <h2>{{ trans('pages/landing.header') }}</h2>
+
                 <h3>{{ trans('pages/landing.subheader') }}</h3>
-                <a href="#about" class="btn pi-btn-default btn-xlg btn-border" data-scroll="about">{{ trans('pages/landing.learnMore') }}</a>
-                <a href="{{ url('/') }}" target="_blank" class="btn pi-btn-default btn-xlg">{{ trans('pages/landing.tryIt') }}</a>
+                <a href="#about" class="btn pi-btn-default btn-xlg btn-border" data-scroll="about">{{
+                    trans('pages/landing.learnMore') }}</a>
+                <a href="{{ url('/') }}" target="_blank" class="btn pi-btn-default btn-xlg">{{
+                    trans('pages/landing.tryIt') }}</a>
             </div>
-        </div><!-- end row -->
-    </div><!-- end container -->
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container -->
 </header>
 <!-- end header -->
 
@@ -74,9 +81,9 @@
             <!-- LOGO -->
             <li class="zm-logo">
                 @if(env('PLATFORM_NAME')=='VoluntAction')
-                    <img src="{{ asset('assets/images/voluntaction/logo.png') }}" style="height:100%;"/>
+                <img src="{{ asset('assets/images/voluntaction/logo.png') }}" style="height:100%;"/>
                 @else
-                    <img src="{{ asset('assets/images/volunteasy/logo.png') }}" style="height:100%;"/>
+                <img src="{{ asset('assets/images/volunteasy/logo.png') }}" style="height:100%;"/>
                 @endif
                 </a>
             </li>
@@ -85,11 +92,13 @@
             <li class="nav"><a href="#solution" data-scroll="solution">One solution for multiple needs</a></li>
             <li class="nav"><a href="#keyFeatures" data-scroll="keyFeatures">Key Features</a></li>
             <li class="nav"><a href="#video" data-scroll="video">Usage video</a></li>
+            <li class="nav"><a href="#pricing" data-scroll="video">Pricing</a></li>
             <li class="nav"><a href="#contact" data-scroll="contact">Contact</a></li>
 
         </ul>
         <!-- /Zetta Menu 1 -->
-    </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.container-fluid -->
 </nav>
 <!-- end nav -->
 
@@ -107,6 +116,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-12 text-center">
                             <h5>{{ trans('pages/landing.recruitAndSelect') }}</h5>
+
                             <p>{{ trans('pages/landing.recruitAndSelectExpl') }}</p>
                         </div>
                     </div>
@@ -122,6 +132,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-12 text-center">
                             <h5>{{ trans('pages/landing.manageVolunteers') }}</h5>
+
                             <p>{{ trans('pages/landing.manageVolunteersExpl') }}</p>
                         </div>
                     </div>
@@ -137,6 +148,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-12 text-center">
                             <h5>{{ trans('pages/landing.focus') }}</h5>
+
                             <p>{{ trans('pages/landing.focusExpl') }}</p>
                         </div>
                     </div>
@@ -152,21 +164,25 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-12 text-center">
                             <h5>{{ trans('pages/landing.makeItYours') }}</h5>
+
                             <p>{{ trans('pages/landing.makeItYoursExpl') }}</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </div><!-- end of row -->
-    </div><!-- end of container -->
+        </div>
+        <!-- end of row -->
+    </div>
+    <!-- end of container -->
 </section>
 <!-- end about -->
 
 <!-- solution -->
-<section id="solution" data-anchor="solution"  class="content-2 section-grey">
+<section id="solution" data-anchor="solution" class="content-2 section-grey">
     <div class="container">
         <div class="row">
             <h3 class="text-center">{{ trans('pages/landing.oneSolutionMultipleNeeds') }}</h3>
+
             <div class="line"></div>
             <div class="col-sm-6">
                 <div class="col-sm-12">
@@ -204,7 +220,8 @@
                         </div>
                     </div>
                 </div>
-            </div><!-- end col-sm-6 -->
+            </div>
+            <!-- end col-sm-6 -->
 
             <div class="col-sm-6">
                 <div class="owl-carousel owl-item-1 owl-theme">
@@ -218,9 +235,12 @@
                         <img src="{{ asset('assets/images/landing/screen_03.png') }}" alt=""/>
                     </div>
                 </div>
-            </div><!-- end col-sm-6 -->
-        </div><!-- end row -->
-    </div><!-- end container -->
+            </div>
+            <!-- end col-sm-6 -->
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container -->
 </section>
 <!-- end solution -->
 
@@ -230,6 +250,7 @@
     <div class="container">
         <div class="row">
             <h2 class="text-center">{{ trans('pages/landing.keyFeatures') }}</h2>
+
             <div class="line"></div>
             <div class="row">
                 <div class="col-sm-6 col-md-6">
@@ -237,14 +258,17 @@
                         <div class="left_icons">
                             <div class="single_box_right">
                                 <h3>{{ trans('pages/landing.multipleAccounts') }}</h3>
+
                                 <p>{!! trans('pages/landing.multipleAccountsExpl') !!}</p>
                             </div>
                             <div class="single_box_left default">
                                 <i class="fa fa-sitemap"></i>
                             </div>
                         </div>
-                    </div><!-- end left icon -->
-                </div><!-- end col-sm-4 -->
+                    </div>
+                    <!-- end left icon -->
+                </div>
+                <!-- end col-sm-4 -->
 
                 <div class="col-sm-6 col-md-6">
                     <div class="padd">
@@ -254,11 +278,14 @@
                             </div>
                             <div class="single_box_right">
                                 <h3>{{ trans('pages/landing.recruitment') }}</h3>
+
                                 <p>{!! trans('pages/landing.recruitmentExpl') !!}</p>
                             </div>
-                        </div><!-- end left icon -->
+                        </div>
+                        <!-- end left icon -->
                     </div>
-                </div><!-- end col-sm-4 -->
+                </div>
+                <!-- end col-sm-4 -->
             </div>
             <div class="row">
                 <div class="col-sm-6 col-md-6">
@@ -269,11 +296,14 @@
                             </div>
                             <div class="single_box_right">
                                 <h3>{{ trans('pages/landing.selection') }}</h3>
+
                                 <p>{!! trans('pages/landing.selectionExpl') !!}</p>
                             </div>
-                        </div><!-- end left icon -->
+                        </div>
+                        <!-- end left icon -->
                     </div>
-                </div><!-- end col-sm-4 -->
+                </div>
+                <!-- end col-sm-4 -->
 
                 <div class="col-sm-6 col-md-6">
                     <div class="padd">
@@ -283,11 +313,14 @@
                             </div>
                             <div class="single_box_right">
                                 <h3>{{ trans('pages/landing.volunteerManagement') }}</h3>
+
                                 <p>{!! trans('pages/landing.volunteerManagementExpl') !!}</p>
                             </div>
-                        </div><!-- end left icon -->
+                        </div>
+                        <!-- end left icon -->
                     </div>
-                </div><!-- end col-sm-4 -->
+                </div>
+                <!-- end col-sm-4 -->
             </div>
             <div class="row">
                 <div class="col-sm-6 col-md-6">
@@ -298,11 +331,14 @@
                             </div>
                             <div class="single_box_right">
                                 <h3>{{ trans('pages/landing.actionsManagement') }}</h3>
+
                                 <p>{!! trans('pages/landing.actionsManagementExpl') !!}</p>
                             </div>
-                        </div><!-- end left icon -->
+                        </div>
+                        <!-- end left icon -->
                     </div>
-                </div><!-- end col-sm-4 -->
+                </div>
+                <!-- end col-sm-4 -->
                 <div class="col-sm-6 col-md-6">
                     <div class="padd">
                         <div class="left_icons border-color2">
@@ -311,11 +347,14 @@
                             </div>
                             <div class="single_box_right">
                                 <h3>{{ trans('pages/landing.shiftManagement') }}</h3>
+
                                 <p>{!! trans('pages/landing.shiftManagementExpl') !!}</p>
                             </div>
-                        </div><!-- end left icon -->
+                        </div>
+                        <!-- end left icon -->
                     </div>
-                </div><!-- end col-sm-4 -->
+                </div>
+                <!-- end col-sm-4 -->
             </div>
             <div class="row">
                 <div class="col-sm-6 col-md-6">
@@ -326,11 +365,14 @@
                             </div>
                             <div class="single_box_right">
                                 <h3>{{ trans('pages/landing.jobFit') }}</h3>
+
                                 <p>{!! trans('pages/landing.jobFitExpl') !!}</p>
                             </div>
-                        </div><!-- end left icon -->
+                        </div>
+                        <!-- end left icon -->
                     </div>
-                </div><!-- end col-sm-4 -->
+                </div>
+                <!-- end col-sm-4 -->
                 <div class="col-sm-6 col-md-6">
                     <div class="padd">
                         <div class="left_icons border-color2">
@@ -339,11 +381,14 @@
                             </div>
                             <div class="single_box_right">
                                 <h3>{{ trans('pages/landing.onlineCollaboration') }}</h3>
+
                                 <p>{!! trans('pages/landing.onlineCollaborationExpl') !!}</p>
                             </div>
-                        </div><!-- end left icon -->
+                        </div>
+                        <!-- end left icon -->
                     </div>
-                </div><!-- end col-sm-4 -->
+                </div>
+                <!-- end col-sm-4 -->
             </div>
             <div class="row">
                 <div class="col-sm-6 col-md-6">
@@ -354,11 +399,14 @@
                             </div>
                             <div class="single_box_right">
                                 <h3>{{ trans('pages/landing.notifications') }}</h3>
+
                                 <p>{!! trans('pages/landing.notificationsExpl') !!}</p>
                             </div>
-                        </div><!-- end left icon -->
+                        </div>
+                        <!-- end left icon -->
                     </div>
-                </div><!-- end col-sm-4 -->
+                </div>
+                <!-- end col-sm-4 -->
                 <div class="col-sm-6 col-md-6">
                     <div class="padd">
                         <div class="left_icons border-color2">
@@ -367,11 +415,14 @@
                             </div>
                             <div class="single_box_right">
                                 <h3>{{ trans('pages/landing.reports') }}</h3>
+
                                 <p>{!! trans('pages/landing.reportsExpl') !!}</p>
                             </div>
-                        </div><!-- end left icon -->
+                        </div>
+                        <!-- end left icon -->
                     </div>
-                </div><!-- end col-sm-4 -->
+                </div>
+                <!-- end col-sm-4 -->
             </div>
             <div class="row">
                 <div class="col-sm-12 col-md-12">
@@ -382,14 +433,19 @@
                             </div>
                             <div class="single_box_right">
                                 <h3>{{ trans('pages/landing.easilyCustomizable') }}</h3>
+
                                 <p>{!! trans('pages/landing.easilyCustomizableExpl') !!}</p>
                             </div>
-                        </div><!-- end left icon -->
+                        </div>
+                        <!-- end left icon -->
                     </div>
-                </div><!-- end col-sm-4 -->
+                </div>
+                <!-- end col-sm-4 -->
             </div>
-        </div><!-- end row -->
-    </div><!-- end container -->
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container -->
 </section>
 <!-- end services -->
 
@@ -398,38 +454,73 @@
     <div class="container">
         <div class="row">
             <h1 class="text-center">Usage video - Take a glimpse</h1>
+
             <div class="line"></div>
             <div class="col-md-12 text-center">
                 <div class="padd">
-                    <iframe width="1000" height="500" src="https://www.youtube.com/embed/FosO0VOo0Bw" frameborder="0" allowfullscreen></iframe>
+                    <iframe width="1000" height="500" src="https://www.youtube.com/embed/FosO0VOo0Bw" frameborder="0"
+                            allowfullscreen></iframe>
                 </div>
-            </div><!-- end col-sm-5 -->
+            </div>
+            <!-- end col-sm-5 -->
 
 
-        </div><!-- end row -->
-    </div><!-- end container -->
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container -->
 </section>
 <!-- end video -->
 
+<!-- pricing -->
+<section id="pricing" data-anchor="pricing" class="content-2 section-grey">
+    <div class="container">
+        <div class="row">
+            <h1 class="text-center">Pricing</h1>
+
+            <div class="line"></div>
+            <div class="col-md-12 text-center">
+                <div class="padd">
+                    <p class="lead text-center margin-bottom-45">
+                        For free as open source<br/>
+                        or a small fee for setup, customization and training
+                    </p>
+                </div>
+            </div>
+            <!-- end col-sm-5 -->
+
+
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container -->
+</section>
+<!-- end pricing -->
 
 <!-- contact -->
 <section id="contact" data-anchor="contact" class="content-2 section-grey">
     <div class="container">
         <div class="row">
             <h1 class="text-center">Get In Touch</h1>
+
             <div class="line"></div>
             <div class="col-md-12 text-center">
                 <div class="padd">
-                    <p class="lead"><i class="fa fa-phone margin-right-5"></i>+30 2114004192 | <i class="fa fa-map-marker margin-right-5"></i>17 Amfiktionos str, Thisseio Athens,
+                    <p class="lead"><i class="fa fa-phone margin-right-5"></i>+30 2114004192 | <i
+                            class="fa fa-map-marker margin-right-5"></i>17 Amfiktionos str, Thisseio Athens,
                         11851 | <i class="fa fa-envelope margin-right-5"></i><a
-                                href="mailto:info@scify.gr">info@scify.gr</a> | <i class="fa fa-globe margin-right-5"></i><a href="http://www.scify.gr/" target="_blank">www.scify.gr</a>
+                            href="mailto:info@scify.gr">info@scify.gr</a> | <i class="fa fa-globe margin-right-5"></i><a
+                            href="http://www.scify.gr/" target="_blank">www.scify.gr</a>
                     </p>
                 </div>
-            </div><!-- end col-sm-5 -->
+            </div>
+            <!-- end col-sm-5 -->
 
 
-        </div><!-- end row -->
-    </div><!-- end container -->
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container -->
 </section>
 <!-- end contact -->
 
@@ -451,13 +542,15 @@
                         <i class="fa fa-twitter social-icon-jump-dark"></i>
                     </div>
                 </a>
-                <a href="https://plus.google.com/u/0/109032045993620015107/posts" target="_blank" class="social-icon-jump-x4 circle">
+                <a href="https://plus.google.com/u/0/109032045993620015107/posts" target="_blank"
+                   class="social-icon-jump-x4 circle">
                     <div>
                         <i class="fa fa-google-plus google-plus-icon-jump"></i>
                         <i class="fa fa-google-plus social-icon-jump-dark"></i>
                     </div>
                 </a>
-                <a href="http://www.linkedin.com/company/scify-not-for-profit-company/" target="_blank" class="social-icon-jump-x4 circle">
+                <a href="http://www.linkedin.com/company/scify-not-for-profit-company/" target="_blank"
+                   class="social-icon-jump-x4 circle">
                     <div>
                         <i class="fa fa-linkedin linkedin-icon-jump"></i>
                         <i class="fa fa-linkedin social-icon-jump-dark"></i>
@@ -471,8 +564,10 @@
                 </a>
             </div>
             <p>2016 &copy; <a href="http://scify.org" target="_blank">SciFY</a></p>
-        </div><!-- end row -->
-    </div><!-- end container -->
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container -->
 </footer>
 
 <!-- jQuery -->
@@ -505,7 +600,7 @@
     $(document).ready(function () {
         $('#nav a').on('click', function () {
             var scrollAnchor = $(this).attr('data-scroll'),
-                    scrollPoint = $('section[data-anchor="' + scrollAnchor + '"]').offset().top - 69;
+                scrollPoint = $('section[data-anchor="' + scrollAnchor + '"]').offset().top - 69;
             $('body,html').animate({
                 scrollTop: scrollPoint
             }, 500);

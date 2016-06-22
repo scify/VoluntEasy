@@ -3,7 +3,7 @@
 <html>
 <head>
     <!-- Title -->
-    <title>{{trans($lang.'logIn')}} | {{trans('/default.title')}}</title>
+    <title>{{trans($lang.'logIn')}} | {{env('PLATFORM_NAME')}}</title>
 
     @include('template.default.headerIncludes')
 </head>

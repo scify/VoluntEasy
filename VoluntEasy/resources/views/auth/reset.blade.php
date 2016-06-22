@@ -2,7 +2,7 @@
 <html>
 <head>
     <!-- Title -->
-    <title>VoluntEasy | {{ trans('auth/login.resetPassword') }} </title>
+    <title>{{ trans('auth/login.resetPassword') }} | {{env('PLATFORM_NAME')}}</title>
 
     @include('template.default.headerIncludes')
 </head>

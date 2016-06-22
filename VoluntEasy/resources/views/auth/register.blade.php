@@ -2,7 +2,7 @@
 <html>
     <head>
         <!-- Title -->
-        <title>VoluntEasy | {{ trans('auth/login.register') }} </title>
+        <title>{{ trans('auth/login.register') }} | {{env('PLATFORM_NAME')}}</title>
 
         @include('template.default.headerIncludes')
     </head>
