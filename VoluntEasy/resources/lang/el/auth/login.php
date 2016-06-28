@@ -22,6 +22,6 @@ return [
     'newPassword' => 'Νέος κωδικός',
 
     'wrongInput' => 'There were some problems with your input.',
-    'demoUser' => 'Για να δοκιμάσετε την πλατφόρμα σαν demo χρήστες, εισάγετε τους παρακάτω κωδικούς.',
+    'demoUser' => 'Για να δοκιμάσετε την πλατφόρμα σαν demo χρήστες, εισάγετε τους παρακάτω κωδικούς:',
 
 ];

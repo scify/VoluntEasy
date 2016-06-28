@@ -28,10 +28,11 @@ class Language implements Middleware {
         if (array_key_exists($locale, $this->app->config->get('app.locales'))) {
             $this->app->setLocale($locale);
         } else {
-            \Cookie::queue('locale', 'el', 60 * 24 * 365);
+            \Cookie::queue('locale', 'en', 60 * 24 * 365);
         }
 
         $locale = $request->segment(1);
+
         if (array_key_exists($locale, $this->app->config->get('app.locales'))) {
             $cookie = \Cookie::make('locale', $locale, 60 * 24 * 365);
             $this->app->setLocale($locale);

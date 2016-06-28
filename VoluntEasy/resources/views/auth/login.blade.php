@@ -55,10 +55,10 @@
                         </form>
                     </div>
                     <p class="text-center">
-                        @if (\Cookie::get('locale') === 'el')
-                            <a href="{{ url('/en') }}">{{trans('/default.english')}}</a>
-                        @else
+                        @if (\Cookie::get('locale') === 'en')
                             <a href="{{ url('/el') }}">{{trans('/default.greek')}}</a>
+                        @else
+                            <a href="{{ url('/en') }}">{{trans('/default.english')}}</a>
                         @endif
                     </p>
                     @if(env('APP_ENV')=='demo')
