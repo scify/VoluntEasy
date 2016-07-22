@@ -157,7 +157,7 @@ $(".assignToNextUnit").click(function () {
     if (id != null) {
         step = {
             'volunteer_id': $(this).attr('data-volunteer-id'),
-            'assign_id': $('#unitSelect-' + id).val(),
+            'assign_id': $('#moreUnits-unit' + id).val(),
             'parent_unit_id': $(this).attr('data-parent')
         };
 
