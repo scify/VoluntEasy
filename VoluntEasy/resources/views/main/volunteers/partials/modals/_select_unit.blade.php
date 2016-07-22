@@ -22,7 +22,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('default.close') }}</button>
                 @if(sizeof($units)>0)
-                <button type="button" class="btn btn-success assignToNextUnit"
+                <button type="button" class="btn btn-success assignToUnitAfterStep"
                         data-volunteer-id="{{ $volunteer->id }}" {{ isset($parentId) ? 'data-parent='.$parentId : '' }}>{{ trans('default.save') }}
                 </button>
                 @endif

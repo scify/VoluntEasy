@@ -150,6 +150,47 @@ $(".completeStep").click(function () {
 
 
 //assign to a unit after completing step 3
+$(".assignToUnitAfterStep").click(function () {
+    var id = $(this).attr('data-parent'),
+        step, stepStatus;
+    console.log(id);
+    if (id != null) {
+        step = {
+            'volunteer_id': $(this).attr('data-volunteer-id'),
+            'assign_id': $('#unitSelect-' + id).val(),
+            'parent_unit_id': $(this).attr('data-parent')
+        };
+
+        stepStatus = {
+            'id': id,
+            'comments': $('#unitSelect-' + id + ' option:selected').text(),
+            'assignTo': 'unit',
+            'status': 'Complete'
+        };
+
+        console.log(step);
+        console.log(stepStatus);
+
+
+        $.when(changeStepStatus(stepStatus, false))
+            .then(assignToUnit(step));
+
+    }
+    else {
+        console.log(id);
+
+        step = {
+            'volunteer_id': $(this).attr('data-volunteer-id'),
+            'assign_id': $('#moreUnits').val(),
+            'parent_unit_id': null
+        };
+
+        // console.log(step);
+        assignToUnit(step);
+    }
+});
+
+//assign to a unit after completing step 3
 $(".assignToNextUnit").click(function () {
     var id = $(this).attr('data-parent'),
         step, stepStatus;
