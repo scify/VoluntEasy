@@ -150,61 +150,28 @@ $(".completeStep").click(function () {
 
 
 //assign to a unit after completing step 3
-$(".assignToUnitAfterStep").click(function () {
-    var id = $(this).attr('data-parent'),
-        step, stepStatus;
-    console.log(id);
-    if (id != null) {
-        step = {
-            'volunteer_id': $(this).attr('data-volunteer-id'),
-            'assign_id': $('#unitSelect-' + id).val(),
-            'parent_unit_id': $(this).attr('data-parent')
-        };
-
-        stepStatus = {
-            'id': id,
-            'comments': $('#unitSelect-' + id + ' option:selected').text(),
-            'assignTo': 'unit',
-            'status': 'Complete'
-        };
-
-        console.log(step);
-        console.log(stepStatus);
-
-
-        $.when(changeStepStatus(stepStatus, false))
-            .then(assignToUnit(step));
-
-    }
-    else {
-        console.log(id);
-
-        step = {
-            'volunteer_id': $(this).attr('data-volunteer-id'),
-            'assign_id': $('#moreUnits').val(),
-            'parent_unit_id': null
-        };
-
-        // console.log(step);
-        assignToUnit(step);
-    }
-});
-
-//assign to a unit after completing step 3
 $(".assignToNextUnit").click(function () {
     var id = $(this).attr('data-parent'),
         step, stepStatus;
     console.log(id);
     if (id != null) {
+        var selectId;
+
+        if (typeof $(this).attr('data-select-id') === "undefined")
+            selectId = '#unitSelect-' + id;
+        else
+            selectId = "#" + $(this).attr('data-select-id');
+
+
         step = {
             'volunteer_id': $(this).attr('data-volunteer-id'),
-            'assign_id': $('#moreUnits-unit' + id).val(),
+            'assign_id': $(selectId).val(),
             'parent_unit_id': $(this).attr('data-parent')
         };
 
         stepStatus = {
             'id': id,
-            'comments': $('#unitSelect-' + id + ' option:selected').text(),
+            'comments': $(selectId + ' option:selected').text(),
             'assignTo': 'unit',
             'status': 'Complete'
         };
@@ -229,7 +196,8 @@ $(".assignToNextUnit").click(function () {
         // console.log(step);
         assignToUnit(step);
     }
-});
+})
+;
 
 
 //assign to an action after completing step 3
@@ -247,7 +215,7 @@ $(".assignToAction").click(function () {
 
 //after completing step 3, the volunteer might be to unit
 //that has actions. the user can assign the volunteer either to an action
-//or keep thme to the unit they currently are.
+//or keep them to the unit they currently are.
 $(".assignToActionOrUnit").click(function () {
     var id = $(this).attr('data-id');
     var assignmentRadio = $('input:radio[name="assignment"]:checked');
@@ -297,7 +265,7 @@ $(".assignToActionOrUnit").click(function () {
     }
 });
 
-//'entakis se monada' button
+//'entaksi se monada' button
 $(".assignToAnotherUnit").click(function () {
     var step = {
         'volunteer_id': $(this).attr('data-volunteer-id'),

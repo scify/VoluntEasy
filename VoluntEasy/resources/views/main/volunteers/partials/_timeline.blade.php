@@ -38,23 +38,24 @@
                     }}</strong></h2>
 
             @foreach($timelineBlock->unit->steps as $i => $step)
-            @if($step->type=='Assignment')
-                                <span>
-                                    <i class="fa fa-circle status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}"></i>
-                                    {{ trans('entities/volunteers.assignedTo') }} {{ $step->statuses[0]->assignedTo=='action' ? trans('entities/actions.action') : trans('entities/units.unit') }}
-                                    <strong>{{
-                                        $step->statuses[0]->comments }}</strong></span>
-            @else
 
-            <span>  <i
-                    class="fa fa-circle status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}"></i>{{ $step->description }}</span>
+                @if($step->type=='Assignment')
+                                    <span>
+                                        <i class="fa fa-circle status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}"></i>
+                                        {{ trans('entities/volunteers.assignedTo') }} {{ $step->statuses[0]->assignedTo=='action' ? trans('entities/actions.action') : trans('entities/units.unit') }}
+                                        <strong>{{
+                                            $step->statuses[0]->comments }}</strong></span>
+                @else
 
-            @if(in_array($timelineBlock->unit->id, $userUnits) && ($step->statuses[0]->comments!=null &&
-            $step->statuses[0]->comments!=''))
-            <p> {{ trans('entities/volunteers.comments') }}: {{ $step->statuses[0]->comments}}</p>
-            @endif
+                    <span>  <i
+                            class="fa fa-circle status {{ $step->statuses[0]->status->description=='Incomplete' ? 'incomplete' : 'completed' }}"></i>{{ $step->description }}</span>
 
-            @endif
+                    @if(in_array($timelineBlock->unit->id, $userUnits) && ($step->statuses[0]->comments!=null &&
+                    $step->statuses[0]->comments!=''))
+                    <p> {{ trans('entities/volunteers.comments') }}: {{ $step->statuses[0]->comments}}</p>
+                    @endif
+
+                @endif
             @endforeach
 
             <p>
