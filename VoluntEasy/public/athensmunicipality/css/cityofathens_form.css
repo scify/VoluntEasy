@@ -164,3 +164,27 @@ a.intlink {
     background-position: 100% -32px;
 }
 /* end of send button css */
+
+/* start of bootstrap omitting */
+legend {
+    border: none;
+    color: inherit;
+    display: block;
+    font-size: inherit;
+    line-height: inherit;
+    margin-bottom: 0;
+    margin-top: -15px;
+    padding: inherit;
+    width: auto;
+}
+/* end of bootstrap omitting */
+
+/* start of bootstrap customization */
+.close {
+    font-size: 47px;
+}
+
+.modal-content {
+    border-radius: 0;
+}
+/* end of bootstrap customization */
