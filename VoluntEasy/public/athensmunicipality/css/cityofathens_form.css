@@ -1,0 +1,166 @@
+body {
+    font-size: 12px;
+    line-height: 1.7em;
+    width: 670px;
+}
+
+legend a, legend a:hover, legend a:focus {
+    color: #111;
+    text-decoration: none;
+}
+
+/* legend collapse icon */
+fieldset.collapsible legend a {
+    background: rgba(0, 0, 0, 0) url("/public/athensmunicipality/images/menu-expanded.png") no-repeat scroll 5px 75%;
+    padding-left: 15px;
+}
+
+fieldset.collapsed legend a {
+    background-image: url("/public/athensmunicipality/images/menu-collapsed.png");
+    background-position: 5px 50%;
+}
+
+fieldset.collapsed {
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    height: 1em;
+    margin-bottom: 0;
+}
+
+fieldset, form.variation-chooser input, ul.secondary {
+    border: 1px solid #ccc;
+}
+
+fieldset {
+    padding: 15px;
+}
+
+.form-item label {
+    display: block;
+    font-weight: bold;
+}
+
+/* radio buttons labels */
+.form-item label.option {
+    display: inline;
+    font-weight: normal;
+}
+
+.marker, .form-required {
+    color: #f00;
+}
+
+.form-item .description {
+    border: 0 solid #ccc;
+    clear: left;
+    text-align: left;
+}
+
+.form-item .description {
+    font-size: 0.85em;
+}
+
+input, textarea {
+    padding: 2px;
+}
+
+input, textarea {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: #555;
+}
+
+.form-radios .form-item {
+    display:inline;
+    margin: 10px;
+}
+
+.form-item {
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
+.container-inline-date .form-item .form-item {
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+.container-inline-date .form-item, .container-inline-date .form-item input {
+    width: auto;
+}
+
+/* start of textarea css */
+.resizable-textarea {
+    width: 95%;
+}
+
+.resizable-textarea textarea {
+    display: block;
+    margin-bottom: 0;
+    width: 100%;
+}
+/* end of textarea css */
+
+/* textarea grippie css */
+.resizable-textarea .grippie {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: #eee url("/public/athensmunicipality/images/grippie.png") no-repeat scroll center 2px;
+    border-color: #ddd;
+    border-image: none;
+    border-style: solid;
+    border-width: 0 1px 1px;
+    cursor: s-resize;
+    height: 9px;
+    overflow: hidden;
+}
+
+a.intlink {
+    color: #2c68a3 !important;
+    text-decoration: none;
+}
+
+/* start of send button css */
+.readon .button {
+    background: rgba(0, 0, 0, 0) url("/public/athensmunicipality/images/readon-l.png") no-repeat scroll 0 0;
+}
+
+.readon:hover .button {
+    background-position: 0 -32px;
+}
+
+.readon span, .readon .button {
+    border: 0 none;
+    cursor: pointer;
+    display: block;
+    float: left;
+    font-size: 13px;
+    font-weight: normal;
+    height: 24px;
+    line-height: 23px;
+    margin-left: -10px;
+    overflow: visible;
+    padding: 0 12px 3px;
+}
+
+.readon .button {
+    outline: medium none !important;
+}
+
+.readon {
+    background: rgba(0, 0, 0, 0) url("/public/athensmunicipality/images/readon-r.png") no-repeat scroll 100% 0;
+    margin-right: 5px;
+    margin-top: 5px;
+    display: inline-block;
+    height: 24px;
+    margin-left: 10px;
+}
+
+.readon:hover {
+    background-position: 100% -32px;
+}
+/* end of send button css */
