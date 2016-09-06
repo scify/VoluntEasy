@@ -766,7 +766,7 @@
     <script src="{{ asset('/assets/plugins/jquery/jquery-2.1.3.min.js') }}"></script>
     <script src="{{ asset('/athensmunicipality/js/volunteer_participation_form.js') }}"></script>
 
-    {{-- bootstrap --}}
+    {{-- bootstrap js --}}
     <script src="{{ asset('/assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
 
 </body>
