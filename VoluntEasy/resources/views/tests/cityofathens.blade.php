@@ -6,7 +6,19 @@
     <link href="{{ asset('/athensmunicipality/css/cityofathens_form.css')}}" rel="stylesheet"/>
 </head>
 <body>
-{!! Form::open(['id' => 'aaaa', 'method' => 'POST', 'action' => ['Api\VolunteerApiController@apiStore']]) !!}
+
+@if (count($errors) > 0)
+    <div class="error">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+
+{!! Form::open(['id' => 'volunteer-form', 'method' => 'POST', 'action' => ['Api\VolunteerApiController@apiStore']]) !!}
 
 {{--<form action="/ethelontismos/symetoxh" accept-charset="UTF-8" method="post" id="ethelontismosform-my-form">--}}
     <div>
@@ -16,38 +28,38 @@
             </legend>
             <div class="fieldset-wrapper">
                 <div class="form-item" id="edit-Όνομα-wrapper">
-                    <label for="edit-Όνομα">Όνομα:
+                    <label for="name">Όνομα:
                         <span class="form-required" title="Το πεδίο είναι απαραίτητο.">*</span>
                     </label>
-                    <input type="text" maxlength="20" name="Όνομα" id="edit-Όνομα" size="20" value=""
+                    <input type="text" maxlength="20" name="name" id="edit-Όνομα" size="20" value=""
                            class="form-text required">
                     <div class="description">Παρακαλώ συμπληρώστε το ονομά σας.</div>
                 </div>
                 <div class="form-item" id="edit-Επώνυμο-wrapper">
-                    <label for="edit-Επώνυμο">Επώνυμο:
+                    <label for="last_name">Επώνυμο:
                         <span class="form-required" title="Το πεδίο είναι απαραίτητο.">*</span>
                     </label>
-                    <input type="text" maxlength="40" name="Επώνυμο" id="edit-Επώνυμο" size="40" value=""
+                    <input type="text" maxlength="40" name="last_name" id="edit-Επώνυμο" size="40" value=""
                            class="form-text required">
                     <div class="description">Παρακαλώ συμπληρώστε το επώνυμο σας.</div>
                 </div>
                 <div class="form-item" id="edit-Όνομα-Πατέρα-wrapper">
-                    <label for="edit-Όνομα-Πατέρα">Όνομα Πατέρα: <span class="form-required"
+                    <label for="fathers_name">Όνομα Πατέρα: <span class="form-required"
                                                                        title="Το πεδίο είναι απαραίτητο.">*</span></label>
-                    <input type="text" maxlength="20" name="Όνομα_Πατέρα" id="edit-Όνομα-Πατέρα" size="20" value=""
+                    <input type="text" maxlength="20" name="fathers_name" id="edit-Όνομα-Πατέρα" size="20" value=""
                            class="form-text required">
                     <div class="description">Παρακαλώ συμπληρώστε το όνομα του πατέρα σας.</div>
                 </div>
                 <div class="form-item" id="edit-Τύπος-Ταυτότητας-wrapper">
-                    <label for="edit-Τύπος-Ταυτότητας">Τύπος Ταυτότητας: </label>
-                    <select name="Τύπος_Ταυτότητας" class="form-select" id="edit-Τύπος-Ταυτότητας">
+                    <label for="identification_type_id">Τύπος Ταυτότητας: </label>
+                    <select name="identification_type_id" class="form-select" id="edit-Τύπος-Ταυτότητας">
                         <option value="Α.Δ.Τ.">Α.Δ.Τ.</option>
                         <option value="Διαβατήριο">Διαβατήριο</option>
                         <option value="Άδεια Παραμονής">Άδεια Παραμονής</option>
                     </select>
                 </div>
                 <div class="form-item" id="edit-Ταυτότητα-wrapper">
-                    <input type="text" maxlength="20" name="Ταυτότητα" id="edit-Ταυτότητα" size="20" value=""
+                    <input type="text" maxlength="20" name="identification_num" id="edit-Ταυτότητα" size="20" value=""
                            class="form-text">
                     <div class="description">Παρακαλώ συμπληρώστε το Α.Δ.Τ. ή Διαβατηρίου ή Άδεια Παραμονής και επιλέξτε
                         απο την λίστα τον τύπο.
@@ -55,7 +67,7 @@
                 </div>
                 <div class="container-inline-date date-clear-block">
                     <div class="form-item" id="edit-Ημερομηνία-Γέννησης-wrapper">
-                        <label for="edit-Ημερομηνία-Γέννησης">Ημερομηνία Γέννησης: <span class="form-required"
+                        <label for="birth_date">Ημερομηνία Γέννησης: <span class="form-required"
                                                                                          title="Το πεδίο είναι απαραίτητο.">*</span></label>
                         <div class="date-day">
                             <div class="form-item" id="edit-Ημερομηνία-Γέννησης-day-wrapper">
@@ -188,6 +200,7 @@
                             </div>
                         </div>
                         <div class="description">DD-MM-YYYY</div>
+                        <input type="hidden" name="birth_date">
                     </div>
                 </div>
                 <div class="form-item">
@@ -195,51 +208,51 @@
                     <div class="form-radios">
                         <div class="form-item" id="edit-Φύλο-Άνδρας-wrapper">
                             <label class="option" for="edit-Φύλο-Άνδρας"><input type="radio" id="edit-Φύλο-Άνδρας"
-                                                                                name="Φύλο" value="Άνδρας"
+                                                                                name="gender_id" value="1"
                                                                                 class="form-radio"> Άνδρας</label>
                         </div>
                         <div class="form-item" id="edit-Φύλο-Γυναίκα-wrapper">
                             <label class="option" for="edit-Φύλο-Γυναίκα"><input type="radio" id="edit-Φύλο-Γυναίκα"
-                                                                                 name="Φύλο" value="Γυναίκα"
+                                                                                 name="gender_id" value="2"
                                                                                  class="form-radio"> Γυναίκα</label>
                         </div>
                     </div>
                 </div>
                 <div class="form-item" id="edit-Οικογενειακή-Κατάσταση-wrapper">
-                    <label for="edit-Οικογενειακή-Κατάσταση">Οικογενειακή Κατάσταση: </label>
-                    <select name="Οικογενειακή_Κατάσταση" class="form-select" id="edit-Οικογενειακή-Κατάσταση">
+                    <label for="marital_status_id">Οικογενειακή Κατάσταση: </label>
+                    <select name="marital_status_id" class="form-select" id="edit-Οικογενειακή-Κατάσταση">
                         <option value="" selected="selected">- Επιλέξτε -</option>
-                        <option value="άγαμος/η">άγαμος/η</option>
-                        <option value="παντρεμένος/η">παντρεμένος/η</option>
-                        <option value="χήρος/α">χήρος/α</option>
-                        <option value="διαζευγμένος/η">διαζευγμένος/η</option>
+                        <option value="1">άγαμος/η</option>
+                        <option value="2">παντρεμένος/η</option>
+                        <option value="3">χήρος/α</option>
+                        <option value="4">διαζευγμένος/η</option>
                     </select>
                 </div>
                 <div class="form-item" id="edit-Τέκνα-wrapper">
-                    <label for="edit-Τέκνα">Τέκνα: </label>
-                    <input type="text" maxlength="2" name="Τέκνα" id="edit-Τέκνα" size="2" value="" class="form-text">
+                    <label for="children">Τέκνα: </label>
+                    <input type="text" maxlength="2" name="children" id="edit-Τέκνα" size="2" value="" class="form-text">
                 </div>
                 <div class="form-item" id="edit-Διεύθυνση-wrapper">
-                    <label for="edit-Διεύθυνση">Διεύθυνση: </label>
-                    <input type="text" maxlength="100" name="Διεύθυνση" id="edit-Διεύθυνση" size="60" value=""
+                    <label for="address">Διεύθυνση: </label>
+                    <input type="text" maxlength="100" name="address" id="edit-Διεύθυνση" size="60" value=""
                            class="form-text">
                 </div>
                 <div class="form-item" id="edit-Τ-Κ-wrapper">
-                    <label for="edit-Τ-Κ">Τ.Κ.: </label>
-                    <input type="text" maxlength="6" name="Τ_Κ" id="edit-Τ-Κ" size="6" value="" class="form-text">
+                    <label for="post_box">Τ.Κ.: </label>
+                    <input type="text" maxlength="6" name="post_box" id="edit-Τ-Κ" size="6" value="" class="form-text">
                 </div>
                 <div class="form-item" id="edit-Πόλη-wrapper">
-                    <label for="edit-Πόλη">Πόλη: </label>
-                    <input type="text" maxlength="50" name="Πόλη" id="edit-Πόλη" size="50" value="" class="form-text">
+                    <label for="city">Πόλη: </label>
+                    <input type="text" maxlength="50" name="city" id="edit-Πόλη" size="50" value="" class="form-text">
                 </div>
                 <div class="form-item" id="edit-Χώρα-wrapper">
-                    <label for="edit-Χώρα">Χώρα: </label>
-                    <input type="text" maxlength="50" name="Χώρα" id="edit-Χώρα" size="50" value="" class="form-text">
+                    <label for="country">Χώρα: </label>
+                    <input type="text" maxlength="50" name="country" id="edit-Χώρα" size="50" value="" class="form-text">
                 </div>
                 <div class="form-item" id="edit-Κάτοικος-Ελλάδας-wrapper">
-                    <label class="option" for="edit-Κάτοικος-Ελλάδας"><input type="checkbox" name="Κάτοικος_Ελλάδας"
+                    <label class="option" for="live_in_curr_country"><input type="checkbox" name="live_in_curr_country"
                                                                              id="edit-Κάτοικος-Ελλάδας"
-                                                                             value="Είναι Κάτοικος Ελλάδας"
+                                                                             value="1"
                                                                              checked="checked" class="form-checkbox">
                         Κάτοικος Ελλάδας</label>
                     <div class="description">Αποεπιλέξτε εφόσον δεν διαμένετε μόνιμα στην Ελλάδα</div>
@@ -254,38 +267,38 @@
             </legend>
             <div class="fieldset-wrapper">
                 <div class="form-item" id="edit-Τηλέφωνο-Οικίας-wrapper">
-                    <label for="edit-Τηλέφωνο-Οικίας">Τηλέφωνο Οικίας: </label>
-                    <input type="text" maxlength="15" name="Τηλέφωνο_Οικίας" id="edit-Τηλέφωνο-Οικίας" size="15"
+                    <label for="home_tel">Τηλέφωνο Οικίας: </label>
+                    <input type="text" maxlength="15" name="home_tel" id="edit-Τηλέφωνο-Οικίας" size="15"
                            value="" class="form-text">
                 </div>
                 <div class="form-item" id="edit-Τηλέφωνο-Εργασίας-wrapper">
-                    <label for="edit-Τηλέφωνο-Εργασίας">Τηλέφωνο Εργασίας: </label>
-                    <input type="text" maxlength="15" name="Τηλέφωνο_Εργασίας" id="edit-Τηλέφωνο-Εργασίας" size="15"
+                    <label for="work_tel">Τηλέφωνο Εργασίας: </label>
+                    <input type="text" maxlength="15" name="work_tel" id="edit-Τηλέφωνο-Εργασίας" size="15"
                            value="" class="form-text">
                 </div>
                 <div class="form-item" id="edit-Κινητό-wrapper">
-                    <label for="edit-Κινητό">Κινητό: </label>
-                    <input type="text" maxlength="15" name="Κινητό" id="edit-Κινητό" size="15" value=""
+                    <label for="cell_tel">Κινητό: </label>
+                    <input type="text" maxlength="15" name="cell_tel" id="edit-Κινητό" size="15" value=""
                            class="form-text">
                 </div>
                 <div class="form-item" id="edit-Fax-wrapper">
-                    <label for="edit-Fax">Fax: </label>
-                    <input type="text" maxlength="15" name="Fax" id="edit-Fax" size="15" value="" class="form-text">
+                    <label for="fax">Fax: </label>
+                    <input type="text" maxlength="15" name="fax" id="edit-Fax" size="15" value="" class="form-text">
                 </div>
                 <div class="form-item" id="edit-email-wrapper">
-                    <label for="edit-email">email: <span class="form-required"
+                    <label for="email">email: <span class="form-required"
                                                          title="Το πεδίο είναι απαραίτητο.">*</span></label>
                     <input type="text" maxlength="128" name="email" id="edit-email" size="50" value=""
                            class="form-text required">
                     <div class="description">Συμπληρώστε την διεύθυνση στην μορφή "xxx@xxx.xx"</div>
                 </div>
                 <div class="form-item" id="edit-Τρόπος-επικοινωνίας-wrapper">
-                    <label for="edit-Τρόπος-επικοινωνίας">Να επικοινωνήσουμε μαζί σας στο: </label>
-                    <select name="Τρόπος_επικοινωνίας" class="form-select" id="edit-Τρόπος-επικοινωνίας">
-                        <option value="email">Ηλεκτρονικό ταχυδρομείο</option>
-                        <option value="Τηλέφωνο Οικίας">Τηλέφωνο Οικίας</option>
-                        <option value="Τηλέφωνο Εργασίας">Τηλέφωνο Εργασίας</option>
-                        <option value="Κινητό Τηλέφωνο">Κινητό Τηλέφωνο</option>
+                    <label for="comm_method_id">Να επικοινωνήσουμε μαζί σας στο: </label>
+                    <select name="comm_method_id" class="form-select" id="edit-Τρόπος-επικοινωνίας">
+                        <option value="1">Ηλεκτρονικό ταχυδρομείο</option>
+                        <option value="2">Τηλέφωνο Οικίας</option>
+                        <option value="3">Τηλέφωνο Εργασίας</option>
+                        <option value="4">Κινητό Τηλέφωνο</option>
                     </select>
                 </div>
             </div>
@@ -298,27 +311,27 @@
             </legend>
             <div class="fieldset-wrapper">
                 <div class="form-item" id="edit-Επίπεδο-εκπαίδευσης-wrapper">
-                    <label for="edit-Επίπεδο-εκπαίδευσης">Επίπεδο εκπαίδευσης: <span class="form-required"
+                    <label for="education_level_id">Επίπεδο εκπαίδευσης: <span class="form-required"
                                                                                      title="Το πεδίο είναι απαραίτητο.">*</span></label>
-                    <select name="Επίπεδο_εκπαίδευσης" class="form-select required" id="edit-Επίπεδο-εκπαίδευσης">
-                        <option value="select">- Επιλέξτε -</option>
-                        <option value="Δημοτικό">Δημοτικό</option>
-                        <option value="Γυμνάσιο">Γυμνάσιο</option>
-                        <option value="Λύκειο">Λύκειο</option>
-                        <option value="Ανώτερη">Ανώτερη</option>
-                        <option value="Ανώτατη">Ανώτατη</option>
-                        <option value="Μεταπτυχιακά">Μεταπτυχιακά</option>
+                    <select name="education_level_id" class="form-select required" id="edit-Επίπεδο-εκπαίδευσης">
+                        <option value="0">- Επιλέξτε -</option>
+                        {{--<option value="Δημοτικό">Δημοτικό</option>--}}
+                        <option value="1">Γυμνάσιο</option>
+                        <option value="2">Λύκειο</option>
+                        <option value="3">Ανώτερη</option>
+                        <option value="4">Ανώτατη</option>
+                        <option value="5">Μεταπτυχιακά</option>
                     </select>
                     <div class="description">Επιλέξτε απο την λίστα το επίπεδο της εκπαίδευσης σας.</div>
                 </div>
                 <div class="form-item" id="edit-Ειδικότητα-wrapper">
-                    <label for="edit-Ειδικότητα">Ειδικότητα: </label>
-                    <input type="text" maxlength="50" name="Ειδικότητα" id="edit-Ειδικότητα" size="50" value=""
+                    <label for="specialty">Ειδικότητα: </label>
+                    <input type="text" maxlength="50" name="specialty" id="edit-Ειδικότητα" size="50" value=""
                            class="form-text">
                 </div>
                 <div class="form-item" id="edit-Σχολή-wrapper">
-                    <label for="edit-Σχολή">Σχολή: </label>
-                    <input type="text" maxlength="50" name="Σχολή" id="edit-Σχολή" size="50" value="" class="form-text">
+                    <label for="department">Σχολή: </label>
+                    <input type="text" maxlength="50" name="department" id="edit-Σχολή" size="50" value="" class="form-text">
                 </div>
                 <fieldset>
                     <legend>Ξένες Γλώσσες</legend>
@@ -328,21 +341,21 @@
                             <div class="form-item" id="edit-Ελληνικά-Βασικό-wrapper">
                                 <label class="option" for="edit-Ελληνικά-Βασικό"><input type="radio"
                                                                                         id="edit-Ελληνικά-Βασικό"
-                                                                                        name="Ελληνικά" value="Βασικό"
+                                                                                        name="lang[1]" value="1"
                                                                                         class="form-radio">
                                     Βασικό</label>
                             </div>
                             <div class="form-item" id="edit-Ελληνικά-Καλό-wrapper">
                                 <label class="option" for="edit-Ελληνικά-Καλό"><input type="radio"
                                                                                       id="edit-Ελληνικά-Καλό"
-                                                                                      name="Ελληνικά" value="Καλό"
+                                                                                      name="lang[1]" value="2"
                                                                                       class="form-radio"> Καλό</label>
                             </div>
                             <div class="form-item" id="edit-Ελληνικά-Πολύ-Καλό-wrapper">
                                 <label class="option" for="edit-Ελληνικά-Πολύ-Καλό"><input type="radio"
                                                                                            id="edit-Ελληνικά-Πολύ-Καλό"
-                                                                                           name="Ελληνικά"
-                                                                                           value="Πολύ Καλό"
+                                                                                           name="lang[1]"
+                                                                                           value="3"
                                                                                            class="form-radio"> Πολύ Καλό</label>
                             </div>
                         </div>
@@ -353,20 +366,20 @@
                             <div class="form-item" id="edit-Αγγλικά-Βασικό-wrapper">
                                 <label class="option" for="edit-Αγγλικά-Βασικό"><input type="radio"
                                                                                        id="edit-Αγγλικά-Βασικό"
-                                                                                       name="Αγγλικά" value="Βασικό"
+                                                                                       name="lang[2]" value="1"
                                                                                        class="form-radio">
                                     Βασικό</label>
                             </div>
                             <div class="form-item" id="edit-Αγγλικά-Καλό-wrapper">
                                 <label class="option" for="edit-Αγγλικά-Καλό"><input type="radio" id="edit-Αγγλικά-Καλό"
-                                                                                     name="Αγγλικά" value="Καλό"
+                                                                                     name="lang[2]" value="2"
                                                                                      class="form-radio"> Καλό</label>
                             </div>
                             <div class="form-item" id="edit-Αγγλικά-Πολύ-Καλό-wrapper">
                                 <label class="option" for="edit-Αγγλικά-Πολύ-Καλό"><input type="radio"
                                                                                           id="edit-Αγγλικά-Πολύ-Καλό"
-                                                                                          name="Αγγλικά"
-                                                                                          value="Πολύ Καλό"
+                                                                                          name="lang[2]"
+                                                                                          value="3"
                                                                                           class="form-radio"> Πολύ Καλό</label>
                             </div>
                         </div>
@@ -377,20 +390,20 @@
                             <div class="form-item" id="edit-Γαλλικά-Βασικό-wrapper">
                                 <label class="option" for="edit-Γαλλικά-Βασικό"><input type="radio"
                                                                                        id="edit-Γαλλικά-Βασικό"
-                                                                                       name="Γαλλικά" value="Βασικό"
+                                                                                       name="lang[3]" value="1"
                                                                                        class="form-radio">
                                     Βασικό</label>
                             </div>
                             <div class="form-item" id="edit-Γαλλικά-Καλό-wrapper">
                                 <label class="option" for="edit-Γαλλικά-Καλό"><input type="radio" id="edit-Γαλλικά-Καλό"
-                                                                                     name="Γαλλικά" value="Καλό"
+                                                                                     name="lang[3]" value="2"
                                                                                      class="form-radio"> Καλό</label>
                             </div>
                             <div class="form-item" id="edit-Γαλλικά-Πολύ-Καλό-wrapper">
                                 <label class="option" for="edit-Γαλλικά-Πολύ-Καλό"><input type="radio"
                                                                                           id="edit-Γαλλικά-Πολύ-Καλό"
-                                                                                          name="Γαλλικά"
-                                                                                          value="Πολύ Καλό"
+                                                                                          name="lang[3]"
+                                                                                          value="3"
                                                                                           class="form-radio"> Πολύ Καλό</label>
                             </div>
                         </div>
@@ -401,21 +414,21 @@
                             <div class="form-item" id="edit-Ισπανικά-Βασικό-wrapper">
                                 <label class="option" for="edit-Ισπανικά-Βασικό"><input type="radio"
                                                                                         id="edit-Ισπανικά-Βασικό"
-                                                                                        name="Ισπανικά" value="Βασικό"
+                                                                                        name="lang[4]" value="1"
                                                                                         class="form-radio">
                                     Βασικό</label>
                             </div>
                             <div class="form-item" id="edit-Ισπανικά-Καλό-wrapper">
                                 <label class="option" for="edit-Ισπανικά-Καλό"><input type="radio"
                                                                                       id="edit-Ισπανικά-Καλό"
-                                                                                      name="Ισπανικά" value="Καλό"
+                                                                                      name="lang[4]" value="2"
                                                                                       class="form-radio"> Καλό</label>
                             </div>
                             <div class="form-item" id="edit-Ισπανικά-Πολύ-Καλό-wrapper">
                                 <label class="option" for="edit-Ισπανικά-Πολύ-Καλό"><input type="radio"
                                                                                            id="edit-Ισπανικά-Πολύ-Καλό"
-                                                                                           name="Ισπανικά"
-                                                                                           value="Πολύ Καλό"
+                                                                                           name="lang[4]"
+                                                                                           value="3"
                                                                                            class="form-radio"> Πολύ Καλό</label>
                             </div>
                         </div>
@@ -426,29 +439,29 @@
                             <div class="form-item" id="edit-Γερμανικά-Βασικό-wrapper">
                                 <label class="option" for="edit-Γερμανικά-Βασικό"><input type="radio"
                                                                                          id="edit-Γερμανικά-Βασικό"
-                                                                                         name="Γερμανικά" value="Βασικό"
+                                                                                         name="lang[5]" value="1"
                                                                                          class="form-radio">
                                     Βασικό</label>
                             </div>
                             <div class="form-item" id="edit-Γερμανικά-Καλό-wrapper">
                                 <label class="option" for="edit-Γερμανικά-Καλό"><input type="radio"
                                                                                        id="edit-Γερμανικά-Καλό"
-                                                                                       name="Γερμανικά" value="Καλό"
+                                                                                       name="lang[5]" value="2"
                                                                                        class="form-radio"> Καλό</label>
                             </div>
                             <div class="form-item" id="edit-Γερμανικά-Πολύ-Καλό-wrapper">
                                 <label class="option" for="edit-Γερμανικά-Πολύ-Καλό"><input type="radio"
                                                                                             id="edit-Γερμανικά-Πολύ-Καλό"
-                                                                                            name="Γερμανικά"
-                                                                                            value="Πολύ Καλό"
+                                                                                            name="lang[5]"
+                                                                                            value="3"
                                                                                             class="form-radio"> Πολύ
                                     Καλό</label>
                             </div>
                         </div>
                     </div>
                     <div class="form-item" id="edit-Άλλες-γλώσες-wrapper">
-                        <label for="edit-Άλλες-γλώσες">Άλλες γλώσες: </label>
-                        <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="Άλλες_γλώσες"
+                        <label for="extra_lang">Άλλες γλώσες: </label>
+                        <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="extra_lang"
                                                                         id="edit-Άλλες-γλώσες"
                                                                         class="form-textarea resizable"></textarea>
                                 {{--<div class="grippie"></div>--}}
@@ -458,27 +471,28 @@
                     </div>
                 </fieldset>
                 <div class="form-item" id="edit-Δίπλωμα-οδήγησης-wrapper">
-                    <label for="edit-Δίπλωμα-οδήγησης">Δίπλωμα οδήγησης - Κατηγορία: </label>
-                    <select name="Δίπλωμα_οδήγησης" class="form-select" id="edit-Δίπλωμα-οδήγησης">
-                        <option value="" selected="selected">- Επιλέξτε -</option>
-                        <option value="Χωρίς Δίπλωμα">Χωρίς Δίπλωμα</option>
-                        <option value="Α κατηγορίας">Α κατηγορίας</option>
-                        <option value="Α1 κατηγορίας">Α1 κατηγορίας</option>
-                        <option value="Β κατηγορίας">Β κατηγορίας</option>
-                        <option value="Γ κατηγορίας">Γ κατηγορίας</option>
-                        <option value="Γ+Ε κατηγορίας">Γ+Ε κατηγορίας</option>
+                    <label for="driver_license_type_id">Δίπλωμα οδήγησης - Κατηγορία: </label>
+                    <select name="driver_license_type_id" class="form-select" id="edit-Δίπλωμα-οδήγησης">
+                        <option value="0" selected="selected">- Επιλέξτε -</option>
+                        <option value="1">Χωρίς Δίπλωμα</option>
+                        <option value="2">Α κατηγορίας</option>
+                        <option value="3">Α1 κατηγορίας</option>
+                        <option value="4">Β κατηγορίας</option>
+                        <option value="5">Γ κατηγορίας</option>
+                        <option value="6">Γ+Ε κατηγορίας</option>
                     </select>
                     <div class="description">Επιλέξτε την κατηγορία του διπλώματος σας εάν έχετε.</div>
                 </div>
                 <div class="form-item" id="edit-Χρήση-υπολογιστή-wrapper">
-                    <label class="option" for="edit-Χρήση-υπολογιστή"><input type="checkbox" name="Χρήση_υπολογιστή"
+                    <label class="option" for="computer_usage"><input type="checkbox" name="computer_usage"
                                                                              id="edit-Χρήση-υπολογιστή"
-                                                                             value="ΝΑΙ χρήση" class="form-checkbox">
+                                                                             value="1" class="form-checkbox">
                         Χρήση υπολογιστή</label>
+                    <input type="hidden" name="computer_usage_comments" value="">
                 </div>
                 <div class="form-item" id="edit-Πρόσθετες-ικανότητες-wrapper">
-                    <label for="edit-Πρόσθετες-ικανότητες">Πρόσθετες ικανότητες, προσόντα και εμπειρία : </label>
-                    <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="Πρόσθετες_ικανότητες"
+                    <label for="additional_skills">Πρόσθετες ικανότητες, προσόντα και εμπειρία : </label>
+                    <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="additional_skills"
                                                                     id="edit-Πρόσθετες-ικανότητες"
                                                                     class="form-textarea resizable"></textarea>
                             {{--<div class="grippie"></div>--}}
@@ -498,19 +512,19 @@
             </legend>
             <div class="fieldset-wrapper">
                 <div class="form-item" id="edit-Εργασιακή-κατάσταση-wrapper">
-                    <label for="edit-Εργασιακή-κατάσταση">Εργασιακή κατάσταση: <span class="form-required"
+                    <label for="work_status_id">Εργασιακή κατάσταση: <span class="form-required"
                                                                                      title="Το πεδίο είναι απαραίτητο.">*</span></label>
-                    <select name="Εργασιακή_κατάσταση" class="form-select required" id="edit-Εργασιακή-κατάσταση">
-                        <option value="select">- Επιλέξτε -</option>
-                        <option value="Φοιτητής">Φοιτητής</option>
-                        <option value="Εργαζόμενος">Εργαζόμενος</option>
-                        <option value="Άνεργος">Άνεργος</option>
-                        <option value="Συνταξιούχος">Συνταξιούχος</option>
+                    <select name="work_status_id" class="form-select required" id="edit-Εργασιακή-κατάσταση">
+                        <option value="0">- Επιλέξτε -</option>
+                        <option value="1">Φοιτητής</option>
+                        <option value="2">Εργαζόμενος</option>
+                        <option value="3">Άνεργος</option>
+                        <option value="4">Συνταξιούχος</option>
                     </select>
                 </div>
                 <div class="form-item" id="edit-Εργασία-wrapper">
-                    <label for="edit-Εργασία">Εργασία: </label>
-                    <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="Εργασία" id="edit-Εργασία"
+                    <label for="work_description">Εργασία: </label>
+                    <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="work_description" id="edit-Εργασία"
                                                                     class="form-textarea resizable"></textarea>
                             {{--<div class="grippie"></div>--}}
                         </span>
@@ -526,9 +540,9 @@
             </legend>
             <div class="fieldset-wrapper">
                 <div class="form-item" id="edit-Λόγος-συμετοχής-wrapper">
-                    <label for="edit-Λόγος-συμετοχής">Λόγος συμετοχής: <span class="form-required"
+                    <label for="participation_reason">Λόγος συμετοχής: <span class="form-required"
                                                                              title="Το πεδίο είναι απαραίτητο.">*</span></label>
-                    <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="Λόγος_συμετοχής"
+                    <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="participation_reason"
                                                                     id="edit-Λόγος-συμετοχής"
                                                                     class="form-textarea resizable required"></textarea>
                             {{--<div class="grippie"></div>--}}
@@ -537,8 +551,8 @@
                     <div class="description">Περιγράψτε τους λόγους που θέλετε να γίνετε εθελοντής.</div>
                 </div>
                 <div class="form-item" id="edit-Εθελοντική-οργάνωση-wrapper">
-                    <label for="edit-Εθελοντική-οργάνωση">Εθελοντική οργάνωση: </label>
-                    <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="Εθελοντική_οργάνωση"
+                    <label for="participation_actions">Εθελοντική οργάνωση: </label>
+                    <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="participation_actions"
                                                                     id="edit-Εθελοντική-οργάνωση"
                                                                     class="form-textarea resizable"></textarea>
                             {{--<div class="grippie"></div>--}}
@@ -549,8 +563,8 @@
                     </div>
                 </div>
                 <div class="form-item" id="edit-Εθελοντικές-δράσεις-wrapper">
-                    <label for="edit-Εθελοντικές-δράσεις">Εθελοντικές δράσεις: </label>
-                    <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="Εθελοντικές_δράσεις"
+                    <label for="participation_previous">Εθελοντικές δράσεις: </label>
+                    <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="participation_previous"
                                                                     id="edit-Εθελοντικές-δράσεις"
                                                                     class="form-textarea resizable"></textarea>
                             {{--<div class="grippie"></div>--}}
@@ -570,12 +584,12 @@
             </legend>
             <div class="fieldset-wrapper">
                 <div class="form-item" id="edit-Συχνότητα-συνεισφοράς-wrapper">
-                    <label for="edit-Συχνότητα-συνεισφοράς">Συχνότητα_συνεισφοράς: </label>
-                    <select name="Συχνότητα_συνεισφοράς" class="form-select" id="edit-Συχνότητα-συνεισφοράς">
-                        <option value="" selected="selected">- Επιλέξτε -</option>
-                        <option value="1-2 φορές την εβδομάδα">1-2 φορές την εβδομάδα</option>
-                        <option value="1-2 φορές το δεκαπενθήμερο">1-2 φορές το δεκαπενθήμερο</option>
-                        <option value="1-2 φορές τον μήνα">1-2 φορές τον μήνα</option>
+                    <label for="availability_freqs_id">Συχνότητα_συνεισφοράς: </label>
+                    <select name="availability_freqs_id" class="form-select" id="edit-Συχνότητα-συνεισφοράς">
+                        <option value="0" selected="selected">- Επιλέξτε -</option>
+                        <option value="1">1-2 φορές την εβδομάδα</option>
+                        <option value="2">1-2 φορές το δεκαπενθήμερο</option>
+                        <option value="3">1-2 φορές τον μήνα</option>
                     </select>
                 </div>
                 <div class="form-item">
@@ -754,9 +768,10 @@
         προγράμματα του Δήμου, και δεν πρόκειται τρίτοι να έχουν πρόσβαση σ’ αυτά, τηρουμένων των ισχυουσών διατάξεων
         και ιδίως του άρθρου 10 ν. 2472/1997.<br>
         <div class="readon"><input class="button" type="submit" name="op" id="edit-submit" value="Αποστολή"></div>
-        <input type="hidden" name="form_build_id" id="form-7e2651a9f659467767dd107ebf13ed4f"
-               value="form-7e2651a9f659467767dd107ebf13ed4f">
-        <input type="hidden" name="form_id" id="edit-ethelontismosform-my-form" value="ethelontismosform_my_form">
+        {{--<input type="hidden" name="form_build_id" id="form-7e2651a9f659467767dd107ebf13ed4f"--}}
+               {{--value="form-7e2651a9f659467767dd107ebf13ed4f">--}}
+        {{--<input type="hidden" name="form_id" id="edit-ethelontismosform-my-form" value="ethelontismosform_my_form">--}}
+        <input type="hidden" name="comments" value="">
 
     </div>
 

@@ -92,7 +92,7 @@ class VolunteerApiController extends Controller {
                 $available++;
         }
 
-        //chekc if the volunteer is permitted to be edited by the
+        //check if the volunteer is permitted to be edited by the
         //currently logged in user
         $permittedVolunteers = UserService::permittedVolunteersIds();
         if (in_array($volunteer->id, $permittedVolunteers))
@@ -110,9 +110,21 @@ class VolunteerApiController extends Controller {
      * @return mixed
      */
     public function apiStore() {
+        dd(\Request::all());
+
         $volunteerService = \App::make('Interfaces\VolunteerInterface');
 
-        return $volunteerService->apiStore();
+//        return $volunteerService->apiStore();
+
+        $saved = $volunteerService->store();
+
+        dd($saved['messages']);
+
+        if ($saved['failed']) {
+            return redirect()->back()->withErrors($saved['messages'])->withInput();
+        } else {
+            return redirect()->back();
+        }
     }
 
 
