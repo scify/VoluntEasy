@@ -1,5 +1,13 @@
 (function(){
 
+    var initBirthDayDatepicker = function() {
+        $('input[name="birth_date"]').datepicker({
+            language: 'el',
+            format: 'dd/mm/yyyy',
+            autoclose: true
+        });
+    };
+
     var setDateHiddenField = function () {
         var day = $(".date-day").find("select").val();
         var month = $(".date-month").find("select").val();
@@ -125,7 +133,7 @@
     var init = function(){
         initLegendsCollapse();
         initTextareaGrippies();
-        $("#volunteer-form").submit(setDateHiddenField);
+        initBirthDayDatepicker();
     };
 
     $(function(){
