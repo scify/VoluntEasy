@@ -8,13 +8,7 @@
 <body>
 
 @if (count($errors) > 0)
-    <div class="error">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
+
 @endif
 
 
@@ -31,6 +25,9 @@
                     <label for="name">Όνομα:
                         <span class="form-required" title="Το πεδίο είναι απαραίτητο.">*</span>
                     </label>
+                    @if($errors->has('name'))
+                        <p class="error">{{ $errors->first('name') }}</p>
+                    @endif
                     <input type="text" maxlength="20" name="name" id="edit-Όνομα" size="20" value=""
                            class="form-text required">
                     <div class="description">Παρακαλώ συμπληρώστε το ονομά σας.</div>
@@ -39,6 +36,9 @@
                     <label for="last_name">Επώνυμο:
                         <span class="form-required" title="Το πεδίο είναι απαραίτητο.">*</span>
                     </label>
+                    @if($errors->has('last_name'))
+                        <p class="error">{{ $errors->first('last_name') }}</p>
+                    @endif
                     <input type="text" maxlength="40" name="last_name" id="edit-Επώνυμο" size="40" value=""
                            class="form-text required">
                     <div class="description">Παρακαλώ συμπληρώστε το επώνυμο σας.</div>
@@ -46,6 +46,9 @@
                 <div class="form-item" id="edit-Όνομα-Πατέρα-wrapper">
                     <label for="fathers_name">Όνομα Πατέρα: <span class="form-required"
                                                                        title="Το πεδίο είναι απαραίτητο.">*</span></label>
+                    @if($errors->has('fathers_name'))
+                        <p class="error">{{ $errors->first('fathers_name') }}</p>
+                    @endif
                     <input type="text" maxlength="20" name="fathers_name" id="edit-Όνομα-Πατέρα" size="20" value=""
                            class="form-text required">
                     <div class="description">Παρακαλώ συμπληρώστε το όνομα του πατέρα σας.</div>
@@ -59,6 +62,9 @@
                     </select>
                 </div>
                 <div class="form-item" id="edit-Ταυτότητα-wrapper">
+                    @if($errors->has('identification_num'))
+                        <p class="error">{{ $errors->first('identification_num') }}</p>
+                    @endif
                     <input type="text" maxlength="20" name="identification_num" id="edit-Ταυτότητα" size="20" value=""
                            class="form-text">
                     <div class="description">Παρακαλώ συμπληρώστε το Α.Δ.Τ. ή Διαβατηρίου ή Άδεια Παραμονής και επιλέξτε
@@ -69,6 +75,9 @@
                     <div class="form-item" id="edit-Ημερομηνία-Γέννησης-wrapper">
                         <label for="birth_date">Ημερομηνία Γέννησης: <span class="form-required"
                                                                                          title="Το πεδίο είναι απαραίτητο.">*</span></label>
+                        @if($errors->has('birth_date'))
+                            <p class="error">{{ $errors->first('birth_date') }}</p>
+                        @endif
                         <div class="date-day">
                             <div class="form-item" id="edit-Ημερομηνία-Γέννησης-day-wrapper">
                                 <select name="Ημερομηνία_Γέννησης[day]" class="form-select required  date-day"
@@ -205,6 +214,9 @@
                 </div>
                 <div class="form-item">
                     <label>Φύλο: <span class="form-required" title="Το πεδίο είναι απαραίτητο.">*</span></label>
+                    @if($errors->has('gender_id'))
+                        <p class="error">{{ $errors->first('gender_id') }}</p>
+                    @endif
                     <div class="form-radios">
                         <div class="form-item" id="edit-Φύλο-Άνδρας-wrapper">
                             <label class="option" for="edit-Φύλο-Άνδρας"><input type="radio" id="edit-Φύλο-Άνδρας"
@@ -220,6 +232,9 @@
                 </div>
                 <div class="form-item" id="edit-Οικογενειακή-Κατάσταση-wrapper">
                     <label for="marital_status_id">Οικογενειακή Κατάσταση: </label>
+                    @if($errors->has('marital_status_id'))
+                        <p class="error">{{ $errors->first('marital_status_id') }}</p>
+                    @endif
                     <select name="marital_status_id" class="form-select" id="edit-Οικογενειακή-Κατάσταση">
                         <option value="" selected="selected">- Επιλέξτε -</option>
                         <option value="1">άγαμος/η</option>
@@ -230,23 +245,38 @@
                 </div>
                 <div class="form-item" id="edit-Τέκνα-wrapper">
                     <label for="children">Τέκνα: </label>
+                    @if($errors->has('children'))
+                        <p class="error">{{ $errors->first('children') }}</p>
+                    @endif
                     <input type="text" maxlength="2" name="children" id="edit-Τέκνα" size="2" value="" class="form-text">
                 </div>
                 <div class="form-item" id="edit-Διεύθυνση-wrapper">
                     <label for="address">Διεύθυνση: </label>
+                    @if($errors->has('address'))
+                        <p class="error">{{ $errors->first('address') }}</p>
+                    @endif
                     <input type="text" maxlength="100" name="address" id="edit-Διεύθυνση" size="60" value=""
                            class="form-text">
                 </div>
                 <div class="form-item" id="edit-Τ-Κ-wrapper">
                     <label for="post_box">Τ.Κ.: </label>
+                    @if($errors->has('post_box'))
+                        <p class="error">{{ $errors->first('post_box') }}</p>
+                    @endif
                     <input type="text" maxlength="6" name="post_box" id="edit-Τ-Κ" size="6" value="" class="form-text">
                 </div>
                 <div class="form-item" id="edit-Πόλη-wrapper">
                     <label for="city">Πόλη: </label>
+                    @if($errors->has('city'))
+                        <p class="error">{{ $errors->first('city') }}</p>
+                    @endif
                     <input type="text" maxlength="50" name="city" id="edit-Πόλη" size="50" value="" class="form-text">
                 </div>
                 <div class="form-item" id="edit-Χώρα-wrapper">
                     <label for="country">Χώρα: </label>
+                    @if($errors->has('country'))
+                        <p class="error">{{ $errors->first('country') }}</p>
+                    @endif
                     <input type="text" maxlength="50" name="country" id="edit-Χώρα" size="50" value="" class="form-text">
                 </div>
                 <div class="form-item" id="edit-Κάτοικος-Ελλάδας-wrapper">
@@ -268,26 +298,41 @@
             <div class="fieldset-wrapper">
                 <div class="form-item" id="edit-Τηλέφωνο-Οικίας-wrapper">
                     <label for="home_tel">Τηλέφωνο Οικίας: </label>
+                    @if($errors->has('home_tel'))
+                        <p class="error">{{ $errors->first('home_tel') }}</p>
+                    @endif
                     <input type="text" maxlength="15" name="home_tel" id="edit-Τηλέφωνο-Οικίας" size="15"
                            value="" class="form-text">
                 </div>
                 <div class="form-item" id="edit-Τηλέφωνο-Εργασίας-wrapper">
                     <label for="work_tel">Τηλέφωνο Εργασίας: </label>
+                    @if($errors->has('work_tel'))
+                        <p class="error">{{ $errors->first('work_tel') }}</p>
+                    @endif
                     <input type="text" maxlength="15" name="work_tel" id="edit-Τηλέφωνο-Εργασίας" size="15"
                            value="" class="form-text">
                 </div>
                 <div class="form-item" id="edit-Κινητό-wrapper">
                     <label for="cell_tel">Κινητό: </label>
+                    @if($errors->has('cell_tel'))
+                        <p class="error">{{ $errors->first('cell_tel') }}</p>
+                    @endif
                     <input type="text" maxlength="15" name="cell_tel" id="edit-Κινητό" size="15" value=""
                            class="form-text">
                 </div>
                 <div class="form-item" id="edit-Fax-wrapper">
                     <label for="fax">Fax: </label>
+                    @if($errors->has('fax'))
+                        <p class="error">{{ $errors->first('fax') }}</p>
+                    @endif
                     <input type="text" maxlength="15" name="fax" id="edit-Fax" size="15" value="" class="form-text">
                 </div>
                 <div class="form-item" id="edit-email-wrapper">
                     <label for="email">email: <span class="form-required"
                                                          title="Το πεδίο είναι απαραίτητο.">*</span></label>
+                    @if($errors->has('email'))
+                        <p class="error">{{ $errors->first('email') }}</p>
+                    @endif
                     <input type="text" maxlength="128" name="email" id="edit-email" size="50" value=""
                            class="form-text required">
                     <div class="description">Συμπληρώστε την διεύθυνση στην μορφή "xxx@xxx.xx"</div>
@@ -313,6 +358,9 @@
                 <div class="form-item" id="edit-Επίπεδο-εκπαίδευσης-wrapper">
                     <label for="education_level_id">Επίπεδο εκπαίδευσης: <span class="form-required"
                                                                                      title="Το πεδίο είναι απαραίτητο.">*</span></label>
+                    @if($errors->has('education_level_id'))
+                        <p class="error">{{ $errors->first('education_level_id') }}</p>
+                    @endif
                     <select name="education_level_id" class="form-select required" id="edit-Επίπεδο-εκπαίδευσης">
                         <option value="0">- Επιλέξτε -</option>
                         {{--<option value="Δημοτικό">Δημοτικό</option>--}}
@@ -326,11 +374,17 @@
                 </div>
                 <div class="form-item" id="edit-Ειδικότητα-wrapper">
                     <label for="specialty">Ειδικότητα: </label>
+                    @if($errors->has('specialty'))
+                        <p class="error">{{ $errors->first('specialty') }}</p>
+                    @endif
                     <input type="text" maxlength="50" name="specialty" id="edit-Ειδικότητα" size="50" value=""
                            class="form-text">
                 </div>
                 <div class="form-item" id="edit-Σχολή-wrapper">
                     <label for="department">Σχολή: </label>
+                    @if($errors->has('department'))
+                        <p class="error">{{ $errors->first('department') }}</p>
+                    @endif
                     <input type="text" maxlength="50" name="department" id="edit-Σχολή" size="50" value="" class="form-text">
                 </div>
                 <fieldset>
@@ -472,6 +526,9 @@
                 </fieldset>
                 <div class="form-item" id="edit-Δίπλωμα-οδήγησης-wrapper">
                     <label for="driver_license_type_id">Δίπλωμα οδήγησης - Κατηγορία: </label>
+                    @if($errors->has('driver_licence_type_id'))
+                        <p class="error">{{ $errors->first('driver_licence_type_id') }}</p>
+                    @endif
                     <select name="driver_license_type_id" class="form-select" id="edit-Δίπλωμα-οδήγησης">
                         <option value="0" selected="selected">- Επιλέξτε -</option>
                         <option value="1">Χωρίς Δίπλωμα</option>
@@ -492,6 +549,9 @@
                 </div>
                 <div class="form-item" id="edit-Πρόσθετες-ικανότητες-wrapper">
                     <label for="additional_skills">Πρόσθετες ικανότητες, προσόντα και εμπειρία : </label>
+                    @if($errors->has('additional_skills'))
+                        <p class="error">{{ $errors->first('additional_skills') }}</p>
+                    @endif
                     <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="additional_skills"
                                                                     id="edit-Πρόσθετες-ικανότητες"
                                                                     class="form-textarea resizable"></textarea>
@@ -514,6 +574,9 @@
                 <div class="form-item" id="edit-Εργασιακή-κατάσταση-wrapper">
                     <label for="work_status_id">Εργασιακή κατάσταση: <span class="form-required"
                                                                                      title="Το πεδίο είναι απαραίτητο.">*</span></label>
+                    @if($errors->has('work_status_id'))
+                        <p class="error">{{ $errors->first('work_status_id') }}</p>
+                    @endif
                     <select name="work_status_id" class="form-select required" id="edit-Εργασιακή-κατάσταση">
                         <option value="0">- Επιλέξτε -</option>
                         <option value="1">Φοιτητής</option>
@@ -524,6 +587,9 @@
                 </div>
                 <div class="form-item" id="edit-Εργασία-wrapper">
                     <label for="work_description">Εργασία: </label>
+                    @if($errors->has('work_description'))
+                        <p class="error">{{ $errors->first('work_description') }}</p>
+                    @endif
                     <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="work_description" id="edit-Εργασία"
                                                                     class="form-textarea resizable"></textarea>
                             {{--<div class="grippie"></div>--}}
@@ -542,6 +608,9 @@
                 <div class="form-item" id="edit-Λόγος-συμετοχής-wrapper">
                     <label for="participation_reason">Λόγος συμετοχής: <span class="form-required"
                                                                              title="Το πεδίο είναι απαραίτητο.">*</span></label>
+                    @if($errors->has('participation_reason'))
+                        <p class="error">{{ $errors->first('participation_reason') }}</p>
+                    @endif
                     <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="participation_reason"
                                                                     id="edit-Λόγος-συμετοχής"
                                                                     class="form-textarea resizable required"></textarea>
@@ -552,6 +621,9 @@
                 </div>
                 <div class="form-item" id="edit-Εθελοντική-οργάνωση-wrapper">
                     <label for="participation_actions">Εθελοντική οργάνωση: </label>
+                    @if($errors->has('participation_actions'))
+                        <p class="error">{{ $errors->first('participation_actions') }}</p>
+                    @endif
                     <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="participation_actions"
                                                                     id="edit-Εθελοντική-οργάνωση"
                                                                     class="form-textarea resizable"></textarea>
@@ -564,6 +636,9 @@
                 </div>
                 <div class="form-item" id="edit-Εθελοντικές-δράσεις-wrapper">
                     <label for="participation_previous">Εθελοντικές δράσεις: </label>
+                    @if($errors->has('participation_previous'))
+                        <p class="error">{{ $errors->first('participation_previous') }}</p>
+                    @endif
                     <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="participation_previous"
                                                                     id="edit-Εθελοντικές-δράσεις"
                                                                     class="form-textarea resizable"></textarea>
@@ -585,6 +660,9 @@
             <div class="fieldset-wrapper">
                 <div class="form-item" id="edit-Συχνότητα-συνεισφοράς-wrapper">
                     <label for="availability_freqs_id">Συχνότητα_συνεισφοράς: </label>
+                    @if($errors->has('availability_freqs_id'))
+                        <p class="error">{{ $errors->first('availability_freqs_id') }}</p>
+                    @endif
                     <select name="availability_freqs_id" class="form-select" id="edit-Συχνότητα-συνεισφοράς">
                         <option value="0" selected="selected">- Επιλέξτε -</option>
                         <option value="1">1-2 φορές την εβδομάδα</option>

@@ -110,7 +110,7 @@ class VolunteerApiController extends Controller {
      * @return mixed
      */
     public function apiStore() {
-        dd(\Request::all());
+//        dd(\Request::all());
 
         $volunteerService = \App::make('Interfaces\VolunteerInterface');
 
@@ -118,7 +118,7 @@ class VolunteerApiController extends Controller {
 
         $saved = $volunteerService->store();
 
-        dd($saved['messages']);
+//        dd($saved['messages']);
 
         if ($saved['failed']) {
             return redirect()->back()->withErrors($saved['messages'])->withInput();

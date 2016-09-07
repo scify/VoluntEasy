@@ -4,7 +4,7 @@ body {
     width: 670px;
 }
 
-div.error {
+p.error {
     background: #fcc none repeat scroll 0 0;
     color: #200;
     padding: 2px;
