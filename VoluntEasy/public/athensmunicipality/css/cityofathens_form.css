@@ -174,7 +174,7 @@ legend {
     line-height: inherit;
     margin-bottom: 0;
     margin-top: -15px;
-    padding: inherit;
+    padding: 15px 15px 0;
     width: auto;
 }
 /* end of bootstrap omitting */
