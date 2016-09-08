@@ -189,7 +189,20 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
     }
 
     public function apiStore() {
+        $isValid = $this->apiValidate();
 
+        if (!$isValid['failed']) {
+            $volunteer = new Volunteer($this->getBaseFields());
+
+            if ($this->apiValidate($volunteer)) {
+                $volunteer->save();
+                $volunteer = $this->basicStore($volunteer);
+                $this->storeExtraFields($volunteer);
+
+                return $volunteer;
+            }
+        } else
+            return $isValid;
     }
 
     /**
@@ -197,6 +210,11 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
      */
     abstract function validate();
 
+
+    /**
+     * Validate the volunteer passed by Api
+     */
+    abstract function apiValidate();
 
     /**
      * Check whether the Volunteer has more fields than the basic ones.
