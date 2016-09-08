@@ -54,7 +54,7 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
             'last_name' => 'required|max:100',
             'fathers_name' => 'required|max:100',
             'identification_num' => 'max:100',
-            'birth_date' => 'required|date',
+            'birth_date' => 'required',
             'children' => 'max:255',
             'address' => 'max:300',
             'city' => 'max:300',
@@ -77,7 +77,6 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
             'additional_skills' => 'max:300',
             'computer_usage_comments' => 'max:300',
             'comments' => 'max:6000',
-            'contract_date' => 'date',
             'education_level_id' => 'required',
             'terms' => 'required',
         ]);

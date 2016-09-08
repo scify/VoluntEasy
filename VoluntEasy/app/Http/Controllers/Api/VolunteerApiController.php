@@ -115,6 +115,7 @@ class VolunteerApiController extends Controller {
         if ($saved['failed']) {
             return redirect()->back()->withErrors($saved['messages'])->withInput();
         } else {
+            \Session::flash('success', '');
             return redirect()->back();
         }
     }

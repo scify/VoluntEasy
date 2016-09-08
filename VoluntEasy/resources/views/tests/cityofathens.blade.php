@@ -11,8 +11,8 @@
 </head>
 <body>
 
-@if (count($errors) > 0)
-
+@if(Session::has('success'))
+    <p class="success">Η φόρμα αποθηκεύτηκε επιτυχώς</p>
 @endif
 
 
@@ -443,7 +443,6 @@
                 <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="additional_skills"
                                                                 id="edit-Πρόσθετες-ικανότητες"
                                                                 class="form-textarea resizable"></textarea>
-                        {{--<div class="grippie"></div>--}}
                         </span>
                 </div>
                 <div class="description">Συμπληρώστε τυχόν επιπλέον πρόσθετες ικανότητες, προσόντα και εμπειρία που
