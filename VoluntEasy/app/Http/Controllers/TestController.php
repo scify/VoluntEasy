@@ -74,11 +74,6 @@ class TestController extends Controller {
         return view("tests.boxytree");
     }
 
-
-    public function cityofathens() {
-        return view("tests.cityofathens");
-    }
-
     /**
      * generate some dummy data
      */

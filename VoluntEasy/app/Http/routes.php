@@ -261,8 +261,8 @@ Route::get('faq', 'EtcController@faq');
 ////////////////////////////////////////////
 // Public form [for Athens municipality]  //
 ////////////////////////////////////////////
-Route::get('cityofathens', 'VolunteerController@getPublicFormRequestToBecomeVolunteer');
-Route::post('cityofathens', 'VolunteerController@postPublicFormRequestToBecomeVolunteer');
+Route::get('volunteer-form', 'VolunteerController@getPublicFormRequestToBecomeVolunteer');
+Route::post('volunteer-form', 'VolunteerController@postPublicFormRequestToBecomeVolunteer');
 
 
 ////////////////////////////////////////////
