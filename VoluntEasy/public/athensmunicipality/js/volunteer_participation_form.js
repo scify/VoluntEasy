@@ -8,20 +8,6 @@
         });
     };
 
-    var setDateHiddenField = function () {
-        var day = $(".date-day").find("select").val();
-        var month = $(".date-month").find("select").val();
-        var year = $(".date-year").find("select").val();
-
-        var date = "";
-
-        if(day != "" && month != "" && year != ""){
-            date = day + "/" + month + "/" + year;
-        }
-
-        $("input[name='birth_date']").val(date);
-    };
-
     var toggleFieldset = function(fieldset) {
         if ($(fieldset).is('.collapsed')) {
             // Action div containers are processed separately because of a IE bug
