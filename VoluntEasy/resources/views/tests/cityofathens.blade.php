@@ -61,9 +61,9 @@
             <div class="form-item" id="edit-Τύπος-Ταυτότητας-wrapper">
                 <label for="identification_type_id">Τύπος Ταυτότητας: </label>
                 <select name="identification_type_id" class="form-select" id="edit-Τύπος-Ταυτότητας">
-                    <option value="Α.Δ.Τ.">Α.Δ.Τ.</option>
-                    <option value="Διαβατήριο">Διαβατήριο</option>
-                    <option value="Άδεια Παραμονής">Άδεια Παραμονής</option>
+                    <option value="1">Α.Δ.Τ.</option>
+                    <option value="2">Διαβατήριο</option>
+                    <option value="3">Άδεια Παραμονής</option>
                 </select>
             </div>
             <div class="form-item" id="edit-Ταυτότητα-wrapper">

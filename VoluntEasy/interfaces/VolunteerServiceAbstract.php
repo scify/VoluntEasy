@@ -52,6 +52,7 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
             'driver_license_type_id' => $this->checkDropDown(intval($volunteerRequest['driver_license_type_id'])),
             'additional_skills' => $volunteerRequest['additional_skills'],
             'extra_lang' => $volunteerRequest['extra_lang'],
+            'work_status_id' => $volunteerRequest['work_status_id'],
             'work_description' => $volunteerRequest['work_description'],
             'participation_actions' => $volunteerRequest['participation_actions'],
             'availability_freqs_id' => $this->checkDropDown(intval($volunteerRequest['availability_freqs_id'])),
