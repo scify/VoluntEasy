@@ -189,22 +189,6 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
 
     }
 
-    public function apiStore() {
-        $isValid = $this->apiValidate();
-
-        if (!$isValid['failed']) {
-            $volunteer = new Volunteer($this->getBaseFields());
-
-            if ($this->apiValidate($volunteer)) {
-                $volunteer->save();
-                $volunteer = $this->basicStore($volunteer);
-                $this->storeExtraFields($volunteer);
-
-                return $volunteer;
-            }
-        } else
-            return $isValid;
-    }
 
     /**
      * Validate the Volunteer
@@ -215,7 +199,7 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
     /**
      * Validate the volunteer passed by Api
      */
-    abstract function apiValidate();
+    abstract function publicFormValidate();
 
     /**
      * Check whether the Volunteer has more fields than the basic ones.
@@ -224,6 +208,10 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
      */
     public function volunteerHasExtraFields() {
         return false;
+    }
+
+    public function apiStore(){
+        return null;
     }
 
 
@@ -253,4 +241,23 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
             return $input;
     }
 
+
+    abstract function getPublicFormRequestToBecomeVolunteer();
+
+
+    public function postPublicFormRequestToBecomeVolunteer() {
+        $isValid = $this->publicFormValidate();
+
+        if (!$isValid['failed']) {
+            $volunteer = new Volunteer($this->getBaseFields());
+
+           //if ($this->apiValidate()) {
+                $volunteer->save();
+                $volunteer = $this->basicStore($volunteer);
+                $this->storeExtraFields($volunteer);
+                return $volunteer;
+           //}
+        } else
+            return $isValid;
+    }
 }

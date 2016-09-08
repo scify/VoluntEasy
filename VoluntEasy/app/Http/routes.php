@@ -258,8 +258,11 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api'], function () {
 
 Route::get('faq', 'EtcController@faq');
 
-
-Route::get('cityofathens', 'TestController@cityofathens');
+////////////////////////////////////////////
+// Public form [for Athens municipality]  //
+////////////////////////////////////////////
+Route::get('cityofathens', 'VolunteerController@getPublicFormRequestToBecomeVolunteer');
+Route::post('cityofathens', 'VolunteerController@postPublicFormRequestToBecomeVolunteer');
 
 
 ////////////////////////////////////////////

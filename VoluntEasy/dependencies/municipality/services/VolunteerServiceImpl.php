@@ -1,7 +1,20 @@
 <?php namespace Dependencies\municipality\services;
 
-
 use Interfaces\VolunteerServiceAbstract;
+use App\Models\Descriptions\AvailabilityFrequencies;
+use App\Models\Descriptions\AvailabilityTime;
+use App\Models\Descriptions\CommunicationMethod;
+use App\Models\Descriptions\DriverLicenceType;
+use App\Models\Descriptions\EducationLevel;
+use App\Models\Descriptions\Gender;
+use App\Models\Descriptions\HowYouLearned;
+use App\Models\Descriptions\IdentificationType;
+use App\Models\Descriptions\InterestCategory;
+use App\Models\Descriptions\Language;
+use App\Models\Descriptions\LanguageLevel;
+use App\Models\Descriptions\MaritalStatus;
+use App\Models\Descriptions\WorkStatus;
+use App\Models\Unit;
 
 class VolunteerServiceImpl extends VolunteerServiceAbstract {
 
@@ -44,9 +57,93 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
     }
 
     /**
+     * Generate a Volunteer model from a Request
+     */
+    public function volunteerHasExtraFields() {
+        return false;
+    }
+
+
+    /**
+     * Generate a Volunteer model from a Request
+     */
+    function getExtraFields($volunteer) {
+
+        //            'work_status_id' => $this->checkDropDown($volunteerRequest['work_status_id']),
+        /*
+         *             'participation_reason' => $volunteerRequest['participation_reason'],
+                    'participation_previous' => $volunteerRequest['participation_previous'],
+
+         */
+        //todo: comment out?
+        $volunteer->work_status_id = \Request::get('how_you_learned_id');
+    }
+
+    /**
+     * Store extra volunter fields
+     * @param $volunteer
+     * @return null|void
+     */
+    function storeAvailabilityTimes($volunteer) {
+
+        $this->saveFrequencies($volunteer);
+
+    }
+
+    /**
+     * Save volunteer frequencies
+     *
+     * @param $volunteer
+     */
+    private function saveAvailabilityTimes($volunteer) {
+        if (isset($volunteerRequest['availability_time']) && sizeof($volunteerRequest['availability_time']) > 0)
+            $volunteer->availabilityTimes()->sync($volunteerRequest['availability_time']);
+    }
+
+    public function getPublicFormRequestToBecomeVolunteer()
+    {
+        //get all models for form
+        $identificationTypes = IdentificationType::lists('description', 'id')->all();
+        $driverLicenseTypes = DriverLicenceType::lists('description', 'id')->all();
+        $maritalStatuses = MaritalStatus::lists('description', 'id')->all();
+        $languages = Language::lists('description', 'id')->all();
+        $langLevels = LanguageLevel::lists('description', 'id')->all();
+        $workStatuses = WorkStatus::lists('description', 'id')->all();
+        $availabilityFreqs = AvailabilityFrequencies::lists('description', 'id')->all();
+        $availabilityTimes = AvailabilityTime::lists('description', 'id')->all();
+        $interestCategories = InterestCategory::with('interests')->get()->all();
+        $genders = Gender::lists('description', 'id')->all();
+        $commMethod = CommunicationMethod::lists('description', 'id')->all();
+        $edLevel = EducationLevel::lists('description', 'id')->all();
+        $howYouLearned = HowYouLearned::lists('description', 'id')->all();
+        $units = Unit::orderBy('description', 'asc')->get()->all();
+//        $viewPath = $this->configuration->getViewsPath() . '.volunteers._form';
+        $maritalStatuses[0] = trans('entities/search.choose');
+        $edLevel[0] = trans('entities/search.choose');
+        $genders[0] = trans('entities/search.choose');
+        $driverLicenseTypes[0] = trans('entities/search.choose');
+        $workStatuses[0] = trans('entities/search.choose');
+        $availabilityFreqs[0] = trans('entities/search.choose');
+        $howYouLearned[0] = trans('entities/search.choose');
+        ksort($maritalStatuses);
+        ksort($edLevel);
+        ksort($genders);
+        ksort($driverLicenseTypes);
+        ksort($workStatuses);
+        ksort($availabilityFreqs);
+        ksort($howYouLearned);
+
+        return view("tests.cityofathens", compact(
+            'identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
+            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders',
+            'commMethod', 'edLevel', 'units', 'howYouLearned'
+        ));
+    }
+
+    /**
      * Validate the Volunteer passed by the API
      */
-    public function apiValidate(){
+    public function publicFormValidate(){
         $volunteer = \Request::all();
 
         $validator = \Validator::make($volunteer, [
@@ -89,48 +186,5 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
             return [
                 'failed' => false,
                 'messages' => null];
-    }
-
-    /**
-     * Generate a Volunteer model from a Request
-     */
-    public function volunteerHasExtraFields() {
-        return false;
-    }
-
-
-    /**
-     * Generate a Volunteer model from a Request
-     */
-    function getExtraFields($volunteer) {
-
-        //            'work_status_id' => $this->checkDropDown($volunteerRequest['work_status_id']),
-        /*
-         *             'participation_reason' => $volunteerRequest['participation_reason'],
-                    'participation_previous' => $volunteerRequest['participation_previous'],
-
-         */
-        $volunteer->work_status_id = \Request::get('how_you_learned_id');
-    }
-
-    /**
-     * Store extra volunter fields
-     * @param $volunteer
-     * @return null|void
-     */
-    function storeAvailabilityTimes($volunteer) {
-
-        $this->saveFrequencies($volunteer);
-
-    }
-
-    /**
-     * Save volunteer frequencies
-     *
-     * @param $volunteer
-     */
-    private function saveAvailabilityTimes($volunteer) {
-        if (isset($volunteerRequest['availability_time']) && sizeof($volunteerRequest['availability_time']) > 0)
-            $volunteer->availabilityTimes()->sync($volunteerRequest['availability_time']);
     }
 }

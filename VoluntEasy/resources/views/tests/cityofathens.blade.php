@@ -12,11 +12,11 @@
 <body>
 
 @if(Session::has('success'))
-    <p class="success">Η φόρμα αποθηκεύτηκε επιτυχώς</p>
+    <p class="success">Η φόρμα αποθηκεύτηκε επιτυχώς. Θα επικοινωνήσουμε σύντομα μαζί σας.</p>
 @endif
 
-
-{!! Form::open(['id' => 'volunteer-form', 'method' => 'POST', 'action' => ['Api\VolunteerApiController@apiStore']]) !!}
+{!! Form::open(['id' => 'volunteer-form', 'method' => 'POST', 'action' =>
+    ['VolunteerController@postPublicFormRequestToBecomeVolunteer']]) !!}
 
 <div>
     <fieldset class=" collapsible">
@@ -31,7 +31,7 @@
                 @if($errors->has('name'))
                     <p class="error">{{ $errors->first('name') }}</p>
                 @endif
-                <input type="text" maxlength="20" name="name" id="edit-Όνομα" size="20" value="{{ old('name') }}"
+                <input type="text" name="name" id="edit-Όνομα" value="{{ old('name') }}" size="20"
                        class="form-text required">
                 <div class="description">Παρακαλώ συμπληρώστε το ονομά σας.</div>
             </div>
@@ -42,7 +42,7 @@
                 @if($errors->has('last_name'))
                     <p class="error">{{ $errors->first('last_name') }}</p>
                 @endif
-                <input type="text" maxlength="40" name="last_name" id="edit-Επώνυμο" size="40"
+                <input type="text" name="last_name" id="edit-Επώνυμο" size="40"
                        value="{{ old('last_name') }}"
                        class="form-text required">
                 <div class="description">Παρακαλώ συμπληρώστε το επώνυμο σας.</div>
@@ -53,7 +53,7 @@
                 @if($errors->has('fathers_name'))
                     <p class="error">{{ $errors->first('fathers_name') }}</p>
                 @endif
-                <input type="text" maxlength="20" name="fathers_name" id="edit-Όνομα-Πατέρα" size="20"
+                <input type="text" name="fathers_name" id="edit-Όνομα-Πατέρα" size="20"
                        value="{{ old('fathers_name') }}"
                        class="form-text required">
                 <div class="description">Παρακαλώ συμπληρώστε το όνομα του πατέρα σας.</div>
@@ -61,16 +61,18 @@
             <div class="form-item" id="edit-Τύπος-Ταυτότητας-wrapper">
                 <label for="identification_type_id">Τύπος Ταυτότητας: </label>
                 <select name="identification_type_id" class="form-select" id="edit-Τύπος-Ταυτότητας">
-                    <option value="1">Α.Δ.Τ.</option>
-                    <option value="2">Διαβατήριο</option>
-                    <option value="3">Άδεια Παραμονής</option>
+                    @foreach($identificationTypes as $key => $value)
+                        @if($key !== 0)
+                            <option value="{{ $key }}">{{ $value }}</option>
+                        @endif
+                    @endforeach
                 </select>
             </div>
             <div class="form-item" id="edit-Ταυτότητα-wrapper">
                 @if($errors->has('identification_num'))
                     <p class="error">{{ $errors->first('identification_num') }}</p>
                 @endif
-                <input type="text" maxlength="20" name="identification_num" id="edit-Ταυτότητα" size="20"
+                <input type="text" name="identification_num" id="edit-Ταυτότητα" size="20"
                        value="{{ old('identification_num') }}"
                        class="form-text">
                 <div class="description">Παρακαλώ συμπληρώστε το Α.Δ.Τ. ή Διαβατηρίου ή Άδεια Παραμονής και επιλέξτε
@@ -112,11 +114,9 @@
                     <p class="error">{{ $errors->first('marital_status_id') }}</p>
                 @endif
                 <select name="marital_status_id" class="form-select" id="edit-Οικογενειακή-Κατάσταση">
-                    <option value="" selected="selected">- Επιλέξτε -</option>
-                    <option value="1">άγαμος/η</option>
-                    <option value="2">παντρεμένος/η</option>
-                    <option value="3">χήρος/α</option>
-                    <option value="4">διαζευγμένος/η</option>
+                    @foreach($maritalStatuses as $key => $value)
+                        <option value="{{ $key }}" @if($key === 0) selected="selected" @endif>{{ $value }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="form-item" id="edit-Τέκνα-wrapper">
@@ -124,7 +124,7 @@
                 @if($errors->has('children'))
                     <p class="error">{{ $errors->first('children') }}</p>
                 @endif
-                <input type="text" maxlength="2" name="children" id="edit-Τέκνα" size="2" value="{{ old('children') }}"
+                <input type="text" name="children" id="edit-Τέκνα" size="2" value="{{ old('children') }}"
                        class="form-text">
             </div>
             <div class="form-item" id="edit-Διεύθυνση-wrapper">
@@ -141,7 +141,7 @@
                 @if($errors->has('post_box'))
                     <p class="error">{{ $errors->first('post_box') }}</p>
                 @endif
-                <input type="text" maxlength="6" name="post_box" id="edit-Τ-Κ" size="6" value="{{ old('post_box') }}"
+                <input type="text" name="post_box" id="edit-Τ-Κ" size="6" value="{{ old('post_box') }}"
                        class="form-text">
             </div>
             <div class="form-item" id="edit-Πόλη-wrapper">
@@ -149,7 +149,7 @@
                 @if($errors->has('city'))
                     <p class="error">{{ $errors->first('city') }}</p>
                 @endif
-                <input type="text" maxlength="50" name="city" id="edit-Πόλη" size="50" value="{{ old('city') }}"
+                <input type="text" name="city" id="edit-Πόλη" size="50" value="{{ old('city') }}"
                        class="form-text">
             </div>
             <div class="form-item" id="edit-Χώρα-wrapper">
@@ -157,7 +157,7 @@
                 @if($errors->has('country'))
                     <p class="error">{{ $errors->first('country') }}</p>
                 @endif
-                <input type="text" maxlength="50" name="country" id="edit-Χώρα" size="50" value="{{ old('country') }}"
+                <input type="text" name="country" id="edit-Χώρα" size="50" value="{{ old('country') }}"
                        class="form-text">
             </div>
             <div class="form-item" id="edit-Κάτοικος-Ελλάδας-wrapper">
@@ -182,7 +182,7 @@
                 @if($errors->has('home_tel'))
                     <p class="error">{{ $errors->first('home_tel') }}</p>
                 @endif
-                <input type="text" maxlength="15" name="home_tel" id="edit-Τηλέφωνο-Οικίας" size="15"
+                <input type="text" name="home_tel" id="edit-Τηλέφωνο-Οικίας" size="15"
                        value="{{ old('home_tel') }}" class="form-text">
             </div>
             <div class="form-item" id="edit-Τηλέφωνο-Εργασίας-wrapper">
@@ -190,7 +190,7 @@
                 @if($errors->has('work_tel'))
                     <p class="error">{{ $errors->first('work_tel') }}</p>
                 @endif
-                <input type="text" maxlength="15" name="work_tel" id="edit-Τηλέφωνο-Εργασίας" size="15"
+                <input type="text" name="work_tel" id="edit-Τηλέφωνο-Εργασίας" size="15"
                        value="{{ old('work_tel') }}" class="form-text">
             </div>
             <div class="form-item" id="edit-Κινητό-wrapper">
@@ -198,7 +198,7 @@
                 @if($errors->has('cell_tel'))
                     <p class="error">{{ $errors->first('cell_tel') }}</p>
                 @endif
-                <input type="text" maxlength="15" name="cell_tel" id="edit-Κινητό" size="15"
+                <input type="text" name="cell_tel" id="edit-Κινητό" size="15"
                        value="{{ old('cell_tel') }}"
                        class="form-text">
             </div>
@@ -207,7 +207,7 @@
                 @if($errors->has('fax'))
                     <p class="error">{{ $errors->first('fax') }}</p>
                 @endif
-                <input type="text" maxlength="15" name="fax" id="edit-Fax" size="15" value="{{ old('fax') }}"
+                <input type="text" name="fax" id="edit-Fax" size="15" value="{{ old('fax') }}"
                        class="form-text">
             </div>
             <div class="form-item" id="edit-email-wrapper">
@@ -216,17 +216,16 @@
                 @if($errors->has('email'))
                     <p class="error">{{ $errors->first('email') }}</p>
                 @endif
-                <input type="text" maxlength="128" name="email" id="edit-email" size="50" value="{{ old('email') }}"
+                <input type="text" name="email" id="edit-email" size="50" value="{{ old('email') }}"
                        class="form-text required">
                 <div class="description">Συμπληρώστε την διεύθυνση στην μορφή "xxx@xxx.xx"</div>
             </div>
             <div class="form-item" id="edit-Τρόπος-επικοινωνίας-wrapper">
                 <label for="comm_method_id">Να επικοινωνήσουμε μαζί σας στο: </label>
                 <select name="comm_method_id" class="form-select" id="edit-Τρόπος-επικοινωνίας">
-                    <option value="1">Ηλεκτρονικό ταχυδρομείο</option>
-                    <option value="2">Τηλέφωνο Οικίας</option>
-                    <option value="3">Τηλέφωνο Εργασίας</option>
-                    <option value="4">Κινητό Τηλέφωνο</option>
+                    @foreach($commMethod as $key => $value)
+                        <option value="{{ $key }}">{{ $value }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
@@ -245,13 +244,9 @@
                     <p class="error">{{ $errors->first('education_level_id') }}</p>
                 @endif
                 <select name="education_level_id" class="form-select required" id="edit-Επίπεδο-εκπαίδευσης">
-                    <option value="">- Επιλέξτε -</option>
-                    {{--<option value="Δημοτικό">Δημοτικό</option>--}}
-                    <option value="1">Γυμνάσιο</option>
-                    <option value="2">Λύκειο</option>
-                    <option value="3">Ανώτερη</option>
-                    <option value="4">Ανώτατη</option>
-                    <option value="5">Μεταπτυχιακά</option>
+                    @foreach($edLevel as $key => $value)
+                        <option value="@if($key !== 0){{ $key }}@endif">{{ $value }}</option>
+                    @endforeach
                 </select>
                 <div class="description">Επιλέξτε απο την λίστα το επίπεδο της εκπαίδευσης σας.</div>
             </div>
@@ -260,7 +255,7 @@
                 @if($errors->has('specialty'))
                     <p class="error">{{ $errors->first('specialty') }}</p>
                 @endif
-                <input type="text" maxlength="50" name="specialty" id="edit-Ειδικότητα" size="50"
+                <input type="text" name="specialty" id="edit-Ειδικότητα" size="50"
                        value="{{ old('specialty') }}"
                        class="form-text">
             </div>
@@ -269,7 +264,7 @@
                 @if($errors->has('department'))
                     <p class="error">{{ $errors->first('department') }}</p>
                 @endif
-                <input type="text" maxlength="50" name="department" id="edit-Σχολή" size="50"
+                <input type="text" name="department" id="edit-Σχολή" size="50"
                        value="{{ old('department') }}" class="form-text">
             </div>
             <fieldset>
@@ -418,13 +413,9 @@
                     <p class="error">{{ $errors->first('driver_licence_type_id') }}</p>
                 @endif
                 <select name="driver_license_type_id" class="form-select" id="edit-Δίπλωμα-οδήγησης">
-                    <option value="0" selected="selected">- Επιλέξτε -</option>
-                    <option value="1">Χωρίς Δίπλωμα</option>
-                    <option value="2">Α κατηγορίας</option>
-                    <option value="3">Α1 κατηγορίας</option>
-                    <option value="4">Β κατηγορίας</option>
-                    <option value="5">Γ κατηγορίας</option>
-                    <option value="6">Γ+Ε κατηγορίας</option>
+                    @foreach($driverLicenseTypes as $key => $value)
+                        <option value="{{ $key }}">{{ $value }}</option>
+                    @endforeach
                 </select>
                 <div class="description">Επιλέξτε την κατηγορία του διπλώματος σας εάν έχετε.</div>
             </div>
@@ -465,11 +456,9 @@
                     <p class="error">{{ $errors->first('work_status_id') }}</p>
                 @endif
                 <select name="work_status_id" class="form-select required" id="edit-Εργασιακή-κατάσταση">
-                    <option value="0">- Επιλέξτε -</option>
-                    <option value="1">Φοιτητής</option>
-                    <option value="2">Εργαζόμενος</option>
-                    <option value="3">Άνεργος</option>
-                    <option value="4">Συνταξιούχος</option>
+                    @foreach($workStatuses as $key => $value)
+                        <option value="{{ $key }}">{{ $value }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="form-item" id="edit-Εργασία-wrapper">
@@ -552,10 +541,9 @@
                     <p class="error">{{ $errors->first('availability_freqs_id') }}</p>
                 @endif
                 <select name="availability_freqs_id" class="form-select" id="edit-Συχνότητα-συνεισφοράς">
-                    <option value="0" selected="selected">- Επιλέξτε -</option>
-                    <option value="1">1-2 φορές την εβδομάδα</option>
-                    <option value="2">1-2 φορές το δεκαπενθήμερο</option>
-                    <option value="3">1-2 φορές τον μήνα</option>
+                    @foreach($availabilityFreqs as $key => $value)
+                        <option value="{{ $key }}">{{ $value }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="form-item">

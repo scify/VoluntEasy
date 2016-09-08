@@ -110,14 +110,7 @@ class VolunteerApiController extends Controller {
      * @return mixed
      */
     public function apiStore() {
-        $volunteerService = \App::make('Interfaces\VolunteerInterface');
-        $saved = $volunteerService->apiStore();
-        if ($saved['failed']) {
-            return redirect()->back()->withErrors($saved['messages'])->withInput();
-        } else {
-            \Session::flash('success', '');
-            return redirect()->back();
-        }
+
     }
 
 

@@ -598,45 +598,23 @@ class VolunteerController extends Controller {
      *
      * @return \Illuminate\View\View
      */
-    public function publicForm() {
-
-        $identificationTypes = IdentificationType::lists('description', 'id')->all();
-        $driverLicenseTypes = DriverLicenceType::lists('description', 'id')->all();
-        $maritalStatuses = MaritalStatus::lists('description', 'id')->all();
-        $languages = Language::lists('description', 'id')->all();
-        $langLevels = LanguageLevel::lists('description', 'id')->all();
-        $workStatuses = WorkStatus::lists('description', 'id')->all();
-        $availabilityFreqs = AvailabilityFrequencies::lists('description', 'id')->all();
-        $availabilityTimes = AvailabilityTime::lists('description', 'id')->all();
-        $interestCategories = InterestCategory::with('interests')->get()->all();
-        $genders = Gender::lists('description', 'id')->all();
-        $commMethod = CommunicationMethod::lists('description', 'id')->all();
-        $edLevel = EducationLevel::lists('description', 'id')->all();
-        $howYouLearned = HowYouLearned::lists('description', 'id')->all();
-        $units = Unit::orderBy('description', 'asc')->get()->all();
-
-        $viewPath = $this->configuration->getViewsPath() . '.volunteers._form';
-
-        $maritalStatuses[0] = trans('entities/search.choose');
-        $edLevel[0] = trans('entities/search.choose');
-        $genders[0] = trans('entities/search.choose');
-        $identificationTypes[0] = trans('entities/search.choose');
-        $driverLicenseTypes[0] = trans('entities/search.choose');
-        $workStatuses[0] = trans('entities/search.choose');
-        $availabilityFreqs[0] = trans('entities/search.choose');
-        $howYouLearned[0] = trans('entities/search.choose');
-        ksort($maritalStatuses);
-        ksort($edLevel);
-        ksort($genders);
-        ksort($identificationTypes);
-        ksort($driverLicenseTypes);
-        ksort($workStatuses);
-        ksort($availabilityFreqs);
-        ksort($howYouLearned);
-
-        return view('main.volunteers.public_form', compact('identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
-            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'units', 'howYouLearned', 'viewPath'));
+    public function getPublicFormRequestToBecomeVolunteer() {
+        return $this->volunteerService->getPublicFormRequestToBecomeVolunteer();
     }
 
+
+    /**
+     * Post from public form
+     */
+    public function postPublicFormRequestToBecomeVolunteer(){
+        $volunteerService = \App::make('Interfaces\VolunteerInterface');
+        $saved = $volunteerService->postPublicFormRequestToBecomeVolunteer();
+        if ($saved['failed']) {
+            return redirect()->back()->withErrors($saved['messages'])->withInput();
+        } else {
+            \Session::flash('success', '');
+            return redirect()->back();
+        }
+    }
 
 }
