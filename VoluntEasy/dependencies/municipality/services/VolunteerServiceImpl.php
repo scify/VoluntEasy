@@ -117,7 +117,7 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
         $edLevel = EducationLevel::lists('description', 'id')->all();
         $howYouLearned = HowYouLearned::lists('description', 'id')->all();
         $units = Unit::orderBy('description', 'asc')->get()->all();
-//        $viewPath = $this->configuration->getViewsPath() . '.volunteers._form';
+//        $viewPath = $this->configuration->getViewsPath() . '.public_form.volunteer_public_form';
         $maritalStatuses[0] = trans('entities/search.choose');
         $edLevel[0] = trans('entities/search.choose');
         $genders[0] = trans('entities/search.choose');
@@ -133,7 +133,7 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
         ksort($availabilityFreqs);
         ksort($howYouLearned);
 
-        return view("tests.cityofathens", compact(
+        return view("municipality.resources.views.public_form.volunteer_public_form", compact(
             'identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
             'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders',
             'commMethod', 'edLevel', 'units', 'howYouLearned'
@@ -142,6 +142,8 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
 
     /**
      * Validate the Volunteer passed by the API
+     *
+     * @return array()
      */
     public function publicFormValidate(){
         $volunteer = \Request::all();

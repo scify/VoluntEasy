@@ -1,5 +1,7 @@
 <html>
 <head>
+    <title>Φόρμα Εθελοντών</title>
+
     {{-- bootstrap --}}
     <link href="{{ asset('/assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"/>
 
@@ -7,7 +9,7 @@
     <link href="{{ asset('assets/plugins/bootstrap-datepicker/css/datepicker3.css')}}" rel="stylesheet"
           type="text/css"/>
 
-    <link href="{{ asset('/athensmunicipality/css/cityofathens_form.css')}}" rel="stylesheet"/>
+    <link href="{{ asset('/' . env('MODE') . '/css/volunteer_public_form.css') }}" rel="stylesheet"/>
 </head>
 <body>
 
@@ -755,7 +757,7 @@
 <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.el.js')}}"></script>
 
 {{-- custom js --}}
-<script src="{{ asset('/athensmunicipality/js/volunteer_participation_form.js') }}"></script>
+<script src="{{ asset('/' . env('MODE') . '/js/volunteer_public_form.js') }}"></script>
 
 </body>
 </html>

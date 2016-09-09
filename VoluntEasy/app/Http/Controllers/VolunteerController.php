@@ -36,8 +36,10 @@ class VolunteerController extends Controller {
     private $ratingService;
 
     public function __construct() {
-        $this->middleware('auth', ['except' => ['publicForm']]);
-        $this->configuration = \App::make('Interfaces\ConfigurationInterface');
+        $this->middleware('auth', ['except' => ['getPublicFormRequestToBecomeVolunteer',
+            'postPublicFormRequestToBecomeVolunteer']
+        ]);
+//        $this->configuration = \App::make('Interfaces\ConfigurationInterface');
         $this->volunteerService = \App::make('Interfaces\VolunteerInterface');
         $this->ratingService = \App::make('Interfaces\RatingInterface');
     }
@@ -605,14 +607,15 @@ class VolunteerController extends Controller {
 
     /**
      * Post from public form
+     *
+     * @return \Illuminate\Http\RedirectResponse | \Illuminate\View\View
      */
     public function postPublicFormRequestToBecomeVolunteer(){
-        $volunteerService = \App::make('Interfaces\VolunteerInterface');
-        $saved = $volunteerService->postPublicFormRequestToBecomeVolunteer();
+        $saved = $this->volunteerService->postPublicFormRequestToBecomeVolunteer();
         if ($saved['failed']) {
             return redirect()->back()->withErrors($saved['messages'])->withInput();
         } else {
-            return view('tests.success_public_form');
+            return view('municipality.resources.views.success_public_form');
         }
     }
 

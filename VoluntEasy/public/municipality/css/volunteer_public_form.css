@@ -25,12 +25,12 @@ legend a, legend a:hover, legend a:focus {
 
 /* legend collapse icon */
 fieldset.collapsible legend a {
-    background: rgba(0, 0, 0, 0) url("/public/athensmunicipality/images/menu-expanded.png") no-repeat scroll 5px 75%;
+    background: rgba(0, 0, 0, 0) url("/public/municipality/images/menu-expanded.png") no-repeat scroll 5px 75%;
     padding-left: 15px;
 }
 
 fieldset.collapsed legend a {
-    background-image: url("/public/athensmunicipality/images/menu-collapsed.png");
+    background-image: url("/public/municipality/images/menu-collapsed.png");
     background-position: 5px 50%;
 }
 
@@ -123,7 +123,7 @@ input, textarea {
     -moz-border-left-colors: none;
     -moz-border-right-colors: none;
     -moz-border-top-colors: none;
-    background: #eee url("/public/athensmunicipality/images/grippie.png") no-repeat scroll center 2px;
+    background: #eee url("/public/municipality/images/grippie.png") no-repeat scroll center 2px;
     border-color: #ddd;
     border-image: none;
     border-style: solid;
@@ -140,7 +140,7 @@ a.intlink {
 
 /* start of send button css */
 .readon .button {
-    background: rgba(0, 0, 0, 0) url("/public/athensmunicipality/images/readon-l.png") no-repeat scroll 0 0;
+    background: rgba(0, 0, 0, 0) url("/public/municipality/images/readon-l.png") no-repeat scroll 0 0;
 }
 
 .readon:hover .button {
@@ -166,7 +166,7 @@ a.intlink {
 }
 
 .readon {
-    background: rgba(0, 0, 0, 0) url("/public/athensmunicipality/images/readon-r.png") no-repeat scroll 100% 0;
+    background: rgba(0, 0, 0, 0) url("/public/municipality/images/readon-r.png") no-repeat scroll 100% 0;
     margin-right: 5px;
     margin-top: 5px;
     display: inline-block;
