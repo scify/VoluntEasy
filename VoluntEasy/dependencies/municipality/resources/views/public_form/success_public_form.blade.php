@@ -1,6 +1,6 @@
 <html>
 <head>
-    <link href="{{ asset('/athensmunicipality/css/cityofathens_form.css')}}" rel="stylesheet"/>
+    <link href="{{ asset('/' . env('MODE') . '/css/volunteer_public_form.css')}}" rel="stylesheet"/>
 </head>
 <body>
 

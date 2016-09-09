@@ -39,7 +39,7 @@ class VolunteerController extends Controller {
         $this->middleware('auth', ['except' => ['getPublicFormRequestToBecomeVolunteer',
             'postPublicFormRequestToBecomeVolunteer']
         ]);
-//        $this->configuration = \App::make('Interfaces\ConfigurationInterface');
+        $this->configuration = \App::make('Interfaces\ConfigurationInterface');
         $this->volunteerService = \App::make('Interfaces\VolunteerInterface');
         $this->ratingService = \App::make('Interfaces\RatingInterface');
     }
@@ -615,7 +615,7 @@ class VolunteerController extends Controller {
         if ($saved['failed']) {
             return redirect()->back()->withErrors($saved['messages'])->withInput();
         } else {
-            return view('municipality.resources.views.success_public_form');
+            return view('municipality.resources.views.public_form.success_public_form');
         }
     }
 

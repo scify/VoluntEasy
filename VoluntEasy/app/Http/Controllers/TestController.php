@@ -139,4 +139,8 @@ class TestController extends Controller {
         return 'Dummy data generated...';
 
     }
+
+    public function iframe(){
+        return view('tests.iframe_public_form');
+    }
 }

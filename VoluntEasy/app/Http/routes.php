@@ -280,6 +280,7 @@ Route::post('testPost', 'TestController@test');
 Route::get('faker', 'TestController@faker');
 Route::get('boxytree', 'TestController@boxytree');
 Route::get('experiment', 'TestController@experiment');
+Route::get('iframe', 'TestController@iframe');
 
 
 Route::get('ekpizo', 'TestController@ekpizo');
