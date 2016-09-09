@@ -12,11 +12,19 @@ use Interfaces\VolunteerServiceAbstract;
 
 class VolunteerServiceImpl extends VolunteerServiceAbstract {
 
-
-    public function publicFormRequestToBecomeVolunteer()
+    /**
+     * Validate the public form for volunteers
+     */
+    public function publicFormValidate()
     {
-        //get all models for form
+        return abort(501, "not implemented");
+    }
 
+    /**
+     * Display the public form for volunteers
+     */
+    public function getPublicFormRequestToBecomeVolunteer()
+    {
         return abort(501, "not implemented");
     }
 

@@ -12,6 +12,21 @@ use Interfaces\VolunteerServiceAbstract;
 
 class VolunteerServiceImpl extends VolunteerServiceAbstract {
 
+    /**
+     * Validate the public form for volunteers
+     */
+    public function publicFormValidate()
+    {
+        return abort(501, "not implemented");
+    }
+
+    /**
+     * Display the public form for volunteers
+     */
+    public function getPublicFormRequestToBecomeVolunteer()
+    {
+        return abort(501, "not implemented");
+    }
 
     /**
      * Validate the Volunteer
