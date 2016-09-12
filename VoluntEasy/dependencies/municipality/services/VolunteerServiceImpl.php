@@ -178,6 +178,7 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
             'comments' => 'max:6000',
             'education_level_id' => 'required',
             'terms' => 'required',
+            'work_status_id' => 'required',
         ]);
 
         if ($validator->fails())

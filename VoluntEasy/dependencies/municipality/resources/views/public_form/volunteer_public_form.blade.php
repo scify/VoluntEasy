@@ -459,7 +459,7 @@
                 @endif
                 <select name="work_status_id" class="form-select required" id="edit-Εργασιακή-κατάσταση">
                     @foreach($workStatuses as $key => $value)
-                        <option value="{{ $key }}">{{ $value }}</option>
+                        <option value="@if($key !== 0){{ $key }}@endif">{{ $value }}</option>
                     @endforeach
                 </select>
             </div>
