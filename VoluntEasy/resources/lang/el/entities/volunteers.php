@@ -108,6 +108,7 @@ return [
     'morning' => 'Πρωί',
     'afternoon' => 'Μεσημέρι',
     'evening' => 'Απόγευμα',
+    'weekend' => 'Σαββατοκύριακο',
 
     'files' => 'Αρχεία',
     'uploadFiles' => 'Ανέβασμα αρχείων',

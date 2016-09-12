@@ -23,7 +23,7 @@
         </legend>
         <div class="fieldset-wrapper">
             <div class="form-item" id="first-name-wrapper">
-                <label for="name">Όνομα:
+                <label for="name">@lang('entities/volunteers.name'):
                     <span class="form-required" title="Το πεδίο είναι απαραίτητο.">*</span>
                 </label>
                 @if($errors->has('name'))
@@ -34,7 +34,7 @@
                 <div class="description">Παρακαλώ συμπληρώστε το ονομά σας.</div>
             </div>
             <div class="form-item" id="last-name-wrapper">
-                <label for="last_name">Επώνυμο:
+                <label for="last_name">@lang('entities/volunteers.lastName'):
                     <span class="form-required" title="Το πεδίο είναι απαραίτητο.">*</span>
                 </label>
                 @if($errors->has('last_name'))
@@ -46,7 +46,7 @@
                 <div class="description">Παρακαλώ συμπληρώστε το επώνυμο σας.</div>
             </div>
             <div class="form-item" id="fathers-name-wrapper">
-                <label for="fathers_name">Όνομα Πατέρα: <span class="form-required"
+                <label for="fathers_name">@lang('entities/volunteers.fathersName'): <span class="form-required"
                                                               title="Το πεδίο είναι απαραίτητο.">*</span></label>
                 @if($errors->has('fathers_name'))
                     <p class="error">{{ $errors->first('fathers_name') }}</p>
@@ -57,7 +57,7 @@
                 <div class="description">Παρακαλώ συμπληρώστε το όνομα του πατέρα σας.</div>
             </div>
             <div class="form-item" id="identification-type-wrapper">
-                <label for="identification_type_id">Τύπος Ταυτότητας: </label>
+                <label for="identification_type_id">@lang('entities/volunteers.idType'): </label>
                 <select name="identification_type_id" class="form-select">
                     @foreach($identificationTypes as $key => $value)
                         @if($key !== 0)
@@ -79,7 +79,7 @@
             </div>
             <div class="container-inline-date date-clear-block">
                 <div class="form-item" id="birth-date-wrapper">
-                    <label for="birth_date">Ημερομηνία Γέννησης: <span class="form-required"
+                    <label for="birth_date">@lang('entities/volunteers.birthDate'): <span class="form-required"
                                                                        title="Το πεδίο είναι απαραίτητο.">*</span></label>
                     @if($errors->has('birth_date'))
                         <p class="error">{{ $errors->first('birth_date') }}</p>
@@ -89,7 +89,7 @@
                 </div>
             </div>
             <div class="form-item">
-                <label>Φύλο: <span class="form-required" title="Το πεδίο είναι απαραίτητο.">*</span></label>
+                <label>@lang('entities/volunteers.gender'): <span class="form-required" title="Το πεδίο είναι απαραίτητο.">*</span></label>
                 @if($errors->has('gender_id'))
                     <p class="error">{{ $errors->first('gender_id') }}</p>
                 @endif
@@ -97,17 +97,17 @@
                     <div class="form-item" id="gender-male-wrapper">
                         <label class="option" for="gender-male"><input type="radio" id="gender-male"
                                                                             name="gender_id" value="1"
-                                                                            class="form-radio"> Άνδρας</label>
+                                                                            class="form-radio"> @lang('database/db_tables.man')</label>
                     </div>
                     <div class="form-item" id="gender-female-wrapper">
                         <label class="option" for="gender-female"><input type="radio" id="gender-female"
                                                                              name="gender_id" value="2"
-                                                                             class="form-radio"> Γυναίκα</label>
+                                                                             class="form-radio"> @lang('database/db_tables.woman')</label>
                     </div>
                 </div>
             </div>
             <div class="form-item" id="marital-status-wrapper">
-                <label for="marital_status_id">Οικογενειακή Κατάσταση: </label>
+                <label for="marital_status_id">@lang('entities/volunteers.maritalStatus'): </label>
                 @if($errors->has('marital_status_id'))
                     <p class="error">{{ $errors->first('marital_status_id') }}</p>
                 @endif
@@ -118,7 +118,7 @@
                 </select>
             </div>
             <div class="form-item" id="children-wrapper">
-                <label for="children">Τέκνα: </label>
+                <label for="children">@lang('entities/volunteers.childNum'): </label>
                 @if($errors->has('children'))
                     <p class="error">{{ $errors->first('children') }}</p>
                 @endif
@@ -126,7 +126,7 @@
                        class="form-text">
             </div>
             <div class="form-item" id="address-wrapper">
-                <label for="address">Διεύθυνση: </label>
+                <label for="address">@lang('entities/volunteers.address'): </label>
                 @if($errors->has('address'))
                     <p class="error">{{ $errors->first('address') }}</p>
                 @endif
@@ -135,7 +135,7 @@
                        class="form-text">
             </div>
             <div class="form-item" id="post-box-wrapper">
-                <label for="post_box">Τ.Κ.: </label>
+                <label for="post_box">@lang('entities/volunteers.postBox').: </label>
                 @if($errors->has('post_box'))
                     <p class="error">{{ $errors->first('post_box') }}</p>
                 @endif
@@ -143,7 +143,7 @@
                        class="form-text">
             </div>
             <div class="form-item" id="city-wrapper">
-                <label for="city">Πόλη: </label>
+                <label for="city">@lang('entities/volunteers.city'): </label>
                 @if($errors->has('city'))
                     <p class="error">{{ $errors->first('city') }}</p>
                 @endif
@@ -151,7 +151,7 @@
                        class="form-text">
             </div>
             <div class="form-item" id="country-wrapper">
-                <label for="country">Χώρα: </label>
+                <label for="country">@lang('entities/volunteers.country'): </label>
                 @if($errors->has('country'))
                     <p class="error">{{ $errors->first('country') }}</p>
                 @endif
@@ -163,8 +163,8 @@
                                                                         id="live_in_curr_country"
                                                                         value="1"
                                                                         checked="checked" class="form-checkbox">
-                    Κάτοικος Ελλάδας</label>
-                <div class="description">Αποεπιλέξτε εφόσον δεν διαμένετε μόνιμα στην Ελλάδα</div>
+                    @lang('entities/volunteers.livesInCurrCountry')</label>
+                <div class="description">@lang('entities/volunteers.livesInCurrCountryExpl')</div>
             </div>
         </div>
 
@@ -176,7 +176,7 @@
         </legend>
         <div class="fieldset-wrapper">
             <div class="form-item" id="home-tel-wrapper">
-                <label for="home_tel">Τηλέφωνο Οικίας: </label>
+                <label for="home_tel">@lang('entities/volunteers.homeTel'): </label>
                 @if($errors->has('home_tel'))
                     <p class="error">{{ $errors->first('home_tel') }}</p>
                 @endif
@@ -184,7 +184,7 @@
                        value="{{ old('home_tel') }}" class="form-text">
             </div>
             <div class="form-item" id="work-tel-wrapper">
-                <label for="work_tel">Τηλέφωνο Εργασίας: </label>
+                <label for="work_tel">@lang('entities/volunteers.workTel'): </label>
                 @if($errors->has('work_tel'))
                     <p class="error">{{ $errors->first('work_tel') }}</p>
                 @endif
@@ -192,7 +192,7 @@
                        value="{{ old('work_tel') }}" class="form-text">
             </div>
             <div class="form-item" id="cell-tel-wrapper">
-                <label for="cell_tel">Κινητό: </label>
+                <label for="cell_tel">@lang('entities/volunteers.cellTel'): </label>
                 @if($errors->has('cell_tel'))
                     <p class="error">{{ $errors->first('cell_tel') }}</p>
                 @endif
@@ -201,7 +201,7 @@
                        class="form-text">
             </div>
             <div class="form-item" id="fax-wrapper">
-                <label for="fax">Fax: </label>
+                <label for="fax">@lang('entities/volunteers.fax'): </label>
                 @if($errors->has('fax'))
                     <p class="error">{{ $errors->first('fax') }}</p>
                 @endif
@@ -209,7 +209,7 @@
                        class="form-text">
             </div>
             <div class="form-item" id="email-wrapper">
-                <label for="email">email: <span class="form-required"
+                <label for="email">@lang('entities/volunteers.email'): <span class="form-required"
                                                 title="Το πεδίο είναι απαραίτητο.">*</span></label>
                 @if($errors->has('email'))
                     <p class="error">{{ $errors->first('email') }}</p>
@@ -219,7 +219,7 @@
                 <div class="description">Συμπληρώστε την διεύθυνση στην μορφή "xxx@xxx.xx"</div>
             </div>
             <div class="form-item" id="comm-method-wrapper">
-                <label for="comm_method_id">Να επικοινωνήσουμε μαζί σας στο: </label>
+                <label for="comm_method_id">@lang('entities/volunteers.preferredContactWay'): </label>
                 <select name="comm_method_id" class="form-select">
                     @foreach($commMethod as $key => $value)
                         <option value="{{ $key }}">{{ $value }}</option>
@@ -236,7 +236,7 @@
         </legend>
         <div class="fieldset-wrapper">
             <div class="form-item" id="education-level-wrapper">
-                <label for="education_level_id">Επίπεδο εκπαίδευσης: <span class="form-required"
+                <label for="education_level_id">@lang('entities/volunteers.educationLevel'): <span class="form-required"
                                                                            title="Το πεδίο είναι απαραίτητο.">*</span></label>
                 @if($errors->has('education_level_id'))
                     <p class="error">{{ $errors->first('education_level_id') }}</p>
@@ -249,7 +249,7 @@
                 <div class="description">Επιλέξτε απο την λίστα το επίπεδο της εκπαίδευσης σας.</div>
             </div>
             <div class="form-item" id="specialty-wrapper">
-                <label for="specialty">Ειδικότητα: </label>
+                <label for="specialty">@lang('entities/volunteers.specialty'): </label>
                 @if($errors->has('specialty'))
                     <p class="error">{{ $errors->first('specialty') }}</p>
                 @endif
@@ -258,7 +258,7 @@
                        class="form-text">
             </div>
             <div class="form-item" id="department-wrapper">
-                <label for="department">Σχολή: </label>
+                <label for="department">@lang('entities/volunteers.department'): </label>
                 @if($errors->has('department'))
                     <p class="error">{{ $errors->first('department') }}</p>
                 @endif
@@ -266,146 +266,141 @@
                        value="{{ old('department') }}" class="form-text">
             </div>
             <fieldset>
-                <legend>Ξένες Γλώσσες</legend>
+                <legend>@lang('entities/volunteers.foreignLanguages')</legend>
                 <div class="form-item">
-                    <label>Ελληνικά: </label>
+                    <label>@lang('database/db_tables.greek'): </label>
                     <div class="form-radios">
                         <div class="form-item" id="greek-basic-wrapper">
                             <label class="option" for="greek-basic"><input type="radio"
                                                                                     id="greek-basic"
                                                                                     name="lang[1]" value="1"
                                                                                     class="form-radio">
-                                Βασικό</label>
+                                @lang('database/db_tables.basic')</label>
                         </div>
                         <div class="form-item" id="greek-good-wrapper">
                             <label class="option" for="greek-good"><input type="radio"
                                                                                   id="greek-good"
                                                                                   name="lang[1]" value="2"
-                                                                                  class="form-radio"> Καλό</label>
+                                                                                  class="form-radio"> @lang('database/db_tables.good')</label>
                         </div>
                         <div class="form-item" id="greek-very-good-wrapper">
                             <label class="option" for="greek-very-good"><input type="radio"
                                                                                        id="greek-very-good"
                                                                                        name="lang[1]"
                                                                                        value="3"
-                                                                                       class="form-radio"> Πολύ
-                                Καλό</label>
+                                                                                       class="form-radio"> @lang('database/db_tables.veryGood')</label>
                         </div>
                     </div>
                 </div>
                 <div class="form-item">
-                    <label>Αγγλικά: </label>
+                    <label>@lang('database/db_tables.english'): </label>
                     <div class="form-radios">
                         <div class="form-item" id="english-basic-wrapper">
                             <label class="option" for="english-basic"><input type="radio"
                                                                                    id="english-basic"
                                                                                    name="lang[2]" value="1"
                                                                                    class="form-radio">
-                                Βασικό</label>
+                                @lang('database/db_tables.basic')</label>
                         </div>
                         <div class="form-item" id="english-good-wrapper">
                             <label class="option" for="english-good"><input type="radio" id="english-good"
                                                                                  name="lang[2]" value="2"
-                                                                                 class="form-radio"> Καλό</label>
+                                                                                 class="form-radio"> @lang('database/db_tables.good')</label>
                         </div>
                         <div class="form-item" id="english-very-good-wrapper">
                             <label class="option" for="english-very-good"><input type="radio"
                                                                                       id="english-very-good"
                                                                                       name="lang[2]"
                                                                                       value="3"
-                                                                                      class="form-radio"> Πολύ
-                                Καλό</label>
+                                                                                      class="form-radio"> @lang('database/db_tables.veryGood')</label>
                         </div>
                     </div>
                 </div>
                 <div class="form-item">
-                    <label>Γαλλικά: </label>
+                    <label>@lang('database/db_tables.french'): </label>
                     <div class="form-radios">
                         <div class="form-item" id="french-basic-wrapper">
                             <label class="option" for="french-basic"><input type="radio"
                                                                                    id="french-basic"
                                                                                    name="lang[3]" value="1"
                                                                                    class="form-radio">
-                                Βασικό</label>
+                                @lang('database/db_tables.basic')</label>
                         </div>
                         <div class="form-item" id="french-good-wrapper">
                             <label class="option" for="french-good"><input type="radio" id="french-good"
                                                                                  name="lang[3]" value="2"
-                                                                                 class="form-radio"> Καλό</label>
+                                                                                 class="form-radio"> @lang('database/db_tables.good')</label>
                         </div>
                         <div class="form-item" id="french-very-good-wrapper">
                             <label class="option" for="french-very-good"><input type="radio"
                                                                                       id="french-very-good"
                                                                                       name="lang[3]"
                                                                                       value="3"
-                                                                                      class="form-radio"> Πολύ
-                                Καλό</label>
+                                                                                      class="form-radio"> @lang('database/db_tables.veryGood')</label>
                         </div>
                     </div>
                 </div>
                 <div class="form-item">
-                    <label>Ισπανικά: </label>
+                    <label>@lang('database/db_tables.spanish'): </label>
                     <div class="form-radios">
                         <div class="form-item" id="spanish-basic-wrapper">
                             <label class="option" for="spanish-basic"><input type="radio"
                                                                                     id="spanish-basic"
                                                                                     name="lang[4]" value="1"
                                                                                     class="form-radio">
-                                Βασικό</label>
+                                @lang('database/db_tables.basic')</label>
                         </div>
                         <div class="form-item" id="spanish-good-wrapper">
                             <label class="option" for="spanish-good"><input type="radio"
                                                                                   id="spanish-good"
                                                                                   name="lang[4]" value="2"
-                                                                                  class="form-radio"> Καλό</label>
+                                                                                  class="form-radio"> @lang('database/db_tables.good')</label>
                         </div>
                         <div class="form-item" id="spanish-very-good-wrapper">
                             <label class="option" for="spanish-very-good"><input type="radio"
                                                                                        id="spanish-very-good"
                                                                                        name="lang[4]"
                                                                                        value="3"
-                                                                                       class="form-radio"> Πολύ
-                                Καλό</label>
+                                                                                       class="form-radio"> @lang('database/db_tables.veryGood')</label>
                         </div>
                     </div>
                 </div>
                 <div class="form-item">
-                    <label>Γερμανικά: </label>
+                    <label>@lang('database/db_tables.german'): </label>
                     <div class="form-radios">
                         <div class="form-item" id="german-basic-wrapper">
                             <label class="option" for="german-basic"><input type="radio"
                                                                                      id="german-basic"
                                                                                      name="lang[5]" value="1"
                                                                                      class="form-radio">
-                                Βασικό</label>
+                                @lang('database/db_tables.basic')</label>
                         </div>
                         <div class="form-item" id="german-good-wrapper">
                             <label class="option" for="german-good"><input type="radio"
                                                                                    id="german-good"
                                                                                    name="lang[5]" value="2"
-                                                                                   class="form-radio"> Καλό</label>
+                                                                                   class="form-radio"> @lang('database/db_tables.good')</label>
                         </div>
                         <div class="form-item" id="german-very-good-wrapper">
                             <label class="option" for="german-very-good"><input type="radio"
                                                                                         id="german-very-good"
                                                                                         name="lang[5]"
                                                                                         value="3"
-                                                                                        class="form-radio"> Πολύ
-                                Καλό</label>
+                                                                                        class="form-radio"> @lang('database/db_tables.veryGood')</label>
                         </div>
                     </div>
                 </div>
                 <div class="form-item" id="extra-lang-wrapper">
-                    <label for="extra_lang">Άλλες γλώσες: </label>
+                    <label for="extra_lang">@lang('entities/volunteers.extraLanguages'): </label>
                     <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="extra_lang"
                                                                     class="form-textarea resizable"></textarea>
                             </span>
                     </div>
-                    <div class="description">Συμπληρώστε τις επιπλέον γλώσσες που γνωρίζετε και το επιπεδό σας</div>
+                    <div class="description">@lang('entities/volunteers.extraLanguagesExpl')</div>
                 </div>
             </fieldset>
             <div class="form-item" id="driver-license-type-wrapper">
-                <label for="driver_license_type_id">Δίπλωμα οδήγησης - Κατηγορία: </label>
+                <label for="driver_license_type_id">@lang('entities/volunteers.driverLicenceType'): </label>
                 @if($errors->has('driver_licence_type_id'))
                     <p class="error">{{ $errors->first('driver_licence_type_id') }}</p>
                 @endif
@@ -420,7 +415,7 @@
                 <label class="option" for="computer_usage"><input type="checkbox" name="computer_usage"
                                                                   id="computer_usage"
                                                                   value="1" class="form-checkbox">
-                    Χρήση υπολογιστή</label>
+                    @lang('entities/volunteers.computerUsage')</label>
                 <input type="hidden" name="computer_usage_comments" value="">
             </div>
             <div class="form-item" id="additional-skills-wrapper">
@@ -446,7 +441,7 @@
         </legend>
         <div class="fieldset-wrapper">
             <div class="form-item" id="work-status-wrapper">
-                <label for="work_status_id">Εργασιακή κατάσταση: <span class="form-required"
+                <label for="work_status_id">@lang('entities/volunteers.workStatus'): <span class="form-required"
                                                                        title="Το πεδίο είναι απαραίτητο.">*</span></label>
                 @if($errors->has('work_status_id'))
                     <p class="error">{{ $errors->first('work_status_id') }}</p>
@@ -458,7 +453,7 @@
                 </select>
             </div>
             <div class="form-item" id="work-description-wrapper">
-                <label for="work_description">Εργασία: </label>
+                <label for="work_description">@lang('entities/volunteers.workDescription'): </label>
                 @if($errors->has('work_description'))
                     <p class="error">{{ $errors->first('work_description') }}</p>
                 @endif
@@ -477,7 +472,7 @@
         </legend>
         <div class="fieldset-wrapper">
             <div class="form-item" id="participation-reason-wrapper">
-                <label for="participation_reason">Λόγος συμετοχής: <span class="form-required"
+                <label for="participation_reason">@lang('entities/volunteers.participationReason'): <span class="form-required"
                                                                          title="Το πεδίο είναι απαραίτητο.">*</span></label>
                 @if($errors->has('participation_reason'))
                     <p class="error">{{ $errors->first('participation_reason') }}</p>
@@ -486,10 +481,10 @@
                                                                 class="form-textarea resizable required"></textarea>
                         </span>
                 </div>
-                <div class="description">Περιγράψτε τους λόγους που θέλετε να γίνετε εθελοντής.</div>
+                <div class="description">@lang('entities/volunteers.participationReasonExpl')</div>
             </div>
             <div class="form-item" id="participation-actions-wrapper">
-                <label for="participation_actions">Εθελοντική οργάνωση: </label>
+                <label for="participation_actions">@lang('entities/volunteers.volunteeringOrg'): </label>
                 @if($errors->has('participation_actions'))
                     <p class="error">{{ $errors->first('participation_actions') }}</p>
                 @endif
@@ -497,12 +492,11 @@
                                                                 class="form-textarea resizable"></textarea>
                         </span>
                 </div>
-                <div class="description">Εαν ανήκετε ή ανήκατε σε κάποιες εθελοντικές οργανώσεις ποιο ήταν το
-                    αντικείμενο τους και για πόσο χρονικό διάστημα είχατε συμετοχή.
+                <div class="description">@lang('entities/volunteers.volunteeringOrgExpl')
                 </div>
             </div>
             <div class="form-item" id="participation-previous-wrapper">
-                <label for="participation_previous">Εθελοντικές δράσεις: </label>
+                <label for="participation_previous">@lang('entities/volunteers.volunteeringPrev'): </label>
                 @if($errors->has('participation_previous'))
                     <p class="error">{{ $errors->first('participation_previous') }}</p>
                 @endif
@@ -510,8 +504,7 @@
                                                                 class="form-textarea resizable"></textarea>
                         </span>
                 </div>
-                <div class="description">Εαν έχετε πάρει μέρος σε εθελοντικές δράσεις στο παρελθόν περιγράψτε ποιο
-                    ήταν/είναι το αντικείμενο.
+                <div class="description">@lang('entities/volunteers.volunteeringPrevExpl')
                 </div>
             </div>
         </div>
@@ -524,7 +517,7 @@
         </legend>
         <div class="fieldset-wrapper">
             <div class="form-item" id="availability-freqs-wrapper">
-                <label for="availability_freqs_id">Συχνότητα_συνεισφοράς: </label>
+                <label for="availability_freqs_id">@lang('entities/volunteers.contributionRate'): </label>
                 @if($errors->has('availability_freqs_id'))
                     <p class="error">{{ $errors->first('availability_freqs_id') }}</p>
                 @endif
@@ -535,7 +528,7 @@
                 </select>
             </div>
             <div class="form-item">
-                <label>Χρόνοι συνεισφοράς: </label>
+                <label>@lang('entities/volunteers.availabilityTimes'): </label>
                 <div class="form-checkboxes">
                     <div class="form-item" id="contribution-time-morning-wrapper">
                         <label class="option" for="contribution_time_morning"><input type="checkbox"
@@ -543,7 +536,7 @@
                                                                                         id="contribution_time_morning"
                                                                                         value="1"
                                                                                         class="form-checkbox">
-                            Πρωί</label>
+                            @lang('entities/volunteers.morning')</label>
                     </div>
                     <div class="form-item" id="contribution-time-afternoon-wrapper">
                         <label class="option" for="contribution_time_afternoon"><input type="checkbox"
@@ -551,7 +544,7 @@
                                                                                             id="contribution_time_afternoon"
                                                                                             value="1"
                                                                                             class="form-checkbox">
-                            Απογεύμα</label>
+                            @lang('entities/volunteers.afternoon')</label>
                     </div>
                     <div class="form-item" id="contribution-time-weekend-wrapper">
                         <label class="option" for="contribution_time_weekend"><input type="checkbox"
@@ -559,7 +552,7 @@
                                                                                                   id="contribution_time_weekend"
                                                                                                   value="1"
                                                                                                   class="form-checkbox">
-                            Σαββατοκύριακο</label>
+                            @lang('entities/volunteers.weekend')</label>
                     </div>
                 </div>
             </div>
