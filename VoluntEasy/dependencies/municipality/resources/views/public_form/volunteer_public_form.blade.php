@@ -1,7 +1,5 @@
 <html>
 <head>
-    <title>Φόρμα Εθελοντών</title>
-
     {{-- bootstrap --}}
     <link href="{{ asset('/assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"/>
 
@@ -19,23 +17,23 @@
 <div>
     <fieldset class=" collapsible">
         <legend>
-            ΑΤΟΜΙΚΑ ΣΤΟΙΧΕΙΑ
+            @lang('entities/volunteers.personalInfoCaps')
         </legend>
         <div class="fieldset-wrapper">
             <div class="form-item" id="first-name-wrapper">
                 <label for="name">@lang('entities/volunteers.name'):
-                    <span class="form-required" title="Το πεδίο είναι απαραίτητο.">*</span>
+                    <span class="form-required" title="@lang('entities/volunteers.requiredField')">*</span>
                 </label>
                 @if($errors->has('name'))
                     <p class="error">{{ $errors->first('name') }}</p>
                 @endif
                 <input type="text" name="name" value="{{ old('name') }}" size="20"
                        class="form-text required">
-                <div class="description">Παρακαλώ συμπληρώστε το ονομά σας.</div>
+                <div class="description">@lang('entities/volunteers.fillName')</div>
             </div>
             <div class="form-item" id="last-name-wrapper">
                 <label for="last_name">@lang('entities/volunteers.lastName'):
-                    <span class="form-required" title="Το πεδίο είναι απαραίτητο.">*</span>
+                    <span class="form-required" title="@lang('entities/volunteers.requiredField')">*</span>
                 </label>
                 @if($errors->has('last_name'))
                     <p class="error">{{ $errors->first('last_name') }}</p>
@@ -43,18 +41,18 @@
                 <input type="text" name="last_name" size="40"
                        value="{{ old('last_name') }}"
                        class="form-text required">
-                <div class="description">Παρακαλώ συμπληρώστε το επώνυμο σας.</div>
+                <div class="description">@lang('entities/volunteers.fillLastName')</div>
             </div>
             <div class="form-item" id="fathers-name-wrapper">
                 <label for="fathers_name">@lang('entities/volunteers.fathersName'): <span class="form-required"
-                                                              title="Το πεδίο είναι απαραίτητο.">*</span></label>
+                                                              title="@lang('entities/volunteers.requiredField')">*</span></label>
                 @if($errors->has('fathers_name'))
                     <p class="error">{{ $errors->first('fathers_name') }}</p>
                 @endif
                 <input type="text" name="fathers_name" size="20"
                        value="{{ old('fathers_name') }}"
                        class="form-text required">
-                <div class="description">Παρακαλώ συμπληρώστε το όνομα του πατέρα σας.</div>
+                <div class="description">@lang('entities/volunteers.fillFathersName')</div>
             </div>
             <div class="form-item" id="identification-type-wrapper">
                 <label for="identification_type_id">@lang('entities/volunteers.idType'): </label>
@@ -73,14 +71,13 @@
                 <input type="text" name="identification_num" size="20"
                        value="{{ old('identification_num') }}"
                        class="form-text">
-                <div class="description">Παρακαλώ συμπληρώστε το Α.Δ.Τ. ή Διαβατηρίου ή Άδεια Παραμονής και επιλέξτε
-                    απο την λίστα τον τύπο.
+                <div class="description">@lang('entities/volunteers.fillIdentity')
                 </div>
             </div>
             <div class="container-inline-date date-clear-block">
                 <div class="form-item" id="birth-date-wrapper">
                     <label for="birth_date">@lang('entities/volunteers.birthDate'): <span class="form-required"
-                                                                       title="Το πεδίο είναι απαραίτητο.">*</span></label>
+                                                                       title="@lang('entities/volunteers.requiredField')">*</span></label>
                     @if($errors->has('birth_date'))
                         <p class="error">{{ $errors->first('birth_date') }}</p>
                     @endif
@@ -89,7 +86,8 @@
                 </div>
             </div>
             <div class="form-item">
-                <label>@lang('entities/volunteers.gender'): <span class="form-required" title="Το πεδίο είναι απαραίτητο.">*</span></label>
+                <label>@lang('entities/volunteers.gender'): <span class="form-required" title="@lang('entities/volunteers.requiredField')">*
+                    </span></label>
                 @if($errors->has('gender_id'))
                     <p class="error">{{ $errors->first('gender_id') }}</p>
                 @endif
@@ -172,7 +170,7 @@
     </fieldset>
     <fieldset class=" collapsible">
         <legend>
-            ΣΤΟΙΧΕΙΑ ΕΠΙΚΟΙΝΩΝΙΑΣ
+            @lang('entities/volunteers.contactInfoCaps')
         </legend>
         <div class="fieldset-wrapper">
             <div class="form-item" id="home-tel-wrapper">
@@ -210,13 +208,13 @@
             </div>
             <div class="form-item" id="email-wrapper">
                 <label for="email">@lang('entities/volunteers.email'): <span class="form-required"
-                                                title="Το πεδίο είναι απαραίτητο.">*</span></label>
+                                                title="@lang('entities/volunteers.requiredField')">*</span></label>
                 @if($errors->has('email'))
                     <p class="error">{{ $errors->first('email') }}</p>
                 @endif
                 <input type="text" name="email" size="50" value="{{ old('email') }}"
                        class="form-text required">
-                <div class="description">Συμπληρώστε την διεύθυνση στην μορφή "xxx@xxx.xx"</div>
+                <div class="description">@lang('entities/volunteers.fillEmail')</div>
             </div>
             <div class="form-item" id="comm-method-wrapper">
                 <label for="comm_method_id">@lang('entities/volunteers.preferredContactWay'): </label>
@@ -232,12 +230,12 @@
     </fieldset>
     <fieldset class=" collapsible">
         <legend>
-            ΕΚΠΑΙΔΕΥΣΗ &amp; ΙΚΑΝΟΤΗΤΕΣ
+            @lang('entities/volunteers.educationAndSkillsCaps')
         </legend>
         <div class="fieldset-wrapper">
             <div class="form-item" id="education-level-wrapper">
                 <label for="education_level_id">@lang('entities/volunteers.educationLevel'): <span class="form-required"
-                                                                           title="Το πεδίο είναι απαραίτητο.">*</span></label>
+                                                                           title="@lang('entities/volunteers.requiredField')">*</span></label>
                 @if($errors->has('education_level_id'))
                     <p class="error">{{ $errors->first('education_level_id') }}</p>
                 @endif
@@ -246,7 +244,7 @@
                         <option value="@if($key !== 0){{ $key }}@endif">{{ $value }}</option>
                     @endforeach
                 </select>
-                <div class="description">Επιλέξτε απο την λίστα το επίπεδο της εκπαίδευσης σας.</div>
+                <div class="description">@lang('entities/volunteers.fillEducation')</div>
             </div>
             <div class="form-item" id="specialty-wrapper">
                 <label for="specialty">@lang('entities/volunteers.specialty'): </label>
@@ -409,7 +407,7 @@
                         <option value="{{ $key }}">{{ $value }}</option>
                     @endforeach
                 </select>
-                <div class="description">Επιλέξτε την κατηγορία του διπλώματος σας εάν έχετε.</div>
+                <div class="description">@lang('entities/volunteers.fillDriverLicence')</div>
             </div>
             <div class="form-item" id="computer-usage-wrapper">
                 <label class="option" for="computer_usage"><input type="checkbox" name="computer_usage"
@@ -419,7 +417,7 @@
                 <input type="hidden" name="computer_usage_comments" value="">
             </div>
             <div class="form-item" id="additional-skills-wrapper">
-                <label for="additional_skills">Πρόσθετες ικανότητες, προσόντα και εμπειρία : </label>
+                <label for="additional_skills">@lang('entities/volunteers.additionalSkills'): </label>
                 @if($errors->has('additional_skills'))
                     <p class="error">{{ $errors->first('additional_skills') }}</p>
                 @endif
@@ -427,8 +425,7 @@
                                                                 class="form-textarea resizable"></textarea>
                         </span>
                 </div>
-                <div class="description">Συμπληρώστε τυχόν επιπλέον πρόσθετες ικανότητες, προσόντα και εμπειρία που
-                    διαθέτετε.
+                <div class="description">@lang('entities/volunteers.additionalSkillsExp')
                 </div>
             </div>
         </div>
@@ -437,12 +434,12 @@
     </fieldset>
     <fieldset class=" collapsible">
         <legend>
-            ΕΡΓΑΣΙΑΚΗ ΕΜΠΕΙΡΙΑ
+            @lang('entities/volunteers.workExpCaps')
         </legend>
         <div class="fieldset-wrapper">
             <div class="form-item" id="work-status-wrapper">
                 <label for="work_status_id">@lang('entities/volunteers.workStatus'): <span class="form-required"
-                                                                       title="Το πεδίο είναι απαραίτητο.">*</span></label>
+                                                                       title="@lang('entities/volunteers.requiredField')">*</span></label>
                 @if($errors->has('work_status_id'))
                     <p class="error">{{ $errors->first('work_status_id') }}</p>
                 @endif
@@ -461,19 +458,19 @@
                                                                 class="form-textarea resizable"></textarea>
                         </span>
                 </div>
-                <div class="description">Περιγράψτε την θέσης σας στην παρούσα ή την πιο πρόσφατη εργασία σας</div>
+                <div class="description">@lang('entities/volunteers.workDescriptionExpl')</div>
             </div>
         </div>
 
     </fieldset>
     <fieldset class=" collapsible">
         <legend>
-            ΕΘΕΛΟΝΤΙΚΗ ΠΡΟΣΦΟΡΑ
+            @lang('entities/volunteers.volunteeringExpCaps')
         </legend>
         <div class="fieldset-wrapper">
             <div class="form-item" id="participation-reason-wrapper">
                 <label for="participation_reason">@lang('entities/volunteers.participationReason'): <span class="form-required"
-                                                                         title="Το πεδίο είναι απαραίτητο.">*</span></label>
+                                                                         title="@lang('entities/volunteers.requiredField')">*</span></label>
                 @if($errors->has('participation_reason'))
                     <p class="error">{{ $errors->first('participation_reason') }}</p>
                 @endif
@@ -513,7 +510,7 @@
     </fieldset>
     <fieldset class=" collapsible">
         <legend>
-            ΔΙΑΘΕΣΙΜΟΤΗΤΑ
+            @lang('entities/volunteers.availabilityCaps')
         </legend>
         <div class="fieldset-wrapper">
             <div class="form-item" id="availability-freqs-wrapper">
@@ -561,7 +558,7 @@
     </fieldset>
     <fieldset class=" collapsible">
         <legend>
-            ΠΕΡΙΟΧΕΣ ΕΝΔΙΑΦΕΡΟΝΤΩΝ
+            @lang('entities/volunteers.interestsCaps')
         </legend>
         <div class="fieldset-wrapper">
             <div class="form-item" id="edit-πολιτισμός-και-εκπαίδευση-wrapper">
@@ -653,48 +650,14 @@
 
     <br>
     <a href="#" class="intlink" data-toggle="modal" data-target="#oroi">
-        <strong>Όροι και Προϋποθέσεις Συμμετοχής</strong>
+        <strong>@lang('entities/volunteers.termsConditions')</strong>
     </a>
 
     <div class="modal fade" id="oroi" tabindex="-1" role="dialog" aria-labelledby="terms">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <h3>Δηλώνω υπεύθυνα ότι:</h3>
-                    <p>Όλα τα ανωτέρω στοιχεία είναι αληθή και σωστά.</p>
-                    <p>Γνωρίζω ότι τα ανωτέρω στοιχεία θα παραμείνουν στο φορέα και αποδέχομαι ότι ο Δήμος Αθηναίων
-                        δύναται
-                        να επεξεργαστεί δεδομένα προσωπικού χαρακτήρα μου και ειδικότερα τα εδώ αναφερόμενα δεδομένα μου
-                        για
-                        τους σκοπούς οργάνωσης και πραγματοποίησης των εθελοντικών δράσεων. </p>
-                    <p>Δεν υφίσταται σχέση εργασίας ή έργου μεταξύ εμού και του Γραφείου Εθελοντισμού του Δήμου Αθηναίων
-                        για
-                        τις εθελοντικές υπηρεσίες που προσφέρω.</p>
-                    <p>Ουδεμία απαίτηση χρηματική ή άλλης αποζημίωσης έχω έναντι του Γραφείου Εθελοντισμού λόγω της
-                        ανάληψης
-                        των ανωτέρω αναφερόμενων εργασιών και της εθελοντικής μου προσφοράς σε αυτό.</p>
-                    <p>Δηλώνω ότι δεν αντιμετωπίζω προβλήματα υγείας που θα μπορούσαν να επηρεάσουν την παροχή των
-                        ανωτέρω
-                        εθελοντικών υπηρεσιών.</p>
-                    <p>Στις εργασίες στις οποίες συμμετέχω εθελοντικά το Γραφείο Εθελοντισμού θα μπορεί να αναγράφει το
-                        όνομά μου εφόσον το επιθυμώ και μετά από δήλωσή μου.</p>
-                    <p>Το υλικό που το Γραφείο Εθελοντισμού μου παράσχει για την υλοποίηση των εργασιών που αναλαμβάνω
-                        καθώς
-                        και τα παραγόμενα αποτελέσματα και προϊόντα αυτών ανήκουν αποκλειστικά και μόνον στο Γραφείο και
-                        ως
-                        εκ τούτου δεν έχω κανένα δικαίωμα (συμπεριλαμβανομένων και των πνευματικών) χρήσης, δημοσίευσης,
-                        πώλησης ή άλλο επί αυτών.</p>
-                    <p>Μετά το πέρας της εθελοντικής μου εργασίας υποχρεούμαι να επιστρέψω στο Γραφείο Εθελοντισμού το
-                        υλικό
-                        που μου έχει διατεθεί για το λόγο αυτό.</p>
-                    <p>Κατά την διάρκεια υλοποίησης των εθελοντικών εργασιών που αναλαμβάνω, οφείλω να τηρώ τα χρονικά
-                        πλαίσια που μου έχουν τεθεί από τον Φορέα και να ακολουθώ τις σχετικές υποδείξεις και οδηγίες
-                        που
-                        μου δίνονται.</p>
-                    <p>Το Γραφείο Εθελοντισμού έχει το δικαίωμα να με παύσει από τις αρμοδιότητές μου ή να αφαιρέσει
-                        τμήμα
-                        των εθελοντικών εργασιών που αναλαμβάνω.</p>
-                    <p>Κανένα άλλο δικαίωμα ή απαίτηση έχω έναντι του Γραφείου Εθελοντισμού.</p>
+                    @lang('entities/volunteers.termsText')
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -710,15 +673,12 @@
                 <p class="error">{{ $errors->first('terms') }}</p>
             @endif
             <input type="checkbox" name="terms" id="terms" value="1"
-                                                 class="form-checkbox required"> Συμφωνώ</label>
+                                                 class="form-checkbox required"> @lang('entities/volunteers.agree')</label>
     </div>
 
 
-    Σημειώνεται ότι τα προσωπικά και άλλα δεδομένα που θα συμπληρωθούν στην παρούσα αίτηση θα διατηρηθούν στο αρχείο
-    του Δήμου Αθηναίων, δεν θα αξιοποιηθούν για οποιονδήποτε άλλο σκοπό πέρα από την εθελοντική συμμετοχή στα
-    προγράμματα του Δήμου, και δεν πρόκειται τρίτοι να έχουν πρόσβαση σ’ αυτά, τηρουμένων των ισχυουσών διατάξεων
-    και ιδίως του άρθρου 10 ν. 2472/1997.<br>
-    <div class="readon"><input class="button" type="submit" name="op" id="edit-submit" value="Αποστολή"></div>
+    @lang('entities/volunteers.privacyText')<br>
+    <div class="readon"><input class="button" type="submit" name="op" id="edit-submit" value="@lang('entities/volunteers.send')"></div>
     <input type="hidden" name="comments" value="">
 
 </div>
