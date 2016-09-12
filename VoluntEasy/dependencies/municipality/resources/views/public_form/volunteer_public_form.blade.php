@@ -13,10 +13,6 @@
 </head>
 <body>
 
-@if(Session::has('success'))
-    <p class="success">Η φόρμα αποθηκεύτηκε επιτυχώς. Θα επικοινωνήσουμε σύντομα μαζί σας.</p>
-@endif
-
 {!! Form::open(['id' => 'volunteer-form', 'method' => 'POST', 'action' =>
     ['VolunteerController@postPublicFormRequestToBecomeVolunteer']]) !!}
 
@@ -26,43 +22,43 @@
             ΑΤΟΜΙΚΑ ΣΤΟΙΧΕΙΑ
         </legend>
         <div class="fieldset-wrapper">
-            <div class="form-item" id="edit-Όνομα-wrapper">
+            <div class="form-item" id="first-name-wrapper">
                 <label for="name">Όνομα:
                     <span class="form-required" title="Το πεδίο είναι απαραίτητο.">*</span>
                 </label>
                 @if($errors->has('name'))
                     <p class="error">{{ $errors->first('name') }}</p>
                 @endif
-                <input type="text" name="name" id="edit-Όνομα" value="{{ old('name') }}" size="20"
+                <input type="text" name="name" value="{{ old('name') }}" size="20"
                        class="form-text required">
                 <div class="description">Παρακαλώ συμπληρώστε το ονομά σας.</div>
             </div>
-            <div class="form-item" id="edit-Επώνυμο-wrapper">
+            <div class="form-item" id="last-name-wrapper">
                 <label for="last_name">Επώνυμο:
                     <span class="form-required" title="Το πεδίο είναι απαραίτητο.">*</span>
                 </label>
                 @if($errors->has('last_name'))
                     <p class="error">{{ $errors->first('last_name') }}</p>
                 @endif
-                <input type="text" name="last_name" id="edit-Επώνυμο" size="40"
+                <input type="text" name="last_name" size="40"
                        value="{{ old('last_name') }}"
                        class="form-text required">
                 <div class="description">Παρακαλώ συμπληρώστε το επώνυμο σας.</div>
             </div>
-            <div class="form-item" id="edit-Όνομα-Πατέρα-wrapper">
+            <div class="form-item" id="fathers-name-wrapper">
                 <label for="fathers_name">Όνομα Πατέρα: <span class="form-required"
                                                               title="Το πεδίο είναι απαραίτητο.">*</span></label>
                 @if($errors->has('fathers_name'))
                     <p class="error">{{ $errors->first('fathers_name') }}</p>
                 @endif
-                <input type="text" name="fathers_name" id="edit-Όνομα-Πατέρα" size="20"
+                <input type="text" name="fathers_name" size="20"
                        value="{{ old('fathers_name') }}"
                        class="form-text required">
                 <div class="description">Παρακαλώ συμπληρώστε το όνομα του πατέρα σας.</div>
             </div>
-            <div class="form-item" id="edit-Τύπος-Ταυτότητας-wrapper">
+            <div class="form-item" id="identification-type-wrapper">
                 <label for="identification_type_id">Τύπος Ταυτότητας: </label>
-                <select name="identification_type_id" class="form-select" id="edit-Τύπος-Ταυτότητας">
+                <select name="identification_type_id" class="form-select">
                     @foreach($identificationTypes as $key => $value)
                         @if($key !== 0)
                             <option value="{{ $key }}">{{ $value }}</option>
@@ -70,11 +66,11 @@
                     @endforeach
                 </select>
             </div>
-            <div class="form-item" id="edit-Ταυτότητα-wrapper">
+            <div class="form-item" id="identification-num-wrapper">
                 @if($errors->has('identification_num'))
                     <p class="error">{{ $errors->first('identification_num') }}</p>
                 @endif
-                <input type="text" name="identification_num" id="edit-Ταυτότητα" size="20"
+                <input type="text" name="identification_num" size="20"
                        value="{{ old('identification_num') }}"
                        class="form-text">
                 <div class="description">Παρακαλώ συμπληρώστε το Α.Δ.Τ. ή Διαβατηρίου ή Άδεια Παραμονής και επιλέξτε
@@ -82,7 +78,7 @@
                 </div>
             </div>
             <div class="container-inline-date date-clear-block">
-                <div class="form-item" id="edit-Ημερομηνία-Γέννησης-wrapper">
+                <div class="form-item" id="birth-date-wrapper">
                     <label for="birth_date">Ημερομηνία Γέννησης: <span class="form-required"
                                                                        title="Το πεδίο είναι απαραίτητο.">*</span></label>
                     @if($errors->has('birth_date'))
@@ -98,73 +94,73 @@
                     <p class="error">{{ $errors->first('gender_id') }}</p>
                 @endif
                 <div class="form-radios">
-                    <div class="form-item" id="edit-Φύλο-Άνδρας-wrapper">
-                        <label class="option" for="edit-Φύλο-Άνδρας"><input type="radio" id="edit-Φύλο-Άνδρας"
+                    <div class="form-item" id="gender-male-wrapper">
+                        <label class="option" for="gender-male"><input type="radio" id="gender-male"
                                                                             name="gender_id" value="1"
                                                                             class="form-radio"> Άνδρας</label>
                     </div>
-                    <div class="form-item" id="edit-Φύλο-Γυναίκα-wrapper">
-                        <label class="option" for="edit-Φύλο-Γυναίκα"><input type="radio" id="edit-Φύλο-Γυναίκα"
+                    <div class="form-item" id="gender-female-wrapper">
+                        <label class="option" for="gender-female"><input type="radio" id="gender-female"
                                                                              name="gender_id" value="2"
                                                                              class="form-radio"> Γυναίκα</label>
                     </div>
                 </div>
             </div>
-            <div class="form-item" id="edit-Οικογενειακή-Κατάσταση-wrapper">
+            <div class="form-item" id="marital-status-wrapper">
                 <label for="marital_status_id">Οικογενειακή Κατάσταση: </label>
                 @if($errors->has('marital_status_id'))
                     <p class="error">{{ $errors->first('marital_status_id') }}</p>
                 @endif
-                <select name="marital_status_id" class="form-select" id="edit-Οικογενειακή-Κατάσταση">
+                <select name="marital_status_id" class="form-select">
                     @foreach($maritalStatuses as $key => $value)
                         <option value="{{ $key }}" @if($key === 0) selected="selected" @endif>{{ $value }}</option>
                     @endforeach
                 </select>
             </div>
-            <div class="form-item" id="edit-Τέκνα-wrapper">
+            <div class="form-item" id="children-wrapper">
                 <label for="children">Τέκνα: </label>
                 @if($errors->has('children'))
                     <p class="error">{{ $errors->first('children') }}</p>
                 @endif
-                <input type="text" name="children" id="edit-Τέκνα" size="2" value="{{ old('children') }}"
+                <input type="text" name="children" size="2" value="{{ old('children') }}"
                        class="form-text">
             </div>
-            <div class="form-item" id="edit-Διεύθυνση-wrapper">
+            <div class="form-item" id="address-wrapper">
                 <label for="address">Διεύθυνση: </label>
                 @if($errors->has('address'))
                     <p class="error">{{ $errors->first('address') }}</p>
                 @endif
-                <input type="text" maxlength="100" name="address" id="edit-Διεύθυνση" size="60"
+                <input type="text" maxlength="100" name="address" size="60"
                        value="{{ old('address') }}"
                        class="form-text">
             </div>
-            <div class="form-item" id="edit-Τ-Κ-wrapper">
+            <div class="form-item" id="post-box-wrapper">
                 <label for="post_box">Τ.Κ.: </label>
                 @if($errors->has('post_box'))
                     <p class="error">{{ $errors->first('post_box') }}</p>
                 @endif
-                <input type="text" name="post_box" id="edit-Τ-Κ" size="6" value="{{ old('post_box') }}"
+                <input type="text" name="post_box" size="6" value="{{ old('post_box') }}"
                        class="form-text">
             </div>
-            <div class="form-item" id="edit-Πόλη-wrapper">
+            <div class="form-item" id="city-wrapper">
                 <label for="city">Πόλη: </label>
                 @if($errors->has('city'))
                     <p class="error">{{ $errors->first('city') }}</p>
                 @endif
-                <input type="text" name="city" id="edit-Πόλη" size="50" value="{{ old('city') }}"
+                <input type="text" name="city" size="50" value="{{ old('city') }}"
                        class="form-text">
             </div>
-            <div class="form-item" id="edit-Χώρα-wrapper">
+            <div class="form-item" id="country-wrapper">
                 <label for="country">Χώρα: </label>
                 @if($errors->has('country'))
                     <p class="error">{{ $errors->first('country') }}</p>
                 @endif
-                <input type="text" name="country" id="edit-Χώρα" size="50" value="{{ old('country') }}"
+                <input type="text" name="country" size="50" value="{{ old('country') }}"
                        class="form-text">
             </div>
-            <div class="form-item" id="edit-Κάτοικος-Ελλάδας-wrapper">
+            <div class="form-item" id="live-in-curr-country-wrapper">
                 <label class="option" for="live_in_curr_country"><input type="checkbox" name="live_in_curr_country"
-                                                                        id="edit-Κάτοικος-Ελλάδας"
+                                                                        id="live_in_curr_country"
                                                                         value="1"
                                                                         checked="checked" class="form-checkbox">
                     Κάτοικος Ελλάδας</label>
@@ -179,52 +175,52 @@
             ΣΤΟΙΧΕΙΑ ΕΠΙΚΟΙΝΩΝΙΑΣ
         </legend>
         <div class="fieldset-wrapper">
-            <div class="form-item" id="edit-Τηλέφωνο-Οικίας-wrapper">
+            <div class="form-item" id="home-tel-wrapper">
                 <label for="home_tel">Τηλέφωνο Οικίας: </label>
                 @if($errors->has('home_tel'))
                     <p class="error">{{ $errors->first('home_tel') }}</p>
                 @endif
-                <input type="text" name="home_tel" id="edit-Τηλέφωνο-Οικίας" size="15"
+                <input type="text" name="home_tel" size="15"
                        value="{{ old('home_tel') }}" class="form-text">
             </div>
-            <div class="form-item" id="edit-Τηλέφωνο-Εργασίας-wrapper">
+            <div class="form-item" id="work-tel-wrapper">
                 <label for="work_tel">Τηλέφωνο Εργασίας: </label>
                 @if($errors->has('work_tel'))
                     <p class="error">{{ $errors->first('work_tel') }}</p>
                 @endif
-                <input type="text" name="work_tel" id="edit-Τηλέφωνο-Εργασίας" size="15"
+                <input type="text" name="work_tel" size="15"
                        value="{{ old('work_tel') }}" class="form-text">
             </div>
-            <div class="form-item" id="edit-Κινητό-wrapper">
+            <div class="form-item" id="cell-tel-wrapper">
                 <label for="cell_tel">Κινητό: </label>
                 @if($errors->has('cell_tel'))
                     <p class="error">{{ $errors->first('cell_tel') }}</p>
                 @endif
-                <input type="text" name="cell_tel" id="edit-Κινητό" size="15"
+                <input type="text" name="cell_tel" size="15"
                        value="{{ old('cell_tel') }}"
                        class="form-text">
             </div>
-            <div class="form-item" id="edit-Fax-wrapper">
+            <div class="form-item" id="fax-wrapper">
                 <label for="fax">Fax: </label>
                 @if($errors->has('fax'))
                     <p class="error">{{ $errors->first('fax') }}</p>
                 @endif
-                <input type="text" name="fax" id="edit-Fax" size="15" value="{{ old('fax') }}"
+                <input type="text" name="fax" size="15" value="{{ old('fax') }}"
                        class="form-text">
             </div>
-            <div class="form-item" id="edit-email-wrapper">
+            <div class="form-item" id="email-wrapper">
                 <label for="email">email: <span class="form-required"
                                                 title="Το πεδίο είναι απαραίτητο.">*</span></label>
                 @if($errors->has('email'))
                     <p class="error">{{ $errors->first('email') }}</p>
                 @endif
-                <input type="text" name="email" id="edit-email" size="50" value="{{ old('email') }}"
+                <input type="text" name="email" size="50" value="{{ old('email') }}"
                        class="form-text required">
                 <div class="description">Συμπληρώστε την διεύθυνση στην μορφή "xxx@xxx.xx"</div>
             </div>
-            <div class="form-item" id="edit-Τρόπος-επικοινωνίας-wrapper">
+            <div class="form-item" id="comm-method-wrapper">
                 <label for="comm_method_id">Να επικοινωνήσουμε μαζί σας στο: </label>
-                <select name="comm_method_id" class="form-select" id="edit-Τρόπος-επικοινωνίας">
+                <select name="comm_method_id" class="form-select">
                     @foreach($commMethod as $key => $value)
                         <option value="{{ $key }}">{{ $value }}</option>
                     @endforeach
@@ -239,34 +235,34 @@
             ΕΚΠΑΙΔΕΥΣΗ &amp; ΙΚΑΝΟΤΗΤΕΣ
         </legend>
         <div class="fieldset-wrapper">
-            <div class="form-item" id="edit-Επίπεδο-εκπαίδευσης-wrapper">
+            <div class="form-item" id="education-level-wrapper">
                 <label for="education_level_id">Επίπεδο εκπαίδευσης: <span class="form-required"
                                                                            title="Το πεδίο είναι απαραίτητο.">*</span></label>
                 @if($errors->has('education_level_id'))
                     <p class="error">{{ $errors->first('education_level_id') }}</p>
                 @endif
-                <select name="education_level_id" class="form-select required" id="edit-Επίπεδο-εκπαίδευσης">
+                <select name="education_level_id" class="form-select required">
                     @foreach($edLevel as $key => $value)
                         <option value="@if($key !== 0){{ $key }}@endif">{{ $value }}</option>
                     @endforeach
                 </select>
                 <div class="description">Επιλέξτε απο την λίστα το επίπεδο της εκπαίδευσης σας.</div>
             </div>
-            <div class="form-item" id="edit-Ειδικότητα-wrapper">
+            <div class="form-item" id="specialty-wrapper">
                 <label for="specialty">Ειδικότητα: </label>
                 @if($errors->has('specialty'))
                     <p class="error">{{ $errors->first('specialty') }}</p>
                 @endif
-                <input type="text" name="specialty" id="edit-Ειδικότητα" size="50"
+                <input type="text" name="specialty" size="50"
                        value="{{ old('specialty') }}"
                        class="form-text">
             </div>
-            <div class="form-item" id="edit-Σχολή-wrapper">
+            <div class="form-item" id="department-wrapper">
                 <label for="department">Σχολή: </label>
                 @if($errors->has('department'))
                     <p class="error">{{ $errors->first('department') }}</p>
                 @endif
-                <input type="text" name="department" id="edit-Σχολή" size="50"
+                <input type="text" name="department" size="50"
                        value="{{ old('department') }}" class="form-text">
             </div>
             <fieldset>
@@ -274,22 +270,22 @@
                 <div class="form-item">
                     <label>Ελληνικά: </label>
                     <div class="form-radios">
-                        <div class="form-item" id="edit-Ελληνικά-Βασικό-wrapper">
-                            <label class="option" for="edit-Ελληνικά-Βασικό"><input type="radio"
-                                                                                    id="edit-Ελληνικά-Βασικό"
+                        <div class="form-item" id="greek-basic-wrapper">
+                            <label class="option" for="greek-basic"><input type="radio"
+                                                                                    id="greek-basic"
                                                                                     name="lang[1]" value="1"
                                                                                     class="form-radio">
                                 Βασικό</label>
                         </div>
-                        <div class="form-item" id="edit-Ελληνικά-Καλό-wrapper">
-                            <label class="option" for="edit-Ελληνικά-Καλό"><input type="radio"
-                                                                                  id="edit-Ελληνικά-Καλό"
+                        <div class="form-item" id="greek-good-wrapper">
+                            <label class="option" for="greek-good"><input type="radio"
+                                                                                  id="greek-good"
                                                                                   name="lang[1]" value="2"
                                                                                   class="form-radio"> Καλό</label>
                         </div>
-                        <div class="form-item" id="edit-Ελληνικά-Πολύ-Καλό-wrapper">
-                            <label class="option" for="edit-Ελληνικά-Πολύ-Καλό"><input type="radio"
-                                                                                       id="edit-Ελληνικά-Πολύ-Καλό"
+                        <div class="form-item" id="greek-very-good-wrapper">
+                            <label class="option" for="greek-very-good"><input type="radio"
+                                                                                       id="greek-very-good"
                                                                                        name="lang[1]"
                                                                                        value="3"
                                                                                        class="form-radio"> Πολύ
@@ -300,21 +296,21 @@
                 <div class="form-item">
                     <label>Αγγλικά: </label>
                     <div class="form-radios">
-                        <div class="form-item" id="edit-Αγγλικά-Βασικό-wrapper">
-                            <label class="option" for="edit-Αγγλικά-Βασικό"><input type="radio"
-                                                                                   id="edit-Αγγλικά-Βασικό"
+                        <div class="form-item" id="english-basic-wrapper">
+                            <label class="option" for="english-basic"><input type="radio"
+                                                                                   id="english-basic"
                                                                                    name="lang[2]" value="1"
                                                                                    class="form-radio">
                                 Βασικό</label>
                         </div>
-                        <div class="form-item" id="edit-Αγγλικά-Καλό-wrapper">
-                            <label class="option" for="edit-Αγγλικά-Καλό"><input type="radio" id="edit-Αγγλικά-Καλό"
+                        <div class="form-item" id="english-good-wrapper">
+                            <label class="option" for="english-good"><input type="radio" id="english-good"
                                                                                  name="lang[2]" value="2"
                                                                                  class="form-radio"> Καλό</label>
                         </div>
-                        <div class="form-item" id="edit-Αγγλικά-Πολύ-Καλό-wrapper">
-                            <label class="option" for="edit-Αγγλικά-Πολύ-Καλό"><input type="radio"
-                                                                                      id="edit-Αγγλικά-Πολύ-Καλό"
+                        <div class="form-item" id="english-very-good-wrapper">
+                            <label class="option" for="english-very-good"><input type="radio"
+                                                                                      id="english-very-good"
                                                                                       name="lang[2]"
                                                                                       value="3"
                                                                                       class="form-radio"> Πολύ
@@ -325,21 +321,21 @@
                 <div class="form-item">
                     <label>Γαλλικά: </label>
                     <div class="form-radios">
-                        <div class="form-item" id="edit-Γαλλικά-Βασικό-wrapper">
-                            <label class="option" for="edit-Γαλλικά-Βασικό"><input type="radio"
-                                                                                   id="edit-Γαλλικά-Βασικό"
+                        <div class="form-item" id="french-basic-wrapper">
+                            <label class="option" for="french-basic"><input type="radio"
+                                                                                   id="french-basic"
                                                                                    name="lang[3]" value="1"
                                                                                    class="form-radio">
                                 Βασικό</label>
                         </div>
-                        <div class="form-item" id="edit-Γαλλικά-Καλό-wrapper">
-                            <label class="option" for="edit-Γαλλικά-Καλό"><input type="radio" id="edit-Γαλλικά-Καλό"
+                        <div class="form-item" id="french-good-wrapper">
+                            <label class="option" for="french-good"><input type="radio" id="french-good"
                                                                                  name="lang[3]" value="2"
                                                                                  class="form-radio"> Καλό</label>
                         </div>
-                        <div class="form-item" id="edit-Γαλλικά-Πολύ-Καλό-wrapper">
-                            <label class="option" for="edit-Γαλλικά-Πολύ-Καλό"><input type="radio"
-                                                                                      id="edit-Γαλλικά-Πολύ-Καλό"
+                        <div class="form-item" id="french-very-good-wrapper">
+                            <label class="option" for="french-very-good"><input type="radio"
+                                                                                      id="french-very-good"
                                                                                       name="lang[3]"
                                                                                       value="3"
                                                                                       class="form-radio"> Πολύ
@@ -350,22 +346,22 @@
                 <div class="form-item">
                     <label>Ισπανικά: </label>
                     <div class="form-radios">
-                        <div class="form-item" id="edit-Ισπανικά-Βασικό-wrapper">
-                            <label class="option" for="edit-Ισπανικά-Βασικό"><input type="radio"
-                                                                                    id="edit-Ισπανικά-Βασικό"
+                        <div class="form-item" id="spanish-basic-wrapper">
+                            <label class="option" for="spanish-basic"><input type="radio"
+                                                                                    id="spanish-basic"
                                                                                     name="lang[4]" value="1"
                                                                                     class="form-radio">
                                 Βασικό</label>
                         </div>
-                        <div class="form-item" id="edit-Ισπανικά-Καλό-wrapper">
-                            <label class="option" for="edit-Ισπανικά-Καλό"><input type="radio"
-                                                                                  id="edit-Ισπανικά-Καλό"
+                        <div class="form-item" id="spanish-good-wrapper">
+                            <label class="option" for="spanish-good"><input type="radio"
+                                                                                  id="spanish-good"
                                                                                   name="lang[4]" value="2"
                                                                                   class="form-radio"> Καλό</label>
                         </div>
-                        <div class="form-item" id="edit-Ισπανικά-Πολύ-Καλό-wrapper">
-                            <label class="option" for="edit-Ισπανικά-Πολύ-Καλό"><input type="radio"
-                                                                                       id="edit-Ισπανικά-Πολύ-Καλό"
+                        <div class="form-item" id="spanish-very-good-wrapper">
+                            <label class="option" for="spanish-very-good"><input type="radio"
+                                                                                       id="spanish-very-good"
                                                                                        name="lang[4]"
                                                                                        value="3"
                                                                                        class="form-radio"> Πολύ
@@ -376,22 +372,22 @@
                 <div class="form-item">
                     <label>Γερμανικά: </label>
                     <div class="form-radios">
-                        <div class="form-item" id="edit-Γερμανικά-Βασικό-wrapper">
-                            <label class="option" for="edit-Γερμανικά-Βασικό"><input type="radio"
-                                                                                     id="edit-Γερμανικά-Βασικό"
+                        <div class="form-item" id="german-basic-wrapper">
+                            <label class="option" for="german-basic"><input type="radio"
+                                                                                     id="german-basic"
                                                                                      name="lang[5]" value="1"
                                                                                      class="form-radio">
                                 Βασικό</label>
                         </div>
-                        <div class="form-item" id="edit-Γερμανικά-Καλό-wrapper">
-                            <label class="option" for="edit-Γερμανικά-Καλό"><input type="radio"
-                                                                                   id="edit-Γερμανικά-Καλό"
+                        <div class="form-item" id="german-good-wrapper">
+                            <label class="option" for="german-good"><input type="radio"
+                                                                                   id="german-good"
                                                                                    name="lang[5]" value="2"
                                                                                    class="form-radio"> Καλό</label>
                         </div>
-                        <div class="form-item" id="edit-Γερμανικά-Πολύ-Καλό-wrapper">
-                            <label class="option" for="edit-Γερμανικά-Πολύ-Καλό"><input type="radio"
-                                                                                        id="edit-Γερμανικά-Πολύ-Καλό"
+                        <div class="form-item" id="german-very-good-wrapper">
+                            <label class="option" for="german-very-good"><input type="radio"
+                                                                                        id="german-very-good"
                                                                                         name="lang[5]"
                                                                                         value="3"
                                                                                         class="form-radio"> Πολύ
@@ -399,42 +395,40 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-item" id="edit-Άλλες-γλώσες-wrapper">
+                <div class="form-item" id="extra-lang-wrapper">
                     <label for="extra_lang">Άλλες γλώσες: </label>
                     <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="extra_lang"
-                                                                    id="edit-Άλλες-γλώσες"
                                                                     class="form-textarea resizable"></textarea>
                             </span>
                     </div>
                     <div class="description">Συμπληρώστε τις επιπλέον γλώσσες που γνωρίζετε και το επιπεδό σας</div>
                 </div>
             </fieldset>
-            <div class="form-item" id="edit-Δίπλωμα-οδήγησης-wrapper">
+            <div class="form-item" id="driver-license-type-wrapper">
                 <label for="driver_license_type_id">Δίπλωμα οδήγησης - Κατηγορία: </label>
                 @if($errors->has('driver_licence_type_id'))
                     <p class="error">{{ $errors->first('driver_licence_type_id') }}</p>
                 @endif
-                <select name="driver_license_type_id" class="form-select" id="edit-Δίπλωμα-οδήγησης">
+                <select name="driver_license_type_id" class="form-select">
                     @foreach($driverLicenseTypes as $key => $value)
                         <option value="{{ $key }}">{{ $value }}</option>
                     @endforeach
                 </select>
                 <div class="description">Επιλέξτε την κατηγορία του διπλώματος σας εάν έχετε.</div>
             </div>
-            <div class="form-item" id="edit-Χρήση-υπολογιστή-wrapper">
+            <div class="form-item" id="computer-usage-wrapper">
                 <label class="option" for="computer_usage"><input type="checkbox" name="computer_usage"
-                                                                  id="edit-Χρήση-υπολογιστή"
+                                                                  id="computer_usage"
                                                                   value="1" class="form-checkbox">
                     Χρήση υπολογιστή</label>
                 <input type="hidden" name="computer_usage_comments" value="">
             </div>
-            <div class="form-item" id="edit-Πρόσθετες-ικανότητες-wrapper">
+            <div class="form-item" id="additional-skills-wrapper">
                 <label for="additional_skills">Πρόσθετες ικανότητες, προσόντα και εμπειρία : </label>
                 @if($errors->has('additional_skills'))
                     <p class="error">{{ $errors->first('additional_skills') }}</p>
                 @endif
                 <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="additional_skills"
-                                                                id="edit-Πρόσθετες-ικανότητες"
                                                                 class="form-textarea resizable"></textarea>
                         </span>
                 </div>
@@ -451,27 +445,25 @@
             ΕΡΓΑΣΙΑΚΗ ΕΜΠΕΙΡΙΑ
         </legend>
         <div class="fieldset-wrapper">
-            <div class="form-item" id="edit-Εργασιακή-κατάσταση-wrapper">
+            <div class="form-item" id="work-status-wrapper">
                 <label for="work_status_id">Εργασιακή κατάσταση: <span class="form-required"
                                                                        title="Το πεδίο είναι απαραίτητο.">*</span></label>
                 @if($errors->has('work_status_id'))
                     <p class="error">{{ $errors->first('work_status_id') }}</p>
                 @endif
-                <select name="work_status_id" class="form-select required" id="edit-Εργασιακή-κατάσταση">
+                <select name="work_status_id" class="form-select required">
                     @foreach($workStatuses as $key => $value)
                         <option value="@if($key !== 0){{ $key }}@endif">{{ $value }}</option>
                     @endforeach
                 </select>
             </div>
-            <div class="form-item" id="edit-Εργασία-wrapper">
+            <div class="form-item" id="work-description-wrapper">
                 <label for="work_description">Εργασία: </label>
                 @if($errors->has('work_description'))
                     <p class="error">{{ $errors->first('work_description') }}</p>
                 @endif
                 <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="work_description"
-                                                                id="edit-Εργασία"
                                                                 class="form-textarea resizable"></textarea>
-                        {{--<div class="grippie"></div>--}}
                         </span>
                 </div>
                 <div class="description">Περιγράψτε την θέσης σας στην παρούσα ή την πιο πρόσφατη εργασία σας</div>
@@ -484,44 +476,38 @@
             ΕΘΕΛΟΝΤΙΚΗ ΠΡΟΣΦΟΡΑ
         </legend>
         <div class="fieldset-wrapper">
-            <div class="form-item" id="edit-Λόγος-συμετοχής-wrapper">
+            <div class="form-item" id="participation-reason-wrapper">
                 <label for="participation_reason">Λόγος συμετοχής: <span class="form-required"
                                                                          title="Το πεδίο είναι απαραίτητο.">*</span></label>
                 @if($errors->has('participation_reason'))
                     <p class="error">{{ $errors->first('participation_reason') }}</p>
                 @endif
                 <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="participation_reason"
-                                                                id="edit-Λόγος-συμετοχής"
                                                                 class="form-textarea resizable required"></textarea>
-                        {{--<div class="grippie"></div>--}}
                         </span>
                 </div>
                 <div class="description">Περιγράψτε τους λόγους που θέλετε να γίνετε εθελοντής.</div>
             </div>
-            <div class="form-item" id="edit-Εθελοντική-οργάνωση-wrapper">
+            <div class="form-item" id="participation-actions-wrapper">
                 <label for="participation_actions">Εθελοντική οργάνωση: </label>
                 @if($errors->has('participation_actions'))
                     <p class="error">{{ $errors->first('participation_actions') }}</p>
                 @endif
                 <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="participation_actions"
-                                                                id="edit-Εθελοντική-οργάνωση"
                                                                 class="form-textarea resizable"></textarea>
-                        {{--<div class="grippie"></div>--}}
                         </span>
                 </div>
                 <div class="description">Εαν ανήκετε ή ανήκατε σε κάποιες εθελοντικές οργανώσεις ποιο ήταν το
                     αντικείμενο τους και για πόσο χρονικό διάστημα είχατε συμετοχή.
                 </div>
             </div>
-            <div class="form-item" id="edit-Εθελοντικές-δράσεις-wrapper">
+            <div class="form-item" id="participation-previous-wrapper">
                 <label for="participation_previous">Εθελοντικές δράσεις: </label>
                 @if($errors->has('participation_previous'))
                     <p class="error">{{ $errors->first('participation_previous') }}</p>
                 @endif
                 <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="participation_previous"
-                                                                id="edit-Εθελοντικές-δράσεις"
                                                                 class="form-textarea resizable"></textarea>
-                        {{--<div class="grippie"></div>--}}
                         </span>
                 </div>
                 <div class="description">Εαν έχετε πάρει μέρος σε εθελοντικές δράσεις στο παρελθόν περιγράψτε ποιο
@@ -537,12 +523,12 @@
             ΔΙΑΘΕΣΙΜΟΤΗΤΑ
         </legend>
         <div class="fieldset-wrapper">
-            <div class="form-item" id="edit-Συχνότητα-συνεισφοράς-wrapper">
+            <div class="form-item" id="availability-freqs-wrapper">
                 <label for="availability_freqs_id">Συχνότητα_συνεισφοράς: </label>
                 @if($errors->has('availability_freqs_id'))
                     <p class="error">{{ $errors->first('availability_freqs_id') }}</p>
                 @endif
-                <select name="availability_freqs_id" class="form-select" id="edit-Συχνότητα-συνεισφοράς">
+                <select name="availability_freqs_id" class="form-select">
                     @foreach($availabilityFreqs as $key => $value)
                         <option value="{{ $key }}">{{ $value }}</option>
                     @endforeach
@@ -551,27 +537,27 @@
             <div class="form-item">
                 <label>Χρόνοι συνεισφοράς: </label>
                 <div class="form-checkboxes">
-                    <div class="form-item" id="edit-Χρόνοι-συνεισφοράς-Πρωί-wrapper">
-                        <label class="option" for="edit-Χρόνοι-συνεισφοράς-Πρωί"><input type="checkbox"
-                                                                                        name="Χρόνοι_συνεισφοράς[Πρωί]"
-                                                                                        id="edit-Χρόνοι-συνεισφοράς-Πρωί"
-                                                                                        value="Πρωί"
+                    <div class="form-item" id="contribution-time-morning-wrapper">
+                        <label class="option" for="contribution_time_morning"><input type="checkbox"
+                                                                                        name="contribution_time[morning]"
+                                                                                        id="contribution_time_morning"
+                                                                                        value="1"
                                                                                         class="form-checkbox">
                             Πρωί</label>
                     </div>
-                    <div class="form-item" id="edit-Χρόνοι-συνεισφοράς-Απογεύμα-wrapper">
-                        <label class="option" for="edit-Χρόνοι-συνεισφοράς-Απογεύμα"><input type="checkbox"
-                                                                                            name="Χρόνοι_συνεισφοράς[Απογεύμα]"
-                                                                                            id="edit-Χρόνοι-συνεισφοράς-Απογεύμα"
-                                                                                            value="Απογεύμα"
+                    <div class="form-item" id="contribution-time-afternoon-wrapper">
+                        <label class="option" for="contribution_time_afternoon"><input type="checkbox"
+                                                                                            name="contribution_time[afternoon]"
+                                                                                            id="contribution_time_afternoon"
+                                                                                            value="1"
                                                                                             class="form-checkbox">
                             Απογεύμα</label>
                     </div>
-                    <div class="form-item" id="edit-Χρόνοι-συνεισφοράς-Σαββατοκύριακο-wrapper">
-                        <label class="option" for="edit-Χρόνοι-συνεισφοράς-Σαββατοκύριακο"><input type="checkbox"
-                                                                                                  name="Χρόνοι_συνεισφοράς[Σαββατοκύριακο]"
-                                                                                                  id="edit-Χρόνοι-συνεισφοράς-Σαββατοκύριακο"
-                                                                                                  value="Σαββατοκύριακο"
+                    <div class="form-item" id="contribution-time-weekend-wrapper">
+                        <label class="option" for="contribution_time_weekend"><input type="checkbox"
+                                                                                                  name="contribution_time[weekend]"
+                                                                                                  id="contribution_time_weekend"
+                                                                                                  value="1"
                                                                                                   class="form-checkbox">
                             Σαββατοκύριακο</label>
                     </div>
@@ -730,7 +716,7 @@
             @if($errors->has('terms'))
                 <p class="error">{{ $errors->first('terms') }}</p>
             @endif
-            <input type="checkbox" name="terms" id="edit-oroi" value="1"
+            <input type="checkbox" name="terms" id="terms" value="1"
                                                  class="form-checkbox required"> Συμφωνώ</label>
     </div>
 
