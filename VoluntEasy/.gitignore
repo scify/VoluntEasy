@@ -1,4 +1,6 @@
 /.idea
 /vendor
+../project_scifyeasy@development1.scify.org
+.dump.sql
 
 .env
