@@ -10,7 +10,8 @@
                 {"description": "publicSpace"},
                 {"description": "environment"},
                 {"description": "clean"},
-                {"description": "tourism"}
+                {"description": "tourism"},
+                {"description": "health"}
             ]
         }
     ]

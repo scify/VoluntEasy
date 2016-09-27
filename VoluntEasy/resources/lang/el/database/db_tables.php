@@ -27,6 +27,7 @@ return [
     'morning' => 'Πρωί',
     'afternoon' => 'Μεσημέρι',
     'evening' => 'Απόγευμα',
+    'weekend' => 'Σαββατοκύριακο',
 
     /* genders */
     'man' => 'Άνδρας',
@@ -48,6 +49,11 @@ return [
     'masters' => 'Μεταπτυχιακά',
     'secondary' => 'Δευτεροβάθμια',
     'higher' => 'Τριτοβάθμια',
+    'teiA' => 'ΤΕΙ',
+    'aei' => 'ΑΕΙ',
+    'master' => 'Μεταπτυχιακό',
+    'phd' => 'Διδακτορικό',
+    'other' => 'Άλλο',
 
     /* comm_method */
     'email' => 'Ηλεκτρονικό ταχυδρομείο',
@@ -67,6 +73,7 @@ return [
     'perWeek' => '1-2 φορές την εβδομάδα',
     'perFortnight' => '1-2 φορές το δεκαπενθήμερο',
     'perMonth' => '1-2 φορές τον μήνα',
+    'occasionally' => 'Περιστασιακά',
 
 
     /* driver_licence_types */
@@ -76,6 +83,11 @@ return [
     'bDriverLicence' => 'Β κατηγορίας',
     'gDriverLicence' => 'Γ κατηγορίας',
     'geDriverLicence' => 'Γ+Ε κατηγορίας',
+    'motoDriverLicence' => 'Μοτοσυκλέτα',
+    'ixeDriverLicence' => 'ΙΧΕ',
+    'eightPlusOneDriverLicence' => 'Αυτοκίνητο εώς 8+1 θέσεις και φορτηγό',
+    'vanDriverLicence' => 'Φορτηγό',
+    'truckDriverLicence' => 'Νταλίκα φορτηγό',
     'yes' => 'Ναι',
     'no' => 'Όχι',
 

@@ -149,12 +149,12 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
         $volunteer = \Request::all();
 
         $validator = \Validator::make($volunteer, [
+            'amka' => 'max:100',
             'name' => 'required|max:100',
             'last_name' => 'required|max:100',
             'fathers_name' => 'required|max:100',
             'identification_num' => 'max:100',
             'birth_date' => 'required',
-            'children' => 'max:255',
             'address' => 'max:300',
             'city' => 'max:300',
             'country' => 'max:300',
@@ -166,7 +166,6 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
             'home_tel' => 'max:255',
             'work_tel' => 'max:255',
             'cell_tel' => 'max:255',
-            'fax' => 'max:255',
             'gender_id' => 'required',
             'email' => 'required|email|unique:volunteers|max:255',
             'extra_lang' => 'max:300',

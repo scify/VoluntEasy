@@ -20,6 +20,14 @@
             @lang('entities/volunteers.personalInfoCaps')
         </legend>
         <div class="fieldset-wrapper">
+            <div class="form-item" id="amka-wrapper">
+                <label for="amka">@lang('entities/volunteers.amka'):</label>
+                @if($errors->has('amka'))
+                    <p class="error">{{ $errors->first('amka') }}</p>
+                @endif
+                <input type="text" name="amka" value="{{ old('amka') }}" size="20"
+                       class="form-text">
+            </div>
             <div class="form-item" id="first-name-wrapper">
                 <label for="name">@lang('entities/volunteers.name'):
                     <span class="form-required" title="@lang('entities/volunteers.requiredField')">*</span>
@@ -104,25 +112,25 @@
                     </div>
                 </div>
             </div>
-            <div class="form-item" id="marital-status-wrapper">
-                <label for="marital_status_id">@lang('entities/volunteers.maritalStatus'): </label>
-                @if($errors->has('marital_status_id'))
-                    <p class="error">{{ $errors->first('marital_status_id') }}</p>
-                @endif
-                <select name="marital_status_id" class="form-select">
-                    @foreach($maritalStatuses as $key => $value)
-                        <option value="{{ $key }}" @if($key === 0) selected="selected" @endif>{{ $value }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-item" id="children-wrapper">
-                <label for="children">@lang('entities/volunteers.childNum'): </label>
-                @if($errors->has('children'))
-                    <p class="error">{{ $errors->first('children') }}</p>
-                @endif
-                <input type="text" name="children" size="2" value="{{ old('children') }}"
-                       class="form-text">
-            </div>
+            {{--<div class="form-item" id="marital-status-wrapper">--}}
+                {{--<label for="marital_status_id">@lang('entities/volunteers.maritalStatus'): </label>--}}
+                {{--@if($errors->has('marital_status_id'))--}}
+                    {{--<p class="error">{{ $errors->first('marital_status_id') }}</p>--}}
+                {{--@endif--}}
+                {{--<select name="marital_status_id" class="form-select">--}}
+                    {{--@foreach($maritalStatuses as $key => $value)--}}
+                        {{--<option value="{{ $key }}" @if($key === 0) selected="selected" @endif>{{ $value }}</option>--}}
+                    {{--@endforeach--}}
+                {{--</select>--}}
+            {{--</div>--}}
+            {{--<div class="form-item" id="children-wrapper">--}}
+                {{--<label for="children">@lang('entities/volunteers.childNum'): </label>--}}
+                {{--@if($errors->has('children'))--}}
+                    {{--<p class="error">{{ $errors->first('children') }}</p>--}}
+                {{--@endif--}}
+                {{--<input type="text" name="children" size="2" value="{{ old('children') }}"--}}
+                       {{--class="form-text">--}}
+            {{--</div>--}}
             <div class="form-item" id="address-wrapper">
                 <label for="address">@lang('entities/volunteers.address'): </label>
                 @if($errors->has('address'))
@@ -156,14 +164,14 @@
                 <input type="text" name="country" size="50" value="{{ old('country') }}"
                        class="form-text">
             </div>
-            <div class="form-item" id="live-in-curr-country-wrapper">
-                <label class="option" for="live_in_curr_country"><input type="checkbox" name="live_in_curr_country"
-                                                                        id="live_in_curr_country"
-                                                                        value="1"
-                                                                        checked="checked" class="form-checkbox">
-                    @lang('entities/volunteers.livesInCurrCountry')</label>
-                <div class="description">@lang('entities/volunteers.livesInCurrCountryExpl')</div>
-            </div>
+            {{--<div class="form-item" id="live-in-curr-country-wrapper">--}}
+                {{--<label class="option" for="live_in_curr_country"><input type="checkbox" name="live_in_curr_country"--}}
+                                                                        {{--id="live_in_curr_country"--}}
+                                                                        {{--value="1"--}}
+                                                                        {{--checked="checked" class="form-checkbox">--}}
+                    {{--@lang('entities/volunteers.livesInCurrCountry')</label>--}}
+                {{--<div class="description">@lang('entities/volunteers.livesInCurrCountryExpl')</div>--}}
+            {{--</div>--}}
         </div>
 
 
@@ -265,137 +273,22 @@
             </div>
             <fieldset>
                 <legend>@lang('entities/volunteers.foreignLanguages')</legend>
-                <div class="form-item">
-                    <label>@lang('database/db_tables.greek'): </label>
-                    <div class="form-radios">
-                        <div class="form-item" id="greek-basic-wrapper">
-                            <label class="option" for="greek-basic"><input type="radio"
-                                                                                    id="greek-basic"
-                                                                                    name="lang[1]" value="1"
-                                                                                    class="form-radio">
-                                @lang('database/db_tables.basic')</label>
-                        </div>
-                        <div class="form-item" id="greek-good-wrapper">
-                            <label class="option" for="greek-good"><input type="radio"
-                                                                                  id="greek-good"
-                                                                                  name="lang[1]" value="2"
-                                                                                  class="form-radio"> @lang('database/db_tables.good')</label>
-                        </div>
-                        <div class="form-item" id="greek-very-good-wrapper">
-                            <label class="option" for="greek-very-good"><input type="radio"
-                                                                                       id="greek-very-good"
-                                                                                       name="lang[1]"
-                                                                                       value="3"
-                                                                                       class="form-radio"> @lang('database/db_tables.veryGood')</label>
+                @foreach($languages as $languageKey => $language)
+                    <div class="form-item">
+                        <label>{{ $language }}: </label>
+                        <div class="form-radios">
+                        @foreach($langLevels as $levelKey => $langLevel)
+                            <div class="form-item" id="{{ $language . "-" . $langLevel }}-wrapper">
+                                <label class="option" for="{{ $language . "-" . $langLevel }}"><input type="radio"
+                                                                               id="{{ $language . "-" . $langLevel }}"
+                                                                               name="lang[{{ $languageKey }}]" value="{{ $levelKey }}"
+                                                                               class="form-radio">
+                                    {{ $langLevel }}</label>
+                            </div>
+                        @endforeach
                         </div>
                     </div>
-                </div>
-                <div class="form-item">
-                    <label>@lang('database/db_tables.english'): </label>
-                    <div class="form-radios">
-                        <div class="form-item" id="english-basic-wrapper">
-                            <label class="option" for="english-basic"><input type="radio"
-                                                                                   id="english-basic"
-                                                                                   name="lang[2]" value="1"
-                                                                                   class="form-radio">
-                                @lang('database/db_tables.basic')</label>
-                        </div>
-                        <div class="form-item" id="english-good-wrapper">
-                            <label class="option" for="english-good"><input type="radio" id="english-good"
-                                                                                 name="lang[2]" value="2"
-                                                                                 class="form-radio"> @lang('database/db_tables.good')</label>
-                        </div>
-                        <div class="form-item" id="english-very-good-wrapper">
-                            <label class="option" for="english-very-good"><input type="radio"
-                                                                                      id="english-very-good"
-                                                                                      name="lang[2]"
-                                                                                      value="3"
-                                                                                      class="form-radio"> @lang('database/db_tables.veryGood')</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-item">
-                    <label>@lang('database/db_tables.french'): </label>
-                    <div class="form-radios">
-                        <div class="form-item" id="french-basic-wrapper">
-                            <label class="option" for="french-basic"><input type="radio"
-                                                                                   id="french-basic"
-                                                                                   name="lang[3]" value="1"
-                                                                                   class="form-radio">
-                                @lang('database/db_tables.basic')</label>
-                        </div>
-                        <div class="form-item" id="french-good-wrapper">
-                            <label class="option" for="french-good"><input type="radio" id="french-good"
-                                                                                 name="lang[3]" value="2"
-                                                                                 class="form-radio"> @lang('database/db_tables.good')</label>
-                        </div>
-                        <div class="form-item" id="french-very-good-wrapper">
-                            <label class="option" for="french-very-good"><input type="radio"
-                                                                                      id="french-very-good"
-                                                                                      name="lang[3]"
-                                                                                      value="3"
-                                                                                      class="form-radio"> @lang('database/db_tables.veryGood')</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-item">
-                    <label>@lang('database/db_tables.spanish'): </label>
-                    <div class="form-radios">
-                        <div class="form-item" id="spanish-basic-wrapper">
-                            <label class="option" for="spanish-basic"><input type="radio"
-                                                                                    id="spanish-basic"
-                                                                                    name="lang[4]" value="1"
-                                                                                    class="form-radio">
-                                @lang('database/db_tables.basic')</label>
-                        </div>
-                        <div class="form-item" id="spanish-good-wrapper">
-                            <label class="option" for="spanish-good"><input type="radio"
-                                                                                  id="spanish-good"
-                                                                                  name="lang[4]" value="2"
-                                                                                  class="form-radio"> @lang('database/db_tables.good')</label>
-                        </div>
-                        <div class="form-item" id="spanish-very-good-wrapper">
-                            <label class="option" for="spanish-very-good"><input type="radio"
-                                                                                       id="spanish-very-good"
-                                                                                       name="lang[4]"
-                                                                                       value="3"
-                                                                                       class="form-radio"> @lang('database/db_tables.veryGood')</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-item">
-                    <label>@lang('database/db_tables.german'): </label>
-                    <div class="form-radios">
-                        <div class="form-item" id="german-basic-wrapper">
-                            <label class="option" for="german-basic"><input type="radio"
-                                                                                     id="german-basic"
-                                                                                     name="lang[5]" value="1"
-                                                                                     class="form-radio">
-                                @lang('database/db_tables.basic')</label>
-                        </div>
-                        <div class="form-item" id="german-good-wrapper">
-                            <label class="option" for="german-good"><input type="radio"
-                                                                                   id="german-good"
-                                                                                   name="lang[5]" value="2"
-                                                                                   class="form-radio"> @lang('database/db_tables.good')</label>
-                        </div>
-                        <div class="form-item" id="german-very-good-wrapper">
-                            <label class="option" for="german-very-good"><input type="radio"
-                                                                                        id="german-very-good"
-                                                                                        name="lang[5]"
-                                                                                        value="3"
-                                                                                        class="form-radio"> @lang('database/db_tables.veryGood')</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-item" id="extra-lang-wrapper">
-                    <label for="extra_lang">@lang('entities/volunteers.extraLanguages'): </label>
-                    <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="extra_lang"
-                                                                    class="form-textarea resizable"></textarea>
-                            </span>
-                    </div>
-                    <div class="description">@lang('entities/volunteers.extraLanguagesExpl')</div>
-                </div>
+                @endforeach
             </fieldset>
             <div class="form-item" id="driver-license-type-wrapper">
                 <label for="driver_license_type_id">@lang('entities/volunteers.driverLicenceType'): </label>
@@ -527,30 +420,16 @@
             <div class="form-item">
                 <label>@lang('entities/volunteers.availabilityTimes'): </label>
                 <div class="form-checkboxes">
-                    <div class="form-item" id="contribution-time-morning-wrapper">
-                        <label class="option" for="contribution_time_morning"><input type="checkbox"
-                                                                                        name="contribution_time[morning]"
-                                                                                        id="contribution_time_morning"
-                                                                                        value="1"
-                                                                                        class="form-checkbox">
-                            @lang('entities/volunteers.morning')</label>
+                @foreach($availabilityTimes as $timeKey => $availabilityTime)
+                    <div class="form-item" id="contribution-time-{{ $availabilityTime }}-wrapper">
+                        <label class="option" for="contribution_time_{{ $availabilityTime }}"><input type="checkbox"
+                                                                                     name="contribution_time[{{ $availabilityTime }}]"
+                                                                                     id="contribution_time_{{ $availabilityTime }}"
+                                                                                     value="{{ $timeKey }}"
+                                                                                     class="form-checkbox">
+                            {{  \Lang::get('entities/volunteers.' . $availabilityTime) }}</label>
                     </div>
-                    <div class="form-item" id="contribution-time-afternoon-wrapper">
-                        <label class="option" for="contribution_time_afternoon"><input type="checkbox"
-                                                                                            name="contribution_time[afternoon]"
-                                                                                            id="contribution_time_afternoon"
-                                                                                            value="1"
-                                                                                            class="form-checkbox">
-                            @lang('entities/volunteers.afternoon')</label>
-                    </div>
-                    <div class="form-item" id="contribution-time-weekend-wrapper">
-                        <label class="option" for="contribution_time_weekend"><input type="checkbox"
-                                                                                                  name="contribution_time[weekend]"
-                                                                                                  id="contribution_time_weekend"
-                                                                                                  value="1"
-                                                                                                  class="form-checkbox">
-                            @lang('entities/volunteers.weekend')</label>
-                    </div>
+                @endforeach
                 </div>
             </div>
         </div>

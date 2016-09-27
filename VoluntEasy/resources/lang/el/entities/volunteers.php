@@ -35,6 +35,7 @@ return [
 
     /* data tables and form fields */
     'id' => 'ID',
+    'amka' => 'Α.Μ.Κ.Α.',
     'name' => 'Όνομα',
     'lastName' => 'Επώνυμο',
     'email' => 'Email',
