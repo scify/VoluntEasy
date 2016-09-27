@@ -101,6 +101,11 @@ thead.middle th {
     background-position: center center;
 }
 
+.navbar .logo-box {
+    display: block;
+    width: auto;
+}
+
 /* steps */
 .panel-grey {
     background-color: #E9EDF2;
