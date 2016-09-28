@@ -178,7 +178,7 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('default.save') }}</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('default.close') }}</button>
             </div>
         </div>
         <!-- /.modal-content -->
