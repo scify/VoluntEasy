@@ -54,10 +54,12 @@
             <div class="form-group">
                 {!! Form::formInput('country', trans('entities/volunteers.country').':', $errors, ['class' => 'form-control']) !!}
             </div>
+            @if(env('MODE') !== 'municipality')
             <div class="form-group">
                 {!! Form::formInput('live_in_curr_country', trans('entities/volunteers.livesInCurrCountry'), $errors, ['class' => 'form-control',
                 'type' => 'checkbox', 'value' => true, 'checked' => 'true']) !!} <em>{{ trans('entities/volunteers.livesInCurrCountryExpl') }}</em>
             </div>
+            @endif
         </div>
         <div class="col-md-4">
             <div class="row">
@@ -86,6 +88,7 @@
                     </div>
                 </div>
             </div>
+            @if(env('MODE') !== 'municipality')
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -105,6 +108,16 @@
                     </div>
                 </div>
             </div>
+            @else
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        {!! Form::formInput('amka', trans('entities/volunteers.amka').':', $errors, ['class' =>
+                        'form-control']) !!}
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
     </div>
 </div>
@@ -120,13 +133,15 @@
                 {!! Form::formInput('work_tel',  trans('entities/volunteers.workTel').':', $errors, ['class' => 'form-control']) !!}
             </div>
             <div class="form-group">
-                {!! Form::formInput('cell_tel',  trans('entities/volunteers.cellTel').':', $errors, ['class' => 'form-control', 'required' => 'true']) !!}
+                {!! Form::formInput('cell_tel',  trans('entities/volunteers.cellTel').':', $errors, ['class' => 'form-control']) !!}
             </div>
         </div>
         <div class="col-md-4">
+            @if(env('MODE') !== 'municipality')
             <div class="form-group">
                 {!! Form::formInput('fax',  trans('entities/volunteers.fax').':', $errors, ['class' => 'form-control']) !!}
             </div>
+            @endif
             <div class="form-group">
                 {!! Form::formInput('email',  trans('entities/volunteers.email').':', $errors, ['class' => 'form-control', 'required' => 'true']) !!}
             </div>
