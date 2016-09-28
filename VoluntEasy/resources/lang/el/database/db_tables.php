@@ -129,6 +129,7 @@ return [
     'environment' => 'Περιβάλλον',
     'clean' => 'Καθαριότητα',
     'tourism' => 'Τουρισμός',
+    'health' => 'Υγεία',
 
     //ekpizo
     'graphics' => 'Γραφιστικά',

@@ -100,16 +100,16 @@
                     <p class="error">{{ $errors->first('gender_id') }}</p>
                 @endif
                 <div class="form-radios">
-                    <div class="form-item" id="gender-male-wrapper">
-                        <label class="option" for="gender-male"><input type="radio" id="gender-male"
-                                                                            name="gender_id" value="1"
-                                                                            class="form-radio"> @lang('database/db_tables.man')</label>
+                @foreach($genders as $genderKey => $gender)
+                    @if($genderKey != 0)
+                    <div class="form-item" id="gender-{{ $gender }}-wrapper">
+                        <label class="option" for="gender-{{ $gender }}"><input type="radio" id="gender-{{ $gender }}"
+                                                                       name="gender_id" value="{{ $genderKey }}"
+                                                                       class="form-radio">
+                            {{ $gender }}</label>
                     </div>
-                    <div class="form-item" id="gender-female-wrapper">
-                        <label class="option" for="gender-female"><input type="radio" id="gender-female"
-                                                                             name="gender_id" value="2"
-                                                                             class="form-radio"> @lang('database/db_tables.woman')</label>
-                    </div>
+                    @endif
+                @endforeach
                 </div>
             </div>
             {{--<div class="form-item" id="marital-status-wrapper">--}}
@@ -440,91 +440,18 @@
             @lang('entities/volunteers.interestsCaps')
         </legend>
         <div class="fieldset-wrapper">
-            <div class="form-item" id="edit-πολιτισμός-και-εκπαίδευση-wrapper">
-                <label class="option" for="edit-πολιτισμός-και-εκπαίδευση"><input type="checkbox"
-                                                                                  name="πολιτισμός_και_εκπαίδευση"
-                                                                                  id="edit-πολιτισμός-και-εκπαίδευση"
-                                                                                  value="ΝΑΙ" class="form-checkbox">
-                    Πολιτισμός και εκπαίδευση</label>
-            </div>
-            <div class="form-item" id="edit-αθλητισμός-wrapper">
-                <label class="option" for="edit-αθλητισμός"><input type="checkbox" name="αθλητισμός"
-                                                                   id="edit-αθλητισμός" value="ΝΑΙ"
-                                                                   class="form-checkbox"> Αθλητισμός</label>
-            </div>
-            <div class="form-item">
-                <label>Περιβάλλον: </label>
-                <div class="form-checkboxes">
-                    <div class="form-item"
-                         id="edit-περιβάλλον-ενημέρωση-ευαισθητοποίηση-πολιτών-σε-περιβαλλοντικά-θέματα-wrapper">
-                        <label class="option"
-                               for="edit-περιβάλλον-ενημέρωση-ευαισθητοποίηση-πολιτών-σε-περιβαλλοντικά-θέματα"><input
-                                    type="checkbox"
-                                    name="περιβάλλον[ενημέρωση-ευαισθητοποίηση πολιτών σε περιβαλλοντικά θέματα]"
-                                    id="edit-περιβάλλον-ενημέρωση-ευαισθητοποίηση-πολιτών-σε-περιβαλλοντικά-θέματα"
-                                    value="ενημέρωση-ευαισθητοποίηση πολιτών σε περιβαλλοντικά θέματα"
-                                    class="form-checkbox"> ενημέρωση-ευαισθητοποίηση πολιτών σε περιβαλλοντικά
-                            θέματα</label>
-                    </div>
-                    <div class="form-item" id="edit-περιβάλλον-καθαρισμός-δημοσίου-χώρου-wrapper">
-                        <label class="option" for="edit-περιβάλλον-καθαρισμός-δημοσίου-χώρου"><input type="checkbox"
-                                                                                                     name="περιβάλλον[καθαρισμός δημοσίου χώρου]"
-                                                                                                     id="edit-περιβάλλον-καθαρισμός-δημοσίου-χώρου"
-                                                                                                     value="καθαρισμός δημοσίου χώρου"
-                                                                                                     class="form-checkbox">
-                            καθαρισμός δημοσίου χώρου</label>
-                    </div>
-                    <div class="form-item" id="edit-περιβάλλον-βάψιμο-επιφανειών-wrapper">
-                        <label class="option" for="edit-περιβάλλον-βάψιμο-επιφανειών"><input type="checkbox"
-                                                                                             name="περιβάλλον[βάψιμο επιφανειών]"
-                                                                                             id="edit-περιβάλλον-βάψιμο-επιφανειών"
-                                                                                             value="βάψιμο επιφανειών"
-                                                                                             class="form-checkbox">
-                            βάψιμο επιφανειών</label>
-                    </div>
-                    <div class="form-item" id="edit-περιβάλλον-antigraffiti-wrapper">
-                        <label class="option" for="edit-περιβάλλον-antigraffiti"><input type="checkbox"
-                                                                                        name="περιβάλλον[antigraffiti]"
-                                                                                        id="edit-περιβάλλον-antigraffiti"
-                                                                                        value="antigraffiti"
-                                                                                        class="form-checkbox">
-                            antigraffiti</label>
-                    </div>
-                    <div class="form-item" id="edit-περιβάλλον-φύτευση-wrapper">
-                        <label class="option" for="edit-περιβάλλον-φύτευση"><input type="checkbox"
-                                                                                   name="περιβάλλον[φύτευση]"
-                                                                                   id="edit-περιβάλλον-φύτευση"
-                                                                                   value="φύτευση"
-                                                                                   class="form-checkbox">
-                            φύτευση</label>
-                    </div>
+        @foreach($interestCategories as $interestCategory)
+            @foreach($interestCategory->interests as $interest)
+                <div class="form-item" id="edit-{{ $interest->description }}-wrapper">
+                    <label class="option" for="interest{{ $interest->id }}"><input type="checkbox"
+                                                                                      name="interest{{ $interest->id }}"
+                                                                                      id="interest{{ $interest->id }}"
+                                                                                      value="{{ $interest->id }}" class="form-checkbox">
+                        {{ $interest->description }}</label>
                 </div>
-            </div>
-            <div class="form-item">
-                <label>Κοινωνική αλληλεγγύη: </label>
-                <div class="form-checkboxes">
-                    <div class="form-item" id="edit-κοινωνική-αλληλεγγύη-Κόμβος-Αλληλεγγύης-Πολιτών-wrapper">
-                        <label class="option" for="edit-κοινωνική-αλληλεγγύη-Κόμβος-Αλληλεγγύης-Πολιτών"><input
-                                    type="checkbox" name="κοινωνική_αλληλεγγύη[Κόμβος Αλληλεγγύης Πολιτών]"
-                                    id="edit-κοινωνική-αλληλεγγύη-Κόμβος-Αλληλεγγύης-Πολιτών"
-                                    value="Κόμβος Αλληλεγγύης Πολιτών" class="form-checkbox"> Κόμβος Αλληλεγγύης
-                            Πολιτών</label>
-                    </div>
-                    <div class="form-item"
-                         id="edit-κοινωνική-αλληλεγγύη-Παροχή-φροντίδας-ως-εθελοντής-γείτονας-wrapper">
-                        <label class="option"
-                               for="edit-κοινωνική-αλληλεγγύη-Παροχή-φροντίδας-ως-εθελοντής-γείτονας"><input
-                                    type="checkbox"
-                                    name="κοινωνική_αλληλεγγύη[Παροχή φροντίδας ως εθελοντής γείτονας]"
-                                    id="edit-κοινωνική-αλληλεγγύη-Παροχή-φροντίδας-ως-εθελοντής-γείτονας"
-                                    value="Παροχή φροντίδας ως εθελοντής γείτονας" class="form-checkbox"> Παροχή
-                            φροντίδας ως εθελοντής γείτονας</label>
-                    </div>
-                </div>
-            </div>
+            @endforeach
+        @endforeach
         </div>
-
-
     </fieldset>
 
     <br>
