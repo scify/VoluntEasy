@@ -21,8 +21,10 @@
                                                                            title="{{ trans('entities/volunteers.preferredContactWay') }}"></i>
             @endif</p>
 
+        @if(env('MODE') !== 'municipality')
         <p><strong>{{ trans('entities/volunteers.fax') }}:</strong> {{ $volunteer->fax=='' ? '-' : $volunteer->fax }}
         </p>
+        @endif
 
     </div>
     <div class="col-md-4">
@@ -33,8 +35,10 @@
             '.$volunteer->country }}
         </p>
 
+        @if(env('MODE') !== 'municipality')
         <p><strong>{{ trans('entities/volunteers.livesInCurrCountry') }}:</strong> {{
             $volunteer->live_in_curr_country==0 ? trans('default.no') : trans('default.yes') }}</p>
+        @endif
 
         <p><strong>{{ trans('entities/volunteers.idType') }}:</strong> {{
             $volunteer->identification_type_id=='' || $volunteer->identification_type_id==null ? '-' :
@@ -44,18 +48,25 @@
             $volunteer->identification_num=='' || $volunteer->identification_num==null ? '-' :
             $volunteer->identification_num }}</p>
 
+        @if(env('MODE') !== 'municipality')
         <p><strong>{{ trans('entities/volunteers.afm') }}:</strong> {{
             $volunteer->afm=='' || $volunteer->afm==null ? '-' : $volunteer->afm }}</p>
+        @else
+        <p><strong>{{ trans('entities/volunteers.amka') }}:</strong> {{
+            $volunteer->amka=='' || $volunteer->amka==null ? '-' : $volunteer->amka }}</p>
+        @endif
 
         <p><strong>{{ trans('entities/volunteers.contractDate') }}:</strong> {{
             $volunteer->contract_date=='' || $volunteer->contract_date==null ? '-' : $volunteer->contract_date }}</p>
     </div>
     <div class="col-md-4">
+        @if(env('MODE') !== 'municipality')
         <p><strong>{{ trans('entities/volunteers.maritalStatus') }}:</strong> {{
             $volunteer->marital_status_id=='' || $volunteer->marital_status_id==null ? '-' :
             $volunteer->maritalStatus->description }}</p>
 
             <p><strong>{{ trans('entities/volunteers.childNum') }}:</strong> {{$volunteer->children}}</p>
+        @endif
     </div>
 </div>
 
@@ -201,7 +212,7 @@
                         @if($volunteer->availabilityTimes!=null ||
                         sizeof($volunteer->availabilityTimes)!=0)
                         @foreach($volunteer->availabilityTimes as $availabilityTime)
-                        {{ $availabilityTime->description }}
+                        {{ \Lang::get('entities/volunteers.' . $availabilityTime->description) }}
                         @endforeach
                         @endif
 

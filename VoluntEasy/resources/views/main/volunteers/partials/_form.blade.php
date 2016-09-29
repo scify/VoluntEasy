@@ -81,12 +81,21 @@
                         $errors, ['class' => 'form-control']) !!}
                     </div>
                 </div>
+                @if(env('MODE') !== 'municipality')
                 <div class="col-md-4">
                     <div class="form-group">
                         {!! Form::formInput('afm', trans('entities/volunteers.afm').':',
                         $errors, ['class' => 'form-control']) !!}
                     </div>
                 </div>
+                @else
+                <div class="col-md-4">
+                    <div class="form-group">
+                        {!! Form::formInput('amka', trans('entities/volunteers.amka').':', $errors, ['class' =>
+                        'form-control']) !!}
+                    </div>
+                </div>
+                @endif
             </div>
             @if(env('MODE') !== 'municipality')
             <div class="row">
@@ -105,15 +114,6 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         {!! Form::formInput('children', trans('entities/volunteers.childNum').':', $errors, ['class' => 'form-control']) !!}
-                    </div>
-                </div>
-            </div>
-            @else
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        {!! Form::formInput('amka', trans('entities/volunteers.amka').':', $errors, ['class' =>
-                        'form-control']) !!}
                     </div>
                 </div>
             </div>
@@ -315,6 +315,32 @@
             @include('main.volunteers.partials.form_defaults._availability')
             @endif
         </div>
+        @if(env('MODE') === 'municipality')
+        <div class="col-md-3">
+            <p>{{ trans('entities/volunteers.availabilityTimes') }}:</p>
+            <div class="form-group">
+                @foreach($availabilityTimes as $timeKey => $availabilityTime)
+                    <?php
+                        $checked = "";
+                        foreach ($volunteer->availabilityTimes as $selectedTime) {
+                            if(intval($selectedTime->id) === $timeKey) {
+                                $checked = "checked=\"checked\"";
+                                break;
+                            }
+                        }
+                    ?>
+                    <div class="form-item" id="availability-times-{{ $availabilityTime }}-wrapper">
+                        <label class="option" for="availability_times_{{ $availabilityTime }}">
+                            <input type="checkbox" name="availability_times[{{ $availabilityTime }}]"
+                                  id="availability_times_{{ $availabilityTime }}" value="{{ $timeKey }}"
+                                  class="form-checkbox" {{ $checked }}>
+                            {{  \Lang::get('entities/volunteers.' . $availabilityTime) }}
+                        </label>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
     </div>
 </div>
 <!-- tab6 Comments -->

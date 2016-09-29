@@ -434,10 +434,10 @@
                 <label>@lang('entities/volunteers.availabilityTimes'): </label>
                 <div class="form-checkboxes">
                 @foreach($availabilityTimes as $timeKey => $availabilityTime)
-                    <div class="form-item" id="contribution-time-{{ $availabilityTime }}-wrapper">
-                        <label class="option" for="contribution_time_{{ $availabilityTime }}"><input type="checkbox"
-                                                                                     name="contribution_time[{{ $availabilityTime }}]"
-                                                                                     id="contribution_time_{{ $availabilityTime }}"
+                    <div class="form-item" id="availability-times-{{ $availabilityTime }}-wrapper">
+                        <label class="option" for="availability_times_{{ $availabilityTime }}"><input type="checkbox"
+                                                                                     name="availability_times[{{ $availabilityTime }}]"
+                                                                                     id="availability_times_{{ $availabilityTime }}"
                                                                                      value="{{ $timeKey }}"
                                                                                      class="form-checkbox">
                             {{  \Lang::get('entities/volunteers.' . $availabilityTime) }}</label>

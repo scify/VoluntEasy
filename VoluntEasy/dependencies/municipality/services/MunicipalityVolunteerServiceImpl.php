@@ -183,7 +183,7 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
         $baseFields = parent::getBaseFields();
         $baseFields['amka'] = $volunteerRequest['amka'];
         $contributionTimes = array();
-        foreach ($volunteerRequest['contribution_time'] as $contribution_time) {
+        foreach ($volunteerRequest['availability_times'] as $contribution_time) {
             array_push($contributionTimes, intval($contribution_time));
         }
         $baseFields['availability_times'] = $contributionTimes;
@@ -199,13 +199,14 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
         $isValid = $this->validate();
 
         if (!$isValid['failed']) {
-            $volunteer = new MunicipalityVolunteer($this->getBaseFields());
+            $baseFields = $this->getBaseFields();
+            $volunteer = new MunicipalityVolunteer($baseFields);
 
             if ($this->validate($volunteer)) {
                 $volunteer->save();
                 $volunteer = $this->basicStore($volunteer);
                 $this->storeExtraFields($volunteer);
-
+                $this->saveAvailabilityTimes($volunteer, $baseFields);
                 return $volunteer;
             }
         } else
@@ -227,7 +228,7 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
                 $this->basicStore($volunteer);
                 //store extra fields
                 $this->storeExtraFields($volunteer);
-
+                $this->saveAvailabilityTimes($volunteer, $baseFields);
                 return $volunteer;
             }
         } else
