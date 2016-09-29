@@ -615,7 +615,7 @@ class VolunteerController extends Controller {
         if ($saved['failed']) {
             return redirect()->back()->withErrors($saved['messages'])->withInput();
         } else {
-            return view('municipality.resources.views.public_form.success_public_form');
+            return $this->volunteerService->getPublicFormRequestToBecomeVolunteer('false');
         }
     }
 

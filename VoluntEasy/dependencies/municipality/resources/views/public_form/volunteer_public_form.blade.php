@@ -206,14 +206,14 @@
                        value="{{ old('cell_tel') }}"
                        class="form-text">
             </div>
-            <div class="form-item" id="fax-wrapper">
-                <label for="fax">@lang('entities/volunteers.fax'): </label>
-                @if($errors->has('fax'))
-                    <p class="error">{{ $errors->first('fax') }}</p>
-                @endif
-                <input type="text" name="fax" size="15" value="{{ old('fax') }}"
-                       class="form-text">
-            </div>
+            {{--<div class="form-item" id="fax-wrapper">--}}
+                {{--<label for="fax">@lang('entities/volunteers.fax'): </label>--}}
+                {{--@if($errors->has('fax'))--}}
+                    {{--<p class="error">{{ $errors->first('fax') }}</p>--}}
+                {{--@endif--}}
+                {{--<input type="text" name="fax" size="15" value="{{ old('fax') }}"--}}
+                       {{--class="form-text">--}}
+            {{--</div>--}}
             <div class="form-item" id="email-wrapper">
                 <label for="email">@lang('entities/volunteers.email'): <span class="form-required"
                                                 title="@lang('entities/volunteers.requiredField')">*</span></label>
@@ -289,6 +289,19 @@
                         </div>
                     </div>
                 @endforeach
+                <div class="fieldset-wrapper">
+                    <div class="form-item" id="extra-lang-wrapper">
+                        <label for="extra_lang">@lang('entities/volunteers.extraLanguages'):</label>
+                        @if($errors->has('extra_lang'))
+                            <p class="error">{{ $errors->first('extra_lang') }}</p>
+                        @endif
+                        <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="extra_lang"
+                                                                        class="form-textarea resizable"></textarea>
+                        </span>
+                        </div>
+                        <div class="description">@lang('entities/volunteers.extraLanguagesExpl')</div>
+                    </div>
+                </div>
             </fieldset>
             <div class="form-item" id="driver-license-type-wrapper">
                 <label for="driver_license_type_id">@lang('entities/volunteers.driverLicenceType'): </label>
@@ -485,6 +498,7 @@
 
     @lang('entities/volunteers.privacyText')<br>
     <div class="readon"><input class="button" type="submit" name="op" id="edit-submit" value="@lang('entities/volunteers.send')"></div>
+    <p class="success @if(isset($hide) && $hide === 'true') hide @endif">@lang('entities/volunteers.successMessage')</p>
     <input type="hidden" name="comments" value="">
 
 </div>

@@ -159,7 +159,6 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
             'city' => 'max:300',
             'country' => 'max:300',
             'post_box' => 'max:255',
-            'afm' => 'max:100',
             'participation_reason' => 'required|max:600',
             'participation_previous' => 'max:600',
             'participation_actions' => 'max:600',

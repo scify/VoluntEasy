@@ -79,12 +79,12 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
      *
      * @param $volunteer
      */
-    private function saveAvailabilityTimes($volunteer) {
-        if (isset($volunteerRequest['availability_time']) && sizeof($volunteerRequest['availability_time']) > 0)
-            $volunteer->availabilityTimes()->sync($volunteerRequest['availability_time']);
+    private function saveAvailabilityTimes($volunteer, $baseFields) {
+        if (isset($baseFields['availability_times']) && sizeof($baseFields['availability_times']) > 0)
+            $volunteer->availabilityTimes()->sync($baseFields['availability_times']);
     }
 
-    public function getPublicFormRequestToBecomeVolunteer()
+    public function getPublicFormRequestToBecomeVolunteer($hide = 'true')
     {
         //get all models for form
         $identificationTypes = IdentificationType::lists('description', 'id')->all();
@@ -120,7 +120,7 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
         return view("municipality.resources.views.public_form.volunteer_public_form", compact(
             'identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
             'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders',
-            'commMethod', 'edLevel', 'units', 'howYouLearned'
+            'commMethod', 'edLevel', 'units', 'howYouLearned', 'hide'
         ));
     }
 
@@ -182,6 +182,11 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
         $volunteerRequest = \Request::all();
         $baseFields = parent::getBaseFields();
         $baseFields['amka'] = $volunteerRequest['amka'];
+        $contributionTimes = array();
+        foreach ($volunteerRequest['contribution_time'] as $contribution_time) {
+            array_push($contributionTimes, intval($contribution_time));
+        }
+        $baseFields['availability_times'] = $contributionTimes;
         //work_status_id cannot be 0 but is nullable
         if ($baseFields['work_status_id'] === '0') {
             $baseFields['work_status_id'] = null;
@@ -234,14 +239,14 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
         $isValid = $this->publicFormValidate();
 
         if (!$isValid['failed']) {
-            $volunteer = new MunicipalityVolunteer($this->getBaseFields());
+            $baseFields = $this->getBaseFields();
+            $volunteer = new MunicipalityVolunteer($baseFields);
 
-            //if ($this->apiValidate()) {
             $volunteer->save();
             $volunteer = $this->basicStore($volunteer);
             $this->storeExtraFields($volunteer);
+            $this->saveAvailabilityTimes($volunteer, $baseFields);
             return $volunteer;
-            //}
         } else
             return $isValid;
     }

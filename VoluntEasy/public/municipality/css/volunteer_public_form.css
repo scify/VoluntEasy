@@ -9,6 +9,7 @@ p.success {
     color: #200;
     padding: 2px;
     border: 1px solid #32cd32;
+    margin-top: 10px;
 }
 
 p.error {
