@@ -23,7 +23,7 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
     /**
      * Create a Volunteer object with all it's basic (common to all) fields.
      */
-    public final function getBaseFields() {
+    public function getBaseFields() {
 
         $volunteerRequest = \Request::all();
 
@@ -34,8 +34,6 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
             'identification_type_id' => $this->checkDropDown(intval($volunteerRequest['identification_type_id'])),
             'identification_num' => $volunteerRequest['identification_num'],
             'gender_id' => $this->checkDropDown(intval($volunteerRequest['gender_id'])),
-            'marital_status_id' => $this->checkDropDown(intval($volunteerRequest['marital_status_id'])),
-            'children' => intval($volunteerRequest['children']),
             'address' => $volunteerRequest['address'],
             'post_box' => $volunteerRequest['post_box'],
             'city' => $volunteerRequest['city'],
@@ -43,7 +41,6 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
             'home_tel' => $volunteerRequest['home_tel'],
             'work_tel' => $volunteerRequest['work_tel'],
             'cell_tel' => $volunteerRequest['cell_tel'],
-            'fax' => $volunteerRequest['fax'],
             'email' => $volunteerRequest['email'],
             'comm_method_id' => intval($volunteerRequest['comm_method_id']),
             'education_level_id' => $this->checkDropDown(intval($volunteerRequest['education_level_id'])),
@@ -142,7 +139,7 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
      *
      * @return mixed
      */
-    public final function store() {
+    public function store() {
 
         $isValid = $this->validate();
 
@@ -234,7 +231,7 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
         return null;
     }
 
-    private function checkDropDown($input) {
+    protected function checkDropDown($input) {
         if ($input == null || $input == 0)
             return null;
         else

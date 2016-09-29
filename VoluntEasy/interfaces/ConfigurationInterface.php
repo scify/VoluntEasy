@@ -19,4 +19,6 @@ interface ConfigurationInterface {
     function getExtras();
 
     function hasTasks();
+
+    function getServiceForInterface($interfaceName, $default);
 }

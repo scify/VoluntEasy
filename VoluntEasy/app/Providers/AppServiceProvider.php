@@ -23,6 +23,7 @@ class AppServiceProvider extends ServiceProvider {
      * @return void
      */
     public function register() {
+
         $this->app->bind(
             'Illuminate\Contracts\Auth\Registrar',
             'App\Services\Registrar'
@@ -62,6 +63,8 @@ class AppServiceProvider extends ServiceProvider {
                 'Dependencies\municipality\configuration\Configuration'
             );
 
+            $configuration = \App::make('Interfaces\ConfigurationInterface');
+
             //bind the report service
             $this->app->bind(
                 'Interfaces\ReportsInterface',
@@ -71,7 +74,7 @@ class AppServiceProvider extends ServiceProvider {
             //bind the volunteer service
             $this->app->bind(
                 'Interfaces\VolunteerInterface',
-                'Dependencies\municipality\services\VolunteerServiceImpl'
+                $configuration->getServiceForInterface('Interfaces\VolunteerInterface', 'Dependencies\municipality\services\MunicipalityVolunteerServiceImpl')
             );
 
             //bind the rating service

@@ -31,4 +31,8 @@ class Configuration implements ConfigurationInterface {
     function hasTasks() {
         return false;
     }
+
+    function getServiceForInterface($interfaceName, $default = null) {
+        return env($interfaceName, $default);
+    }
 }

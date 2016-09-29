@@ -13,6 +13,19 @@ use Interfaces\VolunteerServiceAbstract;
 class VolunteerServiceImpl extends VolunteerServiceAbstract {
 
     /**
+     * Override method to write more fields
+     */
+    public function getBaseFields()
+    {
+        $volunteerRequest = \Request::all();
+        $baseFields = parent::getBaseFields();
+        $baseFields['marital_status_id'] = $this->checkDropDown(intval($volunteerRequest['marital_status_id']));
+        $baseFields['children'] = intval($volunteerRequest['children']);
+        $baseFields['fax'] = $volunteerRequest['fax'];
+        return $baseFields;
+    }
+
+    /**
      * Validate the public form for volunteers
      */
     public function publicFormValidate()
@@ -322,7 +335,7 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
     }
 
 
-    private function checkDropDown($input) {
+    protected function checkDropDown($input) {
         if ($input == 0)
             return null;
         else
