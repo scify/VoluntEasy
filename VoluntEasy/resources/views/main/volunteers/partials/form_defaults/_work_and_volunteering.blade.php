@@ -2,10 +2,10 @@
     <div class="form-group">
         @if (isset($volunteer))
         {!! Form::formInput('work_status_id', trans('entities/volunteers.workStatus').':', $errors, ['class' => 'form-control',
-        'type' => 'select', 'value' => $workStatuses, 'key' => $volunteer->work_status_id]) !!}
+        'type' => 'select', 'value' => $workStatuses, 'key' => $volunteer->work_status_id, 'required' => 'true']) !!}
         @else
         {!! Form::formInput('work_status_id', trans('entities/volunteers.workStatus').':', $errors, ['class' => 'form-control',
-        'type' => 'select', 'value' => $workStatuses]) !!}
+        'type' => 'select', 'value' => $workStatuses, 'required' => 'true']) !!}
         @endif
     </div>
     <div class="form-group">

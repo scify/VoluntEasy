@@ -29,10 +29,38 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
         // Validate added fields, adding to the kept result
         $volunteer = \Request::all();
         $validator = \Validator::make($volunteer, [
-            'amka' => 'max:100'
+            'amka' => 'max:100',
+            'name' => 'required|max:100',
+            'last_name' => 'required|max:100',
+            'fathers_name' => 'required|max:100',
+            'identification_num' => 'max:100',
+            'birth_date' => 'required',
+            'address' => 'max:300',
+            'city' => 'max:300',
+            'country' => 'max:300',
+            'post_box' => 'max:255',
+            'afm' => 'max:100',
+            'participation_reason' => 'required|max:600',
+            'participation_previous' => 'max:600',
+            'participation_actions' => 'max:600',
+            'home_tel' => 'max:255',
+            'work_tel' => 'max:255',
+            'cell_tel' => 'max:255',
+            'gender_id' => 'required',
+            'email' => 'required|email|unique:volunteers|max:255',
+            'extra_lang' => 'max:300',
+            'work_description' => 'max:600',
+            'specialty' => 'max:300',
+            'department' => 'max:300',
+            'additional_skills' => 'max:300',
+            'computer_usage_comments' => 'max:300',
+            'comments' => 'max:6000',
+            'education_level_id' => 'required|different:0',
+            'terms' => 'required',// TODO: change to 'accepted' instead of 'required'
+            'work_status_id' => 'required|different:0',
         ]);
         if ($validator->fails()) {
-            $parentResult['messages'] = array_merge($parentResult['messages'], $validator->messages());
+            $parentResult['messages'] = array_merge($parentResult['messages']->toArray(), $validator->messages()->toArray());
             $parentResult['failed'] = true;
         }
 
@@ -124,55 +152,55 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
         ));
     }
 
-    /**
-     * Validate the Volunteer passed by the API
-     *
-     * @return array()
-     */
-    public function publicFormValidate(){
-        $volunteer = \Request::all();
-
-        $validator = \Validator::make($volunteer, [
-            'amka' => 'max:100',
-            'name' => 'required|max:100',
-            'last_name' => 'required|max:100',
-            'fathers_name' => 'required|max:100',
-            'identification_num' => 'max:100',
-            'birth_date' => 'required',
-            'address' => 'max:300',
-            'city' => 'max:300',
-            'country' => 'max:300',
-            'post_box' => 'max:255',
-            'afm' => 'max:100',
-            'participation_reason' => 'required|max:600',
-            'participation_previous' => 'max:600',
-            'participation_actions' => 'max:600',
-            'home_tel' => 'max:255',
-            'work_tel' => 'max:255',
-            'cell_tel' => 'max:255',
-            'gender_id' => 'required',
-            'email' => 'required|email|unique:volunteers|max:255',
-            'extra_lang' => 'max:300',
-            'work_description' => 'max:600',
-            'specialty' => 'max:300',
-            'department' => 'max:300',
-            'additional_skills' => 'max:300',
-            'computer_usage_comments' => 'max:300',
-            'comments' => 'max:6000',
-            'education_level_id' => 'required',
-            'terms' => 'required',
-            'work_status_id' => 'required',
-        ]);
-
-        if ($validator->fails())
-            return [
-                'failed' => true,
-                'messages' => $validator->messages()];
-        else
-            return [
-                'failed' => false,
-                'messages' => null];
-    }
+//    /**
+//     * Validate the Volunteer passed by the API
+//     *
+//     * @return array()
+//     */
+//    public function publicFormValidate(){
+//        $volunteer = \Request::all();
+//
+//        $validator = \Validator::make($volunteer, [
+//            'amka' => 'max:100',
+//            'name' => 'required|max:100',
+//            'last_name' => 'required|max:100',
+//            'fathers_name' => 'required|max:100',
+//            'identification_num' => 'max:100',
+//            'birth_date' => 'required',
+//            'address' => 'max:300',
+//            'city' => 'max:300',
+//            'country' => 'max:300',
+//            'post_box' => 'max:255',
+//            'afm' => 'max:100',
+//            'participation_reason' => 'required|max:600',
+//            'participation_previous' => 'max:600',
+//            'participation_actions' => 'max:600',
+//            'home_tel' => 'max:255',
+//            'work_tel' => 'max:255',
+//            'cell_tel' => 'max:255',
+//            'gender_id' => 'required',
+//            'email' => 'required|email|unique:volunteers|max:255',
+//            'extra_lang' => 'max:300',
+//            'work_description' => 'max:600',
+//            'specialty' => 'max:300',
+//            'department' => 'max:300',
+//            'additional_skills' => 'max:300',
+//            'computer_usage_comments' => 'max:300',
+//            'comments' => 'max:6000',
+//            'education_level_id' => 'required',
+//            'terms' => 'required',//TODO: change to accepted instead of required
+//            'work_status_id' => 'required',
+//        ]);
+//
+//        if ($validator->fails())
+//            return [
+//                'failed' => true,
+//                'messages' => $validator->messages()];
+//        else
+//            return [
+//                'failed' => false,
+//                'messages' => null];
+//    }
 
     /**
      * Override getBaseFields() to add more fields
@@ -237,7 +265,7 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
     }
 
     public function postPublicFormRequestToBecomeVolunteer() {
-        $isValid = $this->publicFormValidate();
+        $isValid = $this->validate();
 
         if (!$isValid['failed']) {
             $baseFields = $this->getBaseFields();

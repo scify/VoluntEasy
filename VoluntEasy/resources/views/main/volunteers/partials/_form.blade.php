@@ -11,7 +11,7 @@
                 !!}
             </div>
             <div class="form-group">
-                {!! Form::formInput('fathers_name', trans('entities/volunteers.fathersName').':', $errors, ['class' => 'form-control']) !!}
+                {!! Form::formInput('fathers_name', trans('entities/volunteers.fathersName').':', $errors, ['class' => 'form-control', 'required' => 'true']) !!}
             </div>
             <div class="row">
                 <div class="col-md-6">
@@ -49,7 +49,7 @@
                 </div>
             </div>
             <div class="form-group">
-                {!! Form::formInput('city', trans('entities/volunteers.city').':', $errors, ['class' => 'form-control', 'required' => 'true']) !!}
+                {!! Form::formInput('city', trans('entities/volunteers.city').':', $errors, ['class' => 'form-control']) !!}
             </div>
             <div class="form-group">
                 {!! Form::formInput('country', trans('entities/volunteers.country').':', $errors, ['class' => 'form-control']) !!}
@@ -167,10 +167,10 @@
                         @if (isset($volunteer))
                         {!! Form::formInput('education_level_id', trans('entities/volunteers.educationLevel').':', $errors, ['class' =>
                         'form-control', 'type' => 'select', 'value' => $edLevel, 'key' =>
-                        $volunteer->education_level_id]) !!}
+                        $volunteer->education_level_id, 'required' => 'true']) !!}
                         @else
                         {!! Form::formInput('education_level_id',  trans('entities/volunteers.educationLevel').':', $errors, ['class' =>
-                        'form-control', 'type' => 'select', 'value' => $edLevel]) !!}
+                        'form-control', 'type' => 'select', 'value' => $edLevel, 'required' => 'true']) !!}
                         @endif
                     </div>
                 </div>
@@ -322,10 +322,12 @@
                 @foreach($availabilityTimes as $timeKey => $availabilityTime)
                     <?php
                         $checked = "";
-                        foreach ($volunteer->availabilityTimes as $selectedTime) {
-                            if(intval($selectedTime->id) === $timeKey) {
-                                $checked = "checked=\"checked\"";
-                                break;
+                        if(isset($volunteer)) {
+                            foreach ($volunteer->availabilityTimes as $selectedTime) {
+                                if(intval($selectedTime->id) === $timeKey) {
+                                    $checked = "checked=\"checked\"";
+                                    break;
+                                }
                             }
                         }
                     ?>
