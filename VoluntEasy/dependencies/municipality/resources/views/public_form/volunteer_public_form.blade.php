@@ -252,8 +252,16 @@
                         <option value="@if($key !== 0){{ $key }}@endif">{{ $value }}</option>
                     @endforeach
                 </select>
-                <input type="hidden" name="other_education">
                 <div class="description">@lang('entities/volunteers.fillEducation')</div>
+                <div id="other_education_wrapper" class="@if(old('other_education') === "" ||
+                        old('other_education') === null) hide @endif">
+                    <label for="other_education">@lang('entities/volunteers.other_education_level'):</label>
+                    @if($errors->has('other_education'))
+                        <p class="error">{{ $errors->first('other_education') }}</p>
+                    @endif
+                    <input id="other_education" name="other_education" size="50" class="form-text" type="text"
+                           value="{{ old('other_education') }}">
+                </div>
             </div>
             <div class="form-item" id="specialty-wrapper">
                 <label for="specialty">@lang('entities/volunteers.specialty'): </label>

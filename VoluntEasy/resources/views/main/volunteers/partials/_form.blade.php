@@ -446,8 +446,7 @@
 
     var displayOrHideOtherEducationField = function() {
         //if selected item is the last one display the field, else hide it
-        if ($(this).val() === $("#education_level_id").find("option").last().val() &&
-                $("#other_education_wrapper").hasClass("hide")) {
+        if ($(this).val() === $("#education_level_id").find("option").last().val()) {
             $("#other_education_wrapper").removeClass("hide");
         } else {
             $("#other_education_wrapper").addClass("hide");
