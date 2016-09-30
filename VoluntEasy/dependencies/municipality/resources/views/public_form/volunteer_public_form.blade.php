@@ -249,7 +249,7 @@
                 @endif
                 <select name="education_level_id" class="form-select required">
                     @foreach($edLevel as $key => $value)
-                        <option value="@if($key !== 0){{ $key }}@endif">{{ $value }}</option>
+                        <option value="{{ $key }}">{{ $value }}</option>
                     @endforeach
                 </select>
                 <div class="description">@lang('entities/volunteers.fillEducation')</div>
@@ -360,7 +360,7 @@
                 @endif
                 <select name="work_status_id" class="form-select required">
                     @foreach($workStatuses as $key => $value)
-                        <option value="@if($key !== 0){{ $key }}@endif">{{ $value }}</option>
+                        <option value="{{ $key }}">{{ $value }}</option>
                     @endforeach
                 </select>
             </div>

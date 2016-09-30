@@ -28,6 +28,9 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
 
         // Validate added fields, adding to the kept result
         $volunteer = \Request::all();
+        // set integers when needed
+        $volunteer['education_level_id'] = intval($volunteer['education_level_id']);
+        $volunteer['work_status_id'] = intval($volunteer['work_status_id']);
         $validationRules = [
             'amka' => 'max:100',
             'name' => 'required|max:100',
@@ -53,13 +56,10 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
             'additional_skills' => 'max:300',
             'computer_usage_comments' => 'max:300',
             'comments' => 'max:6000',
-            'education_level_id' => 'min:1',
-            'work_status_id' => 'min:1',
+            'education_level_id' => 'different:0',
+            'work_status_id' => 'different:0',
             'other_education' => 'max:100',
         ];
-        if (isset($volunteer['terms'])) {
-            $validationRules['terms'] = 'accepted';
-        }
         if (isset($volunteer['id'])) {
             $validationRules['email'] = 'required|email|max:255';
         } else {
@@ -78,6 +78,28 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
 
         // Return overall validation
         return $parentResult;
+    }
+
+    /**
+     * Validate public form
+     * @return array
+     */
+    public function publicFormValidate() {
+        $validationResult = $this->validate();
+        $request = \Request::all();
+        $validator = \Validator::make($request, [
+            'terms' => 'required',
+        ]);
+        if ($validator->fails()) {
+            if (isset($validationResult['messages'])) {
+                $validationResult['messages'] = array_merge($validationResult['messages'],
+                    $validator->messages()->toArray());
+            } else {
+                $validationResult['messages'] = $validator->messages()->toArray();
+            }
+            $validationResult['failed'] = true;
+        }
+        return $validationResult;
     }
 
     /**
@@ -243,7 +265,7 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
     }
 
     public function postPublicFormRequestToBecomeVolunteer() {
-        $isValid = $this->validate();
+        $isValid = $this->publicFormValidate();
 
         if (!$isValid['failed']) {
             $baseFields = $this->getBaseFields();
