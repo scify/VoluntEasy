@@ -77,17 +77,17 @@ return [
 
 
     /* driver_licence_types */
-    'noDriverLicence' => 'Χωρίς δίπλωμα',
-    'aDriverLicence' => 'Α κατηγορίας',
-    'a1DriverLicence' => 'A1 κατηγορίας',
-    'bDriverLicence' => 'Β κατηγορίας',
-    'gDriverLicence' => 'Γ κατηγορίας',
-    'geDriverLicence' => 'Γ+Ε κατηγορίας',
-    'motoDriverLicence' => 'Μοτοσυκλέτα',
-    'ixeDriverLicence' => 'ΙΧΕ',
-    'eightPlusOneDriverLicence' => 'Αυτοκίνητο εώς 8+1 θέσεις και φορτηγό',
-    'vanDriverLicence' => 'Φορτηγό',
-    'truckDriverLicence' => 'Νταλίκα φορτηγό',
+    'noDriverLicense' => 'Χωρίς δίπλωμα',
+    'aDriverLicense' => 'Α κατηγορίας',
+    'a1DriverLicense' => 'A1 κατηγορίας',
+    'bDriverLicense' => 'Β κατηγορίας',
+    'gDriverLicense' => 'Γ κατηγορίας',
+    'geDriverLicense' => 'Γ+Ε κατηγορίας',
+    'motoDriverLicense' => 'Μοτοσυκλέτα',
+    'ixeDriverLicense' => 'ΙΧΕ',
+    'eightPlusOneDriverLicense' => 'Αυτοκίνητο εώς 8+1 θέσεις και φορτηγό',
+    'vanDriverLicense' => 'Φορτηγό',
+    'truckDriverLicense' => 'Νταλίκα φορτηγό',
     'yes' => 'Ναι',
     'no' => 'Όχι',
 
