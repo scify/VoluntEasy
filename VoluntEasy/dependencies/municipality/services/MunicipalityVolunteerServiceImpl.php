@@ -28,7 +28,7 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
 
         // Validate added fields, adding to the kept result
         $volunteer = \Request::all();
-        $validator = \Validator::make($volunteer, [
+        $validationRules = [
             'amka' => 'max:100',
             'name' => 'required|max:100',
             'last_name' => 'required|max:100',
@@ -39,7 +39,6 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
             'city' => 'max:300',
             'country' => 'max:300',
             'post_box' => 'max:255',
-            'afm' => 'max:100',
             'participation_reason' => 'required|max:600',
             'participation_previous' => 'max:600',
             'participation_actions' => 'max:600',
@@ -47,7 +46,6 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
             'work_tel' => 'max:255',
             'cell_tel' => 'max:255',
             'gender_id' => 'required',
-            'email' => 'required|email|unique:volunteers|max:255',
             'extra_lang' => 'max:300',
             'work_description' => 'max:600',
             'specialty' => 'max:300',
@@ -55,12 +53,26 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
             'additional_skills' => 'max:300',
             'computer_usage_comments' => 'max:300',
             'comments' => 'max:6000',
-            'education_level_id' => 'required|different:0',
-            'terms' => 'required',// TODO: change to 'accepted' instead of 'required'
-            'work_status_id' => 'required|different:0',
-        ]);
+            'education_level_id' => 'min:1',
+            'work_status_id' => 'min:1',
+            'other_education' => 'max:100',
+        ];
+        if (isset($volunteer['terms'])) {
+            $validationRules['terms'] = 'accepted';
+        }
+        if (isset($volunteer['id'])) {
+            $validationRules['email'] = 'required|email|max:255';
+        } else {
+            $validationRules['email'] = 'required|email|unique:volunteers|max:255';
+        }
+        $validator = \Validator::make($volunteer, $validationRules);
         if ($validator->fails()) {
-            $parentResult['messages'] = array_merge($parentResult['messages']->toArray(), $validator->messages()->toArray());
+            if (isset($parentResult['messages'])) {
+                $parentResult['messages'] = array_merge($parentResult['messages']->toArray(),
+                    $validator->messages()->toArray());
+            } else {
+                $parentResult['messages'] = $validator->messages()->toArray();
+            }
             $parentResult['failed'] = true;
         }
 
@@ -88,7 +100,7 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
 
          */
         //todo: comment out?
-        $volunteer->work_status_id = \Request::get('how_you_learned_id');
+//        $volunteer->work_status_id = \Request::get('how_you_learned_id');
     }
 
     /**
@@ -103,13 +115,13 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
     }
 
     /**
-     * Save volunteer frequencies
-     *
+     * Save availability times to DB
      * @param $volunteer
+     * @param $availabilityTimes
      */
-    private function saveAvailabilityTimes($volunteer, $baseFields) {
-        if (isset($baseFields['availability_times']) && sizeof($baseFields['availability_times']) > 0)
-            $volunteer->availabilityTimes()->sync($baseFields['availability_times']);
+    private function saveAvailabilityTimes($volunteer, $availabilityTimes) {
+        if ($availabilityTimes != null && sizeof($availabilityTimes) > 0)
+            $volunteer->availabilityTimes()->sync($availabilityTimes);
     }
 
     public function getPublicFormRequestToBecomeVolunteer($hide = 'true')
@@ -152,56 +164,6 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
         ));
     }
 
-//    /**
-//     * Validate the Volunteer passed by the API
-//     *
-//     * @return array()
-//     */
-//    public function publicFormValidate(){
-//        $volunteer = \Request::all();
-//
-//        $validator = \Validator::make($volunteer, [
-//            'amka' => 'max:100',
-//            'name' => 'required|max:100',
-//            'last_name' => 'required|max:100',
-//            'fathers_name' => 'required|max:100',
-//            'identification_num' => 'max:100',
-//            'birth_date' => 'required',
-//            'address' => 'max:300',
-//            'city' => 'max:300',
-//            'country' => 'max:300',
-//            'post_box' => 'max:255',
-//            'afm' => 'max:100',
-//            'participation_reason' => 'required|max:600',
-//            'participation_previous' => 'max:600',
-//            'participation_actions' => 'max:600',
-//            'home_tel' => 'max:255',
-//            'work_tel' => 'max:255',
-//            'cell_tel' => 'max:255',
-//            'gender_id' => 'required',
-//            'email' => 'required|email|unique:volunteers|max:255',
-//            'extra_lang' => 'max:300',
-//            'work_description' => 'max:600',
-//            'specialty' => 'max:300',
-//            'department' => 'max:300',
-//            'additional_skills' => 'max:300',
-//            'computer_usage_comments' => 'max:300',
-//            'comments' => 'max:6000',
-//            'education_level_id' => 'required',
-//            'terms' => 'required',//TODO: change to accepted instead of required
-//            'work_status_id' => 'required',
-//        ]);
-//
-//        if ($validator->fails())
-//            return [
-//                'failed' => true,
-//                'messages' => $validator->messages()];
-//        else
-//            return [
-//                'failed' => false,
-//                'messages' => null];
-//    }
-
     /**
      * Override getBaseFields() to add more fields
      * @return array
@@ -210,16 +172,28 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
         $volunteerRequest = \Request::all();
         $baseFields = parent::getBaseFields();
         $baseFields['amka'] = $volunteerRequest['amka'];
-        $contributionTimes = array();
-        foreach ($volunteerRequest['availability_times'] as $contribution_time) {
-            array_push($contributionTimes, intval($contribution_time));
+        if(intval($volunteerRequest['education_level_id']) === sizeof(EducationLevel::all())) {
+            $baseFields['other_education'] = $volunteerRequest['other_education'];
+        } else {
+            $baseFields['other_education'] = null;
         }
-        $baseFields['availability_times'] = $contributionTimes;
+
         //work_status_id cannot be 0 but is nullable
         if ($baseFields['work_status_id'] === '0') {
             $baseFields['work_status_id'] = null;
         }
         return $baseFields;
+    }
+
+    private function getAvailabilityTimes() {
+        $volunteerRequest = \Request::all();
+        $contributionTimes = array();
+        if (isset($volunteerRequest['availability_times'])) {
+            foreach ($volunteerRequest['availability_times'] as $contribution_time) {
+                array_push($contributionTimes, intval($contribution_time));
+            }
+        }
+        return $contributionTimes;
     }
 
     public function store() {
@@ -234,7 +208,7 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
                 $volunteer->save();
                 $volunteer = $this->basicStore($volunteer);
                 $this->storeExtraFields($volunteer);
-                $this->saveAvailabilityTimes($volunteer, $baseFields);
+                $this->saveAvailabilityTimes($volunteer, $this->getAvailabilityTimes());
                 return $volunteer;
             }
         } else
@@ -242,23 +216,27 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
     }
 
     public function update($volunteer) {
+        //TODO: Replace ALL this by simply overriding storeExtraFields
 
+        // Check if fields are what they should be
         $isValid = $this->validate();
 
+        // If so
         if (!$isValid['failed']) {
 
+            // Get the base fields
             $baseFields = $this->getBaseFields();
-            $tmpVolunteer = new MunicipalityVolunteer($baseFields);
+            // and load the MunicipalityVolunteer from the DB
+            $volunteer = MunicipalityVolunteer::findOrFail($volunteer->id);
 
-            if ($this->validate($tmpVolunteer)) {
-                $volunteer->update($baseFields);
-                //store basic fields
-                $this->basicStore($volunteer);
-                //store extra fields
-                $this->storeExtraFields($volunteer);
-                $this->saveAvailabilityTimes($volunteer, $baseFields);
-                return $volunteer;
-            }
+            // Update the model
+            $volunteer->update($baseFields);
+            //store basic fields
+            $this->basicStore($volunteer);
+            //store extra fields
+            $this->storeExtraFields($volunteer);
+            $this->saveAvailabilityTimes($volunteer, $this->getAvailabilityTimes());
+            return $volunteer;
         } else
             return $isValid;
 
@@ -274,7 +252,7 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
             $volunteer->save();
             $volunteer = $this->basicStore($volunteer);
             $this->storeExtraFields($volunteer);
-            $this->saveAvailabilityTimes($volunteer, $baseFields);
+            $this->saveAvailabilityTimes($volunteer, $this->getAvailabilityTimes());
             return $volunteer;
         } else
             return $isValid;

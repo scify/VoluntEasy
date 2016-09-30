@@ -92,7 +92,11 @@
                 <div class="col-md-4">
                     <p><strong>{{ trans('entities/volunteers.educationLevel') }}:</strong> {{
                         $volunteer->education_level_id=='' || $volunteer->education_level_id==null ? '-' :
-                        $volunteer->educationLevel->description }}</p>
+                        $volunteer->educationLevel->description }}
+                        @if(isset($volunteer->other_education))
+                        ({{ $volunteer->other_education }})
+                        @endif
+                    </p>
 
                     <p><strong>{{ trans('entities/volunteers.specialty') }}:</strong> {{ $volunteer->specialty=='' ? '-'
                         :

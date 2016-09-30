@@ -72,6 +72,7 @@ return [
     'educationLevel' => 'Επίπεδο εκπαίδευσης',
     'specialty' => 'Ειδικότητα',
     'department' => 'Σχολή',
+    'other_education_level' => 'Άλλο επίπεδο εκπαίδευσης',
     'driverLicenceType' => 'Δίπλωμα οδήγησης',
     'computerUsage' => 'Χρήση υπολογιστή',
     'computerUsageComments' => 'Λοιπές δεξιότητες υπολογιστή',

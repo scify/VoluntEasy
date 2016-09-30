@@ -106,6 +106,10 @@ thead.middle th {
     width: auto;
 }
 
+div#other_education_wrapper {
+    margin-top: 10px;
+}
+
 /* steps */
 .panel-grey {
     background-color: #E9EDF2;

@@ -15,7 +15,10 @@ class DatabaseSeeder extends Seeder {
         $this->call('UnitTableSeeder');
         $this->call('DescriptionsTableSeeder');
         // TODO: USE: for already in production municipality and then delete the seeder and the calls below
-        // TODO: perform this query in municipality to have amka field: alter table volunteers add column amka varchar(100) null;
+        // TODO: perform this query in municipality to have amka field:
+        // alter table volunteers add column amka varchar(100) null;
+        // TODO: perform this query in municipality to have other_education field:
+        // alter table volunteers add column other_education varchar(100) null;
         //$this->call('InsertOccasionallyOnAvailabilityFreqs');
         //$this->call('InsertNewLicencesOnDriverLicences');
         //$this->call('InsertNewLevelsAndUpdateOldEducationLevels');

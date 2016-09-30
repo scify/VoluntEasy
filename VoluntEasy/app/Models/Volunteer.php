@@ -23,7 +23,7 @@ class Volunteer extends User {
                         'comments', 'gender_id', 'education_level_id', 'comm_method', 'identification_type_id',
                         'marital_status_id', 'driver_license_type_id', 'availability_freqs_id', 'work_status_id',
                         'home_tel', 'work_tel', 'cell_tel', 'fax', 'comm_method_id', 'specialty', 'department',
-                        'computer_usage', 'availability_time', 'interests', 'blacklisted', 'not_available',
+                        'computer_usage', 'interests', 'blacklisted', 'not_available',
                         'how_you_learned_id', 'how_you_learned2_id', 'computer_usage_comments', 'afm', 'contract_date'];
 
 

@@ -252,6 +252,7 @@
                         <option value="@if($key !== 0){{ $key }}@endif">{{ $value }}</option>
                     @endforeach
                 </select>
+                <input type="hidden" name="other_education">
                 <div class="description">@lang('entities/volunteers.fillEducation')</div>
             </div>
             <div class="form-item" id="specialty-wrapper">

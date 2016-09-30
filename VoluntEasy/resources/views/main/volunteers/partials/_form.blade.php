@@ -168,9 +168,28 @@
                         {!! Form::formInput('education_level_id', trans('entities/volunteers.educationLevel').':', $errors, ['class' =>
                         'form-control', 'type' => 'select', 'value' => $edLevel, 'key' =>
                         $volunteer->education_level_id, 'required' => 'true']) !!}
+                            @if(env('MODE') === 'municipality')
+                        <div id="other_education_wrapper" class="@if(intval($volunteer->education_level_id) !== sizeof($edLevel) - 1) hide @endif">
+                            <label>@lang('entities/volunteers.other_education_level'):</label>
+                            <input name="other_education" class="form-control"
+                                   type="text" value="{{ $volunteer->other_education }}" >
+                        </div>
+                            @endif
                         @else
                         {!! Form::formInput('education_level_id',  trans('entities/volunteers.educationLevel').':', $errors, ['class' =>
                         'form-control', 'type' => 'select', 'value' => $edLevel, 'required' => 'true']) !!}
+                            @if(env('MODE') === 'municipality')
+                        <div id="other_education_wrapper" class="@if(old('other_education') === "" ||
+                                old('other_education') === null) hide @endif
+                                @if($errors->has('other_education')) has-error @endif">
+                            <label for="other_education">@lang('entities/volunteers.other_education_level'):</label>
+                            <input id="other_education" name="other_education" class="form-control" type="text"
+                                   value="{{ old('other_education') }}">
+                                @if($errors->has('other_education'))
+                            <p class="help-block">{{ $errors->first('other_education') }}</p>
+                                @endif
+                        </div>
+                            @endif
                         @endif
                     </div>
                 </div>
@@ -425,6 +444,16 @@
 @section('footerScripts')
 <script>
 
+    var displayOrHideOtherEducationField = function() {
+        //if selected item is the last one display the field, else hide it
+        if ($(this).val() === $("#education_level_id").find("option").last().val() &&
+                $("#other_education_wrapper").hasClass("hide")) {
+            $("#other_education_wrapper").removeClass("hide");
+        } else {
+            $("#other_education_wrapper").addClass("hide");
+        }
+    };
+
     $("#daysTable").hide();
 
 
@@ -486,6 +515,8 @@
         }
     });
 
+    //listener on education_level_id changes
+    $("#education_level_id").change(displayOrHideOtherEducationField);
 
     var freqsId = $("#availability_freqs_id option:selected").val();
     if (freqsId == 2 || freqsId == 3 || freqsId == 4) {
