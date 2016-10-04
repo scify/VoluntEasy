@@ -49,7 +49,7 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
             'work_tel' => 'max:255',
             'cell_tel' => 'max:255',
             'gender_id' => 'required',
-            'extra_lang' => 'max:3',
+            'extra_lang' => 'max:300',
             'work_description' => 'max:600',
             'specialty' => 'max:300',
             'department' => 'max:300',
