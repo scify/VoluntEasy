@@ -18,10 +18,11 @@
                                 class="fa fa-user m-r-xs"></i>{{ trans('entities/volunteers.personalInfo') }}</a></li>
                         <li role="presentation"><a href="#tab2" data-toggle="tab" class="{{ $errors->has('email') ? 'tab has-error' : ''}}"><i
                                 class="fa fa-phone m-r-xs"></i>{{ trans('entities/volunteers.contactInfo') }}</a></li>
-                        <li role="presentation"><a href="#tab3" data-toggle="tab"><i class="fa fa-university m-r-xs"></i>{{ trans('entities/volunteers.educationAndSkills') }}</a></li>
+                        <li role="presentation"><a href="#tab3" data-toggle="tab" class="{{ $errors->has('education_level_id') ? 'tab has-error' : ''}}">
+                                <i class="fa fa-university m-r-xs"></i>{{ trans('entities/volunteers.educationAndSkills') }}</a></li>
                         <li role="presentation"><a href="#tab4" data-toggle="tab"
-                                                   class="{{ $errors->has('participation_reason') ? 'tab has-error' : ''}}"><i
-                                class="fa fa-cog m-r-xs"></i>{{ trans('entities/volunteers.workAndVolunteeringExp') }}</a></li>
+                                                   class="{{ $errors->has('participation_reason') || $errors->has('work_status_id') ? 'tab has-error' : ''}}">
+                                <i class="fa fa-cog m-r-xs"></i>{{ trans('entities/volunteers.workAndVolunteeringExp') }}</a></li>
                         <li role="presentation"><a href="#tab5" data-toggle="tab"><i class="fa fa-clock-o m-r-xs"></i>{{ trans('entities/volunteers.availabilityAndInterests') }}</a>
                         </li>
                         <li role="presentation"><a href="#tab6" data-toggle="tab" class="{{ $errors->has('files') ? 'tab has-error' : ''}}"><i class="fa fa-file-text-o m-r-xs"></i>{{ trans('entities/volunteers.commentsAndInfo') }}</a>

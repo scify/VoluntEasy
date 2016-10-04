@@ -329,7 +329,16 @@
                                                                   id="computer_usage"
                                                                   value="1" class="form-checkbox">
                     @lang('entities/volunteers.computerUsage')</label>
-                <input type="hidden" name="computer_usage_comments" value="">
+            </div>
+            <div class="form-item" id="computer-usage-comments-wrapper">
+                <label for="computer_usage_comments">@lang('entities/volunteers.computerUsageComments'): </label>
+                @if($errors->has('computer_usage_comments'))
+                    <p class="error">{{ $errors->first('computer_usage_comments') }}</p>
+                @endif
+                <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="computer_usage_comments"
+                                                                class="form-textarea resizable"></textarea>
+                        </span>
+                </div>
             </div>
             <div class="form-item" id="additional-skills-wrapper">
                 <label for="additional_skills">@lang('entities/volunteers.additionalSkills'): </label>

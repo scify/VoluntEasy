@@ -68,7 +68,7 @@ class VolunteerController extends Controller {
         $langLevels = LanguageLevel::lists('description', 'id')->all();
         $workStatuses = WorkStatus::lists('description', 'id')->all();
         $availabilityFreqs = AvailabilityFrequencies::lists('description', 'id')->all();
-        $availabilityTimes = AvailabilityTime::lists('description', 'id')->all();
+        $allAvailabilityTimes = AvailabilityTime::lists('description', 'id')->all();
         $interestCategories = InterestCategory::with('interests')->get()->all();
         $genders = Gender::lists('description', 'id')->all();
         $commMethod = CommunicationMethod::lists('description', 'id')->all();
@@ -102,7 +102,7 @@ class VolunteerController extends Controller {
         ksort($howYouLearned2);
 
         return view('main.volunteers.create', compact('identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
-            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'volunteeringDepartments', 'units', 'howYouLearned', 'howYouLearned2', 'extras', 'extrasPath'));
+            'workStatuses', 'availabilityFreqs', 'allAvailabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'volunteeringDepartments', 'units', 'howYouLearned', 'howYouLearned2', 'extras', 'extrasPath'));
     }
 
     /**
@@ -219,7 +219,7 @@ class VolunteerController extends Controller {
         $langLevels = LanguageLevel::lists('description', 'id')->all();
         $workStatuses = WorkStatus::lists('description', 'id')->all();
         $availabilityFreqs = AvailabilityFrequencies::lists('description', 'id')->all();
-        $availabilityTimes = AvailabilityTime::lists('description', 'id')->all();
+        $allAvailabilityTimes = AvailabilityTime::lists('description', 'id')->all();
         $interestCategories = InterestCategory::with('interests')->get();
         $genders = Gender::lists('description', 'id')->all();
         $commMethod = CommunicationMethod::lists('description', 'id')->all();
@@ -262,7 +262,7 @@ class VolunteerController extends Controller {
         $extrasPath = $this->configuration->getExtrasPath();
 
         return view('main.volunteers.edit', compact('volunteer', 'identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
-            'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'volunteeringDepartments', 'units', 'howYouLearned', 'howYouLearned2', 'extras', 'extrasPath'));
+            'workStatuses', 'availabilityFreqs', 'allAvailabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'volunteeringDepartments', 'units', 'howYouLearned', 'howYouLearned2', 'extras', 'extrasPath'));
     }
 
     /**

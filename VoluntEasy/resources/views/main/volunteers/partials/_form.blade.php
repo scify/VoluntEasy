@@ -337,29 +337,29 @@
         @if(env('MODE') === 'municipality')
         <div class="col-md-3">
             <p>{{ trans('entities/volunteers.availabilityTimes') }}:</p>
+            @if (isset($volunteer))
+                @foreach($allAvailabilityTimes as $id => $description)
             <div class="form-group">
-                @foreach($availabilityTimes as $timeKey => $availabilityTime)
-                    <?php
-                        $checked = "";
-                        if(isset($volunteer)) {
-                            foreach ($volunteer->availabilityTimes as $selectedTime) {
-                                if(intval($selectedTime->id) === $timeKey) {
-                                    $checked = "checked=\"checked\"";
-                                    break;
-                                }
-                            }
-                        }
-                    ?>
-                    <div class="form-item" id="availability-times-{{ $availabilityTime }}-wrapper">
-                        <label class="option" for="availability_times_{{ $availabilityTime }}">
-                            <input type="checkbox" name="availability_times[{{ $availabilityTime }}]"
-                                  id="availability_times_{{ $availabilityTime }}" value="{{ $timeKey }}"
-                                  class="form-checkbox" {{ $checked }}>
-                            {{  \Lang::get('entities/volunteers.' . $availabilityTime) }}
-                        </label>
-                    </div>
-                @endforeach
+                    @if(in_array($id, $volunteer->availabilityTimes->lists('id')->all()))
+                {!! Form::formInput('availability_times[' . $id . ']', \Lang::get('entities/volunteers.' . $description),
+                $errors, ['class' => 'form-control',
+                'type' => 'checkbox', 'value' => $id, 'checked' => 'true']) !!}
+                    @else
+                {!! Form::formInput('availability_times[' . $id . ']', \Lang::get('entities/volunteers.' . $description), $errors,
+                ['class' => 'form-control',
+                'type' => 'checkbox', 'value' => $id, 'checked' => 'false']) !!}
+                    @endif
             </div>
+                @endforeach
+            @else
+                @foreach($allAvailabilityTimes as $id => $description)
+            <div class="form-group">
+                {!! Form::formInput('availability_times[' . $id . ']', \Lang::get('entities/volunteers.' . $description), $errors,
+                ['class' => 'form-control',
+                'type' => 'checkbox', 'value' => $id, 'checked' => 'false']) !!}
+            </div>
+                @endforeach
+            @endif
         </div>
         @endif
     </div>

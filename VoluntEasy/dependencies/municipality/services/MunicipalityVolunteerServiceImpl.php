@@ -56,8 +56,8 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
             'additional_skills' => 'max:300',
             'computer_usage_comments' => 'max:300',
             'comments' => 'max:6000',
-            'education_level_id' => 'different:0',
-            'work_status_id' => 'different:0',
+            'education_level_id' => 'integer|min:1',
+            'work_status_id' => 'integer|min:1',
             'other_education' => 'max:100',
         ];
         if (isset($volunteer['id'])) {
