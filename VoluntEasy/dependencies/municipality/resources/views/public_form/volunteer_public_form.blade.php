@@ -36,19 +36,19 @@
                     <p class="error">{{ $errors->first('name') }}</p>
                 @endif
                 <input type="text" name="name" value="{{ old('name') }}" size="20"
-                       class="form-text required">
+                       class="form-text required" required="required">
                 <div class="description">@lang('entities/volunteers.fillName')</div>
             </div>
             <div class="form-item" id="last-name-wrapper">
                 <label for="last_name">@lang('entities/volunteers.lastName'):
-                    <span class="form-required" title="@lang('entities/volunteers.requiredField')">*</span>
+                    <span class="form-required" required="required" title="@lang('entities/volunteers.requiredField')">*</span>
                 </label>
                 @if($errors->has('last_name'))
                     <p class="error">{{ $errors->first('last_name') }}</p>
                 @endif
                 <input type="text" name="last_name" size="40"
                        value="{{ old('last_name') }}"
-                       class="form-text required">
+                       class="form-text required" required="required">
                 <div class="description">@lang('entities/volunteers.fillLastName')</div>
             </div>
             <div class="form-item" id="fathers-name-wrapper">
@@ -59,7 +59,7 @@
                 @endif
                 <input type="text" name="fathers_name" size="20"
                        value="{{ old('fathers_name') }}"
-                       class="form-text required">
+                       class="form-text required" required="required">
                 <div class="description">@lang('entities/volunteers.fillFathersName')</div>
             </div>
             <div class="form-item" id="identification-type-wrapper">
@@ -89,7 +89,7 @@
                     @if($errors->has('birth_date'))
                         <p class="error">{{ $errors->first('birth_date') }}</p>
                     @endif
-                    <input type="text" name="birth_date" value="{{ old('birth_date') }}">
+                    <input type="text" name="birth_date" value="{{ old('birth_date') }}" required="required">
                     <div class="description">DD-MM-YYYY</div>
                 </div>
             </div>
@@ -105,7 +105,7 @@
                     <div class="form-item" id="gender-{{ $gender }}-wrapper">
                         <label class="option" for="gender-{{ $gender }}"><input type="radio" id="gender-{{ $gender }}"
                                                                        name="gender_id" value="{{ $genderKey }}"
-                                                                       class="form-radio">
+                                                                       class="form-radio" required="required">
                             {{ $gender }}</label>
                     </div>
                     @endif
@@ -220,8 +220,8 @@
                 @if($errors->has('email'))
                     <p class="error">{{ $errors->first('email') }}</p>
                 @endif
-                <input type="text" name="email" size="50" value="{{ old('email') }}"
-                       class="form-text required">
+                <input type="email" name="email" size="50" value="{{ old('email') }}"
+                       class="form-text required" required="required">
                 <div class="description">@lang('entities/volunteers.fillEmail')</div>
             </div>
             <div class="form-item" id="comm-method-wrapper">
@@ -247,9 +247,9 @@
                 @if($errors->has('education_level_id'))
                     <p class="error">{{ $errors->first('education_level_id') }}</p>
                 @endif
-                <select name="education_level_id" class="form-select required">
+                <select name="education_level_id" class="form-select required" required="required">
                     @foreach($edLevel as $key => $value)
-                        <option value="{{ $key }}">{{ $value }}</option>
+                        <option value="@if($key !== 0){{ $key }}@endif">{{ $value }}</option>
                     @endforeach
                 </select>
                 <div class="description">@lang('entities/volunteers.fillEducation')</div>
@@ -367,9 +367,9 @@
                 @if($errors->has('work_status_id'))
                     <p class="error">{{ $errors->first('work_status_id') }}</p>
                 @endif
-                <select name="work_status_id" class="form-select required">
+                <select name="work_status_id" class="form-select required" required="required">
                     @foreach($workStatuses as $key => $value)
-                        <option value="{{ $key }}">{{ $value }}</option>
+                        <option value="@if($key !== 0){{ $key }}@endif">{{ $value }}</option>
                     @endforeach
                 </select>
             </div>
@@ -399,7 +399,7 @@
                     <p class="error">{{ $errors->first('participation_reason') }}</p>
                 @endif
                 <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="participation_reason"
-                                                                class="form-textarea resizable required"></textarea>
+                                                                class="form-textarea resizable required" required="required"></textarea>
                         </span>
                 </div>
                 <div class="description">@lang('entities/volunteers.participationReasonExpl')</div>
@@ -510,7 +510,7 @@
                 <p class="error">{{ $errors->first('terms') }}</p>
             @endif
             <input type="checkbox" name="terms" id="terms" value="1"
-                                                 class="form-checkbox required"> @lang('entities/volunteers.agree')</label>
+                                                 class="form-checkbox required" required="required"> @lang('entities/volunteers.agree')</label>
     </div>
 
 
