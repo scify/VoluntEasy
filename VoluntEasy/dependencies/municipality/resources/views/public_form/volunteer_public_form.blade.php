@@ -64,7 +64,7 @@
             </div>
             <div class="form-item" id="identification-type-wrapper">
                 <label for="identification_type_id">@lang('entities/volunteers.idType'): </label>
-                <select name="identification_type_id" class="form-select">
+                <select name="identification_type_id" class="form-select" data-val="{{ old('identification_type_id') }}">
                     @foreach($identificationTypes as $key => $value)
                         @if($key !== 0)
                             <option value="{{ $key }}">{{ $value }}</option>
@@ -93,7 +93,7 @@
                     <div class="description">DD-MM-YYYY</div>
                 </div>
             </div>
-            <div class="form-item">
+            <div class="form-item" id="genders-wrapper" data-val="{{ old('gender_id') }}">
                 <label>@lang('entities/volunteers.gender'): <span class="form-required" title="@lang('entities/volunteers.requiredField')">*
                     </span></label>
                 @if($errors->has('gender_id'))
@@ -226,7 +226,7 @@
             </div>
             <div class="form-item" id="comm-method-wrapper">
                 <label for="comm_method_id">@lang('entities/volunteers.preferredContactWay'): </label>
-                <select name="comm_method_id" class="form-select">
+                <select name="comm_method_id" class="form-select" data-val="{{ old('comm_method_id') }}">
                     @foreach($commMethod as $key => $value)
                         <option value="{{ $key }}">{{ $value }}</option>
                     @endforeach
@@ -247,7 +247,8 @@
                 @if($errors->has('education_level_id'))
                     <p class="error">{{ $errors->first('education_level_id') }}</p>
                 @endif
-                <select name="education_level_id" class="form-select required" required="required">
+                <select name="education_level_id" class="form-select required" required="required"
+                        data-val="{{ old('education_level_id') }}">
                     @foreach($edLevel as $key => $value)
                         <option value="@if($key !== 0){{ $key }}@endif">{{ $value }}</option>
                     @endforeach
@@ -285,7 +286,7 @@
                 @foreach($languages as $languageKey => $language)
                     <div class="form-item">
                         <label>{{ $language }}: </label>
-                        <div class="form-radios">
+                        <div class="form-radios language" data-val="@if(isset(old('lang')[$languageKey])){{ old('lang')[$languageKey] }}@endif">
                         @foreach($langLevels as $levelKey => $langLevel)
                             <div class="form-item" id="{{ $language . "-" . $langLevel }}-wrapper">
                                 <label class="option" for="{{ $language . "-" . $langLevel }}"><input type="radio"
@@ -305,7 +306,8 @@
                             <p class="error">{{ $errors->first('extra_lang') }}</p>
                         @endif
                         <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="extra_lang"
-                                                                        class="form-textarea resizable"></textarea>
+                                                                        class="form-textarea resizable"
+                                                                        data-val="{{ old('extra_lang') }}"></textarea>
                         </span>
                         </div>
                         <div class="description">@lang('entities/volunteers.extraLanguagesExpl')</div>
@@ -317,7 +319,7 @@
                 @if($errors->has('driver_licence_type_id'))
                     <p class="error">{{ $errors->first('driver_licence_type_id') }}</p>
                 @endif
-                <select name="driver_license_type_id" class="form-select">
+                <select name="driver_license_type_id" class="form-select" data-val="{{ old('driver_license_type_id') }}">
                     @foreach($driverLicenseTypes as $key => $value)
                         <option value="{{ $key }}">{{ $value }}</option>
                     @endforeach
@@ -336,7 +338,8 @@
                     <p class="error">{{ $errors->first('computer_usage_comments') }}</p>
                 @endif
                 <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="computer_usage_comments"
-                                                                class="form-textarea resizable"></textarea>
+                                                                class="form-textarea resizable" data-val="{{ old('computer_usage_comments') }}">
+                                                    </textarea>
                         </span>
                 </div>
             </div>
@@ -346,7 +349,8 @@
                     <p class="error">{{ $errors->first('additional_skills') }}</p>
                 @endif
                 <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="additional_skills"
-                                                                class="form-textarea resizable"></textarea>
+                                                                class="form-textarea resizable" data-val="{{ old('additional_skills') }}">
+                                                    </textarea>
                         </span>
                 </div>
                 <div class="description">@lang('entities/volunteers.additionalSkillsExp')
@@ -367,7 +371,7 @@
                 @if($errors->has('work_status_id'))
                     <p class="error">{{ $errors->first('work_status_id') }}</p>
                 @endif
-                <select name="work_status_id" class="form-select required" required="required">
+                <select name="work_status_id" class="form-select required" required="required" data-val="{{ old('work_status_id') }}">
                     @foreach($workStatuses as $key => $value)
                         <option value="@if($key !== 0){{ $key }}@endif">{{ $value }}</option>
                     @endforeach
@@ -379,7 +383,8 @@
                     <p class="error">{{ $errors->first('work_description') }}</p>
                 @endif
                 <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="work_description"
-                                                                class="form-textarea resizable"></textarea>
+                                                                class="form-textarea resizable" data-val="{{ old('work_description') }}">
+                                                    </textarea>
                         </span>
                 </div>
                 <div class="description">@lang('entities/volunteers.workDescriptionExpl')</div>
@@ -399,7 +404,9 @@
                     <p class="error">{{ $errors->first('participation_reason') }}</p>
                 @endif
                 <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="participation_reason"
-                                                                class="form-textarea resizable required" required="required"></textarea>
+                                                                class="form-textarea resizable required" required="required"
+                                                                data-val="{{ old('participation_reason') }}">
+                                                    </textarea>
                         </span>
                 </div>
                 <div class="description">@lang('entities/volunteers.participationReasonExpl')</div>
@@ -410,7 +417,8 @@
                     <p class="error">{{ $errors->first('participation_actions') }}</p>
                 @endif
                 <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="participation_actions"
-                                                                class="form-textarea resizable"></textarea>
+                                                                class="form-textarea resizable" data-val="{{ old('participation_action') }}">
+                                                    </textarea>
                         </span>
                 </div>
                 <div class="description">@lang('entities/volunteers.volunteeringOrgExpl')
@@ -422,7 +430,8 @@
                     <p class="error">{{ $errors->first('participation_previous') }}</p>
                 @endif
                 <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="participation_previous"
-                                                                class="form-textarea resizable"></textarea>
+                                                                class="form-textarea resizable" data-val="{{ old('participation_previous') }}">
+                                                    </textarea>
                         </span>
                 </div>
                 <div class="description">@lang('entities/volunteers.volunteeringPrevExpl')
@@ -442,7 +451,7 @@
                 @if($errors->has('availability_freqs_id'))
                     <p class="error">{{ $errors->first('availability_freqs_id') }}</p>
                 @endif
-                <select name="availability_freqs_id" class="form-select">
+                <select name="availability_freqs_id" class="form-select" data-val="{{ old('availability_freqs_id') }}">
                     @foreach($availabilityFreqs as $key => $value)
                         <option value="{{ $key }}">{{ $value }}</option>
                     @endforeach
@@ -457,7 +466,10 @@
                                                                                      name="availability_times[{{ $availabilityTime }}]"
                                                                                      id="availability_times_{{ $availabilityTime }}"
                                                                                      value="{{ $timeKey }}"
-                                                                                     class="form-checkbox">
+                                                                                     class="form-checkbox"
+                                                                                     data-val="@if(isset(old('availability_times')[$availabilityTime]))
+                                                                                        {{ old('availability_times')[$availabilityTime] }}
+                                                                                    @endif">
                             {{  \Lang::get('entities/volunteers.' . $availabilityTime) }}</label>
                     </div>
                 @endforeach
@@ -477,7 +489,8 @@
                     <label class="option" for="interest{{ $interest->id }}"><input type="checkbox"
                                                                                       name="interest{{ $interest->id }}"
                                                                                       id="interest{{ $interest->id }}"
-                                                                                      value="{{ $interest->id }}" class="form-checkbox">
+                                                                                      value="{{ $interest->id }}" class="form-checkbox"
+                                                                                      data-val="{{ old('interest' . $interest->id) }}">
                         {{ $interest->description }}</label>
                 </div>
             @endforeach

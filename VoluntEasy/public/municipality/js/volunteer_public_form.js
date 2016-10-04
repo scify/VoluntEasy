@@ -125,11 +125,61 @@
         });
     };
 
+    var displayTextAreasOldValues = function(){
+        $("textarea").each(function(){
+            var oldValue = $(this).data("val");
+            $(this).text(oldValue);
+        });
+    };
+
+    var displaySelectOldValues = function(){
+        $("select").each(function(){
+            var oldValue = $(this).data("val");
+            if(typeof oldValue != 'undefined' && oldValue !== "") {
+                $(this).val(oldValue);
+            }
+        });
+    };
+
+    var displayGenderOldValue = function(){
+        var oldValue = $("#genders-wrapper").data("val");
+        $("input[name='gender_id']").each(function(){
+            if ($(this).val() == oldValue) {
+                $(this).prop('checked', true);
+            }
+        });
+    };
+
+    var displayCheckboxesOldValues = function(){
+        $("input[type='checkbox']").each(function(){
+            var oldValue = $(this).data("val");
+            if(typeof oldValue != 'undefined' && oldValue !== "") {
+                $(this).prop('checked', true);
+            }
+        });
+    };
+
+    var displayLangRadioButtonsOldValues = function(){
+        $(".language").each(function(){
+            var oldValue = $(this).data("val");
+            $(this).find("input").each(function(){
+                if($(this).val() == oldValue) {
+                    $(this).prop('checked', true);
+                }
+            });
+        });
+    };
+
     var init = function(){
         initLegendsCollapse();
         initTextareaGrippies();
         initBirthDayDatepicker();
         $("select[name='education_level_id']").change(displayOrHideOtherEducationField);
+        displayTextAreasOldValues();
+        displaySelectOldValues();
+        displayGenderOldValue();
+        displayCheckboxesOldValues();
+        displayLangRadioButtonsOldValues();
     };
 
     $(function(){
