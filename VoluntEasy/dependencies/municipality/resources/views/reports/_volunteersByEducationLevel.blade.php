@@ -28,12 +28,18 @@
                     color = 'orange';
                 if (value.description == 'Λύκειο')
                     color = 'pink';
-                if (value.description == 'Ανώτερη')
+                if (value.description == 'ΤΕΙ')
                     color = 'lightblue';
-                if (value.description == 'Ανώτατη')
+                if (value.description == 'ΑΕΙ')
                     color = 'green';
-                if (value.description == 'Μεταπτυχιακά')
+                if (value.description == 'Μεταπτυχιακό')
                     color = 'yellow';
+                if (value.description == 'Διδακτορικό')
+                    color = 'darkred';
+                if (value.description == 'Άλλο')
+                    color = 'moodygrey';
+                if (value.description == 'ΙΕΚ')
+                    color = 'purple';
 
                 data.push({
                     value: value.count,
