@@ -86,12 +86,14 @@
                     !!}
                 </div>
             </div>
+            @if(env('MODE') !== 'municipality')
             <div class="col-md-2">
                 <div class="form-group">
                     {!! Form::formInput('fax', trans('entities/volunteers.fax').':', $errors, ['class' => 'form-control
                     input-sm search']) !!}
                 </div>
             </div>
+            @endif
         </div>
 
         <div class="row">
