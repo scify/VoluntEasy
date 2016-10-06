@@ -329,7 +329,8 @@
             <div class="form-item" id="computer-usage-wrapper">
                 <label class="option" for="computer_usage"><input type="checkbox" name="computer_usage"
                                                                   id="computer_usage"
-                                                                  value="1" class="form-checkbox">
+                                                                  value="1" class="form-checkbox"
+                                                                  data-val="{{ old('computer_usage') }}">
                     @lang('entities/volunteers.computerUsage')</label>
             </div>
             <div class="form-item" id="computer-usage-comments-wrapper">
@@ -417,7 +418,7 @@
                     <p class="error">{{ $errors->first('participation_actions') }}</p>
                 @endif
                 <div class="resizable-textarea"><span><textarea cols="60" rows="5" name="participation_actions"
-                                                                class="form-textarea resizable" data-val="{{ old('participation_action') }}">
+                                                                class="form-textarea resizable" data-val="{{ old('participation_actions') }}">
                                                     </textarea>
                         </span>
                 </div>
