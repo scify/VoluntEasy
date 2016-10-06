@@ -16,4 +16,8 @@ class MunicipalityVolunteer extends Volunteer
     public function languages() {
         return $this->hasMany('App\Models\VolunteerLanguage', 'volunteer_id');
     }
+
+    public function unitsExcludes() {
+        return $this->belongsToMany('App\Models\Unit', 'volunteers_units_excludes', 'volunteer_id');
+    }
 }
