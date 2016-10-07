@@ -250,7 +250,7 @@
                 <select name="education_level_id" class="form-select required" required="required"
                         data-val="{{ old('education_level_id') }}">
                     @foreach($edLevel as $key => $value)
-                        <option value="@if($key !== 0){{ $key }}@endif">{{ $value }}</option>
+                        <option value="@if($key !== 0){{ $value['id'] }}@endif">{{ $value['description'] }}</option>
                     @endforeach
                 </select>
                 <div class="description">@lang('entities/volunteers.fillEducation')</div>

@@ -160,19 +160,26 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
         $interestCategories = InterestCategory::with('interests')->get()->all();
         $genders = Gender::lists('description', 'id')->all();
         $commMethod = CommunicationMethod::lists('description', 'id')->all();
-        $edLevel = EducationLevel::lists('description', 'id')->all();
+        $edLevel = EducationLevel::all();
         $howYouLearned = HowYouLearned::lists('description', 'id')->all();
         $units = Unit::orderBy('description', 'asc')->get()->all();
 //        $viewPath = $this->configuration->getViewsPath() . '.public_form.volunteer_public_form';
         $maritalStatuses[0] = trans('entities/search.choose');
-        $edLevel[0] = trans('entities/search.choose');
+        //add choose education level
+        $chooseEdLevel = new EducationLevel(['description' => 'choose']);
+        $chooseEdLevel->setAttribute('id', '0');
+        $edLevel->add($chooseEdLevel);
+        //order the array
+        $sorter = new MunicipalityEducationLevelsHandler();
+        $edLevel = $sorter->sortEducationLevelsArray($edLevel->toArray());
+        //write correctly the description for the first element of the array
+        $edLevel[0]['description'] = trans('entities/search.choose');
         $genders[0] = trans('entities/search.choose');
         $driverLicenseTypes[0] = trans('entities/search.choose');
         $workStatuses[0] = trans('entities/search.choose');
         $availabilityFreqs[0] = trans('entities/search.choose');
         $howYouLearned[0] = trans('entities/search.choose');
         ksort($maritalStatuses);
-        ksort($edLevel);
         ksort($genders);
         ksort($driverLicenseTypes);
         ksort($workStatuses);
@@ -194,7 +201,7 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
         $volunteerRequest = \Request::all();
         $baseFields = parent::getBaseFields();
         $baseFields['amka'] = $volunteerRequest['amka'];
-        if(intval($volunteerRequest['education_level_id']) === sizeof(EducationLevel::all())) {
+        if(intval($volunteerRequest['education_level_id']) === 7) {
             $baseFields['other_education'] = $volunteerRequest['other_education'];
         } else {
             $baseFields['other_education'] = null;

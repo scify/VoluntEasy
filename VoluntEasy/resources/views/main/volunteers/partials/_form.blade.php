@@ -169,7 +169,7 @@
                         'form-control', 'type' => 'select', 'value' => $edLevel, 'key' =>
                         $volunteer->education_level_id, 'required' => 'true']) !!}
                             @if(env('MODE') === 'municipality')
-                        <div id="other_education_wrapper" class="@if(intval($volunteer->education_level_id) !== sizeof($edLevel) - 1) hide @endif">
+                        <div id="other_education_wrapper" class="@if(intval($volunteer->education_level_id) !== 7) hide @endif">
                             <label>@lang('entities/volunteers.other_education_level'):</label>
                             <input name="other_education" class="form-control"
                                    type="text" value="{{ $volunteer->other_education }}" >

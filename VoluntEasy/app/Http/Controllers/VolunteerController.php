@@ -27,6 +27,7 @@ use App\Services\Facades\RatingService;
 use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
 use DB;
+use Dependencies\municipality\services\MunicipalityEducationLevelsHandler;
 use Illuminate\Support\Facades\Session;
 
 class VolunteerController extends Controller {
@@ -72,7 +73,11 @@ class VolunteerController extends Controller {
         $interestCategories = InterestCategory::with('interests')->get()->all();
         $genders = Gender::lists('description', 'id')->all();
         $commMethod = CommunicationMethod::lists('description', 'id')->all();
-        $edLevel = EducationLevel::lists('description', 'id')->all();
+        if(env('MODE') === 'municipality') {
+            $edLevel = EducationLevel::all();
+        } else {
+            $edLevel = EducationLevel::lists('description', 'id')->all();
+        }
         $howYouLearned = HowYouLearned::lists('description', 'id')->all();
         $howYouLearned2 = HowYouLearned2::lists('description', 'id')->all();
         $units = Unit::orderBy('description', 'asc')->get()->all();
@@ -83,7 +88,20 @@ class VolunteerController extends Controller {
         $extrasPath = $this->configuration->getExtrasPath();
 
         $maritalStatuses[0] = trans('entities/search.choose');
-        $edLevel[0] = trans('entities/search.choose');
+        if(env('MODE') === 'municipality') {
+            //add choose education level
+            $chooseEdLevel = new EducationLevel(['description' => 'choose']);
+            $chooseEdLevel->setAttribute('id', '0');
+            $edLevel->add($chooseEdLevel);
+            //order education levels
+            $sorter = new MunicipalityEducationLevelsHandler();
+            $edLevel = $sorter->sortEducationLevelsArray($edLevel->toArray());
+            //write correctly the description for the first element of the array
+            $edLevel[0]['description'] = trans('entities/search.choose');
+            $edLevel = $sorter->makeSingleArrayFromEducationLevelsNestedArray($edLevel);
+        } else {
+            $edLevel[0] = trans('entities/search.choose');
+        }
         $genders[0] = trans('entities/search.choose');
         $identificationTypes[0] = trans('entities/search.choose');
         $driverLicenseTypes[0] = trans('entities/search.choose');
@@ -92,7 +110,9 @@ class VolunteerController extends Controller {
         $howYouLearned[0] = trans('entities/search.choose');
         $howYouLearned2[0] = trans('entities/search.choose');
         ksort($maritalStatuses);
-        ksort($edLevel);
+        if(env('MODE') !== 'municipality') {
+            ksort($edLevel);
+        }
         ksort($genders);
         ksort($identificationTypes);
         ksort($driverLicenseTypes);
@@ -225,7 +245,11 @@ class VolunteerController extends Controller {
         $commMethod = CommunicationMethod::lists('description', 'id')->all();
         $howYouLearned = HowYouLearned::lists('description', 'id')->all();
         $howYouLearned2 = HowYouLearned2::lists('description', 'id')->all();
-        $edLevel = EducationLevel::lists('description', 'id')->all();
+        if(env('MODE') === 'municipality') {
+            $edLevel = EducationLevel::all();
+        } else {
+            $edLevel = EducationLevel::lists('description', 'id')->all();
+        }
         $volunteeringDepartments = VolunteeringDepartment::get()->all();
 
         //get the language levels in a readable array
@@ -239,7 +263,20 @@ class VolunteerController extends Controller {
         $units = Unit::orderBy('description', 'asc')->get();
 
         $maritalStatuses[0] = trans('entities/search.choose');
-        $edLevel[0] = trans('entities/search.choose');
+        if(env('MODE') === 'municipality') {
+            //add choose education level
+            $chooseEdLevel = new EducationLevel(['description' => 'choose']);
+            $chooseEdLevel->setAttribute('id', '0');
+            $edLevel->add($chooseEdLevel);
+            //order education levels
+            $sorter = new MunicipalityEducationLevelsHandler();
+            $edLevel = $sorter->sortEducationLevelsArray($edLevel->toArray());
+            //write correctly the description for the first element of the array
+            $edLevel[0]['description'] = trans('entities/search.choose');
+            $edLevel = $sorter->makeSingleArrayFromEducationLevelsNestedArray($edLevel);
+        } else {
+            $edLevel[0] = trans('entities/search.choose');
+        }
         $genders[0] = trans('entities/search.choose');
         $identificationTypes[0] = trans('entities/search.choose');
         $driverLicenseTypes[0] = trans('entities/search.choose');
@@ -248,7 +285,9 @@ class VolunteerController extends Controller {
         $howYouLearned[0] = trans('entities/search.choose');
         $howYouLearned2[0] = trans('entities/search.choose');
         ksort($maritalStatuses);
-        ksort($edLevel);
+        if(env('MODE') !== 'municipality') {
+            ksort($edLevel);
+        }
         ksort($genders);
         ksort($identificationTypes);
         ksort($driverLicenseTypes);
