@@ -18,6 +18,7 @@
     <fieldset class=" collapsible">
         <legend>
             @lang('entities/volunteers.personalInfoCaps')
+            <img src="{{ asset('municipality/images/team.png') }}">
         </legend>
         <div class="fieldset-wrapper">
             <div class="form-item" id="amka-wrapper">
@@ -179,6 +180,7 @@
     <fieldset class=" collapsible">
         <legend>
             @lang('entities/volunteers.contactInfoCaps')
+            <img src="{{ asset('municipality/images/phone-book.png') }}">
         </legend>
         <div class="fieldset-wrapper">
             <div class="form-item" id="home-tel-wrapper">
@@ -239,6 +241,7 @@
     <fieldset class=" collapsible">
         <legend>
             @lang('entities/volunteers.educationAndSkillsCaps')
+            <img src="{{ asset('municipality/images/book.png') }}">
         </legend>
         <div class="fieldset-wrapper">
             <div class="form-item" id="education-level-wrapper">
@@ -364,6 +367,7 @@
     <fieldset class=" collapsible">
         <legend>
             @lang('entities/volunteers.workExpCaps')
+            <img src="{{ asset('municipality/images/portfolio.png') }}">
         </legend>
         <div class="fieldset-wrapper">
             <div class="form-item" id="work-status-wrapper">
@@ -396,6 +400,7 @@
     <fieldset class=" collapsible">
         <legend>
             @lang('entities/volunteers.volunteeringExpCaps')
+            <img src="{{ asset('municipality/images/teamwork.png') }}">
         </legend>
         <div class="fieldset-wrapper">
             <div class="form-item" id="participation-reason-wrapper">
@@ -445,6 +450,7 @@
     <fieldset class=" collapsible">
         <legend>
             @lang('entities/volunteers.availabilityCaps')
+            <img src="{{ asset('municipality/images/calendar.png') }}">
         </legend>
         <div class="fieldset-wrapper">
             <div class="form-item" id="availability-freqs-wrapper">
@@ -482,6 +488,7 @@
     <fieldset class=" collapsible">
         <legend>
             @lang('entities/volunteers.interestsCaps')
+            <img src="{{ asset('municipality/images/clipboard.png') }}">
         </legend>
         <div class="fieldset-wrapper">
         @foreach($interestCategories as $interestCategory)
@@ -499,39 +506,40 @@
         </div>
     </fieldset>
 
-    <br>
-    <a href="#" class="intlink" data-toggle="modal" data-target="#oroi">
-        <strong>@lang('entities/volunteers.termsConditions')</strong>
-    </a>
+    <div class="fieldset-wrapper terms">
+        <a href="#" class="intlink" data-toggle="modal" data-target="#oroi">
+            <strong>@lang('entities/volunteers.termsConditions')</strong>
+        </a>
 
-    <div class="modal fade" id="oroi" tabindex="-1" role="dialog" aria-labelledby="terms">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    @lang('entities/volunteers.termsText')
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
+        <div class="modal fade" id="oroi" tabindex="-1" role="dialog" aria-labelledby="terms">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        @lang('entities/volunteers.termsText')
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <div class="form-item" id="edit-oroi-wrapper">
+            <label class="option" for="terms">
+                @if($errors->has('terms'))
+                    <p class="error">{{ $errors->first('terms') }}</p>
+                @endif
+                <input type="checkbox" name="terms" id="terms" value="1"
+                                                     class="form-checkbox required" required="required"> @lang('entities/volunteers.agree')</label>
+        </div>
+
+
+        @lang('entities/volunteers.privacyText')<br>
+        <div class="readon"><input class="button" type="submit" name="op" id="edit-submit" value="@lang('entities/volunteers.send')"></div>
+        <p class="success @if(isset($hide) && $hide === 'true') hide @endif">@lang('entities/volunteers.successMessage')</p>
+        <input type="hidden" name="comments" value="">
     </div>
-
-    <div class="form-item" id="edit-oroi-wrapper">
-        <label class="option" for="terms">
-            @if($errors->has('terms'))
-                <p class="error">{{ $errors->first('terms') }}</p>
-            @endif
-            <input type="checkbox" name="terms" id="terms" value="1"
-                                                 class="form-checkbox required" required="required"> @lang('entities/volunteers.agree')</label>
-    </div>
-
-
-    @lang('entities/volunteers.privacyText')<br>
-    <div class="readon"><input class="button" type="submit" name="op" id="edit-submit" value="@lang('entities/volunteers.send')"></div>
-    <p class="success @if(isset($hide) && $hide === 'true') hide @endif">@lang('entities/volunteers.successMessage')</p>
-    <input type="hidden" name="comments" value="">
 
 </div>
 

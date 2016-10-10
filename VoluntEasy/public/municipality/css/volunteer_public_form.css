@@ -4,6 +4,10 @@ body {
     width: 670px;
 }
 
+form {
+    font-size: 14px;
+}
+
 p.success {
     background: #c1ffc1 none repeat scroll 0 0;
     color: #200;
@@ -22,34 +26,72 @@ p.error {
 legend a, legend a:hover, legend a:focus {
     color: #111;
     text-decoration: none;
+    margin-left: 30px;
+}
+
+legend img {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    height: 40px;
+}
+
+legend {
+    border-radius: 15px 15px 0 0;
+    background-color: #dedede;
+    margin: 20px 0 0 0;
+}
+
+.fieldset-wrapper {
+    padding: 5px;
+    background-color: #f5f5f5;
+}
+
+.fieldset-wrapper.terms {
+    margin-top: 20px;
+    background-color: #ffffff;
 }
 
 /* legend collapse icon */
-fieldset.collapsible legend a {
-    background: rgba(0, 0, 0, 0) url("/municipality/images/menu-expanded.png") no-repeat scroll 5px 75%;
-    padding-left: 15px;
-}
+/*fieldset.collapsible legend a {*/
+    /*!*background: rgba(0, 0, 0, 0) url("/municipality/images/menu-expanded.png") no-repeat scroll 5px 75%;*!*/
+    /*margin-left: 20px;*/
+/*}*/
 
-fieldset.collapsed legend a {
-    background-image: url("/municipality/images/menu-collapsed.png");
-    background-position: 5px 50%;
-}
+/*fieldset.collapsed legend a {*/
+    /*!*background-image: url("/municipality/images/menu-collapsed.png");*!*/
+    /*!*background-position: 5px 50%;*!*/
+/*}*/
 
-fieldset.collapsed {
-    border-bottom-width: 0;
-    border-left-width: 0;
-    border-right-width: 0;
-    height: 1em;
-    margin-bottom: 0;
-}
+/*fieldset.collapsed {*/
+    /*border-bottom-width: 0;*/
+    /*border-left-width: 0;*/
+    /*border-right-width: 0;*/
+    /*height: 1em;*/
+    /*margin-bottom: 0;*/
+/*}*/
 
-fieldset, form.variation-chooser input, ul.secondary {
+form.variation-chooser input, ul.secondary {
     border: 1px solid #ccc;
 }
 
-fieldset {
+/* start of secondary fieldset (languages) */
+fieldset fieldset {
+    margin: 0 15px;
     padding: 15px;
+    border: 1px solid gray;
 }
+
+fieldset fieldset legend {
+    border: none;
+    width: auto;
+    margin-bottom: -3px;
+    padding: 0 5px;
+    border-radius: 10px 10px 0 0;
+    border: 1px solid gray;
+    margin-top: 0;
+}
+/* end of secondary fieldset */
 
 .form-item label {
     display: block;
@@ -104,6 +146,14 @@ input, textarea {
 
 .container-inline-date .form-item, .container-inline-date .form-item input {
     width: auto;
+}
+
+select, input[type='text'], input[type='email'] {
+    width: 50%;
+}
+
+input:focus, textarea:focus {
+    border-color: gray;
 }
 
 /* start of textarea css */
@@ -182,15 +232,20 @@ a.intlink {
 
 /* start of bootstrap omitting */
 legend {
-    border: none;
-    color: inherit;
-    display: block;
-    font-size: inherit;
-    line-height: inherit;
-    margin-bottom: 0;
-    margin-top: -15px;
-    padding: 15px 15px 0;
-    width: auto;
+    /*border: none;*/
+    /*color: inherit;*/
+    /*display: block;*/
+    /*font-size: inherit;*/
+    /*line-height: inherit;*/
+    /*margin-bottom: 0;*/
+    /*margin-top: -15px;*/
+    /*padding: 15px 15px 0;*/
+    /*width: auto;*/
+    border-bottom: 1px solid gray;
+    font-size: 16px;
+    padding: 16px 0 16px 25px;
+    position: relative;
+    width: 100%;
 }
 /* end of bootstrap omitting */
 
