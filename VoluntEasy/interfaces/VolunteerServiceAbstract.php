@@ -117,15 +117,14 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
 
         //get the selected users from the select2 array
         //and add them to an array
+        $unitsExcludes = [];
         if (isset($volunteerRequest['unitsSelect'])) {
-            $unitsExcludes = [];
-
             foreach ($volunteerRequest['unitsSelect'] as $unit) {
                 array_push($unitsExcludes, $unit);
             }
-
-            $volunteer->unitsExcludes()->sync($unitsExcludes);
         }
+        $volunteer->unitsExcludes()->sync($unitsExcludes);
+
 
         return $volunteer;
     }
