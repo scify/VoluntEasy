@@ -231,12 +231,14 @@
                         @include($extrasPath.'._knows_office')
                     @endif
                 </div>
+                @if(env('MODE') !== 'municipality')
                 <div class="col-md-6">
                     <div class="form-group">
                         {!! Form::formInput('computer_usage_comments', trans('entities/volunteers.computerUsageComments').':', $errors,
                         ['class' => 'form-control', 'type' => 'textarea', 'size' => '2x5']) !!}
                     </div>
                 </div>
+                @endif
             </div>
             <div class="row">
                 <div class="col-md-12">

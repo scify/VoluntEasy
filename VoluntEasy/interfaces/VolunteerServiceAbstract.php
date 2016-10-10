@@ -52,7 +52,6 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
             'work_description' => $volunteerRequest['work_description'],
             'participation_actions' => $volunteerRequest['participation_actions'],
             'availability_freqs_id' => $this->checkDropDown(intval($volunteerRequest['availability_freqs_id'])),
-            'computer_usage_comments' => $volunteerRequest['computer_usage_comments'],
             'comments' => $volunteerRequest['comments'],
         ];
 

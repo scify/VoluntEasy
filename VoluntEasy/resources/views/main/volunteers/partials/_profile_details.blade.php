@@ -117,9 +117,10 @@
                     @if(in_array('knows_office', $extras))
                     @include($extrasPath.'._knows_office_view')
                     @endif
-
+                    @if(env('MODE') !== 'municipality')
                     <p><strong>{{ trans('entities/volunteers.computerUsageComments') }}:</strong>
                         {{$volunteer->computer_usage_comments }}</p>
+                    @endif
                 </div>
                 <div class="col-md-4">
                     <h4>{{ trans('entities/volunteers.foreignLanguages') }}</h4>

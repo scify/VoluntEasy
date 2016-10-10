@@ -23,6 +23,7 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
         $baseFields['children'] = intval($volunteerRequest['children']);
         $baseFields['fax'] = $volunteerRequest['fax'];
         $baseFields['comm_method_id'] = intval($volunteerRequest['comm_method_id']);
+        $baseFields['computer_usage_comments'] = $volunteerRequest['computer_usage_comments'];
         return $baseFields;
     }
 
