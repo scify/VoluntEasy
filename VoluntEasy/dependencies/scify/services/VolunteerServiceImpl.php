@@ -22,6 +22,7 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
         $baseFields['marital_status_id'] = $this->checkDropDown(intval($volunteerRequest['marital_status_id']));
         $baseFields['children'] = intval($volunteerRequest['children']);
         $baseFields['fax'] = $volunteerRequest['fax'];
+        $baseFields['comm_method_id'] = intval($volunteerRequest['comm_method_id']);
         return $baseFields;
     }
 

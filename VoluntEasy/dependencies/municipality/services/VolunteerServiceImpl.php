@@ -3,7 +3,6 @@
 use Interfaces\VolunteerServiceAbstract;
 use App\Models\Descriptions\AvailabilityFrequencies;
 use App\Models\Descriptions\AvailabilityTime;
-use App\Models\Descriptions\CommunicationMethod;
 use App\Models\Descriptions\DriverLicenceType;
 use App\Models\Descriptions\EducationLevel;
 use App\Models\Descriptions\Gender;
@@ -113,7 +112,7 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
         $availabilityTimes = AvailabilityTime::lists('description', 'id')->all();
         $interestCategories = InterestCategory::with('interests')->get()->all();
         $genders = Gender::lists('description', 'id')->all();
-        $commMethod = CommunicationMethod::lists('description', 'id')->all();
+//        $commMethod = CommunicationMethod::lists('description', 'id')->all();
         $edLevel = EducationLevel::lists('description', 'id')->all();
         $howYouLearned = HowYouLearned::lists('description', 'id')->all();
         $units = Unit::orderBy('description', 'asc')->get()->all();
@@ -136,7 +135,7 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
         return view("municipality.resources.views.public_form.volunteer_public_form", compact(
             'identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
             'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders',
-            'commMethod', 'edLevel', 'units', 'howYouLearned'
+            'edLevel', 'units', 'howYouLearned'
         ));
     }
 

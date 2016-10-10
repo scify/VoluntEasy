@@ -73,7 +73,7 @@ return [
     'everyDay' => 'Καθημερινά',
     'perWeek' => '1-2 φορές την εβδομάδα',
     'perFortnight' => '1-2 φορές το δεκαπενθήμερο',
-    'perMonth' => '1-2 φορές τον μήνα',
+    'perMonth' => '1-2 φορές το μήνα',
     'occasionally' => 'Περιστασιακά',
 
 
@@ -122,7 +122,7 @@ return [
 
     /* interests */
     //municipality
-    'solidarity' => 'Αλληλεγγύη',
+    'solidarity' => 'Κοινωνική Αλληλεγγύη',
     'culture' => 'Πολιτισμός',
     'sports' => 'Αθλητισμός',
     'child' => 'Παιδί',

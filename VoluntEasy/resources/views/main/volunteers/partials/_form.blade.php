@@ -145,6 +145,7 @@
             <div class="form-group">
                 {!! Form::formInput('email',  trans('entities/volunteers.email').':', $errors, ['class' => 'form-control', 'required' => 'true']) !!}
             </div>
+            @if(env('MODE') !== 'municipality')
             <div class="form-group">
                 @if (isset($volunteer))
                 {!! Form::formInput('comm_method_id', trans('entities/volunteers.preferredContactWay').':', $errors, ['class' =>
@@ -154,6 +155,7 @@
                 'form-control', 'type' => 'select', 'value' => $commMethod]) !!}
                 @endif
             </div>
+            @endif
         </div>
     </div>
 </div>

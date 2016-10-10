@@ -3,7 +3,6 @@
 use Dependencies\municipality\models\MunicipalityVolunteer;
 use App\Models\Descriptions\AvailabilityFrequencies;
 use App\Models\Descriptions\AvailabilityTime;
-use App\Models\Descriptions\CommunicationMethod;
 use App\Models\Descriptions\DriverLicenceType;
 use App\Models\Descriptions\EducationLevel;
 use App\Models\Descriptions\Gender;
@@ -152,14 +151,20 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
         $identificationTypes = IdentificationType::lists('description', 'id')->all();
         $driverLicenseTypes = DriverLicenceType::lists('description', 'id')->all();
         $maritalStatuses = MaritalStatus::lists('description', 'id')->all();
-        $languages = Language::lists('description', 'id')->all();
+        //get only greek and english languages
+        $languages = Language::take(2)->get();
+        //correctly format the languages array
+        $languages = (new MunicipalityLanguagesHandler())->formatLanguagesArray($languages);
         $langLevels = LanguageLevel::lists('description', 'id')->all();
         $workStatuses = WorkStatus::lists('description', 'id')->all();
         $availabilityFreqs = AvailabilityFrequencies::lists('description', 'id')->all();
         $availabilityTimes = AvailabilityTime::lists('description', 'id')->all();
         $interestCategories = InterestCategory::with('interests')->get()->all();
+        $interestCategories = (new MunicipalityInterestsHandler())->orderInterests($interestCategories);
+//        $interestCategories[0]->interests[0]->description = "yolo";
+//        dd($interestCategories);
         $genders = Gender::lists('description', 'id')->all();
-        $commMethod = CommunicationMethod::lists('description', 'id')->all();
+//        $commMethod = CommunicationMethod::lists('description', 'id')->all();
         $edLevel = EducationLevel::all();
         $howYouLearned = HowYouLearned::lists('description', 'id')->all();
         $units = Unit::orderBy('description', 'asc')->get()->all();
@@ -189,7 +194,7 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
         return view("municipality.resources.views.public_form.volunteer_public_form", compact(
             'identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
             'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders',
-            'commMethod', 'edLevel', 'units', 'howYouLearned', 'hide'
+            'edLevel', 'units', 'howYouLearned', 'hide'
         ));
     }
 

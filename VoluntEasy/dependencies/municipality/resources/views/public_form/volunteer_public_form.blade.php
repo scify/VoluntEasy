@@ -90,7 +90,7 @@
                         <p class="error">{{ $errors->first('birth_date') }}</p>
                     @endif
                     <input type="text" name="birth_date" value="{{ old('birth_date') }}" required="required">
-                    <div class="description">DD-MM-YYYY</div>
+                    <div class="description">@lang('entities/volunteers.fillDate')</div>
                 </div>
             </div>
             <div class="form-item" id="genders-wrapper" data-val="{{ old('gender_id') }}">
@@ -224,14 +224,14 @@
                        class="form-text required" required="required">
                 <div class="description">@lang('entities/volunteers.fillEmail')</div>
             </div>
-            <div class="form-item" id="comm-method-wrapper">
-                <label for="comm_method_id">@lang('entities/volunteers.preferredContactWay'): </label>
-                <select name="comm_method_id" class="form-select" data-val="{{ old('comm_method_id') }}">
-                    @foreach($commMethod as $key => $value)
-                        <option value="{{ $key }}">{{ $value }}</option>
-                    @endforeach
-                </select>
-            </div>
+            {{--<div class="form-item" id="comm-method-wrapper">--}}
+                {{--<label for="comm_method_id">@lang('entities/volunteers.preferredContactWay'): </label>--}}
+                {{--<select name="comm_method_id" class="form-select" data-val="{{ old('comm_method_id') }}">--}}
+                    {{--@foreach($commMethod as $key => $value)--}}
+                        {{--<option value="{{ $key }}">{{ $value }}</option>--}}
+                    {{--@endforeach--}}
+                {{--</select>--}}
+            {{--</div>--}}
         </div>
 
 

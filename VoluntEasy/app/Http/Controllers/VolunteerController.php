@@ -28,6 +28,8 @@ use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
 use DB;
 use Dependencies\municipality\services\MunicipalityEducationLevelsHandler;
+use Dependencies\municipality\services\MunicipalityInterestsHandler;
+use Dependencies\municipality\services\MunicipalityLanguagesHandler;
 use Illuminate\Support\Facades\Session;
 
 class VolunteerController extends Controller {
@@ -60,17 +62,28 @@ class VolunteerController extends Controller {
      *
      * @return Response
      */
-    public function create() {
+    public function create()
+    {
 
         $identificationTypes = IdentificationType::lists('description', 'id')->all();
         $driverLicenseTypes = DriverLicenceType::lists('description', 'id')->all();
         $maritalStatuses = MaritalStatus::lists('description', 'id')->all();
-        $languages = Language::lists('description', 'id')->all();
+        if (env('MODE') === 'municipality') {
+            //get only greek and english languages
+            $languages = Language::take(2)->get();
+            //correctly format the languages array
+            $languages = (new MunicipalityLanguagesHandler())->formatLanguagesArray($languages);
+        } else {
+            $languages = Language::lists('description', 'id')->all();
+        }
         $langLevels = LanguageLevel::lists('description', 'id')->all();
         $workStatuses = WorkStatus::lists('description', 'id')->all();
         $availabilityFreqs = AvailabilityFrequencies::lists('description', 'id')->all();
         $allAvailabilityTimes = AvailabilityTime::lists('description', 'id')->all();
         $interestCategories = InterestCategory::with('interests')->get()->all();
+        if(env('MODE') === 'municipality') {
+            $interestCategories = (new MunicipalityInterestsHandler())->orderInterests($interestCategories);
+        }
         $genders = Gender::lists('description', 'id')->all();
         $commMethod = CommunicationMethod::lists('description', 'id')->all();
         if(env('MODE') === 'municipality') {
@@ -235,12 +248,22 @@ class VolunteerController extends Controller {
         $identificationTypes = IdentificationType::lists('description', 'id')->all();
         $driverLicenseTypes = DriverLicenceType::lists('description', 'id')->all();
         $maritalStatuses = MaritalStatus::lists('description', 'id')->all();
-        $languages = Language::lists('description', 'id')->all();
+        if(env('MODE') === 'municipality') {
+            //get only greek and english languages
+            $languages = Language::take(2)->get();
+            //correctly format the languages array
+            $languages = (new MunicipalityLanguagesHandler())->formatLanguagesArray($languages);
+        } else {
+            $languages = Language::lists('description', 'id')->all();
+        }
         $langLevels = LanguageLevel::lists('description', 'id')->all();
         $workStatuses = WorkStatus::lists('description', 'id')->all();
         $availabilityFreqs = AvailabilityFrequencies::lists('description', 'id')->all();
         $allAvailabilityTimes = AvailabilityTime::lists('description', 'id')->all();
         $interestCategories = InterestCategory::with('interests')->get();
+        if(env('MODE') === 'municipality') {
+            $interestCategories = (new MunicipalityInterestsHandler())->orderInterests($interestCategories);
+        }
         $genders = Gender::lists('description', 'id')->all();
         $commMethod = CommunicationMethod::lists('description', 'id')->all();
         $howYouLearned = HowYouLearned::lists('description', 'id')->all();

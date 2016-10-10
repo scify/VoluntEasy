@@ -42,7 +42,6 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
             'work_tel' => $volunteerRequest['work_tel'],
             'cell_tel' => $volunteerRequest['cell_tel'],
             'email' => $volunteerRequest['email'],
-            'comm_method_id' => intval($volunteerRequest['comm_method_id']),
             'education_level_id' => $this->checkDropDown(intval($volunteerRequest['education_level_id'])),
             'specialty' => $volunteerRequest['specialty'],
             'department' => $volunteerRequest['department'],
