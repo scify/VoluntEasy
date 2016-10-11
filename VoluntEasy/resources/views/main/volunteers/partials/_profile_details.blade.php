@@ -111,7 +111,7 @@
                         $volunteer->driverLicenceType->description }}</p>
 
                     <p><strong>{{ trans('entities/volunteers.computerUsage') }}:</strong> {{
-                        $volunteer->computer_usage=='' ? trans('default.no') : trans('default.yes') }}</p>
+                        $volunteer->computer_usage=='' || $volunteer->computer_usage=='0'? trans('default.no') : trans('default.yes') }}</p>
 
                     {{-- Extras--}}
                     @if(in_array('knows_office', $extras))
