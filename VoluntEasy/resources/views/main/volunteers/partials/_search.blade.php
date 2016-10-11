@@ -218,12 +218,14 @@
                     => 'checkbox', 'value' => '1', 'checked' => false]) !!}
                 </div>
             </div>
+            @if(env('MODE') !== 'municipality')
             <div class="col-md-2">
                 <div class="form-group">
                     {!! Form::formInput('computer_usage_comments', trans('entities/volunteers.computerUsageComments').':', $errors, ['class'
                     => 'form-control input-sm search volunteer computerUsageComments', 'placeholder' => '...']) !!}
                 </div>
             </div>
+            @endif
         </div>
     </div>
 </div>
