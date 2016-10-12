@@ -79,7 +79,7 @@ class ActionService {
                 $value = \Input::get($column);
                 switch ($filter) {
                     case '=':
-                        if (!Search::notDropDown($value, $column))
+                        if (!Search::noDropDown($value, $column))
                             $query->where($column, '=', $value);
                         break;
                     case 'like%':
