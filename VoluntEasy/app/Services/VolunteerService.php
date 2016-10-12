@@ -988,9 +988,11 @@ class VolunteerService {
                                 $query->whereBetween('birth_date', [$ages[1], $ages[0]]);
                                 break;
                             case 'phoneNumber':
-                                $query->orWhere('home_tel', \Input::get('phoneNumber'))
-                                    ->orWhere('work_tel', \Input::get('phoneNumber'))
-                                    ->orWhere('cell_tel', \Input::get('phoneNumber'));
+                                $query->where(function($query){
+                                    $query->orWhere('home_tel', \Input::get('phoneNumber'))
+                                        ->orWhere('work_tel', \Input::get('phoneNumber'))
+                                        ->orWhere('cell_tel', \Input::get('phoneNumber'));
+                                });
                                 break;
                             case 'unit_id':
                                 if (!Search::noDropDown($value, $column)) {
