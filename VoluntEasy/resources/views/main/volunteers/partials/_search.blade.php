@@ -113,6 +113,7 @@
                     'value' => $genders]) !!}
                 </div>
             </div>
+            @if(env('MODE') !== 'municipality')
             <div class="col-md-2">
                 <div class="form-group">
                     {!! Form::formInput('marital_status_id', trans('entities/volunteers.maritalStatus').':', $errors,
@@ -121,6 +122,7 @@
                     'value' => $maritalStatuses]) !!}
                 </div>
             </div>
+            @endif
             <div class="col-md-2">
                 <div class="form-group">
                     {!! Form::formInput('interest_id', trans('entities/volunteers.interests').':', $errors, ['class' =>
@@ -156,7 +158,7 @@
 
             <div class="col-md-2">
                 <div class="form-group">
-                    {!! Form::formInput('workStatus', trans('entities/volunteers.workStatus').':', $errors, ['class' =>
+                    {!! Form::formInput('work_status_id', trans('entities/volunteers.workStatus').':', $errors, ['class' =>
                     'form-control input-sm
                     searchDropDown', 'type' => 'select',
                     'value' => $workStatuses]) !!}

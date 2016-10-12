@@ -12,7 +12,7 @@ class SearchService {
      * Array to hold all the dropdowns of the ui
      * @var array
      */
-    private $dropDowns = ['marital_status_id', 'gender_id', 'education_level_id', 'unit_id', 'user_id', 'parent_unit_id', 'status_id', 'interest_id', 'rating_id'];
+    private $dropDowns = ['marital_status_id', 'gender_id', 'education_level_id', 'unit_id', 'user_id', 'parent_unit_id', 'status_id', 'interest_id', 'rating_id', 'work_status_id', 'driver_license_type_id'];
 
     /**
      * Dropdowns have an extra option that acts as a placeholder and has id=0.
@@ -23,9 +23,12 @@ class SearchService {
      * @param $column
      * @return bool
      */
-    public function notDropDown($value, $column) {
-        if (in_array($column, $this->dropDowns) && $value == "0")
+    public function noDropDown($value, $column) {
+        if (in_array($column, $this->dropDowns) && $value == "0") {
             return true;
+        } else {
+            return false;
+        }
     }
 
 }

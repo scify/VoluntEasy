@@ -17,6 +17,7 @@ use App\Services\Facades\NotificationService as NotificationServiceFacade;
 use App\Services\Facades\SearchService as Search;
 use App\Services\Facades\UnitService as UnitServiceFacade;
 use App\Services\Facades\UserService as UserServiceFacade;
+use Dependencies\municipality\models\MunicipalityVolunteer;
 
 class VolunteerService {
 
@@ -42,10 +43,11 @@ class VolunteerService {
         'work_description' => '=',
         'specialty' => '=',
         'department' => '=',
-        'phoneNumber' => '=',
+        'phoneNumber' => '',
         'participation_actions' => '=',
         'computer_usage' => '=',
         'computer_usage_comments' => '=',
+        'driver_license_type_id' => '=',
 
         'extra_lang' => '%like%',
 
@@ -937,13 +939,22 @@ class VolunteerService {
 
         if (\Input::has('my_volunteers')) {
             $permittedVolunteersIds = $this->permittedVolunteersIds();
-            $query = Volunteer::whereIn('id', $permittedVolunteersIds);
+            if(env('MODE') === 'municipality') {
+                $query = MunicipalityVolunteer::whereIn('id', $permittedVolunteersIds);
+            } else {
+                $query = Volunteer::whereIn('id', $permittedVolunteersIds);
+            }
 
-        } else
-            $query = Volunteer::select();
+        } else {
+            if(env('MODE') === 'municipality') {
+                $query = MunicipalityVolunteer::select();
+            } else {
+                $query = Volunteer::select();
+            }
+        }
 
 
-        if (\Input::has('status_id') && !Search::notDropDown(\Input::get('status_id'), 'status_id')) {
+        if (\Input::has('status_id') && !Search::noDropDown(\Input::get('status_id'), 'status_id')) {
             $query = $this->volunteersByStatus(\Input::get('status_id'));
         }
 
@@ -952,8 +963,9 @@ class VolunteerService {
                 $value = \Input::get($column);
                 switch ($filter) {
                     case '=':
-                        if (!Search::notDropDown($value, $column))
+                        if (!Search::noDropDown($value, $column)) {
                             $query->where($column, '=', $value);
+                        }
                         break;
                     case 'like%':
                         $query->where($column, 'like', $value . '%');
@@ -976,12 +988,12 @@ class VolunteerService {
                                 $query->whereBetween('birth_date', [$ages[1], $ages[0]]);
                                 break;
                             case 'phoneNumber':
-                                $query->where('home_tel', \Input::get('phoneNumber'))
+                                $query->orWhere('home_tel', \Input::get('phoneNumber'))
                                     ->orWhere('work_tel', \Input::get('phoneNumber'))
                                     ->orWhere('cell_tel', \Input::get('phoneNumber'));
                                 break;
                             case 'unit_id':
-                                if (!Search::notDropDown($value, $column)) {
+                                if (!Search::noDropDown($value, $column)) {
                                     $id = \Input::get('unit_id');
                                     $query->whereHas('units', function ($query) use ($id) {
                                         $query->where('unit_id', $id);
@@ -989,7 +1001,7 @@ class VolunteerService {
                                 }
                                 break;
                             case 'interest_id':
-                                if (!Search::notDropDown($value, $column)) {
+                                if (!Search::noDropDown($value, $column)) {
                                     $id = \Input::get('interest_id');
                                     $query->whereHas('interests', function ($query) use ($id) {
                                         $query->where('interest_id', $id);
@@ -997,7 +1009,7 @@ class VolunteerService {
                                 }
                                 break;
                             case 'rating_id':
-                                if (!Search::notDropDown($value, $column)) {
+                                if (!Search::noDropDown($value, $column)) {
                                     $ratingId = \Input::get('rating_id');
                                 }
                                 break;
@@ -1017,7 +1029,8 @@ class VolunteerService {
                 }
             }
         }
-
+//        $query->where("driver_license_type_id", '=', '7');
+//        dd($query->toSql());
         $result = $query->orderBy('name', 'ASC')->with('actions', 'units')->get();
 
         /*
