@@ -8,7 +8,9 @@ return [
     'volunteersByCity'	=> 'Εθελοντές ανά πόλη',
     'volunteersByEducationLevel'	=> 'Εθελοντές ανά επίπεδο εκπαίδευσης',
     'volunteersByStatus'	=> 'Καταστάσεις εθελοντών ανά μήνα',
-    'volunteersByAction'	=> 'Ώρες απασχόλησης εθελοντών ανά δράση',
+    'volunteersTimesByAction'	=> 'Ώρες απασχόλησης εθελοντών ανά δράση',
+    'volunteersByInterest'  => 'Εθελοντές ανά ενδιαφέρον',
+    'volunteersByAction'    => 'Εθελοντές ανά δράση',
 
 
 ];

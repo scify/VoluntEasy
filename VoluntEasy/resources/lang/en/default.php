@@ -58,5 +58,7 @@ return [
     'pageNotFound' => 'Page not found.',
     'noRights' => 'You have no rights to perform this action.',
 
+    /* subtasks */
+    'addWorkDate' => 'Add date and time',
 
 ];

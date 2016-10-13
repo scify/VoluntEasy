@@ -24,19 +24,19 @@
             var data = [];
             $.each(result, function (key, value) {
 
-                if (value.description == 'Γυμνάσιο')
+                if (value.description == 'Γυμνάσιο' || value.description == 'Gymnasium')
                     color = 'orange';
-                if (value.description == 'Λύκειο')
+                if (value.description == 'Λύκειο' || value.description == 'Highschool')
                     color = 'pink';
                 if (value.description == 'ΤΕΙ')
                     color = 'lightblue';
                 if (value.description == 'ΑΕΙ')
                     color = 'green';
-                if (value.description == 'Μεταπτυχιακό')
+                if (value.description == 'Μεταπτυχιακό' || value.description == 'Master')
                     color = 'yellow';
-                if (value.description == 'Διδακτορικό')
+                if (value.description == 'Διδακτορικό' || value.description == 'PhD')
                     color = 'darkred';
-                if (value.description == 'Άλλο')
+                if (value.description == 'Άλλο' || value.description == 'Other')
                     color = 'moodygrey';
                 if (value.description == 'ΙΕΚ')
                     color = 'purple';

@@ -12,7 +12,7 @@ Reports
     <div class="col-md-3">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Εθελοντές ανά φύλο</h4>
+                <h4 class="panel-title">@lang('entities/reports.volunteersBySex')</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
@@ -28,7 +28,7 @@ Reports
     <div class="col-md-3">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Εθελοντές ανά ηλικιακή ομάδα</h4>
+                <h4 class="panel-title">@lang('entities/reports.volunteersByAge')</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
@@ -44,7 +44,7 @@ Reports
     <div class="col-md-3">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Εθελοντές ανά πόλη</h4>
+                <h4 class="panel-title">@lang('entities/reports.volunteersByCity')</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
@@ -60,7 +60,7 @@ Reports
     <div class="col-md-3">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Εθελοντές ανά επίπεδο εκπαίδευσης</h4>
+                <h4 class="panel-title">@lang('entities/reports.volunteersByEducationLevel')</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
@@ -76,7 +76,7 @@ Reports
     <div class="col-md-3">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Εθελοντές ανά ενδιαφέρον</h4>
+                <h4 class="panel-title">@lang('entities/reports.volunteersByInterest')</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
@@ -95,7 +95,7 @@ Reports
     <div class="col-md-12">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Καταστάσεις εθελοντών ανά μήνα</h4>
+                <h4 class="panel-title">@lang('entities/reports.volunteersByStatus')</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
@@ -114,7 +114,7 @@ Reports
     <div class="col-md-6">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Εθελοντές ανά δράση</h4>
+                <h4 class="panel-title">@lang('entities/reports.volunteersByAction')</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
@@ -130,7 +130,7 @@ Reports
     <div class="col-md-6">
         <div class="panel panel-white">
             <div class="panel-heading clearfix">
-                <h4 class="panel-title">Ώρες απασχόλησης εθελοντών ανά δράση</h4>
+                <h4 class="panel-title">@lang('entities/reports.volunteersTimesByAction')</h4>
 
                 <div class="panel-control">
                     <a href="javascript:void(0);" data-toggle="tooltip" data-placement="top" title=""
