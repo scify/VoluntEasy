@@ -27,6 +27,7 @@ return [
     'morning' => 'Morning',
     'afternoon' => 'Afternoon',
     'evening' => 'Evening',
+    'weekend' => 'Weekend',
 
     /* genders */
     'man' => 'Male',
@@ -48,6 +49,9 @@ return [
     'masters' => 'Masters degree',
     'secondary' => 'Secondary',
     'higher' => 'Higher',
+    'master' => 'Master',
+    'phd' => 'PhD',
+    'other' => 'Other',
 
     /* comm_method */
     'email' => 'Email address',
@@ -67,6 +71,7 @@ return [
     'perWeek' => '1-2 times per week',
     'perFortnight' => '1-2 per fortnight',
     'perMonth' => '1-2 per month',
+    'occasionally' => 'Occasionally',
 
 
     /* driver_licence_types */
@@ -76,6 +81,11 @@ return [
     'bDriverLicence' => 'Β category driver license',
     'gDriverLicence' => 'Γ category driver license',
     'geDriverLicence' => 'Γ+Ε category driver license',
+    'motoDriverLicense' => 'Motorcycle',
+    'ixeDriverLicense' => 'ΙΧΕ',
+    'eightPlusOneDriverLicense' => 'Car up to 8+1 seats and van',
+    'vanDriverLicense' => 'Van',
+    'truckDriverLicense' => 'Truck',
     'yes' => 'Yes',
     'no' => 'No',
 
@@ -117,6 +127,7 @@ return [
     'environment' => 'Environment',
     'clean' => 'City clean services',
     'tourism' => 'Tourism',
+    'health' => 'Health',
 
     //ekpizo
     'graphics' => 'Graphics',

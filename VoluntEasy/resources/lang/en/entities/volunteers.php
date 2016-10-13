@@ -71,6 +71,7 @@ return [
     'educationLevel' => 'Education Level',
     'specialty' => 'Specialisation',
     'department' => 'Faculty',
+    'other_education_level' => 'Another education level',
     'driverLicenceType' => 'Driver license',
     'computerUsage' => 'Computer use',
     'computerUsageComments' => 'Other computer skills',
@@ -108,6 +109,7 @@ return [
     'morning' => 'Morning',
     'afternoon' => 'Afternoon',
     'evening' => 'Evening',
+    'weekend' => 'Weekend',
 
     'files' => 'Files',
     'uploadFiles' => 'Upload files',

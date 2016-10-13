@@ -196,6 +196,7 @@ return [
     'notAvailableFromTo' => 'Μη διαθέσιμος από <strong>:from</strong> έως <strong>:to</strong>',
     'noComment' => 'Κανένα σχόλιο',
     'commentsAboutVolunteer' => 'Σχόλια σχετικά με τον εθελοντή',
+    'totalParticipationTime' => 'Συνολικός χρόνος συμμετοχής',
 
 
     /* profile actions */

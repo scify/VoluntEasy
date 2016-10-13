@@ -86,7 +86,7 @@
                         </tbody>
                     </table>
                     <hr/>
-                    <h3 class="text-right">trans('entities/volunteers.noComments'): <strong>{{ $totalWorkingHours['hours'] }}
+                    <h3 class="text-right">@lang('entities/volunteers.totalParticipationTime'): <strong>{{ $totalWorkingHours['hours'] }}
                             {{ trans('entities/volunteers.hours') }}, {{ $totalWorkingHours['minutes'] }} {{ trans('entities/volunteers.minutes') }}</strong></h3>
                 @endif
             </div>

@@ -6,7 +6,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">{{ trans('entities/volunteers.step') }} {{ $step->step_order }}: {{ $step->description }}</h4>
+                <h4 class="modal-title" id="myModalLabel">{{ trans('entities/volunteers.step') }} {{ $step->step_order }}: {{ \Lang::get('entities/volunteers.' . $step->description) }}</h4>
 
                 <small>
                     @if($step->statuses[0]->status->description=='Incomplete')
