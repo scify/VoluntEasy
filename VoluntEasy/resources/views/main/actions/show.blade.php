@@ -36,12 +36,14 @@
                                                                                         aria-expanded="false"
                                                                                         class="task_board">{{
                         trans('entities/actions.taskBoard') }}</a></li>
+                @if(env('MODE') !== 'municipality')
                 <li role="presentation" class="tab public_page" data-tab="public_page"><a href="#tab3" role="tab"
                                                                                           data-toggle="tab"
                                                                                           aria-expanded="false"
                                                                                           class="public_page">{{
                         (isset($action->publicAction)) ?
                         trans('entities/actions.editPublicPage') : trans('entities/actions.viewPublicPage') }}</a></li>
+                @endif
                 @endif
             </ul>
             <!-- Tab panes -->
@@ -132,7 +134,7 @@
                     </div>
                     @endif
 
-                    @if(sizeof($action->ratings)>0)
+                    @if(sizeof($action->ratings)>0 && env('MODE') !== 'municipality')
                     <div class="row">
                         <div class="col-md-12">
                             <div class="panel panel-white">
@@ -167,6 +169,7 @@
                 <div role="tabpanel" class="tab-pane task_board" id="tab2">
                     @include('main.tasks._board')
                 </div>
+                @if(env('MODE') !== 'municipality')
                 <div role="tabpanel" class="tab-pane public_page" id="tab3">
                     @if(isset($action->publicAction))
                     @include('main.cta._edit_cta')
@@ -174,12 +177,13 @@
                     @include('main.cta._create_cta')
                     @endif
                 </div>
+                @endif
             </div>
         </div>
     </div>
 </div>
 
-@if(!$hasTasks)
+@if(!$hasTasks || env('MODE') === 'municipality')
 <div class="panel panel-white tree">
     <div class="panel-heading clearfix">
         <h2 class="panel-title">{{ trans('entities/volunteers.volunteers') }}</h2>

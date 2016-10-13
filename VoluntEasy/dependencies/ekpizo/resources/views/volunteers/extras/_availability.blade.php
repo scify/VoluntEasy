@@ -20,7 +20,7 @@
             </thead>
             <tr>
                 <td>{{ trans('entities/volunteers.monday') }}</td>
-                @foreach($availabilityTimes as $a_t_id => $availability_time)
+                @foreach($allAvailabilityTimes as $a_t_id => $availability_time)
                 <td class="text-center">
                     <?php $checked = 'false' ?>
                     @if(isset($volunteer))
@@ -37,7 +37,7 @@
             </tr>
             <tr>
                 <td>{{ trans('entities/volunteers.tuesday') }}</td>
-                @foreach($availabilityTimes as $a_t_id => $availability_time)
+                @foreach($allAvailabilityTimes as $a_t_id => $availability_time)
                 <td class="text-center">
                     <?php $checked = 'false' ?>
                     @if (isset($volunteer))
@@ -54,7 +54,7 @@
             </tr>
             <tr>
                 <td>{{ trans('entities/volunteers.wednesday') }}</td>
-                @foreach($availabilityTimes as $a_t_id => $availability_time)
+                @foreach($allAvailabilityTimes as $a_t_id => $availability_time)
                 <td class="text-center">
                     <?php $checked = 'false' ?>
                     @if (isset($volunteer))
@@ -71,7 +71,7 @@
             </tr>
             <tr>
                 <td>{{ trans('entities/volunteers.thursday') }}</td>
-                @foreach($availabilityTimes as $a_t_id => $availability_time)
+                @foreach($allAvailabilityTimes as $a_t_id => $availability_time)
                 <td class="text-center">
                     <?php $checked = 'false' ?>
                     @if (isset($volunteer))
@@ -88,7 +88,7 @@
             </tr>
             <tr>
                 <td>{{ trans('entities/volunteers.friday') }}</td>
-                @foreach($availabilityTimes as $a_t_id => $availability_time)
+                @foreach($allAvailabilityTimes as $a_t_id => $availability_time)
                 <td class="text-center">
                     <?php $checked = 'false' ?>
                     @if (isset($volunteer))
@@ -105,7 +105,7 @@
             </tr>
             <tr>
                 <td>{{ trans('entities/volunteers.saturday') }}</td>
-                @foreach($availabilityTimes as $a_t_id => $availability_time)
+                @foreach($allAvailabilityTimes as $a_t_id => $availability_time)
                 <td class="text-center">
                     <?php $checked = 'false' ?>
                     @if (isset($volunteer))
@@ -122,7 +122,7 @@
             </tr>
             <tr>
                 <td>{{ trans('entities/volunteers.sunday') }}</td>
-                @foreach($availabilityTimes as $a_t_id => $availability_time)
+                @foreach($allAvailabilityTimes as $a_t_id => $availability_time)
                 <td class="text-center">
                     <?php $checked = 'false' ?>
                     @if (isset($volunteer))
@@ -141,7 +141,7 @@
 
         <div class="form-group" id="dailyFrequencies">
             <p>{{ trans('entities/volunteers.availabilityTimes') }}:</p>
-            @foreach($availabilityTimes as $a_t_id => $availability_time)
+            @foreach($allAvailabilityTimes as $a_t_id => $availability_time)
             @if (isset($volunteer) && in_array($a_t_id, $volunteer->availabilityTimes->lists('id')->all()) )
             {!! Form::formInput('availability_time[]', $availability_time, $errors, ['class' =>
             'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'true']) !!}
