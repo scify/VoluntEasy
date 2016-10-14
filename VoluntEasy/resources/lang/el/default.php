@@ -60,4 +60,27 @@ return [
     /* subtasks */
     'addWorkDate' => 'Προσθήκη ημερομηνίας και ώρας',
 
+    /* months */
+    'January' => 'Ιανουάριος',
+    'February' => 'Φεβρουάριος',
+    'March' => 'Μάρτιος',
+    'April' => 'Απρίλιος',
+    'May' => 'Μάιος',
+    'June' => 'Ιούνιος',
+    'July' => 'Ιούλιος',
+    'August' => 'Αύγουστος',
+    'September' => 'Σεπτέμβριος',
+    'October' => 'Οκτώβριος',
+    'November' => 'Νοέμβριος',
+    'December' => 'Δεκέμβριος',
+
+    /* reports in general */
+    'year' => 'Έτος',
+    'action' => 'Δράση',
+    'duration' => 'Διάρκεια',
+    'totalRequiredVolunteers' => 'Σύνολο εθελοντών/Απαιτούμενοι εθελοντές',
+    'name' => 'Όνομα',
+    'hours' => 'Ώρες',
+    'totalHours' => 'Συνολικές ώρες',
+
 ];

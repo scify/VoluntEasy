@@ -1,17 +1,17 @@
 <table id="volunteersByActionTable" class="display table table-striped data-table" cellspacing="0" width="100%">
     <thead>
     <tr>
-        <th>Δράση</th>
-        <th>Διάρκεια</th>
-        <th>Σύνολο εθελοντών/Απαιτούμενοι εθελοντές</th>
+        <th>@lang('default.action')</th>
+        <th>@lang('default.duration')</th>
+        <th>@lang('default.totalRequiredVolunteers')</th>
     </tr>
     </thead>
 
     <tfoot>
     <tr>
-        <th>Δράση</th>
-        <th>Διάρκεια</th>
-        <th>Σύνολο εθελοντών/Απαιτούμενοι εθελοντές</th>
+        <th>@lang('default.action')</th>
+        <th>@lang('default.duration')</th>
+        <th>@lang('default.totalRequiredVolunteers')</th>
     </tr>
     </tfoot>
 </table>

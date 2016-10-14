@@ -4,19 +4,21 @@
     <thead>
     <tr>
         <th>ID</th>
-        <th>Όνομα</th>
-        <th>Ώρες</th>
+        <th>@lang('default.name')</th>
+        <th>@lang('default.hours')</th>
     </tr>
     </thead>
 
     <tfoot>
     <tr>
         <th>ID</th>
-        <th>Όνομα</th>
-        <th>Ώρες</th>
+        <th>@lang('default.name')</th>
+        <th>@lang('default.hours')</th>
     </tr>
     </tfoot>
 </table>
+
+<input type="hidden" name="action" value="@lang('default.action')">
 
 @section('footerScripts')
 <script>
@@ -32,7 +34,7 @@
             volunteersByAction = result;
 
             //First we need to initialize the dropdown from where the user can filter the report by year
-            var actionsdDropDown = '<label>Δράση</label><select class="form-control">';
+            var actionsdDropDown = '<label>' + $("input[name='action']").val() + '</label><select class="form-control">';
 
             //Add the years options and set the current year as selected
             $.each(result, function (key, value) {

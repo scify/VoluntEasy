@@ -8,19 +8,24 @@
     <thead>
     <tr>
         <th>ID</th>
-        <th>Όνομα</th>
-        <th>Ώρες</th>
+        <th>@lang('default.name')</th>
+        <th>@lang('default.hours')</th>
     </tr>
     </thead>
 
     <tfoot>
     <tr>
         <th>ID</th>
-        <th>Όνομα</th>
-        <th>Ώρες</th>
+        <th>@lang('default.name')</th>
+        <th>@lang('default.hours')</th>
     </tr>
     </tfoot>
 </table>
+
+<input type="hidden" name="name" value="@lang('default.name')">
+<input type="hidden" name="hours" value="@lang('default.hours')">
+<input type="hidden" name="action" value="@lang('default.action')">
+<input type="hidden" name="totalHours" value="@lang('default.totalHours')">
 
 @section('footerScripts')
 <script>
@@ -36,7 +41,7 @@
             volunteersByAction = result;
 
             //First we need to initialize the dropdown from where the user can filter the report by year
-            var actionsdDropDown = '<label>Δράση</label><select class="form-control">';
+            var actionsdDropDown = '<label>' + $("input[name='action']").val() + '</label><select class="form-control">';
 
             //Add the years options and set the current year as selected
             $.each(result, function (key, value) {
@@ -73,9 +78,9 @@
             "bLengthChange": false,
             data: dataSet,
             columns: [
-                {title: "Id"},
-                {title: "Όνομα"},
-                {title: "Ώρες"}
+                {title: "ID"},
+                {title: $("input[name='name']").val()},
+                {title: $("input[name='hours']").val()}
             ],
             //custom text
             "language": {
@@ -93,7 +98,7 @@
             }, "footerCallback": function (row, data, start, end, display) {
                 var api = this.api(), data;
                 // Update footer
-                $(api.column(2).footer()).html('Συνολικές ώρες: ' + totalHours);
+                $(api.column(2).footer()).html($("input[name='totalHours']").val() + ': ' + totalHours);
             },
             dom: 'T<"clear">lfrtip',
             "tableTools": {

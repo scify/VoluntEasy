@@ -61,4 +61,27 @@ return [
     /* subtasks */
     'addWorkDate' => 'Add date and time',
 
+    /* months */
+    'January' => 'January',
+    'February' => 'February',
+    'March' => 'March',
+    'April' => 'April',
+    'May' => 'May',
+    'June' => 'June',
+    'July' => 'July',
+    'August' => 'August',
+    'September' => 'September',
+    'October' => 'October',
+    'November' => 'November',
+    'December' => 'December',
+
+    /* reports in general */
+    'year' => 'Year',
+    'action' => 'Action',
+    'duration' => 'Duration',
+    'totalRequiredVolunteers' => 'Volunteers in total/Required volunteers',
+    'name' => 'Name',
+    'hours' => 'Hours',
+    'totalHours' => 'Hours in total',
+
 ];

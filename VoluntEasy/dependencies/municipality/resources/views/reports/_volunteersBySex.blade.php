@@ -5,9 +5,11 @@
 </div>
 <div class="col-md-12">
     <div>
-        <h4>Υπόμνημα</h4>
-        <i class="fa fa-square" style="color:#12AFCB"></i> Άνδρες |
-        <i class="fa fa-square" style="color:#7a6fbe"></i> Γυναίκες
+        <h4>@lang('default.legend')</h4>
+        <i class="fa fa-square" style="color:#12AFCB"></i> @lang('default.men') |
+        <i class="fa fa-square" style="color:#7a6fbe"></i> @lang('default.women')
+        <input type="hidden" name="men" value="@lang('default.men')">
+        <input type="hidden" name="women" value="@lang('default.women')">
     </div>
 </div>
 
@@ -30,13 +32,13 @@
                     value: result.men,
                     color:"#12AFCB",
                     highlight: "#30E0FF",
-                    label: "Άνδρες"
+                    label: $("input[name='men']").val()
                 },
                 {
                     value: result.women,
                     color: "#7a6fbe",
                     highlight: "#BAAEFF",
-                    label: "Γυναίκες"
+                    label: $("input[name='women']").val()
                 }
             ]
 
