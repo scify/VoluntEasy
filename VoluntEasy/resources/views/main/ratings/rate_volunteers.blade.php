@@ -68,7 +68,7 @@
                                                                 {!! Form::formInput('hours', trans('entities/ratings.hours').':', $errors, ['class'
                                                                 =>
                                                                 'form-control volunteerRating hours',
-                                                                'data-volunteer-id' => $volunteer->id]) !!}
+                                                                'data-volunteer-id' => $volunteer->id, 'required' => true]) !!}
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -76,7 +76,7 @@
                                                                 {!! Form::formInput('minutes', trans('entities/ratings.minutes').':', $errors,
                                                                 ['class'
                                                                 => 'form-control volunteerRating minutes',
-                                                                'data-volunteer-id' => $volunteer->id]) !!}
+                                                                'data-volunteer-id' => $volunteer->id, 'required' => true]) !!}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -271,13 +271,13 @@
                 count++;
         });
 
-        if (hours != '' && !$.isNumeric(hours)) {
+        if (hours == '' || !$.isNumeric(hours)) {
             $(".error-msg .error-msg-text").text(Lang.get('js-components.pleaseRateVolunteer'));
             $(".error-msg").css('visibility', 'visible');
             return false;
         }
 
-        if (minutes != '' && !$.isNumeric(minutes)) {
+        if (minutes == '' || !$.isNumeric(minutes)) {
             $(".error-msg .error-msg-text").text(Lang.get('js-components.pleaseAddOnlyNumbers'));
             $(".error-msg").css('visibility', 'visible');
             return false;
