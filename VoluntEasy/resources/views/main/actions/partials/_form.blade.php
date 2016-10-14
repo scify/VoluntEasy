@@ -29,14 +29,15 @@
             <div class="col-md-6">
                 <div class="form-group">
                     {!! Form::formInput('name', trans('entities/actions.commExecInfo').':', $errors, ['class' => 'form-control', 'id' =>
-                    'actionName']) !!}
+                    'actionName', 'required' => 'true']) !!}
                     <small class="help-block">{{ trans('entities/actions.execNameExpl') }}
                     </small>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    {!! Form::formInput('email', trans('entities/actions.execEmail').':', $errors, ['class' => 'form-control', 'id' => 'actionEmail'])
+                    {!! Form::formInput('email', trans('entities/actions.execEmail').':', $errors, [
+                        'class' => 'form-control', 'id' => 'actionEmail', 'required' => 'true', 'type' => 'email'])
                     !!}
                 </div>
             </div>

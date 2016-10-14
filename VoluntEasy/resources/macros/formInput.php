@@ -99,6 +99,9 @@ Form::macro('formInput', function ($field, $label, $errors, array $attributes) {
                 }
                 $text_html = Form::file($field, $attributes);
                 break;
+            case "email":
+                $text_html = Form::email($field, $value, $attributes);
+                break;
             default:
                 $text_html = Form::text($field, $value, $attributes);
         }

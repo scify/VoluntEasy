@@ -11,7 +11,8 @@ class ActionRequest extends Request
             'start_date' => 'required|date_format:d/m/Y',
             'end_date' => 'required|date_format:d/m/Y',
             'unit_id' => 'required',
-            'email' => 'email',
+            'email' => 'required|email|max:255',
+            'name' => 'required|max:255',
             'volunteer_sum' => 'numeric'
         ];
     }

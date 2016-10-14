@@ -191,12 +191,13 @@
                                 <h4>{{ trans('emails/emails.volunteerPlatform') }}</h4>
                             </center>
 
-                            @if($action->name!=null && $action->name!='')
-                            <p>{{ trans('emails/emails.dear') }} {{ $action->name }},</p>
+                            @if($volunteer->name!=null && $volunteer->name!='' && $volunteer->last_name!=null && $volunteer->last_name!='')
+                            <p>{{ trans('emails/emails.dear') }} {{ $volunteer->name . ' ' . $volunteer->last_name }},</p>
                             @endif
                             <p>{{ trans('emails/emails.pleaseFillQuestionnaire') }} {{ $action->description }}.</p>
 
-                            <p><a href="{{ URL::to('/') }}/ratings/action/{{ $token }}">{{ URL::to('/') }}/ratings/action/{{ $token }}</a></p>
+                            <p>{{ $action->comments }}</p>
+                            {{--<p><a href="{{ URL::to('/') }}/ratings/action/{{ $token }}">{{ URL::to('/') }}/ratings/action/{{ $token }}</a></p>--}}
                         </td>
                     </tr>
                 </table>

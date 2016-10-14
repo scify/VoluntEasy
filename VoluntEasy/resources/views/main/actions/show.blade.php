@@ -110,7 +110,7 @@
                             <ul class="list-unstyled">
                                 <li class="user-list">
                                     <p>{{$action->name}} | <i class="fa fa-envelope"></i> <a
-                                            href="mail:to{{ $action->email }}">{{
+                                            href="mailto:{{ $action->email }}">{{
                                             $action->email }}</a>
                                         @if($action->phone_number!=null || $action->phone_number!='')
                                         |<i class="fa fa-phone"></i> {{ $action->phone_number }}</p>

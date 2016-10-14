@@ -40,27 +40,48 @@ class CronService {
                         }
             */
 
-            //send emails to all action users to rate volunteers
-            foreach ($expired->users as $user) {
+            //send email to volunteers with a link to the questionnaire
+            if (sizeof($expired->volunteers) > 0) {
 
-                $token = str_random(30);
-                $url = env('ROOT_URL') . '/rateVolunteers/' . $token;
-                //create a new action rating
-                //with the action id, the email and the token
-                $actionRating = new ActionRating([
-                    "action_id" => $expired->id,
-                    "user_id" => $user->id,
-                    "token" => $token,
-                ]);
+                foreach ($expired->volunteers as $volunteer) {
 
-                $actionRating->save();
+//                    $token = str_random(30);
+//                    //create a new action rating
+//                    //with the action id, the email and the token
+//                    $actionScore = new ActionScore([
+//                        "action_id" => $expired->id,
+//                        "token" => $token,
+//                    ]);
+//
+//                    $actionScore->save();
 
-                //then send an email to the person responsible for the action
-
-                \Mail::send('app_emails.rate_volunteers', ['action' => $expired, 'token' => $token, 'url' => $url], function ($message) use ($user, $expired) {
-                    $message->to($user->email, $user->name . ' ' . $user->last_name)->subject('[' . trans('default.title') . '] ' . trans('entities/ratings.volunteerRatingHalf'));
-                });
+                    //then send an email to the volunteer
+                    \Mail::send('app_emails.rate_action', ['volunteer' => $volunteer, 'action' => $expired], function ($message) use ($volunteer) {
+                        $message->to($volunteer->email, $volunteer->name . ' ' . $volunteer->last_name)->subject('[' . trans('default.title') . '] ' . trans('emails/emails.actionRating'));
+                    });
+                }
             }
+
+            //send email to the action supervisor to rate volunteers
+            $token = str_random(30);
+            $url = env('ROOT_URL') . '/rateVolunteers/' . $token;
+            $email = $expired->email;
+            $supervisorName = $expired->name;
+            //create a new action rating
+            //with the action id, the email and the token
+            $actionRating = new ActionRating([
+                "action_id" => $expired->id,
+                "email" => $email,
+//                    "user_id" => $user->id,
+                "token" => $token,
+            ]);
+
+            $actionRating->save();
+
+            //then send an email to the person responsible for the action
+            \Mail::send('app_emails.rate_volunteers', ['action' => $expired, 'token' => $token, 'url' => $url], function ($message) use ($email, $supervisorName, $expired) {
+                $message->to($email, $supervisorName)->subject('[' . trans('default.title') . '] ' . trans('entities/ratings.volunteerRatingHalf'));
+            });
 
             $workDates = [];
             foreach ($expired->tasks as $task) {
