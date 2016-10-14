@@ -114,13 +114,14 @@
                                                 </div>
                                             </div>
                                             <ul class="pager wizard">
-                                                <li class="previous"><a href="#" class="btn btn-default"{{ trans('entities/ratings.prevVolunteer') }}</a>
+                                                <li class="previous"><a href="#" class="btn btn-default">{{ trans('entities/ratings.prevVolunteer') }}</a>
                                                 </li>
                                                 <li class="next"><a href="#" class="btn btn-default">{{ trans('entities/ratings.nextVolunteer') }}</a></li>
                                                 <li class="next finish" style="display:none;"><a href="javascript:;">{{ trans('default.submit') }}</a>
                                                 </li>
                                             </ul>
                                         </div>
+                                    </div>
                                 </form>
                             </div>
 
