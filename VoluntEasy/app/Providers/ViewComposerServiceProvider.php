@@ -17,6 +17,8 @@ use App\Models\User;
 use App\Models\Volunteer;
 use App\Services\Facades\UnitService;
 use App\Services\Facades\UserService;
+use Dependencies\municipality\services\MunicipalityEducationLevelsHandler;
+use Dependencies\municipality\services\MunicipalityLanguagesHandler;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -40,11 +42,30 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $identificationTypes = IdentificationType::lists('description', 'id')->all();
             $driverLicenseTypes = DriverLicenceType::lists('description', 'id')->all();
             $maritalStatuses = MaritalStatus::lists('description', 'id')->all();
-            $languages = Language::lists('description', 'id')->all();
+            if (env('MODE') === 'municipality') {
+                //get only greek and english languages
+                $languages = Language::take(2)->get();
+                //correctly format the languages array
+                $languages = (new MunicipalityLanguagesHandler())->formatLanguagesArray($languages);
+                $educationLevels = EducationLevel::all();
+                //add choose education level
+                $chooseEdLevel = new EducationLevel(['description' => 'choose']);
+                $chooseEdLevel->setAttribute('id', '0');
+                $educationLevels->add($chooseEdLevel);
+                //order education levels
+                $sorter = new MunicipalityEducationLevelsHandler();
+                $educationLevels = $sorter->sortEducationLevelsArray($educationLevels->toArray());
+                //write correctly the description for the first element of the array
+                $educationLevels[0]['description'] = trans('entities/search.choose');
+                $educationLevels = $sorter->makeSingleArrayFromEducationLevelsNestedArray($educationLevels);
+            } else {
+                $languages = Language::lists('description', 'id')->all();
+                $educationLevels = EducationLevel::lists('description', 'id')->all();
+                $edLevel[0] = trans('entities/search.choose');
+            }
             $workStatuses = WorkStatus::lists('description', 'id')->all();
             $availabilityFreqs = AvailabilityFrequencies::lists('description', 'id')->all();
             $genders = Gender::lists('description', 'id')->all();
-            $educationLevels = EducationLevel::lists('description', 'id')->all();
             $interests = Interest::orderBy('description', 'asc')->lists('description', 'id')->all();
             $units = Unit::lists('description', 'id')->all();
             $cities = Volunteer::distinct()->orderBy('city')->lists('city')->all();
@@ -52,7 +73,6 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
 
             $maritalStatuses[0] = trans('entities/search.choose');
-            $educationLevels[0] = trans('entities/search.choose');
             $genders[0] = trans('entities/search.choose');
             $interests[0] = trans('entities/search.choose');
             $driverLicenseTypes[0] = trans('entities/search.choose');
@@ -61,7 +81,9 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $cities[0] = trans('entities/search.choose');
             $countries[0] = trans('entities/search.choose');
             ksort($maritalStatuses);
-            ksort($educationLevels);
+            if (env('MODE') !== 'municipality') {
+                ksort($educationLevels);
+            }
             ksort($genders);
             ksort($interests);
             ksort($driverLicenseTypes);
