@@ -86,6 +86,7 @@ return [
     'eightPlusOneDriverLicense' => 'Car up to 8+1 seats and van',
     'vanDriverLicense' => 'Van',
     'truckDriverLicense' => 'Truck',
+    'professionalDriverLicense' => 'Professional',
     'yes' => 'Yes',
     'no' => 'No',
 

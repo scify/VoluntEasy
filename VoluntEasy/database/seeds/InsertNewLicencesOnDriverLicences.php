@@ -16,7 +16,8 @@ class InsertNewLicencesOnDriverLicences extends Seeder
             array('description' => 'ixeDriverLicence'),
             array('description' => 'eightPlusOneDriverLicence'),
             array('description' => 'vanDriverLicence'),
-            array('description' => 'truckDriverLicence')
+            array('description' => 'truckDriverLicence'),
+            array('description' => 'professionalDriverLicense')
         ]);
     }
 }

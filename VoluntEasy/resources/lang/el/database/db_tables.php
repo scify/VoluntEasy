@@ -89,6 +89,7 @@ return [
     'eightPlusOneDriverLicense' => 'Αυτοκίνητο εώς 8+1 θέσεις και φορτηγό',
     'vanDriverLicense' => 'Φορτηγό',
     'truckDriverLicense' => 'Νταλίκα φορτηγό',
+    'professionalDriverLicense' => 'Επαγγελματικό',
     'yes' => 'Ναι',
     'no' => 'Όχι',
 

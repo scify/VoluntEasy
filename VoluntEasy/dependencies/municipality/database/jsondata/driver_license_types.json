@@ -1,13 +1,8 @@
 [
-    { "description": "noDriverLicence" },
-    { "description": "aDriverLicence" },
-    { "description": "a1DriverLicence" },
-    { "description": "bDriverLicence" },
-    { "description": "gDriverLicence" },
-    { "description": "geDriverLicence" },
     { "description": "motoDriverLicence" },
     { "description": "ixeDriverLicence" },
     { "description": "eightPlusOneDriverLicence" },
     { "description": "vanDriverLicence" },
-    { "description": "truckDriverLicence" }
+    { "description": "truckDriverLicence" },
+    { "description": "professionalDriverLicense" }
 ]
