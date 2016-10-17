@@ -134,7 +134,7 @@
                     </div>
                     @endif
 
-                    @if(sizeof($action->ratings)>0 && env('MODE') !== 'municipality')
+                    @if(sizeof($action->ratings)>0)
                     <div class="row">
                         <div class="col-md-12">
                             <div class="panel panel-white">
@@ -152,7 +152,7 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <p>{{ trans('entities/actions.viewRatings') }} <a
-                                                    href="http://volunteasy/actions/ratings/{{ $action->id }}">{{
+                                                    href="{{ url("/actions/ratings") }}/{{ $action->id }}">{{
                                                     trans('entities/actions.here') }}</a>.
                                             </p>
 
