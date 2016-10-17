@@ -25,7 +25,7 @@
                         <thead>
                         <tr>
                             <th>{{ trans('entities/actions.action') }}</th>
-                            <th>{{ trans('entities/tasks.task') }} > {{ trans('entities/subtasks.subtask') }}</th>
+                            <th>{{ trans('entities/actions.execInfo') }}</th>
                             <th>{{ trans('entities/volunteers.duration') }}</th>
                             <th>{{ trans('entities/volunteers.workHours') }}</th>
                             <th>{{ trans('entities/volunteers.rating') }}</th>
