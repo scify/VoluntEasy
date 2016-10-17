@@ -56,8 +56,18 @@
                                 </td>
                                 <td class="col-md-2">
                                     @if(sizeof($action->ratings)>0 && isset($action->ratingHours) && isset($action->ratingMinutes))
-                                        {{ $action->ratingHours<10 ? '0'.$action->ratingHours : $action->ratingHours }}
-                                        :{{ $action->ratingMinutes<10 ? '0'.$action->ratingMinutes : $action->ratingMinutes }}
+                                        <?php
+                                            $ratingHours = $action->ratingHours;
+                                            $ratingMinutes = $action->ratingMinutes;
+                                            $extraMinutesToHours = 0;
+                                            if ($ratingMinutes >= 60) {
+                                                $extraMinutesToHours = intval($ratingMinutes / 60);
+                                                $ratingMinutes = $ratingMinutes % 60;
+                                            }
+                                            $ratingHours += $extraMinutesToHours;
+                                        ?>
+                                        {{ $ratingHours<10 ? '0'.$ratingHours : $ratingHours }}
+                                        :{{ $ratingMinutes<10 ? '0'.$ratingMinutes : $ratingMinutes }}
                                     @else
                                         <p style="color:#aaa;"><em>{{ trans('entities/volunteers.noWorkHours') }}</em></p>
                                     @endif

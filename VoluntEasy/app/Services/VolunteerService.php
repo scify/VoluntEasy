@@ -477,7 +477,7 @@ class VolunteerService {
             }
         }
 
-        if ($totalHours != 0 && $totalMinutes != 0) {
+        if ($totalMinutes != 0) {
             if ($totalMinutes > 59) {
                 $totalHours += intval($totalMinutes / 60);
                 $totalMinutes = $totalMinutes % 60;
