@@ -299,6 +299,7 @@
                                     {{ $langLevel }}</label>
                             </div>
                         @endforeach
+                            <a href="javascript:void(0)" class="clear-language">@lang('default.clear')</a>
                         </div>
                     </div>
                 @endforeach

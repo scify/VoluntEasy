@@ -170,6 +170,12 @@
         });
     };
 
+    var clearLanguageSelection = function(){
+        $(this).siblings(".form-item").find("input").each(function(){
+            $(this).prop('checked', false);
+        });
+    };
+
     var init = function(){
         initLegendsCollapse();
         initTextareaGrippies();
@@ -180,6 +186,7 @@
         displayGenderOldValue();
         displayCheckboxesOldValues();
         displayLangRadioButtonsOldValues();
+        $(".clear-language").click(clearLanguageSelection);
     };
 
     $(function(){

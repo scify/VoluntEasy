@@ -156,6 +156,10 @@ input:focus, textarea:focus {
     border-color: gray;
 }
 
+.clear-language {
+    margin-left: 35px;
+}
+
 /* start of textarea css */
 .resizable-textarea {
     width: 95%;
