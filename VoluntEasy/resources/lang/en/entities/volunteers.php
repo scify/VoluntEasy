@@ -160,6 +160,15 @@ return [
     'availabilityAndInterests' => 'Availability & areas of interest',
     'commentsAndInfo' => 'Comments & Files',
 
+    /* public tabs */
+    'personalInfoCaps' => 'PERSONAL INFO',
+    'contactInfoCaps' => 'CONTACT INFO',
+    'educationAndSkillsCaps' => 'EDUCATION & SKILLS',
+    'workExpCaps' => 'WORKING EXPERIENCE',
+    'volunteeringExpCaps' => 'VOLUNTEERING EXPERIENCE',
+    'availabilityCaps' => 'AVAILABILITY',
+    'interestsCaps' => 'FIELDS OF INTEREST',
+
     'currentStatus' => 'Current Status',
     'actionParticipation' => 'Participation in actions',
     'ratings' => 'Ratings',
@@ -299,5 +308,60 @@ return [
     'inUnit' => 'Volunteer belongs to organisational unit and may not be deleted.',
     'deleted' => 'User deleted.',
 
+    /* terms */
+    'termsConditions' => 'Terms and Conditions',
+    'termsText' => '<h3>Δηλώνω υπεύθυνα ότι:</h3>
+                    <p>Όλα τα ανωτέρω στοιχεία είναι αληθή και σωστά.</p>
+                    <p>Γνωρίζω ότι τα ανωτέρω στοιχεία θα παραμείνουν στο φορέα και αποδέχομαι ότι ο Δήμος Αθηναίων
+                        δύναται
+                        να επεξεργαστεί δεδομένα προσωπικού χαρακτήρα μου και ειδικότερα τα εδώ αναφερόμενα δεδομένα μου
+                        για
+                        τους σκοπούς οργάνωσης και πραγματοποίησης των εθελοντικών δράσεων. </p>
+                    <p>Δεν υφίσταται σχέση εργασίας ή έργου μεταξύ εμού και του Γραφείου Εθελοντισμού του Δήμου Αθηναίων
+                        για
+                        τις εθελοντικές υπηρεσίες που προσφέρω.</p>
+                    <p>Ουδεμία απαίτηση χρηματική ή άλλης αποζημίωσης έχω έναντι του Γραφείου Εθελοντισμού λόγω της
+                        ανάληψης
+                        των ανωτέρω αναφερόμενων εργασιών και της εθελοντικής μου προσφοράς σε αυτό.</p>
+                    <p>Δηλώνω ότι δεν αντιμετωπίζω προβλήματα υγείας που θα μπορούσαν να επηρεάσουν την παροχή των
+                        ανωτέρω
+                        εθελοντικών υπηρεσιών.</p>
+                    <p>Στις εργασίες στις οποίες συμμετέχω εθελοντικά το Γραφείο Εθελοντισμού θα μπορεί να αναγράφει το
+                        όνομά μου εφόσον το επιθυμώ και μετά από δήλωσή μου.</p>
+                    <p>Το υλικό που το Γραφείο Εθελοντισμού μου παράσχει για την υλοποίηση των εργασιών που αναλαμβάνω
+                        καθώς
+                        και τα παραγόμενα αποτελέσματα και προϊόντα αυτών ανήκουν αποκλειστικά και μόνον στο Γραφείο και
+                        ως
+                        εκ τούτου δεν έχω κανένα δικαίωμα (συμπεριλαμβανομένων και των πνευματικών) χρήσης, δημοσίευσης,
+                        πώλησης ή άλλο επί αυτών.</p>
+                    <p>Μετά το πέρας της εθελοντικής μου εργασίας υποχρεούμαι να επιστρέψω στο Γραφείο Εθελοντισμού το
+                        υλικό
+                        που μου έχει διατεθεί για το λόγο αυτό.</p>
+                    <p>Κατά την διάρκεια υλοποίησης των εθελοντικών εργασιών που αναλαμβάνω, οφείλω να τηρώ τα χρονικά
+                        πλαίσια που μου έχουν τεθεί από τον Φορέα και να ακολουθώ τις σχετικές υποδείξεις και οδηγίες
+                        που
+                        μου δίνονται.</p>
+                    <p>Το Γραφείο Εθελοντισμού έχει το δικαίωμα να με παύσει από τις αρμοδιότητές μου ή να αφαιρέσει
+                        τμήμα
+                        των εθελοντικών εργασιών που αναλαμβάνω.</p>
+                    <p>Κανένα άλλο δικαίωμα ή απαίτηση έχω έναντι του Γραφείου Εθελοντισμού.</p>',
 
+    /* public form extra */
+    'privacyText' => 'Σημειώνεται ότι τα προσωπικά και άλλα δεδομένα που θα συμπληρωθούν στην παρούσα αίτηση θα διατηρηθούν στο αρχείο
+                        του Δήμου Αθηναίων, δεν θα αξιοποιηθούν για οποιονδήποτε άλλο σκοπό πέρα από την εθελοντική συμμετοχή στα
+                        προγράμματα του Δήμου, και δεν πρόκειται τρίτοι να έχουν πρόσβαση σ’ αυτά, τηρουμένων των ισχυουσών διατάξεων
+                        και ιδίως του άρθρου 10 ν. 2472/1997.',
+    'agree' => 'Agree',
+    'send' => 'Send',
+    'requiredField' => 'The field is required.',
+    'fillName' => 'Please fill your name in.',
+    'fillLastName' => 'Please fill your last name in.',
+    'fillFathersName' => 'Please fill your father\'s name in.',
+    'fillIdentity' => 'Please fill your ID or Passport or Residence Permit number and choose the type from the list.',
+    'fillDate' => 'DD-MM-YEAR',
+    'fillEmail' => 'Fill in the address on the form "xxx@xxx.xx"',
+    'fillEducation' => 'Choose your education level from the list.',
+    'fillDriverLicence' => 'Choose your driver license type, if you have one.',
+    'additionalSkillsExp' => 'Fill in additional skills and experience.',
+    'successMessage' => 'The form has been successfully stored. We will soon contact you.',
 ];
