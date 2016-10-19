@@ -272,6 +272,7 @@
                             </div>
                         </div>
                     @endif
+                    @if(env('MODE') !== 'municipality')
                     <div class="row">
                         <div class="col-md-12 text-right">
                             <p><strong>{{ trans('default.legend') }}:</strong> <br/>
@@ -281,6 +282,7 @@
                             </p>
                         </div>
                     </div>
+                    @endif
                 @else
                     <p>{{ trans('entities/tasks.noTask') }}</p>
 

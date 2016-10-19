@@ -90,6 +90,7 @@
                             @endif
                         </div>
                         <div class="col-md-6">
+                            @if(env('MODE') !== 'municipality')
                             <h3>{{ trans('entities/actions.execInfo') }}</h3>
                             @if(sizeof($action->users)>0)
                             <ul class="list-unstyled">
@@ -102,6 +103,7 @@
                             </ul>
                             @else
                             <p>{{ trans('entities/actions.noExec') }}</p>
+                            @endif
                             @endif
 
 
