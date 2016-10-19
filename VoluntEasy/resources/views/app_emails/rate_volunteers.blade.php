@@ -188,7 +188,7 @@
                                    class="logo-name text-lg text-center"> <img
                                         src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
                                 </a>
-                                <h4>{{ trans('emails/emails.volunteerPlatform') }}</h4>
+                                <h4>{{ trans('emails/emails.volunteerRating') }}</h4>
                             </center>
 
                             @if($action->name!=null && $action->name!='')

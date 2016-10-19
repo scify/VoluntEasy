@@ -188,7 +188,7 @@
                                    class="logo-name text-lg text-center"> <img
                                         src="{{ asset('assets/images/logo.png') }}" style="height:100%;"/>
                                 </a>
-                                <h4>{{ trans('emails/emails.volunteerPlatform') }}</h4>
+                                <h4>{{ trans('emails/emails.actionRating') }}</h4>
                             </center>
 
                             @if($volunteer->name!=null && $volunteer->name!='' && $volunteer->last_name!=null && $volunteer->last_name!='')
@@ -197,7 +197,7 @@
                             <p>{{ trans('emails/emails.pleaseFillQuestionnaire') }} {{ $action->description }}.</p>
 
                             <p>{{ $action->comments }}</p>
-                            <p><a href="{{ URL::to('/') }}/ratings/action/{{ $token }}">{{ URL::to('/') }}/ratings/action/{{ $token }}</a></p>
+                            <p><a href="{{ env('ROOT_URL') }}/ratings/action/{{ $token }}">{{ env('ROOT_URL') }}/ratings/action/{{ $token }}</a></p>
                         </td>
                     </tr>
                 </table>
