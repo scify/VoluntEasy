@@ -70,12 +70,14 @@ class CronService {
                         }
                     }
                 }
+            }
 
-                //for all volunteers, set their unit status to available
-                foreach ($expired->volunteers as $volunteer) {
-                    $statusId = VolunteerStatus::available();
-                    VolunteerServiceFacade::changeUnitStatus($volunteer->id, $expired->unit_id, $statusId);
+            //for all volunteers, set their unit status to available
+            foreach ($expired->volunteers as $volunteer) {
+                $statusId = VolunteerStatus::available();
+                VolunteerServiceFacade::changeUnitStatus($volunteer->id, $expired->unit_id, $statusId);
 
+                if (env('MODE') !== 'municipality') {
                     foreach ($volunteer->workDates as $workDate) {
                         if (in_array($workDate->id, $workDates))
                             $volunteer->workDates()->detach($workDate->id);

@@ -196,7 +196,6 @@
                             @endif
                             <p>{{ trans('emails/emails.pleaseFillQuestionnaire') }} {{ $action->description }}.</p>
 
-                            <p>{{ $action->comments }}</p>
                             <p><a href="{{ env('ROOT_URL') }}/ratings/action/{{ $token }}">{{ env('ROOT_URL') }}/ratings/action/{{ $token }}</a></p>
                         </td>
                     </tr>
