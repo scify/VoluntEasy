@@ -506,6 +506,10 @@
         @endforeach
         </div>
     </fieldset>
+    <p style="font-size: 9px;">Icons made by <a href="http://www.freepik.com/" target="_blank">Freepik</a>,
+        <a href="http://www.flaticon.com/authors/vectors-market" target="_blank">Vectors Market</a> and
+        <a href="http://www.flaticon.com/authors/popcorns-arts" target="_blank">
+        Popcorns Arts</a> from <a href="http://www.flaticon.com" target="_blank">www.flaticon.com</a></p>
 
     <div class="fieldset-wrapper terms">
         <a href="#" class="intlink" data-toggle="modal" data-target="#oroi">
