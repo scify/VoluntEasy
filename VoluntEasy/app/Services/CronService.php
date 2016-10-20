@@ -61,23 +61,25 @@ class CronService {
                 $message->to($email, $supervisorName)->subject('[' . trans('default.title') . '] ' . trans('entities/ratings.volunteerRatingHalf'));
             });
 
-            $workDates = [];
-            foreach ($expired->tasks as $task) {
-                foreach ($task->subtasks as $subtask) {
-                    foreach ($subtask->workDates as $workDate) {
-                        array_push($workDates, $workDate->id);
+            if (env('MODE') !== 'municipality') {
+                $workDates = [];
+                foreach ($expired->tasks as $task) {
+                    foreach ($task->subtasks as $subtask) {
+                        foreach ($subtask->workDates as $workDate) {
+                            array_push($workDates, $workDate->id);
+                        }
                     }
                 }
-            }
 
-            //for all volunteers, set their unit status to available
-            foreach ($expired->volunteers as $volunteer) {
-                $statusId = VolunteerStatus::available();
-                VolunteerServiceFacade::changeUnitStatus($volunteer->id, $expired->unit_id, $statusId);
+                //for all volunteers, set their unit status to available
+                foreach ($expired->volunteers as $volunteer) {
+                    $statusId = VolunteerStatus::available();
+                    VolunteerServiceFacade::changeUnitStatus($volunteer->id, $expired->unit_id, $statusId);
 
-                foreach ($volunteer->workDates as $workDate) {
-                    if (in_array($workDate->id, $workDates))
-                        $volunteer->workDates()->detach($workDate->id);
+                    foreach ($volunteer->workDates as $workDate) {
+                        if (in_array($workDate->id, $workDates))
+                            $volunteer->workDates()->detach($workDate->id);
+                    }
                 }
             }
 

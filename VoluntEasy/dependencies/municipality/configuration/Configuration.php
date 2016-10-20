@@ -29,7 +29,7 @@ class Configuration implements ConfigurationInterface {
     }
 
     function hasTasks() {
-        return true;
+        return false;
     }
 
     function getServiceForInterface($interfaceName, $default = null) {

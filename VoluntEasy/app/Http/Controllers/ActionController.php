@@ -9,6 +9,7 @@ use App\Models\Rating\ActionRatingAttribute;
 use App\Models\Rating\ActionScore;
 use App\Models\Unit;
 use App\Models\Volunteer;
+use App\Services\CronService;
 use App\Services\Facades\ActionService;
 use App\Services\Facades\CTAService;
 use App\Services\Facades\TaskService;
@@ -257,7 +258,7 @@ class ActionController extends Controller
                         $score->description = trans('entities/ratings.neutral');
                         break;
                     case "1":
-                        $score->description = trans('entities/ratings.Agree');
+                        $score->description = trans('entities/ratings.agree');
                         break;
                     case "2":
                         $score->description = trans('entities/ratings.fullyAgree');
