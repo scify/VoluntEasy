@@ -41,6 +41,7 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
             'city' => 'max:300',
             'country' => 'max:300',
             'post_box' => 'max:255',
+            'email' => 'required|email|unique:volunteers|max:255',
             'participation_reason' => 'required|max:600',
             'participation_previous' => 'max:600',
             'participation_actions' => 'max:600',
@@ -59,11 +60,6 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
             'work_status_id' => 'integer|min:1',
             'other_education' => 'max:100',
         ];
-        if (isset($volunteer['id'])) {
-            $validationRules['email'] = 'required|email|max:255';
-        } else {
-            $validationRules['email'] = 'required|email|unique:volunteers|max:255';
-        }
         $validator = \Validator::make($volunteer, $validationRules);
         if ($validator->fails()) {
             if (isset($parentResult['messages'])) {
