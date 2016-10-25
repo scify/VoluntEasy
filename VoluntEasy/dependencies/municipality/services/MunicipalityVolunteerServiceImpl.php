@@ -27,6 +27,11 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
 
         // Validate added fields, adding to the kept result
         $volunteer = \Request::all();
+        if(!isset($volunteer['id'])){
+            $volunteer['id'] = '';
+        } else {
+            $volunteer['id'] = ',' . $volunteer['id'];
+        }
         // set integers when needed
         $volunteer['education_level_id'] = intval($volunteer['education_level_id']);
         $volunteer['work_status_id'] = intval($volunteer['work_status_id']);
@@ -41,7 +46,7 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
             'city' => 'max:300',
             'country' => 'max:300',
             'post_box' => 'max:255',
-            'email' => 'required|email|unique:volunteers|max:255',
+            'email' => 'required|email|unique:volunteers,email' . $volunteer['id'] . '|max:255',
             'participation_reason' => 'required|max:600',
             'participation_previous' => 'max:600',
             'participation_actions' => 'max:600',
