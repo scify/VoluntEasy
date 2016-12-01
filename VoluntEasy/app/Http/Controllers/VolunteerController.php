@@ -26,6 +26,7 @@ use App\Models\VolunteerAvailabilityTime;
 use App\Services\Facades\RatingService;
 use App\Services\Facades\UserService;
 use App\Services\Facades\VolunteerService;
+use Carbon\Carbon;
 use DB;
 use Dependencies\municipality\services\MunicipalityEducationLevelsHandler;
 use Dependencies\municipality\services\MunicipalityInterestsHandler;
@@ -414,7 +415,7 @@ class VolunteerController extends Controller {
             $file->delete();
         }
 
-        $volunteer->update(['email' => $volunteer->email . '_deleted']);
+        $volunteer->update(['email' => $volunteer->email . '_deleted_' . Carbon::now()]);
 
         $volunteer->delete();
 
