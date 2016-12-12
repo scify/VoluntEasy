@@ -142,7 +142,7 @@
                        class="form-text">
             </div>
             <div class="form-item" id="post-box-wrapper">
-                <label for="post_box">@lang('entities/volunteers.postBox').: </label>
+                <label for="post_box">@lang('entities/volunteers.postBox'): </label>
                 @if($errors->has('post_box'))
                     <p class="error">{{ $errors->first('post_box') }}</p>
                 @endif

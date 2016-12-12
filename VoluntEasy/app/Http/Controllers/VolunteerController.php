@@ -31,6 +31,7 @@ use DB;
 use Dependencies\municipality\services\MunicipalityEducationLevelsHandler;
 use Dependencies\municipality\services\MunicipalityInterestsHandler;
 use Dependencies\municipality\services\MunicipalityLanguagesHandler;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 
 class VolunteerController extends Controller {
@@ -664,6 +665,10 @@ class VolunteerController extends Controller {
      * @return \Illuminate\View\View
      */
     public function getPublicFormRequestToBecomeVolunteer() {
+        $locale = Request::input("lang");
+        if($locale === "en") {
+            \App::setLocale($locale);
+        }
         return $this->volunteerService->getPublicFormRequestToBecomeVolunteer();
     }
 

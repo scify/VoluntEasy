@@ -35,8 +35,9 @@ return [
 
     /* data tables and form fields */
     'id' => 'ID',
-    'name' => 'Name',
-    'lastName' => 'Last name',
+    'amka' => 'Social Insurance Number',
+    'name' => 'First Name',
+    'lastName' => 'Last Name',
     'email' => 'Email',
     'address' => 'Address',
     'phone' => 'Phone number',
@@ -45,9 +46,9 @@ return [
     'pendingStuff' => 'Pending task|Pending tasks',
     'comments' => 'Comments',
     'email' => 'Email',
-    'cellTel' => 'Mobile number',
-    'workTel' => 'Work phone number',
-    'homeTel' => 'Home phone number',
+    'cellTel' => 'Cell',
+    'workTel' => 'Work',
+    'homeTel' => 'Home',
     'fax' => 'Fax',
     'city' => 'City',
     'country' => 'Country',
@@ -56,38 +57,38 @@ return [
     'educationLevel' => 'Education Level',
     'department' => 'Faculty',
 
-    'fathersName' => 'Father name',
-    'birthDate' => 'Birth date',
+    'fathersName' => 'Father\'s Name',
+    'birthDate' => 'Birth Date',
     'livesInCurrCountry' => 'Residence in Greece',
     'livesInCurrCountryExpl' => '(Deselect if you do not have a permanent residency in Greece.)',
-    'idType' => 'ID Type',
+    'idType' => 'Identity Type',
     'idNumber' => 'ID number',
     'afm' => 'Taxis ID number',
     'contractDate' => 'Contract date',
-    'postBox' => 'P.O.',
+    'postBox' => 'Post Code',
     'childNum' => 'Number of children',
     'volunteerUnderage' => 'Volunteer is underaged',
 
-    'educationLevel' => 'Education Level',
-    'specialty' => 'Specialisation',
-    'department' => 'Faculty',
+    'educationLevel' => 'Educational level',
+    'specialty' => 'Specialization',
+    'department' => 'Department',
     'other_education_level' => 'Another education level',
-    'driverLicenceType' => 'Driver license',
-    'computerUsage' => 'Computer use',
+    'driverLicenceType' => 'Specify type of vehicle',
+    'computerUsage' => 'Computer Use',
     'computerUsageComments' => 'Other computer skills',
     'foreignLanguages' => 'Foreign Languages',
     'noForeignLanguage' => 'No foreign language has been indicated.',
     'level' => 'Level',
-    'extraLanguages' => 'Additional Languages',
-    'extraLanguagesExpl' => 'Fill in additional languages that you know and indicate level',
+    'extraLanguages' => 'More',
+    'extraLanguagesExpl' => 'Please fill in if you know any other language and the level of it.',
 
     'availability' => 'Availability',
-    'availabilityTimes' => 'Availability periods',
+    'availabilityTimes' => 'Available time',
     'unitsExcludes' => 'Volunteer may not be included in the units',
 
     'interests' => 'Interests',
     'noInterest' => 'No interest has been expressed.',
-    'additionalSkills' => 'Additional skills, qualifications and experience',
+    'additionalSkills' => 'Skills, qualifications and experience',
 	'additionalSkillsHalf' => 'Additional skills',
     'interestsArea' => 'Interests area',
 
@@ -126,16 +127,16 @@ return [
     'daysAndTimes' => 'Days and times',
 
     /* form defaults */
-    'contributionRate' => 'Contribution rate',
-    'workStatus' => 'Work status',
-    'workDescription' => 'Work',
-    'workDescriptionExpl' => 'Describe your position at current or most recent job.',
-    'participationReason' => 'Reason for participating',
-    'participationReasonExpl' => 'Describe the reasons for wanting to become a volunteer.',
-    'volunteeringOrg' => 'Volunteer organisation',
-    'volunteeringOrgExpl' => 'If you are or were part of certain volunteer organisations, please define their character and the duration of your participation.',
-    'volunteeringPrev' => 'Volunteer actions',
-    'volunteeringPrevExpl' => 'If you have participated in volunteer actions in the past, please define their objective.',
+    'contributionRate' => 'Frequency of availability',
+    'workStatus' => 'Job Status',
+    'workDescription' => 'Job',
+    'workDescriptionExpl' => 'Please describe the responsibilities of your present or recent job.',
+    'participationReason' => 'Reason for participation',
+    'participationReasonExpl' => 'Please describe the reason for your volunteering participation.',
+    'volunteeringOrg' => 'Volunteering organization',
+    'volunteeringOrgExpl' => 'Please fill in, if you are a member of a volunteering organization.',
+    'volunteeringPrev' => 'Volunteering activities',
+    'volunteeringPrevExpl' => 'Please fill in, if you have taken part in any volunteering actions, and describe the actions.',
 
 
     /* search */
@@ -161,13 +162,13 @@ return [
     'commentsAndInfo' => 'Comments & Files',
 
     /* public tabs */
-    'personalInfoCaps' => 'PERSONAL INFO',
-    'contactInfoCaps' => 'CONTACT INFO',
-    'educationAndSkillsCaps' => 'EDUCATION & SKILLS',
-    'workExpCaps' => 'WORKING EXPERIENCE',
-    'volunteeringExpCaps' => 'VOLUNTEERING EXPERIENCE',
+    'personalInfoCaps' => 'PERSONAL INFORMATION',
+    'contactInfoCaps' => 'CONTACT INFORMATION',
+    'educationAndSkillsCaps' => 'EDUCATION AND SKILLS',
+    'workExpCaps' => 'JOB INFORMATION',
+    'volunteeringExpCaps' => 'VOLUNTEERING OFFER',
     'availabilityCaps' => 'AVAILABILITY',
-    'interestsCaps' => 'FIELDS OF INTEREST',
+    'interestsCaps' => 'AREA OF INTEREST',
 
     'currentStatus' => 'Current Status',
     'actionParticipation' => 'Participation in actions',
@@ -309,7 +310,7 @@ return [
     'deleted' => 'User deleted.',
 
     /* terms */
-    'termsConditions' => 'Terms and Conditions',
+    'termsConditions' => 'Consent Form',
     'termsText' => '<h3>Δηλώνω υπεύθυνα ότι:</h3>
                     <p>Όλα τα ανωτέρω στοιχεία είναι αληθή και σωστά.</p>
                     <p>Γνωρίζω ότι τα ανωτέρω στοιχεία θα παραμείνουν στο φορέα και αποδέχομαι ότι ο Δήμος Αθηναίων
@@ -347,21 +348,20 @@ return [
                     <p>Κανένα άλλο δικαίωμα ή απαίτηση έχω έναντι του Γραφείου Εθελοντισμού.</p>',
 
     /* public form extra */
-    'privacyText' => 'Σημειώνεται ότι τα προσωπικά και άλλα δεδομένα που θα συμπληρωθούν στην παρούσα αίτηση θα διατηρηθούν στο αρχείο
-                        του Δήμου Αθηναίων, δεν θα αξιοποιηθούν για οποιονδήποτε άλλο σκοπό πέρα από την εθελοντική συμμετοχή στα
-                        προγράμματα του Δήμου, και δεν πρόκειται τρίτοι να έχουν πρόσβαση σ’ αυτά, τηρουμένων των ισχυουσών διατάξεων
-                        και ιδίως του άρθρου 10 ν. 2472/1997.',
-    'agree' => 'Agree',
+    'privacyText' => 'All the above personal information will remain strictly confidential at the data center of  Athens 
+                        Municipality and will not be used for any other reason except volunteerism. Only authorized 
+                        staff will have access to this data, according to article 10 of legislation law 2472/1997.',
+    'agree' => 'I accept',
     'send' => 'Send',
     'requiredField' => 'The field is required.',
-    'fillName' => 'Please fill your name in.',
-    'fillLastName' => 'Please fill your last name in.',
-    'fillFathersName' => 'Please fill your father\'s name in.',
-    'fillIdentity' => 'Please fill your ID or Passport or Residence Permit number and choose the type from the list.',
-    'fillDate' => 'DD-MM-YEAR',
-    'fillEmail' => 'Fill in the address on the form "xxx@xxx.xx"',
-    'fillEducation' => 'Choose your education level from the list.',
-    'fillDriverLicence' => 'Choose your driver license type, if you have one.',
-    'additionalSkillsExp' => 'Fill in additional skills and experience.',
-    'successMessage' => 'The form has been successfully stored. We will soon contact you.',
+    'fillName' => 'Please fill in your first name.',
+    'fillLastName' => 'Please fill in your last name.',
+    'fillFathersName' => 'Please fill in your father\'s name.',
+    'fillIdentity' => 'Please fill in the ID, Passport or Residence Permit Aliens number.',
+    'fillDate' => 'DD-MM-YYYY',
+    'fillEmail' => 'Fill in the email address in the following form "xxx@xxx.xx"',
+    'fillEducation' => 'Please select your educational level.',
+    'fillDriverLicence' => 'Please select the diving license category.',
+    'additionalSkillsExp' => 'Please fill in extra skills, qualifications and experience you might have.',
+    'successMessage' => 'The form has been successfully stored. We will contact you soon.',
 ];

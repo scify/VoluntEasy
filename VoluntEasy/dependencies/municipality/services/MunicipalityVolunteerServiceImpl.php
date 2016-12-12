@@ -36,7 +36,7 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
         $volunteer['education_level_id'] = intval($volunteer['education_level_id']);
         $volunteer['work_status_id'] = intval($volunteer['work_status_id']);
         $validationRules = [
-            'amka' => 'max:100',
+            'amka' => 'max:1',
             'name' => 'required|max:100',
             'last_name' => 'required|max:100',
             'fathers_name' => 'required|max:100',

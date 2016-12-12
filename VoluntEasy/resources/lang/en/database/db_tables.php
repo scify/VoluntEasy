@@ -5,9 +5,9 @@ return [
     /*** Basic Volunteer Info ***/
 
     /* identification_types */
-    'id' => 'Identity Card number',
+    'id' => 'ID',
     'passport' => 'Passport',
-    'resPermit' => 'Residence permit',
+    'resPermit' => 'Residence Permit Aliens',
 
 
     /* marital_statuses */
@@ -21,7 +21,7 @@ return [
     'student' => 'Student',
     'worker' => 'Employed',
     'unemployed' => 'Unemployed',
-    'retired' => 'Retired',
+    'retired' => 'Pensioner',
 
     /* availability_time */
     'morning' => 'Morning',
@@ -68,8 +68,8 @@ return [
 
     /* availability_info */
     'everyDay' => 'Everyday',
-    'perWeek' => '1-2 times per week',
-    'perFortnight' => '1-2 per fortnight',
+    'perWeek' => '1-2 per week',
+    'perFortnight' => '1-2 per two weeks',
     'perMonth' => '1-2 per month',
     'occasionally' => 'Occasionally',
 
@@ -81,8 +81,8 @@ return [
     'bDriverLicence' => 'Β category driver license',
     'gDriverLicence' => 'Γ category driver license',
     'geDriverLicence' => 'Γ+Ε category driver license',
-    'motoDriverLicense' => 'Motorcycle',
-    'ixeDriverLicense' => 'ΙΧΕ',
+    'motoDriverLicense' => 'Motorbike',
+    'ixeDriverLicense' => 'Car',
     'eightPlusOneDriverLicense' => 'Car up to 8+1 seats and van',
     'vanDriverLicense' => 'Van',
     'truckDriverLicense' => 'Truck',
@@ -124,9 +124,9 @@ return [
     'culture' => 'Culture',
     'sports' => 'Sports',
     'child' => 'Child',
-    'publicSpace' => 'Public space',
-    'environment' => 'Environment',
-    'clean' => 'City clean services',
+    'publicSpace' => 'Public Space',
+    'environment' => 'Environmental Issues',
+    'clean' => 'Health and Safety Issues',
     'tourism' => 'Tourism',
     'health' => 'Health',
 
