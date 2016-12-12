@@ -149,10 +149,13 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
 
     public function getPublicFormRequestToBecomeVolunteer($hide = 'true')
     {
-        // set locale to "en" and reset it if you should [just to get correctly translated validation messages]
+        // set locale and reset it if you should [used just to get correctly translated strings]
         $resetLocaleLanguage = null;
         if(Request::input("lang") === "en" && \App::getLocale() !== "en") {
             \App::setLocale("en");
+            $resetLocaleLanguage = \App::getLocale();
+        } else if(Request::input("lang") === null && \App::getLocale() !== "gr") {
+            \App::setLocale("gr");
             $resetLocaleLanguage = \App::getLocale();
         }
 
@@ -299,10 +302,13 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
     }
 
     public function postPublicFormRequestToBecomeVolunteer() {
-        // set locale to "en" and reset it if you should [just to get correctly translated validation messages]
+        // set locale and reset it if you should [just to get correctly translated validation messages]
         $resetLocaleLanguage = null;
         if(Request::input("locale") === "en" && \App::getLocale() !== "en") {
             \App::setLocale("en");
+            $resetLocaleLanguage = \App::getLocale();
+        } else if(Request::input("locale") === null && \App::getLocale() !== "gr") {
+            \App::setLocale("gr");
             $resetLocaleLanguage = \App::getLocale();
         }
         $isValid = $this->publicFormValidate();
