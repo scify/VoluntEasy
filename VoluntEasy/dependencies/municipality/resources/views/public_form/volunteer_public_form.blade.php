@@ -548,6 +548,10 @@
 
 </div>
 
+{{--if locale is set to 'en' put it in a hidden input field--}}
+@if(isset($locale) && $locale === 'en')
+    <input type="hidden" name="locale" value="en">
+@endif
 
 {!! Form::close() !!}
 

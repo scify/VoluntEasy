@@ -14,6 +14,7 @@ use App\Models\Descriptions\LanguageLevel;
 use App\Models\Descriptions\MaritalStatus;
 use App\Models\Descriptions\WorkStatus;
 use App\Models\Unit;
+use Illuminate\Support\Facades\Request;
 
 class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
 
@@ -36,7 +37,7 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
         $volunteer['education_level_id'] = intval($volunteer['education_level_id']);
         $volunteer['work_status_id'] = intval($volunteer['work_status_id']);
         $validationRules = [
-            'amka' => 'max:1',
+            'amka' => 'max:100',
             'name' => 'required|max:100',
             'last_name' => 'required|max:100',
             'fathers_name' => 'required|max:100',
@@ -148,6 +149,13 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
 
     public function getPublicFormRequestToBecomeVolunteer($hide = 'true')
     {
+        // set locale to "en" and reset it if you should [just to get correctly translated validation messages]
+        $resetLocaleLanguage = null;
+        if(Request::input("lang") === "en" && \App::getLocale() !== "en") {
+            \App::setLocale("en");
+            $resetLocaleLanguage = \App::getLocale();
+        }
+
         //get all models for form
         $identificationTypes = IdentificationType::lists('description', 'id')->all();
         $driverLicenseTypes = DriverLicenceType::lists('description', 'id')->all();
@@ -162,7 +170,7 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
         $availabilityTimes = AvailabilityTime::lists('description', 'id')->all();
         $interestCategories = InterestCategory::with('interests')->get()->all();
         $interestCategories = (new MunicipalityInterestsHandler())->orderInterests($interestCategories);
-//        $interestCategories[0]->interests[0]->description = "yolo";
+//        $interestCategories[0]->interests[0]->description = "description";
 //        dd($interestCategories);
         $genders = Gender::lists('description', 'id')->all();
 //        $commMethod = CommunicationMethod::lists('description', 'id')->all();
@@ -192,11 +200,24 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
         ksort($availabilityFreqs);
         ksort($howYouLearned);
 
-        return view("municipality.resources.views.public_form.volunteer_public_form", compact(
+        // set locale as view input field
+        if(Request::input('lang') === 'en') {
+            $locale = "en";
+        }
+
+        // get view translated in language forced
+        $view = view("municipality.resources.views.public_form.volunteer_public_form", compact(
             'identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
             'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders',
-            'edLevel', 'units', 'howYouLearned', 'hide'
+            'edLevel', 'units', 'howYouLearned', 'hide', 'locale'
         ));
+
+        // reset language to the selected one
+        if($resetLocaleLanguage != null) {
+            \App::setLocale($resetLocaleLanguage);
+        }
+
+        return $view;
     }
 
     /**
@@ -278,7 +299,16 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
     }
 
     public function postPublicFormRequestToBecomeVolunteer() {
+        // set locale to "en" and reset it if you should [just to get correctly translated validation messages]
+        $resetLocaleLanguage = null;
+        if(Request::input("locale") === "en" && \App::getLocale() !== "en") {
+            \App::setLocale("en");
+            $resetLocaleLanguage = \App::getLocale();
+        }
         $isValid = $this->publicFormValidate();
+        if($resetLocaleLanguage != null) {
+            \App::setLocale($resetLocaleLanguage);
+        }
 
         if (!$isValid['failed']) {
             $baseFields = $this->getBaseFields();
@@ -289,7 +319,8 @@ class MunicipalityVolunteerServiceImpl extends VolunteerServiceImpl  {
             $this->storeExtraFields($volunteer);
             $this->saveAvailabilityTimes($volunteer, $this->getAvailabilityTimes());
             return $volunteer;
-        } else
+        } else {
             return $isValid;
+        }
     }
 }

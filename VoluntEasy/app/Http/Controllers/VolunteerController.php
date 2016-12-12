@@ -31,6 +31,7 @@ use DB;
 use Dependencies\municipality\services\MunicipalityEducationLevelsHandler;
 use Dependencies\municipality\services\MunicipalityInterestsHandler;
 use Dependencies\municipality\services\MunicipalityLanguagesHandler;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -665,11 +666,11 @@ class VolunteerController extends Controller {
      * @return \Illuminate\View\View
      */
     public function getPublicFormRequestToBecomeVolunteer() {
-        $locale = Request::input("lang");
-        if($locale === "en") {
-            \App::setLocale($locale);
+        $hideMessage = Request::input("hideMessage");
+        if($hideMessage == null) {
+            $hideMessage = 'true';
         }
-        return $this->volunteerService->getPublicFormRequestToBecomeVolunteer();
+        return $this->volunteerService->getPublicFormRequestToBecomeVolunteer($hideMessage);
     }
 
 
@@ -678,12 +679,21 @@ class VolunteerController extends Controller {
      *
      * @return \Illuminate\Http\RedirectResponse | \Illuminate\View\View
      */
-    public function postPublicFormRequestToBecomeVolunteer(){
+    public function postPublicFormRequestToBecomeVolunteer() {
+        // get language
+        $locale = Input::get("locale");
         $saved = $this->volunteerService->postPublicFormRequestToBecomeVolunteer();
         if ($saved['failed']) {
             return redirect()->back()->withErrors($saved['messages'])->withInput();
         } else {
-            return $this->volunteerService->getPublicFormRequestToBecomeVolunteer('false');
+            if($locale === "en") {
+                $redirectionUrl = "/volunteer-form?lang=" . $locale . "&hideMessage=false";
+            } else {
+                $redirectionUrl = "/volunteer-form?hideMessage=false";
+            }
+            return redirect($redirectionUrl);
+
+            // $this->volunteerService->getPublicFormRequestToBecomeVolunteer('false');
         }
     }
 
