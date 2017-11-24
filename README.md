@@ -37,6 +37,41 @@ And source your .profile with `% source ~/.profile`
 
 After cloning the project with a simple `git clone https://github.com/scify/VoluntEasy.git`, type `cd VoluntEasy/VoluntEasy && composer install` to install all dependencies.
 
+### Editing the .env file
+
+Copy the existing `VoluntEasy/.env.example` file to `VoluntEasy/.env`.
+
+First, you have to generate an application key. Use `php artisan key:generate`.
+
+An example .env file should look like this (populate it using your own credentials):
+
+```
+APP_DEBUG=false
+APP_KEY=generatedkeygoeshere
+
+DB_HOST=localhost
+DB_DATABASE=volunteasy
+DB_USERNAME=volunteasy
+DB_PASSWORD=secretpass
+
+CACHE_DRIVER=file
+SESSION_DRIVER=file
+QUEUE_DRIVER=sync
+
+MAIL_DRIVER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=username
+MAIL_PASSWORD=mailpassword
+MAIL_FROM_ADDR=hello@example.com
+MAIL_FROM_NAME=Name
+
+LOCALE=el
+
+MODE=municipality
+ROOT_URL=http://volunteasy.example.com
+```
+
 ### Apache configuration:
 
 ```
@@ -112,28 +147,30 @@ And finally, set the group appropriately:
 
 `% sudo chown -R www-data:www-data storage`
 
-*database instructions placeholder*
+### Database
+
+#### Creating a new database
 
 Initialize the database with `php artisan migrate` and test the installation with `php artisan serve` and hit `localhost:8000/auth/register` at your browser of choice.
 
 After running migrations, it's time to create an initial user.
 
-Navigate at the root directory and run `./config-user.pl`. The script asks for initial user info. After filling everything, you will be asked if the info is correct. If not, just press `n` and it will run once more. Upon successful completion, the database seed file will be generated. It's time to seed the database with `php artisan db:seed --class=UserTableSeeder`. You can verify the created user with:
+Navigate at the root directory and run `./config-user.pl`. The script asks for initial user info. After filling everything, you will be asked if the info is correct. If not, just press `n` and it will run once more. Upon successful completion, the database seed file will be generated. It's time to seed the database with `php artisan db:seed --class=UserTableSeeder`.
 
+
+Try login credentials by navigating at http://localhost/auth/login
+
+#### Importing the demo database
+
+If you want, you may try to import the .sql file into your database instead of
+creating a new one. Just enter `mysql -u user -p database_name < project_voldemo.sql`.
+
+Credentials for the root user are:
 
 ```
-% psql -d <database_name>
-<database_name>=> select * from users;
- id |  name   |        email      |      password     | level |     addr       |    tel     |
-----+---------+-------------------+-------------------+-------+----------------+------------+
-  1 | <name>  | email@example.com | <hashed password> |       | <user address> | <user tel> |
-
- remember_token |     created_at      |     updated_at
-----------------+---------------------+---------------------
-                | 2015-06-09 07:20:51 | 2015-06-09 07:20:51
+user:	demo@scify.org
+pass:	demo1234
 ```
-
-Verify login credentials by navigating at http://localhost/auth/login
 
 ### Command scheduling
 
