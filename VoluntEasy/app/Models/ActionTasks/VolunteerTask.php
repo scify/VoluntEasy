@@ -1,12 +1,10 @@
 <?php namespace App\Models\ActionTasks;
 
-
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Carbon\Carbon;
 use App\Models\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
 
 class VolunteerTask extends Model {
 
@@ -15,7 +13,6 @@ class VolunteerTask extends Model {
     protected $table = 'volunteer_tasks';
 
     protected $fillable = ['name', 'job_descr', 'comments', 'task_id', 'volunteer_id', 'status_id'];
-
 
     /** @return BelongsTo<\App\Models\ActionTasks\Task, $this> */
     public function task(): BelongsTo {

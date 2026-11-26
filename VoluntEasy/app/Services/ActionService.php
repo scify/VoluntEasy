@@ -47,8 +47,6 @@ class ActionService {
         return $totalRating;
     }
 
-
-
     public function prepareForDataTable($actions) {
         $userUnits = UserServiceFacade::userUnits();
         $userActions = UserServiceFacade::userActions();
@@ -61,7 +59,6 @@ class ActionService {
         }
         return $actions;
     }
-
 
     /**
      * Dynamic search chains a lot of queries depending on the filters sent by the user.

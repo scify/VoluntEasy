@@ -8,7 +8,6 @@ class TaskChecklistController extends Controller {
         $this->middleware('auth');
     }
 
-
     /**
      * Store a resource
      */
@@ -35,7 +34,6 @@ class TaskChecklistController extends Controller {
     public function update() {
 
         $checklist = TaskChecklist::find(\Request::get('id'));
-
 
         if (\Request::get('isComplete') == 'true')
             $isComplete = 1;

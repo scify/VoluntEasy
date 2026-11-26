@@ -1,6 +1,5 @@
 <?php namespace App\Http\Controllers;
 
-
 use App\Models\Action;
 use App\Models\ActionTasks\TaskShift;
 use App\Services\Facades\ShiftService;
@@ -9,12 +8,10 @@ use App\Services\Facades\VolunteerService;
 class TaskShiftController extends Controller
 {
 
-
     public function __construct()
     {
         $this->middleware('auth');
     }
-
 
     /**
      * Save the work dates and times and the assigned volunteers, if any
@@ -106,7 +103,5 @@ class TaskShiftController extends Controller
 
         return;
     }
-
-
 
 }

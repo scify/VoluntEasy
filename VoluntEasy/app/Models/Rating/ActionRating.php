@@ -1,6 +1,5 @@
 <?php namespace App\Models\Rating;
 
-
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Model;

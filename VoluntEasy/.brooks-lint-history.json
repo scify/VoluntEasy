@@ -1,0 +1,9 @@
+[
+  {
+    "date": "2026-11-27",
+    "mode": "Full Sweep",
+    "score": 25,
+    "findings": { "critical": 4, "warning": 8, "suggestion": 3 },
+    "scope": "app/, interfaces/, dependencies/, routes/, tests/ (PHP) after the sweep; before the sweep the estimate was 0/100"
+  }
+]

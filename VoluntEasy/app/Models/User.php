@@ -1,6 +1,5 @@
 <?php namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Concerns\SerializesDatesAsMysql;
@@ -34,7 +33,6 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $hidden = ['password', 'remember_token'];
-
 
     /** @return BelongsToMany<\App\Models\Unit, $this> */
     public function units(): BelongsToMany {

@@ -1,6 +1,5 @@
 <?php namespace App\Services;
 
-
 class TaskService {
 
     /**
@@ -106,7 +105,6 @@ class TaskService {
                 $task->status = "doing";
                 $task->statusOrderId = 2;
             }
-
 
             //count the complete checklist items
             $completed = 0;

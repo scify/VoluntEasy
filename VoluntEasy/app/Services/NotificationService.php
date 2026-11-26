@@ -23,11 +23,9 @@ class NotificationService {
     //   8 = Volunteer contract expires in 6 months                           //
     ///////////////////////////////////////////////////////////////////////////
 
-
     /** Messages **/
     private $userToUnit;
     private $newVolunteer;
-
 
     public function __construct(){
         $this->userToUnit = trans('entities/notifications.userToUnit');
@@ -115,7 +113,6 @@ class NotificationService {
             })
             ->orderBy('created_at', 'desc')->get();
 
-
         //also get the first five inactive notifications
         $firstFive = Notification::where('user_id', $userId)
             ->where('status', 'inactive')
@@ -147,7 +144,6 @@ class NotificationService {
 
         return $notifications;
     }
-
 
     /**
      * Notify one user that s/he is assigned to a unit

@@ -1,7 +1,5 @@
 <?php namespace App\Models;
 
-
-
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Models\Model;
 class VolunteerUnitStatus extends Model {
@@ -11,7 +9,6 @@ class VolunteerUnitStatus extends Model {
     protected $table = 'volunteer_unit_status';
 
     protected $fillable = ['volunteer_id', 'unit_id', 'volunteer_status_id'];
-
 
     /** @return HasOne<\App\Models\Unit, $this> */
     public function unit(): HasOne {

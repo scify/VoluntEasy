@@ -6,7 +6,6 @@ use App\Models\CollaborationFile;
 use App\Services\Facades\FileService as FileServiceFacade;
 use App\Services\Facades\SearchService as Search;
 
-
 class CollaborationService{
 
     /**
@@ -55,9 +54,6 @@ class CollaborationService{
 
         return true;
     }
-
-
-
 
     /**
      * Dynamic search chains a lot of queries depending on the filters sent by the user.

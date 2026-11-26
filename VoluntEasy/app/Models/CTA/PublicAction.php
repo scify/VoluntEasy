@@ -1,6 +1,5 @@
 <?php namespace App\Models\CTA;
 
-
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Model;
@@ -20,9 +19,7 @@ class PublicAction extends Model {
 
     protected $table = 'public_actions';
 
-
     protected $fillable = ['description', 'address', 'map_url', 'executive_name', 'executive_email', 'executive_phone', 'public_url', 'isActive', 'action_id'];
-
 
     /** @return BelongsTo<\App\Models\Action, $this> */
     public function action(): BelongsTo {

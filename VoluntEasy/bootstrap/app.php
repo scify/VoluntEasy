@@ -7,6 +7,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -22,6 +23,10 @@ return Application::configure(basePath: dirname(__DIR__))
         // cookie (only "en" or "el") is not encrypted.
         $middleware->append(Language::class);
         $middleware->encryptCookies(except: ['locale']);
+
+        // Laravel 5 kept empty form fields as "". The schema has NOT NULL
+        // columns without defaults that rely on this, so keep that behaviour.
+        $middleware->remove(ConvertEmptyStringsToNull::class);
 
         // The JSON API is called from other sites, so it has no CSRF token.
         $middleware->validateCsrfTokens(except: [

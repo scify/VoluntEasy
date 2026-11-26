@@ -1,6 +1,5 @@
 <?php namespace App\Http\Requests;
 
-
 class TaskRequest extends Request
 {
 
@@ -10,7 +9,6 @@ class TaskRequest extends Request
             'name' => 'required|max:255',
         ];
     }
-
 
     /**
      * Custom error messages that override those defined in validation.php file.

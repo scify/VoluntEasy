@@ -1,6 +1,5 @@
 <?php namespace App\Models\ActionTasks;
 
-
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Carbon\Carbon;
 use App\Models\Model;
@@ -13,7 +12,6 @@ class SubtaskChecklist extends Model {
     protected $table = 'subtask_checklists';
 
     protected $fillable = ['comments', 'subtask_id', 'created_by', 'updated_by', 'isComplete'];
-
 
     /** @return HasOne<\App\Models\User, $this> */
     public function createdBy(): HasOne {

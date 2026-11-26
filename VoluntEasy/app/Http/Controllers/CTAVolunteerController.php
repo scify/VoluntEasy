@@ -11,11 +11,9 @@ use App\Models\Volunteer;
  */
 class CTAVolunteerController extends Controller {
 
-
     public function __construct() {
         $this->middleware('auth');
     }
-
 
     /**
      * Update a ctaVolunteer
@@ -43,10 +41,8 @@ class CTAVolunteerController extends Controller {
             'isVolunteer' => $isVolunteer,
         ]);
 
-
         return $ctaVolunteer;
     }
-
 
     /**
      * Destroy a ctaVolunteer

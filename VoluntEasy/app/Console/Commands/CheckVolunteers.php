@@ -13,7 +13,6 @@ use Illuminate\Console\Command;
  */
 class CheckVolunteers extends Command {
 
-
     /**
      * The console command name.
      *
@@ -44,6 +43,5 @@ class CheckVolunteers extends Command {
         $execution_time = microtime(true) - $execution_time;
         $this->comment('Took ' . $execution_time . ' sec');
     }
-
 
 }

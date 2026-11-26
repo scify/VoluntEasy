@@ -61,7 +61,6 @@ class VolunteerService {
         'languages' => '',
     ];
 
-
     /**
      * From a list of volunteers, get a list of ids.
      *
@@ -163,7 +162,6 @@ class VolunteerService {
             return false;
     }
 
-
     /**
      * Set the volunteer status of each unit.
      * We keep the volunteer status to the pivot table
@@ -188,7 +186,6 @@ class VolunteerService {
 
         return $volunteer;
     }
-
 
     /**
      * Get volunteers based on a given status.
@@ -242,7 +239,6 @@ class VolunteerService {
 
         return $unit;
     }
-
 
     /**
      * Get the volunteer units and their actions,
@@ -301,7 +297,6 @@ class VolunteerService {
         } else
             $volunteer->age = -1;
 
-
         //get the language levels in a readable array
         $lang_levels = [];
         foreach ($volunteer->languages as $language) {
@@ -309,7 +304,6 @@ class VolunteerService {
         }
 
         $volunteer->lang_levels = $lang_levels;
-
 
         $unitsExcludes = $volunteer->unitsExcludes->pluck('id')->all();
         $assignedUnits = $volunteer->units->pluck('id')->all();
@@ -442,7 +436,6 @@ class VolunteerService {
             array_push($timeline, $actionHistory);
         }
 
-
         //unit history table
         foreach ($volunteer->unitHistory as $unitHistory) {
             $unitHistory->type = 'unit';
@@ -463,7 +456,6 @@ class VolunteerService {
 
         return $timeline;
     }
-
 
     /**
      * For a volunteer, we should be able to calculate
@@ -514,7 +506,6 @@ class VolunteerService {
                 $q->where('volunteer_id', $volunteerId)->with('ratings.attribute');
             }])->get();
 
-
         foreach ($actions as $action) {
             if (isset($action->ratings)) {
                 $ratings = [];
@@ -549,7 +540,6 @@ class VolunteerService {
 
         return $actions;
     }
-
 
     /**
      * Update the step status to the given status (Complete, Incomplete)
@@ -687,7 +677,6 @@ class VolunteerService {
             //$rootUnit->volunteers()->attach($volunteer, ['volunteer_status_id' => VolunteerStatus::pending()]);
             $this->changeUnitStatus($volunteer->id, $rootUnit->id, VolunteerStatus::pending());
 
-
             $this->unitHistory($volunteer->id, $rootUnit->id);
 
             return true;
@@ -695,7 +684,6 @@ class VolunteerService {
             return false;
         }
     }
-
 
     /**
      * Add a volunteer to a unit
@@ -792,10 +780,8 @@ class VolunteerService {
 
         }
 
-
         return $volunteerId;
     }
-
 
     /**
      * Add a volunteer to an action
@@ -833,7 +819,6 @@ class VolunteerService {
 
         //detach from action
         $volunteer->actions()->detach($action->id);
-
 
         return;
     }
@@ -877,7 +862,6 @@ class VolunteerService {
 
         $actionHistory->save();
     }
-
 
     /**
      * Find the volunteers that are available for a certain unit
@@ -989,7 +973,6 @@ class VolunteerService {
         } else
             $query = Volunteer::select();
 
-
         if (\Request::filled('status_id') && !Search::notDropDown(\Request::get('status_id'), 'status_id')) {
             $query = $this->volunteersByStatus(\Request::get('status_id'));
         }
@@ -1067,44 +1050,6 @@ class VolunteerService {
 
         $result = $query->orderBy('name', 'asc')->with('actions', 'units')->get();
 
-        /*
-                //get the total rating for each attribute
-                foreach ($result as $volunteer) {
-                    if ($volunteer->ratings != null) {
-                        $volunteer->rating_attr1 = $volunteer->ratings->rating_attr1 / $volunteer->ratings->rating_attr1_count;
-                        $volunteer->rating_attr2 = $volunteer->ratings->rating_attr2 / $volunteer->ratings->rating_attr2_count;
-                        $volunteer->rating_attr3 = $volunteer->ratings->rating_attr3 / $volunteer->ratings->rating_attr3_count;
-                    } else {
-                        $volunteer->rating_attr1 = 0;
-                        $volunteer->rating_attr2 = 0;
-                        $volunteer->rating_attr3 = 0;
-                    }
-                }
-
-        //sort by rating
-        if ($ratingId != -1) {
-            switch ($ratingId) {
-                case '1':
-                    $result = $result->sortBy('rating_attr1');
-                    break;
-                case '2':
-                    $result = $result->sortByDesc('rating_attr1');
-                    break;
-                case '3':
-                    $result = $result->sortBy('rating_attr2');
-                    break;
-                case '4':
-                    $result = $result->sortByDesc('rating_attr2');
-                    break;
-                case '5':
-                    $result = $result->sortBy('rating_attr3');
-                    break;
-                case '6':
-                    $result = $result->sortByDesc('rating_attr3');
-                    break;
-            }
-        }
-*/
         $data = $this->prepareForDataTable($result);
 
         return ["data" => $data];

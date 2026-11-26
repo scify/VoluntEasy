@@ -1,6 +1,5 @@
 <?php namespace App\Http\Requests;
 
-
 class CTAVolunteerRequest extends Request {
 
     public function rules() {
@@ -12,7 +11,6 @@ class CTAVolunteerRequest extends Request {
             'dates' => 'required'
         ];
     }
-
 
     /**
      * Custom error messages that override those defined in validation.php file.

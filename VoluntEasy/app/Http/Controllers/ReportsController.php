@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers;
 
-
 use App\Models\Descriptions\VolunteerStatus;
+use Interfaces\ReportsInterface;
 use App\Models\Volunteer;
 use App\Models\VolunteerUnitStatus;
 
@@ -9,11 +9,10 @@ class ReportsController extends Controller {
 
     private $reportsService;
 
-    public function __construct() {
+    public function __construct(ReportsInterface $reportsService) {
         $this->middleware('auth');
-        $this->reportsService =  \App::make('Interfaces\ReportsInterface');
+        $this->reportsService = $reportsService;
     }
-
 
     public function index() {
 
@@ -36,19 +35,16 @@ class ReportsController extends Controller {
         //and also get the last time they participated in an action
         $idles = Volunteer::has('actionHistoryNewest')->with('actionHistoryNewest')->available()->get()->toArray();
 
-
         //sort the array by idlest
         usort($idles, function ($a, $b) {
             return $a['action_history_newest']['created'] > $b['action_history_newest']['created'] ? 1 : -1;
         });
-
 
         return [
             'withoutActions' => $withoutActions,
             'idles' => $idles
         ];
     }
-
 
     /**
      * Get the volunteer status by month
@@ -79,7 +75,6 @@ class ReportsController extends Controller {
 
         return $this->reportsService->volunteersByCity();
     }
-
 
     /**
      * Get the volunteers by age group

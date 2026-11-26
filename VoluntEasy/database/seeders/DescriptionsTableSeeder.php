@@ -58,7 +58,6 @@ class DescriptionsTableSeeder extends Seeder {
 
     }
 
-
     /**
      * Inserting data in the tables from the json files.
      * Use the default path if no override file exists.
@@ -86,7 +85,6 @@ class DescriptionsTableSeeder extends Seeder {
             ]);
         }
     }
-
 
     /**
      * A different mechanism for the interests, as they are connected

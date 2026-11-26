@@ -4,7 +4,6 @@ use App\Models\Descriptions\Interest;
 use App\Models\Volunteer;
 use App\Models\VolunteerLanguage;
 
-
 /**
  * Class VolunteerServiceAbstract
  * @package Interfaces
@@ -18,7 +17,6 @@ use App\Models\VolunteerLanguage;
  * Public functions have a default dehaviour and many be overriden by the classes that extend the Template.
  */
 abstract class VolunteerServiceAbstract implements VolunteerInterface {
-
 
     /**
      * Create a Volunteer object with all it's basic (common to all) fields.
@@ -79,10 +77,8 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
         if (isset($volunteerRequest['participation_previous']))
             $baseFields['participation_previous'] = $volunteerRequest['participation_previous'];
 
-
         return $baseFields;
     }
-
 
     /**
      * The template method
@@ -193,7 +189,6 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
      */
     abstract function validate();
 
-
     /**
      * Check whether the Volunteer has more fields than the basic ones.
      *
@@ -202,8 +197,6 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
     public function volunteerHasExtraFields() {
         return false;
     }
-
-
 
     /**
      * Store the extra volunteer fields.

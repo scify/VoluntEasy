@@ -1,6 +1,5 @@
 <?php namespace App\Models\ActionTasks;
 
-
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use App\Models\Model;

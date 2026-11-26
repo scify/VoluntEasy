@@ -8,7 +8,6 @@ use App\Models\Rating\RatingAttribute;
 use App\Models\User;
 use App\Models\Volunteer;
 
-
 /**
  * Class RatingServiceAbstract
  * @package Interfaces
@@ -53,10 +52,8 @@ abstract class RatingServiceAbstract implements RatingInterface {
         }
     }
 
-
     abstract function getVolunteerRatingPage();
 
     abstract function storeVolunteerRating();
-
 
 }

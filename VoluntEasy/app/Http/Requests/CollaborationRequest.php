@@ -1,6 +1,5 @@
 <?php namespace App\Http\Requests;
 
-
 class CollaborationRequest extends Request
 {
 
@@ -13,7 +12,6 @@ class CollaborationRequest extends Request
             'type_id' => 'not_in:"0"',
         ];
     }
-
 
     /**
      * Custom error messages that override those defined in validation.php file.

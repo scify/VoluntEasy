@@ -15,31 +15,6 @@ class CronService {
 
         foreach ($expiredActions as $expired) {
 
-            /*
-                        //check that the action has a questionnaire link
-                        if (sizeof($expired->volunteers) > 0) {
-
-                            //first send emails to all the volunteers
-                            foreach ($expired->volunteers as $volunteer) {
-
-                                $token = \Illuminate\Support\Str::random(30);
-                                //create a new action rating
-                                //with the action id, the email and the token
-                                $actionScore = new ActionScore([
-                                    "action_id" => $expired->id,
-                                    "token" => $token,
-                                ]);
-
-                                $actionScore->save();
-
-                                //then send an email to the volunteer
-                                \Mail::send('app_emails.rate_action', ['volunteer' => $volunteer, 'action' => $expired, 'token' => $token], function ($message) use ($volunteer) {
-                                    $message->to($volunteer->email, $volunteer->name . ' ' . $volunteer->last_name)->subject('[' . trans('default.title') . '] ' . trans('emails/emails.actionRating'));
-                                });
-                            }
-                        }
-            */
-
             //send emails to all action users to rate volunteers
             foreach ($expired->users as $user) {
 
@@ -55,7 +30,6 @@ class CronService {
 
                 $actionRating->save();
 
-             
                 //then send an email to the person responsible for the action
 
                 \Mail::send('app_emails.rate_volunteers', ['action' => $expired, 'token' => $token, 'url' => $url], function ($message) use ($user) {
@@ -83,7 +57,6 @@ class CronService {
                 }
             }
 
-
             if (sizeof($expired->volunteers) > 0) {
                 //detach all volunteers
                 $expired->volunteers()->detach();
@@ -95,7 +68,6 @@ class CronService {
 
         return $expiredActions;
     }
-
 
     /**
      * Notify users about to expire actions
@@ -129,7 +101,6 @@ class CronService {
         return $count;
     }
 
-
     /**
      * Get the not available volunteers.
      * If the end date of the status is equal to now,
@@ -160,7 +131,6 @@ class CronService {
         }
         return $count;
     }
-
 
     /**
      * Get the expired contracts and notify users

@@ -1,6 +1,5 @@
 <?php namespace App\Models\Descriptions;
 
-
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Model;
 class InterestCategory extends Model {
@@ -13,7 +12,6 @@ class InterestCategory extends Model {
     protected $table = 'interest_categories';
 
     protected $fillable = ['description'];
-
 
     public function getDescriptionAttribute() {
         return trans('database/db_tables.' . $this->attributes['description']);

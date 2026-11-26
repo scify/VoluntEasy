@@ -38,37 +38,17 @@ class ViewComposerServiceProvider extends ServiceProvider {
         //Volunteer Search Page requires all the following data for it's dropdowns etc.
         View::composer('main.volunteers.partials._search', function ($view) {
             $identificationTypes = IdentificationType::pluck('description', 'id')->all();
-            $driverLicenseTypes = DriverLicenceType::pluck('description', 'id')->all();
-            $maritalStatuses = MaritalStatus::pluck('description', 'id')->all();
+            $driverLicenseTypes = self::withChoose(DriverLicenceType::pluck('description', 'id')->all());
+            $maritalStatuses = self::withChoose(MaritalStatus::pluck('description', 'id')->all());
             $languages = Language::pluck('description', 'id')->all();
-            $workStatuses = WorkStatus::pluck('description', 'id')->all();
+            $workStatuses = self::withChoose(WorkStatus::pluck('description', 'id')->all());
             $availabilityFreqs = AvailabilityFrequencies::pluck('description', 'id')->all();
-            $genders = Gender::pluck('description', 'id')->all();
-            $educationLevels = EducationLevel::pluck('description', 'id')->all();
-            $interests = Interest::orderBy('description', 'asc')->pluck('description', 'id')->all();
-            $units = Unit::pluck('description', 'id')->all();
-            $cities = Volunteer::distinct()->orderBy('city')->pluck('city')->all();
-            $countries = Volunteer::distinct()->orderBy('country')->pluck('country')->all();
-
-
-            $maritalStatuses[0] = trans('entities/search.choose');
-            $educationLevels[0] = trans('entities/search.choose');
-            $genders[0] = trans('entities/search.choose');
-            $interests[0] = trans('entities/search.choose');
-            $driverLicenseTypes[0] = trans('entities/search.choose');
-            $units[0] = trans('entities/search.choose');
-            $workStatuses[0] = trans('entities/search.choose');
-            $cities[0] = trans('entities/search.choose');
-            $countries[0] = trans('entities/search.choose');
-            ksort($maritalStatuses);
-            ksort($educationLevels);
-            ksort($genders);
-            ksort($interests);
-            ksort($driverLicenseTypes);
-            ksort($units);
-            ksort($workStatuses);
-            ksort($cities);
-            ksort($countries);
+            $genders = self::withChoose(Gender::pluck('description', 'id')->all());
+            $educationLevels = self::withChoose(EducationLevel::pluck('description', 'id')->all());
+            $interests = self::withChoose(Interest::orderBy('description', 'asc')->pluck('description', 'id')->all());
+            $units = self::withChoose(Unit::pluck('description', 'id')->all());
+            $cities = self::withChoose(Volunteer::whereNotNull('city')->where('city', '!=', '')->distinct()->orderBy('city')->pluck('city', 'city')->all());
+            $countries = self::withChoose(Volunteer::whereNotNull('country')->where('country', '!=', '')->distinct()->orderBy('country')->pluck('country', 'country')->all());
 
             //create the statuses dropdown
             $statuses = [];
@@ -98,16 +78,10 @@ class ViewComposerServiceProvider extends ServiceProvider {
                 ->with('units', $units);
         });
 
-
         //Units Search Page requires all the following data for it's dropdowns etc.
         View::composer('main.units.partials._search', function ($view) {
-            $units = Unit::pluck('description', 'id')->all();
-            $users = User::pluck('name', 'id')->all();
-
-            $units[0] = trans('entities/search.choose');
-            ksort($units);
-            $users[0] = trans('entities/search.choose');
-            ksort($users);
+            $units = self::withChoose(Unit::pluck('description', 'id')->all());
+            $users = self::withChoose(User::pluck('name', 'id')->all());
 
             $view->with('units', $units)->with('users', $users);
         });
@@ -115,10 +89,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
         //Actions Search Page requires all the following data for it's dropdowns etc.
         View::composer('main.actions.partials._search', function ($view) {
 
-            $units = Unit::whereDoesntHave('children')->pluck('description', 'id')->all();
-
-            $units[0] = trans('entities/search.choose');
-            ksort($units);
+            $units = self::withChoose(Unit::whereDoesntHave('children')->pluck('description', 'id')->all());
 
             $view->with('units', $units);
         });
@@ -126,10 +97,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
         //Users Search Page requires all the following data for it's dropdowns etc.
         View::composer('main.users.partials._search', function ($view) {
 
-            $units = Unit::pluck('description', 'id')->all();
-
-            $units[0] = trans('entities/search.choose');
-            ksort($units);
+            $units = self::withChoose(Unit::pluck('description', 'id')->all());
 
             $view->with('units', $units);
         });
@@ -152,7 +120,6 @@ class ViewComposerServiceProvider extends ServiceProvider {
             //also get an array of the permittedVolunteer ids
             $permittedVolunteers = UserService::permittedVolunteersIds();
 
-
             $view->with('root', $root)
                 ->with('permittedVolunteers', $permittedVolunteers);
         });
@@ -167,4 +134,17 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
     }
 
+    /**
+     * Add the "Choose" option with key 0 at the top of a dropdown list.
+     *
+     * @param  array<int|string, string>  $options
+     * @return array<int|string, string>
+     */
+    private static function withChoose(array $options): array
+    {
+        $options[0] = trans('entities/search.choose');
+        ksort($options);
+
+        return $options;
+    }
 }

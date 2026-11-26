@@ -49,13 +49,6 @@ class UserController extends Controller {
         $request['password'] = \Hash::make($request['password']);
         $user = User::create($request->all());
 
-        /*
-                //send email to notify user for new account
-                \Mail::send('emails.new_user', ['user' => $user], function ($message) use ($user) {
-                    $message->to($user->email, $user->name.' '.$user->last_name)->subject('Welcome to VoluntEasy');
-                });
-        */
-
         //store the user image
         if (\Request::file('image') != null) {
             $user->update(['image_name' => UserService::storeImage(\Request::file('image'), $user->email)]);

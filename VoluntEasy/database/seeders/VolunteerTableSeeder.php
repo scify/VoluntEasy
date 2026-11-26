@@ -63,7 +63,6 @@ class VolunteerTableSeeder extends Seeder {
 
 	    DB::table('availability_time')->insert($availability);
 
-
 	    // Genders.
 	    DB::table('genders')->delete();
 

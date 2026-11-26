@@ -1,6 +1,5 @@
 <?php namespace App\Http\Controllers;
 
-
 use App\Http\Requests\CTAVolunteerRequest;
 use App\Models\Action;
 use App\Models\CTA\CTASubtaskDate;
@@ -18,11 +17,9 @@ use App\Services\Facades\UserService;
  */
 class CTAController extends Controller {
 
-
     public function __construct() {
         $this->middleware('auth', ['except' => ['cta', 'participate']]);
     }
-
 
     public function cta() {
 
@@ -75,7 +72,6 @@ class CTAController extends Controller {
                 }
             }
 
-
             $publicAction->tasks = $tasks;
             unset($publicAction->subtasks);
             // return $publicAction;
@@ -120,7 +116,6 @@ class CTAController extends Controller {
         $isActive = 0;
         if (\Request::filled('isActive') && \Request::get('isActive') == 'on')
             $isActive = 1;
-
 
         $publicAction->update([
             'description' => \Request::get('public_description'),
@@ -225,13 +220,7 @@ class CTAController extends Controller {
                         ]);
 
                         $publicSubtask->save();
-                    } /*else {
-                    //else update the current one
-                    $publicSubtask->update([
-                        'description' => $subtask['comments'],
-                    ]);
-                }*/
-                    array_push($publicSubtasksIds, $publicSubtask->id);
+                    }                    array_push($publicSubtasksIds, $publicSubtask->id);
                 }
             }
 

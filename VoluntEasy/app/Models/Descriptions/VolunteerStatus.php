@@ -7,7 +7,6 @@ class VolunteerStatus extends Model {
 
     protected $fillable = ['description'];
 
-
     public function scopePending() {
         $pendingStatus = VolunteerStatus::where('description', 'Pending')->first();
 

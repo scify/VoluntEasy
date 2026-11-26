@@ -1,6 +1,5 @@
 <?php namespace App\Models\Roles;
 
-
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Model;
 class ModuleAction extends Model {

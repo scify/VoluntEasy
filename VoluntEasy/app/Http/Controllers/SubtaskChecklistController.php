@@ -8,7 +8,6 @@ class SubtaskChecklistController extends Controller {
         $this->middleware('auth');
     }
 
-
     /**
      * Store a resource
      */

@@ -1,6 +1,5 @@
 <?php namespace Dependencies\scify\configuration;
 
-
 use Interfaces\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface {

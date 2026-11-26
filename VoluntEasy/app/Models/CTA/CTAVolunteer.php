@@ -1,6 +1,5 @@
 <?php namespace App\Models\CTA;
 
-
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Model;
@@ -20,7 +19,6 @@ class CTAVolunteer extends Model {
     protected $table = 'cta_volunteers';
 
     protected $fillable = ['first_name', 'last_name', 'email', 'isVolunteer', 'public_action_id', 'comments', 'phone_number'];
-
 
     /** @return HasMany<\App\Models\CTA\CTASubtaskDate, $this> */
     public function subtaskDates(): HasMany {

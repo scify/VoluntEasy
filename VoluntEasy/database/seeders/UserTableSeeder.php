@@ -46,8 +46,5 @@ class UserTableSeeder extends Seeder {
             $rootUnit->users()->attach([$demoUser->id]);
         }
 
-
-
-
     }
 }

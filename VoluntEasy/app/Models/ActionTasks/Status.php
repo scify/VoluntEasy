@@ -15,7 +15,6 @@ class Status extends Model {
 
     protected $fillable = ['description'];
 
-
     public function scopeTodo($query){
         return $query->where('description', 'To Do')->first()->id;
     }

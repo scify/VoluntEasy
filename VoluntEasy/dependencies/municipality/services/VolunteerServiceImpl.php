@@ -1,10 +1,8 @@
 <?php namespace Dependencies\municipality\services;
 
-
 use Interfaces\VolunteerServiceAbstract;
 
 class VolunteerServiceImpl extends VolunteerServiceAbstract {
-
 
     /**
      * Validate the Volunteer
@@ -12,7 +10,6 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
     public function validate() {
 
         $volunteer = \Request::all();
-
 
         if (isset($volunteer['id']))
             $validator = \Validator::make($volunteer, [
@@ -49,6 +46,5 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
     public function volunteerHasExtraFields() {
         return false;
     }
-
 
 }

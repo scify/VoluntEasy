@@ -16,5 +16,4 @@ class UserApiController extends Controller{
         return [  "data" => $data ];
     }
 
-
 }

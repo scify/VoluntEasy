@@ -1,6 +1,5 @@
 <?php namespace App\Models\Rating;
 
-
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Model;
@@ -9,7 +8,6 @@ class ActionScore extends Model {
     protected $table = 'action_scores';
 
     protected $fillable = ['action_id', 'comments', 'token', 'rated'];
-
 
     /** @return HasMany<\App\Models\Rating\ActionRatingScore, $this> */
     public function ratings(): HasMany {

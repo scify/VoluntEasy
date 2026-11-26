@@ -88,7 +88,6 @@ class ActionApiController extends Controller {
 
     }
 
-
     public function rating($id) {
 
         $ratings = ActionScore::where('action_id', $id)->with('ratings')->get();
@@ -121,7 +120,6 @@ class ActionApiController extends Controller {
             array_push($answers[3]['data'], 0);
             array_push($answers[4]['data'], 0);
         }
-
 
         foreach ($ratings as $rating) {
             foreach ($rating->ratings as $score) {

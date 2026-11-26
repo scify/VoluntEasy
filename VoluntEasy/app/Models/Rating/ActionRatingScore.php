@@ -1,6 +1,5 @@
 <?php namespace App\Models\Rating;
 
-
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Models\Model;
 /**
@@ -13,7 +12,6 @@ class ActionRatingScore extends Model {
     protected $table = 'action_rating_scores';
 
     protected $fillable = ['score', 'attribute_id', 'action_score_id'];
-
 
     /** @return HasOne<\App\Models\Rating\ActionRatingAttribute, $this> */
     public function attribute(): HasOne {

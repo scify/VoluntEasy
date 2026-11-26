@@ -1,8 +1,6 @@
 <?php namespace App\Services;
 
-
 use App\Models\Unit;
-
 
 class TreeService {
 
@@ -10,7 +8,6 @@ class TreeService {
         $tree = Unit::whereNull('parent_unit_id')->with('allActions', 'allChildren.allActions')->first();
         return $tree;
     }
-
 
     /**
      * Set the permissions for all the branches recursively.
@@ -62,7 +59,6 @@ class TreeService {
                 $this->setActives($userUnits, $child, $active);
         }
         return $parent;
-
 
     }
 }

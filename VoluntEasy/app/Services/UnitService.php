@@ -72,14 +72,12 @@ class UnitService {
     public function getBranchString($unit) {
         $branchTmp = $this->getBranch($unit);
 
-
         $branch = [];
         foreach ($branchTmp as $i => $tmp) {
             array_push($branch, $tmp->description);
         }
         return $branch;
     }
-
 
     /**
      * Get an array with the current branch
@@ -101,7 +99,6 @@ class UnitService {
 
         return $branchTmp;
     }
-
 
     /**
      * Get the whole tree of the organization
@@ -141,7 +138,6 @@ class UnitService {
         return $steps;
     }
 
-
     /**
      * For a a certain unit, get all the parent ids
      * in an array
@@ -158,7 +154,6 @@ class UnitService {
         return $this->parentIds;
     }
 
-
     public function prepareForDataTable($units) {
         $userUnits = UserServiceFacade::userUnits();
 
@@ -171,7 +166,6 @@ class UnitService {
 
         return $units;
     }
-
 
     /**
      * Dynamic search chains a lot of queries depending on the filters sent by the user.
@@ -220,6 +214,5 @@ class UnitService {
 
         return ["data" => $data];
     }
-
 
 }

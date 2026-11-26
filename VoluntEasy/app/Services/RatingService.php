@@ -4,7 +4,6 @@ use App\Models\Rating\RatingAttribute;
 
 class RatingService {
 
-
     /**
      * Calculate the total rating for a volunteer.
      *

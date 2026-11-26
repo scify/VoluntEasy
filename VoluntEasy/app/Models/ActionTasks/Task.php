@@ -1,6 +1,5 @@
 <?php namespace App\Models\ActionTasks;
 
-
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -23,7 +22,6 @@ class Task extends Model {
 
     use SoftDeletes;
 
-
     protected $table = 'tasks';
 
     protected $casts = [
@@ -31,7 +29,6 @@ class Task extends Model {
     ];
 
     protected $fillable = ['description', 'name', 'isComplete', 'action_id', 'priority', 'due_date', 'status_id'];
-
 
     /** @return BelongsTo<\App\Models\Action, $this> */
     public function action(): BelongsTo {

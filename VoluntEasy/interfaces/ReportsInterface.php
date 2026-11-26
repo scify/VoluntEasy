@@ -1,6 +1,5 @@
 <?php namespace Interfaces;
 
-
 interface ReportsInterface{
 
     /**
@@ -22,6 +21,5 @@ interface ReportsInterface{
     function volunteerHoursByAction();
 
   //  function volunteerHoursByMonth();
-
 
 }

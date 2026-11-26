@@ -2,7 +2,6 @@
 
 class EtcController extends Controller {
 
-
     /**
      * Create a new controller instance.
      *

@@ -1,6 +1,10 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use Interfaces\VolunteerInterface;
+use Interfaces\RatingInterface;
+use Interfaces\ConfigurationInterface;
+use App\Http\Controllers\Concerns\ChecksUploadedFiles;
 use App\Models\Action;
 use App\Models\Descriptions\AvailabilityFrequencies;
 use App\Models\Descriptions\AvailabilityTime;
@@ -33,15 +37,17 @@ use Illuminate\Support\Facades\Session;
 
 class VolunteerController extends Controller {
 
+    use ChecksUploadedFiles;
+
     private $configuration;
     private $volunteerService;
     private $ratingService;
 
-    public function __construct() {
+    public function __construct(ConfigurationInterface $configuration, VolunteerInterface $volunteerService, RatingInterface $ratingService) {
         $this->middleware('auth', ['except' => ['publicForm']]);
-        $this->configuration = \App::make('Interfaces\ConfigurationInterface');
-        $this->volunteerService = \App::make('Interfaces\VolunteerInterface');
-        $this->ratingService = \App::make('Interfaces\RatingInterface');
+        $this->configuration = $configuration;
+        $this->volunteerService = $volunteerService;
+        $this->ratingService = $ratingService;
     }
 
     /**
@@ -50,7 +56,6 @@ class VolunteerController extends Controller {
     public function index() {
         return view('main.volunteers.list');
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -106,27 +111,9 @@ class VolunteerController extends Controller {
      */
     public function store() {
 
-        //check if files uploaded already exist
-        //the form always sends a "files" array; empty slots are null
-        $files = array_filter((array) \Request::file('files'));
-
-        foreach ($files as $file) {
-            $filename = public_path() . '/assets/uploads/volunteers/' . $file->getClientOriginalName();
-
-            //if file already exists, redirect back with error message
-            if (file_exists($filename)) {
-                \Session::flash('flash_message', trans('entities/volunteers.alreadyExists', ['filename' => $file->getClientOriginalName()]));
-                \Session::flash('flash_type', 'alert-danger');
-
-                return \Redirect::back()->withInput();
-            }
-            //if file exceeds mazimum allowed size, redirect back with error message
-            if ($file->getSize() > 10000000) {
-                \Session::flash('flash_message', trans('entities/volunteers.moreThan10mb', ['filename' => $file->getClientOriginalName()]));
-                \Session::flash('flash_type', 'alert-danger');
-
-                return \Redirect::back()->withInput();
-            }
+        $files = $this->uploadedFiles();
+        if ($rejected = $this->rejectUploads($files, 'volunteers', 'entities/volunteers')) {
+            return $rejected;
         }
 
         $saved = $this->volunteerService->store();
@@ -134,10 +121,8 @@ class VolunteerController extends Controller {
         if (is_array($saved))
             return redirect()->back()->withErrors($saved['messages'])->withInput();
 
-
         if ($files !== [])
             VolunteerService::storeFiles($files, $saved->id);
-
 
         return \Redirect::route('volunteer/profile', ['id' => $saved->id]);
     }
@@ -190,7 +175,6 @@ class VolunteerController extends Controller {
 
         $laborSkills = LaborSkill::all();
         $interpersonalSkills = InterpersonalSkill::all();
-
 
         $customRatings = $this->ratingService->hasCustomRatings();
 
@@ -265,35 +249,15 @@ class VolunteerController extends Controller {
 
         $volunteer = Volunteer::findOrFail(\Request::get('id'));
 
-        //check if files uploaded already exist
-        //the form always sends a "files" array; empty slots are null
-        $files = array_filter((array) \Request::file('files'));
-
-        foreach ($files as $file) {
-            $filename = public_path() . '/assets/uploads/volunteers/' . $file->getClientOriginalName();
-
-            //if file already exists, redirect back with error message
-            if (file_exists($filename)) {
-                \Session::flash('flash_message', trans('entities/volunteers.alreadyExists', ['filename' => $file->getClientOriginalName()]));
-                \Session::flash('flash_type', 'alert-danger');
-
-                return \Redirect::back();
-            }
-
-            //if file exceeds maximum allowed size, redirect back with error message
-            if ($file->getSize() > 10000000) {
-                \Session::flash('flash_message', trans('entities/volunteers.moreThan10mb', ['filename' => $file->getClientOriginalName()]));
-                \Session::flash('flash_type', 'alert-danger');
-
-                return \Redirect::back();
-            }
+        $files = $this->uploadedFiles();
+        if ($rejected = $this->rejectUploads($files, 'volunteers', 'entities/volunteers')) {
+            return $rejected;
         }
 
         $saved = $this->volunteerService->update($volunteer);
 
         if (is_array($saved))
             return redirect()->back()->withErrors($saved['messages'])->withInput();
-
 
         if ($files !== [])
             VolunteerService::storeFiles($files, $volunteer->id);
@@ -346,7 +310,6 @@ class VolunteerController extends Controller {
         Session::flash('flash_message', trans('entities/volunteers.deleted'));
         Session::flash('flash_type', 'alert-success');
 
-
         return;
     }
 
@@ -364,7 +327,6 @@ class VolunteerController extends Controller {
         /*   $view = View::make('main.volunteers.list')->with('volunteers', $volunteers);
            return $view->renderSections()['table'];*/
     }
-
 
     public function newVolunteers() {
         $volunteers = Volunteer::unassigned();
@@ -522,7 +484,6 @@ class VolunteerController extends Controller {
         $volunteer->not_available = true;
         $volunteer->update();
 
-
         //then add the comments and dates to the table
         $statusId = VolunteerStatus::notAvailable();
 
@@ -626,6 +587,5 @@ class VolunteerController extends Controller {
         return view('main.volunteers.public_form', compact('identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
             'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'units', 'howYouLearned', 'viewPath'));
     }
-
 
 }

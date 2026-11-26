@@ -7,7 +7,6 @@ use App\Services\Facades\UserService;
 
 class TreeApiController extends Controller {
 
-
     public function tree() {
 
         $tree = TreeService::getTree();

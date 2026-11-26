@@ -1,6 +1,5 @@
 <?php namespace App\Models\ActionTasks;
 
-
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -28,7 +27,6 @@ class SubTask extends Model {
     ];
 
     protected $fillable = ['description', 'name', 'status_id', 'task_id', 'action_id', 'priority', 'due_date'];
-
 
     /** @return BelongsTo<\App\Models\ActionTasks\Task, $this> */
     public function task(): BelongsTo {

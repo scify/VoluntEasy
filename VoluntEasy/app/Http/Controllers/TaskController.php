@@ -9,11 +9,9 @@ use App\Services\Facades\VolunteerService;
 
 class TaskController extends Controller {
 
-
     public function __construct() {
         $this->middleware('auth');
     }
-
 
     /**
      * View a certain task
@@ -59,7 +57,6 @@ class TaskController extends Controller {
 
         return $task;
     }
-
 
     /**
      * Update a resource
@@ -112,7 +109,6 @@ class TaskController extends Controller {
         return;
     }
 
-
     public function addVolunteer($id) {
 
         $volunteerTask = new VolunteerTask([
@@ -122,6 +118,5 @@ class TaskController extends Controller {
             'job_descr' => \Request::get('job_descr'),
         ]);
     }
-
 
 }

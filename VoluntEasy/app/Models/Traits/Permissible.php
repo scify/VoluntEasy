@@ -46,7 +46,6 @@ trait Permissible {
                         array_push($units, $unitId);
                     }
 
-
                     foreach (\Request::get('unitsSelect') as $unitId) {
                         $unit = Unit::find($unitId);
                         NotificationService::userToUnit($this->id, $unit);
@@ -60,7 +59,6 @@ trait Permissible {
                     $actions = \Request::get('actionsSelect');
             }
             //  }
-
 
             if ((\Request::filled('unitsSelect') && sizeof(\Request::get('unitsSelect')) > 0) ||
                 (\Request::filled('actionsSelect') && sizeof(\Request::get('actionsSelect')) > 0)

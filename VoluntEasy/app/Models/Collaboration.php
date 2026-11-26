@@ -1,6 +1,5 @@
 <?php namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -17,7 +16,6 @@ class Collaboration extends Model {
     protected $table = 'collaborations';
 
     protected $fillable = ['name', 'comments', 'type_id', 'start_date', 'end_date', 'phone', 'address'];
-
 
     /** @return HasMany<\App\Models\CollaborationFile, $this> */
     public function files(): HasMany {

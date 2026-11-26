@@ -1,6 +1,5 @@
 <?php namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -25,7 +24,6 @@ class Action extends Model {
     protected $table = 'actions';
 
     protected $fillable = ['description', 'comments', 'start_date', 'end_date', 'unit_id', 'email', 'name', 'phone_number', 'volunteer_sum'];
-
 
     /** @return BelongsTo<\App\Models\Unit, $this> */
     public function unit(): BelongsTo {

@@ -1,6 +1,5 @@
 <?php namespace App\Models\OPARating;
 
-
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Models\Model;
 class VolunteerInterpersonalSkill extends Model {

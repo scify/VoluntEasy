@@ -1,8 +1,6 @@
 <?php namespace App\Services;
 
-
 class CTAService {
-
 
     public function getPublicSubtasks($action) {
 

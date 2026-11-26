@@ -1,8 +1,6 @@
 <?php namespace App\Http\Requests;
 
-
 class UnitRequest extends Request {
-
 
 	/**
 	 * Get the validation rules that apply to the request.
@@ -23,7 +21,6 @@ class UnitRequest extends Request {
                 'parent_unit_id' => 'required'
             ];
 	}
-
 
     /**
      * Custom error messages that override those defined in validation.php file.

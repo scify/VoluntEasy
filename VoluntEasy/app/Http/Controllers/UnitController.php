@@ -22,11 +22,6 @@ class UnitController extends Controller {
      * Display a listing of the resource.
      */
     public function index() {
-        /* $units = Unit::orderBy('description', 'asc')->with('parent')->get();
-         //$units->setPath(\URL::to('/') . '/units');
-
-         $userUnits = UserService::userUnits();
-         */
         return view("main.units.list");
     }
 
@@ -124,7 +119,6 @@ class UnitController extends Controller {
         })->whereHas("unitsExcludes", function ($q) use ($unitId) {
             $q->where('unit_id', $unitId);
         }, '<', 1)->orderBy('name', 'asc')->get();
-
 
         //get the volunteers that are assigned to current unit
         //and their statuses
@@ -246,7 +240,6 @@ class UnitController extends Controller {
         Session::flash('flash_message', trans('entities/units.deleted'));
         Session::flash('flash_type', 'alert-success');
 
-
         return;
     }
 
@@ -260,8 +253,6 @@ class UnitController extends Controller {
 
         return $units;
     }
-
-
 
     /**
      * Sync the users with the db.
@@ -300,7 +291,6 @@ class UnitController extends Controller {
         }
         return $unit->id;
     }
-
 
     public function wholeTree() {
         $tree = UnitService::getTree();

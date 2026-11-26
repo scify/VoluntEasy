@@ -24,7 +24,6 @@ Class NotificationController extends Controller {
         return view('main.notifications.list', compact('user'));
     }
 
-
     /**
      * stop the Bell Ring at a Notification Instance
      *

@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Interfaces\VolunteerInterface;
 use App\Models\Descriptions\StepStatus;
 use App\Models\Volunteer;
 use App\Services\Facades\UserService;
@@ -8,27 +9,12 @@ use App\Services\Facades\VolunteerService;
 
 class VolunteerApiController extends Controller {
 
-
     public function __construct() {
     }
 
     public function all() {
         $volunteers = Volunteer::with('units', 'actions')->orderBy('name', 'asc')->get();
 
-        /*
-                //get the total rating for each attribute
-                foreach ($volunteers as $volunteer) {
-                    if ($volunteer->ratings != null) {
-                        $volunteer->rating_attr1 = $volunteer->ratings->rating_attr1 / $volunteer->ratings->rating_attr1_count;
-                        $volunteer->rating_attr2 = $volunteer->ratings->rating_attr2 / $volunteer->ratings->rating_attr2_count;
-                        $volunteer->rating_attr3 = $volunteer->ratings->rating_attr3 / $volunteer->ratings->rating_attr3_count;
-                    } else {
-                        $volunteer->rating_attr1 = 0;
-                        $volunteer->rating_attr2 = 0;
-                        $volunteer->rating_attr3 = 0;
-                    }
-                }
-        */
         $permittedVolunteers = VolunteerService::permittedVolunteersIds();
 
         $data = VolunteerService::prepareForDataTable($volunteers);
@@ -109,11 +95,8 @@ class VolunteerApiController extends Controller {
      *
      * @return mixed
      */
-    public function apiStore() {
-        $volunteerService = \App::make('Interfaces\VolunteerInterface');
-
+    public function apiStore(VolunteerInterface $volunteerService) {
         return $volunteerService->apiStore();
     }
-
 
 }

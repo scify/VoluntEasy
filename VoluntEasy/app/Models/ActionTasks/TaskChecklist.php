@@ -1,6 +1,5 @@
 <?php namespace App\Models\ActionTasks;
 
-
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Carbon\Carbon;
 use App\Models\Model;
@@ -13,7 +12,6 @@ class TaskChecklist extends Model {
     protected $table = 'task_checklists';
 
     protected $fillable = ['comments', 'task_id', 'created_by', 'updated_by', 'isComplete'];
-
 
     /** @return HasOne<\App\Models\User, $this> */
     public function createdBy(): HasOne {

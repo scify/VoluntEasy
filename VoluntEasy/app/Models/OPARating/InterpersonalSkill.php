@@ -7,7 +7,6 @@ class InterpersonalSkill extends Model {
 
     protected $fillable = ['description'];
 
-
     public function getDescriptionAttribute() {
         return trans('database/ratings.' . $this->attributes['description']);
     }

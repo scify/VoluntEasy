@@ -1,7 +1,5 @@
 <?php namespace App\Models;
 
-
-
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Models\Model;
 /**
@@ -20,7 +18,6 @@ class VolunteerActionHistory extends Model {
 
     protected $fillable = ['volunteer_id', 'action_id', 'user_id', 'created'];
 
-
     /** @return HasOne<\App\Models\Action, $this> */
     public function action(): HasOne {
         return $this->hasOne(\App\Models\Action::class, 'id', 'action_id')->withTrashed();
@@ -30,6 +27,5 @@ class VolunteerActionHistory extends Model {
     public function user(): HasOne {
         return $this->hasOne(\App\Models\User::class, 'id', 'user_id');
     }
-
 
 }

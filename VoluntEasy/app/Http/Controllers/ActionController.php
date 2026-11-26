@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests\ActionRequest as ActionRequest;
+use Interfaces\ConfigurationInterface;
 use App\Models\Action;
 use App\Models\ActionTasks\Status;
 use App\Models\ActionVolunteerHistory;
@@ -26,9 +27,9 @@ class ActionController extends Controller {
 
     private $configuration;
 
-    public function __construct() {
+    public function __construct(ConfigurationInterface $configuration) {
         $this->middleware('auth');
-        $this->configuration = \App::make('Interfaces\ConfigurationInterface');
+        $this->configuration = $configuration;
 
     }
 
@@ -202,7 +203,6 @@ class ActionController extends Controller {
             }
         }
 
-
         /*$action->ratings()->delete();//check
         $action->actionRatings()->delete();//check*/
         $action->publicAction()->delete();
@@ -257,7 +257,6 @@ class ActionController extends Controller {
 
         return $action->id;
     }
-
 
     public function fullRatings($id) {
         $action = Action::findOrFail($id);

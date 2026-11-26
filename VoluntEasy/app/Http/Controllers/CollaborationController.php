@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests\CollaborationRequest;
+use App\Http\Controllers\Concerns\ChecksUploadedFiles;
 use App\Models\ActionVolunteerHistory;
 use App\Models\Collaboration;
 use App\Models\CollaborationFile;
@@ -11,6 +12,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
 class CollaborationController extends Controller {
+
+    use ChecksUploadedFiles;
 
     public function __construct() {
         $this->middleware('auth');
@@ -59,28 +62,9 @@ class CollaborationController extends Controller {
             $collaboration->executives()->save($executive);
         }
 
-
-        //check if files uploaded already exist
-        //the form always sends a "files" array; empty slots are null
-        $files = array_filter((array) \Request::file('files'));
-
-        foreach ($files as $file) {
-            $filename = public_path() . '/assets/uploads/collaborations/' . $file->getClientOriginalName();
-
-            //if file already exists, redirect back with error message
-            if (file_exists($filename)) {
-                \Session::flash('flash_message', trans('entities/collaborations.alreadyExists', ['filename' => $file->getClientOriginalName()]));
-                \Session::flash('flash_type', 'alert-danger');
-
-                return \Redirect::back()->withInput();
-            }
-            //if file exceeds maximum allowed size, redirect back with error message
-            if ($file->getSize() > 10000000) {
-                \Session::flash('flash_message', trans('entities/collaborations.moreThan10mb', ['filename' => $file->getClientOriginalName()]));
-                \Session::flash('flash_type', 'alert-danger');
-
-                return \Redirect::back()->withInput();
-            }
+        $files = $this->uploadedFiles();
+        if ($rejected = $this->rejectUploads($files, 'collaborations', 'entities/collaborations')) {
+            return $rejected;
         }
 
         if ($files !== [])
@@ -148,28 +132,9 @@ class CollaborationController extends Controller {
             }
         }
 
-        //check if files uploaded already exist
-        //the form always sends a "files" array; empty slots are null
-        $files = array_filter((array) \Request::file('files'));
-
-        foreach ($files as $file) {
-            $filename = public_path() . '/assets/uploads/collaborations/' . $file->getClientOriginalName();
-
-            //if file already exists, redirect back with error message
-            if (file_exists($filename)) {
-                \Session::flash('flash_message', trans('entities/collaborations.alreadyExists', ['filename' => $file->getClientOriginalName()]));
-                \Session::flash('flash_type', 'alert-danger');
-
-                return \Redirect::back();
-            }
-
-            //if file exceeds maximum allowed size, redirect back with error message
-            if ($file->getSize() > 10000000) {
-                \Session::flash('flash_message', trans('entities/collaborations.moreThan10mb', ['filename' => $file->getClientOriginalName()]));
-                \Session::flash('flash_type', 'alert-danger');
-
-                return \Redirect::back();
-            }
+        $files = $this->uploadedFiles();
+        if ($rejected = $this->rejectUploads($files, 'collaborations', 'entities/collaborations')) {
+            return $rejected;
         }
 
         if ($files !== [])
@@ -186,7 +151,6 @@ class CollaborationController extends Controller {
     public function destroy($id) {
         $collaboration = Collaboration::findOrFail($id);
         $collaboration->load('files');
-
 
         foreach ($collaboration->files as $f) {
             $file = CollaborationFile::find($f->id);
@@ -206,7 +170,6 @@ class CollaborationController extends Controller {
         Session::flash('flash_message', trans('entities/collaborations.deleted'));
         Session::flash('flash_type', 'alert-success');
 
-
         return;
     }
 
@@ -220,7 +183,6 @@ class CollaborationController extends Controller {
 
         return $collaborations;
     }
-
 
     /**
      * Delete a collaboration's file from db and from filesystem
@@ -242,6 +204,5 @@ class CollaborationController extends Controller {
 
         return $filename;
     }
-
 
 }

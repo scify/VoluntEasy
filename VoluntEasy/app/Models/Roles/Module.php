@@ -1,6 +1,5 @@
 <?php namespace App\Models\Roles;
 
-
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Model;
 class Module extends Model {

@@ -1,5 +1,4 @@
 <?php namespace App\Models;
- 
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Model;
@@ -30,7 +29,6 @@ class Notification extends Model
     //   4 = action is expired ...   (parent Unit-Users)                    //
     //   4 = Volunteer submited the Questionare (parent Unit-Users)         //
     //////////////////////////////////////////////////////////////////////////
-
 
 	/**
 	 * The database table used by the model.

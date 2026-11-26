@@ -1,6 +1,5 @@
 <?php namespace App\Http\Requests;
 
-
 class ActionRequest extends Request
 {
 
@@ -15,7 +14,6 @@ class ActionRequest extends Request
             'volunteer_sum' => 'numeric'
         ];
     }
-
 
     /**
      * Custom error messages that override those defined in validation.php file.

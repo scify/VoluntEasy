@@ -1,6 +1,5 @@
 <?php namespace App\Models;
 
-
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -45,7 +44,6 @@ class Unit extends Model {
     public function allActions(): HasMany {
         return $this->hasMany(\App\Models\Action::class)->orderBy('end_date', 'asc');
     }
-
 
     /** @return HasMany<\App\Models\Step, $this> */
     public function steps(): HasMany {

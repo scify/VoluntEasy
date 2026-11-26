@@ -6,7 +6,6 @@ use App\Models\Volunteer;
 use App\Services\Facades\SearchService as Search;
 use App\Services\Facades\UnitService as UnitServiceFacade;
 
-
 class UserService
 {
 
@@ -25,7 +24,6 @@ class UserService
         'email' => '=',
         'unit_id' => '',
     ];
-
 
     /**
      * Get the unit ids of the currently logged in user
@@ -94,7 +92,6 @@ class UserService
         return $actionIds;
     }
 
-
     /**
      * Recursively collect the ids of all children units in $this->unitsIds
      *
@@ -155,7 +152,6 @@ class UserService
             return true;
     }
 
-
     /**
      * Get the admins
      *
@@ -197,7 +193,6 @@ class UserService
         }
     }
 
-
     /**
      * Get the volunteers ids of the currently logged in user.
      * A user can view all the volunteers but may only edit the volunteers
@@ -227,27 +222,6 @@ class UserService
             }
 
             //TODO: remove this?
-            /*
-            //loop through each unit and its children and add the volunteer ids to the array
-            foreach ($user->units as $unit) {
-                if (sizeof($unit->children) > 0) {
-                    foreach ($unit->children as $child) {
-                        if (sizeof($child->volunteers) > 0) {
-                            foreach ($child->volunteers as $volunteer) {
-                                if (!in_array($volunteer, $permittedVolunteers))
-                                    array_push($permittedVolunteers, $volunteer);
-                            }
-                        }
-                    }
-                }
-                if (sizeof($unit->volunteers) > 0) {
-                    foreach ($unit->volunteers as $volunteer) {
-                        if (!in_array($user, $permittedVolunteers))
-                            array_push($permittedVolunteers, $volunteer);
-                    }
-                }
-            }
-            */
         }
         return $permittedVolunteers;
     }
@@ -267,7 +241,6 @@ class UserService
 
         return $permittedVolunteersIds;
     }
-
 
     /**
      * Get the users ids of the currently logged in user.
@@ -298,7 +271,6 @@ class UserService
                 })
                 ->get();
 
-
             //remove currently logged in user
             foreach ($users as $user) {
                 // if ($user->id != \Auth::id())
@@ -308,7 +280,6 @@ class UserService
         }
         return $permittedUsers;
     }
-
 
     /**
      * Recursively get the users of all the units
@@ -333,7 +304,6 @@ class UserService
 
         return $parent;
     }
-
 
     /**
      * Get only the ids of the permitted users
@@ -380,7 +350,6 @@ class UserService
 
         return $assignableUsers;
     }
-
 
     public function prepareForDataTable($users)
     {
@@ -467,6 +436,5 @@ class UserService
 
         return ["data" => $data];
     }
-
 
 }

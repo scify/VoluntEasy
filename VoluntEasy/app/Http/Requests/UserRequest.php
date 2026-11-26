@@ -1,8 +1,6 @@
 <?php namespace App\Http\Requests;
 
-
 class UserRequest extends Request {
-
 
     /**
      * Get the validation rules that apply to the request.
@@ -32,7 +30,6 @@ class UserRequest extends Request {
                 'image' => 'image'
             ];
     }
-
 
     /**
      * Custom error messages that override those defined in validation.php file.

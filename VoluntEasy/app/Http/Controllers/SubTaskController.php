@@ -11,12 +11,10 @@ use App\Services\Facades\VolunteerService;
 class SubTaskController extends Controller
 {
 
-
     public function __construct()
     {
         $this->middleware('auth');
     }
-
 
     /**
      * View a certain subtask
@@ -40,14 +38,6 @@ class SubTaskController extends Controller
                         if ($uv['id'] == $cta->volunteer[0]->id)
                             unset($subTask->shifts[$i]->ctaVolunteers[$j]);
 
-                        /*
-                                                //if the volunteer is already assigned to the work date, remove from the array
-                                                foreach($date->volunteers as $volunteer){
-                                                        if($uv['id']==$volunteer->id){
-                                                            unset($unitVolunteers[$k]);
-                                                        }
-                                                }
-                        */
                     }
                 } else {
                     $cta->mightBe = Volunteer::where('email', $cta->email)->first();
@@ -134,7 +124,6 @@ class SubTaskController extends Controller
 
         return $taskStatus;
     }
-
 
     /**
      * Delete a subtask

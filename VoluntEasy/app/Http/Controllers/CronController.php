@@ -1,10 +1,8 @@
 <?php namespace App\Http\Controllers;
 
-
 use App\Services\Facades\CronService;
 
 class CronController extends Controller {
-
 
     public function checkActions(){
 
@@ -18,7 +16,6 @@ class CronController extends Controller {
             'notAvailablle' => $notAvailablle,
         ];
     }
-
 
 }
 

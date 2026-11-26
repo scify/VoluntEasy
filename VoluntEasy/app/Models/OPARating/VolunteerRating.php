@@ -1,6 +1,5 @@
 <?php namespace App\Models\OPARating;
 
-
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Model;
@@ -11,7 +10,6 @@ class VolunteerRating extends Model {
     protected $table = 'volunteer_opa_ratings';
 
     protected $fillable = ['actionDescription', 'problemsOccured', 'fieldsToImprove', 'training', 'objectives', 'support', 'generalComments', 'user_id', 'volunteer_id', 'action_id', 'action_rating_id'];
-
 
     /** @return HasMany<\App\Models\OPARating\VolunteerLaborSkill, $this> */
     public function laborSkills(): HasMany {

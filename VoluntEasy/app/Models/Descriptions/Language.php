@@ -1,6 +1,5 @@
 <?php namespace App\Models\Descriptions;
 
-
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use App\Models\Model;
 class Language extends Model {
@@ -8,7 +7,6 @@ class Language extends Model {
     protected $table = 'languages';
 
     protected $fillable = ['description'];
-
 
     /** @return HasManyThrough<\App\Models\Descriptions\LanguageLevel, \App\Models\VolunteerLanguage, $this> */
     public function level(): HasManyThrough {

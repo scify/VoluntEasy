@@ -1,12 +1,10 @@
 <?php namespace App\Services;
 
-
 use App\Models\CTA\PublicActionSubTask;
 use App\Services\Facades\ShiftService as ShiftServiceFacade;
 
 class SubtaskService
 {
-
 
     /**
      * Delete a subtask and remove all associated rows

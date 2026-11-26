@@ -17,7 +17,6 @@ class UnitApiController extends Controller {
         return ["data" => $data];
     }
 
-
     public function volunteers($id) {
         $volunteers = Volunteer::with(['units' => function ($query) use ($id) {
             $query->where('unit_id', $id);

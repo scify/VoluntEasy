@@ -1,6 +1,5 @@
 <?php namespace Dependencies\ekpizo\services;
 
-
 use App\Models\Action;
 use App\Models\OPARating\InterpersonalSkill;
 use App\Models\OPARating\LaborSkill;
@@ -118,7 +117,6 @@ class RatingServiceImpl extends RatingServiceAbstract {
         return $actionId;
 
     }
-
 
     function deleteRating($id){
         $rating = VolunteerRating::with('actionRating')->find($id);

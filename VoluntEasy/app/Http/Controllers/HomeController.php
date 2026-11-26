@@ -32,7 +32,6 @@ class HomeController extends Controller {
         return view('main.dashboard.dashboard', compact('available', 'active', 'new', 'pending', 'blacklisted', 'actions', 'isAdmin', 'birthday'));
     }
 
-
     /**
      *
      * Get the volunteers that have birthday today

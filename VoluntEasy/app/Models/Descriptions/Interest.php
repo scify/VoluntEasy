@@ -1,6 +1,5 @@
 <?php namespace App\Models\Descriptions;
 
-
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Models\Model;
 /**
@@ -18,7 +17,6 @@ class Interest extends Model {
     protected $table = 'interests';
 
     protected $fillable = ['description', 'category_id'];
-
 
     public function getDescriptionAttribute() {
         return trans('database/db_tables.' . $this->attributes['description']);

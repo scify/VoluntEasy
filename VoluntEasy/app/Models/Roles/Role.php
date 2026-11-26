@@ -1,6 +1,5 @@
 <?php namespace App\Models\Roles;
 
-
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Model;

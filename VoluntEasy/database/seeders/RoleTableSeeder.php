@@ -39,7 +39,6 @@ class RoleTableSeeder extends Seeder {
         $user->save();
         $volunteer->save();
 
-
         //Add actions
         $create = new ModuleAction(['name' => 'create']);
         $delete = new ModuleAction(['name' => 'delete']);

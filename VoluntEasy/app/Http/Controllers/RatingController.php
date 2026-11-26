@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use Interfaces\RatingInterface;
 use App\Models\Action;
 use App\Models\Rating\ActionRating;
 use App\Models\Rating\ActionRatingAttribute;
@@ -15,11 +16,9 @@ class RatingController extends Controller {
 
     private $ratingService;
 
-    public function __construct() {
-        $this->ratingService = \App::make('Interfaces\RatingInterface');
+    public function __construct(RatingInterface $ratingService) {
+        $this->ratingService = $ratingService;
     }
-
-
 
     /**
      * Show the form for creating a new resource.
@@ -131,7 +130,6 @@ class RatingController extends Controller {
         }
     }
 
-
     /**
      * Save an action rating
      * @return mixed
@@ -160,7 +158,6 @@ class RatingController extends Controller {
         return $actionId;
     }
 
-
     public function actionThankyou($actionId) {
         $action = Action::find($actionId);
 
@@ -172,7 +169,6 @@ class RatingController extends Controller {
 
         return view('main.ratings.volunteers_thankyou', compact('action'));
     }
-
 
     public function deleteVolunteerRating($id){
         return $this->ratingService->deleteRating($id);
