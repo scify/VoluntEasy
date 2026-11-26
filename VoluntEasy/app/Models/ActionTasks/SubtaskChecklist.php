@@ -1,7 +1,9 @@
 <?php namespace App\Models\ActionTasks;
 
+
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SubtaskChecklist extends Model {
@@ -12,14 +14,15 @@ class SubtaskChecklist extends Model {
 
     protected $fillable = ['comments', 'subtask_id', 'created_by', 'updated_by', 'isComplete'];
 
-    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
-    public function createdBy(){
-        return $this->hasOne('App\Models\User', 'id', 'created_by');
+    /** @return HasOne<\App\Models\User, $this> */
+    public function createdBy(): HasOne {
+        return $this->hasOne(\App\Models\User::class, 'id', 'created_by');
     }
 
-    public function updatedBy(){
-        return $this->hasOne('App\Models\User', 'id', 'updated_by');
+    /** @return HasOne<\App\Models\User, $this> */
+    public function updatedBy(): HasOne {
+        return $this->hasOne(\App\Models\User::class, 'id', 'updated_by');
     }
 
     public function getCreatedAtAttribute() {

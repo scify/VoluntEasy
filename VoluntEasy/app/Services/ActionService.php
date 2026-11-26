@@ -26,7 +26,7 @@ class ActionService {
 
         $ratings = ActionScore::where('action_id', $id)->with('ratings')->get();
 
-        $attributes = ActionRatingAttribute::all()->lists('description', 'id')->all();
+        $attributes = ActionRatingAttribute::all()->pluck('description', 'id')->all();
 
         $totalRating = [];
 
@@ -72,11 +72,11 @@ class ActionService {
 
         $query = Action::select();
 
-        //dd(\Input::all());
+        //dd(\Request::all());
 
         foreach ($this->filters as $column => $filter) {
-            if (\Input::has($column)) {
-                $value = \Input::get($column);
+            if (\Request::filled($column)) {
+                $value = \Request::get($column);
                 switch ($filter) {
                     case '=':
                         if (!Search::notDropDown($value, $column))
@@ -110,7 +110,7 @@ class ActionService {
             }
         }
 
-        $result = $query->orderBy('description', 'ASC')->get();
+        $result = $query->orderBy('description', 'asc')->get();
 
         $data = $this->prepareForDataTable($result);
 

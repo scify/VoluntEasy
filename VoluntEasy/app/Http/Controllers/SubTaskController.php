@@ -69,7 +69,7 @@ class SubTaskController extends Controller
 
         $todo = Status::todo();
 
-        if (\Request::has('subtask-due_date'))
+        if (\Request::filled('subtask-due_date'))
             $due_date = \Carbon::createFromFormat('d/m/Y', \Request::get('subtask-due_date'));
         else
             $due_date = null;
@@ -99,7 +99,7 @@ class SubTaskController extends Controller
     {
         $subTask = SubTask::with('shifts')->find(\Request::get('subTaskId'));
 
-        if (\Request::has('subtask-due_date'))
+        if (\Request::filled('subtask-due_date'))
             $due_date = \Carbon::createFromFormat('d/m/Y', \Request::get('subtask-due_date'));
         else
             $due_date = null;

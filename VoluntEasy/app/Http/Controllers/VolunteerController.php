@@ -46,8 +46,6 @@ class VolunteerController extends Controller {
 
     /**
      * Display a listing of the resource.
-     *
-     * @return Response
      */
     public function index() {
         return view('main.volunteers.list');
@@ -56,25 +54,23 @@ class VolunteerController extends Controller {
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return Response
      */
     public function create() {
 
-        $identificationTypes = IdentificationType::lists('description', 'id')->all();
-        $driverLicenseTypes = DriverLicenceType::lists('description', 'id')->all();
-        $maritalStatuses = MaritalStatus::lists('description', 'id')->all();
-        $languages = Language::lists('description', 'id')->all();
-        $langLevels = LanguageLevel::lists('description', 'id')->all();
-        $workStatuses = WorkStatus::lists('description', 'id')->all();
-        $availabilityFreqs = AvailabilityFrequencies::lists('description', 'id')->all();
-        $availabilityTimes = AvailabilityTime::lists('description', 'id')->all();
+        $identificationTypes = IdentificationType::pluck('description', 'id')->all();
+        $driverLicenseTypes = DriverLicenceType::pluck('description', 'id')->all();
+        $maritalStatuses = MaritalStatus::pluck('description', 'id')->all();
+        $languages = Language::pluck('description', 'id')->all();
+        $langLevels = LanguageLevel::pluck('description', 'id')->all();
+        $workStatuses = WorkStatus::pluck('description', 'id')->all();
+        $availabilityFreqs = AvailabilityFrequencies::pluck('description', 'id')->all();
+        $availabilityTimes = AvailabilityTime::pluck('description', 'id')->all();
         $interestCategories = InterestCategory::with('interests')->get()->all();
-        $genders = Gender::lists('description', 'id')->all();
-        $commMethod = CommunicationMethod::lists('description', 'id')->all();
-        $edLevel = EducationLevel::lists('description', 'id')->all();
-        $howYouLearned = HowYouLearned::lists('description', 'id')->all();
-        $howYouLearned2 = HowYouLearned2::lists('description', 'id')->all();
+        $genders = Gender::pluck('description', 'id')->all();
+        $commMethod = CommunicationMethod::pluck('description', 'id')->all();
+        $edLevel = EducationLevel::pluck('description', 'id')->all();
+        $howYouLearned = HowYouLearned::pluck('description', 'id')->all();
+        $howYouLearned2 = HowYouLearned2::pluck('description', 'id')->all();
         $units = Unit::orderBy('description', 'asc')->get()->all();
         $volunteeringDepartments = VolunteeringDepartment::get()->all();
 
@@ -107,45 +103,40 @@ class VolunteerController extends Controller {
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @return Response
      */
     public function store() {
 
         //check if files uploaded already exist
-        $files = \Input::file('files');
-        $flag = false;
+        //the form always sends a "files" array; empty slots are null
+        $files = array_filter((array) \Request::file('files'));
 
         foreach ($files as $file) {
-            if ($file != null) {
-                $flag = true;
-                $filename = public_path() . '/assets/uploads/volunteers/' . $file->getClientOriginalName();
+            $filename = public_path() . '/assets/uploads/volunteers/' . $file->getClientOriginalName();
 
-                //if file already exists, redirect back with error message
-                if (file_exists($filename)) {
-                    \Session::flash('flash_message', trans('entities/volunteers.alreadyExists', ['filename' => $file->getClientOriginalName()]));
-                    \Session::flash('flash_type', 'alert-danger');
+            //if file already exists, redirect back with error message
+            if (file_exists($filename)) {
+                \Session::flash('flash_message', trans('entities/volunteers.alreadyExists', ['filename' => $file->getClientOriginalName()]));
+                \Session::flash('flash_type', 'alert-danger');
 
-                    return \Redirect::back()->withInput();
-                }
-                //if file exceeds mazimum allowed size, redirect back with error message
-                if ($file->getSize() > 10000000) {
-                    \Session::flash('flash_message', trans('entities/volunteers.moreThan10mb', ['filename' => $file->getClientOriginalName()]));
-                    \Session::flash('flash_type', 'alert-danger');
+                return \Redirect::back()->withInput();
+            }
+            //if file exceeds mazimum allowed size, redirect back with error message
+            if ($file->getSize() > 10000000) {
+                \Session::flash('flash_message', trans('entities/volunteers.moreThan10mb', ['filename' => $file->getClientOriginalName()]));
+                \Session::flash('flash_type', 'alert-danger');
 
-                    return \Redirect::back()->withInput();
-                }
+                return \Redirect::back()->withInput();
             }
         }
 
         $saved = $this->volunteerService->store();
 
-        if ($saved['failed'])
+        if (is_array($saved))
             return redirect()->back()->withErrors($saved['messages'])->withInput();
 
 
-        if ($files != null && sizeof($files) > 0 && $flag == true)
-            VolunteerService::storeFiles(\Input::file('files'), $saved->id);
+        if ($files !== [])
+            VolunteerService::storeFiles($files, $saved->id);
 
 
         return \Redirect::route('volunteer/profile', ['id' => $saved->id]);
@@ -155,7 +146,6 @@ class VolunteerController extends Controller {
      * Display the specified resource.
      *
      * @param  int $id
-     * @return Response
      */
     public function show($id) {
 
@@ -211,25 +201,24 @@ class VolunteerController extends Controller {
      * Show the form for editing the specified resource.
      *
      * @param  int $volId
-     * @return Response
      */
     public function edit($volId) {
         $volunteer = Volunteer::with('interests', 'availabilityTimes', 'availabilityDays', 'unitsExcludes', 'files', 'extras', 'volunteeringDepartments')->findOrFail($volId);
 
-        $identificationTypes = IdentificationType::lists('description', 'id')->all();
-        $driverLicenseTypes = DriverLicenceType::lists('description', 'id')->all();
-        $maritalStatuses = MaritalStatus::lists('description', 'id')->all();
-        $languages = Language::lists('description', 'id')->all();
-        $langLevels = LanguageLevel::lists('description', 'id')->all();
-        $workStatuses = WorkStatus::lists('description', 'id')->all();
-        $availabilityFreqs = AvailabilityFrequencies::lists('description', 'id')->all();
-        $availabilityTimes = AvailabilityTime::lists('description', 'id')->all();
+        $identificationTypes = IdentificationType::pluck('description', 'id')->all();
+        $driverLicenseTypes = DriverLicenceType::pluck('description', 'id')->all();
+        $maritalStatuses = MaritalStatus::pluck('description', 'id')->all();
+        $languages = Language::pluck('description', 'id')->all();
+        $langLevels = LanguageLevel::pluck('description', 'id')->all();
+        $workStatuses = WorkStatus::pluck('description', 'id')->all();
+        $availabilityFreqs = AvailabilityFrequencies::pluck('description', 'id')->all();
+        $availabilityTimes = AvailabilityTime::pluck('description', 'id')->all();
         $interestCategories = InterestCategory::with('interests')->get();
-        $genders = Gender::lists('description', 'id')->all();
-        $commMethod = CommunicationMethod::lists('description', 'id')->all();
-        $howYouLearned = HowYouLearned::lists('description', 'id')->all();
-        $howYouLearned2 = HowYouLearned2::lists('description', 'id')->all();
-        $edLevel = EducationLevel::lists('description', 'id')->all();
+        $genders = Gender::pluck('description', 'id')->all();
+        $commMethod = CommunicationMethod::pluck('description', 'id')->all();
+        $howYouLearned = HowYouLearned::pluck('description', 'id')->all();
+        $howYouLearned2 = HowYouLearned2::pluck('description', 'id')->all();
+        $edLevel = EducationLevel::pluck('description', 'id')->all();
         $volunteeringDepartments = VolunteeringDepartment::get()->all();
 
         //get the language levels in a readable array
@@ -271,48 +260,43 @@ class VolunteerController extends Controller {
 
     /**
      * Update the specified resource in storage.
-     *
-     * @return Response
      */
     public function update() {
 
         $volunteer = Volunteer::findOrFail(\Request::get('id'));
 
         //check if files uploaded already exist
-        $files = \Input::file('files');
-        $flag = false;
+        //the form always sends a "files" array; empty slots are null
+        $files = array_filter((array) \Request::file('files'));
 
         foreach ($files as $file) {
-            if ($file != null) {
-                $flag = true;
-                $filename = public_path() . '/assets/uploads/volunteers/' . $file->getClientOriginalName();
+            $filename = public_path() . '/assets/uploads/volunteers/' . $file->getClientOriginalName();
 
-                //if file already exists, redirect back with error message
-                if (file_exists($filename)) {
-                    \Session::flash('flash_message', trans('entities/volunteers.alreadyExists', ['filename' => $file->getClientOriginalName()]));
-                    \Session::flash('flash_type', 'alert-danger');
+            //if file already exists, redirect back with error message
+            if (file_exists($filename)) {
+                \Session::flash('flash_message', trans('entities/volunteers.alreadyExists', ['filename' => $file->getClientOriginalName()]));
+                \Session::flash('flash_type', 'alert-danger');
 
-                    return \Redirect::back();
-                }
+                return \Redirect::back();
+            }
 
-                //if file exceeds maximum allowed size, redirect back with error message
-                if ($file->getSize() > 10000000) {
-                    \Session::flash('flash_message', trans('entities/volunteers.moreThan10mb', ['filename' => $file->getClientOriginalName()]));
-                    \Session::flash('flash_type', 'alert-danger');
+            //if file exceeds maximum allowed size, redirect back with error message
+            if ($file->getSize() > 10000000) {
+                \Session::flash('flash_message', trans('entities/volunteers.moreThan10mb', ['filename' => $file->getClientOriginalName()]));
+                \Session::flash('flash_type', 'alert-danger');
 
-                    return \Redirect::back();
-                }
+                return \Redirect::back();
             }
         }
 
         $saved = $this->volunteerService->update($volunteer);
 
-        if ($saved['failed'])
+        if (is_array($saved))
             return redirect()->back()->withErrors($saved['messages'])->withInput();
 
 
-        if ($files != null && sizeof($files) > 0 && $flag == true)
-            VolunteerService::storeFiles(\Input::file('files'), $volunteer->id);
+        if ($files !== [])
+            VolunteerService::storeFiles($files, $volunteer->id);
 
         return \Redirect::route('volunteer/profile', ['id' => $volunteer->id]);
     }
@@ -321,7 +305,6 @@ class VolunteerController extends Controller {
      * Remove the specified resource from storage.
      *
      * @param  int $id
-     * @return Response
      */
     public function destroy($id) {
         $volunteer = Volunteer::findOrFail($id);
@@ -447,7 +430,7 @@ class VolunteerController extends Controller {
 
         //check if the unit has any actions, then detach the volunteer from them
         if (sizeof($unit->actions) > 0)
-            $volunteer->actions()->detach($unit->actions->lists('id')->all());
+            $volunteer->actions()->detach($unit->actions->pluck('id')->all());
 
         $volunteer->units()->detach($unitId);
 
@@ -606,19 +589,19 @@ class VolunteerController extends Controller {
      */
     public function publicForm() {
 
-        $identificationTypes = IdentificationType::lists('description', 'id')->all();
-        $driverLicenseTypes = DriverLicenceType::lists('description', 'id')->all();
-        $maritalStatuses = MaritalStatus::lists('description', 'id')->all();
-        $languages = Language::lists('description', 'id')->all();
-        $langLevels = LanguageLevel::lists('description', 'id')->all();
-        $workStatuses = WorkStatus::lists('description', 'id')->all();
-        $availabilityFreqs = AvailabilityFrequencies::lists('description', 'id')->all();
-        $availabilityTimes = AvailabilityTime::lists('description', 'id')->all();
+        $identificationTypes = IdentificationType::pluck('description', 'id')->all();
+        $driverLicenseTypes = DriverLicenceType::pluck('description', 'id')->all();
+        $maritalStatuses = MaritalStatus::pluck('description', 'id')->all();
+        $languages = Language::pluck('description', 'id')->all();
+        $langLevels = LanguageLevel::pluck('description', 'id')->all();
+        $workStatuses = WorkStatus::pluck('description', 'id')->all();
+        $availabilityFreqs = AvailabilityFrequencies::pluck('description', 'id')->all();
+        $availabilityTimes = AvailabilityTime::pluck('description', 'id')->all();
         $interestCategories = InterestCategory::with('interests')->get()->all();
-        $genders = Gender::lists('description', 'id')->all();
-        $commMethod = CommunicationMethod::lists('description', 'id')->all();
-        $edLevel = EducationLevel::lists('description', 'id')->all();
-        $howYouLearned = HowYouLearned::lists('description', 'id')->all();
+        $genders = Gender::pluck('description', 'id')->all();
+        $commMethod = CommunicationMethod::pluck('description', 'id')->all();
+        $edLevel = EducationLevel::pluck('description', 'id')->all();
+        $howYouLearned = HowYouLearned::pluck('description', 'id')->all();
         $units = Unit::orderBy('description', 'asc')->get()->all();
 
         $viewPath = $this->configuration->getViewsPath() . '.volunteers._form';

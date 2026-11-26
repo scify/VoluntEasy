@@ -13,7 +13,7 @@ class UserRequest extends Request {
      */
     public function rules() {
 
-        if (Request::get('id') == null)
+        if ($this->input('id') == null)
             return [
                 'name' => 'required|max:255',
                 'last_name' => 'required|max:255',

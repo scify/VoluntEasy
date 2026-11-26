@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>{{ env('PLATFORM_NAME') }}</title>
+    <title>{{ config('app.platform_name') }}</title>
     <meta charset="utf-8">
     <meta name="description" content="VoluntAction - volunteers platform">
     <meta name="author" content="SciFY"/>
@@ -32,7 +32,7 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
 
     <!-- Favicon -->
-    @if(env('PLATFORM_NAME')=='VoluntAction')
+    @if(config('app.platform_name')=='VoluntAction')
     <link rel="icon" type="image/png" href="{{ asset('assets/images/voluntaction/favicon.ico')}}">
     @else
     <link rel="icon" type="image/png" href="{{ asset('assets/images/volunteasy/favicon.ico')}}">
@@ -80,7 +80,7 @@
         <ul id="nav" onClick="" class="zetta-menu zm-response-switch zm-full-width zm-effect-slide-top">
             <!-- LOGO -->
             <li class="zm-logo">
-                @if(env('PLATFORM_NAME')=='VoluntAction')
+                @if(config('app.platform_name')=='VoluntAction')
                 <img src="{{ asset('assets/images/voluntaction/logo.png') }}" style="height:100%;"/>
                 @else
                 <img src="{{ asset('assets/images/volunteasy/logo.png') }}" style="height:100%;"/>

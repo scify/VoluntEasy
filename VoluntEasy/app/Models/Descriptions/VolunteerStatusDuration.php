@@ -1,9 +1,16 @@
 <?php namespace App\Models\Descriptions;
 
-use Illuminate\Database\Eloquent\Model;
+
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
+/**
+ * Values marked "Computed" are set by the services, they are not columns.
+ *
+ * @property string $type Computed: timeline entry type
+ */
 class VolunteerStatusDuration extends Model {
 
     use SoftDeletes;
@@ -13,8 +20,9 @@ class VolunteerStatusDuration extends Model {
     protected $fillable = ['from_date', 'to_date', 'volunteer_id', 'status_id', 'comments'];
 
 
-    public function status() {
-        return $this->hasOne('App\Models\Descriptions\VolunteerStatus', 'id', 'status_id');
+    /** @return HasOne<\App\Models\Descriptions\VolunteerStatus, $this> */
+    public function status(): HasOne {
+        return $this->hasOne(\App\Models\Descriptions\VolunteerStatus::class, 'id', 'status_id');
     }
 
     public function getFromDateAttribute() {

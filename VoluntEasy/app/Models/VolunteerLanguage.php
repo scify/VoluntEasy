@@ -1,8 +1,8 @@
 <?php namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 
-
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Model;
 class VolunteerLanguage extends Model
 {
 
@@ -16,21 +16,21 @@ class VolunteerLanguage extends Model
     protected $fillable = ['volunteer_id', 'language_id', 'language_level_id'];
 
 
-    public function language()
-    {
-        return $this->belongsTo('App\Models\Descriptions\Language');
+    /** @return BelongsTo<\App\Models\Descriptions\Language, $this> */
+    public function language(): BelongsTo {
+        return $this->belongsTo(\App\Models\Descriptions\Language::class);
     }
 
 
-    public function level()
-    {
-        return $this->belongsTo('App\Models\Descriptions\LanguageLevel', 'language_level_id', 'id');
+    /** @return BelongsTo<\App\Models\Descriptions\LanguageLevel, $this> */
+    public function level(): BelongsTo {
+        return $this->belongsTo(\App\Models\Descriptions\LanguageLevel::class, 'language_level_id', 'id');
     }
 
 
-    public function volunteer()
-    {
-        return $this->belongsTo('App\Models\Volunteer');
+    /** @return BelongsTo<\App\Models\Volunteer, $this> */
+    public function volunteer(): BelongsTo {
+        return $this->belongsTo(\App\Models\Volunteer::class);
     }
 
 }

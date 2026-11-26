@@ -1,8 +1,8 @@
 <?php namespace App\Models\Rating;
 
-use Illuminate\Database\Eloquent\Model;
 
-
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\Model;
 class Rating extends Model {
 
     /**
@@ -15,9 +15,9 @@ class Rating extends Model {
     protected $fillable = ['rating', 'rating_attribute_id', 'volunteer_action_rating_id'];
 
 
-    public function attribute()
-    {
-        return $this->hasOne('App\Models\Rating\RatingAttribute', 'id', 'rating_attribute_id');
+    /** @return HasOne<\App\Models\Rating\RatingAttribute, $this> */
+    public function attribute(): HasOne {
+        return $this->hasOne(\App\Models\Rating\RatingAttribute::class, 'id', 'rating_attribute_id');
     }
 
 }

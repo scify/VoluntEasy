@@ -1,11 +1,15 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-use Illuminate\Foundation\Bus\DispatchesCommands;
-use Illuminate\Routing\Controller as BaseController;
+namespace App\Http\Controllers;
+
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
 
-abstract class Controller extends BaseController {
-
-	use DispatchesCommands, ValidatesRequests;
-
+/**
+ * Extends the routing controller so that the controllers can keep
+ * registering middleware in their constructors.
+ */
+abstract class Controller extends BaseController
+{
+    use ValidatesRequests;
 }

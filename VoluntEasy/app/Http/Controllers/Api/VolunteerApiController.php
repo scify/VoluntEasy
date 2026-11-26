@@ -13,7 +13,7 @@ class VolunteerApiController extends Controller {
     }
 
     public function all() {
-        $volunteers = Volunteer::with('units', 'actions')->orderBy('name', 'ASC')->get();
+        $volunteers = Volunteer::with('units', 'actions')->orderBy('name', 'asc')->get();
 
         /*
                 //get the total rating for each attribute

@@ -2,7 +2,7 @@
     <p>{{ trans('entities/volunteers.volunteeringDepartments') }}:</p>
     @foreach($volunteeringDepartments as $department)
         <div class="form-group">
-            @if (isset($volunteer) && in_array($department->id, $volunteer->volunteeringDepartments->lists('id')->all())
+            @if (isset($volunteer) && in_array($department->id, $volunteer->volunteeringDepartments->pluck('id')->all())
             )
                 {!! Form::formInput('departments['.$department->id.']', $department->description , $errors, ['class'
                 =>

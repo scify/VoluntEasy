@@ -13,8 +13,6 @@ class EtcController extends Controller {
 
     /**
      * Show the FAQ page
-     *
-     * @return Response
      */
     public function faq() {
         return view('etc.faq');

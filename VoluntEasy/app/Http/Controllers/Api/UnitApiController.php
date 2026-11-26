@@ -10,7 +10,7 @@ use App\Services\Facades\VolunteerService;
 class UnitApiController extends Controller {
 
     public function all() {
-        $units = Unit::orderBy('description', 'ASC')->with('parent')->get();
+        $units = Unit::orderBy('description', 'asc')->with('parent')->get();
 
         $data = UnitService::prepareForDataTable($units);
 

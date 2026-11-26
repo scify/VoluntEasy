@@ -18,8 +18,6 @@ class CollaborationController extends Controller {
 
     /**
      * Display a listing of the resource.
-     *
-     * @return Response
      */
     public function index() {
         $collaborations = Collaboration::all();
@@ -29,11 +27,9 @@ class CollaborationController extends Controller {
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return Response
      */
     public function create() {
-        $collaborationTypes = CollaborationType::all()->lists('description', 'id')->all();
+        $collaborationTypes = CollaborationType::all()->pluck('description', 'id')->all();
         $collaborationTypes[0] = trans('entities/search.choose');
         ksort($collaborationTypes);
 
@@ -44,7 +40,6 @@ class CollaborationController extends Controller {
      * Store a newly created resource in storage.
      *
      * @param CollaborationRequest $request
-     * @return Response
      */
     public function store(CollaborationRequest $request) {
 
@@ -66,32 +61,29 @@ class CollaborationController extends Controller {
 
 
         //check if files uploaded already exist
-        $files = \Input::file('files');
-        $flag = false;
+        //the form always sends a "files" array; empty slots are null
+        $files = array_filter((array) \Request::file('files'));
 
         foreach ($files as $file) {
-            if ($file != null) {
-                $flag = true;
-                $filename = public_path() . '/assets/uploads/collaborations/' . $file->getClientOriginalName();
+            $filename = public_path() . '/assets/uploads/collaborations/' . $file->getClientOriginalName();
 
-                //if file already exists, redirect back with error message
-                if (file_exists($filename)) {
-                    \Session::flash('flash_message', trans('entities/collaborations.alreadyExists', ['filename' => $file->getClientOriginalName()]));
-                    \Session::flash('flash_type', 'alert-danger');
+            //if file already exists, redirect back with error message
+            if (file_exists($filename)) {
+                \Session::flash('flash_message', trans('entities/collaborations.alreadyExists', ['filename' => $file->getClientOriginalName()]));
+                \Session::flash('flash_type', 'alert-danger');
 
-                    return \Redirect::back()->withInput();
-                }
-                //if file exceeds maximum allowed size, redirect back with error message
-                if ($file->getSize() > 10000000) {
-                    \Session::flash('flash_message', trans('entities/collaborations.moreThan10mb', ['filename' => $file->getClientOriginalName()]));
-                    \Session::flash('flash_type', 'alert-danger');
+                return \Redirect::back()->withInput();
+            }
+            //if file exceeds maximum allowed size, redirect back with error message
+            if ($file->getSize() > 10000000) {
+                \Session::flash('flash_message', trans('entities/collaborations.moreThan10mb', ['filename' => $file->getClientOriginalName()]));
+                \Session::flash('flash_type', 'alert-danger');
 
-                    return \Redirect::back()->withInput();
-                }
+                return \Redirect::back()->withInput();
             }
         }
 
-        if ($files != null && sizeof($files) > 0 && $flag == true)
+        if ($files !== [])
             CollaborationService::storeFiles($files, $collaboration->id);
 
         return Redirect::route('collaboration/one', ['id' => $collaboration->id]);
@@ -101,7 +93,6 @@ class CollaborationController extends Controller {
      * Display the specified resource.
      *
      * @param  int $id
-     * @return Response
      */
     public function show($id) {
         $collaboration = Collaboration::with('executives', 'files', 'type')->findOrFail($id);
@@ -120,10 +111,9 @@ class CollaborationController extends Controller {
      * Show the form for editing the specified resource.
      *
      * @param  int $id
-     * @return Response
      */
     public function edit($id) {
-        $collaborationTypes = CollaborationType::all()->lists('description', 'id')->all();
+        $collaborationTypes = CollaborationType::all()->pluck('description', 'id')->all();
         $collaborationTypes[0] = trans('entities/search.choose');
         ksort($collaborationTypes);
 
@@ -136,7 +126,6 @@ class CollaborationController extends Controller {
      * Update the specified resource in storage.
      *
      * @param  CollaborationRequest $request
-     * @return Response
      */
     public function update(CollaborationRequest $request) {
         $collaboration = Collaboration::findOrFail($request->get('id'));
@@ -160,34 +149,31 @@ class CollaborationController extends Controller {
         }
 
         //check if files uploaded already exist
-        $files = \Input::file('files');
-        $flag = false;
+        //the form always sends a "files" array; empty slots are null
+        $files = array_filter((array) \Request::file('files'));
 
         foreach ($files as $file) {
-            if ($file != null) {
-                $flag = true;
-                $filename = public_path() . '/assets/uploads/collaborations/' . $file->getClientOriginalName();
+            $filename = public_path() . '/assets/uploads/collaborations/' . $file->getClientOriginalName();
 
-                //if file already exists, redirect back with error message
-                if (file_exists($filename)) {
-                    \Session::flash('flash_message', trans('entities/collaborations.alreadyExists', ['filename' => $file->getClientOriginalName()]));
-                    \Session::flash('flash_type', 'alert-danger');
+            //if file already exists, redirect back with error message
+            if (file_exists($filename)) {
+                \Session::flash('flash_message', trans('entities/collaborations.alreadyExists', ['filename' => $file->getClientOriginalName()]));
+                \Session::flash('flash_type', 'alert-danger');
 
-                    return \Redirect::back();
-                }
+                return \Redirect::back();
+            }
 
-                //if file exceeds maximum allowed size, redirect back with error message
-                if ($file->getSize() > 10000000) {
-                    \Session::flash('flash_message', trans('entities/collaborations.moreThan10mb', ['filename' => $file->getClientOriginalName()]));
-                    \Session::flash('flash_type', 'alert-danger');
+            //if file exceeds maximum allowed size, redirect back with error message
+            if ($file->getSize() > 10000000) {
+                \Session::flash('flash_message', trans('entities/collaborations.moreThan10mb', ['filename' => $file->getClientOriginalName()]));
+                \Session::flash('flash_type', 'alert-danger');
 
-                    return \Redirect::back();
-                }
+                return \Redirect::back();
             }
         }
 
-        if ($files != null && sizeof($files) > 0 && $flag == true)
-            CollaborationService::storeFiles(\Input::file('files'), $collaboration->id);
+        if ($files !== [])
+            CollaborationService::storeFiles($files, $collaboration->id);
 
         return Redirect::route('collaboration/one', ['id' => $collaboration->id]);
     }
@@ -196,7 +182,6 @@ class CollaborationController extends Controller {
      * Remove the specified resource from storage.
      *
      * @param  int $id
-     * @return Response
      */
     public function destroy($id) {
         $collaboration = Collaboration::findOrFail($id);

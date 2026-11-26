@@ -91,7 +91,7 @@ class CTAController extends Controller {
     public function store() {
 
         $isActive = 0;
-        if (\Request::has('isActive') && \Request::get('isActive') == 'on')
+        if (\Request::filled('isActive') && \Request::get('isActive') == 'on')
             $isActive = 1;
 
         $publicAction = new PublicAction([
@@ -108,7 +108,7 @@ class CTAController extends Controller {
 
         $publicAction->save();
 
-        if (\Request::has('subtasks'))
+        if (\Request::filled('subtasks'))
             $this->savePublicSubtasks($publicAction);
 
         return $publicAction;
@@ -118,7 +118,7 @@ class CTAController extends Controller {
         $publicAction = PublicAction::find(\Request::get('publicActionId'));
 
         $isActive = 0;
-        if (\Request::has('isActive') && \Request::get('isActive') == 'on')
+        if (\Request::filled('isActive') && \Request::get('isActive') == 'on')
             $isActive = 1;
 
 
@@ -178,7 +178,7 @@ class CTAController extends Controller {
 
         //get all the data needed to display the tasks that the volunteers
         //is interested for
-        $ctaVolunteer->load('dates.date.subtask.task');
+        $ctaVolunteer->load('subtaskDates.date.subtask.task');
         $publicAction = PublicAction::with('action.users')->find($request['publicActionId']);
         $admins = UserService::getAdmins();
 
@@ -209,7 +209,7 @@ class CTAController extends Controller {
      */
     private function savePublicSubtasks($publicAction) {
         $publicSubtasksIds = [];
-        if (\Request::has('subtasks')) {
+        if (\Request::filled('subtasks')) {
             foreach (\Request::get('subtasks') as $i => $subtask) {
 
                 if (isset($subtask['name']) && $subtask['name'] == 'on') {
@@ -249,7 +249,7 @@ class CTAController extends Controller {
      */
     private function getPublicUrl($publicAction = null) {
 
-        if (\Request::has('publicUrl') && \Request::get('publicUrl') != '') {
+        if (\Request::filled('publicUrl') && \Request::get('publicUrl') != '') {
 
             if ($publicAction != null && $publicAction->public_url == \Request::get('publicUrl'))
                 $publicUrl = \Request::get('publicUrl');

@@ -1,8 +1,13 @@
 <?php namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 
-
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\Model;
+/**
+ * Values marked "Computed" are set by the services, they are not columns.
+ *
+ * @property string $type Computed: timeline entry type
+ */
 class VolunteerUnitHistory extends Model {
 
     /**
@@ -15,13 +20,15 @@ class VolunteerUnitHistory extends Model {
     protected $fillable = ['volunteer_id', 'unit_id', 'user_id', 'created'];
 
 
-    public function unit(){
-        return $this->hasOne('App\Models\Unit', 'id', 'unit_id');
+    /** @return HasOne<\App\Models\Unit, $this> */
+    public function unit(): HasOne {
+        return $this->hasOne(\App\Models\Unit::class, 'id', 'unit_id');
     }
 
 
-    public function user(){
-        return $this->hasOne('App\Models\User', 'id', 'user_id');
+    /** @return HasOne<\App\Models\User, $this> */
+    public function user(): HasOne {
+        return $this->hasOne(\App\Models\User::class, 'id', 'user_id');
     }
 
 }

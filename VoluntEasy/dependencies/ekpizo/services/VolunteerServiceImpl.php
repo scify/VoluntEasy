@@ -54,11 +54,6 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
         return true;
     }
 
-    /**
-     * Get the extra fields
-     */
-    function getExtraFields($volunteer) {
-    }
 
     /**
      * Store extra volunter fields
@@ -69,21 +64,21 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
 
         $this->saveFrequencies($volunteer);
 
-        if (\Request::has('departments'))
+        if (\Request::filled('departments'))
             $volunteer->volunteeringDepartments()->sync(\Request::get('departments'));
 
-        if (\Request::has('has_previous_volunteer_experience') && \Request::get('has_previous_volunteer_experience') == 'on')
+        if (\Request::filled('has_previous_volunteer_experience') && \Request::get('has_previous_volunteer_experience') == 'on')
             $has_previous_volunteer_experience = true;
         else
             $has_previous_volunteer_experience = false;
-        if (\Request::has('has_previous_work_experience') && \Request::get('has_previous_work_experience') == 'on')
+        if (\Request::filled('has_previous_work_experience') && \Request::get('has_previous_work_experience') == 'on')
             $has_previous_work_experience = true;
         else
             $has_previous_work_experience = false;
 
-        if (\Request::has('howYouLearned') && \Request::get('howYouLearned') != 0)
+        if (\Request::filled('howYouLearned') && \Request::get('howYouLearned') != 0)
             $volunteer->how_you_learned_id = \Request::get('howYouLearned');
-        if (\Request::has('howYouLearned2') && \Request::get('howYouLearned2') != 0)
+        if (\Request::filled('howYouLearned2') && \Request::get('howYouLearned2') != 0)
             $volunteer->how_you_learned2_id = \Request::get('howYouLearned2');
         $volunteer->computer_usage_comments = \Request::get('computer_usage_comments');
         $volunteer->afm = \Request::get('afm');
@@ -126,7 +121,7 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
             $volunteer->availabilityDays()->delete();
 
             foreach ($weekDays as $weekDay) {
-                if (\Request::has($weekDay)) {
+                if (\Request::filled($weekDay)) {
                     foreach (\Request::get($weekDay) as $availability) {
 
                         if ($availability == "1")
@@ -206,16 +201,16 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
             $extras = new VolunteerExtras();
             //word, excel, powerpoint
             if (isset($data['education']['office']['office_word']) && $data['education']['office']['office_word'] == 1)
-                $extras->knows_word = 1;
+                $extras->knows_word = true;
             if (isset($data['education']['office']['office_excel']) && $data['education']['office']['office_excel'] == 1)
-                $extras->knows_excel = 1;
+                $extras->knows_excel = true;
             if (isset($data['education']['office']['office_powerpoint']) && $data['education']['office']['office_powerpoint'] == 1)
-                $extras->knows_powerpoint = 1;
+                $extras->knows_powerpoint = true;
 
             if (isset($data['work_exper']['vol_experience']) && $data['work_exper']['vol_experience'] == 1)
-                $extras->has_previous_volunteer_experience = 1;
+                $extras->has_previous_volunteer_experience = true;
             if (isset($data['work_exper']['job_experience']) && $data['work_exper']['job_experience'] == 1)
-                $extras->has_previous_work_experience = 1;
+                $extras->has_previous_work_experience = true;
 
             $extras->other_department = $data['volunteering']['other_department'];
 
@@ -322,7 +317,7 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
      * Validate form input before taking any action.
      * Return error codes in order to display appropriate message to the front end.
      *
-     * @return bool
+     * @return int An error code (101...), or 0 when the input is valid
      */
     private function validateInput($data) {
 

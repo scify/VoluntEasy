@@ -1,7 +1,6 @@
 <?php namespace App\Models\Descriptions;
 
-use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Model;
 class HowYouLearned2 extends Model {
 
     protected $table = 'how_you_learned2';

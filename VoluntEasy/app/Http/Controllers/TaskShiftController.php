@@ -26,11 +26,11 @@ class TaskShiftController extends Controller
         $dateFrom = null;
         $from_hour = null;
         $to_hour = null;
-        if (\Request::has('dateFrom') && \Request::get('dateFrom') != null && \Request::get('dateFrom') != '')
+        if (\Request::filled('dateFrom') && \Request::get('dateFrom') != null && \Request::get('dateFrom') != '')
             $dateFrom = \Carbon::createFromFormat('d/m/Y', \Request::get('dateFrom'));
-        if (\Request::has('hourFrom') && \Request::get('hourFrom') != null && \Request::get('hourFrom') != '')
+        if (\Request::filled('hourFrom') && \Request::get('hourFrom') != null && \Request::get('hourFrom') != '')
             $from_hour = \Request::get('hourFrom');
-        if (\Request::has('hourTo') && \Request::get('hourTo') != null && \Request::get('hourTo') != '')
+        if (\Request::filled('hourTo') && \Request::get('hourTo') != null && \Request::get('hourTo') != '')
             $to_hour = \Request::get('hourTo');
 
         $shift = new TaskShift([
@@ -59,11 +59,11 @@ class TaskShiftController extends Controller
         $dateFrom = null;
         $from_hour = null;
         $to_hour = null;
-        if (\Request::has('dateFrom') && \Request::get('dateFrom') != null && \Request::get('dateFrom') != '')
+        if (\Request::filled('dateFrom') && \Request::get('dateFrom') != null && \Request::get('dateFrom') != '')
             $dateFrom = \Carbon::createFromFormat('d/m/Y', \Request::get('dateFrom'));
-        if (\Request::has('hourFrom') && \Request::get('hourFrom') != null && \Request::get('hourFrom') != '')
+        if (\Request::filled('hourFrom') && \Request::get('hourFrom') != null && \Request::get('hourFrom') != '')
             $from_hour = \Request::get('hourFrom');
-        if (\Request::has('hourTo') && \Request::get('hourTo') != null && \Request::get('hourTo') != '')
+        if (\Request::filled('hourTo') && \Request::get('hourTo') != null && \Request::get('hourTo') != '')
             $to_hour = \Request::get('hourTo');
 
         $shift->update([
@@ -75,7 +75,7 @@ class TaskShiftController extends Controller
         ]);
 
         $newVolunteers = [];
-        if (\Request::has('volunteers') && \Request::get('volunteers') != '') {
+        if (\Request::filled('volunteers') && \Request::get('volunteers') != '') {
             $newVolunteers = explode(',', \Request::get('volunteers'));
         }
 

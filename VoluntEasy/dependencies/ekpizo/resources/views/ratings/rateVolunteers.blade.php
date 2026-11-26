@@ -19,7 +19,7 @@
 <div class=" text-center">
     <a href="{{ url('/') }}"
        class="logo-name text-lg">
-        @if(env('PLATFORM_NAME')=='VoluntAction')
+        @if(config('app.platform_name')=='VoluntAction')
         <img src="{{ asset('assets/images/voluntaction/logo.png') }}" style="height:100%;"/>
         @else
         <img src="{{ asset('assets/images/volunteasy/logo.png') }}" style="height:100%;"/>
@@ -73,7 +73,7 @@ $user->last_name }}</span>
         <div class="col-md-12">
             <p>{{ trans('entities/ratings.volunteerParticipatedTo') }}</p>
             <ul>
-                @foreach($volunteer->shiftHistory as $shift)
+                @foreach($volunteer->subtaskShiftHistory as $shift)
                 @if($shift->shift->trashedSubtask->trashedTask->action_id==$action->id)
                 <li>{{ trans('entities/tasks.task') }} {{ $shift->shift->trashedSubtask->trashedTask->name }} / {{
                     trans('entities/subtasks.subtask') }} {{ $shift->shift->trashedSubtask->name }}: {{

@@ -1,111 +1,45 @@
-<?php namespace App\Providers;
+<?php
 
+namespace App\Providers;
+
+use App\Support\Html\FormBuilder;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use Interfaces\ConfigurationInterface;
+use Interfaces\RatingInterface;
+use Interfaces\ReportsInterface;
+use Interfaces\VolunteerInterface;
+use InvalidArgumentException;
 
-class AppServiceProvider extends ServiceProvider {
-
+class AppServiceProvider extends ServiceProvider
+{
     /**
-     * Bootstrap any application services.
-     *
-     * @return void
+     * The deployment flavours. Each one has its own configuration, reports,
+     * volunteer and rating implementation in the dependencies/ folder.
      */
-    public function boot() {
-        //
-    }
+    public const MODES = ['scify', 'municipality', 'ekpizo'];
 
-    /**
-     * Register any application services.
-     *
-     * This service provider is a great spot to register your various container
-     * bindings with the application. As you can see, we are registering our
-     * "Registrar" implementation here. You can add your own bindings too!
-     *
-     * @return void
-     */
-    public function register() {
-        $this->app->bind(
-            'Illuminate\Contracts\Auth\Registrar',
-            'App\Services\Registrar'
-        );
+    public function register(): void
+    {
+        $this->app->singleton(FormBuilder::class, fn ($app) => new FormBuilder($app['url'], $app['session.store']));
 
-        if (env('MODE') == 'ekpizo') {
-
-            //bind the configuration
-            $this->app->bind(
-                'Interfaces\ConfigurationInterface',
-                'Dependencies\ekpizo\configuration\Configuration'
-            );
-
-            //bind the report service
-            $this->app->bind(
-                'Interfaces\ReportsInterface',
-                'Dependencies\ekpizo\services\ReportsService'
-            );
-
-            //bind the volunteer service
-            $this->app->bind(
-                'Interfaces\VolunteerInterface',
-                'Dependencies\ekpizo\services\VolunteerServiceImpl'
-            );
-
-            //bind the rating service
-            $this->app->bind(
-                'Interfaces\RatingInterface',
-                'Dependencies\ekpizo\services\RatingServiceImpl'
-            );
-
-        } else if (env('MODE') == 'municipality') {
-
-            //bind the configuration
-            $this->app->bind(
-                'Interfaces\ConfigurationInterface',
-                'Dependencies\municipality\configuration\Configuration'
-            );
-
-            //bind the report service
-            $this->app->bind(
-                'Interfaces\ReportsInterface',
-                'Dependencies\municipality\services\ReportsService'
-            );
-
-            //bind the volunteer service
-            $this->app->bind(
-                'Interfaces\VolunteerInterface',
-                'Dependencies\municipality\services\VolunteerServiceImpl'
-            );
-
-            //bind the rating service
-            $this->app->bind(
-                'Interfaces\RatingInterface',
-                'Dependencies\municipality\services\RatingServiceImpl'
-            );
-
-        } else if (env('MODE') == 'scify') {
-
-            //bind the configuration
-            $this->app->bind(
-                'Interfaces\ConfigurationInterface',
-                'Dependencies\scify\configuration\Configuration'
-            );
-
-            //bind the report service
-            $this->app->bind(
-                'Interfaces\ReportsInterface',
-                'Dependencies\scify\services\ReportsService'
-            );
-
-            //bind the volunteer service
-            $this->app->bind(
-                'Interfaces\VolunteerInterface',
-                'Dependencies\scify\services\VolunteerServiceImpl'
-            );
-
-            //bind the rating service
-            $this->app->bind(
-                'Interfaces\RatingInterface',
-                'Dependencies\scify\services\RatingServiceImpl'
-            );
+        $mode = (string) config('app.mode');
+        if (! in_array($mode, self::MODES, true)) {
+            throw new InvalidArgumentException("Unknown MODE [{$mode}]. Use one of: ".implode(', ', self::MODES).'.');
         }
 
+        $namespace = "Dependencies\\{$mode}";
+        $this->app->bind(ConfigurationInterface::class, "{$namespace}\\configuration\\Configuration");
+        $this->app->bind(ReportsInterface::class, "{$namespace}\\services\\ReportsService");
+        $this->app->bind(VolunteerInterface::class, "{$namespace}\\services\\VolunteerServiceImpl");
+        $this->app->bind(RatingInterface::class, "{$namespace}\\services\\RatingServiceImpl");
+    }
+
+    public function boot(): void
+    {
+        // The views generate URLs with action('UnitController@show') etc.
+        URL::setRootControllerNamespace('App\\Http\\Controllers');
+        // Migrations are kept in year/month sub-folders.
+        $this->loadMigrationsFrom(glob(database_path('migrations/*/*'), GLOB_ONLYDIR) ?: []);
     }
 }

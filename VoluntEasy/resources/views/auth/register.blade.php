@@ -2,7 +2,7 @@
 <html>
     <head>
         <!-- Title -->
-        <title>{{ trans('auth/login.register') }} | {{env('PLATFORM_NAME')}}</title>
+        <title>{{ trans('auth/login.register') }} | {{config('app.platform_name')}}</title>
 
         @include('template.default.headerIncludes')
     </head>
@@ -16,7 +16,7 @@
                             <div class="login-box">
                                 <div class="text-center">
                                     <a href="{{ url('/') }}">
-                                        @if(env('PLATFORM_NAME')=='VoluntAction')
+                                        @if(config('app.platform_name')=='VoluntAction')
                                             <img src="{{ asset('assets/images/voluntaction/compact_logo.png') }}"
                                                  class="logo"/>
                                         @else

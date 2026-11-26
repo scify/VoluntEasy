@@ -277,7 +277,7 @@
                             <td>{{ $category->description }}</td>
                             <td>@foreach($category->interests as $interest)
                                     <div class="form-group">
-                                        @if (isset($volunteer) && in_array($interest->id, $volunteer->interests->lists('id')->all())
+                                        @if (isset($volunteer) && in_array($interest->id, $volunteer->interests->pluck('id')->all())
                                         )
                                             {!! Form::formInput('interest' . $interest->id, $interest->description , $errors, ['class'
                                             =>
@@ -336,7 +336,7 @@
 
                         @foreach($units as $unit_id => $unit)
                             <option value="{{ $unit->id }}" name="unit-{{$unit->id}}"
-                                    {{ isset($volunteer) && in_array($unit->id, $volunteer->unitsExcludes->lists('id')->all()) ?
+                                    {{ isset($volunteer) && in_array($unit->id, $volunteer->unitsExcludes->pluck('id')->all()) ?
                                     'selected'
                                     :
                                     '' }} >{{ $unit->description }}</option>

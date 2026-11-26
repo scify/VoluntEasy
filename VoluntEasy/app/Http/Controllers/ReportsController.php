@@ -8,7 +8,6 @@ use App\Models\VolunteerUnitStatus;
 class ReportsController extends Controller {
 
     private $reportsService;
-    private $volunteerStatuses;
 
     public function __construct() {
         $this->middleware('auth');
@@ -48,9 +47,6 @@ class ReportsController extends Controller {
             'withoutActions' => $withoutActions,
             'idles' => $idles
         ];
-
-        return $idles;
-        return $withoutActions;
     }
 
 
@@ -112,7 +108,7 @@ class ReportsController extends Controller {
      */
     public function volunteersByInterest() {
 
-        return $this->reportsService->volunteersByInterest();
+        return $this->optionalReport('volunteersByInterest');
     }
 
     /**
@@ -122,7 +118,7 @@ class ReportsController extends Controller {
      */
     public function volunteersByAction() {
 
-        return $this->reportsService->volunteersByAction();
+        return $this->optionalReport('volunteersByAction');
     }
 
     /**
@@ -142,6 +138,17 @@ class ReportsController extends Controller {
      */
     public function activeAndAvailableVolunteersByUnit() {
 
-        return $this->reportsService->activeAndAvailableVolunteersByUnit();
+        return $this->optionalReport('activeAndAvailableVolunteersByUnit');
+    }
+
+    /**
+     * Some reports exist only in some deployment flavours (MODE).
+     * Return 404 when the current flavour does not have the report.
+     */
+    private function optionalReport(string $report): mixed
+    {
+        abort_unless(method_exists($this->reportsService, $report), 404);
+
+        return $this->reportsService->{$report}();
     }
 }

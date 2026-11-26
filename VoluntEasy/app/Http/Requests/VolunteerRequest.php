@@ -19,11 +19,7 @@ class VolunteerRequest extends Request {
      * @return array
      */
     public function rules() {
-        if (Request::get('id') == null) {
-            /*
-                        if(Request::has('files[]') && Request::get('files[]')!=null)
-                            VolunteerService::storeFiles(Request::get('files[]'));
-            */
+        if ($this->input('id') == null) {
             return [
                 'name' => 'required',
                 'last_name' => 'required',

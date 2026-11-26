@@ -1,7 +1,6 @@
 <?php namespace App\Models\Descriptions;
 
-use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Model;
 class IdentificationType extends Model {
 
     protected $table = 'identification_types';

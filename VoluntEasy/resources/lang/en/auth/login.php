@@ -5,6 +5,7 @@ return [
 	'title'		=> 'VoluntEasy',
 	'logIn'		=> 'Login',
 	'remember'	=> 'Remember Me',
+	'failed' => 'These credentials do not match our records.',
 	'entrance'	=> 'Enter',
 	'forgotPass'=> 'Forgot your Password?',
 	'register'	=> 'Create Account',

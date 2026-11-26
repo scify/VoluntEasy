@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Models\Action;
-use App\Models\Collaboration;
+use App\Models\Descriptions\CollaborationType;
 use App\Models\Volunteer;
 
 /**
@@ -18,7 +18,7 @@ class SearchController extends Controller {
      * @return mixed
      */
     public function city() {
-        return Volunteer::distinct()->where('city', 'like', \Request::get('term') . '%')->lists('city')->all();
+        return Volunteer::distinct()->where('city', 'like', \Request::get('term') . '%')->pluck('city')->all();
     }
 
     /**
@@ -27,7 +27,7 @@ class SearchController extends Controller {
      * @return mixed
      */
     public function country() {
-        return Volunteer::distinct()->where('country', 'like', \Request::get('term') . '%')->lists('country')->all();
+        return Volunteer::distinct()->where('country', 'like', \Request::get('term') . '%')->pluck('country')->all();
     }
 
     /**
@@ -36,7 +36,7 @@ class SearchController extends Controller {
      * @return mixed
      */
     public function actionUser() {
-        return Action::distinct()->where('name', 'like', \Request::get('term') . '%')->lists('name')->all();
+        return Action::distinct()->where('name', 'like', \Request::get('term') . '%')->pluck('name')->all();
     }
 
     /**
@@ -45,7 +45,7 @@ class SearchController extends Controller {
      * @return mixed
      */
     public function collabType() {
-        return Collaboration::distinct()->where('type', 'like', \Request::get('term') . '%')->lists('type')->all();
+        return CollaborationType::matching((string) \Request::get('term'))->pluck('description')->all();
     }
 
     /**
@@ -54,7 +54,7 @@ class SearchController extends Controller {
      * @return mixed
      */
     public function volunteerFirstName() {
-        return Volunteer::distinct()->where('name', 'like', \Request::get('term') . '%')->lists('name')->all();
+        return Volunteer::distinct()->where('name', 'like', \Request::get('term') . '%')->pluck('name')->all();
     }
 
     /**
@@ -63,7 +63,7 @@ class SearchController extends Controller {
      * @return mixed
      */
     public function volunteerLastName() {
-        return Volunteer::distinct()->where('last_name', 'like', \Request::get('term') . '%')->lists('last_name')->all();
+        return Volunteer::distinct()->where('last_name', 'like', \Request::get('term') . '%')->pluck('last_name')->all();
     }
 
     /**
@@ -72,7 +72,7 @@ class SearchController extends Controller {
      * @return mixed
      */
     public function volunteerAdditionalSkills() {
-        return Volunteer::distinct()->where('additional_skills', 'like', '%' . \Request::get('term') . '%')->lists('additional_skills')->all();
+        return Volunteer::distinct()->where('additional_skills', 'like', '%' . \Request::get('term') . '%')->pluck('additional_skills')->all();
     }
 
     /**
@@ -81,7 +81,7 @@ class SearchController extends Controller {
      * @return mixed
      */
     public function volunteerExtraLang() {
-        return Volunteer::distinct()->where('extra_lang', 'like', '%' . \Request::get('term') . '%')->lists('extra_lang')->all();
+        return Volunteer::distinct()->where('extra_lang', 'like', '%' . \Request::get('term') . '%')->pluck('extra_lang')->all();
     }
 
     /**
@@ -90,7 +90,7 @@ class SearchController extends Controller {
      * @return mixed
      */
     public function volunteerWorkDescription() {
-        return Volunteer::distinct()->where('work_description', 'like', '%' . \Request::get('term') . '%')->lists('work_description')->all();
+        return Volunteer::distinct()->where('work_description', 'like', '%' . \Request::get('term') . '%')->pluck('work_description')->all();
     }
 
     /**
@@ -99,7 +99,7 @@ class SearchController extends Controller {
      * @return mixed
      */
     public function volunteerSpecialty() {
-        return Volunteer::distinct()->where('specialty', 'like', '%' . \Request::get('term') . '%')->lists('specialty')->all();
+        return Volunteer::distinct()->where('specialty', 'like', '%' . \Request::get('term') . '%')->pluck('specialty')->all();
     }
 
     /**
@@ -108,7 +108,7 @@ class SearchController extends Controller {
      * @return mixed
      */
     public function volunteerDepartment() {
-        return Volunteer::distinct()->where('department', 'like', '%' . \Request::get('term') . '%')->lists('department')->all();
+        return Volunteer::distinct()->where('department', 'like', '%' . \Request::get('term') . '%')->pluck('department')->all();
     }
 
     /**
@@ -117,7 +117,7 @@ class SearchController extends Controller {
      * @return mixed
      */
     public function volunteerParticipationΑctions() {
-        return Volunteer::distinct()->where('participation_actions', 'like', '%' . \Request::get('term') . '%')->lists('participation_actions')->all();
+        return Volunteer::distinct()->where('participation_actions', 'like', '%' . \Request::get('term') . '%')->pluck('participation_actions')->all();
     }
 
     /**
@@ -126,6 +126,6 @@ class SearchController extends Controller {
      * @return mixed
      */
     public function volunteerComputerUsageComments() {
-        return Volunteer::distinct()->where('computer_usage_comments', 'like', '%' . \Request::get('term') . '%')->lists('computer_usage_comments')->all();
+        return Volunteer::distinct()->where('computer_usage_comments', 'like', '%' . \Request::get('term') . '%')->pluck('computer_usage_comments')->all();
     }
 }

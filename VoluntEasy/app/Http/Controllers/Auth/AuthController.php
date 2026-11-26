@@ -1,60 +1,55 @@
-<?php namespace App\Http\Controllers\Auth;
+<?php
+
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Auth\Registrar;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
+use Interfaces\ConfigurationInterface;
 
-class AuthController extends Controller {
+/**
+ * Log in and log out. (Users are created by administrators, so there is
+ * no public registration.)
+ */
+class AuthController extends Controller
+{
+    public function __construct(private readonly ConfigurationInterface $configuration) {}
 
-    /*
-    |--------------------------------------------------------------------------
-    | Registration & Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users, as well as the
-    | authentication of existing users. By default, this controller uses
-    | a simple trait to add these behaviors. Why don't you explore it?
-    |
-    */
-
-    use AuthenticatesAndRegistersUsers;
-
-    private $redirectPath = '/';
-
-    private $configuration;
-
-    /**
-     * Create a new authentication controller instance.
-     *
-     * @param  \Illuminate\Contracts\Auth\Guard $auth
-     * @param  \Illuminate\Contracts\Auth\Registrar $registrar
-     */
-    public function __construct() {
-        //get an instance of the configuration interface
-        $this->configuration = \App::make('Interfaces\ConfigurationInterface');
-
-        $this->middleware('guest', ['except' => 'getLogout']);
-    }
-
-
-    /**
-     * View the login page.
-     * We override the getLogin() of the trait in order to retrieve
-     * the path needed to display the footer logos at the login page
-     *
-     * @return \Illuminate\View\View
-     */
-    public function getLogin() {
-
+    public function getLogin(): View
+    {
+        // Each deployment can show its own logos under the login form.
         $footerLogoPath = $this->configuration->getViewsPath().'._login_footer';
-
-       /* if(env('APP_ENV')=='demo') {
-            \App::setLocale('en');
-            \Cookie::queue('locale', 'en', 60 * 24 * 365);
-        }*/
 
         return view('auth/login', compact('footerLogoPath'));
     }
 
+    public function postLogin(Request $request): RedirectResponse
+    {
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if (! Auth::attempt($credentials, $request->boolean('remember'))) {
+            throw ValidationException::withMessages([
+                'email' => trans('auth/login.failed'),
+            ])->redirectTo(url('auth/login'));
+        }
+
+        $request->session()->regenerate();
+
+        return redirect()->intended('/');
+    }
+
+    public function getLogout(Request $request): RedirectResponse
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
 }

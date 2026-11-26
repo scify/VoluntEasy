@@ -1,6 +1,8 @@
 <?php namespace App\Models\CTA;
 
-use Illuminate\Database\Eloquent\Model;
+
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
@@ -12,9 +14,9 @@ class PublicActionSubTask extends Model {
 
     protected $fillable = ['description', 'public_actions_id', 'subtask_id'];
 
-    protected $dates = ['deleted_at'];
 
-    public function subtask(){
-        return $this->hasOne('App\Models\ActionTasks\SubTask', 'id', 'subtask_id');
+    /** @return HasOne<\App\Models\ActionTasks\SubTask, $this> */
+    public function subtask(): HasOne {
+        return $this->hasOne(\App\Models\ActionTasks\SubTask::class, 'id', 'subtask_id');
     }
 }

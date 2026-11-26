@@ -11,6 +11,9 @@ use Interfaces\ReportsInterface;
 
 class ReportsService implements ReportsInterface {
 
+    /** @var array<int, string> Status descriptions by status id. */
+    private array $volunteerStatuses = [];
+
 
     public function getViewPath() {
         return 'ekpizo.resources.views.reports.all';
@@ -24,7 +27,7 @@ class ReportsService implements ReportsInterface {
      */
     public function volunteersByMonth() {
 
-        $this->volunteerStatuses = VolunteerStatus::all()->lists('description', 'id')->all();
+        $this->volunteerStatuses = VolunteerStatus::pluck('description', 'id')->all();
 
         $years = [];
 
@@ -196,7 +199,7 @@ class ReportsService implements ReportsInterface {
 
         //count volunteers by city
         foreach ($volunteers as $volunteer) {
-            if ($volunteer->city != null && $volunteer->city != '') {
+            if ($volunteer->city != null) {
                 if (array_key_exists($volunteer->city, $byCity))
                     $byCity[$volunteer->city] = $byCity[$volunteer->city] + 1;
                 else
@@ -245,6 +248,8 @@ class ReportsService implements ReportsInterface {
         foreach ($dbactions as $action) {
 
             $volunteers = [];
+            $totalHours = 0;
+            $totalMinutes = 0;
             //get only the actions that have ratings
             if (sizeof($action->ratings) > 0) {
 

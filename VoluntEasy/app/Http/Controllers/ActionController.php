@@ -34,8 +34,6 @@ class ActionController extends Controller {
 
     /**
      * Display a listing of the resource.
-     *
-     * @return Response
      */
     public function index() {
         $actions = Action::with('unit', 'volunteers')->get();
@@ -53,8 +51,6 @@ class ActionController extends Controller {
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return Response
      */
     public function create() {
         $tree = UnitService::getTree();
@@ -70,7 +66,6 @@ class ActionController extends Controller {
      * Store a newly created resource in storage.
      *
      * @param ActionRequest $request
-     * @return Response
      */
     public function store(ActionRequest $request) {
 
@@ -88,7 +83,6 @@ class ActionController extends Controller {
      * Display the specified resource.
      *
      * @param  int $id
-     * @return Response
      */
     public function show($id) {
         $action = Action::with('unit.volunteers', 'users', 'ratings',
@@ -135,6 +129,7 @@ class ActionController extends Controller {
             $volunteersToAssign[$volunteer->id]=$volunteer->fullName;
         }
 
+        $publicSubtasks = null;
         if ($action->publicAction != null)
             $publicSubtasks = CTAService::getPublicSubtasks($action);
 
@@ -147,7 +142,6 @@ class ActionController extends Controller {
      * Show the form for editing the specified resource.
      *
      * @param  int $id
-     * @return Response
      */
     public function edit($id) {
         $action = Action::where('id', $id)->first();
@@ -164,7 +158,6 @@ class ActionController extends Controller {
      * Update the specified resource in storage.
      *
      * @param  ActionRequest $request
-     * @return Response
      */
     public function update(ActionRequest $request) {
         $action = Action::findOrFail($request->get('id'));
@@ -181,7 +174,6 @@ class ActionController extends Controller {
      * Remove the specified resource from storage.
      *
      * @param  int $id
-     * @return Response
      */
     public function destroy($id) {
         $action = Action::with('volunteers', 'tasks.subtasks.shifts', 'users', 'ratings', 'actionRatings', 'publicAction')->findOrFail($id);
@@ -204,7 +196,7 @@ class ActionController extends Controller {
             $user->actions()->detach($action->id);
             $user->load('roles');
             $user->load('actions');
-            if (in_array('action_manager', $user->roles->lists('name')->toArray()) && sizeof($user->actions) == 0) {
+            if (in_array('action_manager', $user->roles->pluck('name')->toArray()) && sizeof($user->actions) == 0) {
                 $actionManagerId = Role::where('name', 'action_manager')->first(["id"])->id;
                 $user->roles()->detach($actionManagerId);
             }
@@ -247,7 +239,7 @@ class ActionController extends Controller {
         if (sizeof($request->get('volunteers')) == 0) {
             $action->volunteers()->detach();
         } else {
-            $oldVolunteersOfAction = $action->volunteers()->get()->lists('id')->all();
+            $oldVolunteersOfAction = $action->volunteers()->pluck('volunteers.id')->all();
 
             $action->volunteers()->sync($request->get('volunteers'));
             $statusId = VolunteerStatus::active();

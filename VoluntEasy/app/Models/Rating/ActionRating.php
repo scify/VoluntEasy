@@ -1,25 +1,27 @@
 <?php namespace App\Models\Rating;
 
-use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Model;
 class ActionRating extends Model {
     
     protected $table = 'action_ratings';
 
     protected $fillable = ['action_id', 'user_id', 'email', 'token', 'rated'];
 
-    public function volunteerRatings()
-    {
-        return $this->hasMany('App\Models\Rating\VolunteerActionRating', 'action_rating_id', 'id');
+    /** @return HasMany<\App\Models\Rating\VolunteerActionRating, $this> */
+    public function volunteerRatings(): HasMany {
+        return $this->hasMany(\App\Models\Rating\VolunteerActionRating::class, 'action_rating_id', 'id');
     }
 
-    public function action()
-    {
-        return $this->belongsTo('App\Models\Action');
+    /** @return BelongsTo<\App\Models\Action, $this> */
+    public function action(): BelongsTo {
+        return $this->belongsTo(\App\Models\Action::class);
     }
 
-    public function user()
-    {
-        return $this->belongsTo('App\Models\User');
+    /** @return BelongsTo<\App\Models\User, $this> */
+    public function user(): BelongsTo {
+        return $this->belongsTo(\App\Models\User::class);
     }
 }

@@ -2,7 +2,7 @@
 <html>
 <head>
     <!-- Title -->
-    <title> @yield('title') | {{env('PLATFORM_NAME')}}</title>
+    <title> @yield('title') | {{config('app.platform_name')}}</title>
 
     <!-- Include css, js files-->
     @include('template.default.headerIncludes')

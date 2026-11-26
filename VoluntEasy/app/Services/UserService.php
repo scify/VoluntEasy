@@ -32,9 +32,23 @@ class UserService
      *
      * @return array
      */
+    /**
+     * The logged in user. The services are used only behind the "auth"
+     * middleware, so there is always one.
+     */
+    private function currentUser(): User
+    {
+        $user = \Auth::user();
+        if (! $user instanceof User) {
+            throw new \Illuminate\Auth\AuthenticationException();
+        }
+
+        return $user;
+    }
+
     public function userUnits()
     {
-        return $this->userUnitsIds(\Auth::user());
+        return $this->userUnitsIds($this->currentUser());
     }
 
     /**
@@ -59,7 +73,7 @@ class UserService
      */
     public function userActions()
     {
-        return $this->userActionsIds(\Auth::user());
+        return $this->userActionsIds($this->currentUser());
     }
 
     /**
@@ -82,10 +96,10 @@ class UserService
 
 
     /**
-     * Recursively get the ids of all children units
+     * Recursively collect the ids of all children units in $this->unitsIds
      *
      * @param $units
-     * @return array
+     * @return void
      */
     public function withChildren($units)
     {
@@ -129,7 +143,7 @@ class UserService
         $rootId = UnitServiceFacade::getRoot()->id;
 
         if ($userId == null)
-            $userId = \Auth::user()->id;
+            $userId = \Auth::id();
 
         $user = User::whereHas('units', function ($q) use ($rootId) {
             $q->where('id', $rootId);
@@ -175,7 +189,7 @@ class UserService
             return $this->unitsIds;
 
         } else {
-            $user = User::with('units.allChildren')->find(\Auth::user()->id);
+            $user = User::with('units.allChildren')->find(\Auth::id());
 
             $this->withChildren($user->units);
 
@@ -205,7 +219,7 @@ class UserService
         } else {
             //get the user's units with their immediate children (first level)
             //and their volunteers
-            $user = User::with('units.volunteers')->findOrFail(\Auth::user()->id);
+            $user = User::with('units.volunteers')->findOrFail(\Auth::id());
 
             foreach ($user->units as $unit) {
                 foreach ($unit->volunteers as $volunteer)
@@ -287,7 +301,7 @@ class UserService
 
             //remove currently logged in user
             foreach ($users as $user) {
-                // if ($user->id != \Auth::user()->id)
+                // if ($user->id != \Auth::id())
                 array_push($permittedUsers, $user);
             }
 
@@ -355,7 +369,7 @@ class UserService
         $parentIds = UnitServiceFacade::parentIds($unit);
 
         //the query
-        $assignableUsers = User::whereDoesntHave('units', function ($q) use ($parentIds, $permitted) {
+        $assignableUsers = User::whereDoesntHave('units', function ($q) use ($parentIds) {
             $q->whereIn('id', $parentIds);
         })
             ->orWhereHas('units', function ($q) use ($unitId) {
@@ -419,8 +433,8 @@ class UserService
         $query = User::select();
 
         foreach ($this->filters as $column => $filter) {
-            if (\Input::has($column)) {
-                $value = \Input::get($column);
+            if (\Request::filled($column)) {
+                $value = \Request::get($column);
                 switch ($filter) {
                     case '=':
                         if (!Search::notDropDown($value, $column))
@@ -433,7 +447,7 @@ class UserService
                         switch ($column) {
                             case 'unit_id':
                                 if (!Search::notDropDown($value, $column)) {
-                                    $id = \Input::get('unit_id');
+                                    $id = \Request::get('unit_id');
                                     $query->whereHas('units', function ($query) use ($id) {
                                         $query->where('id', $id);
                                     });
@@ -447,7 +461,7 @@ class UserService
             }
         }
 
-        $result = $query->orderBy('name', 'ASC')->with('units')->get();
+        $result = $query->orderBy('name', 'asc')->with('units')->get();
 
         $data = $this->prepareForDataTable($result);
 

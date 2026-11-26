@@ -1,10 +1,11 @@
 <?php namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Model;
 class VolunteerStepStatus extends Model {
 
-    use \SoftDeletes;
+    use \Illuminate\Database\Eloquent\SoftDeletes;
 
     /**
      * The database table used by the model.
@@ -16,21 +17,21 @@ class VolunteerStepStatus extends Model {
     protected $fillable = ['step_id', 'step_status_id', 'assignTo'];
 
 
-    public function step()
-    {
-        return $this->belongsTo('App\Models\Step');
+    /** @return BelongsTo<\App\Models\Step, $this> */
+    public function step(): BelongsTo {
+        return $this->belongsTo(\App\Models\Step::class);
     }
 
 
-    public function status()
-    {
-        return $this->belongsTo('App\Models\Descriptions\StepStatus', 'step_status_id', 'id');
+    /** @return BelongsTo<\App\Models\Descriptions\StepStatus, $this> */
+    public function status(): BelongsTo {
+        return $this->belongsTo(\App\Models\Descriptions\StepStatus::class, 'step_status_id', 'id');
     }
 
 
-    public function volunteer()
-    {
-        return $this->belongsTo('App\Models\Volunteer');
+    /** @return BelongsTo<\App\Models\Volunteer, $this> */
+    public function volunteer(): BelongsTo {
+        return $this->belongsTo(\App\Models\Volunteer::class);
     }
 
 

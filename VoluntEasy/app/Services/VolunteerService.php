@@ -92,7 +92,7 @@ class VolunteerService {
         //then return all the users since the admin is able to edit all of them.
         $root = UnitServiceFacade::getRoot();
 
-        $user = User::unit($root->id)->where('id', \Auth::user()->id)->get();
+        $user = User::unit($root->id)->where('id', \Auth::id())->get();
 
         //user is admin/assigned to root
         if (sizeof($user) > 0) {
@@ -102,7 +102,7 @@ class VolunteerService {
         } else {
             //get the user's units with their immediate children (first level)
             //and their volunteers
-            $user = User::where('id', \Auth::user()->id)->with('units.children.volunteers')->first();
+            $user = User::where('id', \Auth::id())->with('units.children.volunteers')->first();
 
             //loop through each unit and its children and add the user ids to the array
             //very klassy. will this be refactored? only the future will show...
@@ -210,22 +210,16 @@ class VolunteerService {
         switch ($statusId) {
             case '1':
                 return Volunteer::unassigned();
-                break;
             case '2':
                 return Volunteer::pending();
-                break;
             case '3':
                 return Volunteer::available();
-                break;
             case '4':
                 return Volunteer::active();
-                break;
             case '5':
                 return Volunteer::notAvailable();
-                break;
             case '6':
                 return Volunteer::blacklisted();
-                break;
         }
 
     }
@@ -243,8 +237,6 @@ class VolunteerService {
         $unit = Unit::whereHas('allActions', function ($query) use ($actionId) {
             $query->where('id', $actionId);
         })->with(['volunteers' => function ($query) {
-            $query->active();
-        }, 'volunteers' => function ($query) {
             $query->available();
         }])->get();
 
@@ -265,14 +257,14 @@ class VolunteerService {
             'educationLevel', 'languages.level', 'languages.language',
             'interests', 'workStatus', 'availabilityTimes', 'availabilityFrequencies',
             'availabilityDays', 'actions', 'unitsExcludes', 'files', 'howYouLearned',
-            'howYouLearned2', 'ctaVolunteers.dates.date.subtask.task.action')
+            'howYouLearned2', 'ctaVolunteers.subtaskDates.date.subtask.task.action')
             ->with(['units.steps.statuses' => function ($query) use ($id) {
                 $query->where('volunteer_id', $id)->with('status');
             }])
             ->with(['actionHistory.action.allTasks.allSubtasks.allShifts.volunteers' => function ($q) use ($id) {
                 $q->where('volunteer_id', $id);
             }])
-            ->with('units.children', 'units.actions', 'subtaskshiftHistory.shift.subtask', 'extras', 'volunteeringDepartments')
+            ->with('units.children', 'units.actions', 'subtaskShiftHistory.shift.subtask', 'extras', 'volunteeringDepartments')
             ->with('opaRatings.laborSkills.skill', 'opaRatings.interpersonalSkills.skill', 'opaRatings.action', 'opaRatings.actionRating')
             ->findOrFail($id);
 
@@ -319,8 +311,8 @@ class VolunteerService {
         $volunteer->lang_levels = $lang_levels;
 
 
-        $unitsExcludes = $volunteer->unitsExcludes->lists('id')->all();
-        $assignedUnits = $volunteer->units->lists('id')->all();
+        $unitsExcludes = $volunteer->unitsExcludes->pluck('id')->all();
+        $assignedUnits = $volunteer->units->pluck('id')->all();
 
         //this is basically a hack.
         //in the front end we want to display a list of the available units for each unit
@@ -358,7 +350,7 @@ class VolunteerService {
                         $q->whereNotIn('id', $unitsExcludes)
                             ->whereNotIn('id', $assignedUnits);
                     }]);
-            }])->findOrFail(\Auth::user()->id);
+            }])->findOrFail(\Auth::id());
 
             //create an array of the above json
             $availableUnits = [];
@@ -419,7 +411,7 @@ class VolunteerService {
      * and add them to an array to easily display the data at the front end
      *
      * @param $volunteerId
-     * @return array[]
+     * @return list<\App\Models\VolunteerActionHistory|\App\Models\VolunteerUnitHistory|\App\Models\Descriptions\VolunteerStatusDuration> The action, unit and status history, newest first
      */
     public function timeline($volunteerId) {
 
@@ -515,13 +507,9 @@ class VolunteerService {
      */
     public function actionsRatings($volunteerId) {
 
-        $volunteer = Volunteer::find($volunteerId)->whereHas('actions.ratings.volunteerRatings', function ($q) use ($volunteerId) {
-            $q->where('volunteer_id', $volunteerId);
-        })->get();
-
         $volunteer = Volunteer::with('actionHistory')->find($volunteerId);
 
-        $actions = Action::whereIn('id', $volunteer->actionHistory->lists('action_id')->all())
+        $actions = Action::whereIn('id', $volunteer->actionHistory->pluck('action_id')->all())
             ->with(['ratings.volunteerRatings' => function ($q) use ($volunteerId) {
                 $q->where('volunteer_id', $volunteerId)->with('ratings.attribute');
             }])->get();
@@ -553,8 +541,9 @@ class VolunteerService {
                         }
                     }
                 }
-                unset($action->ratings);
-                $action->ratings = $ratings;
+                //replace the ratings relation with the sums by attribute
+                $action->unsetRelation('ratings');
+                $action->setAttribute('ratings', $ratings);
             }
         }
 
@@ -679,7 +668,7 @@ class VolunteerService {
             $volunteer = Volunteer::where('id', $id)->with('steps.status')->first();
 
             //check if the steps already exist
-            if (sizeof(array_diff($rootUnit->steps->lists('id')->all(), $volunteer->steps->lists('step_id')->all()))) {
+            if (sizeof(array_diff($rootUnit->steps->pluck('id')->all(), $volunteer->steps->pluck('step_id')->all()))) {
 
                 $incompleteStatus = StepStatus::where('description', 'Incomplete')->first();
 
@@ -718,7 +707,7 @@ class VolunteerService {
      * @param $volunteerId
      * @return mixed
      */
-    public function addToUnit($unitId, $parentUnitId = null, $volunteerId) {
+    public function addToUnit($unitId, $parentUnitId, $volunteerId) {
 
         //check if the user assigned the volunteer to his/her unit
         //or to a child unit
@@ -741,7 +730,7 @@ class VolunteerService {
             //check if the steps already exist
             //if they don't exist, then create the steps,
             //and set their status to pending
-            if (sizeof(array_diff($unit->steps->lists('id')->all(), $volunteer->steps->lists('step_id')->all())) != 0) {
+            if (sizeof(array_diff($unit->steps->pluck('id')->all(), $volunteer->steps->pluck('step_id')->all())) != 0) {
 
                 $incompleteStatus = StepStatus::where('description', 'Incomplete')->first();
 
@@ -765,7 +754,7 @@ class VolunteerService {
                 $volunteerId = $volunteer->id;
                 $pending = StepStatus::incomplete();
 
-                $steps = $unit->steps->lists('id')->all();
+                $steps = $unit->steps->pluck('id')->all();
 
                 $volunteer = Volunteer::with(['steps' => function ($query) use ($steps, $pending) {
                     $query->whereIn('step_id', $steps)->whereHas('status', function ($q) use ($pending) {
@@ -780,7 +769,7 @@ class VolunteerService {
             }
 
             //if the user is assigned to a child unit, then detach it from its parent
-            if (\Request::has('parent_unit_id') && \Request::get('parent_unit_id') != '') {
+            if (\Request::filled('parent_unit_id') && \Request::get('parent_unit_id') != '') {
                 $parentUnit = Unit::find(\Request::get('parent_unit_id'));
                 //$parentUnit->volunteers()->detach($volunteer->id);
                 $this->deleteUnitStatus($volunteer->id, \Request::get('parent_unit_id'));
@@ -862,7 +851,7 @@ class VolunteerService {
         $unitHistory = new VolunteerUnitHistory([
             'volunteer_id' => $volunteerId,
             'unit_id' => $unitId,
-            'user_id' => \Auth::user()->id,
+            'user_id' => \Auth::id(),
             'created' => \Carbon::now()
         ]);
 
@@ -882,7 +871,7 @@ class VolunteerService {
         $actionHistory = new VolunteerActionHistory([
             'volunteer_id' => $volunteerId,
             'action_id' => $actionId,
-            'user_id' => \Auth::user()->id,
+            'user_id' => \Auth::id(),
             'created' => date('Y-m-d H:i:s')
         ]);
 
@@ -982,6 +971,7 @@ class VolunteerService {
                 }
             }
         }
+        return true;
     }
 
     /**
@@ -992,7 +982,7 @@ class VolunteerService {
     public function search() {
         $ratingId = -1;
 
-        if (\Input::has('my_volunteers')) {
+        if (\Request::filled('my_volunteers')) {
             $permittedVolunteersIds = $this->permittedVolunteersIds();
             $query = Volunteer::whereIn('id', $permittedVolunteersIds);
 
@@ -1000,13 +990,13 @@ class VolunteerService {
             $query = Volunteer::select();
 
 
-        if (\Input::has('status_id') && !Search::notDropDown(\Input::get('status_id'), 'status_id')) {
-            $query = $this->volunteersByStatus(\Input::get('status_id'));
+        if (\Request::filled('status_id') && !Search::notDropDown(\Request::get('status_id'), 'status_id')) {
+            $query = $this->volunteersByStatus(\Request::get('status_id'));
         }
 
         foreach ($this->filters as $column => $filter) {
-            if (\Input::has($column) && \Input::get($column) != "") {
-                $value = \Input::get($column);
+            if (\Request::filled($column) && \Request::get($column) != "") {
+                $value = \Request::get($column);
                 switch ($filter) {
                     case '=':
                         if (!Search::notDropDown($value, $column))
@@ -1033,13 +1023,13 @@ class VolunteerService {
                                 $query->whereBetween('birth_date', [$ages[1], $ages[0]]);
                                 break;
                             case 'phoneNumber':
-                                $query->where('home_tel', \Input::get('phoneNumber'))
-                                    ->orWhere('work_tel', \Input::get('phoneNumber'))
-                                    ->orWhere('cell_tel', \Input::get('phoneNumber'));
+                                $query->where('home_tel', \Request::get('phoneNumber'))
+                                    ->orWhere('work_tel', \Request::get('phoneNumber'))
+                                    ->orWhere('cell_tel', \Request::get('phoneNumber'));
                                 break;
                             case 'unit_id':
                                 if (!Search::notDropDown($value, $column)) {
-                                    $id = \Input::get('unit_id');
+                                    $id = \Request::get('unit_id');
                                     $query->whereHas('units', function ($query) use ($id) {
                                         $query->where('unit_id', $id);
                                     });
@@ -1047,7 +1037,7 @@ class VolunteerService {
                                 break;
                             case 'interest_id':
                                 if (!Search::notDropDown($value, $column)) {
-                                    $id = \Input::get('interest_id');
+                                    $id = \Request::get('interest_id');
                                     $query->whereHas('interests', function ($query) use ($id) {
                                         $query->where('interest_id', $id);
                                     });
@@ -1055,7 +1045,7 @@ class VolunteerService {
                                 break;
                             case 'rating_id':
                                 if (!Search::notDropDown($value, $column)) {
-                                    $ratingId = \Input::get('rating_id');
+                                    $ratingId = \Request::get('rating_id');
                                 }
                                 break;
                             case 'contract_date':
@@ -1075,7 +1065,7 @@ class VolunteerService {
             }
         }
 
-        $result = $query->orderBy('name', 'ASC')->with('actions', 'units')->get();
+        $result = $query->orderBy('name', 'asc')->with('actions', 'units')->get();
 
         /*
                 //get the total rating for each attribute

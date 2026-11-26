@@ -11,7 +11,7 @@ class CronService {
 
     public function expiredActions() {
 
-        $expiredActions = Action::expiredYesterday()->with('volunteers.shifts', 'users', 'tasks.subtasks.shifts')->get();
+        $expiredActions = Action::expiredYesterday()->with('volunteers', 'users', 'tasks.shifts', 'tasks.subtasks.shifts')->get();
 
         foreach ($expiredActions as $expired) {
 
@@ -22,7 +22,7 @@ class CronService {
                             //first send emails to all the volunteers
                             foreach ($expired->volunteers as $volunteer) {
 
-                                $token = str_random(30);
+                                $token = \Illuminate\Support\Str::random(30);
                                 //create a new action rating
                                 //with the action id, the email and the token
                                 $actionScore = new ActionScore([
@@ -43,8 +43,8 @@ class CronService {
             //send emails to all action users to rate volunteers
             foreach ($expired->users as $user) {
 
-                $token = str_random(30);
-                $url = env('ROOT_URL') . '/rateVolunteers/' . $token;
+                $token = \Illuminate\Support\Str::random(30);
+                $url = config('app.url') . '/rateVolunteers/' . $token;
                 //create a new action rating
                 //with the action id, the email and the token
                 $actionRating = new ActionRating([
@@ -58,28 +58,28 @@ class CronService {
              
                 //then send an email to the person responsible for the action
 
-                \Mail::send('app_emails.rate_volunteers', ['action' => $expired, 'token' => $token, 'url' => $url], function ($message) use ($user, $expired) {
+                \Mail::send('app_emails.rate_volunteers', ['action' => $expired, 'token' => $token, 'url' => $url], function ($message) use ($user) {
                     $message->to($user->email, $user->name . ' ' . $user->last_name)->subject('[' . trans('default.title') . '] ' . trans('entities/ratings.volunteerRatingHalf'));
                 });
             }
 
-            $shifts = [];
-            foreach ($expired->tasks as $task) {
-                foreach ($task->subtasks as $subtask) {
-                    foreach ($subtask->shifts as $shift) {
-                        array_push($shifts, $shift->id);
-                    }
-                }
-            }
+            //the shifts of the expired action
+            $taskShiftIds = $expired->tasks->flatMap(fn ($task) => $task->shifts->pluck('id'))->all();
+            $subtaskShiftIds = $expired->tasks
+                ->flatMap(fn ($task) => $task->subtasks->flatMap(fn ($subtask) => $subtask->shifts->pluck('id')))
+                ->all();
 
             //for all volunteers, set their unit status to available
+            //and remove them from the shifts of the expired action
             foreach ($expired->volunteers as $volunteer) {
                 $statusId = VolunteerStatus::available();
                 VolunteerServiceFacade::changeUnitStatus($volunteer->id, $expired->unit_id, $statusId);
 
-                foreach ($volunteer->shifts as $shift) {
-                    if (in_array($shift->id, $shifts))
-                        $volunteer->shifts()->detach($shift->id);
+                if ($taskShiftIds !== []) {
+                    $volunteer->taskShifts()->detach($taskShiftIds);
+                }
+                if ($subtaskShiftIds !== []) {
+                    $volunteer->subtaskShifts()->detach($subtaskShiftIds);
                 }
             }
 

@@ -20,11 +20,9 @@ class UnitController extends Controller {
 
     /**
      * Display a listing of the resource.
-     *
-     * @return Response
      */
     public function index() {
-        /* $units = Unit::orderBy('description', 'ASC')->with('parent')->get();
+        /* $units = Unit::orderBy('description', 'asc')->with('parent')->get();
          //$units->setPath(\URL::to('/') . '/units');
 
          $userUnits = UserService::userUnits();
@@ -47,15 +45,13 @@ class UnitController extends Controller {
      * Show the form for creating a new resource.
      * Roots and branches have a different layout, so we use
      * different routes and templates for them.
-     *
-     * @return Response
      */
     public function create() {
         $root = UnitService::getRoot();
 
         $users = UserService::permittedUsers();
 
-        if (count($root) == 0) {
+        if ($root == null) {
             $type = 'root';
             return view("main.units.create_root", compact('type', 'users'));
         } else {
@@ -73,7 +69,6 @@ class UnitController extends Controller {
      * the users, if they are set.
      *
      * @param UnitRequest $request
-     * @return Response
      */
     public function store(UnitRequest $request) {
         $unit = Unit::create($request->all());
@@ -82,8 +77,8 @@ class UnitController extends Controller {
 
         //get the selected users from the select2 array
         //and add them to an array
-        if(\Input::has('usersSelect')) {
-            foreach (\Input::get('usersSelect') as $user) {
+        if(\Request::filled('usersSelect')) {
+            foreach (\Request::get('usersSelect') as $user) {
                 array_push($users, $user);
             }
             //sync the selected users
@@ -103,7 +98,6 @@ class UnitController extends Controller {
      * Display the specified resource.
      *
      * @param  int $id
-     * @return Response
      */
     public function show($id) {
         $active = Unit::with('actions', 'allActions', 'volunteers')->findOrFail($id);
@@ -155,7 +149,6 @@ class UnitController extends Controller {
      * Show the form for editing the specified resource.
      *
      * @param  int $id
-     * @return Response
      */
     public function edit($id) {
         $active = Unit::where('id', $id)->with('users', 'actions')->first();
@@ -174,7 +167,6 @@ class UnitController extends Controller {
      * Update the specified resource in storage.
      *
      * @param  UnitRequest $request
-     * @return Response
      */
     public function update(UnitRequest $request) {
         $unit = Unit::with('users')->findOrFail($request->get('id'));
@@ -184,10 +176,10 @@ class UnitController extends Controller {
 
         //get the selected users from the select2 array
         //and add them to an array
-        if(\Input::has('usersSelect')) {
-            foreach (\Input::get('usersSelect') as $user) {
+        if(\Request::filled('usersSelect')) {
+            foreach (\Request::get('usersSelect') as $user) {
                 //get the new users' ids to notify them
-                if (!in_array($user, $unit->users->lists('id')->all()))
+                if (!in_array($user, $unit->users->pluck('id')->all()))
                     array_push($newUsers, $user);
 
                 //keep the users in a list
@@ -211,7 +203,6 @@ class UnitController extends Controller {
      * Remove the specified resource from storage.
      *
      * @param  int $id
-     * @return Response
      */
     public function destroy($id) {
         $unit = Unit::with('allActions', 'allChildren', 'users', 'volunteers')->findOrFail($id);
@@ -270,9 +261,6 @@ class UnitController extends Controller {
         return $units;
     }
 
-    public function rootUnit() {
-        return view('auth/rootUnit');
-    }
 
 
     /**

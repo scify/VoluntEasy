@@ -1,8 +1,7 @@
 <?php namespace App\Models\ActionTasks;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Model;
 /**
  * The status of an action's task,
  * i.e. complete, incomplete, etc.

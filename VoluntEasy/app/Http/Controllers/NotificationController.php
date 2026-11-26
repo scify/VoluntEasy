@@ -19,30 +19,17 @@ Class NotificationController extends Controller {
     }
 
     public function index() {
-        $user = User::where('id', \Auth::user()->id)->with('notifications')->first();
+        $user = User::where('id', \Auth::id())->with('notifications')->first();
 
         return view('main.notifications.list', compact('user'));
     }
 
 
     /**
-     * create a new Notification Instance
-     *
-     * @param  [$userId] [which user it concerns]
-     * @param [typeId] [check Index above]
-     * @param reference1Id [the Model instance id that we have o locate ]
-     * @param reference2Id [a second Model instance id that maybe we have o locate]
-     * @return [boolean] [success status]
-     */
-    public function addNotification($userId, $typeId, $msg, $url, $reference1Id, $reference2Id = null) {
-        return $not = NotificationService::addNotification($userId, $typeId, $msg, $url, $reference1Id, $reference2Id ?: null);
-    }
-
-    /**
      * stop the Bell Ring at a Notification Instance
      *
-     * @param [$notificationId]
-     * @return [boolean] [succes status]
+     * @param int $notificationId
+     * @return \Illuminate\Http\JsonResponse
      */
     public function stopBellNotification($notificationId) {
         if (NotificationService::stopBellNotification($notificationId)) {
@@ -66,8 +53,8 @@ Class NotificationController extends Controller {
      * so it is not appear any more to the client
      * we deactivate and don't delete it for Data Mining reasons
      *
-     * @param [$notificationIdsList] [a collection with the notification records we want to deactivate] [listSize-> 1 - many]
-     * @return [boolean] [success status]
+     * @param int $notificationId
+     * @return \Illuminate\Http\JsonResponse
      */
     public function deactivateNotification($notificationId) {
         if (NotificationService::deactivateNotification($notificationId)) {
@@ -89,8 +76,7 @@ Class NotificationController extends Controller {
     /**
      * check if there is any active Notification for the specific User
      *
-     * @param [$userId] [the User]
-     * @return [collection] [a list with all the ]
+     * @return list<\App\Models\Notification> The active and the latest inactive notifications
      */
     public function checkForNotifications() {
         return $notificationsList = NotificationService::checkForNotifications();

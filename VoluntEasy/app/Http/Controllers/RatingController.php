@@ -20,19 +20,9 @@ class RatingController extends Controller {
     }
 
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index() {
-        //
-    }
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return Response
      */
     public function rateVolunteers($token) {
 
@@ -53,7 +43,7 @@ class RatingController extends Controller {
                     $q->where('action_id', $actionId);
                 })->get();
 
-                $action->volunteers = $volunteers;
+                $action->setRelation('volunteers', $volunteers);
 
                 $ratingAttributes = RatingAttribute::all();
                 $actionRatingId = $actionRating->id;
@@ -93,8 +83,6 @@ class RatingController extends Controller {
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @return Response
      */
     public function storeVolunteersRating() {
 
@@ -115,7 +103,7 @@ class RatingController extends Controller {
                 $volunteerActionRating = new VolunteerActionRating([
                     'volunteer_id' => $volunteer['id'],
                     'action_rating_id' => $actionRatingId,
-                    'user_id' => \Auth::user()->id,
+                    'user_id' => \Auth::id(),
                     'comments' => $volunteer['comments'],
                     'hours' => intval($volunteer['hours']),
                     'minutes' => intval($volunteer['minutes']),

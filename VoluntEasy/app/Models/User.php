@@ -1,17 +1,18 @@
 <?php namespace App\Models;
 
+
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Concerns\SerializesDatesAsMysql;
 use App\Models\Traits\Permissible;
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
-use Illuminate\Database\Eloquent\Model;
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\RoutesNotifications;
 
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract
+class User extends Authenticatable
 {
-
-    use Authenticatable, CanResetPassword, Permissible, SoftDeletes;
+    use Permissible, RoutesNotifications, SerializesDatesAsMysql, SoftDeletes;
     
     /**
      * The database table used by the model.
@@ -23,26 +24,26 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var list<string>
      */
     protected $fillable = ['name', 'last_name', 'email', 'password', 'addr', 'tel', 'image_name'];
 
     /**
      * The attributes excluded from the model's JSON form.
      *
-     * @var array
+     * @var list<string>
      */
     protected $hidden = ['password', 'remember_token'];
 
 
-    public function units()
-    {
-        return $this->belongsToMany('App\Models\Unit', 'units_users', 'user_id', 'unit_id');
+    /** @return BelongsToMany<\App\Models\Unit, $this> */
+    public function units(): BelongsToMany {
+        return $this->belongsToMany(\App\Models\Unit::class, 'units_users', 'user_id', 'unit_id');
     }
 
-    public function actions()
-    {
-        return $this->belongsToMany('App\Models\Action', 'actions_users', 'user_id', 'action_id');
+    /** @return BelongsToMany<\App\Models\Action, $this> */
+    public function actions(): BelongsToMany {
+        return $this->belongsToMany(\App\Models\Action::class, 'actions_users', 'user_id', 'action_id');
     }
 
     public function setPasswordAttribute($password)
@@ -50,13 +51,22 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	   return $this->attributes['password'] = $password;
     }
 
-    public function notifications()
-    {
-        return $this->hasMany('App\Models\Notification')->orderBy('updated_at', 'desc');
+    /**
+     * The in-app notifications of the user (the "bell" in the top bar).
+     * @return HasMany<\App\Models\Notification, $this>
+     */
+    public function notifications(): HasMany {
+        return $this->hasMany(\App\Models\Notification::class)->orderBy('updated_at', 'desc');
     }
 
-    public function roles() {
-        return $this->belongsToMany('App\Models\Roles\Role', 'users_roles', 'user_id', 'role_id')->orderBy('id', 'ASC');
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
+
+    /** @return BelongsToMany<\App\Models\Roles\Role, $this> */
+    public function roles(): BelongsToMany {
+        return $this->belongsToMany(\App\Models\Roles\Role::class, 'users_roles', 'user_id', 'role_id')->orderBy('id', 'asc');
     }
 
     public function getFullNameAttribute()

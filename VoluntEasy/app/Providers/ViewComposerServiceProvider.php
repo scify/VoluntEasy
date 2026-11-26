@@ -37,18 +37,18 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
         //Volunteer Search Page requires all the following data for it's dropdowns etc.
         View::composer('main.volunteers.partials._search', function ($view) {
-            $identificationTypes = IdentificationType::lists('description', 'id')->all();
-            $driverLicenseTypes = DriverLicenceType::lists('description', 'id')->all();
-            $maritalStatuses = MaritalStatus::lists('description', 'id')->all();
-            $languages = Language::lists('description', 'id')->all();
-            $workStatuses = WorkStatus::lists('description', 'id')->all();
-            $availabilityFreqs = AvailabilityFrequencies::lists('description', 'id')->all();
-            $genders = Gender::lists('description', 'id')->all();
-            $educationLevels = EducationLevel::lists('description', 'id')->all();
-            $interests = Interest::orderBy('description', 'asc')->lists('description', 'id')->all();
-            $units = Unit::lists('description', 'id')->all();
-            $cities = Volunteer::distinct()->orderBy('city')->lists('city')->all();
-            $countries = Volunteer::distinct()->orderBy('country')->lists('country')->all();
+            $identificationTypes = IdentificationType::pluck('description', 'id')->all();
+            $driverLicenseTypes = DriverLicenceType::pluck('description', 'id')->all();
+            $maritalStatuses = MaritalStatus::pluck('description', 'id')->all();
+            $languages = Language::pluck('description', 'id')->all();
+            $workStatuses = WorkStatus::pluck('description', 'id')->all();
+            $availabilityFreqs = AvailabilityFrequencies::pluck('description', 'id')->all();
+            $genders = Gender::pluck('description', 'id')->all();
+            $educationLevels = EducationLevel::pluck('description', 'id')->all();
+            $interests = Interest::orderBy('description', 'asc')->pluck('description', 'id')->all();
+            $units = Unit::pluck('description', 'id')->all();
+            $cities = Volunteer::distinct()->orderBy('city')->pluck('city')->all();
+            $countries = Volunteer::distinct()->orderBy('country')->pluck('country')->all();
 
 
             $maritalStatuses[0] = trans('entities/search.choose');
@@ -101,8 +101,8 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
         //Units Search Page requires all the following data for it's dropdowns etc.
         View::composer('main.units.partials._search', function ($view) {
-            $units = Unit::lists('description', 'id')->all();
-            $users = User::lists('name', 'id')->all();
+            $units = Unit::pluck('description', 'id')->all();
+            $users = User::pluck('name', 'id')->all();
 
             $units[0] = trans('entities/search.choose');
             ksort($units);
@@ -115,7 +115,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
         //Actions Search Page requires all the following data for it's dropdowns etc.
         View::composer('main.actions.partials._search', function ($view) {
 
-            $units = Unit::whereDoesntHave('children')->lists('description', 'id')->all();
+            $units = Unit::whereDoesntHave('children')->pluck('description', 'id')->all();
 
             $units[0] = trans('entities/search.choose');
             ksort($units);
@@ -126,7 +126,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
         //Users Search Page requires all the following data for it's dropdowns etc.
         View::composer('main.users.partials._search', function ($view) {
 
-            $units = Unit::lists('description', 'id')->all();
+            $units = Unit::pluck('description', 'id')->all();
 
             $units[0] = trans('entities/search.choose');
             ksort($units);

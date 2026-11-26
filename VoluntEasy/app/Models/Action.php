@@ -1,51 +1,73 @@
 <?php namespace App\Models;
 
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Carbon\Carbon;
+use App\Models\Model;
+/**
+ * Values marked "Computed" are set by the services, they are not columns.
+ *
+ * @property bool $expired Computed
+ * @property float|int $workHours Computed
+ * @property int $volunteer_count Computed
+ * @property int $ratingMinutes Computed
+ * @property int $ratingHours Computed
+ * @property int $ratingCount Computed
+ * @property string|null $ratingComments Computed
+ */
 class Action extends Model {
 
-    use \SoftDeletes;
-    protected $dates = ['deleted_at'];
+    use \Illuminate\Database\Eloquent\SoftDeletes;
 
     protected $table = 'actions';
 
     protected $fillable = ['description', 'comments', 'start_date', 'end_date', 'unit_id', 'email', 'name', 'phone_number', 'volunteer_sum'];
 
 
-    public function unit() {
-        return $this->belongsTo('App\Models\Unit');
+    /** @return BelongsTo<\App\Models\Unit, $this> */
+    public function unit(): BelongsTo {
+        return $this->belongsTo(\App\Models\Unit::class);
     }
 
-    public function users() {
-        return $this->belongsToMany('App\Models\User', 'actions_users');
+    /** @return BelongsToMany<\App\Models\User, $this> */
+    public function users(): BelongsToMany {
+        return $this->belongsToMany(\App\Models\User::class, 'actions_users');
     }
 
-    public function volunteers() {
-        return $this->belongsToMany('App\Models\Volunteer', 'actions_volunteers');
+    /** @return BelongsToMany<\App\Models\Volunteer, $this> */
+    public function volunteers(): BelongsToMany {
+        return $this->belongsToMany(\App\Models\Volunteer::class, 'actions_volunteers');
     }
 
     //volunteer ratings
-    public function ratings() {
-        return $this->hasMany('App\Models\Rating\ActionRating', 'action_id', 'id');
+    /** @return HasMany<\App\Models\Rating\ActionRating, $this> */
+    public function ratings(): HasMany {
+        return $this->hasMany(\App\Models\Rating\ActionRating::class, 'action_id', 'id');
     }
 
     //action ratings
-    public function actionRatings() {
-        return $this->hasMany('App\Models\Rating\ActionScore', 'action_id', 'id');
+    /** @return HasMany<\App\Models\Rating\ActionScore, $this> */
+    public function actionRatings(): HasMany {
+        return $this->hasMany(\App\Models\Rating\ActionScore::class, 'action_id', 'id');
     }
 
-    public function tasks() {
-        return $this->hasMany('App\Models\ActionTasks\Task', 'action_id', 'id');
+    /** @return HasMany<\App\Models\ActionTasks\Task, $this> */
+    public function tasks(): HasMany {
+        return $this->hasMany(\App\Models\ActionTasks\Task::class, 'action_id', 'id');
     }
 
-    public function allTasks() {
-        return $this->hasMany('App\Models\ActionTasks\Task', 'action_id', 'id')->withTrashed();
+    /** @return HasMany<\App\Models\ActionTasks\Task, $this> */
+    public function allTasks(): HasMany {
+        return $this->hasMany(\App\Models\ActionTasks\Task::class, 'action_id', 'id')->withTrashed();
     }
 
     //public action
-    public function publicAction() {
-        return $this->hasOne('App\Models\CTA\PublicAction', 'action_id', 'id');
+    /** @return HasOne<\App\Models\CTA\PublicAction, $this> */
+    public function publicAction(): HasOne {
+        return $this->hasOne(\App\Models\CTA\PublicAction::class, 'action_id', 'id');
     }
 
     /**

@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
                 {!! Form::formInput('', trans('entities/volunteers.assignToAction').':', $errors, ['class' => 'form-control',
-                'type' => 'select', 'value' => $unit->actions->lists('description', 'id')->all(), 'id' => 'addToAction-'.$unit->id]) !!}
+                'type' => 'select', 'value' => $unit->actions->pluck('description', 'id')->all(), 'id' => 'addToAction-'.$unit->id]) !!}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('default.close') }}</button>

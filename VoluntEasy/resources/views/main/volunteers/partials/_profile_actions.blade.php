@@ -131,7 +131,7 @@
                                                 <td class="col-md-2 text-center">
                                                     <strong>{{ $task->work_hours }}</strong></td>
                                             </tr>
-                                            @foreach($volunteer->shiftHistory as $wdHistory)
+                                            @foreach($volunteer->subtaskShiftHistory as $wdHistory)
                                                 @if($wdHistory->shift->trashedSubtask->id==$subtask->id)
                                                 <tr>
                                                     <td>{{ $wdHistory->shift->comments }}</td>
@@ -151,7 +151,7 @@
                                                         <td class="col-md-2 text-center">
                                                             <strong>{{ $subtask->workHours }}</strong></td>
                                                     </tr>
-                                                    @foreach($volunteer->shiftHistory as $wdHistory)
+                                                    @foreach($volunteer->subtaskShiftHistory as $wdHistory)
                                                         @if($wdHistory->shift->trashedSubtask->id==$subtask->id)
                                                         <tr>
                                                             <td>{{ $wdHistory->shift->comments }}</td>
@@ -203,7 +203,7 @@
                                 <th>{{ trans_choice('entities/volunteers.time', 10) }}</th>
                                 </thead>
                                 <tbody>
-                                @foreach($volunteer->ctaVolunteers[0]->dates as $date)
+                                @foreach($volunteer->ctaVolunteers[0]->subtaskDates as $date)
                                    <tr>
                                        <td>{{ $date->date->subtask->task->action->description }}</td>
                                        <td>{{ $date->date->subtask->task->name }}</td>

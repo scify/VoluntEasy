@@ -2,7 +2,7 @@
 
 return [
 
-    'title' => env('PLATFORM_NAME'),
+    'title' => config('app.platform_name'),
     'volRating' => 'Αξιολόγηση',
 
     'admin' => 'Διαχειριστής',

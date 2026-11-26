@@ -1,67 +1,117 @@
 <?php
 
+use App\Models\User;
+
 return [
 
-	/*
-	|--------------------------------------------------------------------------
-	| Default Authentication Driver
-	|--------------------------------------------------------------------------
-	|
-	| This option controls the authentication driver that will be utilized.
-	| This driver manages the retrieval and authentication of the users
-	| attempting to get access to protected areas of your application.
-	|
-	| Supported: "database", "eloquent"
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Authentication Defaults
+    |--------------------------------------------------------------------------
+    |
+    | This option defines the default authentication "guard" and password
+    | reset "broker" for your application. You may change these values
+    | as required, but they're a perfect start for most applications.
+    |
+    */
 
-	'driver' => 'eloquent',
+    'defaults' => [
+        'guard' => env('AUTH_GUARD', 'web'),
+        'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
+    ],
 
-	/*
-	|--------------------------------------------------------------------------
-	| Authentication Model
-	|--------------------------------------------------------------------------
-	|
-	| When using the "Eloquent" authentication driver, we need to know which
-	| Eloquent model should be used to retrieve your users. Of course, it
-	| is often just the "User" model but you may use whatever you like.
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Authentication Guards
+    |--------------------------------------------------------------------------
+    |
+    | Next, you may define every authentication guard for your application.
+    | Of course, a great default configuration has been defined for you
+    | which utilizes session storage plus the Eloquent user provider.
+    |
+    | All authentication guards have a user provider, which defines how the
+    | users are actually retrieved out of your database or other storage
+    | system used by the application. Typically, Eloquent is utilized.
+    |
+    | Supported: "session"
+    |
+    */
 
-	'model' => 'App\Models\User',
+    'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+    ],
 
-	/*
-	|--------------------------------------------------------------------------
-	| Authentication Table
-	|--------------------------------------------------------------------------
-	|
-	| When using the "Database" authentication driver, we need to know which
-	| table should be used to retrieve your users. We have chosen a basic
-	| default value but you may easily change it to any table you like.
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | User Providers
+    |--------------------------------------------------------------------------
+    |
+    | All authentication guards have a user provider, which defines how the
+    | users are actually retrieved out of your database or other storage
+    | system used by the application. Typically, Eloquent is utilized.
+    |
+    | If you have multiple user tables or models you may configure multiple
+    | providers to represent the model / table. These providers may then
+    | be assigned to any extra authentication guards you have defined.
+    |
+    | Supported: "database", "eloquent"
+    |
+    */
 
-	'table' => 'users',
+    'providers' => [
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL', User::class),
+        ],
 
-	/*
-	|--------------------------------------------------------------------------
-	| Password Reset Settings
-	|--------------------------------------------------------------------------
-	|
-	| Here you may set the options for resetting passwords including the view
-	| that is your password reset e-mail. You can also set the name of the
-	| table that maintains all of the reset tokens for your application.
-	|
-	| The expire time is the number of minutes that the reset token should be
-	| considered valid. This security feature keeps tokens short-lived so
-	| they have less time to be guessed. You may change this as needed.
-	|
-	*/
+        // 'users' => [
+        //     'driver' => 'database',
+        //     'table' => 'users',
+        // ],
+    ],
 
-	'password' => [
-		'email' => 'emails.password',
-		'table' => 'password_resets',
-		'expire' => 60,
-	],
+    /*
+    |--------------------------------------------------------------------------
+    | Resetting Passwords
+    |--------------------------------------------------------------------------
+    |
+    | These configuration options specify the behavior of Laravel's password
+    | reset functionality, including the table utilized for token storage
+    | and the user provider that is invoked to actually retrieve users.
+    |
+    | The expiry time is the number of minutes that each reset token will be
+    | considered valid. This security feature keeps tokens short-lived so
+    | they have less time to be guessed. You may change this as needed.
+    |
+    | The throttle setting is the number of seconds a user must wait before
+    | generating more password reset tokens. This prevents the user from
+    | quickly generating a very large amount of password reset tokens.
+    |
+    */
+
+    'passwords' => [
+        'users' => [
+            'provider' => 'users',
+            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_resets'),
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Password Confirmation Timeout
+    |--------------------------------------------------------------------------
+    |
+    | Here you may define the number of seconds before a password confirmation
+    | window expires and users are asked to re-enter their password via the
+    | confirmation screen. By default, the timeout lasts for three hours.
+    |
+    */
+
+    'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
 ];

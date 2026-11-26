@@ -1,8 +1,6 @@
 <?php namespace App\Models\Rating;
 
-use Illuminate\Database\Eloquent\Model;
-
-
+use App\Models\Model;
 class RatingAttribute extends Model {
 
     /**

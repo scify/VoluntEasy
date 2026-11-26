@@ -37,21 +37,22 @@ class NotificationService {
     /**
      * create a new Notification Instance
      *
-     * @param  [$userId] [which user it concerns]
-     * @param [typeId] [check Index above]
-     * @param reference1Id [the Model instance id that we have o locate ]
-     * @param reference2Id [a second Model instance id that maybe we have o locate]
-     *
-     * @return int [success status]
+     * @param int $userId The user that the notification is for
+     * @param int $typeId The notification type (see the index in the Notification model)
+     * @param string $msg
+     * @param string $url
+     * @param int $reference1Id The id of the model that the notification is about
+     * @param int|null $reference2Id A second model id, if necessary
+     * @return int 1 on success, 0 on failure
      */
     public function addNotification($userId, $typeId, $msg, $url, $reference1Id, $reference2Id = null) {
         $notification = new Notification;
-        $notification->userId = $userId;
-        $notification->typeId = $typeId;
+        $notification->user_id = $userId;
+        $notification->type_id = $typeId;
         $notification->msg = $msg;
         $notification->url = $url;
-        $notification->reference1Id = $reference1Id;
-        $notification->reference2Id = $reference2Id;
+        $notification->reference1_id = $reference1Id;
+        $notification->reference2_id = $reference2Id;
         $notification->status = 'alarmAndActive';
 
         if ($notification->save())
@@ -63,11 +64,12 @@ class NotificationService {
     /**
      * stop the Bell Ring at a Notification Instance
      *
-     * @param [$notificationId]
+     * @param int $notificationId
      * @return int [success status]
      */
     public function stopBellNotification($notificationId) {
-        $notification = Notification::findOrFail($notificationId);
+        //users can change only their own notifications
+        $notification = Notification::where('user_id', \Auth::id())->findOrFail($notificationId);
 
         $notification->status = 'active';
 
@@ -81,12 +83,13 @@ class NotificationService {
      * deactivate a Notification Instance
      * so it is not appeared any more to the client
      * we deactivate and don't delete it for Data Mining reasons
-     * @param [$notificationId] [a notifications instance Id we want to deactivate]
+     * @param int $notificationId A notification id
      *
      * @return int [success status]
      */
     public function deactivateNotification($notificationId) {
-        $notification = Notification::findOrFail($notificationId);
+        //users can change only their own notifications
+        $notification = Notification::where('user_id', \Auth::id())->findOrFail($notificationId);
 
         $notification->status = 'inactive';
 
@@ -100,10 +103,10 @@ class NotificationService {
      * !!! Notification Types Index on top of the page !!!
      * check if there is any active Notification for the specific User
      *
-     * @return [mixed] [a list with all the active notification for the user]
+     * @return list<\App\Models\Notification> The active and the five latest inactive notifications of the user
      */
     public function checkForNotifications() {
-        $userId = \Auth::user()->id;
+        $userId = \Auth::id();
 
         $actives = Notification::where('user_id', $userId)
             ->where(function ($query) {

@@ -1,6 +1,9 @@
 <?php namespace App\Models\ActionTasks;
 
-use Illuminate\Database\Eloquent\Model;
+
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -8,6 +11,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * Class Status
  * @package App\Models
+ *
+ * @property float|int $workHours Computed
  */
 class TaskShift extends Model {
 
@@ -17,22 +22,29 @@ class TaskShift extends Model {
 
     protected $fillable = ['from_date', 'to_date', 'task_id', 'from_hour', 'to_hour',  'volunteer_sum', 'comments'];
 
-    protected $dates = ['from_date', 'to_date', 'deleted_at'];
+    protected $casts = [
+        'from_date' => 'datetime',
+        'to_date' => 'datetime',
+    ];
 
-    public function task() {
-        return $this->belongsTo('App\Models\ActionTasks\Task', 'task_id', 'id');
+    /** @return BelongsTo<\App\Models\ActionTasks\Task, $this> */
+    public function task(): BelongsTo {
+        return $this->belongsTo(\App\Models\ActionTasks\Task::class, 'task_id', 'id');
     }
 
-    public function trashedTask() {
-        return $this->belongsTo('App\Models\ActionTasks\Task', 'task_id', 'id')->withTrashed();
+    /** @return BelongsTo<\App\Models\ActionTasks\Task, $this> */
+    public function trashedTask(): BelongsTo {
+        return $this->belongsTo(\App\Models\ActionTasks\Task::class, 'task_id', 'id')->withTrashed();
     }
 
-    public function volunteers() {
-        return $this->belongsToMany('App\Models\Volunteer', 'volunteer_task_shifts', 'task_shift_id', 'volunteer_id');
+    /** @return BelongsToMany<\App\Models\Volunteer, $this> */
+    public function volunteers(): BelongsToMany {
+        return $this->belongsToMany(\App\Models\Volunteer::class, 'volunteer_task_shifts', 'task_shift_id', 'volunteer_id');
     }
 
-    public function ctaVolunteers() {
-        return $this->belongsToMany('App\Models\CTA\CTAVolunteer', 'cta_volunteers_task_dates', 'task_shifts_id', 'cta_volunteers_id');
+    /** @return BelongsToMany<\App\Models\CTA\CTAVolunteer, $this> */
+    public function ctaVolunteers(): BelongsToMany {
+        return $this->belongsToMany(\App\Models\CTA\CTAVolunteer::class, 'cta_volunteers_task_dates', 'task_shifts_id', 'cta_volunteers_id');
     }
 
     public function getFromDateAttribute() {

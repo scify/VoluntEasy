@@ -24,8 +24,7 @@ class SearchService {
      * @return bool
      */
     public function notDropDown($value, $column) {
-        if (in_array($column, $this->dropDowns) && $value == "0")
-            return true;
+        return in_array($column, $this->dropDowns) && $value == "0";
     }
 
 }

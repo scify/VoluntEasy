@@ -18,7 +18,7 @@
                             <div class="login-box">
                                 <a href="{{ url('/') }}"
                                    class="logo-name text-lg text-center">
-                                    @if(env('PLATFORM_NAME')=='VoluntAction')
+                                    @if(config('app.platform_name')=='VoluntAction')
                                         <img src="{{ asset('assets/images/voluntaction/logo.png') }}" style="height:100%;"/>
                                     @else
                                         <img src="{{ asset('assets/images/volunteasy/logo.png') }}" style="height:100%;"/>

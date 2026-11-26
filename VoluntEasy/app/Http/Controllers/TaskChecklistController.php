@@ -18,8 +18,8 @@ class TaskChecklistController extends Controller {
             'isComplete' => 0,
             'comments' => \Request::get('comments'),
             'task_id' => \Request::get('mode_id'),
-            'created_by' => \Auth::user()->id,
-            'updated_by' => \Auth::user()->id
+            'created_by' => \Auth::id(),
+            'updated_by' => \Auth::id()
         ]);
 
         $checklist->save();

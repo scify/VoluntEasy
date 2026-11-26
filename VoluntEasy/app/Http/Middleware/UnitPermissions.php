@@ -19,7 +19,7 @@ class UnitPermissions {
         $userUnits = UserService::userUnits();
 
         //if the requested unit is not assigned to user, return error page
-        if(!in_array( $request->route()->getParameter('id'), $userUnits))
+        if(!in_array( $request->route()->parameter('id'), $userUnits))
             return response()->view('errors.550', [], 550);
 
         return $next($request);

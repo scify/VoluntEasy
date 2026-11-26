@@ -104,7 +104,7 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
 
         $volunteer->interests()->sync($interest_array);
 
-        if (\Request::has('lang')) {
+        if (\Request::filled('lang')) {
             $langs = \Request::get('lang');
             $volunteer->languages()->delete();
 
@@ -139,31 +139,29 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
      * First load a volunteer, check if the object has extra fields,
      * then validate it and store it.
      *
-     * @return mixed
+     * @return Volunteer|array{failed: bool, messages: mixed} The volunteer, or the validation result
      */
     public final function store() {
 
         $isValid = $this->validate();
 
-        if (!$isValid['failed']) {
-            $volunteer = new Volunteer($this->getBaseFields());
-
-            if ($this->validate($volunteer)) {
-                $volunteer->save();
-                $volunteer = $this->basicStore($volunteer);
-                $this->storeExtraFields($volunteer);
-
-                return $volunteer;
-            }
-        } else
+        if ($isValid['failed']) {
             return $isValid;
+        }
+
+        $volunteer = new Volunteer($this->getBaseFields());
+        $volunteer->save();
+        $volunteer = $this->basicStore($volunteer);
+        $this->storeExtraFields($volunteer);
+
+        return $volunteer;
     }
 
     /**
      * Update a Volunteer object
      *
      * @param $volunteer
-     * @return Volunteer
+     * @return Volunteer|array{failed: bool, messages: mixed} The volunteer, or the validation result
      */
     public function update($volunteer) {
 
@@ -172,19 +170,17 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
         if (!$isValid['failed']) {
 
             $baseFields = $this->getBaseFields();
-            $tmpVolunteer = new Volunteer($baseFields);
 
-            if ($this->validate($tmpVolunteer)) {
-                $volunteer->update($baseFields);
-                //store basic fields
-                $this->basicStore($volunteer);
-                //store extra fields
-                $this->storeExtraFields($volunteer);
+            $volunteer->update($baseFields);
+            //store basic fields
+            $this->basicStore($volunteer);
+            //store extra fields
+            $this->storeExtraFields($volunteer);
 
-                return $volunteer;
-            }
-        } else
-            return $isValid;
+            return $volunteer;
+        }
+
+        return $isValid;
 
     }
 
@@ -208,14 +204,6 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
     }
 
 
-    /**
-     * Get a volunteer with extra fields
-     *
-     * @param volunteer
-     */
-    public function getExtraFields($volunteer) {
-        return $volunteer;
-    }
 
     /**
      * Store the extra volunteer fields.

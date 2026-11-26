@@ -1,7 +1,11 @@
 <?php namespace App\Models\Descriptions;
 
-use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Model;
+/**
+ * Values marked "Computed" are set by the services, they are not columns.
+ *
+ * @property int $count Computed: number of volunteers (reports)
+ */
 class EducationLevel extends Model {
 
     protected $table = 'education_levels';

@@ -2,10 +2,8 @@
 
 
 use App\Models\Descriptions\AvailabilityDay;
-use App\Models\Descriptions\Language;
 use App\Models\Volunteer;
 use App\Models\VolunteerExtras;
-use App\Models\VolunteerLanguage;
 use App\Services\Facades\NotificationService;
 use App\Services\Facades\UnitService;
 use Interfaces\VolunteerServiceAbstract;
@@ -54,11 +52,6 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
         return true;
     }
 
-    /**
-     * Get the extra fields
-     */
-    function getExtraFields($volunteer) {
-    }
 
     /**
      * Store extra volunter fields
@@ -69,21 +62,21 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
 
         $this->saveFrequencies($volunteer);
 
-        if (\Request::has('departments'))
+        if (\Request::filled('departments'))
             $volunteer->volunteeringDepartments()->sync(\Request::get('departments'));
 
-        if (\Request::has('has_previous_volunteer_experience') && \Request::get('has_previous_volunteer_experience') == 'on')
+        if (\Request::filled('has_previous_volunteer_experience') && \Request::get('has_previous_volunteer_experience') == 'on')
             $has_previous_volunteer_experience = true;
         else
             $has_previous_volunteer_experience = false;
-        if (\Request::has('has_previous_work_experience') && \Request::get('has_previous_work_experience') == 'on')
+        if (\Request::filled('has_previous_work_experience') && \Request::get('has_previous_work_experience') == 'on')
             $has_previous_work_experience = true;
         else
             $has_previous_work_experience = false;
 
-        if (\Request::has('howYouLearned') && \Request::get('howYouLearned') != 0)
+        if (\Request::filled('howYouLearned') && \Request::get('howYouLearned') != 0)
             $volunteer->how_you_learned_id = \Request::get('howYouLearned');
-        if (\Request::has('howYouLearned2') && \Request::get('howYouLearned2') != 0)
+        if (\Request::filled('howYouLearned2') && \Request::get('howYouLearned2') != 0)
             $volunteer->how_you_learned2_id = \Request::get('howYouLearned2');
         $volunteer->computer_usage_comments = \Request::get('computer_usage_comments');
         $volunteer->afm = \Request::get('afm');
@@ -126,7 +119,7 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
             $volunteer->availabilityDays()->delete();
 
             foreach ($weekDays as $weekDay) {
-                if (\Request::has($weekDay)) {
+                if (\Request::filled($weekDay)) {
                     foreach (\Request::get($weekDay) as $availability) {
 
                         if ($availability == "1")
@@ -146,73 +139,5 @@ class VolunteerServiceImpl extends VolunteerServiceAbstract {
                 }
             }
         }
-    }
-
-
-
-    /**
-     * Create a new VolunteerLanguage
-     *
-     * @param $language
-     * @param $level
-     * @param $volunteerId
-     * @return VolunteerLanguage
-     */
-    private
-    function createVolunteerLanguage($language, $level, $volunteerId) {
-        $languageId = Language::where('description', $language)->first(['id'])->id;
-
-        $volLanguage = new VolunteerLanguage([
-            'volunteer_id' => $volunteerId,
-            'language_id' => $languageId,
-            'language_level_id' => $level
-        ]);
-
-        return $volLanguage;
-    }
-
-
-    private function checkDropDown($input) {
-        if ($input == 0)
-            return null;
-        else
-            return $input;
-    }
-
-
-    /**
-     * Validate form input before taking any action.
-     * Return error codes in order to display appropriate message to the front end.
-     *
-     * @return bool
-     */
-    private function validateInput($data) {
-
-        if (!isset($data['volunteer_info']['name']) || $data['volunteer_info']['name'] == '')
-            return 101;
-
-        if (!isset($data['volunteer_info']['last_name']) || $data['volunteer_info']['last_name'] == '')
-            return 102;
-
-        if ($data['volunteer_info']['birth_date'] == null || $data['volunteer_info']['birth_date'] == ""
-            || $data['volunteer_info']['birth_date']['year'] == null || $data['volunteer_info']['birth_date']['year'] == ""
-            || $data['volunteer_info']['birth_date']['month'] == null || $data['volunteer_info']['birth_date']['month'] == ""
-            || $data['volunteer_info']['birth_date']['day'] == null || $data['volunteer_info']['birth_date']['day'] == ""
-        )
-            return 103;
-
-        if (!isset($data['avail_Inter']['interests']) || sizeof($data['avail_Inter']['interests']) == 0)
-            return 104;
-
-        $emails = Volunteer::where('email', $data['volunteer_info']['email'])->get();
-
-        if (!isset($data['volunteer_info']['email']) || $data['volunteer_info']['email'] == ''
-            || !filter_var($data['volunteer_info']['email'], FILTER_VALIDATE_EMAIL)
-        )
-            return 201;
-        if (sizeof($emails) > 0)
-            return 202;
-
-        return 0;
     }
 }

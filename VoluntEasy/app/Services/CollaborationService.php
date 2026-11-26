@@ -1,6 +1,7 @@
 <?php namespace App\Services;
 
 use App\Models\Collaboration;
+use App\Models\Descriptions\CollaborationType;
 use App\Models\CollaborationFile;
 use App\Services\Facades\FileService as FileServiceFacade;
 use App\Services\Facades\SearchService as Search;
@@ -18,7 +19,7 @@ class CollaborationService{
         'end_date' => '<',
         'active_only' => '',
         'name' => '=',
-        'type' => '=',
+        'type' => 'type',
     ];
 
     /**
@@ -51,6 +52,8 @@ class CollaborationService{
                 }
             }
         }
+
+        return true;
     }
 
 
@@ -65,11 +68,11 @@ class CollaborationService{
 
         $query = Collaboration::select();
 
-        //dd(\Input::all());
+        //dd(\Request::all());
 
         foreach ($this->filters as $column => $filter) {
-            if (\Input::has($column)) {
-                $value = \Input::get($column);
+            if (\Request::filled($column)) {
+                $value = \Request::get($column);
                 switch ($filter) {
                     case '=':
                         if (!Search::notDropDown($value, $column))
@@ -90,6 +93,10 @@ class CollaborationService{
                         $value = date("Y-m-d", strtotime($value));
                         $query->where($column, '<', $value);
                         break;
+                    case 'type':
+                        //the user types the (translated) name of the type
+                        $query->whereIn('type_id', CollaborationType::matching((string) $value)->pluck('id')->all());
+                        break;
                     case '':
                         switch ($column) {
                             case 'active_only':
@@ -103,7 +110,7 @@ class CollaborationService{
             }
         }
 
-        $result = $query->orderBy('name', 'ASC')->get();
+        $result = $query->orderBy('name', 'asc')->get();
 
         $data = $result;
 

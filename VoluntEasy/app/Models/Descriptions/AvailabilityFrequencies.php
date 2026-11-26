@@ -1,8 +1,6 @@
 <?php namespace App\Models\Descriptions;
 
-use Illuminate\Database\Eloquent\Model;
-
-
+use App\Models\Model;
 class AvailabilityFrequencies extends Model {
 
     /**

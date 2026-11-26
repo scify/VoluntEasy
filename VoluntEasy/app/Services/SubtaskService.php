@@ -36,8 +36,8 @@ class SubtaskService
      */
     public function syncUsers($subtask) {
 
-        if (\Request::has('assignToSubtask') && \Request::get('assignToSubtask') == 'user'
-            && \Request::has('subtaskUserSelect') && \Request::get('subtaskUserSelect') != 0
+        if (\Request::filled('assignToSubtask') && \Request::get('assignToSubtask') == 'user'
+            && \Request::filled('subtaskUserSelect') && \Request::get('subtaskUserSelect') != 0
         ) {
             $subtask->users()->sync([\Request::get('subtaskUserSelect')]);
             $subtask->volunteers()->detach();
@@ -56,8 +56,8 @@ class SubtaskService
      */
     public function syncVolunteers($subtask) {
 
-        if (\Request::has('assignToSubtask') && \Request::get('assignToSubtask') == 'volunteer'
-            && \Request::has('subtaskVolunteerSelect') && \Request::get('subtaskVolunteerSelect') != 0
+        if (\Request::filled('assignToSubtask') && \Request::get('assignToSubtask') == 'volunteer'
+            && \Request::filled('subtaskVolunteerSelect') && \Request::get('subtaskVolunteerSelect') != 0
         ) {
             $subtask->volunteers()->sync([\Request::get('subtaskVolunteerSelect')]);
             $subtask->users()->sync([]);

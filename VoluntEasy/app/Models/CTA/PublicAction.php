@@ -1,6 +1,9 @@
 <?php namespace App\Models\CTA;
 
-use Illuminate\Database\Eloquent\Model;
+
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -8,24 +11,27 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * Class PublicAction
  * @package App\Models
+ *
+ * @property mixed $tasks Computed
  */
 class PublicAction extends Model {
 
-    use \SoftDeletes;
+    use SoftDeletes;
 
     protected $table = 'public_actions';
 
-    protected $dates = ['deleted_at'];
 
     protected $fillable = ['description', 'address', 'map_url', 'executive_name', 'executive_email', 'executive_phone', 'public_url', 'isActive', 'action_id'];
 
 
-    public function action() {
-        return $this->belongsTo('App\Models\Action', 'action_id', 'id');
+    /** @return BelongsTo<\App\Models\Action, $this> */
+    public function action(): BelongsTo {
+        return $this->belongsTo(\App\Models\Action::class, 'action_id', 'id');
     }
 
-    public function subtasks(){
-        return $this->hasMany('App\Models\CTA\PublicActionSubTask', 'public_actions_id', 'id');
+    /** @return HasMany<\App\Models\CTA\PublicActionSubTask, $this> */
+    public function subtasks(): HasMany {
+        return $this->hasMany(\App\Models\CTA\PublicActionSubTask::class, 'public_actions_id', 'id');
     }
 
 }

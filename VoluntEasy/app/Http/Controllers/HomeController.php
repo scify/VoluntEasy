@@ -16,8 +16,6 @@ class HomeController extends Controller {
 
     /**
      * Show the application dashboard to the user.
-     *
-     * @return Response
      */
     public function mainIndex() {
         $available = Volunteer::available()->count();

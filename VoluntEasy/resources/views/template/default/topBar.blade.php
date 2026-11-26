@@ -7,7 +7,7 @@
                         </a>
                     </div>
                     <div class="logo-box">
-                        @if(env('PLATFORM_NAME')=='VoluntAction')
+                        @if(config('app.platform_name')=='VoluntAction')
                             <img src="{{ asset('assets/images/voluntaction/logo.png') }}" style="height:100%;"/>
                         @else
                             <img src="{{ asset('assets/images/volunteasy/logo.png') }}" style="height:100%;"/>
@@ -45,7 +45,7 @@
                                         <img class="img-circle avatar userImage" src="{{ (\Auth::user()->image_name==null || \Auth::user()->image_name=='') ?
                                     asset('assets/images/default.png') : asset('assets/uploads/users/'.\Auth::user()->image_name) }}" width="30" height="30"
                                              alt="">
-                                        <span class="user-name">{{{ isset(Auth::user()->name) ? Auth::user()->name : 'not logged in' }}}<i class="fa fa-angle-down"></i></span>
+                                        <span class="user-name">{{ isset(Auth::user()->name) ? Auth::user()->name : 'not logged in' }}<i class="fa fa-angle-down"></i></span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-list" role="menu">
                                         <li role="presentation"><a href="{!! url('users/one/'.Auth::user()->id) !!}"><i class="fa fa-user"></i> {{trans($lang.'profile')}}</a></li>

@@ -22,8 +22,6 @@ class UserController extends Controller {
 
     /**
      * Display a listing of the resource.
-     *
-     * @return Response
      */
     public function index() {
         return view("main.users.list");
@@ -31,8 +29,6 @@ class UserController extends Controller {
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return Response
      */
     public function create() {
 
@@ -48,7 +44,6 @@ class UserController extends Controller {
      * Store a newly created resource in storage.
      *
      * @param UserRequest $request
-     * @return Response
      */
     public function store(UserRequest $request) {
         $request['password'] = \Hash::make($request['password']);
@@ -62,8 +57,8 @@ class UserController extends Controller {
         */
 
         //store the user image
-        if (\Input::file('image') != null) {
-            $user->update(['image_name' => UserService::storeImage(\Input::file('image'), $user->email)]);
+        if (\Request::file('image') != null) {
+            $user->update(['image_name' => UserService::storeImage(\Request::file('image'), $user->email)]);
         }
 
         //refresh user roles
@@ -76,7 +71,6 @@ class UserController extends Controller {
      * Display the specified resource.
      *
      * @param  int $id
-     * @return Response
      */
     public function show($id) {
         $user = User::where('id', $id)->with('units', 'roles')->first();
@@ -94,7 +88,6 @@ class UserController extends Controller {
      * Show the form for editing the specified resource.
      *
      * @param  int $id
-     * @return Response
      */
     public function edit($id) {
 
@@ -106,14 +99,13 @@ class UserController extends Controller {
 
         $user = User::where('id', $id)->first();
 
-        return view("main.users.edit", compact('user', 'roles', 'units', 'actions', 'userUnits', 'permittedUnits'));
+        return view("main.users.edit", compact('user', 'roles', 'units', 'actions', 'permittedUnits'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param UserRequest $request
-     * @return Response
      */
     public function update(UserRequest $request) {
 
@@ -136,8 +128,8 @@ class UserController extends Controller {
         $user->refreshRoles(\Request::get('roles'));
 
         //store the user image
-        if (\Input::file('image') != null) {
-            $user->update(['image_name' => UserService::storeImage(\Input::file('image'), $user->email)]);
+        if (\Request::file('image') != null) {
+            $user->update(['image_name' => UserService::storeImage(\Request::file('image'), $user->email)]);
         }
 
         return Redirect::route('user/profile', ['id' => $user->id]);
@@ -170,7 +162,6 @@ class UserController extends Controller {
      * Remove the specified resource from storage.
      *
      * @param  int $id
-     * @return Response
      */
     public function destroy($id) {
         $user = User::with('units', 'actions')->findOrFail($id);
@@ -195,24 +186,6 @@ class UserController extends Controller {
         Session::flash('flash_type', 'alert-success');
 
         return;
-    }
-
-    /**
-     * Show the tasks for a user
-     *
-     * @param $id
-     * @return \Illuminate\View\View
-     */
-    public function tasks($id) {
-        $user = User::with('units.volunteers')->get();
-
-        /*  foreach($user->units as $unit){
-              foreach($unit->volunteers as $volunteer){
-                  $volunteer = VolunteerService::fullProfile($volunteer);
-              }
-          }
-  */
-        return view("main.users.tasks", compact('user'));
     }
 
     /**

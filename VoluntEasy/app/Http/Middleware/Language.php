@@ -3,44 +3,42 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Routing\Redirector;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Application;
-use Illuminate\Contracts\Routing\Middleware;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cookie;
+use Symfony\Component\HttpFoundation\Response;
 
-class Language implements Middleware {
+/**
+ * Sets the locale from the "locale" cookie.
+ *
+ * A URL that starts with a locale (for example /en/volunteers) stores that
+ * locale in the cookie and redirects to the same URL without the prefix.
+ */
+class Language
+{
+    private const COOKIE_MINUTES = 60 * 24 * 365;
 
-    public function __construct(Application $app, Redirector $redirector, Request $request) {
-        $this->app = $app;
-        $this->redirector = $redirector;
-        $this->request = $request;
-    }
+    public function handle(Request $request, Closure $next): Response
+    {
+        /** @var array<string, string> $locales */
+        $locales = config('app.locales');
 
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
-    public function handle($request, Closure $next) {
-        $locale = \Cookie::get('locale');
-        if (array_key_exists($locale, $this->app->config->get('app.locales'))) {
-            $this->app->setLocale($locale);
+        $locale = $request->cookie('locale');
+        if (is_string($locale) && array_key_exists($locale, $locales)) {
+            App::setLocale($locale);
         } else {
-            \Cookie::queue('locale', 'en', 60 * 24 * 365);
+            Cookie::queue('locale', (string) config('app.locale'), self::COOKIE_MINUTES);
         }
 
-        $locale = $request->segment(1);
+        $prefix = $request->segment(1);
+        if ($prefix !== null && array_key_exists($prefix, $locales)) {
+            App::setLocale($prefix);
+            $segments = array_slice($request->segments(), 1);
 
-        if (array_key_exists($locale, $this->app->config->get('app.locales'))) {
-            $cookie = \Cookie::make('locale', $locale, 60 * 24 * 365);
-            $this->app->setLocale($locale);
-            $segments = $request->segments();
-            unset($segments[0]);
-            return $this->redirector->to(implode('/', $segments))->withCookie($cookie);
+            return redirect()->to(implode('/', $segments))
+                ->withCookie(Cookie::make('locale', $prefix, self::COOKIE_MINUTES));
         }
+
         return $next($request);
     }
-
 }

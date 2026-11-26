@@ -1,19 +1,23 @@
 <?php namespace App\Models\Roles;
 
-use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Model;
 class Role extends Model {
 
     protected $table = 'roles';
 
     protected $fillable = ['name'];
 
-    public function permissions() {
-        return $this->hasMany('App\Models\Roles\Permission');
+    /** @return HasMany<\App\Models\Roles\Permission, $this> */
+    public function permissions(): HasMany {
+        return $this->hasMany(\App\Models\Roles\Permission::class);
     }
 
-    public function users() {
-        return $this->belongsToMany('App\Models\User');
+    /** @return BelongsToMany<\App\Models\User, $this> */
+    public function users(): BelongsToMany {
+        return $this->belongsToMany(\App\Models\User::class);
     }
 
 }

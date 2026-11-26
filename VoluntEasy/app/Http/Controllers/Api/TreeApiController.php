@@ -23,9 +23,9 @@ class TreeApiController extends Controller {
 
         $tree = TreeService::getTree();
 
-        $tree = TreeService::setPermissions($tree);
+        $tree = TreeService::setPermissions($tree, UserService::userUnits());
 
-        $tree = TreeService::setActives($user->units->lists('id')->all(), $tree);
+        $tree = TreeService::setActives($user->units->pluck('id')->all(), $tree);
 
         return $tree;
     }

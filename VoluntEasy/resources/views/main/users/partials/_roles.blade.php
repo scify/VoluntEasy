@@ -19,7 +19,7 @@
                         <div class="roles role-details" data-role="{{$role->name}}">
                             <input name="roles[]" type="checkbox" value="{{$role->name}}" id="{{$role->name}}" {{
                             isset($user) &&
-                            in_array($role->id, $user->roles()->lists('id')->toArray()) ? 'checked' : '' }}>
+                            in_array($role->id, $user->roles()->pluck('id')->toArray()) ? 'checked' : '' }}>
                             <label>{{trans($lang.$role->name)}}
                                 @if($role->name !='admin')
                                 <i class="fa fa-chevron-right"></i>
@@ -41,7 +41,7 @@
 
                                 @foreach($units as $unit_id => $unit)
                                 <option value="{{ $unit->id }}" name="unit-{{$unit->id}}"
-                                {{ isset($user) && in_array($unit->id, $user->units()->lists('id')->toArray()) ?
+                                {{ isset($user) && in_array($unit->id, $user->units()->pluck('id')->toArray()) ?
                                 'selected' : '' }} {{ !in_array($unit->id, $permittedUnits) ? 'disabled' : '' }}>{{
                                 $unit->description }}
                                 </option>
@@ -62,7 +62,7 @@
 
                                 @foreach($actions as $action)
                                 <option value="{{ $action->id }}" name="action-{{$action->id}}"
-                                    {{ isset($user) && in_array($action->id, $user->actions()->lists('id')->toArray()) ?
+                                    {{ isset($user) && in_array($action->id, $user->actions()->pluck('id')->toArray()) ?
                                     'selected' : '' }} {{ !in_array($action->unit_id, $permittedUnits) ? 'disabled' : '' }}>{{
                                     $action->description }}
                                 </option>

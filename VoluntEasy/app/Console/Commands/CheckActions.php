@@ -41,7 +41,7 @@ class CheckActions extends Command {
     public function handle() {
 
         //remove, just a check
-        $execution_time = microtime();
+        $execution_time = microtime(true);
 
         $expired = CronService::expiredActions();
         $toExpire = CronService::toExpireActions();
@@ -54,7 +54,7 @@ class CheckActions extends Command {
         $this->comment($notAvailablle . '  volunteers made available');
 */
 
-        $execution_time = microtime() - $execution_time;
+        $execution_time = microtime(true) - $execution_time;
         $this->comment('Took ' . $execution_time . ' sec');
     }
 

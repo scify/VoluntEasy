@@ -142,7 +142,7 @@
         <div class="form-group" id="dailyFrequencies">
             <p>{{ trans('entities/volunteers.availabilityTimes') }}:</p>
             @foreach($availabilityTimes as $a_t_id => $availability_time)
-            @if (isset($volunteer) && in_array($a_t_id, $volunteer->availabilityTimes->lists('id')->all()) )
+            @if (isset($volunteer) && in_array($a_t_id, $volunteer->availabilityTimes->pluck('id')->all()) )
             {!! Form::formInput('availability_time[]', $availability_time, $errors, ['class' =>
             'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => 'true']) !!}
             @else

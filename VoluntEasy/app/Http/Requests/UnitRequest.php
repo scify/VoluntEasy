@@ -11,7 +11,7 @@ class UnitRequest extends Request {
 	 */
 	public function rules()
 	{
-        if(Request::get('type')=='root')
+        if($this->input('type')=='root')
             return [
                 'description' => 'required|max:300',
                 'comments' => 'max:300',

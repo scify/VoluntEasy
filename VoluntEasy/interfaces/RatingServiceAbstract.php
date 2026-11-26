@@ -42,7 +42,7 @@ abstract class RatingServiceAbstract implements RatingInterface {
                 $q->where('action_id', $actionId);
             })->get();
 
-            $action->volunteers = $volunteers;
+            $action->setRelation('volunteers', $volunteers);
 
             $ratingAttributes = RatingAttribute::all();
             $actionRatingId = $actionRating->id;

@@ -1,55 +1,57 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Create The Application
-|--------------------------------------------------------------------------
-|
-| The first thing we will do is create a new Laravel application instance
-| which serves as the "glue" for all the components of Laravel, and is
-| the IoC container for the system binding all of the various parts.
-|
-*/
+use App\Http\Middleware\Language;
+use App\Http\Middleware\UnitPermissions;
+use App\Http\Middleware\UserPermissions;
+use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Configuration\Exceptions;
+use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
-$app = new Illuminate\Foundation\Application(
-	realpath(__DIR__.'/../')
-);
+return Application::configure(basePath: dirname(__DIR__))
+    ->withRouting(
+        web: __DIR__.'/../routes/web.php',
+        commands: __DIR__.'/../routes/console.php',
+        health: '/up',
+    )
+    ->withMiddleware(function (Middleware $middleware): void {
+        // Global, so that /el/... and /en/... (the language links) are handled
+        // before routing. It runs before cookie decryption, so the "locale"
+        // cookie (only "en" or "el") is not encrypted.
+        $middleware->append(Language::class);
+        $middleware->encryptCookies(except: ['locale']);
 
-/*
-|--------------------------------------------------------------------------
-| Bind Important Interfaces
-|--------------------------------------------------------------------------
-|
-| Next, we need to bind some important interfaces into the container so
-| we will be able to resolve them when needed. The kernels serve the
-| incoming requests to this application from both the web and CLI.
-|
-*/
+        // The JSON API is called from other sites, so it has no CSRF token.
+        $middleware->validateCsrfTokens(except: [
+            'api/*',
+        ]);
 
-$app->singleton(
-	'Illuminate\Contracts\Http\Kernel',
-	'App\Http\Kernel'
-);
+        $middleware->redirectGuestsTo('/auth/login');
+        $middleware->redirectUsersTo('/');
 
-$app->singleton(
-	'Illuminate\Contracts\Console\Kernel',
-	'App\Console\Kernel'
-);
+        $middleware->alias([
+            'permissions.unit' => UnitPermissions::class,
+            'permissions.user' => UserPermissions::class,
+        ]);
+    })
+    ->withSchedule(function (Schedule $schedule): void {
+        $schedule->command('checkActions')->daily();
+        $schedule->command('checkVolunteers')->daily();
+    })
+    ->withExceptions(function (Exceptions $exceptions): void {
+        $exceptions->shouldRenderJsonWhen(
+            fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
+        );
 
-$app->singleton(
-	'Illuminate\Contracts\Debug\ExceptionHandler',
-	'App\Exceptions\Handler'
-);
+        // An expired CSRF token sends the user back to the form with the old input.
+        $exceptions->render(function (HttpException $e, Request $request) {
+            if ($e->getStatusCode() === 419 && ! $request->expectsJson()) {
+                return back()->withInput($request->except('password', '_token'))
+                    ->with('error', 'Your session was expired');
+            }
 
-/*
-|--------------------------------------------------------------------------
-| Return The Application
-|--------------------------------------------------------------------------
-|
-| This script returns the application instance. The instance is given to
-| the calling script so we can separate the building of the instances
-| from the actual running of the application and sending responses.
-|
-*/
-
-return $app;
+            return null;
+        });
+    })->create();

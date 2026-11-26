@@ -1,8 +1,7 @@
 <?php namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Model;
 class VolunteerExtras extends Model {
 
     protected $table = 'volunteer_extras';

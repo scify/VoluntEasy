@@ -36,12 +36,12 @@ class CheckVolunteers extends Command {
     public function handle() {
 
         //remove, just a check
-        $execution_time = microtime();
+        $execution_time = microtime(true);
 
         $expired = CronService::expiredContracts();
         $toExpire = CronService::toExpireContracts();
 
-        $execution_time = microtime() - $execution_time;
+        $execution_time = microtime(true) - $execution_time;
         $this->comment('Took ' . $execution_time . ' sec');
     }
 

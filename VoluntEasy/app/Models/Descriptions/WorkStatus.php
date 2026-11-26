@@ -1,7 +1,6 @@
 <?php namespace App\Models\Descriptions;
 
-use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Model;
 class WorkStatus extends Model {
 
     protected $table = 'work_statuses';

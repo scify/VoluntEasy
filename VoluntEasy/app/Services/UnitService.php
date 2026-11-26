@@ -34,7 +34,7 @@ class UnitService {
     public function type(Unit $unit) {
         if ($unit->parent_unit_id == null)
             return 'root';
-        else if ($unit->parent_unit_id != null && $unit->allChildren != null && sizeof($unit->allChildren) > 0)
+        else if (sizeof($unit->allChildren) > 0)
             return 'branch';
         else
             return 'leaf';
@@ -151,7 +151,7 @@ class UnitService {
      */
     public function parentIds($child) {
 
-        if ($child->allParents != null && sizeof($child->allParents) > 0) {
+        if ($child->allParents != null) {
             array_push($this->parentIds, $child->allParents->id);
             $this->parentIds($child->allParents);
         }
@@ -180,28 +180,28 @@ class UnitService {
      */
     public function search() {
 
-        if (\Input::has('my_units')) {
+        if (\Request::filled('my_units')) {
             $userUnits = UserServiceFacade::userUnits();
             $query = Unit::whereIn('id', $userUnits);
         } else
             $query = Unit::select();
 
         foreach ($this->filters as $column => $filter) {
-            if (\Input::has($column)) {
-                $value = \Input::get($column);
+            if (\Request::filled($column)) {
+                $value = \Request::get($column);
                 switch ($filter) {
                     case '=':
                         if (!Search::notDropDown($value, $column))
-                            $query->where($column, '=', \Input::get($column));
+                            $query->where($column, '=', \Request::get($column));
                         break;
                     case 'like%':
-                        $query->where($column, 'like', \Input::get($column) . '%');
+                        $query->where($column, 'like', \Request::get($column) . '%');
                         break;
                     case '':
                         switch ($column) {
                             case 'user_id':
                                 if (!Search::notDropDown($value, $column)) {
-                                    $id = \Input::get('user_id');
+                                    $id = \Request::get('user_id');
                                     $query->whereHas('users', function ($query) use ($id) {
                                         $query->where('id', $id);
                                     });
@@ -214,7 +214,7 @@ class UnitService {
             }
         }
 
-        $result = $query->orderBy('description', 'ASC')->with('parent')->get();
+        $result = $query->orderBy('description', 'asc')->with('parent')->get();
 
         $data = $this->prepareForDataTable($result);
 

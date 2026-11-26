@@ -33,12 +33,12 @@ class TaskController extends Controller {
      */
     public function store() {
 
-        if (!\Request::has('status_id'))
+        if (!\Request::filled('status_id'))
             $status_id = Status::todo();
         else
             $status_id = \Request::get('status_id');
 
-        if (\Request::has('due_date'))
+        if (\Request::filled('due_date'))
             $due_date = \Carbon::createFromFormat('d/m/Y', \Request::get('due_date'));
         else
             $due_date = null;
@@ -68,12 +68,12 @@ class TaskController extends Controller {
 
         $task = Task::findOrFail(\Request::get('taskId'));
 
-        if (!\Request::has('status_id'))
+        if (!\Request::filled('status_id'))
             $status_id = Status::todo();
         else
             $status_id = \Request::get('status_id');
 
-        if (\Request::has('due_date'))
+        if (\Request::filled('due_date'))
             $due_date = \Carbon::createFromFormat('d/m/Y', \Request::get('due_date'));
         else
             $due_date = null;

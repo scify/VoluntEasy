@@ -11,6 +11,9 @@ use Interfaces\ReportsInterface;
 
 class ReportsService implements ReportsInterface {
 
+    /** @var array<int, string> Status descriptions by status id. */
+    private array $volunteerStatuses = [];
+
 
     public function getViewPath() {
         return 'ekpizo.resources.views.reports.all';
@@ -24,7 +27,7 @@ class ReportsService implements ReportsInterface {
      */
     public function volunteersByMonth() {
 
-        $this->volunteerStatuses = VolunteerStatus::all()->lists('description', 'id')->all();
+        $this->volunteerStatuses = VolunteerStatus::pluck('description', 'id')->all();
 
         $years = [];
 
@@ -192,7 +195,7 @@ class ReportsService implements ReportsInterface {
 
         //count volunteers by city
         foreach ($volunteers as $volunteer) {
-            if ($volunteer->city != null && $volunteer->city != '') {
+            if ($volunteer->city != null) {
                 if (array_key_exists($volunteer->city, $byCity))
                     $byCity[$volunteer->city] = $byCity[$volunteer->city] + 1;
                 else
@@ -232,7 +235,7 @@ class ReportsService implements ReportsInterface {
 
     function volunteerHoursByAction() {
 
-        $dbactions = Action::with('volunteers.shifts')->get();
+        $dbactions = Action::with('volunteers.subtaskShifts')->get();
 
         $actions = [];
 
@@ -242,7 +245,7 @@ class ReportsService implements ReportsInterface {
 
             foreach ($action->volunteers as $v => $volunteer) {
                 $totalVolunteerHours = 0;
-                foreach ($volunteer->shifts as $s => $shift) {
+                foreach ($volunteer->subtaskShifts as $shift) {
                     $to_time = strtotime($shift->to_hour);
                     $from_time = strtotime($shift->from_hour);
                     $workHours = (($to_time - $from_time) / 60) / 60;

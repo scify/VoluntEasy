@@ -19,7 +19,7 @@ class UserPermissions {
         $userUnits = UserService::permittedUsersIds();
 
         //if the requested user cannot be editted ny the logged in user, return error page
-        if(!in_array( $request->route()->getParameter('id'), $userUnits))
+        if(!in_array( $request->route()->parameter('id'), $userUnits))
             return response()->view('errors.550', [], 550);
 
         return $next($request);

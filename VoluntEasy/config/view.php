@@ -2,33 +2,17 @@
 
 return [
 
-	/*
-	|--------------------------------------------------------------------------
-	| View Storage Paths
-	|--------------------------------------------------------------------------
-	|
-	| Most templating systems load templates from disk. Here you may specify
-	| an array of paths that should be checked for your views. Of course
-	| the usual Laravel view path has already been registered for you.
-	|
-	*/
+    /*
+    | Each deployment flavour (see "mode" in config/app.php) keeps its own
+    | views in dependencies/<mode>/resources/views, so that folder is also
+    | a view path.
+    */
 
-	'paths' => [
-		realpath(base_path('resources/views')),
-		realpath(base_path('dependencies'))
-	],
+    'paths' => [
+        resource_path('views'),
+        base_path('dependencies'),
+    ],
 
-	/*
-	|--------------------------------------------------------------------------
-	| Compiled View Path
-	|--------------------------------------------------------------------------
-	|
-	| This option determines where all the compiled Blade templates will be
-	| stored for your application. Typically, this is within the storage
-	| directory. However, as usual, you are free to change this value.
-	|
-	*/
-
-	'compiled' => realpath(storage_path().'/framework/views'),
+    'compiled' => env('VIEW_COMPILED_PATH', realpath(storage_path('framework/views'))),
 
 ];

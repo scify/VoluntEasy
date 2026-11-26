@@ -3,7 +3,7 @@
 <html>
 <head>
     <!-- Title -->
-    <title>{{trans($lang.'logIn')}} | {{env('PLATFORM_NAME')}}</title>
+    <title>{{trans($lang.'logIn')}} | {{config('app.platform_name')}}</title>
 
     @include('template.default.headerIncludes')
 </head>
@@ -16,7 +16,7 @@
                     <div class="login-box">
                         <div class="text-center">
                             <a href="{{ url('/') }}">
-                                @if(env('PLATFORM_NAME')=='VoluntAction')
+                                @if(config('app.platform_name')=='VoluntAction')
                                     <img src="{{ asset('assets/images/voluntaction/compact_logo.png') }}"
                                          class="logo"/>
                                 @else
@@ -61,12 +61,12 @@
                             <a href="{{ url('/en') }}">{{trans('/default.english')}}</a>
                         @endif
                     </p>
-                    @if(env('APP_ENV')=='demo')
+                    @if(config('app.env')=='demo')
                         <p class="text-center">{{trans('auth/login.demoUser')}}<br/>
                             <strong>Username:</strong> demo@scify.org<br/>
                             <strong>Password:</strong> demo1234</p>
                     @endif
-                    @if(env('APP_ENV')!='demo' && $footerLogoPath!=null && $footerLogoPath!='')
+                    @if(config('app.env')!='demo' && $footerLogoPath!=null && $footerLogoPath!='')
                         @include($footerLogoPath)
                     @endif
                 </div>

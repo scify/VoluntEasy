@@ -171,7 +171,7 @@ class TaskService {
         $status = null;
         if ($todoSubtasks > 0 && $doingSubtasks == 0) {
             $status = "todo";
-        } else if ($doneSubtasks > 0 && $doingSubtasks == 0 && $todoSubtasks == 0) {
+        } else if ($doneSubtasks > 0 && $doingSubtasks == 0) {
             $status = "done";
         } else if ($doingSubtasks > 0) {
             $status = "doing";
@@ -187,8 +187,8 @@ class TaskService {
      */
     public function syncUsers($task) {
 
-        if (\Request::has('assignToTask') && \Request::get('assignToTask') == 'user'
-            && \Request::has('taskUserSelect') && \Request::get('taskUserSelect') != 0
+        if (\Request::filled('assignToTask') && \Request::get('assignToTask') == 'user'
+            && \Request::filled('taskUserSelect') && \Request::get('taskUserSelect') != 0
         ) {
             $task->users()->sync([\Request::get('taskUserSelect')]);
             $task->volunteers()->detach();
@@ -207,8 +207,8 @@ class TaskService {
      */
     public function syncVolunteers($task) {
 
-        if (\Request::has('assignToTask') && \Request::get('assignToTask') == 'volunteer'
-            && \Request::has('taskVolunteerSelect') && \Request::get('taskVolunteerSelect') != 0
+        if (\Request::filled('assignToTask') && \Request::get('assignToTask') == 'volunteer'
+            && \Request::filled('taskVolunteerSelect') && \Request::get('taskVolunteerSelect') != 0
         ) {
             $task->volunteers()->sync([\Request::get('taskVolunteerSelect')]);
             $task->users()->sync([]);

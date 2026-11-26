@@ -1,8 +1,8 @@
 <?php namespace App\Models\Descriptions;
 
-use Illuminate\Database\Eloquent\Model;
 
-
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\Model;
 class AvailabilityTime extends Model {
 
     /**
@@ -15,8 +15,8 @@ class AvailabilityTime extends Model {
     protected $fillable = ['description'];
 
 
-    public function volunteer()
-    {
-        return $this->belongsToMany('App\Models\Descriptions\VolunteerAvailabilityTime', 'volunteer_availability_times', 'availability_time_id', 'volunteer_id');
+    /** @return BelongsToMany<\App\Models\Volunteer, $this> */
+    public function volunteer(): BelongsToMany {
+        return $this->belongsToMany(\App\Models\Volunteer::class, 'volunteer_availability_times', 'availability_time_id', 'volunteer_id');
     }
 }
