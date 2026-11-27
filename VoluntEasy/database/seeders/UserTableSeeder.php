@@ -20,10 +20,10 @@ class UserTableSeeder extends Seeder
     public function run()
     {
 
-        // The first administrator. Set ADMIN_EMAIL and ADMIN_PASSWORD in .env,
-        // or a random password is generated and printed once.
-        $email = (string) env('ADMIN_EMAIL', 'admin@example.org');
-        $password = (string) env('ADMIN_PASSWORD', '');
+        // The first administrator (config/app.php "admin"). Without a
+        // password a random one is generated and printed once.
+        $email = (string) config('app.admin.email');
+        $password = (string) config('app.admin.password');
         if ($password === '') {
             $password = Str::password(16, symbols: false);
             $this->command?->warn("Administrator: {$email} / {$password} (change the password after the first login)");

@@ -34,6 +34,16 @@ return [
     'mode' => env('MODE', 'scify'),
 
     /*
+    | The first administrator, created by "php artisan db:seed". Without a
+    | password the seeder generates a random one and prints it.
+    */
+
+    'admin' => [
+        'email' => env('ADMIN_EMAIL', 'admin@example.org'),
+        'password' => env('ADMIN_PASSWORD'),
+    ],
+
+    /*
     |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
