@@ -79,11 +79,31 @@ class DescriptionsTableSeeder extends Seeder {
 
         $data = json_decode($json);
 
+        $defaults = $this->requiredColumnDefaults($table);
+
         foreach ($data as $d) {
-            \DB::table($table)->insert([
-                ['description' => $d->description]
-            ]);
+            \DB::table($table)->insert(['description' => $d->description] + $defaults);
         }
+    }
+
+    /**
+     * Empty values for the NOT NULL columns (other than "description") that
+     * have no default value. MySQL non-strict mode did this silently; strict
+     * mode and SQLite need the values.
+     *
+     * @return array<string, string>
+     */
+    private function requiredColumnDefaults(string $table): array
+    {
+        $defaults = [];
+        foreach (\Schema::getColumns($table) as $column) {
+            if (! $column['nullable'] && $column['default'] === null && ! $column['auto_increment']
+                && ! in_array($column['name'], ['description', 'created_at', 'updated_at'], true)) {
+                $defaults[$column['name']] = '';
+            }
+        }
+
+        return $defaults;
     }
 
     /**

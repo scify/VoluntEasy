@@ -6,10 +6,6 @@ use Interfaces\ReportsServiceAbstract;
 
 class ReportsService extends ReportsServiceAbstract {
 
-    public function getViewPath() {
-        return 'ekpizo.resources.views.reports.all';
-    }
-
     function volunteerHoursByAction() {
 
         $dbactions = Action::with('volunteers.subtaskShifts')->get();

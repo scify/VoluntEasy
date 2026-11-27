@@ -13,12 +13,21 @@ use App\Models\VolunteerUnitStatus;
  * The reports that all deployment flavours share.
  *
  * A flavour (dependencies/<mode>/services/ReportsService) extends this class,
- * says where its views are (getViewPath) and adds or overrides reports.
+ * adds or overrides reports. The reports page comes from the views of the flavour.
  */
 abstract class ReportsServiceAbstract implements ReportsInterface
 {
     /** @var array<int, string> Status descriptions by status id. */
     protected array $volunteerStatuses = [];
+
+    public function __construct(private readonly ConfigurationInterface $configuration) {}
+
+    /**
+     * The reports page of the current flavour.
+     */
+    public function getViewPath() {
+        return $this->configuration->getViewsPath() . '.reports.all';
+    }
 
     /**
      * This classy piece of code is used to calculate the volunteer

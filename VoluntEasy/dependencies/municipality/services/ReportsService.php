@@ -8,10 +8,6 @@ use Interfaces\ReportsServiceAbstract;
 
 class ReportsService extends ReportsServiceAbstract {
 
-    public function getViewPath() {
-        return 'municipality.resources.views.reports.all';
-    }
-
     function volunteersByInterest() {
 
         $interests = Interest::all();
