@@ -1,6 +1,7 @@
 <?php namespace App\Services;
 
 use App\Models\Action;
+use App\Services\Volunteers\VolunteerAssignment;
 use App\Models\Volunteer;
 use App\Models\VolunteerTaskShiftHistory;
 use App\Models\VolunteerSubtaskShiftHistory;
@@ -8,6 +9,7 @@ use App\Services\Facades\VolunteerService as VolunteerServiceFacade;
 
 class ShiftService
 {
+    public function __construct(private readonly VolunteerAssignment $volunteerAssignment) {}
 
     /**
      * Delete a shift and dissociate any volunteers attached
@@ -75,7 +77,7 @@ class ShiftService
                     $flag = true;
             }
             if (!$flag)
-                VolunteerServiceFacade::addToAction($volunteer, $action);
+                $this->volunteerAssignment->addToAction($volunteer, $action);
         }
 
         return;
@@ -102,7 +104,7 @@ class ShiftService
                     $flag = true;
             }
             if (!$flag)
-                VolunteerServiceFacade::addToAction($volunteer, $action);
+                $this->volunteerAssignment->addToAction($volunteer, $action);
         }
 
         return;

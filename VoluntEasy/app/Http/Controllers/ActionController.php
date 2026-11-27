@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests\ActionRequest as ActionRequest;
+use App\Services\Volunteers\VolunteerAssignment;
 use Interfaces\ConfigurationInterface;
 use App\Models\Action;
 use App\Models\ActionTasks\Status;
@@ -25,9 +26,12 @@ use Illuminate\Support\Facades\Session;
 
 class ActionController extends Controller {
 
+    private VolunteerAssignment $volunteerAssignment;
+
     private $configuration;
 
-    public function __construct(ConfigurationInterface $configuration) {
+    public function __construct(ConfigurationInterface $configuration, VolunteerAssignment $volunteerAssignment) {
+        $this->volunteerAssignment = $volunteerAssignment;
         $this->middleware('auth');
         $this->configuration = $configuration;
 
@@ -189,7 +193,7 @@ class ActionController extends Controller {
 
         //remove all volunteers and set their status to available
         foreach ($action->volunteers as $volunteer) {
-            VolunteerService::removeFromAction($volunteer, $action);
+            $this->volunteerAssignment->removeFromAction($volunteer, $action);
         }
 
         //remove all users, and check if their role should be updated
@@ -247,10 +251,10 @@ class ActionController extends Controller {
             // create a history entry for each new volunteer
             foreach ($request->get('volunteers') as $volunteer) {
                 if (!in_array($volunteer, $oldVolunteersOfAction)) {
-                    VolunteerService::actionHistory($volunteer, $action->id);
+                    $this->volunteerAssignment->actionHistory($volunteer, $action->id);
 
                     //change unit status to active
-                    VolunteerService::changeUnitStatus($volunteer, $action->unit_id, $statusId);
+                    $this->volunteerAssignment->changeUnitStatus($volunteer, $action->unit_id, $statusId);
                 }
             }
         }

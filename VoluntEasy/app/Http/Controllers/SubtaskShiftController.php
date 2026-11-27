@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Models\Action;
+use App\Services\Volunteers\VolunteerAssignment;
 use App\Models\ActionTasks\SubtaskShift;
 use App\Services\Facades\ShiftService;
 use App\Services\Facades\VolunteerService;
@@ -8,8 +9,10 @@ use App\Services\Facades\VolunteerService;
 class SubtaskShiftController extends Controller
 {
 
-    public function __construct()
-    {
+    private VolunteerAssignment $volunteerAssignment;
+
+    public function __construct(VolunteerAssignment $volunteerAssignment) {
+        $this->volunteerAssignment = $volunteerAssignment;
         $this->middleware('auth');
     }
 
@@ -81,7 +84,7 @@ class SubtaskShiftController extends Controller
         //remove all the current volunteers
         foreach ($shift->volunteers as $volunteer) {
             $volunteer->subtaskShifts()->detach([$shift->id]);
-            VolunteerService::removeFromAction($volunteer, $action);
+            $this->volunteerAssignment->removeFromAction($volunteer, $action);
         }
 
         //add the volunteers to the action

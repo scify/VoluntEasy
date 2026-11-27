@@ -1,6 +1,7 @@
 <?php namespace App\Services;
 
 use App\Models\Action;
+use App\Services\Volunteers\VolunteerAssignment;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Rating\ActionRating;
 use App\Models\Volunteer;
@@ -8,6 +9,12 @@ use App\Services\Facades\NotificationService as NotificationServiceFacade;
 use App\Services\Facades\VolunteerService as VolunteerServiceFacade;
 
 class CronService {
+
+    private VolunteerAssignment $volunteerAssignment;
+
+    public function __construct(VolunteerAssignment $volunteerAssignment) {
+        $this->volunteerAssignment = $volunteerAssignment;
+    }
 
     public function expiredActions() {
 
@@ -47,7 +54,7 @@ class CronService {
             //and remove them from the shifts of the expired action
             foreach ($expired->volunteers as $volunteer) {
                 $statusId = VolunteerStatus::available();
-                VolunteerServiceFacade::changeUnitStatus($volunteer->id, $expired->unit_id, $statusId);
+                $this->volunteerAssignment->changeUnitStatus($volunteer->id, $expired->unit_id, $statusId);
 
                 if ($taskShiftIds !== []) {
                     $volunteer->taskShifts()->detach($taskShiftIds);
@@ -123,7 +130,7 @@ class CronService {
 
                     //set as available again
                     if ((int) $now->diffInDays($to, true) == 1) {
-                        VolunteerServiceFacade::setVolunteerToAvailable($volunteer->statusDuration[0]->id);
+                        $this->volunteerAssignment->setVolunteerToAvailable($volunteer->statusDuration[0]->id);
                         $count++;
                     }
                 }

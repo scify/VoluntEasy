@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Services\Volunteers\VolunteerAssignment;
 use App\Services\Volunteers\VolunteerProfile;
 use Illuminate\Http\Request;
 use App\Services\Volunteers\VolunteerSearch;
@@ -40,13 +41,16 @@ use Illuminate\Support\Facades\Session;
 
 class VolunteerController extends Controller {
 
+    private VolunteerAssignment $volunteerAssignment;
+
     use ChecksUploadedFiles;
 
     private $configuration;
     private $volunteerService;
     private $ratingService;
 
-    public function __construct(ConfigurationInterface $configuration, VolunteerInterface $volunteerService, RatingInterface $ratingService) {
+    public function __construct(ConfigurationInterface $configuration, VolunteerInterface $volunteerService, RatingInterface $ratingService, VolunteerAssignment $volunteerAssignment) {
+        $this->volunteerAssignment = $volunteerAssignment;
         $this->middleware('auth', ['except' => ['publicForm']]);
         $this->configuration = $configuration;
         $this->volunteerService = $volunteerService;
@@ -341,7 +345,7 @@ class VolunteerController extends Controller {
      */
     public function addToRootUnit($id) {
 
-        if (VolunteerService::addToRootUnit($id))
+        if ($this->volunteerAssignment->addToRootUnit($id))
             return \Redirect::route('volunteer/profile', ['id' => $id]);
         else
             return response()->view('errors.550', [], 550);
@@ -359,7 +363,7 @@ class VolunteerController extends Controller {
         $parentUnitId = \Request::get('parent_unit_id');
         $volunteerId = \Request::get('volunteer_id');
 
-        return VolunteerService::addToUnit($unitId, $parentUnitId, $volunteerId);
+        return $this->volunteerAssignment->addToUnit($unitId, $parentUnitId, $volunteerId);
     }
 
     /**
@@ -372,7 +376,7 @@ class VolunteerController extends Controller {
         $action = Action::find(\Request::get('assign_id'));
         $volunteer = Volunteer::find(\Request::get('volunteer_id'));
 
-        VolunteerService::addToAction($volunteer, $action);
+        $this->volunteerAssignment->addToAction($volunteer, $action);
 
         return $volunteer->id;
     }
@@ -410,7 +414,7 @@ class VolunteerController extends Controller {
 
         $volunteer = Volunteer::findOrFail($volunteerId);
 
-        VolunteerService::removeFromAction($volunteer, $action);
+        $this->volunteerAssignment->removeFromAction($volunteer, $action);
 
         return \Redirect::route('volunteer/profile', ['id' => $volunteerId]);
     }
@@ -427,7 +431,7 @@ class VolunteerController extends Controller {
         $comments = \Request::get('comments');
         $assignTo = \Request::get('assignTo');
 
-        $stepStatus = VolunteerService::updateStepStatus($stepStatusId, $status, $comments, $assignTo);
+        $stepStatus = $this->volunteerAssignment->updateStepStatus($stepStatusId, $status, $comments, $assignTo);
 
         return $stepStatus->volunteer_id;
     }
@@ -517,7 +521,7 @@ class VolunteerController extends Controller {
      */
     public function available() {
 
-        return VolunteerService::setVolunteerToAvailable(\Request::get('id'));
+        return $this->volunteerAssignment->setVolunteerToAvailable(\Request::get('id'));
     }
 
     /**

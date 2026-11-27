@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests\UnitRequest as UnitRequest;
+use App\Services\Volunteers\VolunteerAssignment;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Unit as Unit;
 use App\Models\Volunteer;
@@ -13,7 +14,10 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
 class UnitController extends Controller {
-    public function __construct() {
+
+    private VolunteerAssignment $volunteerAssignment;
+    public function __construct(VolunteerAssignment $volunteerAssignment) {
+        $this->volunteerAssignment = $volunteerAssignment;
         $this->middleware('auth');
         $this->middleware('permissions.unit', ['only' => ['edit']]);
     }
@@ -286,7 +290,7 @@ class UnitController extends Controller {
         if($request->has('volunteers')) {
             // create a history entry for each new volunteer
             foreach ($request->get('volunteers') as $volunteer) {
-                VolunteerService::addToUnit($unit->id, $unit->parent_unit_id, $volunteer);
+                $this->volunteerAssignment->addToUnit($unit->id, $unit->parent_unit_id, $volunteer);
             }
         }
         return $unit->id;
