@@ -6,16 +6,20 @@ use App\Models\Action;
 use App\Models\Roles\Role;
 use App\Models\Unit;
 use App\Models\User as User;
-use App\Services\Facades\NotificationService;
-use App\Services\Facades\UnitService;
-use App\Services\Facades\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller {
 
-    public function __construct() {
+    private \App\Services\NotificationService $notificationService;
+    private \App\Services\UnitService $unitService;
+    private \App\Services\UserService $userService;
+
+    public function __construct(\App\Services\NotificationService $notificationService, \App\Services\UnitService $unitService, \App\Services\UserService $userService) {
+        $this->notificationService = $notificationService;
+        $this->unitService = $unitService;
+        $this->userService = $userService;
         $this->middleware('auth');
         $this->middleware('permissions.user', ['only' => ['edit']]);
     }
@@ -35,7 +39,7 @@ class UserController extends Controller {
         $roles = Role::all(['name', 'id']);
         $units = Unit::whereNotNull('parent_unit_id')->get(['description', 'id']);
         $actions = Action::all(['description', 'id', 'unit_id']);
-        $permittedUnits = UserService::permittedUnits();
+        $permittedUnits = $this->userService->permittedUnits();
 
         return view("main.users.create", compact('roles', 'units', 'permittedUnits', 'actions'));
     }
@@ -51,7 +55,7 @@ class UserController extends Controller {
 
         //store the user image
         if (\Request::file('image') != null) {
-            $user->update(['image_name' => UserService::storeImage(\Request::file('image'), $user->email)]);
+            $user->update(['image_name' => $this->userService->storeImage(\Request::file('image'), $user->email)]);
         }
 
         //refresh user roles
@@ -68,11 +72,11 @@ class UserController extends Controller {
     public function show($id) {
         $user = User::where('id', $id)->with('units', 'roles')->first();
 
-        $isAdmin = UserService::isAdmin($id);
+        $isAdmin = $this->userService->isAdmin($id);
 
-        $tree = UnitService::getTree();
+        $tree = $this->unitService->getTree();
 
-        $permittedUsers = UserService::permittedUsersIds();
+        $permittedUsers = $this->userService->permittedUsersIds();
 
         return view("main.users.show", compact('user', 'tree', 'permittedUsers', 'isAdmin'));
     }
@@ -88,7 +92,7 @@ class UserController extends Controller {
         //get all units except for the root unit
         $units = Unit::whereNotNull('parent_unit_id')->get(['description', 'id']);
         $actions = Action::all(['description', 'id', 'unit_id']);
-        $permittedUnits = UserService::permittedUnits();
+        $permittedUnits = $this->userService->permittedUnits();
 
         $user = User::where('id', $id)->first();
 
@@ -122,7 +126,7 @@ class UserController extends Controller {
 
         //store the user image
         if (\Request::file('image') != null) {
-            $user->update(['image_name' => UserService::storeImage(\Request::file('image'), $user->email)]);
+            $user->update(['image_name' => $this->userService->storeImage(\Request::file('image'), $user->email)]);
         }
 
         return Redirect::route('user/profile', ['id' => $user->id]);
@@ -145,7 +149,7 @@ class UserController extends Controller {
         //notify user that they 're added to unit
         foreach ($request->get('units') as $unitId) {
             $unit = Unit::find($unitId);
-            NotificationService::userToUnit($user->id, $unit);
+            $this->notificationService->userToUnit($user->id, $unit);
         }
 
         return $user->id;
@@ -187,7 +191,7 @@ class UserController extends Controller {
      * @return mixed
      */
     public function search() {
-        $users = UserService::search();
+        $users = $this->userService->search();
 
         return $users;
     }

@@ -5,11 +5,11 @@ use App\Services\Volunteers\VolunteerAssignment;
 use App\Models\Volunteer;
 use App\Models\VolunteerTaskShiftHistory;
 use App\Models\VolunteerSubtaskShiftHistory;
-use App\Services\Facades\VolunteerService as VolunteerServiceFacade;
-
 class ShiftService
 {
-    public function __construct(private readonly VolunteerAssignment $volunteerAssignment) {}
+
+    public function __construct(private readonly VolunteerAssignment $volunteerAssignment) {
+    }
 
     /**
      * Delete a shift and dissociate any volunteers attached
@@ -23,7 +23,6 @@ class ShiftService
         //remove the volunteers from the action
         foreach ($shift->volunteers as $volunteer) {
             $volunteer->shifts()->detach([$shift->id]);
-            //VolunteerServiceFacade::removeFromAction($volunteer, $action);
         }
 
         foreach($shift->ctaVolunteers as $cta){
@@ -43,7 +42,6 @@ class ShiftService
         //remove the volunteers from the action
         foreach ($shift->volunteers as $volunteer) {
             $volunteer->shifts()->detach([$shift->id]);
-            //VolunteerServiceFacade::removeFromAction($volunteer, $action);
         }
 
         foreach($shift->ctaVolunteers as $cta){

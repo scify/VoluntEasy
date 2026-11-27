@@ -14,28 +14,19 @@ use App\Models\VolunteerActionHistory;
 use App\Models\VolunteerStepStatus;
 use App\Models\VolunteerUnitHistory;
 use App\Models\VolunteerUnitStatus;
-use App\Services\Facades\FileService as FileServiceFacade;
-use App\Services\Facades\NotificationService as NotificationServiceFacade;
-use App\Services\Facades\UnitService as UnitServiceFacade;
-use App\Services\Facades\UserService as UserServiceFacade;
-
 class VolunteerService {
 
+    private \App\Services\FileService $fileService;
+    private \App\Services\UnitService $unitService;
+    private \App\Services\UserService $userService;
 
-    /**
-     * From a list of volunteers, get a list of ids.
-     *
-     * @param $volunteers
-     * @return mixed
-     */
-    public function volunteerIds($volunteers) {
-        $ids = [];
-
-        foreach ($volunteers as $volunteer)
-            array_push($ids, $volunteer->id);
-
-        return $ids;
+    public function __construct(\App\Services\FileService $fileService, \App\Services\UnitService $unitService, \App\Services\UserService $userService) {
+        $this->fileService = $fileService;
+        $this->unitService = $unitService;
+        $this->userService = $userService;
     }
+
+
 
     /**
      * Get the volunteer ids of the currently logged in user.
@@ -50,7 +41,7 @@ class VolunteerService {
 
         //check if the logged in user is assigned to root unit.
         //then return all the users since the admin is able to edit all of them.
-        $root = UnitServiceFacade::getRoot();
+        $root = $this->unitService->getRoot();
 
         $user = User::unit($root->id)->where('id', \Auth::id())->get();
 
@@ -110,7 +101,7 @@ class VolunteerService {
      * @return bool
      */
     public function isPermitted($volunteerId) {
-        $permittedVolunteers = UserServiceFacade::permittedVolunteersIds();
+        $permittedVolunteers = $this->userService->permittedVolunteersIds();
         if (in_array($volunteerId, $permittedVolunteers))
             return true;
         else
@@ -192,13 +183,13 @@ class VolunteerService {
      */
     public
     function prepareForDataTable($volunteers) {
-        $permittedVolunteers = VolunteerService::permittedVolunteersIds();
+        $permittedVolunteers = $this->permittedVolunteersIds();
 
         $data = [];
 
         //check if user is root
         $root = false;
-        if (UserServiceFacade::isAdmin())
+        if ($this->userService->isAdmin())
             $root = true;
 
         //get the status of each unit to display to the list
@@ -240,7 +231,7 @@ class VolunteerService {
                     return false;
                 } else {
 
-                    $filename = FileServiceFacade::storeFile($file, $fileName, $destinationPath);
+                    $filename = $this->fileService->storeFile($file, $fileName, $destinationPath);
 
                     //create a row to the db to associate the file with the volunteer
                     $dbFile = new File([

@@ -3,15 +3,15 @@
 use App\Models\Action;
 use App\Services\Volunteers\VolunteerAssignment;
 use App\Models\ActionTasks\TaskShift;
-use App\Services\Facades\ShiftService;
-use App\Services\Facades\VolunteerService;
-
 class TaskShiftController extends Controller
 {
 
+    private \App\Services\ShiftService $shiftService;
+
     private VolunteerAssignment $volunteerAssignment;
 
-    public function __construct(VolunteerAssignment $volunteerAssignment) {
+    public function __construct(VolunteerAssignment $volunteerAssignment, \App\Services\ShiftService $shiftService) {
+        $this->shiftService = $shiftService;
         $this->volunteerAssignment = $volunteerAssignment;
         $this->middleware('auth');
     }
@@ -88,7 +88,7 @@ class TaskShiftController extends Controller
         }
 
         //add the volunteers to the action
-        ShiftService::addVolunteersToTask($newVolunteers, $shift->id, $action);
+        $this->shiftService->addVolunteersToTask($newVolunteers, $shift->id, $action);
 
         $shift->volunteers()->sync($newVolunteers);
 
@@ -102,7 +102,7 @@ class TaskShiftController extends Controller
     {
         $shift = TaskShift::with('volunteers.actions', 'ctaVolunteers')->find($id);
 
-        ShiftService::deleteTaskShift($shift);
+        $this->shiftService->deleteTaskShift($shift);
 
         return;
     }

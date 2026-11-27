@@ -1,6 +1,5 @@
 <?php namespace App\Console\Commands;
 
-use App\Services\Facades\CronService;
 use Illuminate\Console\Command;
 
 /**
@@ -17,6 +16,13 @@ use Illuminate\Console\Command;
  *
  */
 class CheckActions extends Command {
+
+    private \App\Services\CronService $cronService;
+
+    public function __construct(\App\Services\CronService $cronService) {
+        parent::__construct();
+        $this->cronService = $cronService;
+    }
 
     /**
      * The console command name.
@@ -42,9 +48,9 @@ class CheckActions extends Command {
         //remove, just a check
         $execution_time = microtime(true);
 
-        $expired = CronService::expiredActions();
-        $toExpire = CronService::toExpireActions();
-        $notAvailablle = CronService::notAvailableVolunteers();
+        $expired = $this->cronService->expiredActions();
+        $toExpire = $this->cronService->toExpireActions();
+        $notAvailablle = $this->cronService->notAvailableVolunteers();
 
         $execution_time = microtime(true) - $execution_time;
         $this->comment('Took ' . $execution_time . ' sec');

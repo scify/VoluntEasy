@@ -1,9 +1,14 @@
 <?php namespace App\Http\Middleware;
 
-use App\Services\Facades\UserService;
 use Closure;
 
 class UserPermissions {
+
+    private \App\Services\UserService $userService;
+
+    public function __construct(\App\Services\UserService $userService) {
+        $this->userService = $userService;
+    }
 
 	/**
 	 * Handle an incoming request.
@@ -16,7 +21,7 @@ class UserPermissions {
 	public function handle($request, Closure $next)
 	{
         //get user units
-        $userUnits = UserService::permittedUsersIds();
+        $userUnits = $this->userService->permittedUsersIds();
 
         //if the requested user cannot be editted ny the logged in user, return error page
         if(!in_array( $request->route()->parameter('id'), $userUnits))

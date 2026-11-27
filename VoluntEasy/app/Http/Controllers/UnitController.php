@@ -5,18 +5,23 @@ use App\Services\Volunteers\VolunteerAssignment;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Unit as Unit;
 use App\Models\Volunteer;
-use App\Services\Facades\NotificationService as NotificationService;
-use App\Services\Facades\UnitService;
-use App\Services\Facades\UserService;
-use App\Services\Facades\VolunteerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
 class UnitController extends Controller {
 
+    private \App\Services\NotificationService $notificationService;
+    private \App\Services\UnitService $unitService;
+    private \App\Services\UserService $userService;
+    private \App\Services\VolunteerService $volunteerService;
+
     private VolunteerAssignment $volunteerAssignment;
-    public function __construct(VolunteerAssignment $volunteerAssignment) {
+    public function __construct(VolunteerAssignment $volunteerAssignment, \App\Services\NotificationService $notificationService, \App\Services\UnitService $unitService, \App\Services\UserService $userService, \App\Services\VolunteerService $volunteerService) {
+        $this->notificationService = $notificationService;
+        $this->unitService = $unitService;
+        $this->userService = $userService;
+        $this->volunteerService = $volunteerService;
         $this->volunteerAssignment = $volunteerAssignment;
         $this->middleware('auth');
         $this->middleware('permissions.unit', ['only' => ['edit']]);
@@ -46,9 +51,9 @@ class UnitController extends Controller {
      * different routes and templates for them.
      */
     public function create() {
-        $root = UnitService::getRoot();
+        $root = $this->unitService->getRoot();
 
-        $users = UserService::permittedUsers();
+        $users = $this->userService->permittedUsers();
 
         if ($root == null) {
             $type = 'root';
@@ -84,11 +89,11 @@ class UnitController extends Controller {
             $unit->users()->sync($users);
 
             //notify them
-            NotificationService::usersToUnit($users, $unit);
+            $this->notificationService->usersToUnit($users, $unit);
         }
 
         //create the steps for each unit
-        $unit->steps()->saveMany(UnitService::createSteps());
+        $unit->steps()->saveMany($this->unitService->createSteps());
 
         return Redirect::route('unit/one', ['id' => $unit->id]);
     }
@@ -101,11 +106,11 @@ class UnitController extends Controller {
     public function show($id) {
         $active = Unit::with('actions', 'allActions', 'volunteers')->findOrFail($id);
 
-        $type = UnitService::type($active);
+        $type = $this->unitService->type($active);
 
-        $userUnits = UserService::userUnits();
+        $userUnits = $this->userService->userUnits();
 
-        $branch = UnitService::getBranchString($active);
+        $branch = $this->unitService->getBranchString($active);
 
         $unitId = $active->id;
         $parentUnitId = $active->parent_unit_id;
@@ -136,7 +141,7 @@ class UnitController extends Controller {
                 }]);
             }])->findOrFail($volunteer->id);
 
-            $vol = VolunteerService::setStatusToUnits($vol);
+            $vol = $this->volunteerService->setStatusToUnits($vol);
             array_push($volunteers, $vol);
         }
 
@@ -152,11 +157,11 @@ class UnitController extends Controller {
         $active = Unit::where('id', $id)->with('users', 'actions')->first();
 
         //display all the users in the front end
-        $users = UserService::assignableUsersIds($id);
+        $users = $this->userService->assignableUsersIds($id);
 
-        $userIds = UserService::userIds($active->users);
+        $userIds = $this->userService->userIds($active->users);
 
-        $type = UnitService::type($active);
+        $type = $this->unitService->type($active);
 
         return view("main.units.edit", compact('active', 'type', 'users', 'userIds'));
     }
@@ -189,7 +194,7 @@ class UnitController extends Controller {
         $unit->users()->sync($users);
 
         //notify only new users
-        NotificationService::usersToUnit($newUsers, $unit);
+        $this->notificationService->usersToUnit($newUsers, $unit);
 
         //update the unit
         $unit->update($request->all());
@@ -253,7 +258,7 @@ class UnitController extends Controller {
      * @return mixed
      */
     public function search() {
-        $units = UnitService::search();
+        $units = $this->unitService->search();
 
         return $units;
     }
@@ -270,7 +275,7 @@ class UnitController extends Controller {
         $unit->users()->sync($request->get('users'));
 
         //notify users
-        NotificationService::usersToUnit($request->get('users'), $unit);
+        $this->notificationService->usersToUnit($request->get('users'), $unit);
 
         return $unit->id;
     }
@@ -297,8 +302,8 @@ class UnitController extends Controller {
     }
 
     public function wholeTree() {
-        $tree = UnitService::getTree();
-        $userUnits = UserService::userUnits();
+        $tree = $this->unitService->getTree();
+        $userUnits = $this->userService->userUnits();
         return view("main.tree.tree", compact('tree', 'userUnits'));
     }
 }

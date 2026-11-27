@@ -3,10 +3,15 @@
 use App\Models\Collaboration;
 use App\Models\Descriptions\CollaborationType;
 use App\Models\CollaborationFile;
-use App\Services\Facades\FileService as FileServiceFacade;
-use App\Services\Facades\SearchService as Search;
-
 class CollaborationService{
+
+    private \App\Services\FileService $fileService;
+    private \App\Services\SearchService $searchService;
+
+    public function __construct(\App\Services\FileService $fileService, \App\Services\SearchService $searchService) {
+        $this->fileService = $fileService;
+        $this->searchService = $searchService;
+    }
 
     /**
      * This array holds the names of the filters that the user is able to search by.
@@ -40,7 +45,7 @@ class CollaborationService{
                     return false;
                 } else {
 
-                    $filename = FileServiceFacade::storeFile($file, $fileName, $destinationPath);
+                    $filename = $this->fileService->storeFile($file, $fileName, $destinationPath);
 
                     //create a row to the db to associate the file with the volunteer
                     $dbFile = new CollaborationFile([
@@ -71,7 +76,7 @@ class CollaborationService{
                 $value = \Request::get($column);
                 switch ($filter) {
                     case '=':
-                        if (!Search::notDropDown($value, $column))
+                        if (!$this->searchService->notDropDown($value, $column))
                             $query->where($column, '=', $value);
                         break;
                     case 'like%':

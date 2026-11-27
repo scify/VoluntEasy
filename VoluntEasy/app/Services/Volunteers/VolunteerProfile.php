@@ -6,7 +6,6 @@ use App\Models\Action;
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\Volunteer;
-use App\Services\Facades\UnitService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,6 +15,12 @@ use Illuminate\Support\Facades\Auth;
  */
 class VolunteerProfile
 {
+
+    private \App\Services\UnitService $unitService;
+
+    public function __construct(\App\Services\UnitService $unitService) {
+        $this->unitService = $unitService;
+    }
     /**
      * The volunteer with all relations and the computed values of the profile page.
      */
@@ -102,7 +107,7 @@ class VolunteerProfile
         }
 
         if ($volunteer->units->isEmpty()) {
-            $root = UnitService::getRoot();
+            $root = $this->unitService->getRoot();
             $volunteer->availableUnits = [$root->id => $root->description];
 
             return;

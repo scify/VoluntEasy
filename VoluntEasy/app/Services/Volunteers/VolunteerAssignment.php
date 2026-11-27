@@ -12,9 +12,6 @@ use App\Models\VolunteerActionHistory;
 use App\Models\VolunteerStepStatus;
 use App\Models\VolunteerUnitHistory;
 use App\Models\VolunteerUnitStatus;
-use App\Services\Facades\NotificationService;
-use App\Services\Facades\UnitService;
-use App\Services\Facades\UserService;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -27,6 +24,16 @@ use Illuminate\Support\Facades\Auth;
  */
 class VolunteerAssignment
 {
+
+    private \App\Services\NotificationService $notificationService;
+    private \App\Services\UnitService $unitService;
+    private \App\Services\UserService $userService;
+
+    public function __construct(\App\Services\NotificationService $notificationService, \App\Services\UnitService $unitService, \App\Services\UserService $userService) {
+        $this->notificationService = $notificationService;
+        $this->unitService = $unitService;
+        $this->userService = $userService;
+    }
     /**
      * Update a step of a volunteer (Complete or Incomplete).
      */
@@ -78,11 +85,11 @@ class VolunteerAssignment
      */
     public function addToRootUnit($id): bool
     {
-        if (! UserService::isAdmin()) {
+        if (! $this->userService->isAdmin()) {
             return false;
         }
 
-        $root = UnitService::getRoot();
+        $root = $this->unitService->getRoot();
         $volunteer = Volunteer::findOrFail($id);
 
         $this->createMissingSteps($volunteer, $root);
@@ -126,8 +133,8 @@ class VolunteerAssignment
 
         // the users of the unit get a notification (the administrator, who
         // assigns to the root unit, does not need one)
-        if (! UnitService::isRoot($unit)) {
-            NotificationService::newVolunteer($volunteer->id, $unit->id);
+        if (! $this->unitService->isRoot($unit)) {
+            $this->notificationService->newVolunteer($volunteer->id, $unit->id);
         }
 
         return $volunteer->id;

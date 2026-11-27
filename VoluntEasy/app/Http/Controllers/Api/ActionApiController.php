@@ -5,15 +5,20 @@ use App\Models\Action;
 use App\Models\Rating\ActionRatingAttribute;
 use App\Models\Rating\ActionScore;
 use App\Models\Volunteer;
-use App\Services\Facades\ActionService;
-use App\Services\Facades\VolunteerService;
-
 class ActionApiController extends Controller {
+
+    private \App\Services\ActionService $actionService;
+    private \App\Services\VolunteerService $volunteerService;
+
+    public function __construct(\App\Services\ActionService $actionService, \App\Services\VolunteerService $volunteerService) {
+        $this->actionService = $actionService;
+        $this->volunteerService = $volunteerService;
+    }
 
     public function all() {
         $actions = Action::with('unit', 'volunteers')->orderBy('end_date', 'desc')->get();
 
-        $data = ActionService::prepareForDataTable($actions);
+        $data = $this->actionService->prepareForDataTable($actions);
 
         return ["data" => $data];
     }
@@ -46,7 +51,7 @@ class ActionApiController extends Controller {
         $data = [];
         foreach ($volunteers as $volunteer) {
             if (sizeof($volunteer->units) > 0) {
-                $volunteer = VolunteerService::setStatusToUnits($volunteer);
+                $volunteer = $this->volunteerService->setStatusToUnits($volunteer);
                 array_push($data, $volunteer);
             }
         }

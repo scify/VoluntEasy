@@ -152,21 +152,6 @@ return [
     'aliases' => Illuminate\Support\Facades\Facade::defaultAliases()->merge([
         'Carbon' => Carbon\Carbon::class,
         'Form' => App\Support\Html\Form::class,
-        'ActionService' => App\Services\Facades\ActionService::class,
-        'CollaborationService' => App\Services\Facades\CollaborationService::class,
-        'CronService' => App\Services\Facades\CronService::class,
-        'CTAService' => App\Services\Facades\CTAService::class,
-        'FileService' => App\Services\Facades\FileService::class,
-        'NotificationService' => App\Services\Facades\NotificationService::class,
-        'RatingService' => App\Services\Facades\RatingService::class,
-        'SearchService' => App\Services\Facades\SearchService::class,
-        'ShiftService' => App\Services\Facades\ShiftService::class,
-        'SubtaskService' => App\Services\Facades\SubtaskService::class,
-        'TaskService' => App\Services\Facades\TaskService::class,
-        'TreeService' => App\Services\Facades\TreeService::class,
-        'UnitService' => App\Services\Facades\UnitService::class,
-        'UserService' => App\Services\Facades\UserService::class,
-        'VolunteerService' => App\Services\Facades\VolunteerService::class,
     ])->toArray(),
 
 ];

@@ -3,13 +3,13 @@
 use App\Models\Action;
 use App\Models\Notification;
 use App\Models\Unit;
-use App\Services\Facades\UserService;
-
 /**
  * The PHP Class that will handle the business logic for the Notification Engine
  * [basic methods] -> [add,remove,search]
  */
 class NotificationService {
+
+    private \App\Services\UserService $userService;
 
     /////////////////////////////////////////////////////////////////////////////////////
     //   Notification Types Index                                                     //
@@ -27,7 +27,8 @@ class NotificationService {
     private $userToUnit;
     private $newVolunteer;
 
-    public function __construct(){
+    public function __construct(\App\Services\UserService $userService) {
+        $this->userService = $userService;
         $this->userToUnit = trans('entities/notifications.userToUnit');
         $this->newVolunteer = trans('entities/notifications.newVolunteer');
     }
@@ -156,7 +157,7 @@ class NotificationService {
         $url = '/users/one/' . $userId;
 
         //userId, type of notification, message, url, userId, unitId
-        NotificationService::addNotification($userId, 1, $this->userToUnit . $unit->description . '.', $url, $userId, $unit->id);
+        $this->addNotification($userId, 1, $this->userToUnit . $unit->description . '.', $url, $userId, $unit->id);
 
         return;
     }
@@ -189,7 +190,7 @@ class NotificationService {
         $unit = Unit::with('users')->find($unitId);
 
         foreach ($unit->users as $user) {
-            NotificationService::addNotification($user->id, 2, $this->newVolunteer . $unit->description . '.', $url, $user->id, $unit->id);
+            $this->addNotification($user->id, 2, $this->newVolunteer . $unit->description . '.', $url, $user->id, $unit->id);
         }
     }
 
@@ -207,14 +208,14 @@ class NotificationService {
 
         //notify the unit's users
         foreach ($unit->users as $user) {
-            NotificationService::addNotification($user->id, 5, trans('entities/notifications.actionExpired', ['action' => $action->description, 'date' => $action->end_date]), $url, $user->id, $action->id);
+            $this->addNotification($user->id, 5, trans('entities/notifications.actionExpired', ['action' => $action->description, 'date' => $action->end_date]), $url, $user->id, $action->id);
         }
 
-        $admins = UserService::getAdmins();
+        $admins = $this->userService->getAdmins();
 
         //also notify all the admins
         foreach ($admins as $admin) {
-            NotificationService::addNotification($admin->id, 5, trans('entities/notifications.actionExpired', ['action' => $action->description, 'date' => $action->end_date]), $url, $admin->id, $action->id);
+            $this->addNotification($admin->id, 5, trans('entities/notifications.actionExpired', ['action' => $action->description, 'date' => $action->end_date]), $url, $admin->id, $action->id);
         }
 
     }
@@ -233,14 +234,14 @@ class NotificationService {
 
         //notify the unit's users
         foreach ($unit->users as $user) {
-            NotificationService::addNotification($user->id, 6, trans('entities/notifications.actionExpires', ['action' => $action->description, 'date' => $action->end_date]), $url, $user->id, $action->id);
+            $this->addNotification($user->id, 6, trans('entities/notifications.actionExpires', ['action' => $action->description, 'date' => $action->end_date]), $url, $user->id, $action->id);
         }
 
-        $admins = UserService::getAdmins();
+        $admins = $this->userService->getAdmins();
 
         //also notify all the admins
         foreach ($admins as $admin) {
-            NotificationService::addNotification($admin->id, 6, trans('entities/notifications.actionExpires', ['action' => $action->description, 'date' => $action->end_date]), $url, $admin->id, $action->id);
+            $this->addNotification($admin->id, 6, trans('entities/notifications.actionExpires', ['action' => $action->description, 'date' => $action->end_date]), $url, $admin->id, $action->id);
         }
     }
 
@@ -255,15 +256,15 @@ class NotificationService {
         //notify the unit's users
         foreach ($volunteer->units as $unit) {
             foreach ($unit->users as $user) {
-                NotificationService::addNotification($user->id, 7, trans('entities/notifications.volunteerContractExpired', ['volunteer' => $volunteer->name . ' ' . $volunteer->last_name]), $url, $user->id, $volunteer->id);
+                $this->addNotification($user->id, 7, trans('entities/notifications.volunteerContractExpired', ['volunteer' => $volunteer->name . ' ' . $volunteer->last_name]), $url, $user->id, $volunteer->id);
             }
         }
 
-        $admins = UserService::getAdmins();
+        $admins = $this->userService->getAdmins();
 
         //also notify all the admins
         foreach ($admins as $admin) {
-            NotificationService::addNotification($admin->id, 7, trans('entities/notifications.volunteerContractExpired', ['volunteer' => $volunteer->name . ' ' . $volunteer->last_name]), $url, $admin->id, $volunteer->id);
+            $this->addNotification($admin->id, 7, trans('entities/notifications.volunteerContractExpired', ['volunteer' => $volunteer->name . ' ' . $volunteer->last_name]), $url, $admin->id, $volunteer->id);
         }
 
     }
@@ -280,15 +281,15 @@ class NotificationService {
         //notify the unit's users
         foreach ($volunteer->units as $unit) {
             foreach ($unit->users as $user) {
-                NotificationService::addNotification($user->id, 8, trans('entities/notifications.volunteerContractExpires', ['volunteer' => $volunteer->name . ' ' . $volunteer->last_name]), $url, $user->id, $volunteer->id);
+                $this->addNotification($user->id, 8, trans('entities/notifications.volunteerContractExpires', ['volunteer' => $volunteer->name . ' ' . $volunteer->last_name]), $url, $user->id, $volunteer->id);
             }
         }
 
-        $admins = UserService::getAdmins();
+        $admins = $this->userService->getAdmins();
 
         //also notify all the admins
         foreach ($admins as $admin) {
-            NotificationService::addNotification($admin->id, 8, trans('entities/notifications.volunteerContractExpires', ['volunteer' => $volunteer->name . ' ' . $volunteer->last_name]), $url, $admin->id, $volunteer->id);
+            $this->addNotification($admin->id, 8, trans('entities/notifications.volunteerContractExpires', ['volunteer' => $volunteer->name . ' ' . $volunteer->last_name]), $url, $admin->id, $volunteer->id);
         }
 
     }

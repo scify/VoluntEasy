@@ -1,6 +1,5 @@
 <?php namespace App\Console\Commands;
 
-use App\Services\Facades\CronService;
 use Illuminate\Console\Command;
 
 /**
@@ -12,6 +11,13 @@ use Illuminate\Console\Command;
  *
  */
 class CheckVolunteers extends Command {
+
+    private \App\Services\CronService $cronService;
+
+    public function __construct(\App\Services\CronService $cronService) {
+        parent::__construct();
+        $this->cronService = $cronService;
+    }
 
     /**
      * The console command name.
@@ -37,8 +43,8 @@ class CheckVolunteers extends Command {
         //remove, just a check
         $execution_time = microtime(true);
 
-        $expired = CronService::expiredContracts();
-        $toExpire = CronService::toExpireContracts();
+        $expired = $this->cronService->expiredContracts();
+        $toExpire = $this->cronService->toExpireContracts();
 
         $execution_time = microtime(true) - $execution_time;
         $this->comment('Took ' . $execution_time . ' sec');

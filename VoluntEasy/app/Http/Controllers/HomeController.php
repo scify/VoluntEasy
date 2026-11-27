@@ -2,15 +2,16 @@
 
 use App\Models\Action;
 use App\Models\Volunteer;
-use App\Services\Facades\UserService;
-
 class HomeController extends Controller {
+
+    private \App\Services\UserService $userService;
     
     /**
      * Create a new controller instance.
      *
      */
-    public function __construct() {
+    public function __construct(\App\Services\UserService $userService) {
+        $this->userService = $userService;
         $this->middleware('auth');
     }
 
@@ -25,7 +26,7 @@ class HomeController extends Controller {
         $blacklisted = Volunteer::blacklisted()->count();
         $actions = Action::active()->count();
 
-        $isAdmin = UserService::isAdmin();
+        $isAdmin = $this->userService->isAdmin();
 
         $birthday = $this->birthdayToday();
 

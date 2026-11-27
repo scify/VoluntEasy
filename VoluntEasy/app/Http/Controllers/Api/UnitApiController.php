@@ -4,15 +4,20 @@ use App\Http\Controllers\Controller;
 use App\Models\Action;
 use App\Models\Unit;
 use App\Models\Volunteer;
-use App\Services\Facades\UnitService;
-use App\Services\Facades\VolunteerService;
-
 class UnitApiController extends Controller {
+
+    private \App\Services\UnitService $unitService;
+    private \App\Services\VolunteerService $volunteerService;
+
+    public function __construct(\App\Services\UnitService $unitService, \App\Services\VolunteerService $volunteerService) {
+        $this->unitService = $unitService;
+        $this->volunteerService = $volunteerService;
+    }
 
     public function all() {
         $units = Unit::orderBy('description', 'asc')->with('parent')->get();
 
-        $data = UnitService::prepareForDataTable($units);
+        $data = $this->unitService->prepareForDataTable($units);
 
         return ["data" => $data];
     }
@@ -25,7 +30,7 @@ class UnitApiController extends Controller {
         $data = [];
         foreach ($volunteers as $volunteer) {
             if (sizeof($volunteer->units) > 0) {
-                $volunteer = VolunteerService::setStatusToUnits($volunteer);
+                $volunteer = $this->volunteerService->setStatusToUnits($volunteer);
                 array_push($data, $volunteer);
             }
         }

@@ -33,28 +33,27 @@ use App\Models\OPARating\LaborSkill;
 use App\Models\Unit;
 use App\Models\Volunteer;
 use App\Models\VolunteerAvailabilityTime;
-use App\Services\Facades\RatingService;
-use App\Services\Facades\UserService;
-use App\Services\Facades\VolunteerService;
 use DB;
 use Illuminate\Support\Facades\Session;
 
 class VolunteerController extends Controller {
 
-    private VolunteerAssignment $volunteerAssignment;
-
     use ChecksUploadedFiles;
 
-    private $configuration;
-    private $volunteerService;
-    private $ratingService;
-
-    public function __construct(ConfigurationInterface $configuration, VolunteerInterface $volunteerService, RatingInterface $ratingService, VolunteerAssignment $volunteerAssignment) {
-        $this->volunteerAssignment = $volunteerAssignment;
+    /**
+     * @param  VolunteerInterface  $volunteerForm  The volunteer form of the deployment flavour
+     * @param  RatingInterface  $flavourRatings  The rating pages of the deployment flavour
+     */
+    public function __construct(
+        private readonly ConfigurationInterface $configuration,
+        private readonly VolunteerInterface $volunteerForm,
+        private readonly RatingInterface $flavourRatings,
+        private readonly VolunteerAssignment $volunteerAssignment,
+        private readonly \App\Services\VolunteerService $volunteerService,
+        private readonly \App\Services\RatingService $ratingService,
+        private readonly \App\Services\UserService $userService,
+    ) {
         $this->middleware('auth', ['except' => ['publicForm']]);
-        $this->configuration = $configuration;
-        $this->volunteerService = $volunteerService;
-        $this->ratingService = $ratingService;
     }
 
     /**
@@ -123,13 +122,13 @@ class VolunteerController extends Controller {
             return $rejected;
         }
 
-        $saved = $this->volunteerService->store();
+        $saved = $this->volunteerForm->store();
 
         if (is_array($saved))
             return redirect()->back()->withErrors($saved['messages'])->withInput();
 
         if ($files !== [])
-            VolunteerService::storeFiles($files, $saved->id);
+            $this->volunteerService->storeFiles($files, $saved->id);
 
         return \Redirect::route('volunteer/profile', ['id' => $saved->id]);
     }
@@ -144,9 +143,9 @@ class VolunteerController extends Controller {
         $volunteer = app(VolunteerProfile::class)->fullProfile($id);
        // return $volunteer;
         $timeline = app(VolunteerProfile::class)->timeline($id);
-        $volunteer = VolunteerService::setStatusToUnits($volunteer);
+        $volunteer = $this->volunteerService->setStatusToUnits($volunteer);
         $totalWorkingHours = app(VolunteerProfile::class)->totalWorkingHours($timeline);
-        $totalRatings = RatingService::totalVolunteerRating($timeline);
+        $totalRatings = $this->ratingService->totalVolunteerRating($timeline);
         $actionsRatings = app(VolunteerProfile::class)->actionsRatings($id);
 
         //get the count of pending and available units, used in the front end
@@ -161,13 +160,13 @@ class VolunteerController extends Controller {
 
         //check if the volunteer is permitted to be edited by the
         //currently logged in user
-        $permittedVolunteers = UserService::permittedVolunteersIds();
+        $permittedVolunteers = $this->userService->permittedVolunteersIds();
         if (in_array($volunteer->id, $permittedVolunteers))
             $volunteer->permitted = true;
         else
             $volunteer->permitted = false;
 
-        $userUnits = UserService::userUnits();
+        $userUnits = $this->userService->userUnits();
 
         $actionsCount = 0;
         foreach ($timeline as $block) {
@@ -183,7 +182,7 @@ class VolunteerController extends Controller {
         $laborSkills = LaborSkill::all();
         $interpersonalSkills = InterpersonalSkill::all();
 
-        $customRatings = $this->ratingService->hasCustomRatings();
+        $customRatings = $this->flavourRatings->hasCustomRatings();
 
         return view('main.volunteers.show', compact('volunteer', 'pending', 'available', 'timeline', 'userUnits', 'actionsCount', 'actionsRatings', 'totalRatings', 'totalWorkingHours', 'extras', 'extrasPath', 'laborSkills', 'interpersonalSkills', 'customRatings', 'hasTasks'));
     }
@@ -261,13 +260,13 @@ class VolunteerController extends Controller {
             return $rejected;
         }
 
-        $saved = $this->volunteerService->update($volunteer);
+        $saved = $this->volunteerForm->update($volunteer);
 
         if (is_array($saved))
             return redirect()->back()->withErrors($saved['messages'])->withInput();
 
         if ($files !== [])
-            VolunteerService::storeFiles($files, $volunteer->id);
+            $this->volunteerService->storeFiles($files, $volunteer->id);
 
         return \Redirect::route('volunteer/profile', ['id' => $volunteer->id]);
     }

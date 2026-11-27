@@ -3,8 +3,6 @@
 namespace App\Services\Volunteers;
 
 use App\Models\Volunteer;
-use App\Services\Facades\SearchService as Search;
-use App\Services\Facades\VolunteerService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -15,6 +13,14 @@ use Illuminate\Http\Request;
  */
 class VolunteerSearch
 {
+
+    private \App\Services\SearchService $searchService;
+    private \App\Services\VolunteerService $volunteerService;
+
+    public function __construct(\App\Services\SearchService $searchService, \App\Services\VolunteerService $volunteerService) {
+        $this->searchService = $searchService;
+        $this->volunteerService = $volunteerService;
+    }
     /** Text filters: the column starts with the value. */
     private const STARTS_WITH = ['name', 'last_name'];
 
@@ -48,7 +54,7 @@ class VolunteerSearch
         $query = Volunteer::query();
 
         if ($request->filled('my_volunteers')) {
-            $query->whereIn('id', VolunteerService::permittedVolunteersIds());
+            $query->whereIn('id', $this->volunteerService->permittedVolunteersIds());
         }
 
         $this->filterByStatus($query, $request);
@@ -63,7 +69,7 @@ class VolunteerSearch
 
         $volunteers = $query->orderBy('name', 'asc')->with('actions', 'units')->get();
 
-        return ['data' => VolunteerService::prepareForDataTable($volunteers)];
+        return ['data' => $this->volunteerService->prepareForDataTable($volunteers)];
     }
 
     /** @param Builder<Volunteer> $query */
@@ -92,7 +98,7 @@ class VolunteerSearch
 
         foreach (self::EQUALS as $column) {
             $value = $request->input($column);
-            if ($request->filled($column) && ! Search::notDropDown($value, $column)) {
+            if ($request->filled($column) && ! $this->searchService->notDropDown($value, $column)) {
                 $query->where($column, '=', $value);
             }
         }
@@ -137,7 +143,7 @@ class VolunteerSearch
     {
         foreach (['unit_id' => ['units', 'unit_id'], 'interest_id' => ['interests', 'interest_id']] as $field => [$relation, $column]) {
             $id = $request->input($field);
-            if ($request->filled($field) && ! Search::notDropDown($id, $field)) {
+            if ($request->filled($field) && ! $this->searchService->notDropDown($id, $field)) {
                 $query->whereHas($relation, fn (Builder $query) => $query->where($column, $id));
             }
         }

@@ -2,10 +2,13 @@
 
 use App\Models\Step as Step;
 use App\Models\Unit;
-use App\Services\Facades\SearchService as Search;
-use App\Services\Facades\UserService as UserServiceFacade;
-
 class UnitService {
+
+    private \App\Services\SearchService $searchService;
+
+    public function __construct(\App\Services\SearchService $searchService) {
+        $this->searchService = $searchService;
+    }
 
     /**
      * This array holds the names of the filters that the user is able to search by.
@@ -155,7 +158,7 @@ class UnitService {
     }
 
     public function prepareForDataTable($units) {
-        $userUnits = UserServiceFacade::userUnits();
+        $userUnits = app(\App\Services\UserService::class)->userUnits();
 
         foreach ($units as $unit) {
             if (in_array($unit->id, $userUnits))
@@ -175,7 +178,7 @@ class UnitService {
     public function search() {
 
         if (\Request::filled('my_units')) {
-            $userUnits = UserServiceFacade::userUnits();
+            $userUnits = app(\App\Services\UserService::class)->userUnits();
             $query = Unit::whereIn('id', $userUnits);
         } else
             $query = Unit::select();
@@ -185,7 +188,7 @@ class UnitService {
                 $value = \Request::get($column);
                 switch ($filter) {
                     case '=':
-                        if (!Search::notDropDown($value, $column))
+                        if (!$this->searchService->notDropDown($value, $column))
                             $query->where($column, '=', \Request::get($column));
                         break;
                     case 'like%':
@@ -194,7 +197,7 @@ class UnitService {
                     case '':
                         switch ($column) {
                             case 'user_id':
-                                if (!Search::notDropDown($value, $column)) {
+                                if (!$this->searchService->notDropDown($value, $column)) {
                                     $id = \Request::get('user_id');
                                     $query->whereHas('users', function ($query) use ($id) {
                                         $query->where('id', $id);

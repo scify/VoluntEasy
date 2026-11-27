@@ -5,20 +5,22 @@ use App\Services\Volunteers\VolunteerProfile;
 use Interfaces\VolunteerInterface;
 use App\Models\Descriptions\StepStatus;
 use App\Models\Volunteer;
-use App\Services\Facades\UserService;
-use App\Services\Facades\VolunteerService;
-
 class VolunteerApiController extends Controller {
 
-    public function __construct() {
+    private \App\Services\UserService $userService;
+    private \App\Services\VolunteerService $volunteerService;
+
+    public function __construct(\App\Services\UserService $userService, \App\Services\VolunteerService $volunteerService) {
+        $this->userService = $userService;
+        $this->volunteerService = $volunteerService;
     }
 
     public function all() {
         $volunteers = Volunteer::with('units', 'actions')->orderBy('name', 'asc')->get();
 
-        $permittedVolunteers = VolunteerService::permittedVolunteersIds();
+        $permittedVolunteers = $this->volunteerService->permittedVolunteersIds();
 
-        $data = VolunteerService::prepareForDataTable($volunteers);
+        $data = $this->volunteerService->prepareForDataTable($volunteers);
 
         return ["data" => $data];
     }
@@ -44,7 +46,7 @@ class VolunteerApiController extends Controller {
             foreach ($pending as $volunteer) {
                 $id = $volunteer->id;
                 $pendingStatus = StepStatus::incomplete();
-                $permittedUnits = UserService::userUnits();
+                $permittedUnits = $this->userService->userUnits();
 
                 $volunteer = Volunteer::with(['units' => function ($q) use ($id, $pendingStatus, $permittedUnits) {
                     $q->whereIn('unit_id', $permittedUnits)->with(['steps' => function ($query) use ($id, $pendingStatus) {
@@ -54,20 +56,20 @@ class VolunteerApiController extends Controller {
                     }]);
                 }])->where('id', $id)->first();
 
-                if (sizeof($volunteer->units) > 0 && VolunteerService::isPermitted($id))
+                if (sizeof($volunteer->units) > 0 && $this->volunteerService->isPermitted($id))
                     array_push($volunteers, $volunteer);
             }
         }
-        $permittedVolunteers = VolunteerService::permittedVolunteersIds();
+        $permittedVolunteers = $this->volunteerService->permittedVolunteersIds();
 
-        $data = VolunteerService::prepareForDataTable($volunteers);
+        $data = $this->volunteerService->prepareForDataTable($volunteers);
 
         return ["data" => $data];
     }
 
     public function show($id) {
         $volunteer = app(VolunteerProfile::class)->fullProfile($id);
-        $volunteer = VolunteerService::setStatusToUnits($volunteer);
+        $volunteer = $this->volunteerService->setStatusToUnits($volunteer);
 
         //get the count of pending and available units, used in the front end
         $pending = 0;
@@ -81,7 +83,7 @@ class VolunteerApiController extends Controller {
 
         //chekc if the volunteer is permitted to be edited by the
         //currently logged in user
-        $permittedVolunteers = UserService::permittedVolunteersIds();
+        $permittedVolunteers = $this->userService->permittedVolunteersIds();
         if (in_array($volunteer->id, $permittedVolunteers))
             $volunteer->permitted = true;
         else

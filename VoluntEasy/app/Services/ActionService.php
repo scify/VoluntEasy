@@ -3,10 +3,15 @@
 use App\Models\Action;
 use App\Models\Rating\ActionRatingAttribute;
 use App\Models\Rating\ActionScore;
-use App\Services\Facades\SearchService as Search;
-use App\Services\Facades\UserService as UserServiceFacade;
-
 class ActionService {
+
+    private \App\Services\SearchService $searchService;
+    private \App\Services\UserService $userService;
+
+    public function __construct(\App\Services\SearchService $searchService, \App\Services\UserService $userService) {
+        $this->searchService = $searchService;
+        $this->userService = $userService;
+    }
 
     /**
      * This array holds the names of the filters that the user is able to search by.
@@ -48,8 +53,8 @@ class ActionService {
     }
 
     public function prepareForDataTable($actions) {
-        $userUnits = UserServiceFacade::userUnits();
-        $userActions = UserServiceFacade::userActions();
+        $userUnits = $this->userService->userUnits();
+        $userActions = $this->userService->userActions();
 
         foreach ($actions as $action) {
             if (in_array($action->unit->id, $userUnits) || in_array($action->id, $userActions))
@@ -76,7 +81,7 @@ class ActionService {
                 $value = \Request::get($column);
                 switch ($filter) {
                     case '=':
-                        if (!Search::notDropDown($value, $column))
+                        if (!$this->searchService->notDropDown($value, $column))
                             $query->where($column, '=', $value);
                         break;
                     case 'like%':

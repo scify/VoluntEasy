@@ -3,11 +3,16 @@
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\Volunteer;
-use App\Services\Facades\SearchService as Search;
-use App\Services\Facades\UnitService as UnitServiceFacade;
-
 class UserService
 {
+
+    private \App\Services\SearchService $searchService;
+    private \App\Services\UnitService $unitService;
+
+    public function __construct(\App\Services\SearchService $searchService, \App\Services\UnitService $unitService) {
+        $this->searchService = $searchService;
+        $this->unitService = $unitService;
+    }
 
     private $unitsIds = [];
     private $permittedUsers = [];
@@ -137,7 +142,7 @@ class UserService
      */
     public function isAdmin($userId = null)
     {
-        $rootId = UnitServiceFacade::getRoot()->id;
+        $rootId = $this->unitService->getRoot()->id;
 
         if ($userId == null)
             $userId = \Auth::id();
@@ -159,7 +164,7 @@ class UserService
      */
     public function getAdmins()
     {
-        $rootId = UnitServiceFacade::getRoot()->id;
+        $rootId = $this->unitService->getRoot()->id;
 
         $users = User::whereHas('units', function ($q) use ($rootId) {
             $q->where('id', $rootId);
@@ -336,7 +341,7 @@ class UserService
 
         $unit = Unit::with('allParents')->findOrFail($unitId);
 
-        $parentIds = UnitServiceFacade::parentIds($unit);
+        $parentIds = $this->unitService->parentIds($unit);
 
         //the query
         $assignableUsers = User::whereDoesntHave('units', function ($q) use ($parentIds) {
@@ -353,7 +358,7 @@ class UserService
 
     public function prepareForDataTable($users)
     {
-        $permittedUsers = UserService::permittedUsersIds();
+        $permittedUsers = $this->permittedUsersIds();
 
         foreach ($users as $user) {
 
@@ -406,7 +411,7 @@ class UserService
                 $value = \Request::get($column);
                 switch ($filter) {
                     case '=':
-                        if (!Search::notDropDown($value, $column))
+                        if (!$this->searchService->notDropDown($value, $column))
                             $query->where($column, '=', $value);
                         break;
                     case 'like%':
@@ -415,7 +420,7 @@ class UserService
                     case '':
                         switch ($column) {
                             case 'unit_id':
-                                if (!Search::notDropDown($value, $column)) {
+                                if (!$this->searchService->notDropDown($value, $column)) {
                                     $id = \Request::get('unit_id');
                                     $query->whereHas('units', function ($query) use ($id) {
                                         $query->where('id', $id);

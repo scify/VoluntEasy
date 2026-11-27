@@ -6,9 +6,13 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Unit as Unit;
 use App\Models\User as User;
-use \App\Services\Facades\UnitService;
-
 class UnitTableSeeder extends Seeder {
+
+    private \App\Services\UnitService $unitService;
+
+    public function __construct(\App\Services\UnitService $unitService) {
+        $this->unitService = $unitService;
+    }
 
     /**
      * Run the database seeds.
@@ -23,7 +27,7 @@ class UnitTableSeeder extends Seeder {
             'comments' => 'Root unit',
         ]);
 
-        $unit->steps()->saveMany(UnitService::createSteps());
+        $unit->steps()->saveMany($this->unitService->createSteps());
 
     }
 

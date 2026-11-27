@@ -15,8 +15,6 @@ use App\Models\Descriptions\WorkStatus;
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\Volunteer;
-use App\Services\Facades\UnitService;
-use App\Services\Facades\UserService;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,6 +25,8 @@ use Illuminate\Support\ServiceProvider;
  * @package App\Providers
  */
 class ViewComposerServiceProvider extends ServiceProvider {
+
+
 
     /**
      * Bootstrap the application services.
@@ -104,8 +104,8 @@ class ViewComposerServiceProvider extends ServiceProvider {
 
         //Data used for the tree
         View::composer('main.tree._tree', function ($view) {
-            $tree = UnitService::getTree();
-            $userUnits = UserService::userUnits();
+            $tree = app(\App\Services\UnitService::class)->getTree();
+            $userUnits = app(\App\Services\UserService::class)->userUnits();
 
             $view->with('userUnits', $userUnits)->with('tree', $tree);
         });
@@ -114,11 +114,11 @@ class ViewComposerServiceProvider extends ServiceProvider {
         //We need to determine if the user is root
         View::composer('main.volunteers.partials._table', function ($view) {
             $root = false;
-            if (UserService::isAdmin())
+            if (app(\App\Services\UserService::class)->isAdmin())
                 $root = true;
 
             //also get an array of the permittedVolunteer ids
-            $permittedVolunteers = UserService::permittedVolunteersIds();
+            $permittedVolunteers = app(\App\Services\UserService::class)->permittedVolunteersIds();
 
             $view->with('root', $root)
                 ->with('permittedVolunteers', $permittedVolunteers);

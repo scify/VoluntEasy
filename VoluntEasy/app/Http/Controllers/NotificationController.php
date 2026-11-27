@@ -1,9 +1,9 @@
 <?php namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Services\Facades\NotificationService;
+class NotificationController extends Controller {
 
-Class NotificationController extends Controller {
+    private \App\Services\NotificationService $notificationService;
 
     /////////////////////////////////////////////////////////////////////////////////
     //   Notification Types Index                                                  //
@@ -14,7 +14,8 @@ Class NotificationController extends Controller {
     //   4 = Volunteer submitted the Questionnaire (parent Unit-Users)        //
     //////////////////////////////////////////////////////////////////////////
 
-    public function __construct() {
+    public function __construct(\App\Services\NotificationService $notificationService) {
+        $this->notificationService = $notificationService;
         $this->middleware('auth');
     }
 
@@ -31,7 +32,7 @@ Class NotificationController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
     public function stopBellNotification($notificationId) {
-        if (NotificationService::stopBellNotification($notificationId)) {
+        if ($this->notificationService->stopBellNotification($notificationId)) {
             $status = 'success';
             $msg = 'the bell Sound is deactivated';
         } else {
@@ -56,7 +57,7 @@ Class NotificationController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
     public function deactivateNotification($notificationId) {
-        if (NotificationService::deactivateNotification($notificationId)) {
+        if ($this->notificationService->deactivateNotification($notificationId)) {
             $status = 'success';
             $msg = 'notification is deactivated';
         } else {
@@ -78,7 +79,7 @@ Class NotificationController extends Controller {
      * @return list<\App\Models\Notification> The active and the latest inactive notifications
      */
     public function checkForNotifications() {
-        return $notificationsList = NotificationService::checkForNotifications();
+        return $notificationsList = $this->notificationService->checkForNotifications();
     }
 
 }

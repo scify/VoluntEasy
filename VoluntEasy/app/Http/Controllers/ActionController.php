@@ -13,24 +13,30 @@ use App\Models\Roles\Role;
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\Volunteer;
-use App\Services\Facades\ActionService;
-use App\Services\Facades\CTAService;
-use App\Services\Facades\SubtaskService;
-use App\Services\Facades\TaskService;
-use App\Services\Facades\UnitService;
-use App\Services\Facades\UserService;
-use App\Services\Facades\VolunteerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
 class ActionController extends Controller {
 
+    private \App\Services\ActionService $actionService;
+    private \App\Services\CTAService $cTAService;
+    private \App\Services\SubtaskService $subtaskService;
+    private \App\Services\TaskService $taskService;
+    private \App\Services\UnitService $unitService;
+    private \App\Services\UserService $userService;
+
     private VolunteerAssignment $volunteerAssignment;
 
     private $configuration;
 
-    public function __construct(ConfigurationInterface $configuration, VolunteerAssignment $volunteerAssignment) {
+    public function __construct(ConfigurationInterface $configuration, VolunteerAssignment $volunteerAssignment, \App\Services\ActionService $actionService, \App\Services\CTAService $cTAService, \App\Services\SubtaskService $subtaskService, \App\Services\TaskService $taskService, \App\Services\UnitService $unitService, \App\Services\UserService $userService) {
+        $this->actionService = $actionService;
+        $this->cTAService = $cTAService;
+        $this->subtaskService = $subtaskService;
+        $this->taskService = $taskService;
+        $this->unitService = $unitService;
+        $this->userService = $userService;
         $this->volunteerAssignment = $volunteerAssignment;
         $this->middleware('auth');
         $this->configuration = $configuration;
@@ -44,12 +50,12 @@ class ActionController extends Controller {
         $actions = Action::with('unit', 'volunteers')->get();
 
         foreach ($actions as $action) {
-            $action->unit->branch = UnitService::getBranchString($action->unit);
+            $action->unit->branch = $this->unitService->getBranchString($action->unit);
         }
 
         // $actions->setPath(\URL::to('/') . '/actions');
 
-        $userUnits = UserService::userUnits();
+        $userUnits = $this->userService->userUnits();
 
         return view("main.actions.list", compact('actions', 'userUnits'));
     }
@@ -58,9 +64,9 @@ class ActionController extends Controller {
      * Show the form for creating a new resource.
      */
     public function create() {
-        $tree = UnitService::getTree();
+        $tree = $this->unitService->getTree();
 
-        $userUnits = UserService::userUnits();
+        $userUnits = $this->userService->userUnits();
 
         $configuration = $this->configuration;
 
@@ -96,11 +102,8 @@ class ActionController extends Controller {
             'publicAction.subtasks')
             ->findOrFail($id);
 
-        $branch = UnitService::getBranch(Unit::where('id', $action->unit->id)->with('actions')->first());
+        $branch = $this->unitService->getBranch(Unit::where('id', $action->unit->id)->with('actions')->first());
 
-        /*//get the volunteer ids in an array for the select box
-        $volunteerIds = VolunteerService::volunteerIds($action->volunteers);
-*/
         $unitId = $action->unit_id;
 
         //check if action has expired
@@ -110,8 +113,8 @@ class ActionController extends Controller {
         if ($endDate < $now)
             $action->expired = true;
 
-        $userUnits = UserService::userUnits();
-        $userActions = UserService::userActions();
+        $userUnits = $this->userService->userUnits();
+        $userActions = $this->userService->userActions();
         if (in_array($action->unit->id, $userUnits) || in_array($action->id, $userActions))
             $isPermitted = true;
         else
@@ -120,7 +123,7 @@ class ActionController extends Controller {
         $taskStatuses = Status::all();
 
         //get subtasks per status, calculate total volunteer sum etc
-        $action = TaskService::prepareTasks($action);
+        $action = $this->taskService->prepareTasks($action);
 
         //get all users that can assigned to a task
         $users = User::orderBy('name')->get();
@@ -136,7 +139,7 @@ class ActionController extends Controller {
 
         $publicSubtasks = null;
         if ($action->publicAction != null)
-            $publicSubtasks = CTAService::getPublicSubtasks($action);
+            $publicSubtasks = $this->cTAService->getPublicSubtasks($action);
 
         $configuration = $this->configuration;
 
@@ -152,7 +155,7 @@ class ActionController extends Controller {
         $action = Action::where('id', $id)->first();
         $actives = [$action->id];
 
-        $userUnits = UserService::userUnits();
+        $userUnits = $this->userService->userUnits();
 
         $configuration = $this->configuration;
 
@@ -186,7 +189,7 @@ class ActionController extends Controller {
         //first delete any task, subtask and shifts associated with the action
         foreach ($action->tasks as $task) {
             foreach ($task->subtasks as $subtask) {
-                SubtaskService::delete($subtask);
+                $this->subtaskService->delete($subtask);
             }
             $task->delete();
         }
@@ -224,7 +227,7 @@ class ActionController extends Controller {
      * @return mixed
      */
     public function search() {
-        $actions = ActionService::search();
+        $actions = $this->actionService->search();
 
         return $actions;
     }

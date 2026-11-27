@@ -1,10 +1,14 @@
 <?php namespace App\Services;
 
 use App\Models\CTA\PublicActionSubTask;
-use App\Services\Facades\ShiftService as ShiftServiceFacade;
-
 class SubtaskService
 {
+
+    private \App\Services\ShiftService $shiftService;
+
+    public function __construct(\App\Services\ShiftService $shiftService) {
+        $this->shiftService = $shiftService;
+    }
 
     /**
      * Delete a subtask and remove all associated rows
@@ -15,7 +19,7 @@ class SubtaskService
 
         //remove the associated shifts
         foreach ($subTask->shifts as $shift) {
-            ShiftServiceFacade::deleteSubtaskShift($shift);
+            $this->shiftService->deleteSubtaskShift($shift);
         }
 
         //remove the public subtasks

@@ -5,14 +5,14 @@ use App\Services\Volunteers\VolunteerAssignment;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Rating\ActionRating;
 use App\Models\Volunteer;
-use App\Services\Facades\NotificationService as NotificationServiceFacade;
-use App\Services\Facades\VolunteerService as VolunteerServiceFacade;
-
 class CronService {
+
+    private \App\Services\NotificationService $notificationService;
 
     private VolunteerAssignment $volunteerAssignment;
 
-    public function __construct(VolunteerAssignment $volunteerAssignment) {
+    public function __construct(VolunteerAssignment $volunteerAssignment, \App\Services\NotificationService $notificationService) {
+        $this->notificationService = $notificationService;
         $this->volunteerAssignment = $volunteerAssignment;
     }
 
@@ -70,7 +70,7 @@ class CronService {
             }
 
             //notify users that action has expired
-            NotificationServiceFacade::actionExpired($expired->id);
+            $this->notificationService->actionExpired($expired->id);
         }
 
         return $expiredActions;
@@ -100,7 +100,7 @@ class CronService {
             //if the time is right (that is if today is the same day as
             //start_date + durationHalf, notify the users
             if ((int) $startDate->addDays($durationHalf)->diffInDays($now, true) == 0) {
-                NotificationServiceFacade::actionWillExpire($action->id);
+                $this->notificationService->actionWillExpire($action->id);
                 $count++;
             }
         }
@@ -147,7 +147,7 @@ class CronService {
         $expiredContracts = Volunteer::expiredContract()->with('units.users')->get();
 
         foreach ($expiredContracts as $volunteer) {
-            NotificationServiceFacade::volunteerContractExpired($volunteer);
+            $this->notificationService->volunteerContractExpired($volunteer);
         }
 
         return;
@@ -161,7 +161,7 @@ class CronService {
         $toExpireContracts = Volunteer::toExpireContract()->with('units.users')->get();
 
         foreach ($toExpireContracts as $volunteer) {
-            NotificationServiceFacade::volunteerContractToExpire($volunteer);
+            $this->notificationService->volunteerContractToExpire($volunteer);
         }
 
         return;

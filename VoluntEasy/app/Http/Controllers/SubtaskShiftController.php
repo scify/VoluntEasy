@@ -3,15 +3,15 @@
 use App\Models\Action;
 use App\Services\Volunteers\VolunteerAssignment;
 use App\Models\ActionTasks\SubtaskShift;
-use App\Services\Facades\ShiftService;
-use App\Services\Facades\VolunteerService;
-
 class SubtaskShiftController extends Controller
 {
 
+    private \App\Services\ShiftService $shiftService;
+
     private VolunteerAssignment $volunteerAssignment;
 
-    public function __construct(VolunteerAssignment $volunteerAssignment) {
+    public function __construct(VolunteerAssignment $volunteerAssignment, \App\Services\ShiftService $shiftService) {
+        $this->shiftService = $shiftService;
         $this->volunteerAssignment = $volunteerAssignment;
         $this->middleware('auth');
     }
@@ -88,7 +88,7 @@ class SubtaskShiftController extends Controller
         }
 
         //add the volunteers to the action
-        ShiftService::addVolunteersToSubtask($newVolunteers, $shift->id, $action);
+        $this->shiftService->addVolunteersToSubtask($newVolunteers, $shift->id, $action);
 
         $shift->volunteers()->sync($newVolunteers);
 
@@ -102,7 +102,7 @@ class SubtaskShiftController extends Controller
     {
         $shift = SubtaskShift::with('volunteers.actions', 'ctaVolunteers')->find($id);
 
-        ShiftService::deleteSubtaskShift($shift);
+        $this->shiftService->deleteSubtaskShift($shift);
 
         return;
     }

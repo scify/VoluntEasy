@@ -2,16 +2,21 @@
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Services\Facades\TreeService;
-use App\Services\Facades\UserService;
-
 class TreeApiController extends Controller {
+
+    private \App\Services\TreeService $treeService;
+    private \App\Services\UserService $userService;
+
+    public function __construct(\App\Services\TreeService $treeService, \App\Services\UserService $userService) {
+        $this->treeService = $treeService;
+        $this->userService = $userService;
+    }
 
     public function tree() {
 
-        $tree = TreeService::getTree();
-        $userUnits = UserService::userUnits();
-        $tree = TreeService::setPermissions($tree, $userUnits);
+        $tree = $this->treeService->getTree();
+        $userUnits = $this->userService->userUnits();
+        $tree = $this->treeService->setPermissions($tree, $userUnits);
 
         return $tree;
     }
@@ -20,11 +25,11 @@ class TreeApiController extends Controller {
 
         $user = User::with('units')->findOrFail($id);
 
-        $tree = TreeService::getTree();
+        $tree = $this->treeService->getTree();
 
-        $tree = TreeService::setPermissions($tree, UserService::userUnits());
+        $tree = $this->treeService->setPermissions($tree, $this->userService->userUnits());
 
-        $tree = TreeService::setActives($user->units->pluck('id')->all(), $tree);
+        $tree = $this->treeService->setActives($user->units->pluck('id')->all(), $tree);
 
         return $tree;
     }

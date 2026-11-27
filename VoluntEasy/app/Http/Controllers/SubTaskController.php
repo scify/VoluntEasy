@@ -4,15 +4,17 @@ use App\Models\ActionTasks\Status;
 use App\Models\ActionTasks\SubTask;
 use App\Models\ActionTasks\Task;
 use App\Models\Volunteer;
-use App\Services\Facades\SubtaskService;
-use App\Services\Facades\TaskService;
-use App\Services\Facades\VolunteerService;
-
 class SubTaskController extends Controller
 {
 
-    public function __construct()
-    {
+    private \App\Services\SubtaskService $subtaskService;
+    private \App\Services\TaskService $taskService;
+    private \App\Services\VolunteerService $volunteerService;
+
+    public function __construct(\App\Services\SubtaskService $subtaskService, \App\Services\TaskService $taskService, \App\Services\VolunteerService $volunteerService) {
+        $this->subtaskService = $subtaskService;
+        $this->taskService = $taskService;
+        $this->volunteerService = $volunteerService;
         $this->middleware('auth');
     }
 
@@ -26,7 +28,7 @@ class SubTaskController extends Controller
     {
         $subTask = SubTask::with('users', 'volunteers', 'shifts.volunteers', 'checklist.createdBy', 'checklist.updatedBy', 'shifts.ctaVolunteers.volunteer', 'action')->findOrFail($id);
 
-        $subTask->unitVolunteers = VolunteerService::getAvailableUnitVolunteers($subTask->action->unit_id);
+        $subTask->unitVolunteers = $this->volunteerService->getAvailableUnitVolunteers($subTask->action->unit_id);
 
         //check if cta volunteer already exists in db, based on the email
         foreach ($subTask->shifts as $i => $date) {
@@ -76,8 +78,8 @@ class SubTaskController extends Controller
 
         $subTask->save();
 
-        SubtaskService::syncUsers($subTask);
-        SubtaskService::syncVolunteers($subTask);
+        $this->subtaskService->syncUsers($subTask);
+        $this->subtaskService->syncVolunteers($subTask);
 
         return $subTask;
     }
@@ -101,8 +103,8 @@ class SubTaskController extends Controller
             'due_date' => $due_date
         ]);
 
-        SubtaskService::syncUsers($subTask);
-        SubtaskService::syncVolunteers($subTask);
+        $this->subtaskService->syncUsers($subTask);
+        $this->subtaskService->syncVolunteers($subTask);
 
         return $subTask;
     }
@@ -120,7 +122,7 @@ class SubTaskController extends Controller
 
         $task = Task::with('subtasks')->find($subTask->task_id);
 
-        $taskStatus = TaskService::taskStatus($task);
+        $taskStatus = $this->taskService->taskStatus($task);
 
         return $taskStatus;
     }
@@ -136,7 +138,7 @@ class SubTaskController extends Controller
 
         $subTask = SubTask::with('shifts.volunteers')->find($id);
 
-        SubtaskService::delete($subTask);
+        $this->subtaskService->delete($subTask);
 
         \Session::flash('flash_message', trans('entities/subtasks.deleted'));
         \Session::flash('flash_type', 'alert-success');

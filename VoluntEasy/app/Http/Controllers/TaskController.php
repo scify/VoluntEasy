@@ -3,13 +3,16 @@
 use App\Models\ActionTasks\Status;
 use App\Models\ActionTasks\Task;
 use App\Models\ActionTasks\VolunteerTask;
-use App\Services\Facades\SubtaskService;
-use App\Services\Facades\TaskService;
-use App\Services\Facades\VolunteerService;
-
 class TaskController extends Controller {
 
-    public function __construct() {
+    private \App\Services\SubtaskService $subtaskService;
+    private \App\Services\TaskService $taskService;
+    private \App\Services\VolunteerService $volunteerService;
+
+    public function __construct(\App\Services\SubtaskService $subtaskService, \App\Services\TaskService $taskService, \App\Services\VolunteerService $volunteerService) {
+        $this->subtaskService = $subtaskService;
+        $this->taskService = $taskService;
+        $this->volunteerService = $volunteerService;
         $this->middleware('auth');
     }
 
@@ -21,7 +24,7 @@ class TaskController extends Controller {
      */
     public function show($id) {
         $task = Task::with('action', 'users', 'volunteers', 'checklist.createdBy', 'checklist.updatedBy', 'shifts.volunteers')->findOrFail($id);
-        $task->unitVolunteers = VolunteerService::getAvailableUnitVolunteers($task->action->unit_id);
+        $task->unitVolunteers = $this->volunteerService->getAvailableUnitVolunteers($task->action->unit_id);
 
         return $task;
     }
@@ -52,8 +55,8 @@ class TaskController extends Controller {
 
         $task->save();
 
-        TaskService::syncUsers($task);
-        TaskService::syncVolunteers($task);
+        $this->taskService->syncUsers($task);
+        $this->taskService->syncVolunteers($task);
 
         return $task;
     }
@@ -84,8 +87,8 @@ class TaskController extends Controller {
             'due_date' => $due_date
         ]);
 
-        TaskService::syncUsers($task);
-        TaskService::syncVolunteers($task);
+        $this->taskService->syncUsers($task);
+        $this->taskService->syncVolunteers($task);
 
         return \Redirect::route('action/one', ['id' => $task->action_id]);
     }
@@ -98,7 +101,7 @@ class TaskController extends Controller {
         $task = Task::with('subtasks.shifts.volunteers')->findOrFail($id);
 
         foreach ($task->subtasks as $subtask) {
-            SubtaskService::delete($subtask);
+            $this->subtaskService->delete($subtask);
         }
 
         \Session::flash('flash_message', trans('entities/tasks.deleted'));

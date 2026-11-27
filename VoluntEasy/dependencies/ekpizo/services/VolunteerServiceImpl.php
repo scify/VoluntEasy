@@ -5,8 +5,6 @@ use App\Models\Descriptions\Language;
 use App\Models\Volunteer;
 use App\Models\VolunteerExtras;
 use App\Models\VolunteerLanguage;
-use App\Services\Facades\NotificationService;
-use App\Services\Facades\UnitService;
 use Interfaces\StandardVolunteerService;
 
 /**
@@ -14,6 +12,14 @@ use Interfaces\StandardVolunteerService;
  * receives the volunteer form of the ekpizo.gr web site.
  */
 class VolunteerServiceImpl extends StandardVolunteerService {
+
+    private \App\Services\NotificationService $notificationService;
+    private \App\Services\UnitService $unitService;
+
+    public function __construct(\App\Services\NotificationService $notificationService, \App\Services\UnitService $unitService) {
+        $this->notificationService = $notificationService;
+        $this->unitService = $unitService;
+    }
 
     /** Form field => language description in the "languages" table. */
     private const LANGUAGE_FIELDS = [
@@ -58,7 +64,7 @@ class VolunteerServiceImpl extends StandardVolunteerService {
         }
         $this->saveAvailability($volunteer, (array) data_get($data, 'avail_Inter', []));
 
-        NotificationService::newVolunteer($volunteer->id, UnitService::getRoot()->id);
+        $this->notificationService->newVolunteer($volunteer->id, $this->unitService->getRoot()->id);
 
         return \Response::json($volunteer, 201);
     }

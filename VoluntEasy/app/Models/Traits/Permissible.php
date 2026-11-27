@@ -3,10 +3,6 @@
 use App\Models\Action;
 use App\Models\Roles\Role;
 use App\Models\Unit;
-use App\Services\Facades\NotificationService;
-use App\Services\Facades\UnitService;
-use App\Services\Facades\UserService;
-
 /**
  * Trait Permissible is used to determine whether
  * a user has permission to perform certain actions.
@@ -34,7 +30,7 @@ trait Permissible {
 
             if (in_array('admin', $values)) {
                 //only sync with root unit
-                array_push($units, UnitService::getRoot()->id);
+                array_push($units, app(\App\Services\UnitService::class)->getRoot()->id);
 
                 $roles = Role::whereIn('name', $values)->get(['id']);
             } //else {
@@ -48,7 +44,7 @@ trait Permissible {
 
                     foreach (\Request::get('unitsSelect') as $unitId) {
                         $unit = Unit::find($unitId);
-                        NotificationService::userToUnit($this->id, $unit);
+                        app(\App\Services\NotificationService::class)->userToUnit($this->id, $unit);
                     }
                 }
             }

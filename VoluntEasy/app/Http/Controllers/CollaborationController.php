@@ -7,15 +7,17 @@ use App\Models\Collaboration;
 use App\Models\CollaborationFile;
 use App\Models\Descriptions\CollaborationType;
 use App\Models\Executive;
-use App\Services\Facades\CollaborationService;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
 class CollaborationController extends Controller {
 
+    private \App\Services\CollaborationService $collaborationService;
+
     use ChecksUploadedFiles;
 
-    public function __construct() {
+    public function __construct(\App\Services\CollaborationService $collaborationService) {
+        $this->collaborationService = $collaborationService;
         $this->middleware('auth');
     }
 
@@ -68,7 +70,7 @@ class CollaborationController extends Controller {
         }
 
         if ($files !== [])
-            CollaborationService::storeFiles($files, $collaboration->id);
+            $this->collaborationService->storeFiles($files, $collaboration->id);
 
         return Redirect::route('collaboration/one', ['id' => $collaboration->id]);
     }
@@ -138,7 +140,7 @@ class CollaborationController extends Controller {
         }
 
         if ($files !== [])
-            CollaborationService::storeFiles($files, $collaboration->id);
+            $this->collaborationService->storeFiles($files, $collaboration->id);
 
         return Redirect::route('collaboration/one', ['id' => $collaboration->id]);
     }
@@ -179,7 +181,7 @@ class CollaborationController extends Controller {
      * @return mixed
      */
     public function search() {
-        $collaborations = CollaborationService::search();
+        $collaborations = $this->collaborationService->search();
 
         return $collaborations;
     }

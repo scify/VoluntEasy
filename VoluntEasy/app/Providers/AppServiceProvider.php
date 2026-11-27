@@ -23,6 +23,14 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(FormBuilder::class, fn ($app) => new FormBuilder($app['url'], $app['session.store']));
 
+        // The application services keep state for one request (for example the
+        // unit ids of the current user), so there is one instance of each.
+        $services = array_merge(glob(app_path('Services/*.php')) ?: [], glob(app_path('Services/Volunteers/*.php')) ?: []);
+        foreach ($services as $file) {
+            $class = 'App\\Services\\'.str_replace(['/', '.php'], ['\\', ''], substr($file, strlen(app_path('Services/'))));
+            $this->app->singleton($class);
+        }
+
         $mode = (string) config('app.mode');
         if (! in_array($mode, self::MODES, true)) {
             throw new InvalidArgumentException("Unknown MODE [{$mode}]. Use one of: ".implode(', ', self::MODES).'.');

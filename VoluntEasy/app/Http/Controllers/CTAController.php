@@ -7,8 +7,6 @@ use App\Models\CTA\CTAVolunteer;
 use App\Models\CTA\PublicAction;
 use App\Models\CTA\PublicActionSubTask;
 use App\Models\Volunteer;
-use App\Services\Facades\UserService;
-
 /**
  * CTAContoller is responsible for the public cta page actions
  *
@@ -17,7 +15,10 @@ use App\Services\Facades\UserService;
  */
 class CTAController extends Controller {
 
-    public function __construct() {
+    private \App\Services\UserService $userService;
+
+    public function __construct(\App\Services\UserService $userService) {
+        $this->userService = $userService;
         $this->middleware('auth', ['except' => ['cta', 'participate']]);
     }
 
@@ -175,7 +176,7 @@ class CTAController extends Controller {
         //is interested for
         $ctaVolunteer->load('subtaskDates.date.subtask.task');
         $publicAction = PublicAction::with('action.users')->find($request['publicActionId']);
-        $admins = UserService::getAdmins();
+        $admins = $this->userService->getAdmins();
 
         //send email to all admins
         foreach ($admins as $admin) {
