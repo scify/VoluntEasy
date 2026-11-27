@@ -1,6 +1,12 @@
 import { Stage, Text, Window, Chart, Bar } from '../../kit'
 import './reports.css'
 
+const LANG = new URLSearchParams(window.location.search).get('lang') === 'el' ? 'el' : 'en'
+const T = {
+  en: { title: 'New volunteers this year', hours: 'Hours by action' },
+  el: { title: 'Νέοι εθελοντές φέτος', hours: 'Ώρες ανά δράση' },
+}[LANG]
+
 // Feature card (pinned, bottom bleed): the reports page. One big number, the
 // monthly chart under it, filler for the other report tiles.
 const MONTHS = [6, 9, 7, 12, 15, 11, 18, 22, 14, 19, 24, 21]
@@ -12,13 +18,13 @@ export default function VeReports() {
         <Window url="volunteasy.example.org/reports" className="vr-window">
           <div className="vr-grid">
             <div className="vr-card vr-main">
-              <Text className="vr-label">New volunteers this year</Text>
+              <Text className="vr-label">{T.title}</Text>
               <Text className="vr-number">188</Text>
               <Chart kind="bars" data={MONTHS} width={240} height={96} className="vr-chart" />
             </div>
             <div className="vr-side">
               <div className="vr-card vr-small">
-                <Text className="vr-label">Hours by action</Text>
+                <Text className="vr-label">{T.hours}</Text>
                 <Bar w={96} h={6} tone={3} />
                 <Bar w={72} h={6} tone={2} />
                 <Bar w={84} h={6} tone={2} />

@@ -1,11 +1,17 @@
 .ve-reports {
   & .ss-stage {
     --gutter: 32px;
-    --ss-accent: #1f9d6b;
-    --ss-accent-soft: rgba(31, 157, 107, 0.12);
+    /* VoluntEasy's own palette (public/assets/css: modern.css, custom.css) */
+    --ve-teal: #22baa0;
+    --ve-orange: #e26e27;
+    --ve-purple: #6a5fac;
+    --ve-slate: #34425a;
+    --ss-accent: var(--ve-teal);
+    --ss-accent-soft: rgba(34, 186, 160, 0.14);
+    font-family: 'Open Sans', system-ui, sans-serif;
     overflow: hidden;
     border-radius: 18px;
-    background: #e9f4ee;
+    background: #e4e9f1;
   }
   .vr-window {
     position: absolute;
@@ -27,3 +33,18 @@
 .ve-reports [data-layout="compact"] {
   & .vr-window { left: 24px; right: auto; width: 480px; top: 24px; }
 }
+
+/* Solid status chips with white text, as in the application */
+.ve-status, .vb-badge {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 3px;
+  font-size: 11px;
+  line-height: 1.35;
+  font-weight: 600;
+  color: #fff;
+  background: var(--ve-teal);
+  white-space: nowrap;
+}
+.ve-status[data-status="pending"] { background: var(--ve-orange); }
+.ve-status[data-status="active"] { background: var(--ve-purple); }

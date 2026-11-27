@@ -1,11 +1,17 @@
 .ve-tree {
   & .ss-stage {
     --gutter: 32px;
-    --ss-accent: #1f9d6b;
-    --ss-accent-soft: rgba(31, 157, 107, 0.12);
+    /* VoluntEasy's own palette (public/assets/css: modern.css, custom.css) */
+    --ve-teal: #22baa0;
+    --ve-orange: #e26e27;
+    --ve-purple: #6a5fac;
+    --ve-slate: #34425a;
+    --ss-accent: var(--ve-teal);
+    --ss-accent-soft: rgba(34, 186, 160, 0.14);
+    font-family: 'Open Sans', system-ui, sans-serif;
     overflow: hidden;
     border-radius: 18px;
-    background: #e9f4ee;
+    background: #e4e9f1;
   }
   .vt-window {
     position: absolute;
@@ -25,16 +31,16 @@
     flex-direction: column;
     align-items: center;
     gap: 6px;
-    padding: 10px 14px;
+    padding: 10px 12px;
     border-radius: 8px;
     background: var(--ss-surface);
     box-shadow: 0 0 0 1px var(--ss-line);
   }
-  .vt-root { background: #34425a; box-shadow: none; }
-  .vt-branch .vt-node { justify-content: center; min-height: 64px; }
+  .vt-root { background: var(--ve-slate); box-shadow: none; }
+  .vt-branch .vt-node { justify-content: center; min-height: 64px; max-width: 100%; }
   .vt-root .vt-name { color: #fff; }
   .vt-node[data-focal] { box-shadow: var(--ss-shadow-card), 0 0 0 1.5px var(--ss-accent); }
-  .vt-name { font-size: 12px; font-weight: 600; color: var(--ss-text-strong); white-space: nowrap; }
+  .vt-name { font-size: 11.5px; line-height: 1.35; font-weight: 600; color: var(--ss-text-strong); text-align: center; }
   .vt-meta { display: inline-flex; align-items: center; gap: 5px; color: var(--ss-accent-text); }
   .vt-meta-text { font-size: 11px; font-weight: 600; color: var(--ss-accent-text); }
 
@@ -63,3 +69,18 @@
   & .vt-node { padding: 8px 10px; }
   & .vt-name { font-size: 11.5px; }
 }
+
+/* Solid status chips with white text, as in the application */
+.ve-status, .vb-badge {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 3px;
+  font-size: 11px;
+  line-height: 1.35;
+  font-weight: 600;
+  color: #fff;
+  background: var(--ve-teal);
+  white-space: nowrap;
+}
+.ve-status[data-status="pending"] { background: var(--ve-orange); }
+.ve-status[data-status="active"] { background: var(--ve-purple); }

@@ -212,3 +212,41 @@ nav a:not(.button):hover { color: var(--ink); }
 /* The first feature has no picture (the hero shows the volunteers list): its points run in a row */
 .feature:first-of-type .checks { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 24px; }
 @media (max-width: 720px) { .feature:first-of-type .checks { grid-template-columns: 1fr; } }
+
+/* Features: the colours of the application itself
+   (VoluntEasy/public/assets/css: modern.css, custom.css, themes/white.css) */
+#features {
+  --app-slate: #34425a;
+  --app-teal: #22baa0;
+  --app-orange: #e26e27;
+  --app-purple: #6a5fac;
+  --app-blue: #12afcb;
+  --app-content: #f1f4f9;
+  background: var(--app-content);
+}
+#features h2, #features h3 { color: var(--app-slate); }
+#features .section-lead, #features .feature-copy p { color: #5f6b7c; }
+#features h3 { position: relative; padding-left: 16px; }
+#features h3::before { content: ""; position: absolute; left: 0; top: .15em; bottom: .15em; width: 4px; border-radius: 2px; background: var(--app-teal); }
+#features .feature:nth-of-type(2) h3::before { background: var(--app-orange); }
+#features .feature:nth-of-type(3) h3::before { background: var(--app-purple); }
+#features .feature:nth-of-type(4) h3::before { background: var(--app-blue); }
+#features .checks li::before {
+  background-color: rgba(34, 186, 160, .16);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%2322baa0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+#features em { font-style: normal; font-weight: 600; padding: 0 6px; border-radius: 3px; color: #fff; background: var(--app-teal); font-size: .9em; }
+#features em:nth-of-type(1) { background: var(--app-orange); }
+#features em:nth-of-type(3) { background: var(--app-purple); }
+#features .feature-art img { box-shadow: 0 24px 50px -28px rgba(52, 66, 90, .45); }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) #features { --app-content: #18202c; }
+  :root:not([data-theme="light"]) #features h2, :root:not([data-theme="light"]) #features h3 { color: #e6ebf2; }
+  :root:not([data-theme="light"]) #features .section-lead, :root:not([data-theme="light"]) #features .feature-copy p { color: #a7b2c2; }
+}
+:root[data-theme="dark"] #features { --app-content: #18202c; }
+:root[data-theme="dark"] #features h2, :root[data-theme="dark"] #features h3 { color: #e6ebf2; }
+
+/* Language switch: stays visible on small screens */
+nav a.lang { display: inline-flex !important; font-weight: 600; color: var(--link) !important; }
