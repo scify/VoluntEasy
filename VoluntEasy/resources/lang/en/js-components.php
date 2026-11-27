@@ -128,4 +128,10 @@ return [
     'am' => ' am',
     'pm' => ' pm',
 
+    // shared front-end helpers (public/assets/js/ve.js)
+    'error' => 'Something went wrong. Please try again.',
+    'copied' => 'Copied to the clipboard',
+    'search' => 'Search:',
+    'zeroRecords' => 'No records',
+
 ];

@@ -38,23 +38,3 @@
 </div>
 
 @stop
-
-@section('footerScripts')
-<script>
-    //check this
-    $(".delete").click(function () {
-        if (confirm(Lang.get('js-components.deleteVolunteer')) == true) {
-            $.ajax({
-                url: $("body").attr('data-url') + '/volunteers/delete/' + $(this).attr('data-id'),
-                method: 'GET',
-                headers: {
-                    'X-CSRF-Token': $('#token').val()
-                },
-                success: function (data) {
-                    window.location.href = $("body").attr('data-url') + "/volunteers";
-                }
-            });
-        }
-    });
-</script>
-@append

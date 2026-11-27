@@ -1,0 +1,41 @@
+/* Styles of the shared front-end helpers (public/assets/js/ve.js). */
+
+.ve-toasts { position: fixed; top: 70px; right: 20px; z-index: 2000; display: flex; flex-direction: column; gap: 8px; }
+.ve-toast { min-width: 240px; max-width: 360px; padding: 12px 16px; border-radius: 3px; color: #fff; background: #22baa0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .2); transition: opacity .4s; }
+.ve-toast-error { background: #f25656; }
+.ve-toast-warning { background: #f6d433; color: #333; }
+.ve-toast-info { background: #12afcb; }
+.ve-toast-hide { opacity: 0; }
+
+.ve-block { position: absolute; inset: 0; z-index: 10; display: flex; align-items: center; justify-content: center;
+    background: rgba(255, 255, 255, .9); cursor: wait; font-size: 20px; color: #777; }
+
+.ve-stars { display: inline-block; white-space: nowrap; color: #f6bb42; cursor: pointer; font-size: 18px; }
+.ve-stars i { margin-right: 2px; }
+.ve-stars-readonly { cursor: default; }
+
+.ve-editable { border-bottom: 1px dashed #0088cc; cursor: pointer; }
+.ve-editable-empty { color: #d14; font-style: italic; }
+.ve-editing { border-bottom: none; cursor: default; }
+.ve-editable-form { display: inline-flex; gap: 4px; align-items: flex-start; flex-wrap: wrap; }
+.ve-editable-form .form-control { width: auto; min-width: 120px; }
+.ve-editable-error { flex-basis: 100%; font-size: 12px; }
+
+.dataTables_wrapper .DTTT_container { float: right; margin-bottom: 8px; }
+.dataTables_wrapper .DTTT_button { display: inline-block; margin-left: 4px; }
+.dataTables_wrapper .paginate_button { cursor: pointer; }
+.dataTables_wrapper .paginate_button.disabled { cursor: default; }
+.dataTables_wrapper .ellipsis { padding: 0 6px; }
+.dataTables_wrapper th.sorting:focus-visible { outline: 2px solid #12afcb; }
+
+/* Tom Select inside the Bootstrap 3 forms */
+.ts-wrapper.form-control { padding: 0; height: auto; border: none; box-shadow: none; }
+.ts-wrapper .ts-control { min-height: 34px; border-radius: 0; }
+
+.dataTables_wrapper .dataTables_length select { display: inline-block; width: auto; margin: 0 4px; }
+
+/* Checkboxes and radios (the "uniform" plugin used to style them) */
+input[type="checkbox"].form-control,
+input[type="radio"].form-control { display: inline-block; width: auto; height: auto; margin: 0 6px 0 0; box-shadow: none; vertical-align: middle; }
+input[type="checkbox"], input[type="radio"] { accent-color: #22baa0; width: 16px; height: 16px; }

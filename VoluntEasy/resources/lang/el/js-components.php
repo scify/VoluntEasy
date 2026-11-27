@@ -131,4 +131,10 @@ return [
     'am' => ' π.μ.',
     'pm' => ' μ.μ.',
 
+    // shared front-end helpers (public/assets/js/ve.js)
+    'error' => 'Κάτι πήγε στραβά. Παρακαλούμε δοκιμάστε ξανά.',
+    'copied' => 'Αντιγράφηκε στο πρόχειρο',
+    'search' => 'Αναζήτηση:',
+    'zeroRecords' => 'Δεν υπάρχουν εγγραφές',
+
 ];
