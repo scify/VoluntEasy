@@ -15,204 +15,191 @@ use Interfaces\StandardVolunteerService;
  */
 class VolunteerServiceImpl extends StandardVolunteerService {
 
+    /** Form field => language description in the "languages" table. */
+    private const LANGUAGE_FIELDS = [
+        'langGR' => 'greek',
+        'langEN' => 'english',
+        'langFR' => 'french',
+        'langSP' => 'spanish',
+        'langDE' => 'german',
+    ];
+
+    /** Time-of-day value of the "contr_days" checkboxes. */
+    private const TIMES_OF_DAY = ['1' => 'morning', '2' => 'afternoon', '3' => 'evening'];
+
+    private const WEEK_DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
     /**
-     * Save data sent from another site
+     * Save a volunteer sent by the volunteer form of the ekpizo.gr web site
+     * (request field "submitted").
      *
-     * @return mixed
+     * @return \Illuminate\Http\JsonResponse 201 with the volunteer, or 200 with an error code (see validateInput)
      */
     public function apiStore() {
+        $data = (array) \Request::input('submitted', []);
 
-        $data = \Request::get('submitted');
+        $errorCode = $this->validateInput($data);
+        if ($errorCode !== 0) {
+            return \Response::json($errorCode, 200);
+        }
 
-        //return $this->validateInput($data);
-        //first validate input
-        $validate = $this->validateInput($data);
+        $volunteer = new Volunteer($this->volunteerFields($data));
+        $birthDate = $this->birthDate($data);
+        if ($birthDate !== null) {
+            $volunteer->birth_date = $birthDate;
+        }
+        $volunteer->save();
 
-        if ($validate == 0) {
+        $volunteer->extras()->save($this->extras($data));
+        $this->saveLanguages($volunteer, $data);
+        $volunteer->interests()->sync(data_get($data, 'avail_Inter.interests', []));
+        if (data_get($data, 'volunteering.department') !== null) {
+            $volunteer->volunteeringDepartments()->sync(data_get($data, 'volunteering.department'));
+        }
+        $this->saveAvailability($volunteer, (array) data_get($data, 'avail_Inter', []));
 
-            $volunteer = new Volunteer(array(
-                'name' => $data['volunteer_info']['name'],
-                'last_name' => $data['volunteer_info']['last_name'],
-                'fathers_name' => $data['volunteer_info']['fathers_name'],
-                'city' => $data['volunteer_info']['city'],
-                'country' => $data['volunteer_info']['country'],
-                'gender_id' => $this->checkDropDown($data['volunteer_info']['gender_id']),
-                'driver_license_type_id' => $this->checkDropDown($data['volunteer_info']['driver_license_type_id']),
+        NotificationService::newVolunteer($volunteer->id, UnitService::getRoot()->id);
 
-                'home_tel' => $data['volunteer_info']['home_tel'],
-                'cell_tel' => $data['volunteer_info']['cell_tel'],
-                'email' => $data['volunteer_info']['email'],
+        return \Response::json($volunteer, 201);
+    }
 
-                'education_level_id' => $this->checkDropDown($data['education']['education_level_id']),
-                'specialty' => $data['education']['specialty'],
-                'additional_skills' => $data['education']['additional_skills'],
-                'computer_usage_comments' => $data['education']['computer_usage_comments'],
-                'extra_lang' => $data['education']['languages']['extra_lang'],
+    /**
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     */
+    private function volunteerFields(array $data): array
+    {
+        $field = fn (string $path) => data_get($data, $path, '');
+        $dropDown = fn (string $path) => $this->checkDropDown(data_get($data, $path, 0));
 
-                'availability_freqs_id' => $this->checkDropDown($data['avail_Inter']['availability_freqs_id']),
+        return [
+            'name' => $field('volunteer_info.name'),
+            'last_name' => $field('volunteer_info.last_name'),
+            'fathers_name' => $field('volunteer_info.fathers_name'),
+            'city' => $field('volunteer_info.city'),
+            'country' => $field('volunteer_info.country'),
+            'gender_id' => $dropDown('volunteer_info.gender_id'),
+            'driver_license_type_id' => $dropDown('volunteer_info.driver_license_type_id'),
+            'home_tel' => $field('volunteer_info.home_tel'),
+            'cell_tel' => $field('volunteer_info.cell_tel'),
+            'email' => $field('volunteer_info.email'),
+            'education_level_id' => $dropDown('education.education_level_id'),
+            'specialty' => $field('education.specialty'),
+            'additional_skills' => $field('education.additional_skills'),
+            'computer_usage_comments' => $field('education.computer_usage_comments'),
+            'extra_lang' => $field('education.languages.extra_lang'),
+            'availability_freqs_id' => $dropDown('avail_Inter.availability_freqs_id'),
+            'work_description' => $field('work_exper.job_experience_comments'),
+            'participation_actions' => $field('work_exper.vol_experience_area'),
+            'how_you_learned_id' => $dropDown('extra_comments.howYouLearned'),
+            'how_you_learned2_id' => $dropDown('extra_comments.how_did_you_learn'),
+        ];
+    }
 
-                'work_description' => $data['work_exper']['job_experience_comments'],
-                'participation_actions' => $data['work_exper']['vol_experience_area'],
-                'other_department' => $data['volunteering']['other_department'],
+    /** @param array<string, mixed> $data */
+    private function birthDate(array $data): ?\Carbon\Carbon
+    {
+        $date = (array) data_get($data, 'volunteer_info.birth_date', []);
+        if (empty($date['year']) || empty($date['month']) || empty($date['day'])) {
+            return null;
+        }
 
-                'how_you_learned_id' => $this->checkDropDown($data['extra_comments']['howYouLearned']),
-                'how_you_learned2_id' => $this->checkDropDown($data['extra_comments']['how_did_you_learn']),
-            ));
+        return \Carbon::createFromDate($date['year'], $date['month'], $date['day']);
+    }
 
-            //Birthday
-            if ($data['volunteer_info']['birth_date'] != null && $data['volunteer_info']['birth_date'] != ""
-                && $data['volunteer_info']['birth_date']['year'] != null && $data['volunteer_info']['birth_date']['year'] != ""
-                && $data['volunteer_info']['birth_date']['month'] != null && $data['volunteer_info']['birth_date']['month'] != ""
-                && $data['volunteer_info']['birth_date']['day'] != null && $data['volunteer_info']['birth_date']['day'] != ""
-            )
-                $volunteer->birth_date = \Carbon::createFromDate($data['volunteer_info']['birth_date']['year'], $data['volunteer_info']['birth_date']['month'], $data['volunteer_info']['birth_date']['day']);
+    /** @param array<string, mixed> $data */
+    private function extras(array $data): VolunteerExtras
+    {
+        $checked = fn (string $path) => data_get($data, $path) == 1;
 
-            $volunteer->save();
-
-            $extras = new VolunteerExtras();
-            //word, excel, powerpoint
-            if (isset($data['education']['office']['office_word']) && $data['education']['office']['office_word'] == 1)
-                $extras->knows_word = true;
-            if (isset($data['education']['office']['office_excel']) && $data['education']['office']['office_excel'] == 1)
-                $extras->knows_excel = true;
-            if (isset($data['education']['office']['office_powerpoint']) && $data['education']['office']['office_powerpoint'] == 1)
-                $extras->knows_powerpoint = true;
-
-            if (isset($data['work_exper']['vol_experience']) && $data['work_exper']['vol_experience'] == 1)
-                $extras->has_previous_volunteer_experience = true;
-            if (isset($data['work_exper']['job_experience']) && $data['work_exper']['job_experience'] == 1)
-                $extras->has_previous_work_experience = true;
-
-            $extras->other_department = $data['volunteering']['other_department'];
-
-            $volunteer->extras()->save($extras);
-
-            //Languages
-            if (isset($data['education']['languages']['langGR']))
-                $volunteer->languages()->save($this->createVolunteerLanguage('greek', $data['education']['languages']['langGR'], $volunteer->id));
-            if (isset($data['education']['languages']['langGR']))
-                $volunteer->languages()->save($this->createVolunteerLanguage('english', $data['education']['languages']['langEN'], $volunteer->id));
-            if (isset($data['education']['languages']['langFR']))
-                $volunteer->languages()->save($this->createVolunteerLanguage('french', $data['education']['languages']['langFR'], $volunteer->id));
-            if (isset($data['education']['languages']['langSP']))
-                $volunteer->languages()->save($this->createVolunteerLanguage('spanish', $data['education']['languages']['langSP'], $volunteer->id));
-            if (isset($data['education']['languages']['langDE']))
-                $volunteer->languages()->save($this->createVolunteerLanguage('german', $data['education']['languages']['langDE'], $volunteer->id));
-
-            //Interests
-            $volunteer->interests()->sync($data['avail_Inter']['interests']);
-
-            //Volunteering Departments
-            if (isset($data['volunteering']['department']))
-                $volunteer->volunteeringDepartments()->sync($data['volunteering']['department']);
-
-            //Availability
-            if (isset($data['avail_Inter']['availability_freqs_id']) && $data['avail_Inter']['availability_freqs_id'] != "") {
-
-                if ($data['avail_Inter']['availability_freqs_id'] == "1") {
-
-                    if (isset($data['avail_Inter']['dailyFrequencies']) && sizeof($data['avail_Inter']['dailyFrequencies']) > 0)
-                        $volunteer->availabilityTimes()->sync($data['avail_Inter']['dailyFrequencies']);
-
-                } else {
-                    if (isset($data['avail_Inter']['contr_days']) && sizeof($data['avail_Inter']['contr_days']) > 0) {
-
-                        $weekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-                        $time = '';
-
-                        foreach ($weekDays as $weekDay) {
-                            if (isset($data['avail_Inter']['contr_days'][$weekDay])) {
-                                foreach ($data['avail_Inter']['contr_days'][$weekDay] as $availability) {
-
-                                    if ($availability == "1")
-                                        $time = 'morning';
-                                    else if ($availability == "2")
-                                        $time = 'afternoon';
-                                    else if ($availability == "3")
-                                        $time = 'evening';
-
-                                    $day = new AvailabilityDay([
-                                        'day' => $weekDay,
-                                        'time' => $time,
-                                        'volunteer_id' => $volunteer->id
-                                    ]);
-                                    $day->save();
-                                }
-                            }
-                        }
-                    }
-                }
+        $extras = new VolunteerExtras();
+        foreach ([
+            'knows_word' => 'education.office.office_word',
+            'knows_excel' => 'education.office.office_excel',
+            'knows_powerpoint' => 'education.office.office_powerpoint',
+            'has_previous_volunteer_experience' => 'work_exper.vol_experience',
+            'has_previous_work_experience' => 'work_exper.job_experience',
+        ] as $column => $path) {
+            if ($checked($path)) {
+                $extras->{$column} = true;
             }
+        }
+        $extras->other_department = data_get($data, 'volunteering.other_department', '');
 
-            NotificationService::newVolunteer($volunteer->id, UnitService::getRoot()->id);
+        return $extras;
+    }
 
-            return \Response::json($volunteer, 201);
-        } else {
-            return \Response::json($validate, 200);
+    /** @param array<string, mixed> $data */
+    private function saveLanguages(Volunteer $volunteer, array $data): void
+    {
+        foreach (self::LANGUAGE_FIELDS as $field => $language) {
+            $level = data_get($data, "education.languages.{$field}");
+            if ($level !== null) {
+                $volunteer->languages()->save(new VolunteerLanguage([
+                    'volunteer_id' => $volunteer->id,
+                    'language_id' => Language::where('description', $language)->value('id'),
+                    'language_level_id' => $level,
+                ]));
+            }
         }
     }
 
     /**
-     * Create a new VolunteerLanguage
+     * Frequency "1" (daily) stores times of day; other frequencies store
+     * days of the week with a time of day.
      *
-     * @param $language
-     * @param $level
-     * @param $volunteerId
-     * @return VolunteerLanguage
+     * @param  array<string, mixed>  $availability
      */
-    private
-    function createVolunteerLanguage($language, $level, $volunteerId) {
-        $languageId = Language::where('description', $language)->first(['id'])->id;
+    private function saveAvailability(Volunteer $volunteer, array $availability): void
+    {
+        $frequency = (string) ($availability['availability_freqs_id'] ?? '');
+        if ($frequency === '') {
+            return;
+        }
 
-        $volLanguage = new VolunteerLanguage([
-            'volunteer_id' => $volunteerId,
-            'language_id' => $languageId,
-            'language_level_id' => $level
-        ]);
+        if ($frequency === '1') {
+            if (! empty($availability['dailyFrequencies'])) {
+                $volunteer->availabilityTimes()->sync($availability['dailyFrequencies']);
+            }
 
-        return $volLanguage;
+            return;
+        }
+
+        foreach (self::WEEK_DAYS as $weekDay) {
+            foreach ((array) ($availability['contr_days'][$weekDay] ?? []) as $timeOfDay) {
+                (new AvailabilityDay([
+                    'day' => $weekDay,
+                    'time' => self::TIMES_OF_DAY[(string) $timeOfDay] ?? '',
+                    'volunteer_id' => $volunteer->id,
+                ]))->save();
+            }
+        }
     }
 
     private function checkDropDown($input) {
-        if ($input == 0)
-            return null;
-        else
-            return $input;
+        return $input == 0 ? null : $input;
     }
 
     /**
-     * Validate form input before taking any action.
-     * Return error codes in order to display appropriate message to the front end.
+     * Validate the form before saving. The ekpizo.gr site shows a message
+     * for each error code.
      *
-     * @return int An error code (101...), or 0 when the input is valid
+     * @param  array<string, mixed>  $data
+     * @return int 101 no name, 102 no last name, 103 no birth date, 104 no
+     *             interests, 201 invalid e-mail, 202 e-mail exists, 0 valid
      */
-    private function validateInput($data) {
+    private function validateInput(array $data): int
+    {
+        $email = (string) data_get($data, 'volunteer_info.email', '');
 
-        if (!isset($data['volunteer_info']['name']) || $data['volunteer_info']['name'] == '')
-            return 101;
-
-        if (!isset($data['volunteer_info']['last_name']) || $data['volunteer_info']['last_name'] == '')
-            return 102;
-
-        if ($data['volunteer_info']['birth_date'] == null || $data['volunteer_info']['birth_date'] == ""
-            || $data['volunteer_info']['birth_date']['year'] == null || $data['volunteer_info']['birth_date']['year'] == ""
-            || $data['volunteer_info']['birth_date']['month'] == null || $data['volunteer_info']['birth_date']['month'] == ""
-            || $data['volunteer_info']['birth_date']['day'] == null || $data['volunteer_info']['birth_date']['day'] == ""
-        )
-            return 103;
-
-        if (!isset($data['avail_Inter']['interests']) || sizeof($data['avail_Inter']['interests']) == 0)
-            return 104;
-
-        $emails = Volunteer::where('email', $data['volunteer_info']['email'])->get();
-
-        if (!isset($data['volunteer_info']['email']) || $data['volunteer_info']['email'] == ''
-            || !filter_var($data['volunteer_info']['email'], FILTER_VALIDATE_EMAIL)
-        )
-            return 201;
-        if (sizeof($emails) > 0)
-            return 202;
-
-        return 0;
+        return match (true) {
+            data_get($data, 'volunteer_info.name', '') == '' => 101,
+            data_get($data, 'volunteer_info.last_name', '') == '' => 102,
+            $this->birthDate($data) === null => 103,
+            empty(data_get($data, 'avail_Inter.interests')) => 104,
+            ! filter_var($email, FILTER_VALIDATE_EMAIL) => 201,
+            Volunteer::where('email', $email)->exists() => 202,
+            default => 0,
+        };
     }
 }
