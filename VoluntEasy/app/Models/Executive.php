@@ -1,12 +1,14 @@
-<?php namespace App\Models;
+<?php
 
-use App\Models\Model;
-class Executive extends Model {
+namespace App\Models;
 
-    use \Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Executive extends Model
+{
+    use SoftDeletes;
 
     protected $table = 'executives';
 
     protected $fillable = ['name', 'email', 'phone', 'address'];
-
 }

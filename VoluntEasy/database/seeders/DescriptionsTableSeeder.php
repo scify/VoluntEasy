@@ -6,9 +6,10 @@ use App\Models\Descriptions\Interest;
 use App\Models\Descriptions\InterestCategory;
 use Illuminate\Database\Seeder;
 
-class DescriptionsTableSeeder extends Seeder {
-
+class DescriptionsTableSeeder extends Seeder
+{
     private $configuration;
+
     private $defaultFilePath;
 
     /**
@@ -17,13 +18,14 @@ class DescriptionsTableSeeder extends Seeder {
      *
      * @return void
      */
-    public function run() {
+    public function run()
+    {
 
         $this->configuration = \App::make('Interfaces\ConfigurationInterface');
-        //the path for the default json data files
-        $this->defaultFilePath = base_path() . '/database/json_data/';
+        // the path for the default json data files
+        $this->defaultFilePath = base_path().'/database/json_data/';
 
-        //all the tables that need seeding
+        // all the tables that need seeding
         $tables = [
             'action_rating_attributes',
             'availability_freqs',
@@ -53,7 +55,7 @@ class DescriptionsTableSeeder extends Seeder {
             $this->addData($table);
         }
 
-        //interest seeding needs a different mechanism
+        // interest seeding needs a different mechanism
         $this->addInterests();
 
     }
@@ -61,20 +63,19 @@ class DescriptionsTableSeeder extends Seeder {
     /**
      * Inserting data in the tables from the json files.
      * Use the default path if no override file exists.
-     *
-     * @param $table
      */
-    private function addData($table) {
+    private function addData($table)
+    {
 
-        //check is there's a dependency file overriding the default json data
-        $filepath = $this->configuration->getJsonDataPath() . $table . '.json';
+        // check is there's a dependency file overriding the default json data
+        $filepath = $this->configuration->getJsonDataPath().$table.'.json';
 
-        //set the default path
-        if (!\File::exists($filepath)) {
-            $filepath = $this->defaultFilePath . $table . '.json';
+        // set the default path
+        if (! \File::exists($filepath)) {
+            $filepath = $this->defaultFilePath.$table.'.json';
         }
 
-        //get the data from the file and insert them
+        // get the data from the file and insert them
         $json = \File::get($filepath);
 
         $data = json_decode($json);
@@ -110,12 +111,13 @@ class DescriptionsTableSeeder extends Seeder {
      * A different mechanism for the interests, as they are connected
      * to an interest category.
      */
-    private function addInterests() {
+    private function addInterests()
+    {
 
-        $filepath = $this->configuration->getJsonDataPath() . 'interests.json';
+        $filepath = $this->configuration->getJsonDataPath().'interests.json';
 
-        if (!\File::exists($filepath)) {
-            $filepath = $this->defaultFilePath . 'interests.json';
+        if (! \File::exists($filepath)) {
+            $filepath = $this->defaultFilePath.'interests.json';
         }
 
         $json = \File::get($filepath);
@@ -125,13 +127,13 @@ class DescriptionsTableSeeder extends Seeder {
 
         foreach ($categories as $category) {
             $cat = InterestCategory::create([
-                'description' => $category->description
+                'description' => $category->description,
             ]);
 
             foreach ($category->interests as $interest) {
                 $int = Interest::create([
                     'category_id' => $cat->id,
-                    'description' => $interest->description
+                    'description' => $interest->description,
                 ]);
             }
         }

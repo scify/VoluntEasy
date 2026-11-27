@@ -1,8 +1,9 @@
-<?php namespace App\Http\Requests;
+<?php
+
+namespace App\Http\Requests;
 
 class ActionRequest extends Request
 {
-
     public function rules()
     {
         return [
@@ -11,7 +12,7 @@ class ActionRequest extends Request
             'end_date' => 'required|date_format:d/m/Y',
             'unit_id' => 'required',
             'email' => 'email',
-            'volunteer_sum' => 'numeric'
+            'volunteer_sum' => 'numeric',
         ];
     }
 

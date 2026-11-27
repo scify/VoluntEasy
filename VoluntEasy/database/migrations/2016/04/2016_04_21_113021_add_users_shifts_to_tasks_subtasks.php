@@ -2,15 +2,17 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class AddUsersShiftsToTasksSubtasks extends Migration {
+class AddUsersShiftsToTasksSubtasks extends Migration
+{
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
 
-        /* users, volunteers to tasks, subtasks*/
+        /* users, volunteers to tasks, subtasks */
 
         Schema::create('tasks_users', function ($table) {
             $table->integer('user_id')->unsigned();
@@ -48,8 +50,7 @@ class AddUsersShiftsToTasksSubtasks extends Migration {
             $table->timestamps();
         });
 
-
-        /* shifts to tasks*/
+        /* shifts to tasks */
 
         Schema::create('task_shifts', function ($table) {
             $table->increments('id');
@@ -81,8 +82,7 @@ class AddUsersShiftsToTasksSubtasks extends Migration {
             $table->timestamps();
         });
 
-
-        //the dates filled by the volunteer
+        // the dates filled by the volunteer
         Schema::create('cta_volunteers_task_dates', function ($table) {
             $table->increments('id');
 
@@ -95,7 +95,6 @@ class AddUsersShiftsToTasksSubtasks extends Migration {
             $table->softDeletes();
             $table->timestamps();
         });
-
 
         Schema::create('volunteer_task_shift_history', function ($table) {
             $table->increments('id');
@@ -112,7 +111,8 @@ class AddUsersShiftsToTasksSubtasks extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('tasks_users');
         Schema::dropIfExists('tasks_volunteers');
         Schema::dropIfExists('subtasks_users');

@@ -1,8 +1,11 @@
-<?php namespace App\Services;
+<?php
 
-class CTAService {
+namespace App\Services;
 
-    public function getPublicSubtasks($action) {
+class CTAService
+{
+    public function getPublicSubtasks($action)
+    {
 
         $final = [];
 

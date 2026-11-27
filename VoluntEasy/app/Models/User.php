@@ -1,10 +1,13 @@
-<?php namespace App\Models;
+<?php
 
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+namespace App\Models;
+
 use App\Models\Concerns\SerializesDatesAsMysql;
+use App\Models\Roles\Role;
 use App\Models\Traits\Permissible;
 use App\Notifications\ResetPasswordNotification;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\RoutesNotifications;
@@ -12,7 +15,7 @@ use Illuminate\Notifications\RoutesNotifications;
 class User extends Authenticatable
 {
     use Permissible, RoutesNotifications, SerializesDatesAsMysql, SoftDeletes;
-    
+
     /**
      * The database table used by the model.
      *
@@ -34,27 +37,31 @@ class User extends Authenticatable
      */
     protected $hidden = ['password', 'remember_token'];
 
-    /** @return BelongsToMany<\App\Models\Unit, $this> */
-    public function units(): BelongsToMany {
-        return $this->belongsToMany(\App\Models\Unit::class, 'units_users', 'user_id', 'unit_id');
+    /** @return BelongsToMany<Unit, $this> */
+    public function units(): BelongsToMany
+    {
+        return $this->belongsToMany(Unit::class, 'units_users', 'user_id', 'unit_id');
     }
 
-    /** @return BelongsToMany<\App\Models\Action, $this> */
-    public function actions(): BelongsToMany {
-        return $this->belongsToMany(\App\Models\Action::class, 'actions_users', 'user_id', 'action_id');
+    /** @return BelongsToMany<Action, $this> */
+    public function actions(): BelongsToMany
+    {
+        return $this->belongsToMany(Action::class, 'actions_users', 'user_id', 'action_id');
     }
 
     public function setPasswordAttribute($password)
     {
-	   return $this->attributes['password'] = $password;
+        return $this->attributes['password'] = $password;
     }
 
     /**
      * The in-app notifications of the user (the "bell" in the top bar).
-     * @return HasMany<\App\Models\Notification, $this>
+     *
+     * @return HasMany<Notification, $this>
      */
-    public function notifications(): HasMany {
-        return $this->hasMany(\App\Models\Notification::class)->orderBy('updated_at', 'desc');
+    public function notifications(): HasMany
+    {
+        return $this->hasMany(Notification::class)->orderBy('updated_at', 'desc');
     }
 
     public function sendPasswordResetNotification($token): void
@@ -62,21 +69,20 @@ class User extends Authenticatable
         $this->notify(new ResetPasswordNotification($token));
     }
 
-    /** @return BelongsToMany<\App\Models\Roles\Role, $this> */
-    public function roles(): BelongsToMany {
-        return $this->belongsToMany(\App\Models\Roles\Role::class, 'users_roles', 'user_id', 'role_id')->orderBy('id', 'asc');
+    /** @return BelongsToMany<Role, $this> */
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'users_roles', 'user_id', 'role_id')->orderBy('id', 'asc');
     }
 
     public function getFullNameAttribute()
     {
-        return $this->name . " " . $this->last_name;
+        return $this->name.' '.$this->last_name;
     }
 
     /**
      * Check if user has a certain unit.
      *
-     * @param $query
-     * @param $id
      * @return mixed
      */
     public function scopeUnit($query, $id)

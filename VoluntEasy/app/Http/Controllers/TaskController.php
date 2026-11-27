@@ -1,15 +1,24 @@
-<?php namespace App\Http\Controllers;
+<?php
+
+namespace App\Http\Controllers;
 
 use App\Models\ActionTasks\Status;
 use App\Models\ActionTasks\Task;
 use App\Models\ActionTasks\VolunteerTask;
-class TaskController extends Controller {
+use App\Services\SubtaskService;
+use App\Services\TaskService;
+use App\Services\VolunteerService;
 
-    private \App\Services\SubtaskService $subtaskService;
-    private \App\Services\TaskService $taskService;
-    private \App\Services\VolunteerService $volunteerService;
+class TaskController extends Controller
+{
+    private SubtaskService $subtaskService;
 
-    public function __construct(\App\Services\SubtaskService $subtaskService, \App\Services\TaskService $taskService, \App\Services\VolunteerService $volunteerService) {
+    private TaskService $taskService;
+
+    private VolunteerService $volunteerService;
+
+    public function __construct(SubtaskService $subtaskService, TaskService $taskService, VolunteerService $volunteerService)
+    {
         $this->subtaskService = $subtaskService;
         $this->taskService = $taskService;
         $this->volunteerService = $volunteerService;
@@ -19,10 +28,10 @@ class TaskController extends Controller {
     /**
      * View a certain task
      *
-     * @param $id
      * @return mixed
      */
-    public function show($id) {
+    public function show($id)
+    {
         $task = Task::with('action', 'users', 'volunteers', 'checklist.createdBy', 'checklist.updatedBy', 'shifts.volunteers')->findOrFail($id);
         $task->unitVolunteers = $this->volunteerService->getAvailableUnitVolunteers($task->action->unit_id);
 
@@ -32,17 +41,20 @@ class TaskController extends Controller {
     /**
      * Store a new resource
      */
-    public function store() {
+    public function store()
+    {
 
-        if (!\Request::filled('status_id'))
+        if (! \Request::filled('status_id')) {
             $status_id = Status::todo();
-        else
+        } else {
             $status_id = \Request::get('status_id');
+        }
 
-        if (\Request::filled('due_date'))
+        if (\Request::filled('due_date')) {
             $due_date = \Carbon::createFromFormat('d/m/Y', \Request::get('due_date'));
-        else
+        } else {
             $due_date = null;
+        }
 
         $task = new Task([
             'name' => \Request::get('name'),
@@ -50,7 +62,7 @@ class TaskController extends Controller {
             'action_id' => \Request::get('actionId'),
             'priority' => \Request::get('priority'),
             'status_id' => $status_id,
-            'due_date' => $due_date
+            'due_date' => $due_date,
         ]);
 
         $task->save();
@@ -64,19 +76,22 @@ class TaskController extends Controller {
     /**
      * Update a resource
      */
-    public function update() {
+    public function update()
+    {
 
         $task = Task::findOrFail(\Request::get('taskId'));
 
-        if (!\Request::filled('status_id'))
+        if (! \Request::filled('status_id')) {
             $status_id = Status::todo();
-        else
+        } else {
             $status_id = \Request::get('status_id');
+        }
 
-        if (\Request::filled('due_date'))
+        if (\Request::filled('due_date')) {
             $due_date = \Carbon::createFromFormat('d/m/Y', \Request::get('due_date'));
-        else
+        } else {
             $due_date = null;
+        }
 
         $task->update([
             'name' => \Request::get('name'),
@@ -84,7 +99,7 @@ class TaskController extends Controller {
             'action_id' => \Request::get('actionId'),
             'priority' => \Request::get('priority'),
             'status_id' => $status_id,
-            'due_date' => $due_date
+            'due_date' => $due_date,
         ]);
 
         $this->taskService->syncUsers($task);
@@ -96,7 +111,8 @@ class TaskController extends Controller {
     /**
      * Delete a resource
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
 
         $task = Task::with('subtasks.shifts.volunteers')->findOrFail($id);
 
@@ -109,10 +125,10 @@ class TaskController extends Controller {
 
         $task->delete();
 
-        return;
     }
 
-    public function addVolunteer($id) {
+    public function addVolunteer($id)
+    {
 
         $volunteerTask = new VolunteerTask([
             'volunteers_id' => \Request::get('volunteer_id'),
@@ -121,5 +137,4 @@ class TaskController extends Controller {
             'job_descr' => \Request::get('job_descr'),
         ]);
     }
-
 }

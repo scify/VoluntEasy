@@ -2,23 +2,24 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRatingTable extends Migration {
-
+class CreateRatingTable extends Migration
+{
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
 
-        //the rating descriptions, i.e. Συνέπεια, Ομαδικότητα etc
+        // the rating descriptions, i.e. Συνέπεια, Ομαδικότητα etc
         Schema::create('rating_attributes', function ($table) {
             $table->increments('id');
             $table->string('description', 100);
             $table->timestamps();
         });
 
-        //table to keep the token that is send to each action manager
+        // table to keep the token that is send to each action manager
         Schema::create('action_ratings', function ($table) {
             $table->increments('id');
             $table->string('email');
@@ -34,7 +35,7 @@ class CreateRatingTable extends Migration {
             $table->timestamps();
         });
 
-        //table to keep the ratings that each user makes for a volunteer
+        // table to keep the ratings that each user makes for a volunteer
         Schema::create('volunteer_action_ratings', function ($table) {
             $table->increments('id');
             $table->string('comments', 300)->nullable();
@@ -54,7 +55,7 @@ class CreateRatingTable extends Migration {
             $table->index('volunteer_id');
         });
 
-        //the actual rating for each attribute
+        // the actual rating for each attribute
         Schema::create('ratings', function ($table) {
             $table->increments('id');
             $table->string('rating');
@@ -74,7 +75,8 @@ class CreateRatingTable extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('ratings');
         Schema::dropIfExists('rating_attributes');
         Schema::dropIfExists('volunteer_action_ratings');

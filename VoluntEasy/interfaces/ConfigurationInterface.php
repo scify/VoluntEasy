@@ -1,22 +1,22 @@
-<?php namespace Interfaces;
+<?php
+
+namespace Interfaces;
 
 /**
  * Interface ConfigurationInterface
- * @package Interfaces
- *
  */
-interface ConfigurationInterface {
-
+interface ConfigurationInterface
+{
     /*** Paths for the views ***/
-    function getViewsPath();
+    public function getViewsPath();
 
-    function getPartialsPath();
+    public function getPartialsPath();
 
-    function getJsonDataPath();
+    public function getJsonDataPath();
 
-    function getExtrasPath();
+    public function getExtrasPath();
 
-    function getExtras();
+    public function getExtras();
 
-    function hasTasks();
+    public function hasTasks();
 }

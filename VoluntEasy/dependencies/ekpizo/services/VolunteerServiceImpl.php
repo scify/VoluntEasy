@@ -1,22 +1,29 @@
-<?php namespace Dependencies\ekpizo\services;
+<?php
+
+namespace Dependencies\ekpizo\services;
 
 use App\Models\Descriptions\AvailabilityDay;
 use App\Models\Descriptions\Language;
 use App\Models\Volunteer;
 use App\Models\VolunteerExtras;
 use App\Models\VolunteerLanguage;
+use App\Services\NotificationService;
+use App\Services\UnitService;
+use Illuminate\Http\JsonResponse;
 use Interfaces\StandardVolunteerService;
 
 /**
  * The ekpizo flavour: the standard volunteer form, plus apiStore() that
  * receives the volunteer form of the ekpizo.gr web site.
  */
-class VolunteerServiceImpl extends StandardVolunteerService {
+class VolunteerServiceImpl extends StandardVolunteerService
+{
+    private NotificationService $notificationService;
 
-    private \App\Services\NotificationService $notificationService;
-    private \App\Services\UnitService $unitService;
+    private UnitService $unitService;
 
-    public function __construct(\App\Services\NotificationService $notificationService, \App\Services\UnitService $unitService) {
+    public function __construct(NotificationService $notificationService, UnitService $unitService)
+    {
         $this->notificationService = $notificationService;
         $this->unitService = $unitService;
     }
@@ -39,9 +46,10 @@ class VolunteerServiceImpl extends StandardVolunteerService {
      * Save a volunteer sent by the volunteer form of the ekpizo.gr web site
      * (request field "submitted").
      *
-     * @return \Illuminate\Http\JsonResponse 201 with the volunteer, or 200 with an error code (see validateInput)
+     * @return JsonResponse 201 with the volunteer, or 200 with an error code (see validateInput)
      */
-    public function apiStore() {
+    public function apiStore()
+    {
         $data = (array) \Request::input('submitted', []);
 
         $errorCode = $this->validateInput($data);
@@ -118,7 +126,7 @@ class VolunteerServiceImpl extends StandardVolunteerService {
     {
         $checked = fn (string $path) => data_get($data, $path) == 1;
 
-        $extras = new VolunteerExtras();
+        $extras = new VolunteerExtras;
         foreach ([
             'knows_word' => 'education.office.office_word',
             'knows_excel' => 'education.office.office_excel',
@@ -182,7 +190,8 @@ class VolunteerServiceImpl extends StandardVolunteerService {
         }
     }
 
-    private function checkDropDown($input) {
+    private function checkDropDown($input)
+    {
         return $input == 0 ? null : $input;
     }
 

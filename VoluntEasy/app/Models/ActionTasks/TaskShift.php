@@ -1,21 +1,25 @@
-<?php namespace App\Models\ActionTasks;
+<?php
 
+namespace App\Models\ActionTasks;
+
+use App\Models\Concerns\HasWorkingHours;
+use App\Models\CTA\CTAVolunteer;
+use App\Models\Model;
+use App\Models\Volunteer;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use App\Models\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * The dates that a volunteer may be able to work
  *
  * Class Status
- * @package App\Models
  *
  * @property float|int $workHours Computed
  */
-class TaskShift extends Model {
-    use \App\Models\Concerns\HasWorkingHours;
-
+class TaskShift extends Model
+{
+    use HasWorkingHours;
     use SoftDeletes;
 
     protected $table = 'task_shifts';
@@ -27,38 +31,46 @@ class TaskShift extends Model {
         'to_date' => 'datetime',
     ];
 
-    /** @return BelongsTo<\App\Models\ActionTasks\Task, $this> */
-    public function task(): BelongsTo {
-        return $this->belongsTo(\App\Models\ActionTasks\Task::class, 'task_id', 'id');
+    /** @return BelongsTo<Task, $this> */
+    public function task(): BelongsTo
+    {
+        return $this->belongsTo(Task::class, 'task_id', 'id');
     }
 
-    /** @return BelongsTo<\App\Models\ActionTasks\Task, $this> */
-    public function trashedTask(): BelongsTo {
-        return $this->belongsTo(\App\Models\ActionTasks\Task::class, 'task_id', 'id')->withTrashed();
+    /** @return BelongsTo<Task, $this> */
+    public function trashedTask(): BelongsTo
+    {
+        return $this->belongsTo(Task::class, 'task_id', 'id')->withTrashed();
     }
 
-    /** @return BelongsToMany<\App\Models\Volunteer, $this> */
-    public function volunteers(): BelongsToMany {
-        return $this->belongsToMany(\App\Models\Volunteer::class, 'volunteer_task_shifts', 'task_shift_id', 'volunteer_id');
+    /** @return BelongsToMany<Volunteer, $this> */
+    public function volunteers(): BelongsToMany
+    {
+        return $this->belongsToMany(Volunteer::class, 'volunteer_task_shifts', 'task_shift_id', 'volunteer_id');
     }
 
-    /** @return BelongsToMany<\App\Models\CTA\CTAVolunteer, $this> */
-    public function ctaVolunteers(): BelongsToMany {
-        return $this->belongsToMany(\App\Models\CTA\CTAVolunteer::class, 'cta_volunteers_task_dates', 'task_shifts_id', 'cta_volunteers_id');
+    /** @return BelongsToMany<CTAVolunteer, $this> */
+    public function ctaVolunteers(): BelongsToMany
+    {
+        return $this->belongsToMany(CTAVolunteer::class, 'cta_volunteers_task_dates', 'task_shifts_id', 'cta_volunteers_id');
     }
 
-    public function getFromDateAttribute() {
-        if ($this->attributes['from_date'] != null)
+    public function getFromDateAttribute()
+    {
+        if ($this->attributes['from_date'] != null) {
             return \Carbon::parse($this->attributes['from_date'])->format('d/m/Y');
-        else
+        } else {
             return null;
+        }
     }
 
-    public function getFromHourAttribute(){
+    public function getFromHourAttribute()
+    {
         return date('H:i', strtotime($this->attributes['from_hour']));
     }
 
-    public function getToHourAttribute(){
+    public function getToHourAttribute()
+    {
         return date('H:i', strtotime($this->attributes['to_hour']));
     }
 }

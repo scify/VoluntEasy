@@ -1,20 +1,21 @@
-<?php namespace App\Providers;
+<?php
+
+namespace App\Providers;
 
 use App\Models\Descriptions\AvailabilityFrequencies;
-use App\Models\Descriptions\AvailabilityTime;
-use App\Models\Descriptions\CommunicationMethod;
 use App\Models\Descriptions\DriverLicenceType;
 use App\Models\Descriptions\EducationLevel;
 use App\Models\Descriptions\Gender;
 use App\Models\Descriptions\IdentificationType;
 use App\Models\Descriptions\Interest;
 use App\Models\Descriptions\Language;
-use App\Models\Descriptions\LanguageLevel;
 use App\Models\Descriptions\MaritalStatus;
 use App\Models\Descriptions\WorkStatus;
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\Volunteer;
+use App\Services\UnitService;
+use App\Services\UserService;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,20 +23,18 @@ use Illuminate\Support\ServiceProvider;
  * Responsible to send the data needed for certain views
  *
  * Class ViewComposerServiceProvider
- * @package App\Providers
  */
-class ViewComposerServiceProvider extends ServiceProvider {
-
-
-
+class ViewComposerServiceProvider extends ServiceProvider
+{
     /**
      * Bootstrap the application services.
      *
      * @return void
      */
-    public function boot() {
+    public function boot()
+    {
 
-        //Volunteer Search Page requires all the following data for it's dropdowns etc.
+        // Volunteer Search Page requires all the following data for it's dropdowns etc.
         View::composer('main.volunteers.partials._search', function ($view) {
             $identificationTypes = IdentificationType::pluck('description', 'id')->all();
             $driverLicenseTypes = self::withChoose(DriverLicenceType::pluck('description', 'id')->all());
@@ -50,7 +49,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $cities = self::withChoose(Volunteer::whereNotNull('city')->where('city', '!=', '')->distinct()->orderBy('city')->pluck('city', 'city')->all());
             $countries = self::withChoose(Volunteer::whereNotNull('country')->where('country', '!=', '')->distinct()->orderBy('country')->pluck('country', 'country')->all());
 
-            //create the statuses dropdown
+            // create the statuses dropdown
             $statuses = [];
             array_push($statuses, trans('entities/search.choose'));
             array_push($statuses, trans('entities/volunteers.new'));
@@ -60,7 +59,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             array_push($statuses, trans('entities/volunteers.notAvailable'));
             array_push($statuses, trans('entities/volunteers.blacklisted'));
 
-            //create the ratings dropdown
+            // create the ratings dropdown
             $ratings = [];
 
             $view->with('maritalStatuses', $maritalStatuses)
@@ -78,7 +77,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
                 ->with('units', $units);
         });
 
-        //Units Search Page requires all the following data for it's dropdowns etc.
+        // Units Search Page requires all the following data for it's dropdowns etc.
         View::composer('main.units.partials._search', function ($view) {
             $units = self::withChoose(Unit::pluck('description', 'id')->all());
             $users = self::withChoose(User::pluck('name', 'id')->all());
@@ -86,7 +85,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with('units', $units)->with('users', $users);
         });
 
-        //Actions Search Page requires all the following data for it's dropdowns etc.
+        // Actions Search Page requires all the following data for it's dropdowns etc.
         View::composer('main.actions.partials._search', function ($view) {
 
             $units = self::withChoose(Unit::whereDoesntHave('children')->pluck('description', 'id')->all());
@@ -94,7 +93,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with('units', $units);
         });
 
-        //Users Search Page requires all the following data for it's dropdowns etc.
+        // Users Search Page requires all the following data for it's dropdowns etc.
         View::composer('main.users.partials._search', function ($view) {
 
             $units = self::withChoose(Unit::pluck('description', 'id')->all());
@@ -102,23 +101,24 @@ class ViewComposerServiceProvider extends ServiceProvider {
             $view->with('units', $units);
         });
 
-        //Data used for the tree
+        // Data used for the tree
         View::composer('main.tree._tree', function ($view) {
-            $tree = app(\App\Services\UnitService::class)->getTree();
-            $userUnits = app(\App\Services\UserService::class)->userUnits();
+            $tree = app(UnitService::class)->getTree();
+            $userUnits = app(UserService::class)->userUnits();
 
             $view->with('userUnits', $userUnits)->with('tree', $tree);
         });
 
-        //Data used for the volunteers table
-        //We need to determine if the user is root
+        // Data used for the volunteers table
+        // We need to determine if the user is root
         View::composer('main.volunteers.partials._table', function ($view) {
             $root = false;
-            if (app(\App\Services\UserService::class)->isAdmin())
+            if (app(UserService::class)->isAdmin()) {
                 $root = true;
+            }
 
-            //also get an array of the permittedVolunteer ids
-            $permittedVolunteers = app(\App\Services\UserService::class)->permittedVolunteersIds();
+            // also get an array of the permittedVolunteer ids
+            $permittedVolunteers = app(UserService::class)->permittedVolunteersIds();
 
             $view->with('root', $root)
                 ->with('permittedVolunteers', $permittedVolunteers);
@@ -130,9 +130,7 @@ class ViewComposerServiceProvider extends ServiceProvider {
      *
      * @return void
      */
-    public function register() {
-
-    }
+    public function register() {}
 
     /**
      * Add the "Choose" option with key 0 at the top of a dropdown list.

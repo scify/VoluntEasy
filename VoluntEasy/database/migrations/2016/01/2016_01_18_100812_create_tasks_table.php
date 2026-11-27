@@ -2,20 +2,20 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTasksTable extends Migration {
+class CreateTasksTable extends Migration
+{
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
-
+    public function up()
+    {
 
         Schema::create('task_statuses', function ($table) {
             $table->increments('id');
             $table->string('description');
         });
-
 
         Schema::create('tasks', function ($table) {
             $table->increments('id');
@@ -34,7 +34,6 @@ class CreateTasksTable extends Migration {
             $table->softDeletes();
             $table->timestamps();
         });
-
 
         Schema::create('subtasks', function ($table) {
             $table->increments('id');
@@ -62,7 +61,8 @@ class CreateTasksTable extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('subtasks');
         Schema::dropIfExists('tasks');
         Schema::dropIfExists('task_statuses');

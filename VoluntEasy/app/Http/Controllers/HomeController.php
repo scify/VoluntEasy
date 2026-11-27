@@ -1,16 +1,20 @@
-<?php namespace App\Http\Controllers;
+<?php
+
+namespace App\Http\Controllers;
 
 use App\Models\Action;
 use App\Models\Volunteer;
-class HomeController extends Controller {
+use App\Services\UserService;
 
-    private \App\Services\UserService $userService;
-    
+class HomeController extends Controller
+{
+    private UserService $userService;
+
     /**
      * Create a new controller instance.
-     *
      */
-    public function __construct(\App\Services\UserService $userService) {
+    public function __construct(UserService $userService)
+    {
         $this->userService = $userService;
         $this->middleware('auth');
     }
@@ -18,7 +22,8 @@ class HomeController extends Controller {
     /**
      * Show the application dashboard to the user.
      */
-    public function mainIndex() {
+    public function mainIndex()
+    {
         $available = Volunteer::available()->count();
         $active = Volunteer::active()->count();
         $new = Volunteer::unassigned()->count();
@@ -34,11 +39,12 @@ class HomeController extends Controller {
     }
 
     /**
-     *
      * Get the volunteers that have birthday today
+     *
      * @return mixed
      */
-    private function birthdayToday() {
+    private function birthdayToday()
+    {
         $birthday = [];
 
         $day = date('d');
@@ -47,7 +53,7 @@ class HomeController extends Controller {
         $volunteers = Volunteer::all();
 
         foreach ($volunteers as $volunteer) {
-            $dob = explode("/", $volunteer->birth_date);
+            $dob = explode('/', $volunteer->birth_date);
 
             if ($dob[0] == $day && $dob[1] == $month) {
                 $birth_date = \Carbon::createFromFormat('d/m/Y', $volunteer->birth_date);
@@ -58,5 +64,4 @@ class HomeController extends Controller {
 
         return $birthday;
     }
-
 }

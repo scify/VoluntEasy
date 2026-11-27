@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateRolesTable extends Migration
@@ -12,36 +11,32 @@ class CreateRolesTable extends Migration
      */
     public function up()
     {
-        //Keeps the roles (admin, unit_manager, action_manager etc)
-        Schema::create('roles', function($table)
-        {
+        // Keeps the roles (admin, unit_manager, action_manager etc)
+        Schema::create('roles', function ($table) {
             $table->increments('id');
             $table->string('name');
 
             $table->timestamps();
         });
 
-        //Keeps the main modules of the platform that a user can perform actions to
-        //For example Unit, Action, User
-        Schema::create('modules', function($table)
-        {
+        // Keeps the main modules of the platform that a user can perform actions to
+        // For example Unit, Action, User
+        Schema::create('modules', function ($table) {
             $table->increments('id');
             $table->string('name');
 
             $table->timestamps();
         });
 
-        //The actions that a user can perform to a module, for example CRUD
-        Schema::create('module_actions', function($table)
-        {
+        // The actions that a user can perform to a module, for example CRUD
+        Schema::create('module_actions', function ($table) {
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
         });
 
-        //User to roles table
-        Schema::create('users_roles', function($table)
-        {
+        // User to roles table
+        Schema::create('users_roles', function ($table) {
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
 
@@ -51,9 +46,8 @@ class CreateRolesTable extends Migration
             $table->timestamps();
         });
 
-        //Role permissions
-        Schema::create('roles_permissions', function($table)
-        {
+        // Role permissions
+        Schema::create('roles_permissions', function ($table) {
             $table->integer('role_id')->unsigned();
             $table->foreign('role_id')->references('id')->on('roles');
 

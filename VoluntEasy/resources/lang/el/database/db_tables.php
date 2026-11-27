@@ -9,13 +9,11 @@ return [
     'passport' => 'Διαβατήριο',
     'resPermit' => 'Άδεια παραμονής',
 
-
     /* marital_statuses */
     'notMarried' => 'Άγαμος/η',
     'married' => 'Παντρεμένος/η',
     'widowed' => 'Χήρος/α',
     'divorsed' => 'Διαζευγμένος/η',
-
 
     /* work_statuses */
     'student' => 'Φοιτητής',
@@ -31,7 +29,6 @@ return [
     /* genders */
     'man' => 'Άνδρας',
     'woman' => 'Γυναίκα',
-
 
     /* languages */
     'greek' => 'Ελληνικά',
@@ -55,7 +52,6 @@ return [
     'workTel' => 'Τηλέφωνο εργασίας',
     'cellTel' => 'Κινητό τηλέφωνο',
 
-
     /* language_levels */
     'basic' => 'Βασικό',
     'good' => 'Καλό',
@@ -68,7 +64,6 @@ return [
     'perFortnight' => '1-2 φορές το δεκαπενθήμερο',
     'perMonth' => '1-2 φορές τον μήνα',
 
-
     /* driver_licence_types */
     'noDriverLicence' => 'Χωρίς δίπλωμα',
     'aDriverLicence' => 'Α κατηγορίας',
@@ -79,7 +74,6 @@ return [
     'yes' => 'Ναι',
     'no' => 'Όχι',
 
-
     /* how_you_learned */
     'website' => 'Ιστοσελίδα',
     'ad' => 'Αγγελία',
@@ -87,7 +81,6 @@ return [
     'friend' => 'Φίλο',
     'otherNPO' => 'Άλλο ΜΚΟ',
     'article' => 'Δημοσίευμα',
-
 
     /* how_you_learned2 */
     'orgSite' => 'Ιστοσελίδα του οργανισμού',
@@ -106,9 +99,8 @@ return [
     'finance' => 'Finance & Fundraising',
     'others' => 'Άλλα',
 
-
     /* interests */
-    //municipality
+    // municipality
     'solidarity' => 'Αλληλεγγύη',
     'culture' => 'Πολιτισμός',
     'sports' => 'Αθλητισμός',
@@ -118,7 +110,7 @@ return [
     'clean' => 'Καθαριότητα',
     'tourism' => 'Τουρισμός',
 
-    //ekpizo
+    // ekpizo
     'graphics' => 'Γραφιστικά',
     'research' => 'Διεξαγωγή ερευνών',
     'communicationSocialMedia' => 'Επικοινωνία/Social media',
@@ -127,8 +119,7 @@ return [
     'eventOrg' => 'Οργάνωση Εκδηλώσεων',
     'otherInterests' => 'Άλλα ενδιαφέροντα',
 
-
-    //scify
+    // scify
     'assistiveTechnologies' => 'Βοηθητικές τεχνολογίες',
     'orgIntelligence' => 'Οργανωσιακή ευφυΐα',
     'eDemocracy' => 'e - Δημοκρατία',
@@ -160,14 +151,12 @@ return [
     'betaTester' => 'Beta tester',
     'annotation' => 'Annotation',
 
-
     /* volunteer_departments */
     'legalSupport' => 'Νομική Υποστήριξη',
     'studiesResearch' => 'Μελέτες - Έρευνες (ασφάλεια, υγεία, διατροφή, περιβάλλον)',
     'consumerEducation' => 'Αγωγή του Καταναλωτή (εκπαίδευση, ενημέρωση)',
     'administrativeSupport' => 'Διοικητική Υποστήριξη (γραμματεία, αρχειοθέτηση κ.α.)',
     'communication' => 'Επικοινωνία (ιστοσελίδα, social media, καμπάνιες)',
-
 
     /*** ETC ***/
 

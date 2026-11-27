@@ -26,7 +26,6 @@ return [
     'shiftDiagram' => 'Βάρδιες εθελοντών',
     'noShiftDiagram' => 'Δεν έχουν οριστεί βάρδιες',
 
-
     'fillField' => 'Συμπληρώστε το πεδίο.',
     'fillFields' => 'Συμπληρώστε τα πεδία.',
 
@@ -39,10 +38,8 @@ return [
     'comments' => 'Σχόλια',
     'actions' => 'Ενέργειες',
 
-
     'newToDo' => 'Νέο to-do...',
     'toDoExplained' => 'Πατήστε το enter για να αποθηκευτεί το to-do',
-
 
     /* shifts */
     'taskDetails' => 'Επεξεργασία task',
@@ -55,6 +52,5 @@ return [
 
     /* controller */
     'deleted' => 'Το subtask διαγράφηκε.',
-
 
 ];

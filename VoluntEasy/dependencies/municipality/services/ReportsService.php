@@ -1,4 +1,6 @@
-<?php namespace Dependencies\municipality\services;
+<?php
+
+namespace Dependencies\municipality\services;
 
 use App\Models\Action;
 use App\Models\Descriptions\Interest;
@@ -6,9 +8,10 @@ use App\Models\Volunteer;
 use App\Models\VolunteerUnitStatus;
 use Interfaces\ReportsServiceAbstract;
 
-class ReportsService extends ReportsServiceAbstract {
-
-    function volunteersByInterest() {
+class ReportsService extends ReportsServiceAbstract
+{
+    public function volunteersByInterest()
+    {
 
         $interests = Interest::all();
 
@@ -25,7 +28,8 @@ class ReportsService extends ReportsServiceAbstract {
         return $interests;
     }
 
-    function volunteersByAction() {
+    public function volunteersByAction()
+    {
 
         $actions = Action::all();
 
@@ -40,8 +44,9 @@ class ReportsService extends ReportsServiceAbstract {
             $now = date('Y-m-d');
             $endDate = \Carbon::parse(\Carbon::createFromFormat('d/m/Y', $action->end_date))->format('Y-m-d');
             $action->expired = false;
-            if ($endDate < $now)
+            if ($endDate < $now) {
                 $action->expired = true;
+            }
 
             $action->volunteer_count = $volunteers;
         }
@@ -53,7 +58,8 @@ class ReportsService extends ReportsServiceAbstract {
      * Get the active and available volunteer
      * per unit by year and month
      */
-    public function activeAndAvailableVolunteersByUnit() {
+    public function activeAndAvailableVolunteersByUnit()
+    {
         $volunteerUnitStatuses = VolunteerUnitStatus::with('volunteer', 'unit', 'status')->get();
         $units = [];
 
@@ -62,13 +68,14 @@ class ReportsService extends ReportsServiceAbstract {
             foreach ($units as $unit) {
                 if ($unit['unit'] == $vus->unit->description) {
                     $foundUnit = true;
-                    if ($vus->status->description == 'Active')
+                    if ($vus->status->description == 'Active') {
                         $units['activeVolunteers'] = $units['activeVolunteers']++;
-                    else
+                    } else {
                         $units['availableVolunteers'] = $units['availableVolunteers']++;
+                    }
                 }
             }
-            if (!$foundUnit) {
+            if (! $foundUnit) {
                 $units['unit'] = $vus->unit->description;
                 $units['activeVolunteers'] = 0;
                 $units['availableVolunteers'] = 0;

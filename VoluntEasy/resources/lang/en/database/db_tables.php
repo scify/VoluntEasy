@@ -9,13 +9,11 @@ return [
     'passport' => 'Passport',
     'resPermit' => 'Residence permit',
 
-
     /* marital_statuses */
     'notMarried' => 'Not married',
     'married' => 'Married',
     'widowed' => 'Widowed',
     'divorsed' => 'Divorced',
-
 
     /* work_statuses */
     'student' => 'Student',
@@ -31,7 +29,6 @@ return [
     /* genders */
     'man' => 'Male',
     'woman' => 'Female',
-
 
     /* languages */
     'greek' => 'Greek',
@@ -55,7 +52,6 @@ return [
     'workTel' => 'Workplace phone number',
     'cellTel' => 'Mobile phone number',
 
-
     /* language_levels */
     'basic' => 'Basic',
     'good' => 'Good',
@@ -68,7 +64,6 @@ return [
     'perFortnight' => '1-2 per fortnight',
     'perMonth' => '1-2 per month',
 
-
     /* driver_licence_types */
     'noDriverLicence' => 'No driver license',
     'aDriverLicence' => 'A category driver license',
@@ -79,7 +74,6 @@ return [
     'yes' => 'Yes',
     'no' => 'No',
 
-
     /* how_you_learned */
     'website' => 'Website',
     'ad' => 'Advertisement',
@@ -87,7 +81,6 @@ return [
     'friend' => 'Friend',
     'otherNPO' => 'Other NPO',
     'article' => 'Article',
-
 
     /* how_you_learned2 */
     'orgSite' => 'Organisation Website',
@@ -106,9 +99,8 @@ return [
     'finance' => 'Finance & Fundraising',
     'others' => 'Other',
 
-
     /* interests */
-    //municipality
+    // municipality
     'solidarity' => 'Solidarity',
     'culture' => 'Culture',
     'sports' => 'Sports',
@@ -118,7 +110,7 @@ return [
     'clean' => 'City clean services',
     'tourism' => 'Tourism',
 
-    //ekpizo
+    // ekpizo
     'graphics' => 'Graphics',
     'research' => 'Research',
     'communicationSocialMedia' => 'Contact/Social media',
@@ -127,8 +119,7 @@ return [
     'eventOrg' => 'Event organising',
     'otherInterests' => 'Other interests',
 
-
-    //scify
+    // scify
     'assistiveTechnologies' => 'Assistive technologies',
     'orgIntelligence' => 'Organisational intelligence',
     'eDemocracy' => 'e - Democracy',
@@ -160,14 +151,12 @@ return [
     'betaTester' => 'Beta tester',
     'annotation' => 'Annotation',
 
-
     /* volunteer_departments */
     'legalSupport' => 'Legal Support',
     'studiesResearch' => 'Studies - Research (insurance, health, nutrition, environment)',
     'consumerEducation' => 'Consumer Education (education, information)',
     'administrativeSupport' => 'Administrative Support (secretariat, filing etc)',
     'communication' => 'Contact (website, social media, campaigns)',
-
 
     /*** ETC ***/
 

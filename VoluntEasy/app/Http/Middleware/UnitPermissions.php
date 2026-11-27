@@ -1,32 +1,37 @@
-<?php namespace App\Http\Middleware;
+<?php
 
+namespace App\Http\Middleware;
+
+use App\Services\UserService;
 use Closure;
+use Illuminate\Http\Request;
 
-class UnitPermissions {
+class UnitPermissions
+{
+    private UserService $userService;
 
-    private \App\Services\UserService $userService;
-
-    public function __construct(\App\Services\UserService $userService) {
+    public function __construct(UserService $userService)
+    {
         $this->userService = $userService;
     }
 
-	/**
-	 * Handle an incoming request.
+    /**
+     * Handle an incoming request.
      * Check if the requested unit is assigned to the current user.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  \Closure  $next
-	 * @return mixed
-	 */
-	public function handle($request, Closure $next)
-	{
-        //get user units
+     *
+     * @param  Request  $request
+     * @return mixed
+     */
+    public function handle($request, Closure $next)
+    {
+        // get user units
         $userUnits = $this->userService->userUnits();
 
-        //if the requested unit is not assigned to user, return error page
-        if(!in_array( $request->route()->parameter('id'), $userUnits))
+        // if the requested unit is not assigned to user, return error page
+        if (! in_array($request->route()->parameter('id'), $userUnits)) {
             return response()->view('errors.550', [], 550);
+        }
 
         return $next($request);
-	}
+    }
 }

@@ -1,23 +1,34 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-use App\Http\Requests\UnitRequest as UnitRequest;
-use App\Services\Volunteers\VolunteerAssignment;
+namespace App\Http\Controllers;
+
+use App\Http\Requests\UnitRequest;
 use App\Models\Descriptions\VolunteerStatus;
-use App\Models\Unit as Unit;
+use App\Models\Unit;
 use App\Models\Volunteer;
+use App\Services\NotificationService;
+use App\Services\UnitService;
+use App\Services\UserService;
+use App\Services\Volunteers\VolunteerAssignment;
+use App\Services\VolunteerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
-class UnitController extends Controller {
+class UnitController extends Controller
+{
+    private NotificationService $notificationService;
 
-    private \App\Services\NotificationService $notificationService;
-    private \App\Services\UnitService $unitService;
-    private \App\Services\UserService $userService;
-    private \App\Services\VolunteerService $volunteerService;
+    private UnitService $unitService;
+
+    private UserService $userService;
+
+    private VolunteerService $volunteerService;
 
     private VolunteerAssignment $volunteerAssignment;
-    public function __construct(VolunteerAssignment $volunteerAssignment, \App\Services\NotificationService $notificationService, \App\Services\UnitService $unitService, \App\Services\UserService $userService, \App\Services\VolunteerService $volunteerService) {
+
+    public function __construct(VolunteerAssignment $volunteerAssignment, NotificationService $notificationService, UnitService $unitService, UserService $userService, VolunteerService $volunteerService)
+    {
         $this->notificationService = $notificationService;
         $this->unitService = $unitService;
         $this->userService = $userService;
@@ -30,8 +41,9 @@ class UnitController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index() {
-        return view("main.units.list");
+    public function index()
+    {
+        return view('main.units.list');
     }
 
     /**
@@ -39,7 +51,8 @@ class UnitController extends Controller {
      *
      * @return mixed
      */
-    public function tree($id) {
+    public function tree($id)
+    {
         $unit = Unit::where('id', $id)->with('allChildren')->first();
 
         return $unit;
@@ -50,19 +63,21 @@ class UnitController extends Controller {
      * Roots and branches have a different layout, so we use
      * different routes and templates for them.
      */
-    public function create() {
+    public function create()
+    {
         $root = $this->unitService->getRoot();
 
         $users = $this->userService->permittedUsers();
 
         if ($root == null) {
             $type = 'root';
-            return view("main.units.create_root", compact('type', 'users'));
+
+            return view('main.units.create_root', compact('type', 'users'));
         } else {
             // $tree = Unit::whereNull('parent_unit_id')->with('allChildren')->first();
             $type = 'branch';
 
-            return view("main.units.create_branch", compact('type', 'users'));
+            return view('main.units.create_branch', compact('type', 'users'));
             // return view("main.units.create_branch", compact('type', 'tree', 'userUnits'));
         }
     }
@@ -71,28 +86,27 @@ class UnitController extends Controller {
      * Store a newly created resource in storage.
      * Also assign the predefined steps and
      * the users, if they are set.
-     *
-     * @param UnitRequest $request
      */
-    public function store(UnitRequest $request) {
+    public function store(UnitRequest $request)
+    {
         $unit = Unit::create($request->all());
 
         $users = [];
 
-        //get the selected users from the select2 array
-        //and add them to an array
-        if(\Request::filled('usersSelect')) {
+        // get the selected users from the select2 array
+        // and add them to an array
+        if (\Request::filled('usersSelect')) {
             foreach (\Request::get('usersSelect') as $user) {
                 array_push($users, $user);
             }
-            //sync the selected users
+            // sync the selected users
             $unit->users()->sync($users);
 
-            //notify them
+            // notify them
             $this->notificationService->usersToUnit($users, $unit);
         }
 
-        //create the steps for each unit
+        // create the steps for each unit
         $unit->steps()->saveMany($this->unitService->createSteps());
 
         return Redirect::route('unit/one', ['id' => $unit->id]);
@@ -101,9 +115,10 @@ class UnitController extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      */
-    public function show($id) {
+    public function show($id)
+    {
         $active = Unit::with('actions', 'allActions', 'volunteers')->findOrFail($id);
 
         $type = $this->unitService->type($active);
@@ -116,21 +131,21 @@ class UnitController extends Controller {
         $parentUnitId = $active->parent_unit_id;
         $pendingStatus = VolunteerStatus::pending();
 
-        //get all volunteers to show in select box
-        //those should be the volunteers that belong to the parent unit
-        //or to the same unit
-        //of the unit we are viewing and their status is not pending
-        //and do not have the current unit marked as excluded
+        // get all volunteers to show in select box
+        // those should be the volunteers that belong to the parent unit
+        // or to the same unit
+        // of the unit we are viewing and their status is not pending
+        // and do not have the current unit marked as excluded
         $allVolunteers = Volunteer::whereHas('units', function ($query) use ($unitId, $parentUnitId, $pendingStatus) {
             $query->where('unit_id', $unitId)
                 ->orWhere('unit_id', $parentUnitId)
                 ->where('volunteer_status_id', '<>', $pendingStatus);
-        })->whereHas("unitsExcludes", function ($q) use ($unitId) {
+        })->whereHas('unitsExcludes', function ($q) use ($unitId) {
             $q->where('unit_id', $unitId);
         }, '<', 1)->orderBy('name', 'asc')->get();
 
-        //get the volunteers that are assigned to current unit
-        //and their statuses
+        // get the volunteers that are assigned to current unit
+        // and their statuses
         $unitId = $active->id;
         $volunteers = [];
         foreach ($active->volunteers as $volunteer) {
@@ -145,58 +160,59 @@ class UnitController extends Controller {
             array_push($volunteers, $vol);
         }
 
-        return view("main.units.show", compact('active', 'type', 'allVolunteers', 'volunteers', 'userUnits', 'branch'));
+        return view('main.units.show', compact('active', 'type', 'allVolunteers', 'volunteers', 'userUnits', 'branch'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         $active = Unit::where('id', $id)->with('users', 'actions')->first();
 
-        //display all the users in the front end
+        // display all the users in the front end
         $users = $this->userService->assignableUsersIds($id);
 
         $userIds = $this->userService->userIds($active->users);
 
         $type = $this->unitService->type($active);
 
-        return view("main.units.edit", compact('active', 'type', 'users', 'userIds'));
+        return view('main.units.edit', compact('active', 'type', 'users', 'userIds'));
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  UnitRequest $request
      */
-    public function update(UnitRequest $request) {
+    public function update(UnitRequest $request)
+    {
         $unit = Unit::with('users')->findOrFail($request->get('id'));
 
         $users = [];
         $newUsers = [];
 
-        //get the selected users from the select2 array
-        //and add them to an array
-        if(\Request::filled('usersSelect')) {
+        // get the selected users from the select2 array
+        // and add them to an array
+        if (\Request::filled('usersSelect')) {
             foreach (\Request::get('usersSelect') as $user) {
-                //get the new users' ids to notify them
-                if (!in_array($user, $unit->users->pluck('id')->all()))
+                // get the new users' ids to notify them
+                if (! in_array($user, $unit->users->pluck('id')->all())) {
                     array_push($newUsers, $user);
+                }
 
-                //keep the users in a list
+                // keep the users in a list
                 array_push($users, $user);
             }
         }
 
-        //sync the selected users
+        // sync the selected users
         $unit->users()->sync($users);
 
-        //notify only new users
+        // notify only new users
         $this->notificationService->usersToUnit($newUsers, $unit);
 
-        //update the unit
+        // update the unit
         $unit->update($request->all());
 
         return Redirect::route('unit/one', ['id' => $unit->id]);
@@ -205,42 +221,43 @@ class UnitController extends Controller {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  int  $id
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $unit = Unit::with('allActions', 'allChildren', 'users', 'volunteers')->findOrFail($id);
 
-        //if the unit has actions, do not delete
-        if (sizeof($unit->allActions) > 0) {
+        // if the unit has actions, do not delete
+        if (count($unit->allActions) > 0) {
             Session::flash('flash_message', trans('entities/units.hasActions'));
             Session::flash('flash_type', 'alert-danger');
 
             return;
-            //return Redirect::to('units');
+            // return Redirect::to('units');
         }
-        //if the unit has children units, do not delete
-        if (sizeof($unit->allChildren) > 0) {
+        // if the unit has children units, do not delete
+        if (count($unit->allChildren) > 0) {
             Session::flash('flash_message', trans('entities/units.isParent'));
             Session::flash('flash_type', 'alert-danger');
 
             return;
-            //return Redirect::back();
+            // return Redirect::back();
         }
-        //if the unit has volunteers, do not delete
-        if (sizeof($unit->volunteers) > 0) {
+        // if the unit has volunteers, do not delete
+        if (count($unit->volunteers) > 0) {
             Session::flash('flash_message', trans('entities/units.hasVolunteers'));
             Session::flash('flash_type', 'alert-danger');
 
             return;
-            //return Redirect::back();
+            // return Redirect::back();
         }
-        //if the unit has users, do not delete
-        if (sizeof($unit->users) > 0) {
+        // if the unit has users, do not delete
+        if (count($unit->users) > 0) {
             Session::flash('flash_message', trans('entities/units.hasUsers'));
             Session::flash('flash_type', 'alert-danger');
 
             return;
-            //return Redirect::back();
+            // return Redirect::back();
         }
 
         $unit->steps()->delete();
@@ -249,7 +266,6 @@ class UnitController extends Controller {
         Session::flash('flash_message', trans('entities/units.deleted'));
         Session::flash('flash_type', 'alert-success');
 
-        return;
     }
 
     /**
@@ -257,7 +273,8 @@ class UnitController extends Controller {
      *
      * @return mixed
      */
-    public function search() {
+    public function search()
+    {
         $units = $this->unitService->search();
 
         return $units;
@@ -266,15 +283,15 @@ class UnitController extends Controller {
     /**
      * Sync the users with the db.
      *
-     * @param Request $request
      * @return mixed
      */
-    public function addUsers(Request $request) {
+    public function addUsers(Request $request)
+    {
         $unit = Unit::findOrFail($request->get('id'));
 
         $unit->users()->sync($request->get('users'));
 
-        //notify users
+        // notify users
         $this->notificationService->usersToUnit($request->get('users'), $unit);
 
         return $unit->id;
@@ -284,26 +301,29 @@ class UnitController extends Controller {
      * Sync the unit volunteers with the db.
      * Also add an entry to the unit history table
      *
-     * @param Request $request
      * @return mixed
      */
-    public function addVolunteers(Request $request) {
+    public function addVolunteers(Request $request)
+    {
         $unit = Unit::findOrFail($request->get('id'));
 
         $unit->volunteers()->detach();
 
-        if($request->has('volunteers')) {
+        if ($request->has('volunteers')) {
             // create a history entry for each new volunteer
             foreach ($request->get('volunteers') as $volunteer) {
                 $this->volunteerAssignment->addToUnit($unit->id, $unit->parent_unit_id, $volunteer);
             }
         }
+
         return $unit->id;
     }
 
-    public function wholeTree() {
+    public function wholeTree()
+    {
         $tree = $this->unitService->getTree();
         $userUnits = $this->userService->userUnits();
-        return view("main.tree.tree", compact('tree', 'userUnits'));
+
+        return view('main.tree.tree', compact('tree', 'userUnits'));
     }
 }

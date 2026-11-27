@@ -1,13 +1,7 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-use App\Http\Requests;
-use App\Services\Volunteers\VolunteerAssignment;
-use App\Services\Volunteers\VolunteerProfile;
-use Illuminate\Http\Request;
-use App\Services\Volunteers\VolunteerSearch;
-use Interfaces\VolunteerInterface;
-use Interfaces\RatingInterface;
-use Interfaces\ConfigurationInterface;
+namespace App\Http\Controllers;
+
 use App\Http\Controllers\Concerns\ChecksUploadedFiles;
 use App\Models\Action;
 use App\Models\Descriptions\AvailabilityFrequencies;
@@ -32,12 +26,23 @@ use App\Models\OPARating\InterpersonalSkill;
 use App\Models\OPARating\LaborSkill;
 use App\Models\Unit;
 use App\Models\Volunteer;
-use App\Models\VolunteerAvailabilityTime;
+use App\Services\RatingService;
+use App\Services\UserService;
+use App\Services\Volunteers\VolunteerAssignment;
+use App\Services\Volunteers\VolunteerProfile;
+use App\Services\Volunteers\VolunteerSearch;
+use App\Services\VolunteerService;
 use DB;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\View\View;
+use Interfaces\ConfigurationInterface;
+use Interfaces\RatingInterface;
+use Interfaces\VolunteerInterface;
+use Symfony\Component\HttpFoundation\Response;
 
-class VolunteerController extends Controller {
-
+class VolunteerController extends Controller
+{
     use ChecksUploadedFiles;
 
     /**
@@ -49,9 +54,9 @@ class VolunteerController extends Controller {
         private readonly VolunteerInterface $volunteerForm,
         private readonly RatingInterface $flavourRatings,
         private readonly VolunteerAssignment $volunteerAssignment,
-        private readonly \App\Services\VolunteerService $volunteerService,
-        private readonly \App\Services\RatingService $ratingService,
-        private readonly \App\Services\UserService $userService,
+        private readonly VolunteerService $volunteerService,
+        private readonly RatingService $ratingService,
+        private readonly UserService $userService,
     ) {
         $this->middleware('auth', ['except' => ['publicForm']]);
     }
@@ -59,14 +64,16 @@ class VolunteerController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index() {
+    public function index()
+    {
         return view('main.volunteers.list');
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create() {
+    public function create()
+    {
 
         $identificationTypes = IdentificationType::pluck('description', 'id')->all();
         $driverLicenseTypes = DriverLicenceType::pluck('description', 'id')->all();
@@ -85,7 +92,7 @@ class VolunteerController extends Controller {
         $units = Unit::orderBy('description', 'asc')->get()->all();
         $volunteeringDepartments = VolunteeringDepartment::get()->all();
 
-        //The extras are the add-on features based on the needs.
+        // The extras are the add-on features based on the needs.
         $extras = $this->configuration->getExtras();
         $extrasPath = $this->configuration->getExtrasPath();
 
@@ -115,7 +122,8 @@ class VolunteerController extends Controller {
     /**
      * Store a newly created resource in storage.
      */
-    public function store() {
+    public function store()
+    {
 
         $files = $this->uploadedFiles();
         if ($rejected = $this->rejectUploads($files, 'volunteers', 'entities/volunteers')) {
@@ -124,11 +132,13 @@ class VolunteerController extends Controller {
 
         $saved = $this->volunteerForm->store();
 
-        if (is_array($saved))
+        if (is_array($saved)) {
             return redirect()->back()->withErrors($saved['messages'])->withInput();
+        }
 
-        if ($files !== [])
+        if ($files !== []) {
             $this->volunteerService->storeFiles($files, $saved->id);
+        }
 
         return \Redirect::route('volunteer/profile', ['id' => $saved->id]);
     }
@@ -136,45 +146,49 @@ class VolunteerController extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      */
-    public function show($id) {
+    public function show($id)
+    {
 
         $volunteer = app(VolunteerProfile::class)->fullProfile($id);
-       // return $volunteer;
+        // return $volunteer;
         $timeline = app(VolunteerProfile::class)->timeline($id);
         $volunteer = $this->volunteerService->setStatusToUnits($volunteer);
         $totalWorkingHours = app(VolunteerProfile::class)->totalWorkingHours($timeline);
         $totalRatings = $this->ratingService->totalVolunteerRating($timeline);
         $actionsRatings = app(VolunteerProfile::class)->actionsRatings($id);
 
-        //get the count of pending and available units, used in the front end
+        // get the count of pending and available units, used in the front end
         $pending = 0;
         $available = 0;
         foreach ($volunteer->units as $unit) {
-            if ($unit->status == 'Pending')
+            if ($unit->status == 'Pending') {
                 $pending++;
-            else if ($unit->status == 'Available' || $unit->status == 'Active')
+            } elseif ($unit->status == 'Available' || $unit->status == 'Active') {
                 $available++;
+            }
         }
 
-        //check if the volunteer is permitted to be edited by the
-        //currently logged in user
+        // check if the volunteer is permitted to be edited by the
+        // currently logged in user
         $permittedVolunteers = $this->userService->permittedVolunteersIds();
-        if (in_array($volunteer->id, $permittedVolunteers))
+        if (in_array($volunteer->id, $permittedVolunteers)) {
             $volunteer->permitted = true;
-        else
+        } else {
             $volunteer->permitted = false;
+        }
 
         $userUnits = $this->userService->userUnits();
 
         $actionsCount = 0;
         foreach ($timeline as $block) {
-            if ($block->type == 'action')
+            if ($block->type == 'action') {
                 $actionsCount++;
+            }
         }
-        
-        //The extras are the add-on features based on the needs.
+
+        // The extras are the add-on features based on the needs.
         $extras = $this->configuration->getExtras();
         $extrasPath = $this->configuration->getExtrasPath();
         $hasTasks = $this->configuration->hasTasks();
@@ -190,9 +204,10 @@ class VolunteerController extends Controller {
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $volId
+     * @param  int  $volId
      */
-    public function edit($volId) {
+    public function edit($volId)
+    {
         $volunteer = Volunteer::with('interests', 'availabilityTimes', 'availabilityDays', 'unitsExcludes', 'files', 'extras', 'volunteeringDepartments')->findOrFail($volId);
 
         $identificationTypes = IdentificationType::pluck('description', 'id')->all();
@@ -211,7 +226,7 @@ class VolunteerController extends Controller {
         $edLevel = EducationLevel::pluck('description', 'id')->all();
         $volunteeringDepartments = VolunteeringDepartment::get()->all();
 
-        //get the language levels in a readable array
+        // get the language levels in a readable array
         $lang_levels = [];
         foreach ($volunteer->languages as $language) {
             $lang_levels[$language->language->description] = $language->level->id;
@@ -240,7 +255,7 @@ class VolunteerController extends Controller {
         ksort($howYouLearned);
         ksort($howYouLearned2);
 
-        //The extras are the add-on features based on the needs.
+        // The extras are the add-on features based on the needs.
         $extras = $this->configuration->getExtras();
         $extrasPath = $this->configuration->getExtrasPath();
 
@@ -251,7 +266,8 @@ class VolunteerController extends Controller {
     /**
      * Update the specified resource in storage.
      */
-    public function update() {
+    public function update()
+    {
 
         $volunteer = Volunteer::findOrFail(\Request::get('id'));
 
@@ -262,11 +278,13 @@ class VolunteerController extends Controller {
 
         $saved = $this->volunteerForm->update($volunteer);
 
-        if (is_array($saved))
+        if (is_array($saved)) {
             return redirect()->back()->withErrors($saved['messages'])->withInput();
+        }
 
-        if ($files !== [])
+        if ($files !== []) {
             $this->volunteerService->storeFiles($files, $volunteer->id);
+        }
 
         return \Redirect::route('volunteer/profile', ['id' => $volunteer->id]);
     }
@@ -274,20 +292,21 @@ class VolunteerController extends Controller {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  int  $id
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $volunteer = Volunteer::findOrFail($id);
 
-        //if the volunteer has units, do not delete
-        if (sizeof($volunteer->units) > 0) {
+        // if the volunteer has units, do not delete
+        if (count($volunteer->units) > 0) {
             Session::flash('flash_message', trans('entities/volunteers.inUnit'));
             Session::flash('flash_type', 'alert-danger');
 
             return;
         }
-        //if the volunteer has actions, do not delete
-        if (sizeof($volunteer->actions) > 0) {
+        // if the volunteer has actions, do not delete
+        if (count($volunteer->actions) > 0) {
             Session::flash('flash_message', trans('entities/volunteers.inAction'));
             Session::flash('flash_type', 'alert-danger');
 
@@ -299,37 +318,38 @@ class VolunteerController extends Controller {
         foreach ($volunteer->files as $f) {
             $file = File::find($f->id);
 
-            $filename = public_path() . '/assets/uploads/volunteers/' . $file->filename;
+            $filename = public_path().'/assets/uploads/volunteers/'.$file->filename;
 
-            //if the file exists, delete it from the filesystem
-            if (file_exists($filename))
+            // if the file exists, delete it from the filesystem
+            if (file_exists($filename)) {
                 unlink($filename);
+            }
 
-            //delete the row from the db
+            // delete the row from the db
             $file->delete();
         }
 
-        $volunteer->update(['email' => $volunteer->email . '_deleted']);
+        $volunteer->update(['email' => $volunteer->email.'_deleted']);
 
         $volunteer->delete();
 
         Session::flash('flash_message', trans('entities/volunteers.deleted'));
         Session::flash('flash_type', 'alert-success');
 
-        return;
     }
 
     /**
      * Search the volunteers (AJAX, for the volunteers table).
      *
-     * @return array{data: array<int, \App\Models\Volunteer>}
+     * @return array{data: array<int, Volunteer>}
      */
-    public function search(Request $request, VolunteerSearch $volunteerSearch): array {
+    public function search(Request $request, VolunteerSearch $volunteerSearch): array
+    {
         return $volunteerSearch->search($request);
     }
 
-
-    public function newVolunteers() {
+    public function newVolunteers()
+    {
         $volunteers = Volunteer::unassigned();
 
         return view('main.volunteers.list', compact('volunteers'));
@@ -339,15 +359,16 @@ class VolunteerController extends Controller {
      * Add a volunteer to the root unit
      * when the user is admin.
      *
-     * @param $id
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function addToRootUnit($id) {
+    public function addToRootUnit($id)
+    {
 
-        if ($this->volunteerAssignment->addToRootUnit($id))
+        if ($this->volunteerAssignment->addToRootUnit($id)) {
             return \Redirect::route('volunteer/profile', ['id' => $id]);
-        else
+        } else {
             return response()->view('errors.550', [], 550);
+        }
     }
 
     /**
@@ -356,7 +377,8 @@ class VolunteerController extends Controller {
      *
      * @return mixed
      */
-    public function addToUnit() {
+    public function addToUnit()
+    {
 
         $unitId = \Request::get('assign_id');
         $parentUnitId = \Request::get('parent_unit_id');
@@ -370,7 +392,8 @@ class VolunteerController extends Controller {
      *
      * @return mixed
      */
-    public function addToAction() {
+    public function addToAction()
+    {
 
         $action = Action::find(\Request::get('assign_id'));
         $volunteer = Volunteer::find(\Request::get('volunteer_id'));
@@ -383,17 +406,17 @@ class VolunteerController extends Controller {
     /**
      * Remove volunteer from unit and form its actions
      *
-     * @param $volunteerId
-     * @param $unitId
      * @return mixed
      */
-    public function detachFromUnit($volunteerId, $unitId) {
+    public function detachFromUnit($volunteerId, $unitId)
+    {
         $volunteer = Volunteer::findOrFail($volunteerId);
         $unit = Unit::with('actions')->findOrFail($unitId);
 
-        //check if the unit has any actions, then detach the volunteer from them
-        if (sizeof($unit->actions) > 0)
+        // check if the unit has any actions, then detach the volunteer from them
+        if (count($unit->actions) > 0) {
             $volunteer->actions()->detach($unit->actions->pluck('id')->all());
+        }
 
         $volunteer->units()->detach($unitId);
 
@@ -403,11 +426,10 @@ class VolunteerController extends Controller {
     /**
      * Remove volunteer from action
      *
-     * @param $volunteerId
-     * @param $actionId
      * @return mixed
      */
-    public function detachFromAction($volunteerId, $actionId) {
+    public function detachFromAction($volunteerId, $actionId)
+    {
 
         $action = Action::find($actionId);
 
@@ -423,7 +445,8 @@ class VolunteerController extends Controller {
      *
      * @return mixed
      */
-    public function updateStepStatus() {
+    public function updateStepStatus()
+    {
 
         $stepStatusId = \Request::get('id');
         $status = \Request::get('status');
@@ -442,7 +465,8 @@ class VolunteerController extends Controller {
      *
      * @return mixed
      */
-    public function blacklisted() {
+    public function blacklisted()
+    {
 
         $volunteer = Volunteer::findOrFail(\Request::get('id'));
 
@@ -461,7 +485,8 @@ class VolunteerController extends Controller {
      *
      * @return mixed
      */
-    public function unBlacklisted() {
+    public function unBlacklisted()
+    {
 
         $volunteer = Volunteer::findOrFail(\Request::get('id'));
 
@@ -478,28 +503,31 @@ class VolunteerController extends Controller {
      *
      * @return mixed
      */
-    public function notAvailable() {
+    public function notAvailable()
+    {
 
-        //first update the volunteer status -> set it to not available
+        // first update the volunteer status -> set it to not available
         $volunteer = Volunteer::findOrFail(\Request::get('id'));
         $volunteer->not_available = true;
         $volunteer->update();
 
-        //then add the comments and dates to the table
+        // then add the comments and dates to the table
         $statusId = VolunteerStatus::notAvailable();
 
-        //set the dates to an appropriate format
-        if (\Request::get('from') != '')
+        // set the dates to an appropriate format
+        if (\Request::get('from') != '') {
             $from = \Carbon::createFromFormat('d/m/Y', \Request::get('from'))->toDateString();
-        else
+        } else {
             $from = '';
+        }
 
-        if (\Request::get('to') != '')
+        if (\Request::get('to') != '') {
             $to = \Carbon::createFromFormat('d/m/Y', \Request::get('to'))->toDateString();
-        else
+        } else {
             $to = '';
+        }
 
-        //create the obj and save it to db
+        // create the obj and save it to db
         $volunteer_status_duration = new VolunteerStatusDuration([
             'volunteer_id' => \Request::get('id'),
             'from_date' => $from,
@@ -518,7 +546,8 @@ class VolunteerController extends Controller {
      *
      * @return mixed
      */
-    public function available() {
+    public function available()
+    {
 
         return $this->volunteerAssignment->setVolunteerToAvailable(\Request::get('id'));
     }
@@ -528,17 +557,19 @@ class VolunteerController extends Controller {
      *
      * @return mixed
      */
-    public function deleteFile() {
+    public function deleteFile()
+    {
         $id = \Request::get('id');
         $file = File::find($id);
 
-        $filename = public_path() . '/assets/uploads/volunteers/' . $file->filename;
+        $filename = public_path().'/assets/uploads/volunteers/'.$file->filename;
 
-        //if the file exists, delete it from the filesystem
-        if (file_exists($filename))
+        // if the file exists, delete it from the filesystem
+        if (file_exists($filename)) {
             unlink($filename);
+        }
 
-        //delete the row from the db
+        // delete the row from the db
         $file->delete();
 
         return $filename;
@@ -547,9 +578,10 @@ class VolunteerController extends Controller {
     /**
      * Serve the volunteer public form
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function publicForm() {
+    public function publicForm()
+    {
 
         $identificationTypes = IdentificationType::pluck('description', 'id')->all();
         $driverLicenseTypes = DriverLicenceType::pluck('description', 'id')->all();
@@ -566,7 +598,7 @@ class VolunteerController extends Controller {
         $howYouLearned = HowYouLearned::pluck('description', 'id')->all();
         $units = Unit::orderBy('description', 'asc')->get()->all();
 
-        $viewPath = $this->configuration->getViewsPath() . '.volunteers._form';
+        $viewPath = $this->configuration->getViewsPath().'.volunteers._form';
 
         $maritalStatuses[0] = trans('entities/search.choose');
         $edLevel[0] = trans('entities/search.choose');
@@ -588,5 +620,4 @@ class VolunteerController extends Controller {
         return view('main.volunteers.public_form', compact('identificationTypes', 'driverLicenseTypes', 'maritalStatuses', 'languages', 'langLevels',
             'workStatuses', 'availabilityFreqs', 'availabilityTimes', 'interestCategories', 'genders', 'commMethod', 'edLevel', 'units', 'howYouLearned', 'viewPath'));
     }
-
 }

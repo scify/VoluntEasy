@@ -2,14 +2,15 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class CreateVolunteerTable extends Migration {
-
+class CreateVolunteerTable extends Migration
+{
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
         Schema::create('identification_types', function ($table) {
             $table->increments('id');
             $table->string('description', 50);
@@ -275,7 +276,8 @@ class CreateVolunteerTable extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('volunteer_unit_history');
         Schema::dropIfExists('volunteer_unit_status');
         // Schema::dropIfExists('volunteer_action_history');
@@ -307,5 +309,4 @@ class CreateVolunteerTable extends Migration {
         Schema::dropIfExists('how_you_learned2');
 
     }
-
 }

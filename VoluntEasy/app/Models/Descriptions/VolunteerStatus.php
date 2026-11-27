@@ -1,40 +1,47 @@
-<?php namespace App\Models\Descriptions;
+<?php
+
+namespace App\Models\Descriptions;
 
 use App\Models\Model;
-class VolunteerStatus extends Model {
 
+class VolunteerStatus extends Model
+{
     protected $table = 'volunteer_statuses';
 
     protected $fillable = ['description'];
 
-    public function scopePending() {
+    public function scopePending()
+    {
         $pendingStatus = VolunteerStatus::where('description', 'Pending')->first();
 
         return $pendingStatus->id;
     }
 
-    public function scopeAvailable() {
+    public function scopeAvailable()
+    {
         $pendingStatus = VolunteerStatus::where('description', 'Available')->first();
 
         return $pendingStatus->id;
     }
 
-    public function scopeActive() {
+    public function scopeActive()
+    {
         $pendingStatus = VolunteerStatus::where('description', 'Active')->first();
 
         return $pendingStatus->id;
     }
 
-    public function scopeNotAvailable() {
+    public function scopeNotAvailable()
+    {
         $pendingStatus = VolunteerStatus::where('description', 'Not available')->first();
 
         return $pendingStatus->id;
     }
 
-    public function scopeBlacklisted() {
+    public function scopeBlacklisted()
+    {
         $pendingStatus = VolunteerStatus::where('description', 'Blacklisted')->first();
 
         return $pendingStatus->id;
     }
-
 }

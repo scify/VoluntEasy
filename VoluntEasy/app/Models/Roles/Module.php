@@ -1,16 +1,19 @@
-<?php namespace App\Models\Roles;
+<?php
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
+namespace App\Models\Roles;
+
 use App\Models\Model;
-class Module extends Model {
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
+class Module extends Model
+{
     protected $table = 'modules';
 
     protected $fillable = ['name'];
 
-    /** @return HasMany<\App\Models\Roles\ModuleAction, $this> */
-    public function actions(): HasMany {
-        return $this->hasMany(\App\Models\Roles\ModuleAction::class);
+    /** @return HasMany<ModuleAction, $this> */
+    public function actions(): HasMany
+    {
+        return $this->hasMany(ModuleAction::class);
     }
-
 }

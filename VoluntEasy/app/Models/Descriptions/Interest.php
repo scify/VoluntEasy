@@ -1,14 +1,17 @@
-<?php namespace App\Models\Descriptions;
+<?php
 
-use Illuminate\Database\Eloquent\Relations\HasOne;
+namespace App\Models\Descriptions;
+
 use App\Models\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
 /**
  * Values marked "Computed" are set by the services, they are not columns.
  *
  * @property int $count Computed: number of volunteers (reports)
  */
-class Interest extends Model {
-
+class Interest extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -18,12 +21,14 @@ class Interest extends Model {
 
     protected $fillable = ['description', 'category_id'];
 
-    public function getDescriptionAttribute() {
-        return trans('database/db_tables.' . $this->attributes['description']);
+    public function getDescriptionAttribute()
+    {
+        return trans('database/db_tables.'.$this->attributes['description']);
     }
 
-    /** @return HasOne<\App\Models\Descriptions\InterestCategory, $this> */
-    public function category(): HasOne {
-        return $this->hasOne(\App\Models\Descriptions\InterestCategory::class, 'id', 'category_id');
+    /** @return HasOne<InterestCategory, $this> */
+    public function category(): HasOne
+    {
+        return $this->hasOne(InterestCategory::class, 'id', 'category_id');
     }
 }

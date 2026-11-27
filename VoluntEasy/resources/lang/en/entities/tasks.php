@@ -64,9 +64,7 @@ return [
 
     'fillField' => 'Fill in this field.',
 
-
     /* controller */
     'deleted' => 'Task has been deleted.',
-
 
 ];

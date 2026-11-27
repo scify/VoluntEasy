@@ -14,7 +14,6 @@ return [
     'action_manager-descr' => 'The Action Manager is responsible for actions assigned to him/her.',
     'addShift' => 'Add shift',
 
-
     'admin-at' => 'Administrator',
     'unit_manager-at' => 'Unit Manager at units:',
     'action_manager-at' => 'Action Manager at actions:',
@@ -29,8 +28,7 @@ return [
     'priority-medium' => 'Medium',
     'priority-low' => 'Low',
 
-
-    /* common words and phrases*/
+    /* common words and phrases */
     'save' => 'Save',
     'edit' => 'Edit',
     'delete' => 'Delete',
@@ -52,12 +50,9 @@ return [
     'greek' => 'Ελληνικά',
     'english' => 'English',
 
-
-
     /* error pages */
     'error' => 'ERROR',
     'pageNotFound' => 'Page not found.',
     'noRights' => 'You have no rights to perform this action.',
-
 
 ];

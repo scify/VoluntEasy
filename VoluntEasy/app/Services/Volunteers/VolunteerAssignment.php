@@ -12,6 +12,9 @@ use App\Models\VolunteerActionHistory;
 use App\Models\VolunteerStepStatus;
 use App\Models\VolunteerUnitHistory;
 use App\Models\VolunteerUnitStatus;
+use App\Services\NotificationService;
+use App\Services\UnitService;
+use App\Services\UserService;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -24,16 +27,19 @@ use Illuminate\Support\Facades\Auth;
  */
 class VolunteerAssignment
 {
+    private NotificationService $notificationService;
 
-    private \App\Services\NotificationService $notificationService;
-    private \App\Services\UnitService $unitService;
-    private \App\Services\UserService $userService;
+    private UnitService $unitService;
 
-    public function __construct(\App\Services\NotificationService $notificationService, \App\Services\UnitService $unitService, \App\Services\UserService $userService) {
+    private UserService $userService;
+
+    public function __construct(NotificationService $notificationService, UnitService $unitService, UserService $userService)
+    {
         $this->notificationService = $notificationService;
         $this->unitService = $unitService;
         $this->userService = $userService;
     }
+
     /**
      * Update a step of a volunteer (Complete or Incomplete).
      */

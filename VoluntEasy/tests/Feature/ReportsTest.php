@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Descriptions\EducationLevel;
 use App\Models\Descriptions\Gender;
 use App\Models\User;
+use Dependencies\scify\services\ReportsService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Interfaces\ReportsInterface;
@@ -22,7 +23,7 @@ class ReportsTest extends TestCase
     public static function flavours(): array
     {
         return [
-            'scify' => [\Dependencies\scify\services\ReportsService::class],
+            'scify' => [ReportsService::class],
             'municipality' => [\Dependencies\municipality\services\ReportsService::class],
             'ekpizo' => [\Dependencies\ekpizo\services\ReportsService::class],
         ];

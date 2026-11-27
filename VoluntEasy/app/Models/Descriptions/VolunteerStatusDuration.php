@@ -1,7 +1,9 @@
-<?php namespace App\Models\Descriptions;
+<?php
 
-use Illuminate\Database\Eloquent\Relations\HasOne;
+namespace App\Models\Descriptions;
+
 use App\Models\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -9,25 +11,27 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property string $type Computed: timeline entry type
  */
-class VolunteerStatusDuration extends Model {
-
+class VolunteerStatusDuration extends Model
+{
     use SoftDeletes;
 
     protected $table = 'volunteer_status_duration';
 
     protected $fillable = ['from_date', 'to_date', 'volunteer_id', 'status_id', 'comments'];
 
-    /** @return HasOne<\App\Models\Descriptions\VolunteerStatus, $this> */
-    public function status(): HasOne {
-        return $this->hasOne(\App\Models\Descriptions\VolunteerStatus::class, 'id', 'status_id');
+    /** @return HasOne<VolunteerStatus, $this> */
+    public function status(): HasOne
+    {
+        return $this->hasOne(VolunteerStatus::class, 'id', 'status_id');
     }
 
-    public function getFromDateAttribute() {
+    public function getFromDateAttribute()
+    {
         return \Carbon::parse($this->attributes['from_date'])->format('d/m/Y');
     }
 
-    public function getToDateAttribute() {
+    public function getToDateAttribute()
+    {
         return \Carbon::parse($this->attributes['to_date'])->format('d/m/Y');
     }
-
 }

@@ -1,17 +1,20 @@
-<?php namespace App\Services;
+<?php
+
+namespace App\Services;
 
 use App\Models\Action;
 use App\Models\Notification;
 use App\Models\Unit;
+
 /**
  * The PHP Class that will handle the business logic for the Notification Engine
  * [basic methods] -> [add,remove,search]
  */
-class NotificationService {
+class NotificationService
+{
+    private UserService $userService;
 
-    private \App\Services\UserService $userService;
-
-    /////////////////////////////////////////////////////////////////////////////////////
+    // ///////////////////////////////////////////////////////////////////////////////////
     //   Notification Types Index                                                     //
     //   1 = User is assigned to Unit (Unit-Users)                                   //
     //   2 = Volunteer is assigned to unit (volunteers-units)                       //
@@ -21,13 +24,15 @@ class NotificationService {
     //   6 = Volunteer submitted the Questionnaire (parent Unit-Users)          //
     //   7 = Volunteer contract expired yesterday                              //
     //   8 = Volunteer contract expires in 6 months                           //
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
 
     /** Messages **/
     private $userToUnit;
+
     private $newVolunteer;
 
-    public function __construct(\App\Services\UserService $userService) {
+    public function __construct(UserService $userService)
+    {
         $this->userService = $userService;
         $this->userToUnit = trans('entities/notifications.userToUnit');
         $this->newVolunteer = trans('entities/notifications.newVolunteer');
@@ -36,15 +41,16 @@ class NotificationService {
     /**
      * create a new Notification Instance
      *
-     * @param int $userId The user that the notification is for
-     * @param int $typeId The notification type (see the index in the Notification model)
-     * @param string $msg
-     * @param string $url
-     * @param int $reference1Id The id of the model that the notification is about
-     * @param int|null $reference2Id A second model id, if necessary
+     * @param  int  $userId  The user that the notification is for
+     * @param  int  $typeId  The notification type (see the index in the Notification model)
+     * @param  string  $msg
+     * @param  string  $url
+     * @param  int  $reference1Id  The id of the model that the notification is about
+     * @param  int|null  $reference2Id  A second model id, if necessary
      * @return int 1 on success, 0 on failure
      */
-    public function addNotification($userId, $typeId, $msg, $url, $reference1Id, $reference2Id = null) {
+    public function addNotification($userId, $typeId, $msg, $url, $reference1Id, $reference2Id = null)
+    {
         $notification = new Notification;
         $notification->user_id = $userId;
         $notification->type_id = $typeId;
@@ -54,26 +60,29 @@ class NotificationService {
         $notification->reference2_id = $reference2Id;
         $notification->status = 'alarmAndActive';
 
-        if ($notification->save())
+        if ($notification->save()) {
             return 1;
-        else
+        } else {
             return 0;
+        }
     }
 
     /**
      * stop the Bell Ring at a Notification Instance
      *
-     * @param int $notificationId
+     * @param  int  $notificationId
      * @return int [success status]
      */
-    public function stopBellNotification($notificationId) {
-        //users can change only their own notifications
+    public function stopBellNotification($notificationId)
+    {
+        // users can change only their own notifications
         $notification = Notification::where('user_id', \Auth::id())->findOrFail($notificationId);
 
         $notification->status = 'active';
 
-        if (!$notification->save())
+        if (! $notification->save()) {
             return 0;
+        }
 
         return 1;
     }
@@ -82,18 +91,20 @@ class NotificationService {
      * deactivate a Notification Instance
      * so it is not appeared any more to the client
      * we deactivate and don't delete it for Data Mining reasons
-     * @param int $notificationId A notification id
      *
+     * @param  int  $notificationId  A notification id
      * @return int [success status]
      */
-    public function deactivateNotification($notificationId) {
-        //users can change only their own notifications
+    public function deactivateNotification($notificationId)
+    {
+        // users can change only their own notifications
         $notification = Notification::where('user_id', \Auth::id())->findOrFail($notificationId);
 
         $notification->status = 'inactive';
 
-        if (!$notification->save())
+        if (! $notification->save()) {
             return 0;
+        }
 
         return 1;
     }
@@ -102,9 +113,10 @@ class NotificationService {
      * !!! Notification Types Index on top of the page !!!
      * check if there is any active Notification for the specific User
      *
-     * @return list<\App\Models\Notification> The active and the five latest inactive notifications of the user
+     * @return list<Notification> The active and the five latest inactive notifications of the user
      */
-    public function checkForNotifications() {
+    public function checkForNotifications()
+    {
         $userId = \Auth::id();
 
         $actives = Notification::where('user_id', $userId)
@@ -114,7 +126,7 @@ class NotificationService {
             })
             ->orderBy('created_at', 'desc')->get();
 
-        //also get the first five inactive notifications
+        // also get the first five inactive notifications
         $firstFive = Notification::where('user_id', $userId)
             ->where('status', 'inactive')
             ->orderBy('created_at', 'desc')
@@ -148,72 +160,64 @@ class NotificationService {
 
     /**
      * Notify one user that s/he is assigned to a unit
-     *
-     * @param $userId
-     * @param $unit
      */
-    public function userToUnit($userId, $unit) {
+    public function userToUnit($userId, $unit)
+    {
 
-        $url = '/users/one/' . $userId;
+        $url = '/users/one/'.$userId;
 
-        //userId, type of notification, message, url, userId, unitId
-        $this->addNotification($userId, 1, $this->userToUnit . $unit->description . '.', $url, $userId, $unit->id);
+        // userId, type of notification, message, url, userId, unitId
+        $this->addNotification($userId, 1, $this->userToUnit.$unit->description.'.', $url, $userId, $unit->id);
 
-        return;
     }
 
     /**
      * Notify multiple users that they are assigned to a unit
-     *
-     * @param $usersIds
-     * @param $unit
      */
-    public function usersToUnit($usersIds, $unit) {
+    public function usersToUnit($usersIds, $unit)
+    {
 
-        foreach ($usersIds as $user)
+        foreach ($usersIds as $user) {
             $this->userToUnit($user, $unit);
-        return;
+        }
 
     }
 
     /**
      * Notify all the users that are attached to a unit
      * that a new volunteer has been assigned to the unit.
-     *
-     * @param $volunteerId
-     * @param $unitId
      */
-    public function newVolunteer($volunteerId, $unitId) {
+    public function newVolunteer($volunteerId, $unitId)
+    {
 
-        $url = '/volunteers/one/' . $volunteerId;
+        $url = '/volunteers/one/'.$volunteerId;
 
         $unit = Unit::with('users')->find($unitId);
 
         foreach ($unit->users as $user) {
-            $this->addNotification($user->id, 2, $this->newVolunteer . $unit->description . '.', $url, $user->id, $unit->id);
+            $this->addNotification($user->id, 2, $this->newVolunteer.$unit->description.'.', $url, $user->id, $unit->id);
         }
     }
 
     /**
      * Notify the users of a unit that an action expired yesterday
-     *
-     * @param $actionId
      */
-    public function actionExpired($actionId) {
+    public function actionExpired($actionId)
+    {
 
         $action = Action::find($actionId);
         $unit = Unit::with('users')->find($action->unit_id);
 
-        $url = '/actions/one/' . $actionId;
+        $url = '/actions/one/'.$actionId;
 
-        //notify the unit's users
+        // notify the unit's users
         foreach ($unit->users as $user) {
             $this->addNotification($user->id, 5, trans('entities/notifications.actionExpired', ['action' => $action->description, 'date' => $action->end_date]), $url, $user->id, $action->id);
         }
 
         $admins = $this->userService->getAdmins();
 
-        //also notify all the admins
+        // also notify all the admins
         foreach ($admins as $admin) {
             $this->addNotification($admin->id, 5, trans('entities/notifications.actionExpired', ['action' => $action->description, 'date' => $action->end_date]), $url, $admin->id, $action->id);
         }
@@ -222,24 +226,23 @@ class NotificationService {
 
     /**
      * Notify the users for actions that expire in 7 days
-     *
-     * @param $actionId
      */
-    public function actionWillExpire($actionId) {
+    public function actionWillExpire($actionId)
+    {
 
         $action = Action::find($actionId);
         $unit = Unit::with('users')->find($action->unit_id);
 
-        $url = '/actions/one/' . $actionId;
+        $url = '/actions/one/'.$actionId;
 
-        //notify the unit's users
+        // notify the unit's users
         foreach ($unit->users as $user) {
             $this->addNotification($user->id, 6, trans('entities/notifications.actionExpires', ['action' => $action->description, 'date' => $action->end_date]), $url, $user->id, $action->id);
         }
 
         $admins = $this->userService->getAdmins();
 
-        //also notify all the admins
+        // also notify all the admins
         foreach ($admins as $admin) {
             $this->addNotification($admin->id, 6, trans('entities/notifications.actionExpires', ['action' => $action->description, 'date' => $action->end_date]), $url, $admin->id, $action->id);
         }
@@ -247,49 +250,48 @@ class NotificationService {
 
     /**
      * Notify users about a volunteer's contract expiration
-     * @param $volunteer
      */
-    public function volunteerContractExpired($volunteer) {
+    public function volunteerContractExpired($volunteer)
+    {
 
-        $url = '/volunteers/one/' . $volunteer->id;
+        $url = '/volunteers/one/'.$volunteer->id;
 
-        //notify the unit's users
+        // notify the unit's users
         foreach ($volunteer->units as $unit) {
             foreach ($unit->users as $user) {
-                $this->addNotification($user->id, 7, trans('entities/notifications.volunteerContractExpired', ['volunteer' => $volunteer->name . ' ' . $volunteer->last_name]), $url, $user->id, $volunteer->id);
+                $this->addNotification($user->id, 7, trans('entities/notifications.volunteerContractExpired', ['volunteer' => $volunteer->name.' '.$volunteer->last_name]), $url, $user->id, $volunteer->id);
             }
         }
 
         $admins = $this->userService->getAdmins();
 
-        //also notify all the admins
+        // also notify all the admins
         foreach ($admins as $admin) {
-            $this->addNotification($admin->id, 7, trans('entities/notifications.volunteerContractExpired', ['volunteer' => $volunteer->name . ' ' . $volunteer->last_name]), $url, $admin->id, $volunteer->id);
+            $this->addNotification($admin->id, 7, trans('entities/notifications.volunteerContractExpired', ['volunteer' => $volunteer->name.' '.$volunteer->last_name]), $url, $admin->id, $volunteer->id);
         }
 
     }
 
     /**
      * Notify users that a volunteer's contract will expire in 6 months
-     *
-     * @param $volunteer
      */
-    public function volunteerContractToExpire($volunteer) {
+    public function volunteerContractToExpire($volunteer)
+    {
 
-        $url = '/volunteers/one/' . $volunteer->id;
+        $url = '/volunteers/one/'.$volunteer->id;
 
-        //notify the unit's users
+        // notify the unit's users
         foreach ($volunteer->units as $unit) {
             foreach ($unit->users as $user) {
-                $this->addNotification($user->id, 8, trans('entities/notifications.volunteerContractExpires', ['volunteer' => $volunteer->name . ' ' . $volunteer->last_name]), $url, $user->id, $volunteer->id);
+                $this->addNotification($user->id, 8, trans('entities/notifications.volunteerContractExpires', ['volunteer' => $volunteer->name.' '.$volunteer->last_name]), $url, $user->id, $volunteer->id);
             }
         }
 
         $admins = $this->userService->getAdmins();
 
-        //also notify all the admins
+        // also notify all the admins
         foreach ($admins as $admin) {
-            $this->addNotification($admin->id, 8, trans('entities/notifications.volunteerContractExpires', ['volunteer' => $volunteer->name . ' ' . $volunteer->last_name]), $url, $admin->id, $volunteer->id);
+            $this->addNotification($admin->id, 8, trans('entities/notifications.volunteerContractExpires', ['volunteer' => $volunteer->name.' '.$volunteer->last_name]), $url, $admin->id, $volunteer->id);
         }
 
     }

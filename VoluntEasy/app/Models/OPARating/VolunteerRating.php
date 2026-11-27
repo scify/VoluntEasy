@@ -1,39 +1,50 @@
-<?php namespace App\Models\OPARating;
+<?php
 
+namespace App\Models\OPARating;
+
+use App\Models\Action;
+use App\Models\Model;
+use App\Models\Rating\ActionRating;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Models\Model;
-class VolunteerRating extends Model {
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-    use \Illuminate\Database\Eloquent\SoftDeletes;
+class VolunteerRating extends Model
+{
+    use SoftDeletes;
 
     protected $table = 'volunteer_opa_ratings';
 
     protected $fillable = ['actionDescription', 'problemsOccured', 'fieldsToImprove', 'training', 'objectives', 'support', 'generalComments', 'user_id', 'volunteer_id', 'action_id', 'action_rating_id'];
 
-    /** @return HasMany<\App\Models\OPARating\VolunteerLaborSkill, $this> */
-    public function laborSkills(): HasMany {
-        return $this->hasMany(\App\Models\OPARating\VolunteerLaborSkill::class, 'opa_rating_id', 'id');
+    /** @return HasMany<VolunteerLaborSkill, $this> */
+    public function laborSkills(): HasMany
+    {
+        return $this->hasMany(VolunteerLaborSkill::class, 'opa_rating_id', 'id');
     }
 
-    /** @return HasMany<\App\Models\OPARating\VolunteerInterpersonalSkill, $this> */
-    public function interpersonalSkills(): HasMany {
-        return $this->hasMany(\App\Models\OPARating\VolunteerInterpersonalSkill::class, 'opa_rating_id', 'id');
+    /** @return HasMany<VolunteerInterpersonalSkill, $this> */
+    public function interpersonalSkills(): HasMany
+    {
+        return $this->hasMany(VolunteerInterpersonalSkill::class, 'opa_rating_id', 'id');
     }
 
-    /** @return BelongsTo<\App\Models\Rating\ActionRating, $this> */
-    public function actionRating(): BelongsTo {
-        return $this->belongsTo(\App\Models\Rating\ActionRating::class);
+    /** @return BelongsTo<ActionRating, $this> */
+    public function actionRating(): BelongsTo
+    {
+        return $this->belongsTo(ActionRating::class);
     }
 
-    /** @return BelongsTo<\App\Models\Action, $this> */
-    public function action(): BelongsTo {
-        return $this->belongsTo(\App\Models\Action::class)->withTrashed();
+    /** @return BelongsTo<Action, $this> */
+    public function action(): BelongsTo
+    {
+        return $this->belongsTo(Action::class)->withTrashed();
     }
 
-    /** @return BelongsTo<\App\Models\User, $this> */
-    public function user(): BelongsTo {
-        return $this->belongsTo(\App\Models\User::class)->withTrashed();
+    /** @return BelongsTo<User, $this> */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class)->withTrashed();
     }
-
 }

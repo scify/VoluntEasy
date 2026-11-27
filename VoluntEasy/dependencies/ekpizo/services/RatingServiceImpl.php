@@ -1,4 +1,6 @@
-<?php namespace Dependencies\ekpizo\services;
+<?php
+
+namespace Dependencies\ekpizo\services;
 
 use App\Models\Action;
 use App\Models\OPARating\InterpersonalSkill;
@@ -12,26 +14,28 @@ use App\Models\User;
 use App\Models\Volunteer;
 use Interfaces\RatingServiceAbstract;
 
-class RatingServiceImpl extends RatingServiceAbstract {
-
+class RatingServiceImpl extends RatingServiceAbstract
+{
     private $folderName = 'ekpizo';
 
-    public function hasCustomRatings(){
+    public function hasCustomRatings()
+    {
         return true;
     }
 
     /* do stuff and return the path */
-    public function rateVolunteers($token) {
+    public function rateVolunteers($token)
+    {
         $actionRating = ActionRating::where('token', $token)->firstOrFail();
         $actionId = $actionRating->action_id;
         $action = Action::findOrFail($actionId);
         $user = User::findOrFail($actionRating->user_id);
 
-        //first check if the user that requested the rating has already rated the action
-        if (!$actionRating->rated) {
+        // first check if the user that requested the rating has already rated the action
+        if (! $actionRating->rated) {
 
-            //since the action has expired, and the volunteers are detached from it (a.k.a no rows at the pivot table)
-            //we can easily retrieve the volunteers from the history tables
+            // since the action has expired, and the volunteers are detached from it (a.k.a no rows at the pivot table)
+            // we can easily retrieve the volunteers from the history tables
             $volunteers = Volunteer::with('subtaskShiftHistory.shift.trashedSubtask.trashedTask')->whereHas('actionHistory', function ($q) use ($actionId) {
                 $q->where('action_id', $actionId);
             })->get();
@@ -51,12 +55,14 @@ class RatingServiceImpl extends RatingServiceAbstract {
     }
 
     /* get the path of the view */
-    function getVolunteerRatingPage() {
-        return $this->folderName . '.resources.views.ratings.rateVolunteers';
+    public function getVolunteerRatingPage()
+    {
+        return $this->folderName.'.resources.views.ratings.rateVolunteers';
     }
 
-    /* store a volunteer rating*/
-    function storeVolunteerRating() {
+    /* store a volunteer rating */
+    public function storeVolunteerRating()
+    {
 
         $userId = \Request::get('user_id');
         $actionId = \Request::get('action_id');
@@ -82,10 +88,12 @@ class RatingServiceImpl extends RatingServiceAbstract {
             if (isset($volunteer['laborSkills'])) {
                 foreach ($volunteer['laborSkills'] as $laborSkill) {
 
-                    if (!isset($laborSkill['strongOrWeak']))
+                    if (! isset($laborSkill['strongOrWeak'])) {
                         $laborSkill['strongOrWeak'] = -1;
-                    if (!isset($laborSkill['comments']))
+                    }
+                    if (! isset($laborSkill['comments'])) {
                         $laborSkill['comments'] = null;
+                    }
 
                     VolunteerLaborSkill::create([
                         'comments' => $laborSkill['comments'],
@@ -99,10 +107,12 @@ class RatingServiceImpl extends RatingServiceAbstract {
             if (isset($volunteer['interpersonalSkills'])) {
                 foreach ($volunteer['interpersonalSkills'] as $interpersonalSkill) {
 
-                    if (!isset($interpersonalSkill['strongOrWeak']))
+                    if (! isset($interpersonalSkill['strongOrWeak'])) {
                         $interpersonalSkill['strongOrWeak'] = -1;
-                    if (!isset($interpersonalSkill['comments']))
+                    }
+                    if (! isset($interpersonalSkill['comments'])) {
                         $interpersonalSkill['comments'] = null;
+                    }
 
                     VolunteerInterpersonalSkill::create([
                         'comments' => $interpersonalSkill['comments'],
@@ -118,13 +128,13 @@ class RatingServiceImpl extends RatingServiceAbstract {
 
     }
 
-    function deleteRating($id){
+    public function deleteRating($id)
+    {
         $rating = VolunteerRating::with('actionRating')->find($id);
-        $rating->actionRating->update(['rated'=>false]);
+        $rating->actionRating->update(['rated' => false]);
         $rating->laborSkills()->delete();
         $rating->interpersonalSkills()->delete();
         $rating->delete();
 
-        return;
     }
 }

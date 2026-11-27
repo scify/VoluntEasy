@@ -24,7 +24,6 @@ return [
     'actionExec' => 'Manager Info:',
     'volNum' => 'Volunteer Number:',
 
-
     /* units */
     'belongsTo' => 'Belongs to unit',
     'deleteUnit' => 'Are you sure that you want to delete the unit?',
@@ -35,7 +34,6 @@ return [
     'deleteCollab' => 'Are you sure that you want to delete this collaboration?',
     'deleteFile' => 'Are you sure that you want to delete this file?',
     'totalRatings' => 'Total Ratings',
-
 
     /* volunteers */
     'new' => 'New',
@@ -53,16 +51,13 @@ return [
     'viewProfile' => 'View Profile',
     'assignToMyUnit' => 'Assign to my unit',
 
-
     /* ratings */
     'answerAllQuestions' => 'Please answer all questions',
     'pleaseRateVolunteer' => 'Please rate volunteer',
     'pleaseAddOnlyNumbers' => 'Please add only numbers',
 
-
     /* users */
     'deleteUser' => 'Are you sure you want to delete this user?',
-
 
     /* tasks and subtasks */
     'deleteTask' => 'Are you sure you want to delete this task?',
@@ -87,12 +82,10 @@ return [
     'uni' => 'University',
     'master' => 'Masters degree',
 
-
     /* user roles */
     'admin' => 'Admin',
     'unitManager' => 'Unit Manager',
     'actionManager' => 'Action Manager',
-
 
     /* shifts.js */
     'volunterComments' => 'Volunteer comments',
@@ -107,19 +100,16 @@ return [
     'todoCreated' => 'Created by :user at :date',
     'todoEdited' => 'Edited by :user at :date',
 
-
     /* custom.js */
     'notUserUnit' => 'You are not the action manager and therefore you may not select this action.',
     'hasUnits' => 'You may not add an action to a unit that has subunits.',
     'hasActions' => 'You may not add a subunit to a unit that has actions.',
-
 
     /* generic */
     'edit' => 'Edit',
     'delete' => 'Delete',
     'reject' => 'Reject',
     'approve' => 'Approve',
-
 
     /* months */
     'january' => 'January',
@@ -139,4 +129,3 @@ return [
     'pm' => ' pm',
 
 ];
-

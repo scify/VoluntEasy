@@ -1,17 +1,16 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCollaborationsTable extends Migration {
-
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
+class CreateCollaborationsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
 
         Schema::create('collaboration_types', function ($table) {
             $table->increments('id');
@@ -41,18 +40,17 @@ class CreateCollaborationsTable extends Migration {
             $table->timestamps();
         });
 
-	}
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
         Schema::dropIfExists('collaborations_files');
         Schema::dropIfExists('collaborations');
         Schema::dropIfExists('collaboration_types');
     }
-
 }

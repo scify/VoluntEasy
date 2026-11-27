@@ -1,0 +1,5 @@
+{
+    "preset": "laravel",
+    "exclude": ["storage", "bootstrap/cache"],
+    "notPath": ["*.blade.php"]
+}

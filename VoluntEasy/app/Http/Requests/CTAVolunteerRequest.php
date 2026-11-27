@@ -1,14 +1,17 @@
-<?php namespace App\Http\Requests;
+<?php
 
-class CTAVolunteerRequest extends Request {
+namespace App\Http\Requests;
 
-    public function rules() {
+class CTAVolunteerRequest extends Request
+{
+    public function rules()
+    {
         return [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => 'required|email',
             'phone_number' => 'required|max:255',
-            'dates' => 'required'
+            'dates' => 'required',
         ];
     }
 
@@ -17,9 +20,10 @@ class CTAVolunteerRequest extends Request {
      *
      * @return array
      */
-    public function messages() {
+    public function messages()
+    {
         return [
-            'dates.required' => 'Required field'
+            'dates.required' => 'Required field',
         ];
     }
 }

@@ -1,9 +1,12 @@
-<?php namespace App\Models\Descriptions;
+<?php
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
+namespace App\Models\Descriptions;
+
 use App\Models\Model;
-class InterestCategory extends Model {
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
+class InterestCategory extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -13,13 +16,14 @@ class InterestCategory extends Model {
 
     protected $fillable = ['description'];
 
-    public function getDescriptionAttribute() {
-        return trans('database/db_tables.' . $this->attributes['description']);
+    public function getDescriptionAttribute()
+    {
+        return trans('database/db_tables.'.$this->attributes['description']);
     }
 
-    /** @return HasMany<\App\Models\Descriptions\Interest, $this> */
-    public function interests(): HasMany {
-        return $this->hasMany(\App\Models\Descriptions\Interest::class, 'category_id', 'id')->orderBy('description', 'asc');
+    /** @return HasMany<Interest, $this> */
+    public function interests(): HasMany
+    {
+        return $this->hasMany(Interest::class, 'category_id', 'id')->orderBy('description', 'asc');
     }
-
 }

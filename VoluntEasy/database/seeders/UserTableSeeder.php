@@ -2,20 +2,22 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Support\Facades\Hash;
 use App\Models\Roles\Role;
-use App\Models\User as User;
+use App\Models\Unit;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
-class UserTableSeeder extends Seeder {
-
+class UserTableSeeder extends Seeder
+{
     /**
      * Run the database seeds.
      * Use php artisan db:seed to run the seed files.
      *
      * @return void
      */
-    public function run() {
+    public function run()
+    {
 
         $admin = new User([
             'name' => 'admin',
@@ -29,7 +31,7 @@ class UserTableSeeder extends Seeder {
         $adminRole = Role::where('name', 'admin')->first();
         $admin->roles()->attach($adminRole->id);
 
-        $rootUnit = \App\Models\Unit::first();
+        $rootUnit = Unit::first();
         $rootUnit->users()->attach([$admin->id]);
 
         if (config('app.env') == 'demo') {

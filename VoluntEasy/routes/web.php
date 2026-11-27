@@ -9,18 +9,18 @@ use App\Http\Controllers\Api\UserApiController;
 use App\Http\Controllers\Api\VolunteerApiController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PasswordController;
-use App\Http\Controllers\CTAController;
-use App\Http\Controllers\CTAVolunteerController;
 use App\Http\Controllers\CollaborationController;
 use App\Http\Controllers\CronController;
+use App\Http\Controllers\CTAController;
+use App\Http\Controllers\CTAVolunteerController;
 use App\Http\Controllers\EtcController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\SearchController;
-use App\Http\Controllers\SubTaskController;
 use App\Http\Controllers\SubtaskChecklistController;
+use App\Http\Controllers\SubTaskController;
 use App\Http\Controllers\SubtaskShiftController;
 use App\Http\Controllers\TaskChecklistController;
 use App\Http\Controllers\TaskController;
@@ -33,9 +33,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'mainIndex']);
 
-////////////////////
+// //////////////////
 // Authentication //
-////////////////////
+// //////////////////
 Route::middleware('guest')->group(function () {
     Route::get('auth/login', [AuthController::class, 'getLogin'])->name('login');
     Route::post('auth/login', [AuthController::class, 'postLogin'])->middleware('throttle:10,1');
@@ -48,9 +48,9 @@ Route::get('auth/logout', [AuthController::class, 'getLogout'])->middleware('aut
 
 Route::get('landing', [WelcomeController::class, 'index']);
 
-////////////////
-//User Routes //
-////////////////
+// //////////////
+// User Routes //
+// //////////////
 Route::get('users', [UserController::class, 'index']);
 Route::get('users/one/{id}', [UserController::class, 'show'])->name('user/profile');
 Route::get('users/create', [UserController::class, 'create']);
@@ -61,9 +61,9 @@ Route::post('users/store', [UserController::class, 'store']);
 Route::post('users/units', [UserController::class, 'addUnits']);
 Route::post('users/search', [UserController::class, 'search']);
 
-////////////////
-//Unit Routes //
-////////////////
+// //////////////
+// Unit Routes //
+// //////////////
 Route::get('units', [UnitController::class, 'index'])->name('units');
 Route::get('units/tree/{id}', [UnitController::class, 'tree']);
 Route::get('units/one/{id}', [UnitController::class, 'show'])->name('unit/one');
@@ -77,9 +77,9 @@ Route::post('units/volunteers', [UnitController::class, 'addVolunteers']);
 Route::post('units/search', [UnitController::class, 'search']);
 Route::get('wholeTree', [UnitController::class, 'wholeTree']);
 
-/////////////////////
-//Volunteer Routes //
-/////////////////////
+// ///////////////////
+// Volunteer Routes //
+// ///////////////////
 Route::get('volunteers', [VolunteerController::class, 'index']);
 Route::get('volunteers/create', [VolunteerController::class, 'create']);
 Route::get('volunteers/new', [VolunteerController::class, 'newVolunteers']);
@@ -102,9 +102,9 @@ Route::post('volunteers/available', [VolunteerController::class, 'available']);
 Route::post('volunteers/deleteFile', [VolunteerController::class, 'deleteFile']);
 Route::get('volunteers/publicForm', [VolunteerController::class, 'publicForm']);
 
-//////////////////
-//Action Routes //
-//////////////////
+// ////////////////
+// Action Routes //
+// ////////////////
 Route::get('actions', [ActionController::class, 'index']);
 Route::get('actions/one/{id}', [ActionController::class, 'show'])->name('action/one');
 Route::get('actions/create', [ActionController::class, 'create']);
@@ -116,26 +116,26 @@ Route::post('actions/volunteers', [ActionController::class, 'addVolunteers']);
 Route::get('actions/ratings/{id}', [ActionController::class, 'fullRatings']);
 Route::post('actions/search', [ActionController::class, 'search']);
 
-////////////////
-//Task Routes //
-////////////////
+// //////////////
+// Task Routes //
+// //////////////
 Route::get('actions/tasks/one/{id}', [TaskController::class, 'show']);
 Route::post('actions/tasks/store', [TaskController::class, 'store']);
 Route::get('actions/tasks/update', [TaskController::class, 'update']);
 Route::get('actions/tasks/delete/{id}', [TaskController::class, 'destroy']);
 
-////////////////////
-//SubTask Routes //
-//////////////////
+// //////////////////
+// SubTask Routes //
+// ////////////////
 Route::get('actions/tasks/subtasks/one/{id}', [SubTaskController::class, 'show']);
 Route::post('actions/tasks/subtasks/store', [SubTaskController::class, 'store']);
 Route::post('actions/tasks/subtasks/update', [SubTaskController::class, 'update']);
 Route::get('actions/tasks/subtasks/updateStatus', [SubTaskController::class, 'updateStatus']);
 Route::get('actions/tasks/subtasks/delete/{id}', [SubTaskController::class, 'destroy']);
 
-////////////////////
-//Shifts Routes //
-//////////////////
+// //////////////////
+// Shifts Routes //
+// ////////////////
 Route::get('actions/tasks/shifts/store', [TaskShiftController::class, 'store']);
 Route::get('actions/tasks/shifts/update', [TaskShiftController::class, 'update']);
 Route::get('actions/tasks/shifts/delete/{id}', [TaskShiftController::class, 'destroy']);
@@ -143,9 +143,9 @@ Route::get('actions/tasks/subtasks/shifts/store', [SubtaskShiftController::class
 Route::get('actions/tasks/subtasks/shifts/update', [SubtaskShiftController::class, 'update']);
 Route::get('actions/tasks/subtasks/shifts/delete/{id}', [SubtaskShiftController::class, 'destroy']);
 
-//////////////////////////
-//Collaboration Routes //
-////////////////////////
+// ////////////////////////
+// Collaboration Routes //
+// //////////////////////
 Route::get('collaborations', [CollaborationController::class, 'index']);
 Route::get('collaborations/one/{id}', [CollaborationController::class, 'show'])->name('collaboration/one');
 Route::get('collaborations/create', [CollaborationController::class, 'create']);
@@ -156,9 +156,9 @@ Route::post('collaborations/update', [CollaborationController::class, 'update'])
 Route::post('collaborations/search', [CollaborationController::class, 'search']);
 Route::post('collaborations/deleteFile', [CollaborationController::class, 'deleteFile']);
 
-////////////////
-//Rating Routes //
-////////////////
+// //////////////
+// Rating Routes //
+// //////////////
 Route::post('ratings/action/store', [RatingController::class, 'storeActionRating']);
 Route::post('ratings/action/volunteers/store', [RatingController::class, 'storeVolunteersRating']);
 Route::get('ratings/action/volunteers/delete/{id}', [RatingController::class, 'deleteVolunteerRating'])->middleware('auth');
@@ -167,18 +167,18 @@ Route::get('ratings/action/volunteers/thankyou/{actionId}', [RatingController::c
 Route::get('ratings/action/{token}', [RatingController::class, 'rateAction']);
 Route::get('rateVolunteers/{token}', [RatingController::class, 'rateVolunteers']);
 
-////////////////////
+// //////////////////
 // Notifications //
-////////////////////	
+// //////////////////
 
 Route::get('stopBellNotification/{notificationId}', [NotificationController::class, 'stopBellNotification'])->name('notifications.stopBell');
 Route::get('/deactivateNotification/{notificationId}', [NotificationController::class, 'deactivateNotification'])->name('notification.deactivate');
 Route::get('/checkForNotifications', [NotificationController::class, 'checkForNotifications'])->name('notifications.check');
 Route::get('notifications', [NotificationController::class, 'index']);
 
-/////////////////
-//Search Route //
-/////////////////
+// ///////////////
+// Search Route //
+// ///////////////
 Route::get('search/city', [SearchController::class, 'city'])->middleware('auth');
 Route::get('search/country', [SearchController::class, 'country'])->middleware('auth');
 Route::get('search/actionUser', [SearchController::class, 'actionUser'])->middleware('auth');
@@ -193,9 +193,9 @@ Route::get('search/volunteers/department', [SearchController::class, 'volunteerD
 Route::get('search/volunteers/participationΑctions', [SearchController::class, 'volunteerParticipationΑctions'])->middleware('auth');
 Route::get('search/volunteers/computerUsageComments', [SearchController::class, 'volunteerComputerUsageComments'])->middleware('auth');
 
-///////////////////
-//Reports Routes //
-//////////////////
+// /////////////////
+// Reports Routes //
+// ////////////////
 Route::get('reports', [ReportsController::class, 'index']);
 Route::get('reports/idleVolunteers', [ReportsController::class, 'idleVolunteers']);
 Route::get('reports/volunteersByMonth', [ReportsController::class, 'volunteersByMonth']);
@@ -208,25 +208,25 @@ Route::get('reports/volunteersByAction', [ReportsController::class, 'volunteersB
 Route::get('reports/volunteerHoursByAction', [ReportsController::class, 'volunteerHoursByAction']);
 Route::get('reports/activeAndAvailableVolunteersByUnit', [ReportsController::class, 'activeAndAvailableVolunteersByUnit']);
 
-///////////////////
-//CTA Routes //
-//////////////////
+// /////////////////
+// CTA Routes //
+// ////////////////
 Route::get('cta', [CTAController::class, 'cta']);
 Route::get('participate/{id}', [CTAController::class, 'participate']);
 Route::get('cta/store', [CTAController::class, 'store']);
 Route::get('cta/update', [CTAController::class, 'update']);
 Route::post('cta/volunteerInterested', [CTAController::class, 'volunteerInterested']);
 
-///////////////////
-//CTAVolunteer Routes //
-//////////////////
+// /////////////////
+// CTAVolunteer Routes //
+// ////////////////
 Route::get('ctaVolunteer/update', [CTAVolunteerController::class, 'update']);
 Route::get('ctaVolunteer/delete/{id}', [CTAVolunteerController::class, 'destroy']);
 Route::get('ctaVolunteer/assignToVolunteer', [CTAVolunteerController::class, 'assignToVolunteer']);
 
-///////////////////
-//Checklist Routes //
-//////////////////
+// /////////////////
+// Checklist Routes //
+// ////////////////
 Route::get('actions/tasks/checklist/store', [TaskChecklistController::class, 'store']);
 Route::get('actions/tasks/checklist/update', [TaskChecklistController::class, 'update']);
 Route::get('actions/tasks/checklist/delete', [TaskChecklistController::class, 'delete']);
@@ -234,14 +234,14 @@ Route::get('actions/tasks/subtasks/checklist/store', [SubtaskChecklistController
 Route::get('actions/tasks/subtasks/checklist/update', [SubtaskChecklistController::class, 'update']);
 Route::get('actions/tasks/subtasks/checklist/delete', [SubtaskChecklistController::class, 'delete']);
 
-///////////////////
-//Cron Routes ////
-//////////////////
+// /////////////////
+// Cron Routes ////
+// ////////////////
 Route::get('cron/checkActions', [CronController::class, 'checkActions'])->middleware('auth');
 
-/////////////////
+// ///////////////
 // API Routes  //
-/////////////////
+// ///////////////
 // Called by the public volunteer form of other sites: no login.
 Route::post('api/volunteers/apiStore', [VolunteerApiController::class, 'apiStore']);
 

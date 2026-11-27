@@ -1,26 +1,29 @@
-<?php namespace App\Http\Requests;
+<?php
 
-class UnitRequest extends Request {
+namespace App\Http\Requests;
 
-	/**
-	 * Get the validation rules that apply to the request.
-	 *
-	 * @return array
-	 */
-	public function rules()
-	{
-        if($this->input('type')=='root')
+class UnitRequest extends Request
+{
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        if ($this->input('type') == 'root') {
             return [
                 'description' => 'required|max:300',
                 'comments' => 'max:300',
             ];
-        else
+        } else {
             return [
                 'description' => 'required|max:300',
                 'comments' => 'max:300',
-                'parent_unit_id' => 'required'
+                'parent_unit_id' => 'required',
             ];
-	}
+        }
+    }
 
     /**
      * Custom error messages that override those defined in validation.php file.
@@ -30,8 +33,7 @@ class UnitRequest extends Request {
     public function messages()
     {
         return [
-            'parent_unit_id.required' => trans('entities/units.parentUniRequired') ,
+            'parent_unit_id.required' => trans('entities/units.parentUniRequired'),
         ];
     }
-
 }

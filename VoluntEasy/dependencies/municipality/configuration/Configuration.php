@@ -1,32 +1,40 @@
-<?php namespace Dependencies\municipality\configuration;
+<?php
+
+namespace Dependencies\municipality\configuration;
 
 use Interfaces\ConfigurationInterface;
 
-class Configuration implements ConfigurationInterface {
-
+class Configuration implements ConfigurationInterface
+{
     private $folderName = 'municipality';
 
-    function getViewsPath() {
-        return $this->folderName . '.resources.views';
+    public function getViewsPath()
+    {
+        return $this->folderName.'.resources.views';
     }
 
-    function getPartialsPath() {
-        return $this->folderName . '.resources.views.volunteers.partials';
+    public function getPartialsPath()
+    {
+        return $this->folderName.'.resources.views.volunteers.partials';
     }
 
-    function getJsonDataPath() {
-        return base_path() . '/dependencies/' . $this->folderName . '/database/jsondata/';
+    public function getJsonDataPath()
+    {
+        return base_path().'/dependencies/'.$this->folderName.'/database/jsondata/';
     }
 
-    function getExtrasPath() {
-        return $this->folderName . '.resources.views.volunteers.extras';
+    public function getExtrasPath()
+    {
+        return $this->folderName.'.resources.views.volunteers.extras';
     }
 
-    function getExtras() {
+    public function getExtras()
+    {
         return [];
     }
 
-    function hasTasks() {
+    public function hasTasks()
+    {
         return false;
     }
 }

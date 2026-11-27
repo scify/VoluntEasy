@@ -1,14 +1,20 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-class CronController extends Controller {
+namespace App\Http\Controllers;
 
-    private \App\Services\CronService $cronService;
+use App\Services\CronService;
 
-    public function __construct(\App\Services\CronService $cronService) {
+class CronController extends Controller
+{
+    private CronService $cronService;
+
+    public function __construct(CronService $cronService)
+    {
         $this->cronService = $cronService;
     }
 
-    public function checkActions(){
+    public function checkActions()
+    {
 
         $expired = $this->cronService->expiredActions();
         $toExpire = $this->cronService->toExpireActions();
@@ -20,6 +26,4 @@ class CronController extends Controller {
             'notAvailablle' => $notAvailablle,
         ];
     }
-
 }
-

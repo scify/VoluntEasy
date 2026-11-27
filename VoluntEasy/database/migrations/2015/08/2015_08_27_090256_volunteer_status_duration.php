@@ -1,17 +1,16 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class VolunteerStatusDuration extends Migration {
-
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
+class VolunteerStatusDuration extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
 
         Schema::create('volunteer_status_duration', function ($table) {
             $table->increments('id');
@@ -25,17 +24,16 @@ class VolunteerStatusDuration extends Migration {
             $table->timestamps();
             $table->softDeletes();
         });
-	}
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
         Schema::dropIfExists('volunteer_status_duration');
 
     }
-
 }

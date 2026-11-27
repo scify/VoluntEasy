@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateOpaVolunteerRatingsTable extends Migration
@@ -19,13 +18,11 @@ class CreateOpaVolunteerRatingsTable extends Migration
             $table->timestamps();
         });
 
-
         Schema::create('opa_interpersonal_skills', function ($table) {
             $table->increments('id');
             $table->string('description');
             $table->timestamps();
         });
-
 
         Schema::create('volunteer_opa_ratings', function ($table) {
             $table->increments('id');
@@ -54,8 +51,6 @@ class CreateOpaVolunteerRatingsTable extends Migration
             $table->softDeletes();
         });
 
-
-
         Schema::create('volunteer_opa_labor_skills', function ($table) {
             $table->increments('id');
             $table->string('comments')->nullable();
@@ -70,7 +65,6 @@ class CreateOpaVolunteerRatingsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
 
         Schema::create('volunteer_opa_interpersonal_skills', function ($table) {
             $table->increments('id');
@@ -93,7 +87,8 @@ class CreateOpaVolunteerRatingsTable extends Migration
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('volunteer_opa_labor_skills');
         Schema::dropIfExists('volunteer_opa_interpersonal_skills');
         Schema::dropIfExists('volunteer_opa_ratings');

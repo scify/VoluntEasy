@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreatePublicCtaPageTable extends Migration
@@ -25,12 +24,12 @@ class CreatePublicCtaPageTable extends Migration
 
             $table->integer('action_id')->unsigned();
             $table->foreign('action_id')->references('id')->on('actions');
-            
+
             $table->softDeletes();
             $table->timestamps();
         });
 
-        //define which subtasks will be shown on the public page
+        // define which subtasks will be shown on the public page
         Schema::create('public_actions_subtasks', function ($table) {
             $table->increments('id');
             $table->string('description', 1000);

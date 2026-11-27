@@ -1,9 +1,9 @@
-<?php namespace App\Models;
+<?php
 
-use App\Models\Model;
+namespace App\Models;
+
 class VolunteerInterest extends Model
 {
-
     /**
      * The database table used by the model.
      *

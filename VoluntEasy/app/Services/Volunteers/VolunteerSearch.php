@@ -3,6 +3,8 @@
 namespace App\Services\Volunteers;
 
 use App\Models\Volunteer;
+use App\Services\SearchService;
+use App\Services\VolunteerService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -13,14 +15,16 @@ use Illuminate\Http\Request;
  */
 class VolunteerSearch
 {
+    private SearchService $searchService;
 
-    private \App\Services\SearchService $searchService;
-    private \App\Services\VolunteerService $volunteerService;
+    private VolunteerService $volunteerService;
 
-    public function __construct(\App\Services\SearchService $searchService, \App\Services\VolunteerService $volunteerService) {
+    public function __construct(SearchService $searchService, VolunteerService $volunteerService)
+    {
         $this->searchService = $searchService;
         $this->volunteerService = $volunteerService;
     }
+
     /** Text filters: the column starts with the value. */
     private const STARTS_WITH = ['name', 'last_name'];
 

@@ -2,15 +2,16 @@
 
 namespace Database\Seeders;
 
+use App\Models\Unit;
+use App\Services\UnitService;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
-use App\Models\Unit as Unit;
-use App\Models\User as User;
-class UnitTableSeeder extends Seeder {
 
-    private \App\Services\UnitService $unitService;
+class UnitTableSeeder extends Seeder
+{
+    private UnitService $unitService;
 
-    public function __construct(\App\Services\UnitService $unitService) {
+    public function __construct(UnitService $unitService)
+    {
         $this->unitService = $unitService;
     }
 
@@ -30,5 +31,4 @@ class UnitTableSeeder extends Seeder {
         $unit->steps()->saveMany($this->unitService->createSteps());
 
     }
-
 }

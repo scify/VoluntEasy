@@ -1,12 +1,16 @@
-<?php namespace App\Services;
+<?php
 
-use App\Models\Step as Step;
+namespace App\Services;
+
+use App\Models\Step;
 use App\Models\Unit;
-class UnitService {
 
-    private \App\Services\SearchService $searchService;
+class UnitService
+{
+    private SearchService $searchService;
 
-    public function __construct(\App\Services\SearchService $searchService) {
+    public function __construct(SearchService $searchService)
+    {
         $this->searchService = $searchService;
     }
 
@@ -31,16 +35,17 @@ class UnitService {
      * If it has children, we have a branch.
      * Else we have a leaf.
      *
-     * @param Unit $unit
      * @return string
      */
-    public function type(Unit $unit) {
-        if ($unit->parent_unit_id == null)
+    public function type(Unit $unit)
+    {
+        if ($unit->parent_unit_id == null) {
             return 'root';
-        else if (sizeof($unit->allChildren) > 0)
+        } elseif (count($unit->allChildren) > 0) {
             return 'branch';
-        else
+        } else {
             return 'leaf';
+        }
     }
 
     /**
@@ -48,7 +53,8 @@ class UnitService {
      *
      * @return mixed
      */
-    public function getRoot() {
+    public function getRoot()
+    {
         $root = Unit::whereNull('parent_unit_id')->first();
 
         return $root;
@@ -59,36 +65,39 @@ class UnitService {
      *
      * @return mixed
      */
-    public function isRoot($unit) {
-        if($unit->parent_unit_id==null)
+    public function isRoot($unit)
+    {
+        if ($unit->parent_unit_id == null) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     /**
      * Get the branhc of a unit in a string format
      *
-     * @param $unit
      * @return array
      */
-    public function getBranchString($unit) {
+    public function getBranchString($unit)
+    {
         $branchTmp = $this->getBranch($unit);
 
         $branch = [];
         foreach ($branchTmp as $i => $tmp) {
             array_push($branch, $tmp->description);
         }
+
         return $branch;
     }
 
     /**
      * Get an array with the current branch
      *
-     * @param $unit
      * @return array
      */
-    public function getBranch($unit) {
+    public function getBranch($unit)
+    {
         $branchTmp = [];
         array_push($branchTmp, $unit);
         $curr = $unit->parent_unit_id;
@@ -108,7 +117,8 @@ class UnitService {
      *
      * @return mixed
      */
-    public function getTree() {
+    public function getTree()
+    {
         $tree = Unit::whereNull('parent_unit_id')->with('allChildren.allActions')->first();
 
         return $tree;
@@ -119,23 +129,24 @@ class UnitService {
      *
      * @return array
      */
-    public function createSteps() {
+    public function createSteps()
+    {
         $steps = [
             new Step([
                 'description' => 'communicationStep',
                 'step_order' => 1,
-                'type' => 'Communication'
+                'type' => 'Communication',
             ]),
             new Step([
                 'description' => 'interviewStep',
                 'step_order' => 2,
-                'type' => 'Interview'
+                'type' => 'Interview',
             ]),
             new Step([
                 'description' => 'assignmentStep',
                 'step_order' => 3,
-                'type' => 'Assignment'
-            ])
+                'type' => 'Assignment',
+            ]),
         ];
 
         return $steps;
@@ -145,26 +156,29 @@ class UnitService {
      * For a a certain unit, get all the parent ids
      * in an array
      *
-     * @param $child
      * @return array
      */
-    public function parentIds($child) {
+    public function parentIds($child)
+    {
 
         if ($child->allParents != null) {
             array_push($this->parentIds, $child->allParents->id);
             $this->parentIds($child->allParents);
         }
+
         return $this->parentIds;
     }
 
-    public function prepareForDataTable($units) {
-        $userUnits = app(\App\Services\UserService::class)->userUnits();
+    public function prepareForDataTable($units)
+    {
+        $userUnits = app(UserService::class)->userUnits();
 
         foreach ($units as $unit) {
-            if (in_array($unit->id, $userUnits))
+            if (in_array($unit->id, $userUnits)) {
                 $unit->permitted = true;
-            else
+            } else {
                 $units->permitted = false;
+            }
         }
 
         return $units;
@@ -175,29 +189,32 @@ class UnitService {
      *
      * @return mixed
      */
-    public function search() {
+    public function search()
+    {
 
         if (\Request::filled('my_units')) {
-            $userUnits = app(\App\Services\UserService::class)->userUnits();
+            $userUnits = app(UserService::class)->userUnits();
             $query = Unit::whereIn('id', $userUnits);
-        } else
+        } else {
             $query = Unit::select();
+        }
 
         foreach ($this->filters as $column => $filter) {
             if (\Request::filled($column)) {
                 $value = \Request::get($column);
                 switch ($filter) {
                     case '=':
-                        if (!$this->searchService->notDropDown($value, $column))
+                        if (! $this->searchService->notDropDown($value, $column)) {
                             $query->where($column, '=', \Request::get($column));
+                        }
                         break;
                     case 'like%':
-                        $query->where($column, 'like', \Request::get($column) . '%');
+                        $query->where($column, 'like', \Request::get($column).'%');
                         break;
                     case '':
                         switch ($column) {
                             case 'user_id':
-                                if (!$this->searchService->notDropDown($value, $column)) {
+                                if (! $this->searchService->notDropDown($value, $column)) {
                                     $id = \Request::get('user_id');
                                     $query->whereHas('users', function ($query) use ($id) {
                                         $query->where('id', $id);
@@ -215,7 +232,6 @@ class UnitService {
 
         $data = $this->prepareForDataTable($result);
 
-        return ["data" => $data];
+        return ['data' => $data];
     }
-
 }

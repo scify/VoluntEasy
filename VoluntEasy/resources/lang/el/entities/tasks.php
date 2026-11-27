@@ -70,5 +70,4 @@ return [
     /* controller */
     'deleted' => 'Το task διαγράφηκε.',
 
-
 ];

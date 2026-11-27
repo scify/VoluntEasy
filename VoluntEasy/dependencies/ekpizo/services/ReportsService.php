@@ -1,12 +1,15 @@
-<?php namespace Dependencies\ekpizo\services;
+<?php
+
+namespace Dependencies\ekpizo\services;
 
 use App\Models\Action;
 use App\Models\VolunteerUnitStatus;
 use Interfaces\ReportsServiceAbstract;
 
-class ReportsService extends ReportsServiceAbstract {
-
-    function volunteerHoursByAction() {
+class ReportsService extends ReportsServiceAbstract
+{
+    public function volunteerHoursByAction()
+    {
 
         $dbactions = Action::with('volunteers.subtaskShifts')->get();
 
@@ -26,7 +29,7 @@ class ReportsService extends ReportsServiceAbstract {
 
                 array_push($volunteers, [
                     'id' => $volunteer->id,
-                    'name' => $volunteer->name . ' ' . $volunteer->last_name,
+                    'name' => $volunteer->name.' '.$volunteer->last_name,
                     'hours' => $totalVolunteerHours,
                 ]);
             }
@@ -34,7 +37,7 @@ class ReportsService extends ReportsServiceAbstract {
                 'id' => $action->id,
                 'description' => $action->description,
                 'volunteers' => $volunteers,
-                'totalHours' => $totalHours
+                'totalHours' => $totalHours,
             ]);
         }
 
@@ -46,7 +49,8 @@ class ReportsService extends ReportsServiceAbstract {
      * Get the active and available volunteer
      * per unit by year and month
      */
-    public function activeAndAvailableVolunteersByUnit() {
+    public function activeAndAvailableVolunteersByUnit()
+    {
         $volunteerUnitStatuses = VolunteerUnitStatus::with('volunteer', 'unit', 'status')->withTrashed()->get();
         $units = [];
         $unitNames = [];
@@ -56,18 +60,20 @@ class ReportsService extends ReportsServiceAbstract {
 
             foreach ($units as $i => $unit) {
 
-                if ( $unit['unit'] == $vus->unit->description) {
+                if ($unit['unit'] == $vus->unit->description) {
                     $foundUnit = true;
                     $status = $vus->status->description;
-                    if ($status == 'Active')
+                    if ($status == 'Active') {
                         $units[$i]['activeVolunteers'] = $units[$i]['activeVolunteers'] + 1;
-                    if ($status == 'Available')
+                    }
+                    if ($status == 'Available') {
                         $units[$i]['availableVolunteers'] = $units[$i]['availableVolunteers'] + 1;
+                    }
 
                 }
             }
 
-            if (!$foundUnit) {
+            if (! $foundUnit) {
                 array_push($units, [
                     'unit' => $vus->unit->description,
                     'activeVolunteers' => 1,
@@ -79,8 +85,7 @@ class ReportsService extends ReportsServiceAbstract {
 
         return [
             'units' => $units,
-            'unitNames' => $unitNames
+            'unitNames' => $unitNames,
         ];
     }
-
 }

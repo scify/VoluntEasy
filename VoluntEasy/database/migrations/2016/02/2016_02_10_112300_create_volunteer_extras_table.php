@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateVolunteerExtrasTable extends Migration
@@ -22,7 +21,6 @@ class CreateVolunteerExtrasTable extends Migration
 
             $table->string('volunteering_work_extra', 300)->nullable();
             $table->string('other_department', 300)->nullable();
-
 
             $table->integer('volunteer_id')->unsigned();
             $table->foreign('volunteer_id')->references('id')->on('volunteers');

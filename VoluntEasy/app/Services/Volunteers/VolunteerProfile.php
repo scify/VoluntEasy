@@ -3,10 +3,15 @@
 namespace App\Services\Volunteers;
 
 use App\Models\Action;
+use App\Models\Descriptions\VolunteerStatusDuration;
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\Volunteer;
+use App\Models\VolunteerActionHistory;
+use App\Models\VolunteerUnitHistory;
+use App\Services\UnitService;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -15,12 +20,13 @@ use Illuminate\Support\Facades\Auth;
  */
 class VolunteerProfile
 {
+    private UnitService $unitService;
 
-    private \App\Services\UnitService $unitService;
-
-    public function __construct(\App\Services\UnitService $unitService) {
+    public function __construct(UnitService $unitService)
+    {
         $this->unitService = $unitService;
     }
+
     /**
      * The volunteer with all relations and the computed values of the profile page.
      */
@@ -158,15 +164,14 @@ class VolunteerProfile
         }
     }
 
-
     /**
      * For a volunteer, get the info from the history tables
      * and add them to an array to easily display the data at the front end
      *
-     * @param $volunteerId
-     * @return list<\App\Models\VolunteerActionHistory|\App\Models\VolunteerUnitHistory|\App\Models\Descriptions\VolunteerStatusDuration> The action, unit and status history, newest first
+     * @return list<VolunteerActionHistory|VolunteerUnitHistory|VolunteerStatusDuration> The action, unit and status history, newest first
      */
-    public function timeline($volunteerId) {
+    public function timeline($volunteerId)
+    {
 
         $volunteer = Volunteer::with('actionHistory.user')
             ->with('unitHistory.user')
@@ -189,26 +194,26 @@ class VolunteerProfile
 
         $timeline = [];
 
-        //get info from the history tables
+        // get info from the history tables
         foreach ($volunteer->actionHistory as $actionHistory) {
             $actionHistory->type = 'action';
             array_push($timeline, $actionHistory);
         }
 
-        //unit history table
+        // unit history table
         foreach ($volunteer->unitHistory as $unitHistory) {
             $unitHistory->type = 'unit';
             array_push($timeline, $unitHistory);
         }
 
-        //status duration
+        // status duration
         foreach ($volunteer->statusDuration as $statusHistory) {
             $statusHistory->type = 'status';
             $statusHistory->created_at = \Carbon::createFromFormat('d/m/Y', $statusHistory->to_date)->format('Y-m-d');
             array_push($timeline, $statusHistory);
         }
 
-        //sort the array by date
+        // sort the array by date
         usort($timeline, function ($a, $b) {
             return $a->created_at > $b->created_at ? -1 : 1;
         });
@@ -240,9 +245,10 @@ class VolunteerProfile
      * the sum of the ratings per attribute ("ratings"), the hours and minutes,
      * the number of ratings and the last comment.
      *
-     * @return \Illuminate\Database\Eloquent\Collection<int, Action>
+     * @return Collection<int, Action>
      */
-    public function actionsRatings($volunteerId) {
+    public function actionsRatings($volunteerId)
+    {
         $volunteer = Volunteer::with('actionHistory')->findOrFail($volunteerId);
 
         $actions = Action::whereIn('id', $volunteer->actionHistory->pluck('action_id')->all())
@@ -268,7 +274,7 @@ class VolunteerProfile
                     ($sums[$attributeRating->attribute->description]['rating'] ?? 0) + $attributeRating->rating;
             }
 
-            //replace the ratings relation with the sums by attribute
+            // replace the ratings relation with the sums by attribute
             $action->unsetRelation('ratings');
             $action->setAttribute('ratings', $sums);
         }

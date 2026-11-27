@@ -1,8 +1,11 @@
-<?php namespace App\Models\Rating;
+<?php
+
+namespace App\Models\Rating;
 
 use App\Models\Model;
-class ActionRatingAttribute extends Model {
 
+class ActionRatingAttribute extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -12,8 +15,8 @@ class ActionRatingAttribute extends Model {
 
     protected $fillable = ['description'];
 
-    public function getDescriptionAttribute() {
-        return trans('database/ratings.' . $this->attributes['description']);
+    public function getDescriptionAttribute()
+    {
+        return trans('database/ratings.'.$this->attributes['description']);
     }
-
 }

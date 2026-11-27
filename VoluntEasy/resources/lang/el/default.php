@@ -29,8 +29,7 @@ return [
     'priority-medium' => 'Μεσαία',
     'priority-low' => 'Χαμηλή',
 
-
-    /* common words and phrases*/
+    /* common words and phrases */
     'save' => 'Αποθήκευση',
     'edit' => 'Επεξεργασία',
     'delete' => 'Διαγραφή',
@@ -52,11 +51,9 @@ return [
     'greek' => 'Ελληνικά',
     'english' => 'English',
 
-
     /* error pages */
     'error' => 'ΣΦΑΛΜΑ',
     'pageNotFound' => 'Η σελίδα δεν βρέθηκε.',
     'noRights' => 'Δεν έχετε δικαίωμα να κάνετε τη συγκεκριμένη ενέργεια.',
-
 
 ];

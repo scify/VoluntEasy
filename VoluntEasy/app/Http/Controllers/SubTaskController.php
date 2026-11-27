@@ -1,17 +1,25 @@
-<?php namespace App\Http\Controllers;
+<?php
+
+namespace App\Http\Controllers;
 
 use App\Models\ActionTasks\Status;
 use App\Models\ActionTasks\SubTask;
 use App\Models\ActionTasks\Task;
 use App\Models\Volunteer;
+use App\Services\SubtaskService;
+use App\Services\TaskService;
+use App\Services\VolunteerService;
+
 class SubTaskController extends Controller
 {
+    private SubtaskService $subtaskService;
 
-    private \App\Services\SubtaskService $subtaskService;
-    private \App\Services\TaskService $taskService;
-    private \App\Services\VolunteerService $volunteerService;
+    private TaskService $taskService;
 
-    public function __construct(\App\Services\SubtaskService $subtaskService, \App\Services\TaskService $taskService, \App\Services\VolunteerService $volunteerService) {
+    private VolunteerService $volunteerService;
+
+    public function __construct(SubtaskService $subtaskService, TaskService $taskService, VolunteerService $volunteerService)
+    {
         $this->subtaskService = $subtaskService;
         $this->taskService = $taskService;
         $this->volunteerService = $volunteerService;
@@ -21,7 +29,6 @@ class SubTaskController extends Controller
     /**
      * View a certain subtask
      *
-     * @param $id
      * @return mixed
      */
     public function show($id)
@@ -30,15 +37,16 @@ class SubTaskController extends Controller
 
         $subTask->unitVolunteers = $this->volunteerService->getAvailableUnitVolunteers($subTask->action->unit_id);
 
-        //check if cta volunteer already exists in db, based on the email
+        // check if cta volunteer already exists in db, based on the email
         foreach ($subTask->shifts as $i => $date) {
             foreach ($date->ctaVolunteers as $j => $cta) {
-                //volunteer is already assigned to a profile
-                if (sizeof($cta->volunteer) > 0) {
+                // volunteer is already assigned to a profile
+                if (count($cta->volunteer) > 0) {
                     foreach ($subTask->unitVolunteers as $k => $uv) {
-                        //return $uv['id'];
-                        if ($uv['id'] == $cta->volunteer[0]->id)
+                        // return $uv['id'];
+                        if ($uv['id'] == $cta->volunteer[0]->id) {
                             unset($subTask->shifts[$i]->ctaVolunteers[$j]);
+                        }
 
                     }
                 } else {
@@ -61,10 +69,11 @@ class SubTaskController extends Controller
 
         $todo = Status::todo();
 
-        if (\Request::filled('subtask-due_date'))
+        if (\Request::filled('subtask-due_date')) {
             $due_date = \Carbon::createFromFormat('d/m/Y', \Request::get('subtask-due_date'));
-        else
+        } else {
             $due_date = null;
+        }
 
         $subTask = new SubTask([
             'name' => \Request::get('subtask-name'),
@@ -73,7 +82,7 @@ class SubTaskController extends Controller
             'task_id' => \Request::get('taskId'),
             'action_id' => \Request::get('actionId'),
             'due_date' => $due_date,
-            'status_id' => $todo
+            'status_id' => $todo,
         ]);
 
         $subTask->save();
@@ -91,16 +100,17 @@ class SubTaskController extends Controller
     {
         $subTask = SubTask::with('shifts')->find(\Request::get('subTaskId'));
 
-        if (\Request::filled('subtask-due_date'))
+        if (\Request::filled('subtask-due_date')) {
             $due_date = \Carbon::createFromFormat('d/m/Y', \Request::get('subtask-due_date'));
-        else
+        } else {
             $due_date = null;
+        }
 
         $subTask->update([
             'name' => \Request::get('subtask-name'),
             'description' => \Request::get('subtask-description'),
             'priority' => \Request::get('subtask-priorities'),
-            'due_date' => $due_date
+            'due_date' => $due_date,
         ]);
 
         $this->subtaskService->syncUsers($subTask);
@@ -130,7 +140,6 @@ class SubTaskController extends Controller
     /**
      * Delete a subtask
      *
-     * @param $id
      * @throws \Exception
      */
     public function destroy($id)
@@ -143,7 +152,5 @@ class SubTaskController extends Controller
         \Session::flash('flash_message', trans('entities/subtasks.deleted'));
         \Session::flash('flash_type', 'alert-success');
 
-        return;
     }
-
 }

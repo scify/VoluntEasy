@@ -1,20 +1,25 @@
-<?php namespace App\Models\Descriptions;
+<?php
 
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+namespace App\Models\Descriptions;
+
 use App\Models\Model;
-class Language extends Model {
+use App\Models\VolunteerLanguage;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
+class Language extends Model
+{
     protected $table = 'languages';
 
     protected $fillable = ['description'];
 
-    /** @return HasManyThrough<\App\Models\Descriptions\LanguageLevel, \App\Models\VolunteerLanguage, $this> */
-    public function level(): HasManyThrough {
-        return $this->hasManyThrough(\App\Models\Descriptions\LanguageLevel::class, \App\Models\VolunteerLanguage::class, 'language_level_id', 'id');
+    /** @return HasManyThrough<LanguageLevel, VolunteerLanguage, $this> */
+    public function level(): HasManyThrough
+    {
+        return $this->hasManyThrough(LanguageLevel::class, VolunteerLanguage::class, 'language_level_id', 'id');
     }
 
-    public function getDescriptionAttribute() {
-        return trans('database/db_tables.' . $this->attributes['description']);
+    public function getDescriptionAttribute()
+    {
+        return trans('database/db_tables.'.$this->attributes['description']);
     }
-
 }

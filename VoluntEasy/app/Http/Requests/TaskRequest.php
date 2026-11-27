@@ -1,8 +1,9 @@
-<?php namespace App\Http\Requests;
+<?php
+
+namespace App\Http\Requests;
 
 class TaskRequest extends Request
 {
-
     public function rules()
     {
         return [

@@ -1,4 +1,6 @@
-<?php namespace App\Http\Controllers;
+<?php
+
+namespace App\Http\Controllers;
 
 use App\Models\CTA\CTAVolunteer;
 use App\Models\Volunteer;
@@ -7,11 +9,11 @@ use App\Models\Volunteer;
  * Responsible for the functions of the CTAVolunteer obj
  *
  * Class CTAVolunteerController
- * @package App\Http\Controllers
  */
-class CTAVolunteerController extends Controller {
-
-    public function __construct() {
+class CTAVolunteerController extends Controller
+{
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
@@ -20,16 +22,18 @@ class CTAVolunteerController extends Controller {
      *
      * @return mixed
      */
-    public function update() {
+    public function update()
+    {
         $ctaVolunteer = CTAVolunteer::find(\Request::get('ctaVolunteerId'));
 
         $isVolunteer = $ctaVolunteer->isVolunteer;
         if ($ctaVolunteer->email != \Request::get('email')) {
             $volunteer = Volunteer::where('email', \Request::get('email'))->first('id');
-            if ($volunteer == null)
+            if ($volunteer == null) {
                 $isVolunteer = 0;
-            else
+            } else {
                 $isVolunteer = 1;
+            }
         }
 
         $ctaVolunteer->update([
@@ -46,16 +50,16 @@ class CTAVolunteerController extends Controller {
 
     /**
      * Destroy a ctaVolunteer
-     * @param $id
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
 
         $ctaVolunteer = CTAVolunteer::find($id);
         $ctaVolunteer->volunteer()->detach();
         $ctaVolunteer->taskDates()->delete();
         $ctaVolunteer->subtaskDates()->delete();
         $ctaVolunteer->delete();
-        return;
+
     }
 
     /**
@@ -63,7 +67,8 @@ class CTAVolunteerController extends Controller {
      *
      * @return mixed
      */
-    public function assignToVolunteer() {
+    public function assignToVolunteer()
+    {
 
         $ctaVolunteer = CTAVolunteer::find(\Request::get('cta_volunteer_id'));
         $ctaVolunteer->volunteer()->attach(\Request::get('volunteer_id'));

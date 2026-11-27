@@ -1,20 +1,22 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-use App\Models\Descriptions\VolunteerStatus;
-use Interfaces\ReportsInterface;
+namespace App\Http\Controllers;
+
 use App\Models\Volunteer;
-use App\Models\VolunteerUnitStatus;
+use Interfaces\ReportsInterface;
 
-class ReportsController extends Controller {
-
+class ReportsController extends Controller
+{
     private $reportsService;
 
-    public function __construct(ReportsInterface $reportsService) {
+    public function __construct(ReportsInterface $reportsService)
+    {
         $this->middleware('auth');
         $this->reportsService = $reportsService;
     }
 
-    public function index() {
+    public function index()
+    {
 
         return view($this->reportsService->getViewPath());
     }
@@ -25,24 +27,25 @@ class ReportsController extends Controller {
      *
      * @return mixed
      */
-    public function idleVolunteers() {
+    public function idleVolunteers()
+    {
 
-        //get the volunteers that are available to a unit, but
-        //have not participated in any action
+        // get the volunteers that are available to a unit, but
+        // have not participated in any action
         $withoutActions = Volunteer::whereDoesntHave('actionHistory')->available()->get();
 
-        //get the volunteers that are available to the unit
-        //and also get the last time they participated in an action
+        // get the volunteers that are available to the unit
+        // and also get the last time they participated in an action
         $idles = Volunteer::has('actionHistoryNewest')->with('actionHistoryNewest')->available()->get()->toArray();
 
-        //sort the array by idlest
+        // sort the array by idlest
         usort($idles, function ($a, $b) {
             return $a['action_history_newest']['created'] > $b['action_history_newest']['created'] ? 1 : -1;
         });
 
         return [
             'withoutActions' => $withoutActions,
-            'idles' => $idles
+            'idles' => $idles,
         ];
     }
 
@@ -51,9 +54,10 @@ class ReportsController extends Controller {
      *
      * @return mixed
      */
-    public function volunteersByMonth() {
+    public function volunteersByMonth()
+    {
 
-       return $this->reportsService->volunteersByMonth();
+        return $this->reportsService->volunteersByMonth();
     }
 
     /**
@@ -61,7 +65,8 @@ class ReportsController extends Controller {
      *
      * @return mixed
      */
-    public function volunteersBySex() {
+    public function volunteersBySex()
+    {
 
         return $this->reportsService->volunteersBySex();
     }
@@ -71,7 +76,8 @@ class ReportsController extends Controller {
      *
      * @return mixed
      */
-    public function volunteersByCity() {
+    public function volunteersByCity()
+    {
 
         return $this->reportsService->volunteersByCity();
     }
@@ -81,7 +87,8 @@ class ReportsController extends Controller {
      *
      * @return mixed
      */
-    public function volunteersByAgeGroup() {
+    public function volunteersByAgeGroup()
+    {
 
         return $this->reportsService->volunteersByAgeGroup();
     }
@@ -91,7 +98,8 @@ class ReportsController extends Controller {
      *
      * @return mixed
      */
-    public function volunteersByEducationLevel() {
+    public function volunteersByEducationLevel()
+    {
 
         return $this->reportsService->volunteersByEducationLevel();
     }
@@ -101,7 +109,8 @@ class ReportsController extends Controller {
      *
      * @return mixed
      */
-    public function volunteersByInterest() {
+    public function volunteersByInterest()
+    {
 
         return $this->optionalReport('volunteersByInterest');
     }
@@ -111,7 +120,8 @@ class ReportsController extends Controller {
      *
      * @return mixed
      */
-    public function volunteersByAction() {
+    public function volunteersByAction()
+    {
 
         return $this->optionalReport('volunteersByAction');
     }
@@ -121,7 +131,8 @@ class ReportsController extends Controller {
      *
      * @return mixed
      */
-    public function volunteerHoursByAction() {
+    public function volunteerHoursByAction()
+    {
 
         return $this->reportsService->volunteerHoursByAction();
     }
@@ -131,7 +142,8 @@ class ReportsController extends Controller {
      *
      * @return mixed
      */
-    public function activeAndAvailableVolunteersByUnit() {
+    public function activeAndAvailableVolunteersByUnit()
+    {
 
         return $this->optionalReport('activeAndAvailableVolunteersByUnit');
     }

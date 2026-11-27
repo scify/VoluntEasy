@@ -24,7 +24,6 @@ return [
     'shiftDiagram' => 'Volunteer shifts',
     'noShiftDiagram' => 'No shifts have been set',
 
-
     'fillField' => 'Fill in this field.',
     'fillFields' => 'Fill in all fields.',
 
@@ -40,7 +39,6 @@ return [
     'newToDo' => 'New to-do...',
     'toDoExplained' => 'Press enter to save to-do',
 
-
     /* shifts */
     'taskDetails' => 'Task details',
     'shifts' => 'Shifts',
@@ -50,6 +48,5 @@ return [
 
     /* controller */
     'deleted' => 'Subtask deleted.',
-
 
 ];

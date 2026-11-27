@@ -1,10 +1,10 @@
-<?php namespace App\Models;
+<?php
 
-use App\Models\Model;
-class CollaborationFile extends Model {
+namespace App\Models;
 
+class CollaborationFile extends Model
+{
     protected $table = 'collaborations_files';
 
     protected $fillable = ['filename', 'collaboration_id'];
-
 }

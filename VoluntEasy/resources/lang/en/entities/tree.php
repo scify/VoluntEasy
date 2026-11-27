@@ -9,6 +9,4 @@ return [
     'chosenUnitAction' => 'Selected Organisation Unit/Action',
     'action' => 'Action',
 
-
-
 ];

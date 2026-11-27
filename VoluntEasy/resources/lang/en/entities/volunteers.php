@@ -27,13 +27,11 @@ return [
     'available.capitals' => 'AVAILABLE VOLUNTEERS',
     'active.capitals' => 'ACTIVE VOLUNTEERS',
 
-
     /* reports */
     'reports.status-pie' => 'Volunteer Pie Chart',
 
     'birthdayToday' => 'Having birthday today',
     'noBirthday' => 'No volunteer has birthday today',
-
 
     /* data tables and form fields */
     'id' => 'ID',
@@ -89,7 +87,7 @@ return [
     'interests' => 'Interests',
     'noInterest' => 'No interest has been expressed.',
     'additionalSkills' => 'Additional skills, qualifications and experience',
-	'additionalSkillsHalf' => 'Additional skills',
+    'additionalSkillsHalf' => 'Additional skills',
     'interestsArea' => 'Interests area',
 
     'howYouLearned' => 'How did you learn about us?',
@@ -137,7 +135,6 @@ return [
     'volunteeringPrev' => 'Volunteer actions',
     'volunteeringPrevExpl' => 'If you have participated in volunteer actions in the past, please define their objective.',
 
-
     /* search */
     'belongsTo' => 'Belongs to unit',
     'onlyMyVolunteers' => 'Only my volunteers',
@@ -145,7 +142,6 @@ return [
     'moreFilters' => 'More filters...',
     'phoneNumber' => 'Phone number',
     'ageRange' => 'Age Range',
-
 
     'addVolunteers' => 'Add Volunteers',
     'noVolunteersAvailable' => 'No available volunteers.',
@@ -187,7 +183,6 @@ return [
     'noComment' => 'No comment',
     'commentsAboutVolunteer' => 'Comments about volunteer',
 
-
     /* profile actions */
     'participationToActions' => 'Participation to actions',
     'volunteerHasnotParticipated' => 'This volunteer has not participated in any action.',
@@ -219,7 +214,6 @@ return [
     'volunteerNotInAction' => 'This volunteer does not participate in any action of the unit',
     'unitNoActions' => 'This unit has no actions',
 
-
     /* profile pending */
     'noPendingStuff' => 'This volunteer has no pending tasks.',
     'communicationStep' => 'Contact volunteer',
@@ -227,7 +221,6 @@ return [
     'assignmentStep' => 'Assign to unit',
     'pendingStep' => 'Pending step',
     'completedtep' => 'Completed step',
-
 
     /* history */
     'noHistory' => 'Volunteer history is void.',
@@ -241,14 +234,12 @@ return [
     'noRatings' => 'No ratings for this volunteer.',
     'ratedWhen' => 'on',
 
-
     /* step */
     'step' => 'Step',
     'stepComplete' => 'Incomplete step',
     'stepIncomplete' => 'Completed step',
     'completeStep' => 'Complete step',
     'tmpSave' => 'Save comments temporarily',
-
 
     /* step assignment */
     'assignToUnit' => 'Assign to Unit',
@@ -263,19 +254,16 @@ return [
     'assignToAction' => 'Assign to action',
     'noUnitAvailable' => 'There is no available subunit.',
 
-
     /* step communication */
     'communicationWays' => 'Ways of communication',
 
-
-    /* volunteer status legend*/
+    /* volunteer status legend */
     'volunteerStatus' => 'Volunteer Status',
     'volunteerStatus.available' => 'Available at unit',
     'volunteerStatus.pending' => 'Pending at unit',
     'volunteerStatus.active' => 'Active in actions at unit',
     'volunteerStatus.notAvailable' => 'Not available',
     'volunteerStatus.blacklisted' => 'Blacklisted',
-
 
     'fillField' => 'Fill in field',
     'from' => 'From',
@@ -298,6 +286,5 @@ return [
     'inAction' => 'Volunteer is active at action and may not be deleted.',
     'inUnit' => 'Volunteer belongs to organisational unit and may not be deleted.',
     'deleted' => 'User deleted.',
-
 
 ];

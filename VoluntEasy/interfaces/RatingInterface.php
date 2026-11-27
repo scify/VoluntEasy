@@ -1,15 +1,13 @@
-<?php namespace Interfaces;
+<?php
+
+namespace Interfaces;
 
 /**
  * Interface RatingInterface
- * @package Interfaces
- *
- * Defines the basic operations for the rating
  */
-interface RatingInterface{
+interface RatingInterface
+{
+    public function hasCustomRatings();
 
-    function hasCustomRatings();
-
-    function rateVolunteers($token);
-
+    public function rateVolunteers($token);
 }

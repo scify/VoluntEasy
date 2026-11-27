@@ -8,6 +8,7 @@ use App\Models\Unit;
 use App\Models\User;
 use App\Models\Volunteer;
 use App\Services\UnitService;
+use App\Services\Volunteers\VolunteerAssignment;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
@@ -43,7 +44,7 @@ class VolunteerAssignmentTest extends TestCase
 
     private function assignment(): object
     {
-        return app(\App\Services\Volunteers\VolunteerAssignment::class);
+        return app(VolunteerAssignment::class);
     }
 
     private function statusIn(Unit $unit): ?int

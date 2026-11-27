@@ -1,25 +1,19 @@
-<?php namespace App\Console\Commands;
+<?php
 
+namespace App\Console\Commands;
+
+use App\Services\CronService;
 use Illuminate\Console\Command;
 
 /**
  * Class CheckActions
- * @package App\Console\Commands
- *
- * For the actions that expired yesterday, we should send some emails.
- *
- * [1]. send emails to all the volunteers that participated to the action
- * with a link to a questionnaire (rate the action).
- *
- * [2]. send an email to the person responsible for the action (the column email
- * at the action table) with another questionnaire link (rate all the volunteers)
- *
  */
-class CheckActions extends Command {
+class CheckActions extends Command
+{
+    private CronService $cronService;
 
-    private \App\Services\CronService $cronService;
-
-    public function __construct(\App\Services\CronService $cronService) {
+    public function __construct(CronService $cronService)
+    {
         parent::__construct();
         $this->cronService = $cronService;
     }
@@ -43,9 +37,10 @@ class CheckActions extends Command {
      *
      * @return mixed
      */
-    public function handle() {
+    public function handle()
+    {
 
-        //remove, just a check
+        // remove, just a check
         $execution_time = microtime(true);
 
         $expired = $this->cronService->expiredActions();
@@ -53,7 +48,6 @@ class CheckActions extends Command {
         $notAvailablle = $this->cronService->notAvailableVolunteers();
 
         $execution_time = microtime(true) - $execution_time;
-        $this->comment('Took ' . $execution_time . ' sec');
+        $this->comment('Took '.$execution_time.' sec');
     }
-
 }

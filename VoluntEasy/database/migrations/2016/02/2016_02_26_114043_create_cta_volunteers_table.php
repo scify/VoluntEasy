@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateCtaVolunteersTable extends Migration
@@ -28,7 +27,7 @@ class CreateCtaVolunteersTable extends Migration
             $table->timestamps();
         });
 
-        //the dates filled by the volunteer
+        // the dates filled by the volunteer
         Schema::create('cta_volunteers_subtask_dates', function ($table) {
             $table->increments('id');
 
@@ -42,7 +41,7 @@ class CreateCtaVolunteersTable extends Migration
             $table->timestamps();
         });
 
-        //if the volunteer is found in the db, connect with the cta volunteer
+        // if the volunteer is found in the db, connect with the cta volunteer
         Schema::create('cta_volunteers_platform_volunteers', function ($table) {
             $table->increments('id');
 

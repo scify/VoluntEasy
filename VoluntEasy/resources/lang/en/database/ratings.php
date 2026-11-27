@@ -13,14 +13,12 @@ return [
     'satisfied' => 'I am satisfied with my participation in the action.',
     'contribution' => 'I felt that my contribution was worthwhile.',
 
-
-    /*volunteer_rating_attributes*/
+    /* volunteer_rating_attributes */
     'consistency' => 'Consistency',
     'teamwork' => 'Teamwork',
     'diligence' => 'Diligence',
     'willingness' => 'Willingness',
     'effectiveness' => 'Capability/Effectiveness',
-
 
     /* opa_labor_skills */
     'troubleshooting' => 'Initiative/Problem resolve',
@@ -39,7 +37,5 @@ return [
     'empathy' => 'Empathy',
     'coopAbility' => 'Cooperation ability',
     'patience' => 'Patience',
-
-
 
 ];

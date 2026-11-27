@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\Volunteer;
 use Database\Seeders\DatabaseSeeder;
+use Dependencies\ekpizo\configuration\Configuration;
+use Dependencies\ekpizo\services\VolunteerServiceImpl;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Interfaces\ConfigurationInterface;
@@ -22,8 +24,8 @@ class EkpizoApiStoreTest extends TestCase
     {
         parent::setUp();
 
-        $this->app->bind(ConfigurationInterface::class, \Dependencies\ekpizo\configuration\Configuration::class);
-        $this->app->bind(VolunteerInterface::class, \Dependencies\ekpizo\services\VolunteerServiceImpl::class);
+        $this->app->bind(ConfigurationInterface::class, Configuration::class);
+        $this->app->bind(VolunteerInterface::class, VolunteerServiceImpl::class);
         $this->seed(DatabaseSeeder::class);
     }
 

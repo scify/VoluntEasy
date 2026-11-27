@@ -28,13 +28,11 @@ return [
     'available.capitals' => 'ΔΙΑΘΕΣΙΜΟΙ ΕΘΕΛΟΝΤΕΣ',
     'active.capitals' => 'ΕΝΕΡΓΟΙ ΕΘΕΛΟΝΤΕΣ',
 
-
     /* reports */
     'reports.status-pie' => 'Διάγραμμα Εθελοντών',
 
     'birthdayToday' => 'Έχουν γενέθλια σήμερα',
     'noBirthday' => 'Κανένας εθελοντής δεν έχει γενέθλια σήμερα',
-
 
     /* data tables and form fields */
     'id' => 'ID',
@@ -138,7 +136,6 @@ return [
     'volunteeringPrev' => 'Εθελοντικές δράσεις',
     'volunteeringPrevExpl' => 'Εαν έχετε πάρει μέρος σε εθελοντικές δράσεις στο παρελθόν περιγράψτε ποιο ήταν/είναι το αντικείμενο.',
 
-
     /* search */
     'belongsTo' => 'Ανήκει στη μονάδα',
     'onlyMyVolunteers' => 'Μόνο οι εθελοντές μου',
@@ -146,7 +143,6 @@ return [
     'moreFilters' => 'Περισσότερα Φίλτρα...',
     'phoneNumber' => 'Τηλέφωνο',
     'ageRange' => 'Ηλικιακό Εύρος',
-
 
     'addVolunteers' => 'Προσθήκη Εθελοντών',
     'noVolunteersAvailable' => 'Δεν υπάρχουν διαθέσιμοι εθελοντές.',
@@ -188,7 +184,6 @@ return [
     'noComment' => 'Κανένα σχόλιο',
     'commentsAboutVolunteer' => 'Σχόλια σχετικά με τον εθελοντή',
 
-
     /* profile actions */
     'participationToActions' => 'Συμμετοχή σε δράσεις',
     'volunteerHasnotParticipated' => 'Ο εθελοντής δεν έχει πάρει μέρος σε καμία δράση.',
@@ -220,7 +215,6 @@ return [
     'volunteerNotInAction' => 'Ο εθελοντής δε συμμετέχει σε κάποια δράση της μονάδας',
     'unitNoActions' => 'Η μονάδα δεν έχει δράσεις',
 
-
     /* profile pending */
     'noPendingStuff' => 'Ο εθελοντής δεν έχει καμία εκκρεμότητα.',
     'communicationStep' => 'Επικοινωνία με εθελοντή',
@@ -228,7 +222,6 @@ return [
     'assignmentStep' => 'Ανάθεση σε μονάδα',
     'pendingStep' => 'Το βήμα εκκρεμεί',
     'completedtep' => 'Το βήμα είναι ολοκληρωμένο',
-
 
     /* history */
     'noHistory' => 'Το ιστορικό του εθελοντή είναι άδειο.',
@@ -242,14 +235,12 @@ return [
     'noRatings' => 'Δεν υπάρχουν αξιολογήσεις για τον εθελοντή.',
     'ratedWhen' => 'στις',
 
-
     /* step */
     'step' => 'Βήμα',
     'stepComplete' => 'Βήμα μη ολοκληρωμένο',
     'stepIncomplete' => 'Βήμα ολοκληρωμένο',
     'completeStep' => 'Ολοκλήρωση βήματος',
     'tmpSave' => 'Προσωρινή αποθήκευση σχολίων',
-
 
     /* step assignment */
     'assignToUnit' => 'Ανάθεση στη μονάδα',
@@ -264,19 +255,16 @@ return [
     'assignToAction' => 'Ανάθεση στη δράση',
     'noUnitAvailable' => 'Δεν υπάρχει διαθέσιμη υπομονάδα.',
 
-
     /* step communication */
     'communicationWays' => 'Τρόποι επικοινωνίας',
 
-
-    /* volunteer status legend*/
+    /* volunteer status legend */
     'volunteerStatus' => 'Κατάσταση Εθελοντή|Καταστάσεις εθελοντή',
     'volunteerStatus.available' => 'Διαθέσιμος στη μονάδα',
     'volunteerStatus.pending' => 'Υπό ένταξη στη μονάδα',
     'volunteerStatus.active' => 'Ενεργός σε δράσεις στη μονάδα',
     'volunteerStatus.notAvailable' => 'Μη διαθέσιμος',
     'volunteerStatus.blacklisted' => 'Blacklisted',
-
 
     'fillField' => 'Συμπληρώστε το πεδίο',
     'from' => 'Από',
@@ -299,6 +287,5 @@ return [
     'inAction' => 'Ο εθελοντής είναι ενεργός σε δράση και δεν μπορεί να διαγραφεί.',
     'inUnit' => 'Ο εθελοντής ανήκει σε οργανωτική μονάδα και δεν μπορεί να διαγραφεί.',
     'deleted' => 'Ο εθελοντής διαγράφηκε.',
-
 
 ];

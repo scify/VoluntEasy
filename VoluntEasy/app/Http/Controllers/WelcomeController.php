@@ -1,8 +1,11 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-class WelcomeController extends Controller {
+namespace App\Http\Controllers;
 
-    public function index(){
+class WelcomeController extends Controller
+{
+    public function index()
+    {
         return view('main.landing.index');
 
     }

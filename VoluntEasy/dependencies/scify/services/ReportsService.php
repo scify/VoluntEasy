@@ -1,6 +1,7 @@
-<?php namespace Dependencies\scify\services;
+<?php
+
+namespace Dependencies\scify\services;
 
 use Interfaces\ReportsServiceAbstract;
 
-class ReportsService extends ReportsServiceAbstract {
-}
+class ReportsService extends ReportsServiceAbstract {}

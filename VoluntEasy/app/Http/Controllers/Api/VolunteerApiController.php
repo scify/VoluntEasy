@@ -1,46 +1,54 @@
-<?php namespace App\Http\Controllers\Api;
+<?php
+
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Services\Volunteers\VolunteerProfile;
-use Interfaces\VolunteerInterface;
 use App\Models\Descriptions\StepStatus;
 use App\Models\Volunteer;
-class VolunteerApiController extends Controller {
+use App\Services\UserService;
+use App\Services\Volunteers\VolunteerProfile;
+use App\Services\VolunteerService;
+use Interfaces\VolunteerInterface;
 
-    private \App\Services\UserService $userService;
-    private \App\Services\VolunteerService $volunteerService;
+class VolunteerApiController extends Controller
+{
+    private UserService $userService;
 
-    public function __construct(\App\Services\UserService $userService, \App\Services\VolunteerService $volunteerService) {
+    private VolunteerService $volunteerService;
+
+    public function __construct(UserService $userService, VolunteerService $volunteerService)
+    {
         $this->userService = $userService;
         $this->volunteerService = $volunteerService;
     }
 
-    public function all() {
+    public function all()
+    {
         $volunteers = Volunteer::with('units', 'actions')->orderBy('name', 'asc')->get();
 
         $permittedVolunteers = $this->volunteerService->permittedVolunteersIds();
 
         $data = $this->volunteerService->prepareForDataTable($volunteers);
 
-        return ["data" => $data];
+        return ['data' => $data];
     }
 
     /**
      * Get volunteer by status
      *
-     * @param $status
      * @return array
      */
-    public function status($status) {
+    public function status($status)
+    {
         $volunteers = [];
 
-        if ($status == 'new')
+        if ($status == 'new') {
             $volunteers = Volunteer::unassigned()->get();
-        else if ($status == 'active')
+        } elseif ($status == 'active') {
             $volunteers = Volunteer::active()->get();
-        else if ($status == 'available')
+        } elseif ($status == 'available') {
             $volunteers = Volunteer::available()->get();
-        else if ($status == 'pending') {
+        } elseif ($status == 'pending') {
             $pending = Volunteer::pending()->get();
 
             foreach ($pending as $volunteer) {
@@ -56,38 +64,42 @@ class VolunteerApiController extends Controller {
                     }]);
                 }])->where('id', $id)->first();
 
-                if (sizeof($volunteer->units) > 0 && $this->volunteerService->isPermitted($id))
+                if (count($volunteer->units) > 0 && $this->volunteerService->isPermitted($id)) {
                     array_push($volunteers, $volunteer);
+                }
             }
         }
         $permittedVolunteers = $this->volunteerService->permittedVolunteersIds();
 
         $data = $this->volunteerService->prepareForDataTable($volunteers);
 
-        return ["data" => $data];
+        return ['data' => $data];
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         $volunteer = app(VolunteerProfile::class)->fullProfile($id);
         $volunteer = $this->volunteerService->setStatusToUnits($volunteer);
 
-        //get the count of pending and available units, used in the front end
+        // get the count of pending and available units, used in the front end
         $pending = 0;
         $available = 0;
         foreach ($volunteer->units as $unit) {
-            if ($unit->status == 'Pending')
+            if ($unit->status == 'Pending') {
                 $pending++;
-            else if ($unit->status == 'Available' || $unit->status == 'Active')
+            } elseif ($unit->status == 'Available' || $unit->status == 'Active') {
                 $available++;
+            }
         }
 
-        //chekc if the volunteer is permitted to be edited by the
-        //currently logged in user
+        // chekc if the volunteer is permitted to be edited by the
+        // currently logged in user
         $permittedVolunteers = $this->userService->permittedVolunteersIds();
-        if (in_array($volunteer->id, $permittedVolunteers))
+        if (in_array($volunteer->id, $permittedVolunteers)) {
             $volunteer->permitted = true;
-        else
+        } else {
             $volunteer->permitted = false;
+        }
 
         return $volunteer;
     }
@@ -98,8 +110,8 @@ class VolunteerApiController extends Controller {
      *
      * @return mixed
      */
-    public function apiStore(VolunteerInterface $volunteerService) {
+    public function apiStore(VolunteerInterface $volunteerService)
+    {
         return $volunteerService->apiStore();
     }
-
 }

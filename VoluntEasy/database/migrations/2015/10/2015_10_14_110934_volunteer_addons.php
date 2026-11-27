@@ -1,17 +1,16 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class VolunteerAddons extends Migration {
-
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
+class VolunteerAddons extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
 
         Schema::create('availability_days', function ($table) {
             $table->increments('id');
@@ -23,7 +22,6 @@ class VolunteerAddons extends Migration {
 
             $table->timestamps();
         });
-
 
         Schema::create('how_you_learned', function ($table) {
             $table->increments('id');
@@ -39,29 +37,24 @@ class VolunteerAddons extends Migration {
             $table->timestamps();
         });
 
-
-        Schema::table('volunteers', function($table)
-        {
+        Schema::table('volunteers', function ($table) {
             $table->integer('how_you_learned_id')->unsigned()->nullable();
             $table->foreign('how_you_learned_id')->references('id')->on('how_you_learned')->onDelete('cascade');
-
 
             $table->integer('how_you_learned2_id')->unsigned()->nullable();
             $table->foreign('how_you_learned2_id')->references('id')->on('how_you_learned2')->onDelete('cascade');
 
         });
 
-
     }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
         Schema::dropIfExists('availability_days');
-	}
-
+    }
 }

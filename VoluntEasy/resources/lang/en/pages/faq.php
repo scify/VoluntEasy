@@ -17,7 +17,6 @@ return [
  <p>Rating is based on various criteria that have been set, and there is an open comment field. The manager may rate the volunteers of an action only once.</p>
  <p>Action managers may not necessarily be system users. Platform users may not rate the volunteer, but if a platform user wants to make a note about a volunteer, they may use the field “Comments” at the volunteers profile. This field is visible by all system users.</p>',
 
-
     'helpFile' => 'Help file',
     'downloadFile' => 'For further information and user guidelines, you may download the help file.',
 

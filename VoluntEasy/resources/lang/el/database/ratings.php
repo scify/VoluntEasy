@@ -13,14 +13,12 @@ return [
     'satisfied' => 'Είμαι ικανοποιημένος από τη συμμετοχή μου στη δράση.',
     'contribution' => 'Αισθάνθηκα ότι εκτιμήθηκε η συνεισφορά μου.',
 
-
-    /*volunteer_rating_attributes*/
+    /* volunteer_rating_attributes */
     'consistency' => 'Συνέπεια',
     'teamwork' => 'Ομαδικότητα',
     'diligence' => 'Εργατικότητα',
     'willingness' => 'Προθυμία',
     'effectiveness' => 'Ικανότητα/Αποτελεσματικότητα',
-
 
     /* opa_labor_skills */
     'troubleshooting' => 'Πρωτοβουλία/Επίλυση προβλημάτων',
@@ -39,7 +37,5 @@ return [
     'empathy' => 'Ενσυναίσθηση',
     'coopAbility' => 'Ικανότητα συνεργασίας',
     'patience' => 'Υπομονή',
-
-
 
 ];

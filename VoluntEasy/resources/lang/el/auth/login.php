@@ -10,7 +10,6 @@ return [
     'forgotPass' => 'Ξεχάσατε τον κωδικό σας;',
     'register' => 'Δημιουργία Λογαριασμού',
 
-
     'resetPassword' => 'Ανάκτηση Password',
     'resetPasswordLink' => 'Αποστολή συνδέσμου για ανάκτηση κωδικού',
 

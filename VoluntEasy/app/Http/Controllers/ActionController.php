@@ -1,11 +1,10 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-use App\Http\Requests\ActionRequest as ActionRequest;
-use App\Services\Volunteers\VolunteerAssignment;
-use Interfaces\ConfigurationInterface;
+namespace App\Http\Controllers;
+
+use App\Http\Requests\ActionRequest;
 use App\Models\Action;
 use App\Models\ActionTasks\Status;
-use App\Models\ActionVolunteerHistory;
 use App\Models\Descriptions\VolunteerStatus;
 use App\Models\Rating\ActionRatingAttribute;
 use App\Models\Rating\ActionScore;
@@ -13,24 +12,38 @@ use App\Models\Roles\Role;
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\Volunteer;
+use App\Services\ActionService;
+use App\Services\CTAService;
+use App\Services\SubtaskService;
+use App\Services\TaskService;
+use App\Services\UnitService;
+use App\Services\UserService;
+use App\Services\Volunteers\VolunteerAssignment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use Interfaces\ConfigurationInterface;
 
-class ActionController extends Controller {
+class ActionController extends Controller
+{
+    private ActionService $actionService;
 
-    private \App\Services\ActionService $actionService;
-    private \App\Services\CTAService $cTAService;
-    private \App\Services\SubtaskService $subtaskService;
-    private \App\Services\TaskService $taskService;
-    private \App\Services\UnitService $unitService;
-    private \App\Services\UserService $userService;
+    private CTAService $cTAService;
+
+    private SubtaskService $subtaskService;
+
+    private TaskService $taskService;
+
+    private UnitService $unitService;
+
+    private UserService $userService;
 
     private VolunteerAssignment $volunteerAssignment;
 
     private $configuration;
 
-    public function __construct(ConfigurationInterface $configuration, VolunteerAssignment $volunteerAssignment, \App\Services\ActionService $actionService, \App\Services\CTAService $cTAService, \App\Services\SubtaskService $subtaskService, \App\Services\TaskService $taskService, \App\Services\UnitService $unitService, \App\Services\UserService $userService) {
+    public function __construct(ConfigurationInterface $configuration, VolunteerAssignment $volunteerAssignment, ActionService $actionService, CTAService $cTAService, SubtaskService $subtaskService, TaskService $taskService, UnitService $unitService, UserService $userService)
+    {
         $this->actionService = $actionService;
         $this->cTAService = $cTAService;
         $this->subtaskService = $subtaskService;
@@ -46,7 +59,8 @@ class ActionController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index() {
+    public function index()
+    {
         $actions = Action::with('unit', 'volunteers')->get();
 
         foreach ($actions as $action) {
@@ -57,13 +71,14 @@ class ActionController extends Controller {
 
         $userUnits = $this->userService->userUnits();
 
-        return view("main.actions.list", compact('actions', 'userUnits'));
+        return view('main.actions.list', compact('actions', 'userUnits'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create() {
+    public function create()
+    {
         $tree = $this->unitService->getTree();
 
         $userUnits = $this->userService->userUnits();
@@ -75,27 +90,28 @@ class ActionController extends Controller {
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param ActionRequest $request
      */
-    public function store(ActionRequest $request) {
+    public function store(ActionRequest $request)
+    {
 
         $request['start_date'] = \Carbon::createFromFormat('d/m/Y', $request->start_date);
         $request['end_date'] = \Carbon::createFromFormat('d/m/Y', $request->end_date);
         $action = Action::create($request->all());
 
-        if ($request->ajax())
+        if ($request->ajax()) {
             return $action->unit_id;
-        else
+        } else {
             return Redirect::route('action/one', ['id' => $action->id]);
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      */
-    public function show($id) {
+    public function show($id)
+    {
         $action = Action::with('unit.volunteers', 'users', 'ratings',
             'tasks.users', 'tasks.volunteers', 'tasks.shifts.volunteers',
             'tasks.subtasks.status', 'tasks.subtasks.shifts.volunteers', 'tasks.subtasks.checklist', 'tasks.subtasks.users', 'tasks.subtasks.volunteers',
@@ -106,40 +122,43 @@ class ActionController extends Controller {
 
         $unitId = $action->unit_id;
 
-        //check if action has expired
+        // check if action has expired
         $now = date('Y-m-d');
         $endDate = \Carbon::parse(\Carbon::createFromFormat('d/m/Y', $action->end_date))->format('Y-m-d');
         $action->expired = false;
-        if ($endDate < $now)
+        if ($endDate < $now) {
             $action->expired = true;
+        }
 
         $userUnits = $this->userService->userUnits();
         $userActions = $this->userService->userActions();
-        if (in_array($action->unit->id, $userUnits) || in_array($action->id, $userActions))
+        if (in_array($action->unit->id, $userUnits) || in_array($action->id, $userActions)) {
             $isPermitted = true;
-        else
+        } else {
             $isPermitted = false;
+        }
 
         $taskStatuses = Status::all();
 
-        //get subtasks per status, calculate total volunteer sum etc
+        // get subtasks per status, calculate total volunteer sum etc
         $action = $this->taskService->prepareTasks($action);
 
-        //get all users that can assigned to a task
+        // get all users that can assigned to a task
         $users = User::orderBy('name')->get();
         $usersToAssign[0] = trans('entities/search.choose');
-        foreach($users as $user){
-            $usersToAssign[$user->id]=$user->fullName;
+        foreach ($users as $user) {
+            $usersToAssign[$user->id] = $user->fullName;
         }
 
         $volunteersToAssign[0] = trans('entities/search.choose');
-        foreach($action->unit->volunteers as $volunteer){
-            $volunteersToAssign[$volunteer->id]=$volunteer->fullName;
+        foreach ($action->unit->volunteers as $volunteer) {
+            $volunteersToAssign[$volunteer->id] = $volunteer->fullName;
         }
 
         $publicSubtasks = null;
-        if ($action->publicAction != null)
+        if ($action->publicAction != null) {
             $publicSubtasks = $this->cTAService->getPublicSubtasks($action);
+        }
 
         $configuration = $this->configuration;
 
@@ -149,9 +168,10 @@ class ActionController extends Controller {
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         $action = Action::where('id', $id)->first();
         $actives = [$action->id];
 
@@ -164,10 +184,9 @@ class ActionController extends Controller {
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  ActionRequest $request
      */
-    public function update(ActionRequest $request) {
+    public function update(ActionRequest $request)
+    {
         $action = Action::findOrFail($request->get('id'));
 
         $request['start_date'] = \Carbon::createFromFormat('d/m/Y', $request->start_date);
@@ -181,12 +200,13 @@ class ActionController extends Controller {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  int  $id
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $action = Action::with('volunteers', 'tasks.subtasks.shifts', 'users', 'ratings', 'actionRatings', 'publicAction')->findOrFail($id);
 
-        //first delete any task, subtask and shifts associated with the action
+        // first delete any task, subtask and shifts associated with the action
         foreach ($action->tasks as $task) {
             foreach ($task->subtasks as $subtask) {
                 $this->subtaskService->delete($subtask);
@@ -194,18 +214,18 @@ class ActionController extends Controller {
             $task->delete();
         }
 
-        //remove all volunteers and set their status to available
+        // remove all volunteers and set their status to available
         foreach ($action->volunteers as $volunteer) {
             $this->volunteerAssignment->removeFromAction($volunteer, $action);
         }
 
-        //remove all users, and check if their role should be updated
+        // remove all users, and check if their role should be updated
         foreach ($action->users as $user) {
             $user->actions()->detach($action->id);
             $user->load('roles');
             $user->load('actions');
-            if (in_array('action_manager', $user->roles->pluck('name')->toArray()) && sizeof($user->actions) == 0) {
-                $actionManagerId = Role::where('name', 'action_manager')->first(["id"])->id;
+            if (in_array('action_manager', $user->roles->pluck('name')->toArray()) && count($user->actions) == 0) {
+                $actionManagerId = Role::where('name', 'action_manager')->first(['id'])->id;
                 $user->roles()->detach($actionManagerId);
             }
         }
@@ -218,7 +238,6 @@ class ActionController extends Controller {
         Session::flash('flash_message', trans('entities/actions.deleted'));
         Session::flash('flash_type', 'alert-success');
 
-        return;
     }
 
     /**
@@ -226,7 +245,8 @@ class ActionController extends Controller {
      *
      * @return mixed
      */
-    public function search() {
+    public function search()
+    {
         $actions = $this->actionService->search();
 
         return $actions;
@@ -235,15 +255,15 @@ class ActionController extends Controller {
     /**
      * Sync the action volunteers with the db.
      *
-     * @param Request $request
      * @return mixed
      */
-    public function addVolunteers(Request $request) {
+    public function addVolunteers(Request $request)
+    {
 
         $action = Action::whereId($request->get('id'))->first();
 
-        //if there are no volunteers, remove all
-        if (sizeof($request->get('volunteers')) == 0) {
+        // if there are no volunteers, remove all
+        if (count($request->get('volunteers')) == 0) {
             $action->volunteers()->detach();
         } else {
             $oldVolunteersOfAction = $action->volunteers()->pluck('volunteers.id')->all();
@@ -253,10 +273,10 @@ class ActionController extends Controller {
 
             // create a history entry for each new volunteer
             foreach ($request->get('volunteers') as $volunteer) {
-                if (!in_array($volunteer, $oldVolunteersOfAction)) {
+                if (! in_array($volunteer, $oldVolunteersOfAction)) {
                     $this->volunteerAssignment->actionHistory($volunteer, $action->id);
 
-                    //change unit status to active
+                    // change unit status to active
                     $this->volunteerAssignment->changeUnitStatus($volunteer, $action->unit_id, $statusId);
                 }
             }
@@ -265,7 +285,8 @@ class ActionController extends Controller {
         return $action->id;
     }
 
-    public function fullRatings($id) {
+    public function fullRatings($id)
+    {
         $action = Action::findOrFail($id);
         $ratings = ActionScore::where('action_id', $id)->with('ratings')->get();
 
@@ -274,27 +295,26 @@ class ActionController extends Controller {
         foreach ($ratings as $rating) {
             foreach ($rating->ratings as $score) {
                 switch ($score->score) {
-                    case "-2":
+                    case '-2':
                         $score->description = trans('entities/ratings.fullyDisagree');
                         break;
-                    case "-1":
+                    case '-1':
                         $score->description = trans('entities/ratings.disagree');
                         break;
-                    case "0":
+                    case '0':
                         $score->description = trans('entities/ratings.neutral');
                         break;
-                    case "1":
+                    case '1':
                         $score->description = trans('entities/ratings.Agree');
                         break;
-                    case "2":
+                    case '2':
                         $score->description = trans('entities/ratings.fullyAgree');
                         break;
                 }
             }
         }
 
-        //return $ratings;
+        // return $ratings;
         return view('main.actions.ratings', compact('action', 'attributes', 'ratings'));
     }
-
 }

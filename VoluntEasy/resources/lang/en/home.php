@@ -2,7 +2,7 @@
 
 return [
 
-	'home'		=> 'Home',
-	'loggedIn'	=> 'You are logged in!',
+    'home' => 'Home',
+    'loggedIn' => 'You are logged in!',
 
 ];

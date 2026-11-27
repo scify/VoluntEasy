@@ -1,20 +1,26 @@
-<?php namespace App\Services;
+<?php
+
+namespace App\Services;
 
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\Volunteer;
+use Illuminate\Auth\AuthenticationException;
+
 class UserService
 {
+    private SearchService $searchService;
 
-    private \App\Services\SearchService $searchService;
-    private \App\Services\UnitService $unitService;
+    private UnitService $unitService;
 
-    public function __construct(\App\Services\SearchService $searchService, \App\Services\UnitService $unitService) {
+    public function __construct(SearchService $searchService, UnitService $unitService)
+    {
         $this->searchService = $searchService;
         $this->unitService = $unitService;
     }
 
     private $unitsIds = [];
+
     private $permittedUsers = [];
 
     /**
@@ -43,7 +49,7 @@ class UserService
     {
         $user = \Auth::user();
         if (! $user instanceof User) {
-            throw new \Illuminate\Auth\AuthenticationException();
+            throw new AuthenticationException;
         }
 
         return $user;
@@ -57,7 +63,6 @@ class UserService
     /**
      * Get the unit ids according to user
      *
-     * @param User $user
      * @return array
      */
     public function userUnitsIds(User $user)
@@ -82,7 +87,6 @@ class UserService
     /**
      * Get the unit ids of all the actions that the user is assigned to
      *
-     * @param User $user
      * @return array
      */
     public function userActionsIds(User $user)
@@ -100,19 +104,20 @@ class UserService
     /**
      * Recursively collect the ids of all children units in $this->unitsIds
      *
-     * @param $units
      * @return void
      */
     public function withChildren($units)
     {
         foreach ($units as $unit) {
-            if (sizeof($unit->allChildren) > 0) {
-                if (!in_array($unit->id, $this->unitsIds))
+            if (count($unit->allChildren) > 0) {
+                if (! in_array($unit->id, $this->unitsIds)) {
                     $this->unitsIds[] = $unit->id;
+                }
                 $this->withChildren($unit->allChildren);
             } else {
-                if (!in_array($unit->id, $this->unitsIds))
+                if (! in_array($unit->id, $this->unitsIds)) {
                     $this->unitsIds[] = $unit->id;
+                }
             }
         }
     }
@@ -122,12 +127,11 @@ class UserService
      * of the users assigned to a unit.
      * Used in the front end, in order to display the currently assigned users.
      *
-     * @param $users
      * @return array
      */
     public function userIds($users)
     {
-        $ids = array();
+        $ids = [];
         foreach ($users as $user) {
             array_push($ids, $user->id);
         }
@@ -144,17 +148,19 @@ class UserService
     {
         $rootId = $this->unitService->getRoot()->id;
 
-        if ($userId == null)
+        if ($userId == null) {
             $userId = \Auth::id();
+        }
 
         $user = User::whereHas('units', function ($q) use ($rootId) {
             $q->where('id', $rootId);
         })->find($userId);
 
-        if ($user == null)
+        if ($user == null) {
             return false;
-        else
+        } else {
             return true;
+        }
     }
 
     /**
@@ -210,24 +216,27 @@ class UserService
     {
         $permittedVolunteers = [];
 
-        //user is admin/assigned to root
-        //so return all volunters
+        // user is admin/assigned to root
+        // so return all volunters
         if ($this->isAdmin()) {
             $volunteers = Volunteer::all();
-            foreach ($volunteers as $volunteer)
+            foreach ($volunteers as $volunteer) {
                 array_push($permittedVolunteers, $volunteer);
+            }
         } else {
-            //get the user's units with their immediate children (first level)
-            //and their volunteers
+            // get the user's units with their immediate children (first level)
+            // and their volunteers
             $user = User::with('units.volunteers')->findOrFail(\Auth::id());
 
             foreach ($user->units as $unit) {
-                foreach ($unit->volunteers as $volunteer)
+                foreach ($unit->volunteers as $volunteer) {
                     array_push($permittedVolunteers, $volunteer);
+                }
             }
 
-            //TODO: remove this?
+            // TODO: remove this?
         }
+
         return $permittedVolunteers;
     }
 
@@ -241,8 +250,9 @@ class UserService
         $volunteers = $this->permittedVolunteers();
         $permittedVolunteersIds = [];
 
-        foreach ($volunteers as $volunteer)
+        foreach ($volunteers as $volunteer) {
             array_push($permittedVolunteersIds, $volunteer->id);
+        }
 
         return $permittedVolunteersIds;
     }
@@ -261,11 +271,12 @@ class UserService
     {
         $permittedUsers = [];
 
-        //user is admin/assigned to root
+        // user is admin/assigned to root
         if ($this->isAdmin()) {
             $users = User::all();
-            foreach ($users as $user)
+            foreach ($users as $user) {
                 array_push($permittedUsers, $user);
+            }
         } else {
 
             $permittedUnits = $this->permittedUnits();
@@ -276,35 +287,38 @@ class UserService
                 })
                 ->get();
 
-            //remove currently logged in user
+            // remove currently logged in user
             foreach ($users as $user) {
                 // if ($user->id != \Auth::id())
                 array_push($permittedUsers, $user);
             }
 
         }
+
         return $permittedUsers;
     }
 
     /**
      * Recursively get the users of all the units
      *
-     * @param $parent
      * @return mixed
      */
     public function recursiveUsers($parent)
     {
 
-        foreach ($parent->users as $user)
+        foreach ($parent->users as $user) {
             array_push($this->permittedUsers, $user);
+        }
 
         foreach ($parent->allChildren as $child) {
 
-            foreach ($child->users as $user)
+            foreach ($child->users as $user) {
                 array_push($this->permittedUsers, $user);
+            }
 
-            if (sizeof($child->allChildren) > 0)
+            if (count($child->allChildren) > 0) {
                 $this->recursiveUsers($child);
+            }
         }
 
         return $parent;
@@ -320,8 +334,9 @@ class UserService
         $users = $this->permittedUsers();
         $permittedUsersIds = [];
 
-        foreach ($users as $user)
+        foreach ($users as $user) {
             array_push($permittedUsersIds, $user->id);
+        }
 
         return $permittedUsersIds;
     }
@@ -332,7 +347,6 @@ class UserService
      * [a]. are permitted to be edited by the user (see $this->permittedUsersIds())
      * [b]. are not assigned to any parent of the unit we are currently editing.
      *
-     * @param $unitId
      * @return mixed
      */
     public function assignableUsersIds($unitId)
@@ -343,7 +357,7 @@ class UserService
 
         $parentIds = $this->unitService->parentIds($unit);
 
-        //the query
+        // the query
         $assignableUsers = User::whereDoesntHave('units', function ($q) use ($parentIds) {
             $q->whereIn('id', $parentIds);
         })
@@ -362,16 +376,18 @@ class UserService
 
         foreach ($users as $user) {
 
-            if (in_array($user->id, $permittedUsers))
+            if (in_array($user->id, $permittedUsers)) {
                 $user->permitted = true;
-            else
+            } else {
                 $user->permitted = false;
+            }
 
-            //check if user is admin
-            if ($this->isAdmin($user->id))
+            // check if user is admin
+            if ($this->isAdmin($user->id)) {
                 $user->isAdmin = true;
-            else
+            } else {
                 $user->isAdmin = false;
+            }
         }
 
         return $users;
@@ -380,17 +396,15 @@ class UserService
     /**
      * Store the user image
      *
-     * @param $image
-     * @param $email
      * @return string
      */
     public function storeImage($image, $email)
     {
 
-        //get the image and upload it
-        $destinationPath = public_path() . '/assets/uploads/users';
+        // get the image and upload it
+        $destinationPath = public_path().'/assets/uploads/users';
         $extension = $image->getClientOriginalExtension(); // getting image extension
-        $fileName = $email . '.' . $extension; // rename image
+        $fileName = $email.'.'.$extension; // rename image
         $image->move($destinationPath, $fileName); // uploading file to given path
 
         return $fileName;
@@ -411,16 +425,17 @@ class UserService
                 $value = \Request::get($column);
                 switch ($filter) {
                     case '=':
-                        if (!$this->searchService->notDropDown($value, $column))
+                        if (! $this->searchService->notDropDown($value, $column)) {
                             $query->where($column, '=', $value);
+                        }
                         break;
                     case 'like%':
-                        $query->where($column, 'like', $value . '%');
+                        $query->where($column, 'like', $value.'%');
                         break;
                     case '':
                         switch ($column) {
                             case 'unit_id':
-                                if (!$this->searchService->notDropDown($value, $column)) {
+                                if (! $this->searchService->notDropDown($value, $column)) {
                                     $id = \Request::get('unit_id');
                                     $query->whereHas('units', function ($query) use ($id) {
                                         $query->where('id', $id);
@@ -439,7 +454,6 @@ class UserService
 
         $data = $this->prepareForDataTable($result);
 
-        return ["data" => $data];
+        return ['data' => $data];
     }
-
 }

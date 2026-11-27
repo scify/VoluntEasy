@@ -1,12 +1,12 @@
-<?php namespace App\Http\Requests;
+<?php
+
+namespace App\Http\Requests;
 
 /**
  * This FormRequest is used to validate the object send from the volunteer forms (create, edit...)
- *
- * @package App\Http\Requests
  */
-class VolunteerRequest extends Request {
-
+class VolunteerRequest extends Request
+{
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -18,7 +18,8 @@ class VolunteerRequest extends Request {
      *
      * @return array
      */
-    public function rules() {
+    public function rules()
+    {
         if ($this->input('id') == null) {
             return [
                 'name' => 'required',
@@ -30,7 +31,7 @@ class VolunteerRequest extends Request {
                 'work_status_id' => 'required',
                 'participation_reason' => 'required',
             ];
-        } else
+        } else {
             return [
                 'name' => 'required',
                 'last_name' => 'required',
@@ -41,6 +42,7 @@ class VolunteerRequest extends Request {
                 'work_status_id' => 'required',
                 'participation_reason' => 'required',
             ];
+        }
     }
 
     /**
@@ -48,8 +50,8 @@ class VolunteerRequest extends Request {
      *
      * @return array
      */
-    public function messages() {
+    public function messages()
+    {
         return [];
     }
-
 }

@@ -1,24 +1,28 @@
-<?php namespace App\Http\Controllers;
+<?php
+
+namespace App\Http\Controllers;
 
 use App\Models\ActionTasks\SubtaskChecklist;
 
-class SubtaskChecklistController extends Controller {
-
-    public function __construct() {
+class SubtaskChecklistController extends Controller
+{
+    public function __construct()
+    {
         $this->middleware('auth');
     }
 
     /**
      * Store a resource
      */
-    public function store() {
+    public function store()
+    {
 
         $checklist = new SubtaskChecklist([
             'isComplete' => 0,
             'comments' => \Request::get('comments'),
             'subtask_id' => \Request::get('mode_id'),
             'created_by' => \Auth::id(),
-            'updated_by' => \Auth::id()
+            'updated_by' => \Auth::id(),
         ]);
 
         $checklist->save();
@@ -31,13 +35,15 @@ class SubtaskChecklistController extends Controller {
     /**
      * Update a resource
      */
-    public function update() {
+    public function update()
+    {
 
         $checklist = SubtaskChecklist::find(\Request::get('id'));
 
         $isComplete = 0;
-        if (\Request::get('isComplete') == 'true')
+        if (\Request::get('isComplete') == 'true') {
             $isComplete = 1;
+        }
 
         $checklist->isComplete = $isComplete;
         $checklist->update();
@@ -50,10 +56,10 @@ class SubtaskChecklistController extends Controller {
     /**
      * Delete an item
      */
-    public function delete() {
+    public function delete()
+    {
         $checklist = SubtaskChecklist::find(\Request::get('id'));
         $checklist->delete();
-        return;
-    }
 
+    }
 }

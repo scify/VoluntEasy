@@ -1,5 +1,8 @@
 <?php
 
+use App\Support\Html\Form;
+use Illuminate\Support\Facades\Facade;
+
 return [
 
     /*
@@ -149,9 +152,9 @@ return [
     |
     */
 
-    'aliases' => Illuminate\Support\Facades\Facade::defaultAliases()->merge([
+    'aliases' => Facade::defaultAliases()->merge([
         'Carbon' => Carbon\Carbon::class,
-        'Form' => App\Support\Html\Form::class,
+        'Form' => Form::class,
     ])->toArray(),
 
 ];

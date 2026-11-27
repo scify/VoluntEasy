@@ -1,4 +1,6 @@
-<?php namespace App\Http\Controllers;
+<?php
+
+namespace App\Http\Controllers;
 
 use App\Http\Requests\CTAVolunteerRequest;
 use App\Models\Action;
@@ -7,32 +9,36 @@ use App\Models\CTA\CTAVolunteer;
 use App\Models\CTA\PublicAction;
 use App\Models\CTA\PublicActionSubTask;
 use App\Models\Volunteer;
+use App\Services\UserService;
+
 /**
  * CTAContoller is responsible for the public cta page actions
  *
  * Class CTAController
- * @package App\Http\Controllers
  */
-class CTAController extends Controller {
+class CTAController extends Controller
+{
+    private UserService $userService;
 
-    private \App\Services\UserService $userService;
-
-    public function __construct(\App\Services\UserService $userService) {
+    public function __construct(UserService $userService)
+    {
         $this->userService = $userService;
         $this->middleware('auth', ['except' => ['cta', 'participate']]);
     }
 
-    public function cta() {
+    public function cta()
+    {
 
         $action = Action::find(1);
 
         return view('main.cta.cta', compact('action'));
     }
 
-    public function participate($id) {
+    public function participate($id)
+    {
         $publicAction = PublicAction::where('public_url', $id)->with('subtasks.subtask.shifts', 'subtasks.subtask.task')->first();
 
-        //if the public action is inactive, return a null obj
+        // if the public action is inactive, return a null obj
         if ($publicAction != null && $publicAction->isActive == 0) {
             $publicAction = null;
         }
@@ -43,9 +49,9 @@ class CTAController extends Controller {
 
             foreach ($publicAction->subtasks as $subtask) {
                 $task = $subtask->subtask->task;
-                unset($subtask->subtask->task); //remove the obj, no longer needed
+                unset($subtask->subtask->task); // remove the obj, no longer needed
 
-                if (sizeof($tasks) == 0) {
+                if (count($tasks) == 0) {
                     array_push($tasks, $task);
                     array_push($taskIds, $task->id);
                     $ctaSubtasks = [];
@@ -54,8 +60,8 @@ class CTAController extends Controller {
 
                 } else {
                     foreach ($tasks as $t) {
-                        //if task does not already exists in array, insert
-                        if (!in_array($task->id, $taskIds)) {
+                        // if task does not already exists in array, insert
+                        if (! in_array($task->id, $taskIds)) {
                             array_push($tasks, $task);
                             array_push($taskIds, $task->id);
                             $ctaSubtasks = [];
@@ -63,7 +69,7 @@ class CTAController extends Controller {
                             $task->ctaSubtasks = $ctaSubtasks;
                             break;
                         } else {
-                            //update the subtasks array
+                            // update the subtasks array
                             $ctaSubtasks = $task->ctaSubtasks;
                             array_push($ctaSubtasks, $subtask->subtask);
                             $task->ctaSubtasks = $ctaSubtasks;
@@ -79,17 +85,20 @@ class CTAController extends Controller {
 
             $publicAction->tasks = $tasks;
             $action = $publicAction->load('action')->action;
+
             return view('main.cta.participate', compact('action', 'publicAction', 'tasks'));
         } else {
             return view('main.cta.participate');
         }
     }
 
-    public function store() {
+    public function store()
+    {
 
         $isActive = 0;
-        if (\Request::filled('isActive') && \Request::get('isActive') == 'on')
+        if (\Request::filled('isActive') && \Request::get('isActive') == 'on') {
             $isActive = 1;
+        }
 
         $publicAction = new PublicAction([
             'description' => \Request::get('public_description'),
@@ -100,23 +109,26 @@ class CTAController extends Controller {
             'executive_phone' => \Request::get('public_exec_phone'),
             'public_url' => $this->getPublicUrl(),
             'isActive' => $isActive,
-            'action_id' => \Request::get('actionId')
+            'action_id' => \Request::get('actionId'),
         ]);
 
         $publicAction->save();
 
-        if (\Request::filled('subtasks'))
+        if (\Request::filled('subtasks')) {
             $this->savePublicSubtasks($publicAction);
+        }
 
         return $publicAction;
     }
 
-    public function update() {
+    public function update()
+    {
         $publicAction = PublicAction::find(\Request::get('publicActionId'));
 
         $isActive = 0;
-        if (\Request::filled('isActive') && \Request::get('isActive') == 'on')
+        if (\Request::filled('isActive') && \Request::get('isActive') == 'on') {
             $isActive = 1;
+        }
 
         $publicAction->update([
             'description' => \Request::get('public_description'),
@@ -127,7 +139,7 @@ class CTAController extends Controller {
             'executive_phone' => \Request::get('public_exec_phone'),
             'public_url' => $this->getPublicUrl($publicAction),
             'isActive' => $isActive,
-            'action_id' => \Request::get('actionId')
+            'action_id' => \Request::get('actionId'),
         ]);
 
         $this->savePublicSubtasks($publicAction);
@@ -138,15 +150,16 @@ class CTAController extends Controller {
     /**
      * Save the volunteer info
      *
-     * @param CTAVolunteerRequest $request
      * @return mixed
      */
-    public function volunteerInterested(CTAVolunteerRequest $request) {
+    public function volunteerInterested(CTAVolunteerRequest $request)
+    {
 
         $isVolunteer = 0;
         $volunteer = Volunteer::where('email', $request['email'])->first();
-        if ($volunteer != null)
+        if ($volunteer != null) {
             $isVolunteer = 1;
+        }
 
         $ctaVolunteer = new CTAVolunteer([
             'first_name' => $request['first_name'],
@@ -160,7 +173,7 @@ class CTAController extends Controller {
 
         $ctaVolunteer->save();
 
-        //save the dates that the volunteer is interested for
+        // save the dates that the volunteer is interested for
         if (isset($request['dates'])) {
             foreach ($request['dates'] as $id => $date) {
                 $date = new CTASubtaskDate([
@@ -172,27 +185,27 @@ class CTAController extends Controller {
             }
         }
 
-        //get all the data needed to display the tasks that the volunteers
-        //is interested for
+        // get all the data needed to display the tasks that the volunteers
+        // is interested for
         $ctaVolunteer->load('subtaskDates.date.subtask.task');
         $publicAction = PublicAction::with('action.users')->find($request['publicActionId']);
         $admins = $this->userService->getAdmins();
 
-        //send email to all admins
+        // send email to all admins
         foreach ($admins as $admin) {
 
-            if ($admin->email != "test@scify.org") {
+            if ($admin->email != 'test@scify.org') {
                 \Mail::send('app_emails.cta_new_volunteer', ['user' => $admin, 'ctaVolunteer' => $ctaVolunteer, 'volunteer' => $volunteer, 'publicAction' => $publicAction], function ($message) use ($admin) {
-                    $message->to($admin->email, $admin->name . ' ' . $admin->last_name)->subject('[' . trans('default.title') . '] ' . trans('emails/emails.ctaVolunteeerInterested'));
+                    $message->to($admin->email, $admin->name.' '.$admin->last_name)->subject('['.trans('default.title').'] '.trans('emails/emails.ctaVolunteeerInterested'));
                 });
             }
         }
 
         foreach ($publicAction->action->users as $user) {
 
-            if ($user->email != "test@scify.org") {
+            if ($user->email != 'test@scify.org') {
                 \Mail::send('app_emails.cta_new_volunteer', ['user' => $user, 'ctaVolunteer' => $ctaVolunteer, 'volunteer' => $volunteer, 'publicAction' => $publicAction], function ($message) use ($user) {
-                    $message->to($user->email, $user->name . ' ' . $user->last_name)->subject('[' . trans('default.title') . '] ' . trans('emails/emails.ctaVolunteeerInterested'));
+                    $message->to($user->email, $user->name.' '.$user->last_name)->subject('['.trans('default.title').'] '.trans('emails/emails.ctaVolunteeerInterested'));
                 });
             }
         }
@@ -203,16 +216,17 @@ class CTAController extends Controller {
     /**
      * Save the subtasks that will be displayed on the public page
      */
-    private function savePublicSubtasks($publicAction) {
+    private function savePublicSubtasks($publicAction)
+    {
         $publicSubtasksIds = [];
         if (\Request::filled('subtasks')) {
             foreach (\Request::get('subtasks') as $i => $subtask) {
 
                 if (isset($subtask['name']) && $subtask['name'] == 'on') {
-                    //check if the relationship already exists
+                    // check if the relationship already exists
                     $publicSubtask = PublicActionSubTask::where('public_actions_id', $publicAction->id)->where('subtask_id', $i)->first();
 
-                    //if not, create a new publicActionSubtask
+                    // if not, create a new publicActionSubtask
                     if ($publicSubtask == null) {
                         $publicSubtask = new PublicActionSubTask([
                             'public_actions_id' => $publicAction->id,
@@ -226,6 +240,7 @@ class CTAController extends Controller {
             }
 
             PublicActionSubTask::where('public_actions_id', $publicAction->id)->whereNotIn('id', $publicSubtasksIds)->delete();
+
             return PublicActionSubTask::where('public_actions_id', $publicAction->id)->whereNotIn('id', $publicSubtasksIds)->get();
         }
 
@@ -237,22 +252,24 @@ class CTAController extends Controller {
      *
      * @return string
      */
-    private function getPublicUrl($publicAction = null) {
+    private function getPublicUrl($publicAction = null)
+    {
 
         if (\Request::filled('publicUrl') && \Request::get('publicUrl') != '') {
 
-            if ($publicAction != null && $publicAction->public_url == \Request::get('publicUrl'))
+            if ($publicAction != null && $publicAction->public_url == \Request::get('publicUrl')) {
                 $publicUrl = \Request::get('publicUrl');
-            else {
+            } else {
 
                 $tmp = PublicAction::where('public_url', \Request::get('publicUrl'))->first();
-                if ($tmp == null)
+                if ($tmp == null) {
                     $publicUrl = \Request::get('publicUrl');
-                else
-                    $publicUrl = \Request::get('actionId') . '-' . \Request::get('actionName');
+                } else {
+                    $publicUrl = \Request::get('actionId').'-'.\Request::get('actionName');
+                }
             }
         } else {
-            $publicUrl = \Request::get('actionId') . '-' . \Request::get('actionName');
+            $publicUrl = \Request::get('actionId').'-'.\Request::get('actionName');
         }
 
         return $publicUrl;

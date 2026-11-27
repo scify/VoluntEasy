@@ -1,39 +1,49 @@
-<?php namespace App\Http\Controllers\Api;
+<?php
+
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Action;
 use App\Models\Rating\ActionRatingAttribute;
 use App\Models\Rating\ActionScore;
 use App\Models\Volunteer;
-class ActionApiController extends Controller {
+use App\Services\ActionService;
+use App\Services\VolunteerService;
 
-    private \App\Services\ActionService $actionService;
-    private \App\Services\VolunteerService $volunteerService;
+class ActionApiController extends Controller
+{
+    private ActionService $actionService;
 
-    public function __construct(\App\Services\ActionService $actionService, \App\Services\VolunteerService $volunteerService) {
+    private VolunteerService $volunteerService;
+
+    public function __construct(ActionService $actionService, VolunteerService $volunteerService)
+    {
         $this->actionService = $actionService;
         $this->volunteerService = $volunteerService;
     }
 
-    public function all() {
+    public function all()
+    {
         $actions = Action::with('unit', 'volunteers')->orderBy('end_date', 'desc')->get();
 
         $data = $this->actionService->prepareForDataTable($actions);
 
-        return ["data" => $data];
+        return ['data' => $data];
     }
 
-    public function volunteers($id) {
+    public function volunteers($id)
+    {
         $action = Action::find($id);
 
-        //check if action has expired
+        // check if action has expired
         $now = date('Y-m-d');
         $endDate = \Carbon::parse(\Carbon::createFromFormat('d/m/Y', $action->end_date))->format('Y-m-d');
         $expired = false;
-        if ($endDate < $now)
+        if ($endDate < $now) {
             $expired = true;
+        }
 
-        //if the action is expired, get the volunteers from the history table
+        // if the action is expired, get the volunteers from the history table
         if ($expired) {
             $volunteers = Volunteer::whereHas('actionHistory', function ($q) use ($id) {
                 $q->where('action_id', $id);
@@ -50,13 +60,13 @@ class ActionApiController extends Controller {
 
         $data = [];
         foreach ($volunteers as $volunteer) {
-            if (sizeof($volunteer->units) > 0) {
+            if (count($volunteer->units) > 0) {
                 $volunteer = $this->volunteerService->setStatusToUnits($volunteer);
                 array_push($data, $volunteer);
             }
         }
 
-        return ["data" => $data];
+        return ['data' => $data];
     }
 
     /**
@@ -65,7 +75,8 @@ class ActionApiController extends Controller {
      *
      * @return array
      */
-    public function calendar() {
+    public function calendar()
+    {
 
         $calendar = [];
 
@@ -83,7 +94,7 @@ class ActionApiController extends Controller {
                 'name' => $action->name,
                 'email' => $action->email,
                 'phone_number' => $action->phone_number,
-                'volunteers' => $action->volunteers->count()
+                'volunteers' => $action->volunteers->count(),
             ]);
 
             array_push($calendar, $tmp);
@@ -93,7 +104,8 @@ class ActionApiController extends Controller {
 
     }
 
-    public function rating($id) {
+    public function rating($id)
+    {
 
         $ratings = ActionScore::where('action_id', $id)->with('ratings')->get();
 
@@ -101,9 +113,9 @@ class ActionApiController extends Controller {
 
         $answers = [];
 
-        //initialize answers array
+        // initialize answers array
         $answers[0] = [
-            'name' => trans('entities/ratings.fullyDisagree') ,
+            'name' => trans('entities/ratings.fullyDisagree'),
             'data' => []];
         $answers[1] = [
             'name' => trans('entities/ratings.disagree'),
@@ -118,7 +130,7 @@ class ActionApiController extends Controller {
             'name' => trans('entities/ratings.fullyAgree'),
             'data' => []];
 
-        for($i=0; $i<sizeof($attributes); $i++) {
+        for ($i = 0; $i < count($attributes); $i++) {
             array_push($answers[0]['data'], 0);
             array_push($answers[1]['data'], 0);
             array_push($answers[2]['data'], 0);
@@ -128,14 +140,13 @@ class ActionApiController extends Controller {
 
         foreach ($ratings as $rating) {
             foreach ($rating->ratings as $score) {
-                $answers[intval($score->score)+2]['data'][$score->attribute_id-1]++;
+                $answers[intval($score->score) + 2]['data'][$score->attribute_id - 1]++;
             }
         }
 
         return [
             'questions' => $attributes,
-            'series' => $answers
+            'series' => $answers,
         ];
     }
-
 }

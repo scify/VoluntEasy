@@ -11,7 +11,6 @@ return [
     'edit' => 'Edit Collaborator',
     'info' => 'Collaborator Info',
 
-
     'name' => 'Name',
     'type' => 'Type',
     'description' => 'Description',
@@ -32,8 +31,7 @@ return [
     'noExec' => 'No collaborator manager has been assigned',
     'files' => 'Collaborator files',
 
-
-    /*search*/
+    /* search */
     'collabName' => 'Collaborator name',
     'startDateExpl' => 'Contracts that start after date',
     'endDateExpl' => 'Contracts that expire before date',

@@ -1,9 +1,14 @@
-<?php namespace App\Services;
+<?php
 
-class TaskService {
+namespace App\Services;
 
+use App\Models\Action;
+
+class TaskService
+{
     /** Subtask status ids. */
     private const TODO = 1;
+
     private const DOING = 2;
 
     /** Order of the task statuses on the task board. */
@@ -14,10 +19,11 @@ class TaskService {
      * subtasks by status (to do, doing, done), add due dates and counts,
      * sort the tasks by status and calculate the total volunteer sum.
      *
-     * @param  \App\Models\Action  $action
-     * @return \App\Models\Action
+     * @param  Action  $action
+     * @return Action
      */
-    public function prepareTasks($action) {
+    public function prepareTasks($action)
+    {
         $volunteerSum = 0;
 
         foreach ($action->tasks as $task) {
@@ -39,14 +45,14 @@ class TaskService {
             $task->doneSubtasks = $subtasks['done'];
 
             $this->setDueDate($task);
-            //"status" is also a relation name, so set the attribute explicitly
+            // "status" is also a relation name, so set the attribute explicitly
             $status = $this->statusFromCounts(count($subtasks['todo']), count($subtasks['doing']), count($subtasks['done']));
             $task->setAttribute('status', $status);
             $task->statusOrderId = $status === null ? 0 : self::STATUS_ORDER[$status];
             $task->completedChecklistItems = $this->completedItems($task->checklist);
         }
 
-        //sort tasks by status (the board works with plain objects)
+        // sort tasks by status (the board works with plain objects)
         $tasks = json_decode($action->tasks);
         usort($tasks, fn ($a, $b) => $a->statusOrderId <=> $b->statusOrderId);
 
@@ -60,10 +66,10 @@ class TaskService {
     /**
      * Find the task status from the status of its subtasks.
      *
-     * @param $task
      * @return string|null "todo", "doing", "done" or null if the task has no subtasks
      */
-    public function taskStatus($task) {
+    public function taskStatus($task)
+    {
         $counts = ['todo' => 0, 'doing' => 0, 'done' => 0];
         foreach ($task->subtasks as $subtask) {
             $counts[$this->subtaskStatus($subtask)]++;
@@ -128,30 +134,27 @@ class TaskService {
 
     /**
      * Save the user that may be assigned to the task
-     *
-     * @param $task
      */
-    public function syncUsers($task) {
+    public function syncUsers($task)
+    {
 
         if (\Request::filled('assignToTask') && \Request::get('assignToTask') == 'user'
             && \Request::filled('taskUserSelect') && \Request::get('taskUserSelect') != 0
         ) {
             $task->users()->sync([\Request::get('taskUserSelect')]);
             $task->volunteers()->detach();
-            //$task->volunteers()->sync([]);
+            // $task->volunteers()->sync([]);
         } else {
             $task->users()->detach();
         }
 
-        return;
     }
 
     /**
      * Save the volunteer that may be assigned to the task
-     *
-     * @param $task
      */
-    public function syncVolunteers($task) {
+    public function syncVolunteers($task)
+    {
 
         if (\Request::filled('assignToTask') && \Request::get('assignToTask') == 'volunteer'
             && \Request::filled('taskVolunteerSelect') && \Request::get('taskVolunteerSelect') != 0
@@ -162,6 +165,5 @@ class TaskService {
             $task->volunteers()->detach();
         }
 
-        return;
     }
 }

@@ -1,25 +1,27 @@
-<?php namespace Interfaces;
+<?php
 
-interface ReportsInterface{
+namespace Interfaces;
 
+interface ReportsInterface
+{
     /**
      * Return the path of the blade view
      * That is the file in resources folder
      */
-    function getViewPath();
+    public function getViewPath();
 
-    function volunteersByMonth();
+    public function volunteersByMonth();
 
-    function volunteersByAgeGroup();
+    public function volunteersByAgeGroup();
 
-    function volunteersBySex();
+    public function volunteersBySex();
 
-    function volunteersByCity();
+    public function volunteersByCity();
 
-    function volunteersByEducationLevel();
+    public function volunteersByEducationLevel();
 
-    function volunteerHoursByAction();
+    public function volunteerHoursByAction();
 
-  //  function volunteerHoursByMonth();
+    //  function volunteerHoursByMonth();
 
 }

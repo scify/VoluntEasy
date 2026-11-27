@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class AlterActionsAddVolunteerNumber extends Migration
@@ -12,8 +11,7 @@ class AlterActionsAddVolunteerNumber extends Migration
      */
     public function up()
     {
-        Schema::table('actions', function($table)
-        {
+        Schema::table('actions', function ($table) {
             $table->string('volunteer_sum');
         });
 
@@ -26,8 +24,7 @@ class AlterActionsAddVolunteerNumber extends Migration
      */
     public function down()
     {
-        Schema::table('actions', function($table)
-        {
+        Schema::table('actions', function ($table) {
             $table->dropColumn('volunteer_sum');
         });
     }

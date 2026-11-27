@@ -2,14 +2,15 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBlacklistedTable extends Migration {
-
+class CreateBlacklistedTable extends Migration
+{
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up() {
+    public function up()
+    {
 
         Schema::create('volunteer_blacklisted', function ($table) {
             $table->integer('volunteer_id')->unsigned();
@@ -23,9 +24,9 @@ class CreateBlacklistedTable extends Migration {
      *
      * @return void
      */
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('volunteer_blacklisted');
 
     }
-
 }

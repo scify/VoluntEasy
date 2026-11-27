@@ -25,8 +25,9 @@ abstract class ReportsServiceAbstract implements ReportsInterface
     /**
      * The reports page of the current flavour.
      */
-    public function getViewPath() {
-        return $this->configuration->getViewsPath() . '.reports.all';
+    public function getViewPath()
+    {
+        return $this->configuration->getViewsPath().'.reports.all';
     }
 
     /**
@@ -36,7 +37,8 @@ abstract class ReportsServiceAbstract implements ReportsInterface
      *
      * @return array<string, array{pending: list<int>, new: list<int>, active: list<int>, available: list<int>}>
      */
-    public function volunteersByMonth() {
+    public function volunteersByMonth()
+    {
         $this->volunteerStatuses = VolunteerStatus::pluck('description', 'id')->all();
         $years = [];
 
@@ -82,7 +84,8 @@ abstract class ReportsServiceAbstract implements ReportsInterface
         $years[$year][$series][(int) date('m', $time) - 1]++;
     }
 
-    public function volunteersByAgeGroup() {
+    public function volunteersByAgeGroup()
+    {
         // age groups:  18-24, 25-34, 35-49, 50-64, 65+
 
         $ageGroups = [
@@ -102,7 +105,7 @@ abstract class ReportsServiceAbstract implements ReportsInterface
         $volunteers = Volunteer::get(['birth_date']);
 
         foreach ($volunteers as $volunteer) {
-            //get volunteer's age
+            // get volunteer's age
             if ($volunteer->birth_date != null) {
                 $birth_date = \Carbon::createFromFormat('d/m/Y', $volunteer->birth_date);
                 $age = \Carbon::createFromDate($birth_date->year, $birth_date->month, $birth_date->day)->age;
@@ -134,7 +137,8 @@ abstract class ReportsServiceAbstract implements ReportsInterface
         return $ageGroups;
     }
 
-    public function volunteersBySex() {
+    public function volunteersBySex()
+    {
 
         $manId = Gender::where('description', 'man')->first()->id;
         $womanId = Gender::where('description', 'woman')->first()->id;
@@ -144,37 +148,41 @@ abstract class ReportsServiceAbstract implements ReportsInterface
 
         return [
             'men' => $men,
-            'women' => $women
+            'women' => $women,
         ];
     }
 
-    public function volunteersByCity() {
+    public function volunteersByCity()
+    {
         $volunteers = Volunteer::get(['city']);
 
         $byCity = [];
 
-        //count volunteers by city
+        // count volunteers by city
         foreach ($volunteers as $volunteer) {
             if ($volunteer->city != null) {
-                if (array_key_exists($volunteer->city, $byCity))
+                if (array_key_exists($volunteer->city, $byCity)) {
                     $byCity[$volunteer->city] = $byCity[$volunteer->city] + 1;
-                else
+                } else {
                     $byCity[$volunteer->city] = 1;
+                }
             }
         }
 
-        //return volunteers array in a more appropriate form
+        // return volunteers array in a more appropriate form
         $volunteers = [];
         foreach ($byCity as $key => $bc) {
             array_push($volunteers, [
                 'city' => $key,
-                'count' => $bc
+                'count' => $bc,
             ]);
         }
+
         return $volunteers;
     }
 
-    public function volunteersByEducationLevel() {
+    public function volunteersByEducationLevel()
+    {
         $educationLevels = EducationLevel::all();
         $volunteers = Volunteer::get(['education_level_id']);
 
@@ -182,11 +190,12 @@ abstract class ReportsServiceAbstract implements ReportsInterface
             $educationLevel->count = 0;
         }
 
-        //count volunteers by city
+        // count volunteers by city
         foreach ($volunteers as $volunteer) {
             foreach ($educationLevels as $educationLevel) {
-                if ($volunteer->education_level_id == $educationLevel->id)
+                if ($volunteer->education_level_id == $educationLevel->id) {
                     $educationLevel->count++;
+                }
             }
         }
 
@@ -199,7 +208,8 @@ abstract class ReportsServiceAbstract implements ReportsInterface
      *
      * @return list<array<string, mixed>>
      */
-    public function volunteerHoursByAction() {
+    public function volunteerHoursByAction()
+    {
         $actions = [];
         foreach (Action::with('ratings.volunteerRatings.volunteer')->get() as $action) {
             if ($action->ratings->isEmpty()) {
@@ -216,8 +226,8 @@ abstract class ReportsServiceAbstract implements ReportsInterface
                     $totalMinutes += 60 * (int) $volunteerRating->hours + (int) $volunteerRating->minutes;
                     $volunteers[] = [
                         'id' => $volunteerRating->volunteer->id,
-                        'name' => $volunteerRating->volunteer->name . ' ' . $volunteerRating->volunteer->last_name,
-                        'hours' => $this->twoDigits($volunteerRating->hours) . ':' . $this->twoDigits($volunteerRating->minutes),
+                        'name' => $volunteerRating->volunteer->name.' '.$volunteerRating->volunteer->last_name,
+                        'hours' => $this->twoDigits($volunteerRating->hours).':'.$this->twoDigits($volunteerRating->minutes),
                     ];
                 }
             }
@@ -226,7 +236,7 @@ abstract class ReportsServiceAbstract implements ReportsInterface
                 'id' => $action->id,
                 'description' => $action->description,
                 'volunteers' => $volunteers,
-                'totalHours' => intdiv($totalMinutes, 60) . ':' . ($totalMinutes % 60),
+                'totalHours' => intdiv($totalMinutes, 60).':'.($totalMinutes % 60),
             ];
         }
 
@@ -235,6 +245,6 @@ abstract class ReportsServiceAbstract implements ReportsInterface
 
     private function twoDigits(mixed $value): string
     {
-        return $value > 9 ? (string) $value : '0' . $value;
+        return $value > 9 ? (string) $value : '0'.$value;
     }
 }

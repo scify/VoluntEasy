@@ -1,22 +1,25 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-use App\Http\Requests\CollaborationRequest;
+namespace App\Http\Controllers;
+
 use App\Http\Controllers\Concerns\ChecksUploadedFiles;
-use App\Models\ActionVolunteerHistory;
+use App\Http\Requests\CollaborationRequest;
 use App\Models\Collaboration;
 use App\Models\CollaborationFile;
 use App\Models\Descriptions\CollaborationType;
 use App\Models\Executive;
+use App\Services\CollaborationService;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
-class CollaborationController extends Controller {
-
-    private \App\Services\CollaborationService $collaborationService;
+class CollaborationController extends Controller
+{
+    private CollaborationService $collaborationService;
 
     use ChecksUploadedFiles;
 
-    public function __construct(\App\Services\CollaborationService $collaborationService) {
+    public function __construct(CollaborationService $collaborationService)
+    {
         $this->collaborationService = $collaborationService;
         $this->middleware('auth');
     }
@@ -24,16 +27,18 @@ class CollaborationController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index() {
+    public function index()
+    {
         $collaborations = Collaboration::all();
 
-        return view("main.collaborations.list", compact('collaborations'));
+        return view('main.collaborations.list', compact('collaborations'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create() {
+    public function create()
+    {
         $collaborationTypes = CollaborationType::all()->pluck('description', 'id')->all();
         $collaborationTypes[0] = trans('entities/search.choose');
         ksort($collaborationTypes);
@@ -43,16 +48,15 @@ class CollaborationController extends Controller {
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param CollaborationRequest $request
      */
-    public function store(CollaborationRequest $request) {
+    public function store(CollaborationRequest $request)
+    {
 
         $request['start_date'] = \Carbon::createFromFormat('d/m/Y', $request->start_date);
         $request['end_date'] = \Carbon::createFromFormat('d/m/Y', $request->end_date);
         $collaboration = Collaboration::create($request->only('start_date', 'end_date', 'name', 'type_id', 'phone', 'address', 'comments'));
 
-        //create the executive obj
+        // create the executive obj
         if ($request['execName'] || $request['address'] || $request['phone'] || $request['email']) {
             $executive = Executive::create([
                 'name' => $request['execName'],
@@ -60,7 +64,7 @@ class CollaborationController extends Controller {
                 'phone' => $request['execPhone'],
                 'email' => $request['execEmail']]);
 
-            //assign to the collaboration
+            // assign to the collaboration
             $collaboration->executives()->save($executive);
         }
 
@@ -69,8 +73,9 @@ class CollaborationController extends Controller {
             return $rejected;
         }
 
-        if ($files !== [])
+        if ($files !== []) {
             $this->collaborationService->storeFiles($files, $collaboration->id);
+        }
 
         return Redirect::route('collaboration/one', ['id' => $collaboration->id]);
     }
@@ -78,17 +83,19 @@ class CollaborationController extends Controller {
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      */
-    public function show($id) {
+    public function show($id)
+    {
         $collaboration = Collaboration::with('executives', 'files', 'type')->findOrFail($id);
 
-        //check if collaboration has expired
+        // check if collaboration has expired
         $now = date('Y-m-d');
         $endDate = \Carbon::parse(\Carbon::createFromFormat('d/m/Y', $collaboration->end_date))->format('Y-m-d');
         $collaboration->expired = false;
-        if ($endDate < $now)
+        if ($endDate < $now) {
             $collaboration->expired = true;
+        }
 
         return view('main.collaborations.show', compact('collaboration'));
     }
@@ -96,9 +103,10 @@ class CollaborationController extends Controller {
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  int  $id
      */
-    public function edit($id) {
+    public function edit($id)
+    {
         $collaborationTypes = CollaborationType::all()->pluck('description', 'id')->all();
         $collaborationTypes[0] = trans('entities/search.choose');
         ksort($collaborationTypes);
@@ -110,10 +118,9 @@ class CollaborationController extends Controller {
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  CollaborationRequest $request
      */
-    public function update(CollaborationRequest $request) {
+    public function update(CollaborationRequest $request)
+    {
         $collaboration = Collaboration::findOrFail($request->get('id'));
 
         $request['start_date'] = \Carbon::createFromFormat('d/m/Y', $request->start_date);
@@ -121,7 +128,7 @@ class CollaborationController extends Controller {
 
         $collaboration->update($request->only('start_date', 'end_date', 'name', 'type_id', 'phone', 'address', 'comments'));
 
-        //update the executive obj
+        // update the executive obj
         if ($request->has('executive_id')) {
             $executive = Executive::find($request['executive_id']);
             if ($executive != null) {
@@ -139,8 +146,9 @@ class CollaborationController extends Controller {
             return $rejected;
         }
 
-        if ($files !== [])
+        if ($files !== []) {
             $this->collaborationService->storeFiles($files, $collaboration->id);
+        }
 
         return Redirect::route('collaboration/one', ['id' => $collaboration->id]);
     }
@@ -148,22 +156,24 @@ class CollaborationController extends Controller {
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param  int  $id
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $collaboration = Collaboration::findOrFail($id);
         $collaboration->load('files');
 
         foreach ($collaboration->files as $f) {
             $file = CollaborationFile::find($f->id);
 
-            $filename = public_path() . '/assets/uploads/collaborations/' . $file->filename;
+            $filename = public_path().'/assets/uploads/collaborations/'.$file->filename;
 
-            //if the file exists, delete it from the filesystem
-            if (file_exists($filename))
+            // if the file exists, delete it from the filesystem
+            if (file_exists($filename)) {
                 unlink($filename);
+            }
 
-            //delete the row from the db
+            // delete the row from the db
             $file->delete();
         }
 
@@ -172,7 +182,6 @@ class CollaborationController extends Controller {
         Session::flash('flash_message', trans('entities/collaborations.deleted'));
         Session::flash('flash_type', 'alert-success');
 
-        return;
     }
 
     /**
@@ -180,7 +189,8 @@ class CollaborationController extends Controller {
      *
      * @return mixed
      */
-    public function search() {
+    public function search()
+    {
         $collaborations = $this->collaborationService->search();
 
         return $collaborations;
@@ -191,20 +201,21 @@ class CollaborationController extends Controller {
      *
      * @return mixed
      */
-    public function deleteFile() {
+    public function deleteFile()
+    {
         $id = \Request::get('id');
         $file = CollaborationFile::find($id);
 
-        $filename = public_path() . '/assets/uploads/collaborations/' . $file->filename;
+        $filename = public_path().'/assets/uploads/collaborations/'.$file->filename;
 
-        //if the file exists, delete it from the filesystem
-        if (file_exists($filename))
+        // if the file exists, delete it from the filesystem
+        if (file_exists($filename)) {
             unlink($filename);
+        }
 
-        //delete the row from the db
+        // delete the row from the db
         $file->delete();
 
         return $filename;
     }
-
 }

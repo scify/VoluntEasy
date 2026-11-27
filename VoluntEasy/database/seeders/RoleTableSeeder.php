@@ -2,22 +2,23 @@
 
 namespace Database\Seeders;
 
-use App\Models\Roles\ModuleAction;
-use Illuminate\Database\Seeder;
 use App\Models\Roles\Module;
-use App\Models\Roles\Role;
+use App\Models\Roles\ModuleAction;
 use App\Models\Roles\Permission;
+use App\Models\Roles\Role;
+use Illuminate\Database\Seeder;
 
-class RoleTableSeeder extends Seeder {
-
+class RoleTableSeeder extends Seeder
+{
     /**
      * Run the database seeds.
      * Use php artisan db:seed to run the seed files.
      *
      * @return void
      */
-    public function run() {
-        //Add roles
+    public function run()
+    {
+        // Add roles
         $admin = new Role(['name' => 'admin']);
         $unit_manager = new Role(['name' => 'unit_manager']);
         $action_manager = new Role(['name' => 'action_manager']);
@@ -26,7 +27,7 @@ class RoleTableSeeder extends Seeder {
         $unit_manager->save();
         $action_manager->save();
 
-        //Add modules
+        // Add modules
         $action = new Module(['name' => 'action']);
         $collaboration = new Module(['name' => 'collaboration']);
         $unit = new Module(['name' => 'unit']);
@@ -39,7 +40,7 @@ class RoleTableSeeder extends Seeder {
         $user->save();
         $volunteer->save();
 
-        //Add actions
+        // Add actions
         $create = new ModuleAction(['name' => 'create']);
         $delete = new ModuleAction(['name' => 'delete']);
         $read = new ModuleAction(['name' => 'read']);
@@ -50,7 +51,7 @@ class RoleTableSeeder extends Seeder {
         $read->save();
         $update->save();
 
-        //Add role permissions
+        // Add role permissions
         $admin->permissions()->saveMany([
             new Permission(['module_id' => $action->id, 'action_id' => $create->id]),
             new Permission(['module_id' => $action->id, 'action_id' => $delete->id]),

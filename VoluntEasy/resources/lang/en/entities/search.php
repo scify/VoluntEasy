@@ -2,7 +2,6 @@
 
 return [
 
-    'choose'	=> '[- choose -]',
-
+    'choose' => '[- choose -]',
 
 ];

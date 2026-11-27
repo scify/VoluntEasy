@@ -2,8 +2,8 @@
 
 return [
 
-    'unit'		=> 'Unit',
-    'units'	=> 'Units',
+    'unit' => 'Unit',
+    'units' => 'Units',
 
     'view' => 'View Organisational Units',
     'viewOne' => 'View Organisational Unit',

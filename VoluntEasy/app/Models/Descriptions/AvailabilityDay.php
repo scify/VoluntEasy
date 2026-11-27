@@ -1,8 +1,11 @@
-<?php namespace App\Models\Descriptions;
+<?php
+
+namespace App\Models\Descriptions;
 
 use App\Models\Model;
-class AvailabilityDay extends Model {
 
+class AvailabilityDay extends Model
+{
     /**
      * The database table used by the model.
      *
@@ -11,5 +14,4 @@ class AvailabilityDay extends Model {
     protected $table = 'availability_days';
 
     protected $fillable = ['day', 'time', 'volunteer_id'];
-
- }
+}

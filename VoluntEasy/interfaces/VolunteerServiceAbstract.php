@@ -1,4 +1,6 @@
-<?php namespace Interfaces;
+<?php
+
+namespace Interfaces;
 
 use App\Models\Descriptions\Interest;
 use App\Models\Volunteer;
@@ -6,22 +8,14 @@ use App\Models\VolunteerLanguage;
 
 /**
  * Class VolunteerServiceAbstract
- * @package Interfaces
- *
- * VolunteerServiceAbstract uses the Template method pattern in order to define
- * the basic functions needed for the crud operations, also offering some hooks
- * to implement non final functions.
- *
- * Public final functions define a general algorithm/behaviour for the whole class.
- * Public abstract function should be overriden in the classes that extend the Template.
- * Public functions have a default dehaviour and many be overriden by the classes that extend the Template.
  */
-abstract class VolunteerServiceAbstract implements VolunteerInterface {
-
+abstract class VolunteerServiceAbstract implements VolunteerInterface
+{
     /**
      * Create a Volunteer object with all it's basic (common to all) fields.
      */
-    public final function getBaseFields() {
+    final public function getBaseFields()
+    {
 
         $volunteerRequest = \Request::all();
 
@@ -57,25 +51,31 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
             'comments' => $volunteerRequest['comments'],
         ];
 
-        if (isset($volunteerRequest['birth_date']) && $volunteerRequest['birth_date'] != null)
+        if (isset($volunteerRequest['birth_date']) && $volunteerRequest['birth_date'] != null) {
             $baseFields['birth_date'] = \Carbon::createFromFormat('d/m/Y', $volunteerRequest['birth_date'])->toDateString();
+        }
 
-        if (isset($volunteerRequest['contract_date']) && $volunteerRequest['contract_date'] != null)
+        if (isset($volunteerRequest['contract_date']) && $volunteerRequest['contract_date'] != null) {
             $baseFields['contract_date'] = \Carbon::createFromFormat('d/m/Y', $volunteerRequest['contract_date'])->toDateString();
+        }
 
         $baseFields['live_in_curr_country'] = 0;
-        if (isset($volunteerRequest['live_in_curr_country']) && $volunteerRequest['live_in_curr_country'] == 1)
+        if (isset($volunteerRequest['live_in_curr_country']) && $volunteerRequest['live_in_curr_country'] == 1) {
             $baseFields['live_in_curr_country'] = 1;
+        }
 
         $baseFields['computer_usage'] = 0;
-        if (isset($volunteerRequest['computer_usage']) && $volunteerRequest['computer_usage'] == 1)
+        if (isset($volunteerRequest['computer_usage']) && $volunteerRequest['computer_usage'] == 1) {
             $baseFields['computer_usage'] = 1;
+        }
 
-        if (isset($volunteerRequest['participation_reason']))
+        if (isset($volunteerRequest['participation_reason'])) {
             $baseFields['participation_reason'] = $volunteerRequest['participation_reason'];
+        }
 
-        if (isset($volunteerRequest['participation_previous']))
+        if (isset($volunteerRequest['participation_previous'])) {
             $baseFields['participation_previous'] = $volunteerRequest['participation_previous'];
+        }
 
         return $baseFields;
     }
@@ -84,7 +84,8 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
      * The template method
      * Sets up a general algorithm for the whole class
      */
-    public final function basicStore($volunteer) {
+    final public function basicStore($volunteer)
+    {
 
         $interests = Interest::all();
 
@@ -93,7 +94,7 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
         // Get interests selected and pass values to volunteer_interests table.
         $interest_array = [];
         foreach ($interests as $interest) {
-            if (isset($volunteerRequest['interest' . $interest->id])) {
+            if (isset($volunteerRequest['interest'.$interest->id])) {
                 array_push($interest_array, $interest->id);
             }
         }
@@ -108,15 +109,15 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
                 $volLanguage = new VolunteerLanguage([
                     'volunteer_id' => $volunteer->id,
                     'language_id' => $id,
-                    'language_level_id' => $lang
+                    'language_level_id' => $lang,
                 ]);
 
                 $volunteer->languages()->save($volLanguage);
             }
         }
 
-        //get the selected users from the select2 array
-        //and add them to an array
+        // get the selected users from the select2 array
+        // and add them to an array
         if (isset($volunteerRequest['unitsSelect'])) {
             $unitsExcludes = [];
 
@@ -137,7 +138,8 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
      *
      * @return Volunteer|array{failed: bool, messages: mixed} The volunteer, or the validation result
      */
-    public final function store() {
+    final public function store()
+    {
 
         $isValid = $this->validate();
 
@@ -156,21 +158,21 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
     /**
      * Update a Volunteer object
      *
-     * @param $volunteer
      * @return Volunteer|array{failed: bool, messages: mixed} The volunteer, or the validation result
      */
-    public function update($volunteer) {
+    public function update($volunteer)
+    {
 
         $isValid = $this->validate();
 
-        if (!$isValid['failed']) {
+        if (! $isValid['failed']) {
 
             $baseFields = $this->getBaseFields();
 
             $volunteer->update($baseFields);
-            //store basic fields
+            // store basic fields
             $this->basicStore($volunteer);
-            //store extra fields
+            // store extra fields
             $this->storeExtraFields($volunteer);
 
             return $volunteer;
@@ -180,39 +182,39 @@ abstract class VolunteerServiceAbstract implements VolunteerInterface {
 
     }
 
-    public function apiStore() {
-
-    }
+    public function apiStore() {}
 
     /**
      * Validate the Volunteer
      */
-    abstract function validate();
+    abstract public function validate();
 
     /**
      * Check whether the Volunteer has more fields than the basic ones.
      *
      * @return bool
      */
-    public function volunteerHasExtraFields() {
+    public function volunteerHasExtraFields()
+    {
         return false;
     }
 
     /**
      * Store the extra volunteer fields.
      *
-     * @param $volunteer
      * @return null
      */
-    public function storeExtraFields($volunteer) {
+    public function storeExtraFields($volunteer)
+    {
         return null;
     }
 
-    private function checkDropDown($input) {
-        if ($input == null || $input == 0)
+    private function checkDropDown($input)
+    {
+        if ($input == null || $input == 0) {
             return null;
-        else
+        } else {
             return $input;
+        }
     }
-
 }

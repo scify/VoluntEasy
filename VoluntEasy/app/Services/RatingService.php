@@ -1,23 +1,25 @@
-<?php namespace App\Services;
+<?php
+
+namespace App\Services;
 
 use App\Models\Rating\RatingAttribute;
 
-class RatingService {
-
+class RatingService
+{
     /**
      * Calculate the total rating for a volunteer.
      *
-     * @param $timeline
      * @return array
      */
-    public function totalVolunteerRating($timeline) {
+    public function totalVolunteerRating($timeline)
+    {
 
-        //get all rating attributes
+        // get all rating attributes
         $ratingsAttrs = RatingAttribute::all();
 
-        //initialize ratings array
-        //totalRating keeps the sum of all ratings
-        //and count keeps the number of people that have voted
+        // initialize ratings array
+        // totalRating keeps the sum of all ratings
+        // and count keeps the number of people that have voted
         $ratings = [];
         foreach ($ratingsAttrs as $r) {
             $ratings[$r->id] = [

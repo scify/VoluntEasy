@@ -1,17 +1,16 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateExecutivesTable extends Migration {
-
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
+class CreateExecutivesTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
         Schema::create('executives', function ($table) {
             $table->increments('id');
             $table->string('name');
@@ -30,17 +29,16 @@ class CreateExecutivesTable extends Migration {
             $table->foreign('executive_id')->references('id')->on('executives');
             $table->timestamps();
         });
-	}
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
         Schema::dropIfExists('collaborations_executives');
         Schema::dropIfExists('executives');
-	}
-
+    }
 }
