@@ -30,106 +30,56 @@ abstract class ReportsServiceAbstract implements ReportsInterface
     }
 
     /**
-     * This classy piece of code is used to calculate the volunteer
-     * statuses by month and years.
+     * For each year, the number of volunteers per month: new volunteers (by
+     * creation date) and volunteers that are pending, available or active
+     * in a unit (by the date of the unit).
      *
-     * @return array
+     * @return array<string, array{pending: list<int>, new: list<int>, active: list<int>, available: list<int>}>
      */
     public function volunteersByMonth() {
-
         $this->volunteerStatuses = VolunteerStatus::pluck('description', 'id')->all();
-
         $years = [];
 
-        $pendingVolunteers = Volunteer::pending()->with('units')->get();
-
-        foreach ($pendingVolunteers as $volunteer) {
-            foreach ($volunteer->units as $unit) {
-                $month = intval(date("m", strtotime($unit->created_at)));
-
-                $status = VolunteerUnitStatus::where('volunteer_id', $volunteer->id)
-                    ->where('unit_id', $unit->id)->first();
-
-                if ($status != null) {
-                    if ($this->volunteerStatuses[$status->volunteer_status_id] == 'Pending') {
-                        $year = (date("Y", strtotime($unit->created_at)));
-                        if (!array_key_exists($year, $years)) {
-                            $years[$year]['pending'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                            $years[$year]['new'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                            $years[$year]['active'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                            $years[$year]['available'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                        }
-                        $years[$year]['pending'][$month - 1]++;
+        // status scope and series => status description
+        foreach (['pending' => 'Pending', 'available' => 'Available', 'active' => 'Active'] as $series => $description) {
+            foreach (Volunteer::{$series}()->with('units')->get() as $volunteer) {
+                foreach ($volunteer->units as $unit) {
+                    if ($this->statusInUnit($volunteer->id, $unit->id) === $description) {
+                        $this->countInMonth($years, $series, $unit->created_at);
                     }
                 }
             }
         }
 
-        $availableVolunteers = Volunteer::available()->with('unitsStatus')->get();
-
-        foreach ($availableVolunteers as $volunteer) {
-            foreach ($volunteer->units as $unit) {
-                $month = intval(date("m", strtotime($unit->created_at)));
-
-                $status = VolunteerUnitStatus::where('volunteer_id', $volunteer->id)
-                    ->where('unit_id', $unit->id)->first();
-
-                if ($status != null) {
-                    if ($this->volunteerStatuses[$status->volunteer_status_id] == 'Available') {
-                        $year = (date("Y", strtotime($unit->created_at)));
-                        if (!array_key_exists($year, $years)) {
-                            $years[$year]['pending'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                            $years[$year]['new'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                            $years[$year]['active'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                            $years[$year]['available'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                        }
-                        $years[$year]['available'][$month - 1]++;
-                    }
-                }
-            }
+        foreach (Volunteer::all() as $volunteer) {
+            $this->countInMonth($years, 'new', $volunteer->created_at);
         }
 
-        $activeVolunteers = Volunteer::active()->with('unitsStatus')->get();
+        return $years;
+    }
 
-        foreach ($activeVolunteers as $volunteer) {
-            foreach ($volunteer->units as $unit) {
-                $month = intval(date("m", strtotime($unit->created_at)));
+    /** The description of the volunteer's current status in the unit. */
+    private function statusInUnit(int $volunteerId, int $unitId): ?string
+    {
+        $statusId = VolunteerUnitStatus::where('volunteer_id', $volunteerId)->where('unit_id', $unitId)->value('volunteer_status_id');
 
-                $status = VolunteerUnitStatus::where('volunteer_id', $volunteer->id)
-                    ->where('unit_id', $unit->id)->first();
+        return $statusId === null ? null : ($this->volunteerStatuses[$statusId] ?? null);
+    }
 
-                if ($status != null) {
-                    if ($this->volunteerStatuses[$status->volunteer_status_id] == 'Active') {
-                        $year = (date("Y", strtotime($unit->created_at)));
-                        if (!array_key_exists($year, $years)) {
-                            $years[$year]['pending'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                            $years[$year]['new'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                            $years[$year]['active'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                            $years[$year]['available'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                        }
-                        $years[$year]['active'][$month - 1]++;
-                    }
-                }
-            }
-        }
-
-        $allVolunteers = Volunteer::all();
-
-        foreach ($allVolunteers as $volunteer) {
-            $month = intval(date("m", strtotime($volunteer->created_at)));
-            $year = (date("Y", strtotime($volunteer->created_at)));
-
-            if (!array_key_exists($year, $years)) {
-                $years[$year]['pending'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                $years[$year]['new'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                $years[$year]['active'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                $years[$year]['available'] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-            }
-
-            $years[$year]['new'][$month - 1]++;
-        }
-
-        return ($years);
+    /**
+     * @param  array<int|string, array<string, array<int, int>>>  $years
+     */
+    private function countInMonth(array &$years, string $series, mixed $date): void
+    {
+        $time = strtotime((string) $date);
+        $year = date('Y', $time);
+        $years[$year] ??= [
+            'pending' => array_fill(0, 12, 0),
+            'new' => array_fill(0, 12, 0),
+            'active' => array_fill(0, 12, 0),
+            'available' => array_fill(0, 12, 0),
+        ];
+        $years[$year][$series][(int) date('m', $time) - 1]++;
     }
 
     public function volunteersByAgeGroup() {
@@ -243,71 +193,48 @@ abstract class ReportsServiceAbstract implements ReportsInterface
         return $educationLevels;
     }
 
+    /**
+     * The hours of each volunteer in each action, from the rated volunteer
+     * ratings ("hours" is "HH:MM"; "totalHours" is "H:M" for all ratings).
+     *
+     * @return list<array<string, mixed>>
+     */
     public function volunteerHoursByAction() {
-
-        $dbactions = Action::with('ratings.volunteerRatings.volunteer')->get();
-
-        //  return $dbactions;
-
         $actions = [];
-        foreach ($dbactions as $action) {
+        foreach (Action::with('ratings.volunteerRatings.volunteer')->get() as $action) {
+            if ($action->ratings->isEmpty()) {
+                continue;
+            }
 
             $volunteers = [];
-            $totalHours = 0;
             $totalMinutes = 0;
-            //get only the actions that have ratings
-            if (sizeof($action->ratings) > 0) {
-
-                foreach ($action->ratings as $rating) {
-                    if ($rating->rated) {
-
-                        $totalHours = 0;
-                        $totalMinutes = 0;
-
-                        foreach ($rating->volunteerRatings as $volunteer) {
-
-                            $hours = 0;
-                            $minutes = 0;
-
-                            if ($volunteer->hours > 9)
-                                $hours = $volunteer->hours;
-                            else
-                                $hours = '0' . $volunteer->hours;
-
-                            if ($volunteer->minutes > 9)
-                                $minutes = $volunteer->minutes;
-                            else
-                                $minutes = '0' . $volunteer->minutes;
-
-                            $totalHours += $volunteer->hours;
-                            $totalMinutes += $volunteer->minutes;
-
-                            array_push($volunteers, [
-                                'id' => $volunteer->volunteer->id,
-                                'name' => $volunteer->volunteer->name . ' ' . $volunteer->volunteer->last_name,
-                                'hours' => $hours . ':' . $minutes,
-                            ]);
-                        }
-                    }
+            foreach ($action->ratings as $rating) {
+                if (! $rating->rated) {
+                    continue;
                 }
-
-                if ($totalHours != 0 && $totalMinutes != 0) {
-                    if ($totalMinutes > 59) {
-                        $totalHours += intval($totalMinutes / 60);
-                        $totalMinutes = $totalMinutes % 60;
-                    }
+                foreach ($rating->volunteerRatings as $volunteerRating) {
+                    $totalMinutes += 60 * (int) $volunteerRating->hours + (int) $volunteerRating->minutes;
+                    $volunteers[] = [
+                        'id' => $volunteerRating->volunteer->id,
+                        'name' => $volunteerRating->volunteer->name . ' ' . $volunteerRating->volunteer->last_name,
+                        'hours' => $this->twoDigits($volunteerRating->hours) . ':' . $this->twoDigits($volunteerRating->minutes),
+                    ];
                 }
-
-                array_push($actions, [
-                    'id' => $action->id,
-                    'description' => $action->description,
-                    'volunteers' => $volunteers,
-                    'totalHours' => $totalHours . ':' . $totalMinutes
-                ]);
             }
+
+            $actions[] = [
+                'id' => $action->id,
+                'description' => $action->description,
+                'volunteers' => $volunteers,
+                'totalHours' => intdiv($totalMinutes, 60) . ':' . ($totalMinutes % 60),
+            ];
         }
 
         return $actions;
+    }
 
+    private function twoDigits(mixed $value): string
+    {
+        return $value > 9 ? (string) $value : '0' . $value;
     }
 }

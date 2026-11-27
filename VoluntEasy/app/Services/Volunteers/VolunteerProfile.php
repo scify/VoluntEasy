@@ -231,50 +231,41 @@ class VolunteerProfile
     }
 
     /**
-     * Get all the ratings for a volunteer's actions
+     * The actions of the volunteer with the ratings that the volunteer got:
+     * the sum of the ratings per attribute ("ratings"), the hours and minutes,
+     * the number of ratings and the last comment.
      *
-     * @param $volunteerId
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Collection<int, Action>
      */
     public function actionsRatings($volunteerId) {
-
-        $volunteer = Volunteer::with('actionHistory')->find($volunteerId);
+        $volunteer = Volunteer::with('actionHistory')->findOrFail($volunteerId);
 
         $actions = Action::whereIn('id', $volunteer->actionHistory->pluck('action_id')->all())
-            ->with(['ratings.volunteerRatings' => function ($q) use ($volunteerId) {
-                $q->where('volunteer_id', $volunteerId)->with('ratings.attribute');
-            }])->get();
+            ->with(['ratings.volunteerRatings' => fn ($query) => $query->where('volunteer_id', $volunteerId)->with('ratings.attribute')])
+            ->get();
 
         foreach ($actions as $action) {
-            if (isset($action->ratings)) {
-                $ratings = [];
-                $action->ratingCount = 0;
-                foreach ($action->ratings as $rating) {
-                    $action->ratingHours = 0;
-                    $action->ratingMinutes = 0;
-                    if (isset($rating->volunteerRatings)) {
-                        foreach ($rating->volunteerRatings as $volRating) {
+            $volunteerRatings = $action->ratings->flatMap(fn ($rating) => $rating->volunteerRatings);
 
-                            $action->ratingHours += $volRating->hours;
-                            $action->ratingMinutes += $volRating->minutes;
-                            $action->ratingComments = $volRating->comments;
-                            $action->ratingCount++;
-
-                            if (isset($volRating->ratings)) {
-                                foreach ($volRating->ratings as $r) {
-                                    if (!isset($ratings[$r->attribute->description]))
-                                        $ratings[$r->attribute->description]['rating'] = $r->rating;
-                                    else
-                                        $ratings[$r->attribute->description]['rating'] += $r->rating;
-                                }
-                            }
-                        }
-                    }
-                }
-                //replace the ratings relation with the sums by attribute
-                $action->unsetRelation('ratings');
-                $action->setAttribute('ratings', $ratings);
+            $action->ratingCount = $volunteerRatings->count();
+            if ($action->ratings->isNotEmpty()) {
+                $minutes = $volunteerRatings->sum(fn ($rating) => 60 * (int) $rating->hours + (int) $rating->minutes);
+                $action->ratingHours = intdiv($minutes, 60);
+                $action->ratingMinutes = $minutes % 60;
             }
+            if ($volunteerRatings->isNotEmpty()) {
+                $action->ratingComments = $volunteerRatings->last()->comments;
+            }
+
+            $sums = [];
+            foreach ($volunteerRatings->flatMap(fn ($rating) => $rating->ratings) as $attributeRating) {
+                $sums[$attributeRating->attribute->description]['rating'] =
+                    ($sums[$attributeRating->attribute->description]['rating'] ?? 0) + $attributeRating->rating;
+            }
+
+            //replace the ratings relation with the sums by attribute
+            $action->unsetRelation('ratings');
+            $action->setAttribute('ratings', $sums);
         }
 
         return $actions;
