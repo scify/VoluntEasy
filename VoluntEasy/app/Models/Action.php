@@ -15,6 +15,7 @@ use App\Models\Model;
  * @property int $ratingMinutes Computed
  * @property int $ratingHours Computed
  * @property int $ratingCount Computed
+ * @property int $volunteerTaskSum Computed: volunteers needed by all shifts
  * @property string|null $ratingComments Computed
  */
 class Action extends Model {

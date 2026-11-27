@@ -2,182 +2,128 @@
 
 class TaskService {
 
+    /** Subtask status ids. */
+    private const TODO = 1;
+    private const DOING = 2;
+
+    /** Order of the task statuses on the task board. */
+    private const STATUS_ORDER = ['todo' => 1, 'doing' => 2, 'done' => 3];
+
     /**
-     * For a certain action, return the subtasks per status
-     * (to do, doing, done).
-     * Calculate the total volunteer sum
-     * Sort tasks by status
+     * Prepare the tasks of an action for the task board: split each task's
+     * subtasks by status (to do, doing, done), add due dates and counts,
+     * sort the tasks by status and calculate the total volunteer sum.
      *
-     * @param $action
+     * @param  \App\Models\Action  $action
+     * @return \App\Models\Action
      */
     public function prepareTasks($action) {
-
         $volunteerSum = 0;
-        $now = \Carbon::now();
 
         foreach ($action->tasks as $task) {
-
-            $todoSubtasks = [];
-            $doingSubtasks = [];
-            $doneSubtasks = [];
-
-            $today = \Carbon::today();
+            $subtasks = ['todo' => [], 'doing' => [], 'done' => []];
 
             foreach ($task->subtasks as $subtask) {
+                $this->setDueDate($subtask);
+                $subtask->volunteerSum = $subtask->shifts->sum('volunteer_sum');
+                $subtask->ctaVolunteersCount = $subtask->shifts->sum(fn ($shift) => count($shift->ctaVolunteers));
+                $subtask->completedChecklistItems = $this->completedItems($subtask->checklist);
 
-                $subtask->expires = 'null';
-                if ($subtask->due_date != null) {
-                    $dueDate = \Carbon::createFromFormat('d/m/Y', $subtask->due_date);
-                    $dueDate->hour = 0;
-                    $dueDate->minute = 0;
-                    $dueDate->second = 0;
-                    $subtask->expires = (int) $today->diffInDays($dueDate, false);
-                }
-                else $subtask->expires = 'null';
-
-                if ($subtask->status_id == 1)
-                    array_push($todoSubtasks, $subtask);
-                else if ($subtask->status_id == 2)
-                    array_push($doingSubtasks, $subtask);
-                else
-                    array_push($doneSubtasks, $subtask);
-
-                //calculate the total volunteer sum
-                $subtaskVolunteers = 0;
-                foreach ($subtask->shifts as $shift) {
-                    $volunteerSum += $shift->volunteer_sum;
-                    $subtaskVolunteers += $shift->volunteer_sum;
-
-                }
-
-                $subtask->volunteerSum = $subtaskVolunteers;
-
-                $ctaVolunteers = 0;
-                foreach ($subtask->shifts as $shift) {
-                    $ctaVolunteers += sizeof($shift->ctaVolunteers);
-                }
-                $subtask->ctaVolunteersCount = $ctaVolunteers;
-
-                //count the complete checklist items
-                $completed = 0;
-                foreach ($subtask->checklist as $item) {
-                    if ($item->isComplete)
-                        $completed = $completed + 1;
-                }
-                $subtask->completedChecklistItems = $completed;
-
-                //set the due date in a nicer format, ie 28/01
-                //only if the due date's year is the current year
-                $subtask->dueDateMin = null;
-                if ($subtask->due_date != null) {
-                    $tmpDueDate = \Carbon::createFromFormat('d/m/Y', $subtask->due_date);
-                    if ($tmpDueDate && (int) $now->diffInYears($tmpDueDate, true) == 0)
-                        $subtask->dueDateMin = $tmpDueDate->format('d/m');
-                    else
-                        $subtask->dueDateMin = $tmpDueDate->format('d/m/y');
-                }
-
+                $subtasks[$this->subtaskStatus($subtask)][] = $subtask;
+                $volunteerSum += $subtask->volunteerSum;
             }
 
             unset($task->subtasks);
-            $task->todoSubtasks = $todoSubtasks;
-            $task->doingSubtasks = $doingSubtasks;
-            $task->doneSubtasks = $doneSubtasks;
+            $task->todoSubtasks = $subtasks['todo'];
+            $task->doingSubtasks = $subtasks['doing'];
+            $task->doneSubtasks = $subtasks['done'];
 
-            $task->expires = null;
-            if ($task->due_date != null) {
-                $dueDate = \Carbon::createFromFormat('d/m/Y', $task->due_date);
-                $dueDate->hour = 0;
-                $dueDate->minute = 0;
-                $dueDate->second = 0;
-                $task->expires = (int) $today->diffInDays($dueDate, false);
-            }
-            else $task->expires = 'null';
-
-            $task->status = null;
-            $task->statusOrderId = 0;
-            if (sizeof($task->todoSubtasks) > 0 && sizeof($task->doingSubtasks) == 0 && sizeof($task->doneSubtasks) == 0) {
-                $task->status = "todo";
-                $task->statusOrderId = 1;
-            } else if (sizeof($task->doneSubtasks) > 0 && sizeof($task->doingSubtasks) == 0 && sizeof($task->todoSubtasks) == 0) {
-                $task->status = "done";
-                $task->statusOrderId = 3;
-            } else if (sizeof($task->doingSubtasks) > 0) {
-                $task->status = "doing";
-                $task->statusOrderId = 2;
-            }
-
-            //count the complete checklist items
-            $completed = 0;
-            foreach ($task->checklist as $item) {
-                if ($item->isComplete)
-                    $completed = $completed + 1;
-            }
-            $task->completedChecklistItems = $completed;
-
-            //set the task's due date in a nicer format, ie 28/01
-            //only if the due date's year is the current year
-            $task->dueDateMin = null;
-            if ($task->due_date != null) {
-                $tmpDueDate = \Carbon::createFromFormat('d/m/Y', $task->due_date);
-                if ((int) $now->diffInYears($tmpDueDate, true) == 0)
-                    $task->dueDateMin = $tmpDueDate->format('d/m');
-                else
-                    $task->dueDateMin = $tmpDueDate->format('d/m/y');
-            }
+            $this->setDueDate($task);
+            //"status" is also a relation name, so set the attribute explicitly
+            $status = $this->statusFromCounts(count($subtasks['todo']), count($subtasks['doing']), count($subtasks['done']));
+            $task->setAttribute('status', $status);
+            $task->statusOrderId = $status === null ? 0 : self::STATUS_ORDER[$status];
+            $task->completedChecklistItems = $this->completedItems($task->checklist);
         }
 
-        //sort tasks by status
+        //sort tasks by status (the board works with plain objects)
         $tasks = json_decode($action->tasks);
+        usort($tasks, fn ($a, $b) => $a->statusOrderId <=> $b->statusOrderId);
 
-        usort($tasks, function ($a, $b) {
-            if ($a->statusOrderId > $b->statusOrderId) {
-                return 1;
-            } else if ($a->statusOrderId < $b->statusOrderId) {
-                return -1;
-            } else {
-                return 0;
-            }
-        });
-
-        unset($action->tasks);
-        $action->tasks = json_decode(json_encode($tasks));
+        $action->unsetRelation('tasks');
+        $action->setAttribute('tasks', json_decode(json_encode($tasks)));
         $action->volunteerTaskSum = $volunteerSum;
 
         return $action;
     }
 
     /**
-     * Find the task status
+     * Find the task status from the status of its subtasks.
      *
      * @param $task
-     * @return mixed
+     * @return string|null "todo", "doing", "done" or null if the task has no subtasks
      */
     public function taskStatus($task) {
-
-        $todoSubtasks = 0;
-        $doingSubtasks = 0;
-        $doneSubtasks = 0;
-
+        $counts = ['todo' => 0, 'doing' => 0, 'done' => 0];
         foreach ($task->subtasks as $subtask) {
-            if ($subtask->status_id == "1")
-                $todoSubtasks++;
-            else if ($subtask->status_id == "2")
-                $doingSubtasks++;
-            else
-                $doneSubtasks++;
+            $counts[$this->subtaskStatus($subtask)]++;
         }
 
-        $status = null;
-        if ($todoSubtasks > 0 && $doingSubtasks == 0) {
-            $status = "todo";
-        } else if ($doneSubtasks > 0 && $doingSubtasks == 0) {
-            $status = "done";
-        } else if ($doingSubtasks > 0) {
-            $status = "doing";
+        return $this->statusFromCounts($counts['todo'], $counts['doing'], $counts['done']);
+    }
+
+    /**
+     * A task is "doing" if a subtask is in progress, otherwise "todo" while
+     * a subtask is still to do, otherwise "done".
+     */
+    private function statusFromCounts(int $todo, int $doing, int $done): ?string
+    {
+        return match (true) {
+            $doing > 0 => 'doing',
+            $todo > 0 => 'todo',
+            $done > 0 => 'done',
+            default => null,
+        };
+    }
+
+    private function subtaskStatus(object $subtask): string
+    {
+        return match ((int) $subtask->status_id) {
+            self::TODO => 'todo',
+            self::DOING => 'doing',
+            default => 'done',
+        };
+    }
+
+    /**
+     * Set "expires" (days from today until the due date, negative when late,
+     * the string "null" without a due date) and "dueDateMin" (28/01, or
+     * 28/01/17 when the due date is not within a year).
+     */
+    private function setDueDate(object $item): void
+    {
+        $item->expires = 'null';
+        $item->dueDateMin = null;
+        if ($item->due_date == null) {
+            return;
         }
 
-        return $status;
+        $dueDate = \Carbon::createFromFormat('d/m/Y', $item->due_date)->startOfDay();
+        $item->expires = (int) \Carbon::today()->diffInDays($dueDate, false);
+        $item->dueDateMin = $dueDate->format((int) \Carbon::now()->diffInYears($dueDate, true) == 0 ? 'd/m' : 'd/m/y');
+    }
+
+    /** @param iterable<object> $checklist */
+    private function completedItems(iterable $checklist): int
+    {
+        $completed = 0;
+        foreach ($checklist as $item) {
+            if ($item->isComplete) {
+                $completed++;
+            }
+        }
+
+        return $completed;
     }
 
     /**
@@ -193,7 +139,7 @@ class TaskService {
             $task->users()->sync([\Request::get('taskUserSelect')]);
             $task->volunteers()->detach();
             //$task->volunteers()->sync([]);
-        } else if (sizeof($task->users()) > 0) {
+        } else {
             $task->users()->detach();
         }
 
@@ -212,7 +158,7 @@ class TaskService {
         ) {
             $task->volunteers()->sync([\Request::get('taskVolunteerSelect')]);
             $task->users()->sync([]);
-        } else if (sizeof($task->volunteers()) > 0) {
+        } else {
             $task->volunteers()->detach();
         }
 

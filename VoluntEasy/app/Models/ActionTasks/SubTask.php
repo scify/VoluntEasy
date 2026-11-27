@@ -14,6 +14,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @package App\Models
  *
  * @property float|int $workHours Computed
+ * @property int $volunteerSum Computed
+ * @property int $ctaVolunteersCount Computed
+ * @property int $completedChecklistItems Computed
  * @property mixed $unitVolunteers Computed
  */
 class SubTask extends Model {

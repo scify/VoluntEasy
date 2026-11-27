@@ -15,6 +15,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @package App\Models
  *
  * @property mixed $ctaSubtasks Computed
+ * @property list<SubTask> $todoSubtasks Computed: for the task board
+ * @property list<SubTask> $doingSubtasks Computed: for the task board
+ * @property list<SubTask> $doneSubtasks Computed: for the task board
+ * @property int $statusOrderId Computed: board column order
+ * @property int $completedChecklistItems Computed
  * @property float|int $workHours Computed
  * @property mixed $unitVolunteers Computed
  */

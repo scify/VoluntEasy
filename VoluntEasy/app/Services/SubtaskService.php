@@ -40,7 +40,7 @@ class SubtaskService
             $subtask->users()->sync([\Request::get('subtaskUserSelect')]);
             $subtask->volunteers()->detach();
         }
-        else if(sizeof($subtask->users())>0){
+        else {
             $subtask->users()->detach();
         }
 
@@ -60,7 +60,7 @@ class SubtaskService
             $subtask->volunteers()->sync([\Request::get('subtaskVolunteerSelect')]);
             $subtask->users()->sync([]);
         }
-        else if(sizeof($subtask->volunteers())>0){
+        else {
             $subtask->volunteers()->detach();
         }
 
