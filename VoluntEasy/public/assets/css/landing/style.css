@@ -21,7 +21,7 @@ textarea {
 	font-weight: 300;
 }
 
-body { background: url(../img/patterns/pattern-01.png)  repeat; }
+body { background: #fff; }
 
 /*boxed-layout*/
 .boxed-layout {

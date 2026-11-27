@@ -20,95 +20,64 @@
 
 @section('footerScripts')
 <script>
+    // the hours of the volunteers in each action: a dropdown with the actions and a table
+    VE.ready(function () {
+        var volunteersByAction = [];
+        var totalHours = 0;
+        var dropDown = document.getElementById('actionsdDropDown');
 
-    var volunteersByAction;
-    var byHoursTable;
-    var totalHours = 0;
-
-    $.ajax({
-        url: $("body").attr('data-url') + "/reports/volunteerHoursByAction",
-        method: 'GET',
-        success: function (result) {
-            volunteersByAction = result;
-
-            //First we need to initialize the dropdown from where the user can filter the report by year
-            var actionsdDropDown = '<label>Δράση</label><select class="form-control">';
-
-            //Add the years options and set the current year as selected
-            $.each(result, function (key, value) {
-                if (key == 0)
-                    actionsdDropDown += '<option value=' + value.id + ' selected>' + value.description + '</option>';
-                else
-                    actionsdDropDown += '<option value=' + value.id + '>' + value.description + '</option>';
-
-            });
-
-            $("#actionsdDropDown").append(actionsdDropDown);
-
-            var actionId = $("#actionsdDropDown option:selected").val();
-            initActionsTable(initVolunteerActionsDataset(actionId));
-        }
-    });
-
-    //when the user selects a different action,
-    //we must show the action's data
-    $("#actionsdDropDown").change(function () {
-
-        var actionId = $("#actionsdDropDown option:selected").val();
-
-        byHoursTable.fnClearTable();
-
-        byHoursTable.fnAddData(initVolunteerActionsDataset(actionId));
-    });
-
-    function initActionsTable(dataSet) {
-
-        byHoursTable = $('#hoursByAction').dataTable({
-            "pageLength": 5,
-            "bFilter": false,
-            "bLengthChange": false,
-            data: dataSet,
-            columns: [
-                {title: "Id"},
-                {title: "Όνομα"},
-                {title: "Ώρες"}
-            ],
-            //custom text
-            "language": {
-                "lengthMenu": "_MENU_ γραμμές ανά σελίδα",
-                "zeroRecords": "Δεν υπάρχουν εθελοντές",
-                "info": "Σελίδα _PAGE_ από _PAGES_",
-                "infoEmpty": "Δεν υπάρχουν εθελοντές",
-                "infoFiltered": "(filtered from _MAX_ total records)",
-                "paginate": {
-                    "first": "Πρώτη",
-                    "last": "Τελευταία",
-                    "next": ">",
-                    "previous": "<"
+        // the rows [id, name, hours] of the volunteers of an action
+        function actionRows(actionId) {
+            var rows = [];
+            volunteersByAction.some(function (action) {
+                if (String(action.id) === String(actionId)) {
+                    action.volunteers.forEach(function (volunteer) {
+                        rows.push([volunteer.id, volunteer.name, volunteer.hours]);
+                    });
+                    totalHours = action.totalHours;
+                    return true;
                 }
-            }, "footerCallback": function (row, data, start, end, display) {
-                var api = this.api(), data;
-                // Update footer
-                $(api.column(2).footer()).html('Συνολικές ώρες: ' + totalHours);
+                return false;
+            });
+            return rows;
+        }
+
+        var byHoursTable = VE.table('#hoursByAction', {
+            lengthChange: false,
+            data: [],
+            columns: [{data: 0}, {data: 1}, {data: 2}],
+            pageLength: 5,
+            drawCallback: function () {
+                // the total hours of the action in the footer
+                var footerCell = document.querySelector('#hoursByAction tfoot th:nth-child(3)');
+                if (footerCell) footerCell.textContent = 'Συνολικές ώρες' + ': ' + totalHours;
+            },
+            language: {
+                lengthMenu: '_MENU_ γραμμές ανά σελίδα',
+                zeroRecords: 'Δεν υπάρχουν εθελοντές',
+                info: 'Σελίδα _PAGE_ από _PAGES_',
+                infoEmpty: 'Δεν υπάρχουν εθελοντές',
+                paginate: {first: 'Πρώτη', last: 'Τελευταία', next: '>', previous: '<'}
             }
         });
-    }
 
-    function initVolunteerActionsDataset(actionId) {
-        var dataSet = [];
+        VE.http.get('/reports/volunteerHoursByAction').then(function (result) {
+            volunteersByAction = result || [];
 
-        $.each(volunteersByAction, function (key, value) {
-            if (value.id == actionId) {
+            // the dropdown to filter the report by action, with the first action selected
+            dropDown.insertAdjacentHTML('beforeend', '<label>' + VE.esc('Δράση') + '</label><select class="form-control">' +
+                volunteersByAction.map(function (action, index) {
+                    return '<option value="' + VE.esc(action.id) + '"' + (index === 0 ? ' selected' : '') + '>' + VE.esc(action.description) + '</option>';
+                }).join('') + '</select>');
 
-                $.each(value.volunteers, function (i, volunteer) {
-                    dataSet.push([volunteer.id, volunteer.name, volunteer.hours]);
-                });
+            var select = dropDown.querySelector('select');
+            byHoursTable.setData(actionRows(select.value));
+        }).catch(VE.fail);
 
-                totalHours = value.totalHours;
-            }
+        // when the user selects a different action, show the data of that action
+        dropDown.addEventListener('change', function (event) {
+            byHoursTable.setData(actionRows(event.target.value));
         });
-
-        return dataSet;
-    }
+    });
 </script>
 @append

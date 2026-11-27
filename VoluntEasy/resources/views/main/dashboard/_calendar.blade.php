@@ -1,96 +1,65 @@
-<div id="popover-head" class="hide"></div>
-<div id="popover-content" class="hide">
-</div>
-
 <div id='calendar'></div>
 
 
 @section('footerScripts')
+<script src="{{ asset('assets/vendor/fullcalendar/index.global.min.js') }}"></script>
 @if (\Cookie::get('locale') === 'el')
-<script>
-    var lang='el';
-</script>
-@else
-<script>
-    var lang='en';
-</script>
+<script src="{{ asset('assets/vendor/fullcalendar/locales/el.global.min.js') }}"></script>
 @endif
-
-
 <script>
-    $('#calendar').fullCalendar({
-        header: {
-            left: '',
-            center: 'title',
-            right: 'prev,next today'
-        },
-        lang: lang,
-        editable: false,
-        eventLimit: true, // allow "more" link when too many events
-        events: {
-            url: $("body").attr('data-url') + '/api/actions/calendar'
-        },
-        eventClick: function (calEvent, jsEvent, view) {
+    VE.ready(function () {
+        var calendarEl = document.getElementById('calendar');
 
-
-            $(this).popover({
-                html: true,
-                placement: 'bottom',
-                container: '#calendar',
-                title: function () {
-                    $("#popover-head").html(Lang.get('js-components.action') + calEvent.title);
-                    return $("#popover-head").html();
-                },
-                content: function () {
-                    html = '';
-                    html += '<p><strong>' + Lang.get('js-components.unit') + '</strong> ' + calEvent.unit + '</p>';
-                    html += '<p><strong>' + Lang.get('js-components.actionDescr') + '</strong> ' + calEvent.description + '</p>';
-                    html += '<p><strong>' + Lang.get('js-components.actionDuration') + '</strong> ' + calEvent.start_date + ' - ' + calEvent.end_date + '</p>';
-
-                    if (calEvent.name != null && calEvent.name != '') {
-                        html += '<p><strong>' + Lang.get('js-components.actionExec') + '</strong> ' + calEvent.name + '<br/>';
-
-                        if (calEvent.email != null && calEvent.email != '')
-                            html += '<i class="fa fa-folder"></i> <a href="mailto:' + calEvent.email + '">' + calEvent.email + '</a>';
-
-                        if (calEvent.phone_number != null && calEvent.phone_number != '')
-                            html += ' <i class="fa fa-phone"></i> ' + calEvent.phone_number + '</p>';
-
-                    }
-                    html += '<p><strong>' + Lang.get('js-components.volNum') + '</strong> ' + calEvent.volunteers + '</p>';
-
-                    $("#popover-content").html(html);
-
-                    return $("#popover-content").html();
-                }
-            });
-
-            $(this).popover('toggle');
-
-
-            /*  var html = '';
-             html += '<h3>Δράση ' + calEvent.title + '</h3>';
-             html += '<p><strong>Μονάδα:</strong> ' + calEvent.unit + '</p>';
-             html += '<p><strong>Περιγραφή Δράσης:</strong> ' + calEvent.description + '</p>';
-             html += '<p><strong>Διάρκεια:</strong> ' + calEvent.start_date + ' - ' + calEvent.end_date + '</p>';
-
-             if (calEvent.name != null && calEvent.name != '') {
-             html += '<p><strong>Στοιχεία Υπευθύνου:</strong> ' + calEvent.name + '<br/>';
-
-             if (calEvent.email != null && calEvent.email != '')
-             html += '<i class="fa fa-folder"></i> <a href="mailto:' + calEvent.email + '">' + calEvent.email + '</a>';
-
-             if (calEvent.phone_number != null && calEvent.phone_number != '')
-             html += ' <i class="fa fa-phone"></i> ' + calEvent.phone_number + '</p>';
-
-             }
-             html += '<p><strong>Αριθμός Εθελοντών:</strong> ' + calEvent.volunteers + '</p>';
-
-             $("#actionDetails").html(html);
-             */
+        function strong(label, value) {
+            return '<p><strong>' + VE.esc(label) + '</strong> ' + VE.esc(value) + '</p>';
         }
 
-    });
+        // the details of an action, shown in a popover
+        function details(event) {
+            var p = event.extendedProps;
+            var html = strong(Lang.get('js-components.unit'), p.unit) +
+                strong(Lang.get('js-components.actionDescr'), p.description) +
+                strong(Lang.get('js-components.actionDuration'), p.start_date + ' - ' + p.end_date);
 
+            if (p.name != null && p.name != '') {
+                html += '<p><strong>' + VE.esc(Lang.get('js-components.actionExec')) + '</strong> ' + VE.esc(p.name) + '<br/>';
+                if (p.email != null && p.email != '')
+                    html += '<i class="fa fa-folder"></i> <a href="mailto:' + VE.esc(p.email) + '">' + VE.esc(p.email) + '</a>';
+                if (p.phone_number != null && p.phone_number != '')
+                    html += ' <i class="fa fa-phone"></i> ' + VE.esc(p.phone_number);
+                html += '</p>';
+            }
+            html += strong(Lang.get('js-components.volNum'), p.volunteers);
+            return html;
+        }
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            headerToolbar: {
+                left: '',
+                center: 'title',
+                right: 'prev,next today'
+            },
+            locale: @json(\Cookie::get('locale') === 'el' ? 'el' : 'en'),
+            editable: false,
+            dayMaxEvents: true, // allow "more" link when too many events
+            events: {
+                url: VE.url('/api/actions/calendar')
+            },
+            eventClick: function (info) {
+                info.jsEvent.preventDefault();
+                var el = info.el;
+                if (el.Popover) return; // the popover toggles itself on click
+                new Popover(el, {
+                    trigger: 'click',
+                    placement: 'bottom',
+                    container: document.body,
+                    title: VE.esc(Lang.get('js-components.action') + info.event.title),
+                    content: details(info.event)
+                });
+                el.Popover.show();
+            }
+        });
+        calendar.render();
+    });
 </script>
 @append

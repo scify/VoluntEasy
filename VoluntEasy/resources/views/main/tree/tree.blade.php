@@ -22,12 +22,9 @@
 
 @section('footerScripts')
 <script>
-
-    //initialize the tree
-    var treewrapper = new Treewrapper({
-        disabled:true
+    VE.ready(function () {
+        // initialize the tree
+        new Treewrapper({disabled: true}).init();
     });
-    treewrapper.init();
-
 </script>
 @append

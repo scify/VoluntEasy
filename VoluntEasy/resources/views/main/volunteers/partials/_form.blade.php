@@ -386,75 +386,76 @@
 
 @section('footerScripts')
     <script>
+        VE.ready(function () {
+            var form = document.getElementById('wizardForm');
+            var daysTable = document.getElementById('daysTable');
+            var dailyFrequencies = document.getElementById('dailyFrequencies');
+            var frequency = document.getElementById('availability_freqs_id');
 
-        $("#daysTable").hide();
+            VE.hide(daysTable);
 
+            // show a message if the volunteer is under 18
+            VE.datepicker('#birth_date', {
+                onChange: function (dates) {
+                    if (!dates[0]) return;
+                    var age = new Date().getFullYear() - dates[0].getFullYear();
+                    if (age < 18)
+                        VE.show('.under18');
+                    else if (age > 18)
+                        VE.hide('.under18');
+                }
+            });
 
-        $('#birth_date').datepicker({
-            language: 'el',
-            format: 'dd/mm/yyyy',
-            autoclose: true
-        }).on('changeDate', function (selected) {
-            var birthDate = new Date(selected.date.valueOf());
-            var today = new Date();
-            var age = today.getFullYear() - birthDate.getFullYear();
-            //display message that the volunteer is underage
-            if (age < 18)
-                $(".under18").show();
-            else if (age > 18)
-                $(".under18").hide();
+            VE.datepicker('.date');
 
-        });
+            // the units to exclude; each selected unit also gets a hidden input "unit<id>", as before
+            var unitList = document.getElementById('unitList');
+            if (unitList) {
+                VE.select(unitList, {
+                    onItemAdd: function (id) {
+                        if (document.getElementById('unit' + id)) return;
+                        var input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.id = 'unit' + id;
+                        input.name = 'unit' + id;
+                        input.value = id;
+                        form.appendChild(input);
+                    },
+                    onItemRemove: function (id) {
+                        var input = document.getElementById('unit' + id);
+                        if (input) input.parentNode.removeChild(input);
+                    }
+                });
+            }
 
-        $('.date').datepicker({
-            language: 'el',
-            format: 'dd/mm/yyyy',
-            autoclose: true
-        })
+            // deselect the language radio buttons
+            VE.on('#cleanLanguages', 'click', function (event) {
+                event.preventDefault();
+                VE.$$('.languages').forEach(function (radio) {
+                    radio.checked = false;
+                    radio.parentNode.classList.remove('checked');
+                });
+            });
 
-        //initialize user select
-        $('#unitList').select2();
+            // daily frequency: show the times of the day; other frequencies: show the table of days
+            function showFrequency(id) {
+                if (id == 1) {
+                    VE.hide(daysTable);
+                    VE.show(dailyFrequencies);
+                } else {
+                    VE.hide(dailyFrequencies);
+                    VE.show(daysTable);
+                }
+            }
 
-        //make an input to send with the form
-        $('#unitList').on("select2:select", function (e) {
-            id = e.params.data.id;
-            input = '<input id="unit' + id + '" name="unit' + id + '" value="' + id + '" hidden/>';
-            $("#wizardForm").append(input);
-        });
-
-        //remove input when the option is unselected
-        $('#unitList').on("select2:unselect", function (e) {
-            id = e.params.data.id;
-            $("#unit" + id).remove();
-        });
-
-        //deselect the languages radio button
-        $("#cleanLanguages").click(function (e) {
-            $(".languages").parent().removeClass('checked');
-            $(".languages").prop('checked', false);
-            e.preventDefault();
-        });
-
-
-        $("#availability_freqs_id").change(function () {
-            var id = $("#availability_freqs_id option:selected").val();
-
-            if (id == 1) {
-                $("#daysTable").hide();
-                $("#dailyFrequencies").fadeIn();
-            } else {
-                $("#dailyFrequencies").hide();
-                $("#daysTable").fadeIn();
+            if (frequency) {
+                frequency.addEventListener('change', function () {
+                    showFrequency(frequency.value);
+                });
+                if (frequency.value == 2 || frequency.value == 3 || frequency.value == 4) {
+                    showFrequency(frequency.value);
+                }
             }
         });
-
-
-        var freqsId = $("#availability_freqs_id option:selected").val();
-        if (freqsId == 2 || freqsId == 3 || freqsId == 4) {
-            $("#dailyFrequencies").hide();
-            $("#daysTable").fadeIn();
-        }
-
-
     </script>
 @append

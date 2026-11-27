@@ -25,103 +25,54 @@
 
 @section('footerScripts')
 <script>
-    var table = $('#actionsTable').dataTable({
-        "bFilter": false,
-        "order": [[ 4, "desc" ]],
-        "ajax": $("body").attr('data-url') + '/api/actions',
-        "columns": [
-            {
-                //show action name with link
-                data: null, render: function (data, type, row) {
-                var html = '';
-                html += '<a href="' + $("body").attr('data-url') + '/actions/one/' + data.id + '">' + data.description + '</a>';
-                return html;
-            }
-            },
-            {
-                //show only xx first characters of comments
-                data: null, render: function (data, type, row) {
-                   if(data.comments.length>50)
-                     return data.comments.substring(0,50) + "...";
-                    else
-                    return data.comments;
-            }
-            },
-            {data: "unit.description"},
-            {data: "start_date"},
-            {data: "end_date"},
-            {
-                //if the user is permitted to edit/delete the volunteer,
-                //then show the appropriate buttons
-                data: null, render: function (data, type, row) {
-                var html = '';
+    VE.ready(function () {
+        var url = VE.url;
 
-                if (data.permitted) {
-                    html = '<ul class="list-inline">';
-                    html += '<li><a href="' + $("body").attr('data-url') + '/actions/edit/' + data.id + '"  class="btn btn-success" data-toggle="tooltip"';
-                    html += 'data-placement="bottom" title="'+Lang.get('js-components.edit')+'"><i class="fa fa-edit"></i></a></li>';
-                    html += '<li><btn class="btn btn-danger" onclick="deleteAction(' + data.id + ');" data-id="' + data.id + '" data-toggle="tooltip"';
-                    html += 'data-placement="bottom" title="'+Lang.get('js-components.delete')+'"><i class="fa fa-trash"></i></btn>';
-                    html += '</li></ul>';
-                }
-
-                return html;
-            }
-            }
-        ],
-        //custom text
-        "language": {
-            "lengthMenu": Lang.get('js-components.lengthMenu'),
-            "zeroRecords": Lang.get('js-components.zeroActions'),
-            "info": Lang.get('js-components.info'),
-            "infoEmpty": Lang.get('js-components.zeroActions'),
-            "paginate": {
-                "first": Lang.get('js-components.first'),
-                "last": Lang.get('js-components.last'),
-                "next": ">",
-                "previous": "<"
-            }
-        },
-        //disable ordering at the last column (edit, delete buttons)
-        "aoColumnDefs": [
-            {'bSortable': false, 'aTargets': [5]}
-        ],
-        dom: 'T<"clear">lfrtip',
-        "tableTools": {
-            "sSwfPath": $("body").attr('data-url') + "/assets/plugins/data-tables/extras/tabletools/swf/copy_csv_xls_pdf.swf",
-            "aButtons": [
+        window.table = VE.table('#actionsTable', {
+            url: '/api/actions',
+            order: [[4, 'desc']],
+            columns: [
                 {
-                    "sExtends": "copy",
-                    "sButtonText": Lang.get('js-components.copy')
+                    // the action name with a link
+                    data: null, render: function (data) {
+                        return '<a href="' + url('/actions/one/' + data.id) + '">' + VE.esc(data.description) + '</a>';
+                    }
                 },
                 {
-                    "sExtends": "print",
-                    "sButtonText": Lang.get('js-components.print')
+                    // only the first 50 characters of the comments
+                    data: null, render: function (data) {
+                        var comments = data.comments || '';
+                        return VE.esc(comments.length > 50 ? comments.substring(0, 50) + '...' : comments);
+                    }
                 },
+                {data: 'unit.description'},
+                {data: 'start_date'},
+                {data: 'end_date'},
                 {
-                    "sExtends": "csv",
-                    "sButtonText": Lang.get('js-components.csv')
+                    // edit and delete buttons for the permitted users
+                    data: null, orderable: false, render: function (data) {
+                        if (!data.permitted) return '';
+                        return '<ul class="list-inline">' +
+                            '<li><a href="' + url('/actions/edit/' + data.id) + '" class="btn btn-success" data-toggle="tooltip" ' +
+                            'data-placement="bottom" title="' + VE.esc(Lang.get('js-components.edit')) + '"><i class="fa fa-edit"></i></a></li>' +
+                            '<li><button type="button" class="btn btn-danger" data-delete-action="' + data.id + '" data-toggle="tooltip" ' +
+                            'data-placement="bottom" title="' + VE.esc(Lang.get('js-components.delete')) + '"><i class="fa fa-trash"></i></button></li>' +
+                            '</ul>';
+                    }
                 }
-            ]
-        }
+            ],
+            language: VE.tableLanguage('js-components.zeroActions'),
+            buttons: ['copy', 'print', 'csv']
+        });
+
+        VE.searchForm('#searchForm', window.table);
+
+        VE.on(document, 'click', '[data-delete-action]', function (event, el) {
+            if (!VE.confirm(Lang.get('js-components.deleteAction'))) return;
+            VE.http.post('/actions/delete/' + el.getAttribute('data-delete-action'))
+                .then(function () { location.reload(); })
+                .catch(VE.fail);
+        });
     });
-
-
-    function deleteAction(id) {
-        if (confirm(Lang.get('js-components.deleteAction')) == true) {
-            $.ajax({
-                url: $("body").attr('data-url') + '/actions/delete/' + id,
-                method: 'GET',
-                headers: {
-                    'X-CSRF-Token': $('#token').val()
-                },
-                success: function () {
-                    location.reload();
-                }
-            });
-        }
-    }
-
 </script>
 @append
-

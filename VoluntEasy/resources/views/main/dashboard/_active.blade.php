@@ -20,50 +20,33 @@
 
 @section('footerScripts')
 <script>
-    var table = $('#activeVolunteersTable').dataTable({
-        "pageLength": 5,
-        "bFilter": false,
-        "bLengthChange": false,
-        "ajax": $("body").attr('data-url') + '/api/volunteers/status/active',
-        "columns": [
-            {data: "id"},
+    VE.ready(function () {
+        var table = VE.table('#activeVolunteersTable', {
+            lengthChange: false,
+            url: '/api/volunteers/status/active',
+            pageLength: 5,
+            order: [[0, 'asc']],
+            columns: [
+                {data: 'id'},
             {
-                //concat first name with last name
-                data: null, render: function (data, type, row) {
-                html = '<a href="' + $("body").attr('data-url') + '/volunteers/one/' + data.id + '">' + data.name + ' ' + data.last_name + '</a>';
-                html += '<br/><small><a href="mailto:' + data.email + '">' + data.email + '</a></small>'
-                return html;
-            }
+                // name and email
+                data: null, render: function (data) {
+                    return '<a href="' + VE.url('/volunteers/one/' + data.id) + '">' + VE.esc(data.name + ' ' + data.last_name) + '</a>' +
+                        '<br/><small><a href="mailto:' + VE.esc(data.email) + '">' + VE.esc(data.email) + '</a></small>';
+                }
             },
-            {
-                //show the available units
-                data: null, render: function (data, type, row) {
-                var status = '';
-
-                $.each(data.actions, function (index, action) {
-                    if (index == 0)
-                        status = '<a href="' + $("body").attr('data-url') + '/actions/one/' + action.id + '">' + action.description + '</a>';
-                    else
-                        status = ', <a href="' + $("body").attr('data-url') + '/actions/one/' + action.id + '">' + action.description + '</a>';
-                });
-                return status;
-            }
-            }
-        ],
-
-        //custom text
-        "language": {
-            "lengthMenu": Lang.get('js-components.lengthMenu'),
-            "zeroRecords": Lang.get('js-components.zeroVolunteers'),
-            "info": Lang.get('js-components.info'),
-            "infoEmpty": Lang.get('js-components.zeroVolunteers'),
-            "paginate": {
-                "first": Lang.get('js-components.first'),
-                "last": Lang.get('js-components.last'),
-                "next": ">",
-                "previous": "<"
-            }
-        }
+                {
+                    // the actions of the volunteer
+                    data: null, render: function (data) {
+                        return (data.actions || []).map(function (action) {
+                            return '<a href="' + VE.url('/actions/one/' + action.id) + '">' + VE.esc(action.description) + '</a>';
+                        }).join(', ');
+                    }
+                }
+            ],
+            language: VE.tableLanguage('js-components.zeroVolunteers')
+        });
+        // no page length menu in the dashboard widgets
     });
 </script>
 @append

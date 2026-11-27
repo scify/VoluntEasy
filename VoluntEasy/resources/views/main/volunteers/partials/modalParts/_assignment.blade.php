@@ -38,13 +38,16 @@
 
 @section('footerScripts')
 <script>
-    //disable/enable the actions dropdown
-    $('input:radio[name="assignment"]').change(function () {
-        if ($(this).val() == 'action') {
-            $('#actionSelect-' + $(this).attr('data-id')).removeAttr('disabled');
-        } else {
-            $('#actionSelect-' + $(this).attr('data-id')).attr('disabled', 'disabled');
-        }
+    VE.ready(function () {
+        // this partial is included once for each step: add the handler only once
+        if (window.VEAssignmentRadios) return;
+        window.VEAssignmentRadios = true;
+
+        // disable/enable the actions dropdown
+        VE.on(document, 'change', 'input[type="radio"][name="assignment"]', function (event, radio) {
+            var select = document.getElementById('actionSelect-' + radio.getAttribute('data-id'));
+            if (select) select.disabled = radio.value != 'action';
+        });
     });
 </script>
 @append

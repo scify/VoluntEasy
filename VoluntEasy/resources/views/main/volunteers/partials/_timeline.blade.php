@@ -91,17 +91,3 @@
 
 </section> <!-- cd-timeline -->
 @endif
-
-@section('footerScripts')
-<script>
-    $('.attribute.rating').raty({
-        starOff: '{{ asset("assets/plugins/raty/lib/images/star-off.png")}}',
-        starOn: '{{ asset("assets/plugins/raty/lib/images/star-on.png")}}',
-        starHalf: '{{ asset("assets/plugins/raty/lib/images/star-half.png")}}',
-        readOnly: true,
-        score: function () {
-            return $(this).attr('data-score');
-        }
-    });
-</script>
-@append

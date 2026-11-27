@@ -21,55 +21,26 @@
 
 @section('footerScripts')
 <script>
-    var table = $('#actionsTable').dataTable({
-        "bFilter": false,
-        "order": [[ 3, "desc" ]],
-        "ajax": $("body").attr('data-url') + '/api/units/' + $('#volunteersTable').attr('data-unit-id') + '/actions',
-        "columns": [
-            {
-                //concat first name with last name
-                data: null, render: function (data, type, row) {
-                return '<a href="' + $("body").attr('data-url') + '/actions/one/' + data.id + '">' + data.description+ '</a>';
-            }
-            },
-            {data: "comments"},
-            {data: "start_date"},
-            {data: "end_date"},
+    VE.ready(function () {
+        var tableEl = document.getElementById('actionsTable');
 
-
-        ],
-        //custom text
-        "language": {
-            "lengthMenu": Lang.get('js-components.lengthMenu'),
-            "zeroRecords": Lang.get('js-components.zeroActions'),
-            "info": Lang.get('js-components.info'),
-            "infoEmpty": Lang.get('js-components.zeroActions'),
-            "paginate": {
-                "first": Lang.get('js-components.first'),
-                "last": Lang.get('js-components.last'),
-                "next": ">",
-                "previous": "<"
-            }
-        },
-        dom: 'T<"clear">lfrtip',
-        "tableTools": {
-            "sSwfPath": $("body").attr('data-url') + "/assets/plugins/data-tables/extras/tabletools/swf/copy_csv_xls_pdf.swf",
-            "aButtons": [
+        VE.table(tableEl, {
+            url: '/api/units/' + tableEl.getAttribute('data-unit-id') + '/actions',
+            order: [[3, 'desc']],
+            columns: [
                 {
-                    "sExtends": "copy",
-                    "sButtonText": Lang.get('js-components.copy')
+                    // action name with link
+                    data: null, render: function (data) {
+                        return '<a href="' + VE.url('/actions/one/' + data.id) + '">' + VE.esc(data.description) + '</a>';
+                    }
                 },
-                {
-                    "sExtends": "print",
-                    "sButtonText": Lang.get('js-components.print')
-                },
-                {
-                    "sExtends": "csv",
-                    "sButtonText": Lang.get('js-components.csv')
-                }
-            ]
-        }
+                {data: 'comments'},
+                {data: 'start_date'},
+                {data: 'end_date'}
+            ],
+            language: VE.tableLanguage('js-components.zeroActions'),
+            buttons: ['print', 'csv']
+        });
     });
-
 </script>
 @append

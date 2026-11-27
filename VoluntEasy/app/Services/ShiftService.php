@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\Action;
+use App\Models\ActionTasks\SubtaskShift;
+use App\Models\ActionTasks\TaskShift;
 use App\Models\Volunteer;
 use App\Models\VolunteerSubtaskShiftHistory;
 use App\Models\VolunteerTaskShiftHistory;
@@ -15,13 +17,11 @@ class ShiftService
     /**
      * Delete a shift and dissociate any volunteers attached
      */
-    public function deleteTaskShift($shift)
+    public function deleteTaskShift(TaskShift $shift)
     {
-        $action = Action::find(\Request::get('action_id'));
-
-        // remove the volunteers from the action
+        // remove the volunteers from the shift
         foreach ($shift->volunteers as $volunteer) {
-            $volunteer->shifts()->detach([$shift->id]);
+            $volunteer->taskShifts()->detach([$shift->id]);
         }
 
         foreach ($shift->ctaVolunteers as $cta) {
@@ -33,13 +33,11 @@ class ShiftService
 
     }
 
-    public function deleteSubtaskShift($shift)
+    public function deleteSubtaskShift(SubtaskShift $shift)
     {
-        $action = Action::find(\Request::get('action_id'));
-
-        // remove the volunteers from the action
+        // remove the volunteers from the shift
         foreach ($shift->volunteers as $volunteer) {
-            $volunteer->shifts()->detach([$shift->id]);
+            $volunteer->subtaskShifts()->detach([$shift->id]);
         }
 
         foreach ($shift->ctaVolunteers as $cta) {

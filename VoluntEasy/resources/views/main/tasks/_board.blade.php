@@ -230,8 +230,4 @@
 <script src="{{ asset('assets/js/pages/task_board/subtasks.js')}}"></script>
 <script src="{{ asset('assets/js/pages/task_board/shifts.js')}}"></script>
 <script src="{{ asset('assets/js/pages/task_board/checklist.js')}}"></script>
-<script src="{{ asset('assets/plugins/multiselect/multiselect.min.js')}}"></script>
-<script>
-    setOpenTask();
-</script>
 @append

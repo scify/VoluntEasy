@@ -326,7 +326,7 @@
             <div class="col-md-12 text-right">
                 <a href="{{ url('volunteers/edit/'.$volunteer->id) }}" class="btn btn-success"><i
                         class="fa fa-edit"></i> {{ trans('default.edit') }}</a>
-                <button class="btn btn-danger" onclick="deleteVolunteer({{$volunteer->id}})"><i
+                <button type="button" class="btn btn-danger" data-delete-volunteer="{{ $volunteer->id }}"><i
                         class="fa fa-trash"></i> {{ trans('default.delete') }}
                 </button>
             </div>
@@ -437,95 +437,51 @@
 
 @section('footerScripts')
 <script>
+    VE.ready(function () {
+        // the ratings (here and in the "actions" tab)
+        VE.$$('.attribute.rating').forEach(function (el) {
+            VE.stars(el, {readOnly: true, score: el.getAttribute('data-score')});
+        });
 
-    $('.attribute.rating').raty({
-        starOff: '{{ asset("assets/plugins/raty/lib/images/star-off.png")}}',
-        starOn: '{{ asset("assets/plugins/raty/lib/images/star-on.png")}}',
-        starHalf: '{{ asset("assets/plugins/raty/lib/images/star-half.png")}}',
-        readOnly: true,
-        score: function () {
-            return $(this).attr('data-score');
+        VE.dateRange('#not_available_from', '#not_available_to');
+
+        function goToProfile(id) {
+            window.location.href = VE.url('/volunteers/one/' + id);
         }
-    });
 
-    //change volunteer status to blacklisted
-    $(".blacklisted").click(function () {
-        $.ajax({
-            url: $("body").attr('data-url') + '/volunteers/blacklisted',
-            method: 'POST',
-            data: {
-                'id': $(this).attr('data-volunteer-id'),
-                'comments': $("#blacklistedComments").val()
-            },
-            headers: {
-                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-            },
-            success: function (data) {
-                window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
+        // change the volunteer status to blacklisted
+        VE.on(document, 'click', 'button.blacklisted', function (event, button) {
+            VE.http.post('/volunteers/blacklisted', {
+                id: button.getAttribute('data-volunteer-id'),
+                comments: document.getElementById('blacklistedComments').value
+            }).then(goToProfile).catch(VE.fail);
+        });
+
+        // change the volunteer status to not available
+        VE.on(document, 'click', 'button.notAvailable', function (event, button) {
+            var from = document.getElementById('not_available_from').value,
+                to = document.getElementById('not_available_to').value;
+
+            VE.toggle('#fillDateFrom', from == null || from == '');
+            VE.toggle('#fillDateTo', to == null || to == '');
+
+            if (from && to) {
+                VE.http.post('/volunteers/notAvailable', {
+                    id: button.getAttribute('data-volunteer-id'),
+                    from: from,
+                    to: to,
+                    comments: document.getElementById('not_available_comments').value
+                }).then(goToProfile).catch(VE.fail);
             }
         });
+
+        // delete a file
+        VE.on(document, 'click', '.deleteFile', function (event, button) {
+            if (!VE.confirm(Lang.get('js-components.deleteFile'))) return;
+            VE.http.post('/volunteers/deleteFile', {id: button.getAttribute('data-id')})
+                .then(function () { document.location.reload(); })
+                .catch(VE.fail);
+        });
     });
-
-    //change volunteer status to not available
-    $(".notAvailable").click(function () {
-        var from = $("#not_available_from").val(),
-            to = $("#not_available_to").val(),
-            flag = true;
-
-        if (from == null || from == '') {
-            $("#fillDateFrom").show();
-            flag = false;
-        }
-        else
-            $("#fillDateFrom").hide();
-
-        if (to == null || to == '') {
-            $("#fillDateTo").show();
-            flag = false;
-        }
-        else
-            $("#fillDateTo").hide();
-
-        if (flag) {
-            $.ajax({
-                url: $("body").attr('data-url') + '/volunteers/notAvailable',
-                method: 'POST',
-                data: {
-                    'id': $(this).attr('data-volunteer-id'),
-                    'from': from,
-                    'to': to,
-                    'comments': $("#not_available_comments").val()
-                },
-                headers: {
-                    'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-                },
-                success: function (data) {
-                    window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
-                }
-            });
-        }
-    });
-
-
-    //delete a file
-    $(".deleteFile").click(function () {
-        console.log("clicky");
-        if (confirm(Lang.get('js-components.deleteFile'))) {
-            $.ajax({
-                url: $("body").attr('data-url') + '/volunteers/deleteFile',
-                method: 'POST',
-                data: {
-                    'id': $(this).attr('data-id')
-                },
-                headers: {
-                    'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-                },
-                success: function (data) {
-                    document.location.reload();
-                }
-            });
-        }
-    });
-
 </script>
 @append

@@ -1,74 +1,72 @@
-//populate the area that will hold the checklist items
-function drawChecklist(mode) {
+/* Checklist (to-do items) of a task or subtask. Needs task_board.js. */
+(function () {
+    'use strict';
 
-    var parentId = '';
-    var type;
+    var TB = window.TaskBoard;
 
-    if (mode == 'task') {
-        parentId = '#taskChecklist';
-        type = task;
-    }
-    else {
-        parentId = '#subtaskChecklist';
-        type = subTask;
+    function checklistUrl(mode) {
+        return mode === 'task' ? '/actions/tasks/checklist' : '/actions/tasks/subtasks/checklist';
     }
 
-//add the checklist items
-    var html = '';
-    $.each(type.checklist, function (i, item) {
-        html += '<div class="todo-item added ' + (item.isComplete == 1 ? 'complete' : '') + '"><input type="checkbox"' + (item.isComplete == 1 ? 'checked=checked' : '') + ' data-id="' + item.id + '" data-mode="' + mode + '">';
+    TB.storeToDoItem = function (mode, modeId, comments) {
+        return VE.http.post(checklistUrl(mode) + '/store', {comments: comments, mode_id: modeId});
+    };
 
-        html += '<span class="todo-description">' + item.comments + '</span>';
-        html += '<span class="helper-wrapper"  data-id="' + item.id + '" data-mode="' + mode + '">'
-        html += addHelper(item);
-        html += '</span>';
+    TB.updateToDoItem = function (mode, id, isComplete) {
+        return VE.http.post(checklistUrl(mode) + '/update', {id: id, isComplete: isComplete ? 'true' : 'false'});
+    };
 
-        html += '<a href="javascript:void(0);" class="pull-right remove-todo-item" data-mode="' + mode + '" data-id="' + item.id + '"><i class="fa fa-times"></i></a></div>';
-    });
+    TB.deleteToDoItem = function (mode, id) {
+        return VE.http.post(checklistUrl(mode) + '/delete', {id: id});
+    };
 
-    $(parentId + ' .todo-list').html(html);
-    $(parentId + ' .todo-list .todo-item.added input').uniform();
-}
-
-
-$(document).on('click', '.todo-list .todo-item.added input', function () {
-    if ($(this).is(':checked')) {
-        $(this).parent().parent().parent().toggleClass('complete');
-    } else {
-        $(this).parent().parent().parent().toggleClass('complete');
-    }
-
-    var mode = $(this).attr('data-mode');
-    $.when(updateToDoItem(mode, $(this).attr('data-id'), $(this).is(':checked')))
-        .then(function (item, textStatus, jqXHR) {
-            $('.helper-wrapper[data-id=' + item.id + '][data-mode=' + mode + ']').html(addHelper(item));
+    //helper text next to the to-do, ie edited by user at date
+    TB.addHelper = function (item) {
+        var key = item.created_at === item.updated_at ? 'js-components.todoCreated' : 'js-components.todoEdited';
+        var text = Lang.get(key, {
+            user: item.updated_by ? item.updated_by.name : '',
+            date: item.updated_at
         });
-});
+        return '<span class="created_updated"><small>' + VE.esc(text) + '</small></span>';
+    };
 
+    //the html of one checklist item
+    TB.checklistItem = function (item, mode) {
+        var complete = item.isComplete == 1;
+        return '<div class="todo-item added' + (complete ? ' complete' : '') + '">' +
+            '<input type="checkbox"' + (complete ? ' checked' : '') + ' data-id="' + VE.esc(item.id) + '" data-mode="' + VE.esc(mode) + '"> ' +
+            '<span class="todo-description">' + VE.esc(item.comments) + '</span>' +
+            '<span class="helper-wrapper" data-id="' + VE.esc(item.id) + '" data-mode="' + VE.esc(mode) + '">' + TB.addHelper(item) + '</span>' +
+            '<a href="javascript:void(0);" class="pull-right remove-todo-item" data-mode="' + VE.esc(mode) + '" data-id="' + VE.esc(item.id) + '">' +
+            '<i class="fa fa-times"></i></a></div>';
+    };
 
-$(document).on('click', '.todo-list .todo-item.added .remove-todo-item', function () {
-    deleteToDoItem($(this).attr('data-mode'), $(this).attr('data-id'));
-    $(this).parent().remove();
-});
+    //populate the area that holds the checklist items
+    TB.drawChecklist = function (mode) {
+        var parentId = mode === 'task' ? '#taskChecklist' : '#subtaskChecklist';
+        var type = mode === 'task' ? TB.task : TB.subTask;
+        TB.q(parentId + ' .todo-list').innerHTML = (type.checklist || []).map(function (item) {
+            return TB.checklistItem(item, mode);
+        }).join('');
+    };
 
+    VE.ready(function () {
+        //mark an item as complete or not
+        VE.on(document, 'change', '.todo-list .todo-item input[type=checkbox]', function (event, input) {
+            var mode = input.getAttribute('data-mode');
+            input.closest('.todo-item').classList.toggle('complete', input.checked);
+            TB.updateToDoItem(mode, input.getAttribute('data-id'), input.checked).then(function (item) {
+                TB.qa('.helper-wrapper[data-mode="' + mode + '"]').forEach(function (wrapper) {
+                    if (wrapper.getAttribute('data-id') == item.id) wrapper.innerHTML = TB.addHelper(item);
+                });
+            }).catch(VE.fail);
+        });
 
-//add helper text next to the to-do
-//ie edited by user at date
-function addHelper(item) {
-    html = '';
-    if (item.created_at === item.updated_at)
-        html += '<span class="created_updated"><small>' + Lang.get('js-components.todoCreated', {
-            user: item.updated_by.name,
-            date: item.updated_at
-        })
-        + '</small></span>';
-    else
-        html += '<span class="created_updated"><small>' + Lang.get('js-components.todoEdited', {
-            user: item.updated_by.name,
-            date: item.updated_at
-        })
-        + '</small></span>';
-
-    return html;
-}
-
+        //delete an item
+        VE.on(document, 'click', '.todo-list .todo-item .remove-todo-item', function (event, link) {
+            event.preventDefault();
+            TB.deleteToDoItem(link.getAttribute('data-mode'), link.getAttribute('data-id')).catch(VE.fail);
+            link.closest('.todo-item').remove();
+        });
+    });
+})();

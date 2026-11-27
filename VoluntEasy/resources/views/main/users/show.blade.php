@@ -71,7 +71,7 @@
                         <a href="{{ url('users/edit/'.$user->id) }}" class="btn btn-success"><i
                                 class="fa fa-edit"></i> {{ trans('default.edit') }}</a>
                         @if(!$isAdmin)
-                        <button onclick="deleteUser({{ $user->id }})" class="btn btn-danger"><i
+                        <button type="button" data-delete-user="{{ $user->id }}" class="btn btn-danger"><i
                                 class="fa fa-trash"></i> {{ trans('default.delete') }}
                         </button>
                         @endif
@@ -107,31 +107,22 @@
 
 @section('footerScripts')
 <script>
+    VE.ready(function () {
+        // initialize the tree with the units of the user
+        new Treewrapper({
+            url: VE.url('/api/tree/activeUnits/' + document.getElementById('userId').getAttribute('data-id')),
+            disabled: true,
+            withActions: false,
+            edit: 'user'
+        }).init();
 
-    //initialize the tree
-    var treewrapper = new Treewrapper({
-        url: $("body").attr('data-url') + '/api/tree/activeUnits/' + $("#userId").attr('data-id'),
-        disabled: true,
-        withActions: false,
-        edit: 'user'
+        // delete the user and return to the user list
+        VE.on(document, 'click', '[data-delete-user]', function (event, el) {
+            if (!VE.confirm(Lang.get('js-components.deleteUser'))) return;
+            VE.http.post('/users/delete/' + el.getAttribute('data-delete-user'))
+                .then(function () { location.href = VE.url('/users'); })
+                .catch(VE.fail);
+        });
     });
-    treewrapper.init();
-
-
-    //delete user and return to user list
-    function deleteUser(id) {
-        if (confirm(Lang.get('js-components.deleteUser')) == true) {
-            $.ajax({
-                url: $("body").attr('data-url') + '/users/delete/' + id,
-                method: 'GET',
-                headers: {
-                    'X-CSRF-Token': $('#token').val()
-                },
-                success: function () {
-                    window.location = $("body").attr('data-url') + '/users';
-                }
-            });
-        }
-    }
 </script>
 @append

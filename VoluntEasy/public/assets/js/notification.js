@@ -1,181 +1,120 @@
-$(document).ready(function () {
-
+/*
+ * The notification bell of the top bar (plain JavaScript).
+ * Every few seconds it gets the notifications of the user, draws the list,
+ * rings for the new ones ('alarmAndActive') and tells the server to stop the
+ * bell for them. When the user opens the list, the active notifications
+ * become inactive.
+ */
+VE.ready(function () {
+    var dropdown = document.getElementById('notificationsDropdown');
+    var bell = document.getElementById('notificationBell');
+    var list = document.getElementById('notificationList');
+    var badge = document.getElementById('notificationBadge');
+    var seconds = 4; // every xx seconds hit the server
+    var pageTitle = document.title;
     var alarmActives = [];
-    var notifications = [];
     var actives = [];
-    var ring;
-    var pagetitle = $('title').text();
-    var seconds = 4; //every xx seconds hit the server
+    var ring = new Audio(VE.url('/assets/sounds/sounds-1054-suppressed.mp3'));
 
-    //set up the sound manager that will play  the ring sound
-    soundManager.setup({
-        onready: function () {
-            ring = soundManager.createSound({
-                id: 'aSound', // optional: provide your own unique id
-                url: '../assets/sounds/sounds-1054-suppressed.mp3'
-            });
-        }
-    });
-
-
-    /* every xx seconds check for notifications */
-    var timerLoop;
-    var timer = function () {
-        //if the notification dropdown is not open,
-        // and the user is not currently viewing any tasks, do the following
-        if (!$("#notificationsDropdown").hasClass("open")) {
-            /*
-             * first hit the server and get the new notifications,
-             * then send the 'alarmAndActive' notifications back to the server to change their status
-             */
-            $.when(hitServer())
-                .then(function () {
-                    stopBellNotification();
-                });
-        }
-        timerLoop = setTimeout(timer, seconds * 1000);
+    var icons = {
+        1: ['badge-info', 'fa-home'],      // user assigned to unit
+        2: ['badge-success', 'fa-leaf'],   // new volunteer
+        4: ['badge-warning', 'fa-calendar'], // action about to expire
+        5: ['badge-danger', 'fa-calendar']   // action expired
     };
-    timer();
 
-    /* hit the server to check for new notifications */
-    function hitServer() {
-        return $.ajax({
-            url: $("body").attr('data-url') + '/checkForNotifications',
-            dataType: "json",
-            success: function (data) {
-                actives = [];
-                alarmActives = [];
-                notifications = [];
+    function setSum(count) {
+        Array.prototype.forEach.call(document.querySelectorAll('.notificationSum'), function (el) { el.textContent = count; });
+    }
 
-                if (data.length > 0) {
+    function isOpen() {
+        return dropdown && dropdown.classList.contains('open');
+    }
 
-                    var html = '';
-                    //loop through the notifications and draw the
-                    //notification list
-                    $.each(data, function (i, notification) {
-                        //console.log(notification.id);
+    function draw(data) {
+        actives = [];
+        alarmActives = [];
+        if (!data || !data.length) return;
 
-                        var notifClass = (notification.status == 'alarmAndActive' || notification.status == 'active' ? 'grey' : 'white');
-                        var icon = '';
-                        var url = $("body").attr('data-url');
+        var html = data.map(function (notification) {
+            var active = notification.status === 'alarmAndActive' || notification.status === 'active';
+            var icon = icons[notification.type_id] || ['badge-info', 'fa-info'];
+            if (notification.status === 'alarmAndActive') alarmActives.push(notification.id);
+            if (active) actives.push(notification.id);
+            return '<li class="' + (active ? 'grey' : 'white') + '"><a href="' + VE.esc(VE.base() + notification.url) + '">' +
+                '<div class="task-icon badge ' + icon[0] + '"><i class="fa ' + icon[1] + '"></i></div>' +
+                '<p class="task-details">' + VE.esc(notification.msg) + ' <small><em>(' + VE.esc(notification.when) + ')</em></small></p>' +
+                '</a></li>';
+        }).join('');
 
-                        //depending on the notification type, change the icon
-                        if (notification.type_id == "1") { //user assigned to unit
-                            icon = '<div class="task-icon badge badge-info"><i class="fa fa-home"></i></div>';
-                            url += notification.url;
-                        }
-                        else if (notification.type_id == "2") { //new volunteer
-                            icon = '<div class="task-icon badge badge-success"><i class="fa fa-leaf"></i></div>';
-                            url += notification.url;
-                        }
-                        else if (notification.type_id == "4") {//action about to expire
-                            icon = '<div class="task-icon badge badge-warning"><i class="fa fa-calendar"></i></div>';
-                            url += notification.url;
-                        }
-                        else if (notification.type_id == "5") {//action expired
-                            icon = '<div class="task-icon badge badge-danger"><i class="fa fa-calendar"></i></div>';
-                            url += notification.url;
-                        }
-                        else { //default
-                            icon = '<div class="task-icon badge badge-info"><i class="fa fa-info"></i></div>';
-                            url += notification.url;
-                        }
-                        //draw the <li> that holds all the notification info
-                        html += '<li class="' + notifClass + '"><a href="' + $("body").attr('data-url') + notification.url + '">';
-                        html += icon;
-                        html += '<p class="task-details">' + notification.msg + ' <small><em>(' + notification.when + ')</em></small></p>';
-                        html += '</a></li>';
+        // if there are new notifications, play a sound
+        if (alarmActives.length > 0) {
+            var playing = ring.play();
+            if (playing && playing.catch) playing.catch(function () { /* the browser can block the sound */ });
+        }
 
-                        //notifications that have a status of 'alarmAndActive'
-                        //are kept to this array to be sent back to server
-                        if (notification.status == 'alarmAndActive')
-                            alarmActives.push(notification.id);
+        if (actives.length > 0) {
+            setSum(actives.length);
+            if (badge) VE.show(badge);
+            document.title = '(' + actives.length + ') ' + pageTitle;
+        } else {
+            setSum(0);
+            if (badge) VE.hide(badge);
+            document.title = pageTitle;
+        }
+        if (list) list.innerHTML = html;
+    }
 
-                        if (notification.status == 'alarmAndActive' || notification.status == 'active')
-                            actives.push(notification.id);
-
-                        notifications.push(notification.id);
-                    });
-
-                    //if there are alarmAndActive notifications, play a sound
-                    if (alarmActives.length > 0) {
-                        ring.play();
-                    }
-
-                    if (actives.length > 0) {
-                        $(".notificationSum").text(actives.length);
-
-                        //there are new notifications
-                        $("#notificationBadge").show();
-
-                        //add a (1) to the title!
-                        $('title').text('(' + actives.length + ') ' + pagetitle);
-                    }
-                    else {
-                        $(".notificationSum").text(0);
-                        $("#notificationBadge").hide();
-                        $("#notificationList").html('');
-                        $('title').text(pagetitle);
-                    }
-
-                    //append the <li>s to the <ul>
-                    $("#notificationList").html(html);
-                }
-            }
+    // for each new notification, tell the server to stop the bell
+    function stopBellNotification() {
+        alarmActives.forEach(function (id) {
+            VE.http.post('/stopBellNotification/' + id).catch(function (error) { console.error(error); });
         });
     }
 
-    /*
-     * for each notification that has a status of 'alarmAndActive',
-     * send the id to server to change the status to 'active'
-     */
-    function stopBellNotification() {
-        $.each(alarmActives, function (i, id) {
-            return $.ajax({
-                url: $("body").attr('data-url') + '/stopBellNotification/' + id,
-                method: "GET",
-                headers: {
-                    'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-                }
-            });
-        })
+    function timer() {
+        // do not change the list while the user reads it
+        if (!isOpen()) {
+            VE.http.get('/checkForNotifications')
+                .then(function (data) {
+                    draw(data);
+                    stopBellNotification();
+                })
+                .catch(function (error) {
+                    // a request cut off by leaving the page is not an error
+                    if (!(error instanceof TypeError)) console.error(error);
+                });
+        }
+        setTimeout(timer, seconds * 1000);
     }
 
-    /*
-     * when the bell icon is clicked and the user views the notification list,
-     * send a request to the server with all the active/alarmAndActive notifications
-     * to change their status to inactive.
-     */
-    $("#notificationBell").click(function () {
-        if (!$("#notificationsDropdown").hasClass("open")) {
-            $.each(actives, function (i, id) {
-                return $.ajax({
-                    url: $("body").attr('data-url') + '/deactivateNotification/' + id,
-                    method: "GET",
-                    headers: {
-                        'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-                    }
-                });
+    if (dropdown) timer();
+
+    // when the user opens the list, the active notifications become inactive
+    // (capture phase: read the state before the dropdown toggles it)
+    if (bell) {
+        document.addEventListener('click', function (event) {
+            if (!event.target.closest || !event.target.closest('#notificationBell')) return;
+            if (isOpen()) return;
+            actives.forEach(function (id) {
+                VE.http.post('/deactivateNotification/' + id).catch(function (error) { console.error(error); });
             });
-            $('title').text(pagetitle);
-            $("#notificationBadge").hide();
-            $(this).removeClass("open");
-            $(this).addClass("open")
-        }
-    });
+            document.title = pageTitle;
+            if (badge) VE.hide(badge);
+        }, true);
+    }
 
-
+    // easter egg: click the logo more than 10 times
     var logoCounter = 0;
-    $(".navbar .logo-box img").click(function(){
+    var egg = document.getElementById('easterEgg');
+    VE.on(document, 'click', '.navbar .logo-box img', function () {
         logoCounter++;
-        if(logoCounter>10){
-            $("#easterEgg").show();
-        }
-    })
-
-    $("#easterEgg").click(function(){
-        $("#easterEgg").hide();
-        logoCounter=0;
-    })
-
+        if (logoCounter > 10 && egg) VE.show(egg);
+    });
+    if (egg) {
+        egg.addEventListener('click', function () {
+            VE.hide(egg);
+            logoCounter = 0;
+        });
+    }
 });

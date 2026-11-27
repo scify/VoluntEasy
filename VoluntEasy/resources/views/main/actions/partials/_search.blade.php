@@ -68,11 +68,14 @@
 </div>
 
 @section('footerScripts')
-<script src="{{ asset('assets/js/pages/search.js') }}"></script>
-
 <script>
-    $("#showFilters").click(function () {
-        $("#filters").toggle();
+    VE.ready(function () {
+        VE.autocomplete('#actionUser', '/search/actionUser');
+
+        VE.on('#showFilters', 'click', function (event) {
+            event.preventDefault();
+            VE.toggle('#filters');
+        });
     });
 </script>
 @append

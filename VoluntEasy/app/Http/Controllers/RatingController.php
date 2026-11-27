@@ -11,6 +11,7 @@ use App\Models\Rating\Rating;
 use App\Models\Rating\RatingAttribute;
 use App\Models\Rating\VolunteerActionRating;
 use App\Models\Volunteer;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Interfaces\RatingInterface;
 
@@ -85,84 +86,74 @@ class RatingController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store the ratings of the volunteers of an action (public page, reached
+     * with the token of an e-mail). The rating, the action and the user come
+     * from the token, never from the request; a token is used once.
      */
-    public function storeVolunteersRating()
+    public function storeVolunteersRating(Request $request)
     {
+        $actionRating = ActionRating::where('token', (string) $request->input('token'))
+            ->where('rated', false)->firstOrFail();
+        $request->merge([
+            'actionRatingId' => $actionRating->id,
+            'actionId' => $actionRating->action_id,
+            'action_id' => $actionRating->action_id,
+            'user_id' => $actionRating->user_id,
+        ]);
 
         if ($this->ratingService->hasCustomRatings()) {
-            $actionRating = ActionRating::find(\Request::get('actionRatingId'));
             $actionRating->update(['rated' => true]);
 
             return $this->ratingService->storeVolunteerRating();
-        } else {
-            $actionId = \Request::get('actionId');
-            $actionRatingId = \Request::get('actionRatingId');
-            $volunteers = \Request::get('volunteers');
-
-            // for each volunteer, we have to create an entry to the
-            // volunteer_action_ratings table
-            foreach ($volunteers as $volunteer) {
-
-                $volunteerActionRating = new VolunteerActionRating([
-                    'volunteer_id' => $volunteer['id'],
-                    'action_rating_id' => $actionRatingId,
-                    'user_id' => \Auth::id(),
-                    'comments' => $volunteer['comments'],
-                    'hours' => intval($volunteer['hours']),
-                    'minutes' => intval($volunteer['minutes']),
-                ]);
-
-                $volunteerActionRating->save();
-
-                // then for every rating attribute, we must save the rating
-                foreach ($volunteer['ratings'] as $rating) {
-                    $rating = new Rating([
-                        'rating' => $rating['rating'],
-                        'rating_attribute_id' => $rating['attrId'],
-                        'volunteer_action_rating_id' => $volunteerActionRating->id,
-                    ]);
-
-                    $rating->save();
-                }
-            }
-
-            // set the action rating as rated
-            $actionRating = ActionRating::find($actionRatingId);
-            $actionRating->update(['rated' => true]);
-
-            return $actionId;
         }
+
+        // for each volunteer, an entry in the volunteer_action_ratings table
+        // and one rating per rating attribute
+        foreach ((array) $request->input('volunteers', []) as $volunteer) {
+            $volunteerActionRating = new VolunteerActionRating([
+                'volunteer_id' => $volunteer['id'],
+                'action_rating_id' => $actionRating->id,
+                'user_id' => $actionRating->user_id,
+                'comments' => $volunteer['comments'] ?? '',
+                'hours' => intval($volunteer['hours'] ?? 0),
+                'minutes' => intval($volunteer['minutes'] ?? 0),
+            ]);
+            $volunteerActionRating->save();
+
+            foreach ($volunteer['ratings'] ?? [] as $rating) {
+                (new Rating([
+                    'rating' => $rating['rating'],
+                    'rating_attribute_id' => $rating['attrId'],
+                    'volunteer_action_rating_id' => $volunteerActionRating->id,
+                ]))->save();
+            }
+        }
+
+        $actionRating->update(['rated' => true]);
+
+        return $actionRating->action_id;
     }
 
     /**
-     * Save an action rating
-     *
-     * @return mixed
+     * Store a volunteer's rating of an action (public page, reached with the
+     * token of an e-mail; a token is used once).
      */
-    public function storeActionRating()
+    public function storeActionRating(Request $request)
     {
+        $actionScore = ActionScore::where('token', (string) $request->input('token'))
+            ->where('rated', false)->firstOrFail();
 
-        $actionId = \Request::get('actionId');
-        $actionScoreId = \Request::get('actionScoreId');
-        $ratings = \Request::get('ratings');
-
-        // for each volunteer, we have to create an entry to the
-        // volunteer_action_ratings table
-        foreach ($ratings as $rating) {
-            $actionRatingScore = new ActionRatingScore([
+        foreach ((array) $request->input('ratings', []) as $rating) {
+            (new ActionRatingScore([
                 'score' => $rating['score'],
                 'attribute_id' => $rating['attrId'],
-                'action_score_id' => $actionScoreId,
-            ]);
-            $actionRatingScore->save();
+                'action_score_id' => $actionScore->id,
+            ]))->save();
         }
 
-        // set the action rating as rated
-        $actionScore = ActionScore::find($actionScoreId);
-        $actionScore->update(['rated' => true, 'comments' => \Request::get('comments')]);
+        $actionScore->update(['rated' => true, 'comments' => $request->input('comments')]);
 
-        return $actionId;
+        return $actionScore->action_id;
     }
 
     public function actionThankyou($actionId)

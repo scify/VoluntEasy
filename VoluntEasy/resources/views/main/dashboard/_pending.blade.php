@@ -22,62 +22,44 @@
 
 @section('footerScripts')
 <script>
-    var table = $('#pendingVolunteersTable').dataTable({
-        "pageLength": 5,
-        "bFilter": false,
-        "bLengthChange": false,
-        "ajax": $("body").attr('data-url') + '/api/volunteers/status/pending',
-        "columns": [
-            {data: "id"},
-            {
-                //concat first name with last name
-                data: null, render: function (data, type, row) {
-                html = '<a href="' + $("body").attr('data-url') + '/volunteers/one/' + data.id + '">' + data.name + ' ' + data.last_name + '</a>';
-                html += '<br/><small><a href="mailto:' + data.email + '">' + data.email + '</a></small>'
-                return html;
-            }
-            },
-            {
-                //show all the pending units
-                data: null, render: function (data, type, row) {
-                var units = '';
-
-                $.each(data.units, function (index, unit) {
-                    if (unit.status == 'Pending')
-                        units += '<p>' + unit.description + '</p>';
-                });
-
-                return units;
-            }
-            },
-            {
-                //show the current pending step for each unit
-                data: null, render: function (data, type, row) {
-                var status = '';
-
-                $.each(data.units, function (index, unit) {
-                    if (unit.status == 'Pending')
-                        status += '<p>' + unit.steps[0].description + '</p>';
-
-                });
-
-                return status;
-            }
-            }
-        ],
-        //custom text
-        "language": {
-            "lengthMenu": Lang.get('js-components.lengthMenu'),
-            "zeroRecords": Lang.get('js-components.zeroVolunteers'),
-            "info": Lang.get('js-components.info'),
-            "infoEmpty": Lang.get('js-components.zeroVolunteers'),
-            "paginate": {
-                "first": Lang.get('js-components.first'),
-                "last": Lang.get('js-components.last'),
-                "next": ">",
-                "previous": "<"
-            }
+    VE.ready(function () {
+        function pendingUnits(data) {
+            return (data.units || []).filter(function (unit) { return unit.status == 'Pending'; });
         }
+
+        var table = VE.table('#pendingVolunteersTable', {
+            lengthChange: false,
+            url: '/api/volunteers/status/pending',
+            pageLength: 5,
+            order: [[0, 'asc']],
+            columns: [
+                {data: 'id'},
+            {
+                // name and email
+                data: null, render: function (data) {
+                    return '<a href="' + VE.url('/volunteers/one/' + data.id) + '">' + VE.esc(data.name + ' ' + data.last_name) + '</a>' +
+                        '<br/><small><a href="mailto:' + VE.esc(data.email) + '">' + VE.esc(data.email) + '</a></small>';
+                }
+            },
+                {
+                    // all the pending units
+                    data: null, render: function (data) {
+                        return pendingUnits(data).map(function (unit) { return '<p>' + VE.esc(unit.description) + '</p>'; }).join('');
+                    }
+                },
+                {
+                    // the current pending step for each unit (a unit can have no incomplete step)
+                    data: null, render: function (data) {
+                        return pendingUnits(data).map(function (unit) {
+                            var step = (unit.steps || [])[0];
+                            return '<p>' + (step ? VE.esc(step.description) : '-') + '</p>';
+                        }).join('');
+                    }
+                }
+            ],
+            language: VE.tableLanguage('js-components.zeroVolunteers')
+        });
+        // no page length menu in the dashboard widgets
     });
 </script>
 @append

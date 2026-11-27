@@ -40,7 +40,7 @@
                                             <div class="pull-right">
                                                 {!! Form::submit( trans('default.save') , ['class' => 'btn btn-success
                                                 edit pull-right', 'id' => 'updateSubTask']) !!}
-                                                <button class="btn btn-danger deleteSubtask">{{trans('default.delete')}}
+                                                <button type="button" class="btn btn-danger deleteSubtask">{{trans('default.delete')}}
                                                 </button>
                                             </div>
                                             {!! Form::close() !!}

@@ -35,8 +35,4 @@
 
 @section('footerScripts')
 <input id="token" type="hidden" value="{{ csrf_token() }}">
-
-<script>
-
-</script>
 @stop

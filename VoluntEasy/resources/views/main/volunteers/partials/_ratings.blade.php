@@ -176,19 +176,14 @@
 
 @section('footerScripts')
 <script>
-    $(".deleteRating").click(function () {
-        if (confirm(Lang.get('js-components.deleteRating')) == true) {
-            $.ajax({
-                url: $("body").attr('data-url') + '/ratings/action/volunteers/delete/' + $(this).attr('data-rating-id'),
-                method: 'GET',
-                headers: {
-                    'X-CSRF-Token': $('#token').val()
-                },
-                success: function () {
-                    location.reload();
-                }
-            });
-        }
-    })
+    VE.ready(function () {
+        VE.on(document, 'click', '.deleteRating', function (event, link) {
+            event.preventDefault();
+            if (!VE.confirm(Lang.get('js-components.deleteRating'))) return;
+            VE.http.post('/ratings/action/volunteers/delete/' + link.getAttribute('data-rating-id'))
+                .then(function () { location.reload(); })
+                .catch(VE.fail);
+        });
+    });
 </script>
 @append

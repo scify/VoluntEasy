@@ -118,217 +118,117 @@
 
 @section('footerScripts')
 <script>
-
-//save a step
-$(".saveStep").click(function () {
-    var id = $(this).attr('data-id');
-
-    var stepStatus = {
-        'id': id,
-        'comments': $('#stepTextarea-' + id).val(),
-        'assignTo': '',
-        'status': 'Incomplete'
-    };
-
-    changeStepStatus(stepStatus, true);
-
-});
-
-//complete a step
-$(".completeStep").click(function () {
-    var id = $(this).attr('data-id');
-
-    var stepStatus = {
-        'id': id,
-        'comments': $('#stepTextarea-' + id).val(),
-        'assignTo': '',
-        'status': 'Complete'
-    };
-
-    changeStepStatus(stepStatus, true);
-});
-
-
-//assign to a unit after completing step 3
-$(".assignToNextUnit").click(function () {
-    var id = $(this).attr('data-parent'),
-        step, stepStatus;
-    console.log(id);
-    if (id != null) {
-        var selectId;
-
-        if (typeof $(this).attr('data-select-id') === "undefined")
-            selectId = '#unitSelect-' + id;
-        else
-            selectId = "#" + $(this).attr('data-select-id');
-
-
-        step = {
-            'volunteer_id': $(this).attr('data-volunteer-id'),
-            'assign_id': $(selectId).val(),
-            'parent_unit_id': $(this).attr('data-parent')
-        };
-
-        stepStatus = {
-            'id': id,
-            'comments': $(selectId + ' option:selected').text(),
-            'assignTo': 'unit',
-            'status': 'Complete'
-        };
-
-        console.log(step);
-        console.log(stepStatus);
-
-
-        $.when(changeStepStatus(stepStatus, false))
-            .then(assignToUnit(step));
-
+VE.ready(function () {
+    function goToProfile(id) {
+        window.location.href = VE.url('/volunteers/one/' + id);
     }
-    else {
-        console.log(id);
 
-        step = {
-            'volunteer_id': $(this).attr('data-volunteer-id'),
-            'assign_id': $('#moreUnits').val(),
-            'parent_unit_id': null
-        };
-
-        // console.log(step);
-        assignToUnit(step);
+    // change the step status
+    function changeStepStatus(stepStatus) {
+        return VE.http.post('/volunteers/stepStatus/update', stepStatus);
     }
-})
-;
 
-
-//assign to an action after completing step 3
-$(".assignToAction").click(function () {
-    var step = {
-        'volunteer_id': $(this).attr('data-volunteer-id'),
-        'assign_id': $('#addToAction-' + $(this).attr('data-unit-id')).val(),
-        'parent_unit_id': ''
-    };
-    console.log(step);
-
-    assignToAction(step);
-});
-
-
-//after completing step 3, the volunteer might be to unit
-//that has actions. the user can assign the volunteer either to an action
-//or keep them to the unit they currently are.
-$(".assignToActionOrUnit").click(function () {
-    var id = $(this).attr('data-id');
-    var assignmentRadio = $('input:radio[name="assignment"]:checked');
-    var stepStatus, step;
-
-    if (assignmentRadio.val() == 'action') {
-        stepStatus = {
-            'id': id,
-            'comments': $('#actionSelect-' + id + ' option:selected').text(),
-            'assignTo': 'action',
-            'status': 'Complete'
-        };
-
-        step = {
-            'volunteer_id': $(this).attr('data-volunteer-id'),
-            'assign_id': $('#actionSelect-' + id).val(),
-            'parent_unit_id': ''
-        };
-        /*  console.log('action');
-         console.log(stepStatus);
-         console.log(step);*/
-
-        $.when(changeStepStatus(stepStatus, false))
-            .then(assignToAction(step));
-
-    } else {
-        stepStatus = {
-            'id': id,
-            'comments': assignmentRadio.val(),
-            'assignTo': 'unit',
-            'status': 'Complete'
-        };
-
-        step = {
-            'volunteer_id': $(this).attr('data-volunteer-id'),
-            'assign_id': assignmentRadio.attr('data-unit-id'),
-            'parent_unit_id': assignmentRadio.attr('data-unit-id')
-        };
-
-        /* console.log('unit');
-         console.log(stepStatus);
-         console.log(step);
-         */
-
-        $.when(changeStepStatus(stepStatus, false))
-            .then(assignToUnit(step));
+    function assignToUnit(step) {
+        return VE.http.post('/volunteers/addToUnit', step).then(goToProfile);
     }
-});
 
-//'entaksi se monada' button
-$(".assignToAnotherUnit").click(function () {
-    var step = {
-        'volunteer_id': $(this).attr('data-volunteer-id'),
-        'assign_id': $('#moreUnits').val(),
-        'parent_unit_id': ''
-    };
+    function assignToAction(step) {
+        return VE.http.post('/volunteers/addToAction', step).then(goToProfile);
+    }
 
-    assignToUnit(step);
-});
+    function selectedText(select) {
+        var option = select && select.options[select.selectedIndex];
+        return option ? option.text : '';
+    }
 
-//change the step status
-function changeStepStatus(stepStatus, redirect) {
-    if (redirect)
-        return $.ajax({
-            url: $("body").attr('data-url') + '/volunteers/stepStatus/update',
-            method: 'POST',
-            data: stepStatus,
-            headers: {
-                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-            },
-            success: function (data) {
-                window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
+    function stepComments(id) {
+        var textarea = document.getElementById('stepTextarea-' + id);
+        return textarea ? textarea.value : '';
+    }
+
+    // save a step
+    VE.on(document, 'click', '.saveStep', function (event, button) {
+        var id = button.getAttribute('data-id');
+        changeStepStatus({id: id, comments: stepComments(id), assignTo: '', status: 'Incomplete'})
+            .then(goToProfile).catch(VE.fail);
+    });
+
+    // complete a step
+    VE.on(document, 'click', '.completeStep', function (event, button) {
+        var id = button.getAttribute('data-id');
+        changeStepStatus({id: id, comments: stepComments(id), assignTo: '', status: 'Complete'})
+            .then(goToProfile).catch(VE.fail);
+    });
+
+    // assign to a unit (after completing step 3, or to a sub-unit, or to a first unit)
+    VE.on(document, 'click', '.assignToNextUnit', function (event, button) {
+        var parentId = button.getAttribute('data-parent'),
+            volunteerId = button.getAttribute('data-volunteer-id'),
+            select;
+
+        if (parentId != null) {
+            select = document.getElementById(button.getAttribute('data-select-id') || ('unitSelect-' + parentId));
+            var step = {volunteer_id: volunteerId, assign_id: select.value, parent_unit_id: parentId};
+            var stepStatusId = button.getAttribute('data-id');
+
+            if (stepStatusId) {
+                // the button of step 3: complete the step, then assign
+                changeStepStatus({id: stepStatusId, comments: selectedText(select), assignTo: 'unit', status: 'Complete'})
+                    .then(function () { return assignToUnit(step); })
+                    .catch(VE.fail);
+            } else {
+                assignToUnit(step).catch(VE.fail);
             }
-        });
-    else
-        return $.ajax({
-            url: $("body").attr('data-url') + '/volunteers/stepStatus/update',
-            method: 'POST',
-            data: stepStatus,
-            headers: {
-                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-            }
-        });
-}
-
-function assignToUnit(step) {
-    return $.ajax({
-        url: $("body").attr('data-url') + '/volunteers/addToUnit',
-        method: 'POST',
-        data: step,
-        headers: {
-            'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-        },
-        success: function (data) {
-            console.log(data);
-            window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
+        } else {
+            select = document.getElementById(button.getAttribute('data-select-id') || 'moreUnits');
+            assignToUnit({volunteer_id: volunteerId, assign_id: select.value, parent_unit_id: ''}).catch(VE.fail);
         }
     });
-}
 
-function assignToAction(step) {
-    return $.ajax({
-        url: $("body").attr('data-url') + '/volunteers/addToAction',
-        method: 'POST',
-        data: step,
-        headers: {
-            'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-        },
-        success: function (data) {
-            window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
+    // assign to an action
+    VE.on(document, 'click', '.assignToAction', function (event, button) {
+        assignToAction({
+            volunteer_id: button.getAttribute('data-volunteer-id'),
+            assign_id: document.getElementById('addToAction-' + button.getAttribute('data-unit-id')).value,
+            parent_unit_id: ''
+        }).catch(VE.fail);
+    });
+
+    // after step 3, the volunteer can be assigned to an action of the unit,
+    // or stay in the unit they currently are
+    VE.on(document, 'click', '.assignToActionOrUnit', function (event, button) {
+        var id = button.getAttribute('data-id'),
+            volunteerId = button.getAttribute('data-volunteer-id'),
+            modal = button.closest('.modal') || document,
+            radio = modal.querySelector('input[type="radio"][name="assignment"]:checked');
+
+        if (!radio) return;
+
+        if (radio.value == 'action') {
+            var actionSelect = document.getElementById('actionSelect-' + id);
+            changeStepStatus({id: id, comments: selectedText(actionSelect), assignTo: 'action', status: 'Complete'})
+                .then(function () {
+                    return assignToAction({volunteer_id: volunteerId, assign_id: actionSelect.value, parent_unit_id: ''});
+                })
+                .catch(VE.fail);
+        } else {
+            var unitId = radio.getAttribute('data-unit-id');
+            changeStepStatus({id: id, comments: radio.value, assignTo: 'unit', status: 'Complete'})
+                .then(function () {
+                    return assignToUnit({volunteer_id: volunteerId, assign_id: unitId, parent_unit_id: unitId});
+                })
+                .catch(VE.fail);
         }
     });
-}
 
+    // "assign to unit" button
+    VE.on(document, 'click', '.assignToAnotherUnit', function (event, button) {
+        assignToUnit({
+            volunteer_id: button.getAttribute('data-volunteer-id'),
+            assign_id: document.getElementById('moreUnits').value,
+            parent_unit_id: ''
+        }).catch(VE.fail);
+    });
+});
 </script>
 @append

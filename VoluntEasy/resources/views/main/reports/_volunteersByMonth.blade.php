@@ -16,19 +16,15 @@
 
 @section('footerScripts')
 <script>
+    // load the volunteers by month and draw the bar chart
+    VE.ready(function () {
+        function bars(label, color, data) {
+            return {label: label, fillColor: color, strokeColor: color, highlightFill: color, highlightStroke: color, data: data};
+        }
 
-
-    //when page loads -> ajax call to retrieve volunteers
-    //create the appropriate obj, then init the chart
-
-
-    $.ajax({
-        url: $("body").attr('data-url') + "/reports/volunteersByMonth",
-        method: 'GET',
-        success: function (result) {
-
-            var ctx2 = document.getElementById("chart2").getContext("2d");
-            var data2 = {
+        VE.http.get('/reports/volunteersByMonth').then(function (result) {
+            var ctx = document.getElementById('chart2').getContext('2d');
+            new Chart(ctx).Bar({
                 labels: [
                     Lang.get('js-components.january'),
                     Lang.get('js-components.february'),
@@ -41,48 +37,18 @@
                     Lang.get('js-components.september'),
                     Lang.get('js-components.october'),
                     Lang.get('js-components.november'),
-                    Lang.get('js-components.december'),
+                    Lang.get('js-components.december')
                 ],
                 datasets: [
-                    {
-                        label: Lang.get('js-components.new'),
-                        fillColor: "#12AFCB",
-                        strokeColor: "#12AFCB",
-                        highlightFill: "#12AFCB",
-                        highlightStroke: "#12AFCB",
-                        data: result.new
-                    },
-                    {
-                        label: Lang.get('js-components.pending'),
-                        fillColor: "#E26E27",
-                        strokeColor: "#E26E27",
-                        highlightFill: "#E26E27",
-                        highlightStroke: "#E26E27",
-                        data: result.pending
-                    },
-                    {
-                        label: Lang.get('js-components.available'),
-                        fillColor: "#22BAA0",
-                        strokeColor: "#22BAA0",
-                        highlightFill: "#22BAA0",
-                        highlightStroke: "#22BAA0",
-                        data: result.available
-                    },
-                    {
-                        label: Lang.get('js-components.active'),
-                        fillColor: "#7a6fbe",
-                        strokeColor: "#7a6fbe",
-                        highlightFill: "#7a6fbe",
-                        highlightStroke: "#7a6fbe",
-                        data: result.active
-                    }
+                    bars(Lang.get('js-components.new'), '#12AFCB', result.new),
+                    bars(Lang.get('js-components.pending'), '#E26E27', result.pending),
+                    bars(Lang.get('js-components.available'), '#22BAA0', result.available),
+                    bars(Lang.get('js-components.active'), '#7a6fbe', result.active)
                 ]
-            };
-
-            var chart2 = new Chart(ctx2).Bar(data2, {
+            }, {
                 scaleBeginAtZero: true,
                 scaleShowGridLines: true,
-                scaleGridLineColor: "rgba(0,0,0,.05)",
+                scaleGridLineColor: 'rgba(0,0,0,.05)',
                 scaleGridLineWidth: 1,
                 scaleShowHorizontalLines: true,
                 scaleShowVerticalLines: true,
@@ -91,9 +57,7 @@
                 barDatasetSpacing: 1,
                 responsive: true
             });
-        }
+        }).catch(VE.fail);
     });
-
-
 </script>
 @append

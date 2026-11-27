@@ -38,14 +38,7 @@
     <link rel="icon" type="image/png" href="{{ asset('assets/images/volunteasy/favicon.ico')}}">
     @endif
 
-    <script src="{{ asset('assets/js/analyticstracking.js')}}"></script>
 
-    <!-- HTML5 elements and media queries Support for IE8 : HTML5 shim and Respond.js -->
-    <!--[if lt IE 9]>
-    <script src="{{ asset('assets/js/landing/html5shiv.js')}}"></script>
-    <script src="{{ asset('assets/js/landing/respond.min.js')}}"></script>
-
-    <![endif]-->
 
 </head>
 
@@ -92,7 +85,7 @@
             <li class="nav"><a href="#solution" data-scroll="solution">One solution for multiple needs</a></li>
             <li class="nav"><a href="#keyFeatures" data-scroll="keyFeatures">Key Features</a></li>
             <li class="nav"><a href="#video" data-scroll="video">Usage video</a></li>
-            <li class="nav"><a href="#pricing" data-scroll="video">Pricing</a></li>
+            <li class="nav"><a href="#pricing" data-scroll="pricing">Pricing</a></li>
             <li class="nav"><a href="#contact" data-scroll="contact">Contact</a></li>
 
         </ul>
@@ -570,55 +563,110 @@
     <!-- end container -->
 </footer>
 
-<!-- jQuery -->
-<script src="{{ asset('assets/plugins/jquery/jquery-2.1.3.min.js')}}"></script>
-<script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js')}}"></script>
-<script src="{{ asset('assets/js/landing/jquery.easing.min.js')}}"></script>
-<script src="{{ asset('assets/js/landing/jquery.fitvids.js')}}"></script>
-<script src="{{ asset('assets/js/landing/owl.carousel.js')}}"></script>
-<!--<script src="js/jquery.ui.totop.min.js"></script>-->
-<script src="{{ asset('assets/js/landing/jquery.countTo.js')}}"></script>
-<script src="{{ asset('assets/js/landing/jquery.placeholder.js')}}"></script>
-<script src="{{ asset('assets/js/landing/jquery.parallax-1.1.3.js')}}"></script>
-<script src="{{ asset('assets/js/landing/wow.min.js')}}"></script>
-<script src="{{ asset('assets/js/landing/jquery.sticky.js')}}"></script>
-<script src="{{ asset('assets/js/landing/jquery.cubeportfolio.min.js')}}"></script>
-<script src="{{ asset('assets/js/landing/lightbox-gallery.js')}}"></script>
-<script src="{{ asset('assets/js/landing/main.js')}}"></script>
-
-
 <script>
-    //Animation Wow.js
-    new WOW().init();
+    document.addEventListener('DOMContentLoaded', function () {
+        var nav = document.querySelector('nav.navbar');
+        var navLinks = Array.prototype.slice.call(document.querySelectorAll('#nav li.nav'));
+        var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-anchor]'));
+        var header = document.querySelector('.parallaxBg');
 
-    //sticky menu
-    $(".navbar").sticky({topSpacing: 0});
+        // sticky menu
+        nav.style.position = 'sticky';
+        nav.style.top = '0';
 
-</script>
+        // the menu links scroll smoothly to their section
+        Array.prototype.forEach.call(document.querySelectorAll('#nav a'), function (link) {
+            link.addEventListener('click', function (event) {
+                var section = document.querySelector('section[data-anchor="' + link.getAttribute('data-scroll') + '"]');
+                if (!section) return;
+                event.preventDefault();
+                window.scrollTo({top: section.getBoundingClientRect().top + window.pageYOffset - 69, behavior: 'smooth'});
+            });
+        });
 
-<script>
-    $(document).ready(function () {
-        $('#nav a').on('click', function () {
-            var scrollAnchor = $(this).attr('data-scroll'),
-                scrollPoint = $('section[data-anchor="' + scrollAnchor + '"]').offset().top - 69;
-            $('body,html').animate({
-                scrollTop: scrollPoint
-            }, 500);
-            return false;
-        })
-        $(window).scroll(function () {
-            var windscroll = $(window).scrollTop();
-            if (windscroll >= 100) {
-                $('section[data-anchor]').each(function (i) {
-                    if ($(this).position().top <= windscroll + 71) {
-                        $('#nav li.zm-active').removeClass('zm-active');
-                        $('#nav li.nav').eq(i).addClass('zm-active');
-                    }
+        function onScroll() {
+            var scrollTop = window.pageYOffset;
+
+            // the menu item of the section on the screen is active
+            navLinks.forEach(function (li) { li.classList.remove('zm-active'); });
+            if (scrollTop >= 100) {
+                var current = -1;
+                sections.forEach(function (section, i) {
+                    if (section.getBoundingClientRect().top + scrollTop <= scrollTop + 71) current = i;
                 });
-            } else {
-                $('#nav li.zm-active').removeClass('zm-active');
+                if (navLinks[current]) navLinks[current].classList.add('zm-active');
             }
-        }).scroll();
+
+            // parallax background of the header
+            if (header && header.getBoundingClientRect().bottom > 0) {
+                header.style.backgroundPosition = '50% ' + Math.round((header.offsetTop - scrollTop) * 0.4) + 'px';
+            }
+        }
+        window.addEventListener('scroll', onScroll, {passive: true});
+        onScroll();
+
+        // carousel of the screenshots: one image at a time, with dots
+        Array.prototype.forEach.call(document.querySelectorAll('.owl-carousel'), function (carousel) {
+            var items = Array.prototype.slice.call(carousel.children);
+            if (!items.length) return;
+            var current = 0;
+            var outer = document.createElement('div');
+            outer.className = 'owl-wrapper-outer autoHeight';
+            var wrapper = document.createElement('div');
+            wrapper.className = 'owl-wrapper';
+            wrapper.style.display = 'block';
+            wrapper.style.transition = 'left 300ms ease';
+            items.forEach(function (item) { wrapper.appendChild(item); });
+            outer.appendChild(wrapper);
+
+            var controls = document.createElement('div');
+            controls.className = 'owl-controls clickable';
+            var pagination = document.createElement('div');
+            pagination.className = 'owl-pagination';
+            var pages = items.map(function (item, index) {
+                var page = document.createElement('div');
+                page.className = 'owl-page';
+                page.setAttribute('role', 'button');
+                page.setAttribute('aria-label', String(index + 1));
+                page.appendChild(document.createElement('span'));
+                page.addEventListener('click', function () { go(index); });
+                pagination.appendChild(page);
+                return page;
+            });
+            controls.appendChild(pagination);
+            carousel.appendChild(outer);
+            carousel.appendChild(controls);
+            carousel.style.display = 'block';
+
+            function layout() {
+                var width = carousel.clientWidth;
+                wrapper.style.width = (width * items.length * 2) + 'px';
+                items.forEach(function (item) { item.style.width = width + 'px'; });
+                wrapper.style.left = (-current * width) + 'px';
+                outer.style.height = items[current].offsetHeight + 'px';
+            }
+
+            function go(index) {
+                current = (index + items.length) % items.length;
+                pages.forEach(function (page, i) { page.classList.toggle('active', i === current); });
+                layout();
+            }
+
+            // swipe with the mouse or the finger
+            var startX = null;
+            outer.addEventListener('pointerdown', function (event) { startX = event.clientX; });
+            outer.addEventListener('pointerup', function (event) {
+                if (startX === null) return;
+                var dx = event.clientX - startX;
+                startX = null;
+                if (Math.abs(dx) > 50) go(current + (dx < 0 ? 1 : -1));
+            });
+            outer.addEventListener('dragstart', function (event) { event.preventDefault(); });
+
+            window.addEventListener('resize', layout);
+            window.addEventListener('load', layout);
+            go(0);
+        });
     });
 </script>
 

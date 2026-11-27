@@ -78,7 +78,7 @@
                                     $file->filename }}</a></p>
                         </td>
                         <td class="text-center">
-                            <button class="btn btn-danger btn-xs deleteFile" data-id="{{ $file->id }}"
+                            <button type="button" class="btn btn-danger btn-xs deleteFile" data-id="{{ $file->id }}"
                                     data-toggle="tooltip" data-placement="bottom" title="{{ trans('default.delete') }}"><i
                                     class="fa fa-trash"></i></button>
                         </td>
@@ -94,7 +94,7 @@
         <div class="text-right">
             <a href="{{ url('collaborations/edit/'.$collaboration->id) }}" class="btn btn-success"><i
                     class="fa fa-edit"></i> {{ trans('default.edit') }}</a>
-            <button onclick="deleteCollaboration({{ $collaboration->id }})" class="btn btn-danger"><i
+            <button type="button" data-delete-collaboration="{{ $collaboration->id }}" class="btn btn-danger"><i
                     class="fa fa-trash"></i> {{ trans('default.delete') }}
             </button>
         </div>
@@ -105,39 +105,22 @@
 
 @section('footerScripts')
 <script>
-    //delete collaboration and redirect to collaborations list
-    function deleteCollaboration(id) {
-        if (confirm(Lang.get('js-components.deleteCollab')) == true) {
-            $.ajax({
-                url: $("body").attr('data-url') + '/collaborations/delete/' + id,
-                method: 'GET',
-                headers: {
-                    'X-CSRF-Token': $('#token').val()
-                },
-                success: function () {
-                    window.location = $("body").attr('data-url') + '/collaborations';
-                }
-            });
-        }
-    }
+    VE.ready(function () {
+        // delete the collaboration and redirect to the collaboration list
+        VE.on(document, 'click', '[data-delete-collaboration]', function (event, el) {
+            if (!VE.confirm(Lang.get('js-components.deleteCollab'))) return;
+            VE.http.post('/collaborations/delete/' + el.getAttribute('data-delete-collaboration'))
+                .then(function () { location.href = VE.url('/collaborations'); })
+                .catch(VE.fail);
+        });
 
-    //delete a file
-    $(".deleteFile").click(function () {
-        if (confirm(Lang.get('js-components.deleteFile'))) {
-            $.ajax({
-                url: $("body").attr('data-url') + '/collaborations/deleteFile',
-                method: 'POST',
-                data: {
-                    'id': $(this).attr('data-id')
-                },
-                headers: {
-                    'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-                },
-                success: function (data) {
-                    document.location.reload();
-                }
-            });
-        }
+        // delete a file
+        VE.on(document, 'click', '.deleteFile', function (event, el) {
+            if (!VE.confirm(Lang.get('js-components.deleteFile'))) return;
+            VE.http.post('/collaborations/deleteFile', {id: el.getAttribute('data-id')})
+                .then(function () { location.reload(); })
+                .catch(VE.fail);
+        });
     });
 </script>
 @append

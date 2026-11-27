@@ -9,7 +9,7 @@
 
     <hr/>
 
-    {!! Form::open(['id' => 'createPublicAction', 'method' => 'GET', 'action' => ['CTAController@store']]) !!}
+    {!! Form::open(['id' => 'createPublicAction', 'method' => 'POST', 'action' => ['CTAController@store']]) !!}
     @include('main.cta._form')
 
     <div class="row">
@@ -26,26 +26,22 @@
 
 @section('footerScripts')
     <script>
-        $('#savePublicAction').click(function (event) {
-            event.preventDefault();
+        VE.ready(function () {
+            var form = document.getElementById('createPublicAction');
 
-            if ($('#public_description').val() == null || $('#public_description').val() == '' || $('#public_address').val() == null || $('#public_address').val() == '') {
-                $('#createPublicAction .errors').show();
-            }
-            else {
-                $('#createPublicAction .errors').hide();
+            VE.on('#savePublicAction', 'click', function (event) {
+                event.preventDefault();
+                var errors = form.querySelector('.errors');
 
-                $.ajax({
-                    type: $('#createPublicAction').attr('method'),
-                    url: $('#createPublicAction').attr('action'),
-                    data: $('#createPublicAction').serialize(),
-                    success: function (data) {
-                        location.reload();
-                    }
-
-                });
-                return false; // prevent send form
-            }
+                if (!document.getElementById('public_description').value || !document.getElementById('public_address').value) {
+                    VE.show(errors);
+                    return;
+                }
+                VE.hide(errors);
+                VE.http.postForm(form)
+                    .then(function () { location.reload(); })
+                    .catch(VE.fail);
+            });
         });
     </script>
 

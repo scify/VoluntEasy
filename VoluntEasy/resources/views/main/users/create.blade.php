@@ -21,17 +21,3 @@
 
 @stop
 
-
-@section('footerScripts')
-<script>
-
-    $("#tree").jOrgChart({
-        chartElement: '#unitsTree',
-        multiple: true,
-        ulId: "#tree",
-        children: true
-    });
-
-
-</script>
-@append

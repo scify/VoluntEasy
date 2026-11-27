@@ -109,55 +109,49 @@
 <!-- Page Content -->
 @include('template.default.footerIncludes')
 <script>
+    VE.ready(function () {
+        var errorMsg = document.querySelector('.error-msg');
+        var questions = Array.prototype.slice.call(document.querySelectorAll('.question'));
 
-    $("#submit").click(function () {
-        if (validate()) {
-            var ratings = [];
-
-            $.each($(".question"), function (key, value) {
-                var group = $(this).attr('data-radio-group');
-
-                ratings.push({
-                    attrId: $("input:radio[name ='" + group + "']:checked").attr('data-attrId'),
-                    score: $("input:radio[name ='" + group + "']:checked").val()
-                });
-            });
-
-            //send data to server to save the ratings
-            $.ajax({
-                url: $("body").attr('data-url') + '/ratings/action/store',
-                method: 'POST',
-                data: {
-                    actionId: $("#actionInformation").attr('data-action-id'),
-                    actionScoreId: $("#actionInformation").attr('data-action-score-id'),
-                    comments: $("#comments").val(),
-                    ratings: ratings
-                },
-                headers: {
-                    'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-                },
-                success: function (data) {
-                    window.location.href = $("body").attr('data-url') + "/ratings/action/thankyou/" + data;
-                }
-            });
+        // the checked radio button of a question
+        function checked(question) {
+            return question.querySelector('input[type="radio"]:checked');
         }
-    });
 
-
-    //check that all radio button have been selected
-    function validate() {
-        var $questions = $(".question");
-        if ($questions.find("input:radio:checked").length === $questions.length) {
-            $(".error-msg").css('visibility', 'hidden');
-            return true;
-        }
-        else {
-            $(".error-msg .error-msg-text").text(Lang.get('js-components.answerAllQuestions'));
-            $(".error-msg").css('visibility', 'visible');
+        // check that all the questions have an answer
+        function validate() {
+            if (questions.every(checked)) {
+                errorMsg.style.visibility = 'hidden';
+                return true;
+            }
+            errorMsg.querySelector('.error-msg-text').textContent = Lang.get('js-components.answerAllQuestions');
+            errorMsg.style.visibility = 'visible';
             return false;
         }
-    }
 
+        document.getElementById('submit').addEventListener('click', function (event) {
+            event.preventDefault();
+            if (!validate()) return;
+
+            var info = document.getElementById('actionInformation');
+            var data = new URLSearchParams();
+            data.append('actionId', info.getAttribute('data-action-id'));
+            data.append('actionScoreId', info.getAttribute('data-action-score-id'));
+            // the token of the link proves which rating this is
+            data.append('token', location.pathname.split('/').filter(Boolean).pop());
+            data.append('comments', document.getElementById('comments').value);
+            questions.forEach(function (question, index) {
+                var radio = checked(question);
+                data.append('ratings[' + index + '][attrId]', radio.getAttribute('data-attrId'));
+                data.append('ratings[' + index + '][score]', radio.value);
+            });
+
+            // save the ratings, then show the "thank you" page
+            VE.http.post('/ratings/action/store', data).then(function (actionId) {
+                window.location.href = VE.url('/ratings/action/thankyou/' + actionId);
+            }).catch(VE.fail);
+        });
+    });
 </script>
 </body>
 </html>

@@ -20,54 +20,33 @@
 
 @section('footerScripts')
 <script>
-    var table = $('#availableVolunteersTable').dataTable({
-        "pageLength": 5,
-        "bFilter": false,
-        "bLengthChange": false,
-        "ajax": $("body").attr('data-url') + '/api/volunteers/status/available',
-        "columns": [
-            {data: "id"},
+    VE.ready(function () {
+        var table = VE.table('#availableVolunteersTable', {
+            lengthChange: false,
+            url: '/api/volunteers/status/available',
+            pageLength: 5,
+            order: [[0, 'asc']],
+            columns: [
+                {data: 'id'},
             {
-                //concat first name with last name
-                data: null, render: function (data, type, row) {
-                html = '<a href="' + $("body").attr('data-url') + '/volunteers/one/' + data.id + '">' + data.name + ' ' + data.last_name + '</a>';
-                html += '<br/><small><a href="mailto:' + data.email + '">' + data.email + '</a></small>'
-                return html;
-            }
+                // name and email
+                data: null, render: function (data) {
+                    return '<a href="' + VE.url('/volunteers/one/' + data.id) + '">' + VE.esc(data.name + ' ' + data.last_name) + '</a>' +
+                        '<br/><small><a href="mailto:' + VE.esc(data.email) + '">' + VE.esc(data.email) + '</a></small>';
+                }
             },
-            {
-                //show the available units
-                data: null, render: function (data, type, row) {
-                var status = '';
-                var count = 0;
-
-                $.each(data.units, function (index, unit) {
-                    if (unit.status == 'Available') {
-                        if (count == 0)
-                            status += '<a href="' + $("body").attr('data-url') + '/units/one/' + unit.id + '">' + unit.description + '</a>';
-                        else
-                            status += ', <a href="' + $("body").attr('data-url') + '/units/one/' + unit.id + '">' + unit.description + '</a>';
-
-                        count++;
+                {
+                    // the units where the volunteer is available
+                    data: null, render: function (data) {
+                        return (data.units || []).filter(function (unit) { return unit.status == 'Available'; }).map(function (unit) {
+                            return '<a href="' + VE.url('/units/one/' + unit.id) + '">' + VE.esc(unit.description) + '</a>';
+                        }).join(', ');
                     }
-                });
-                return status;
-            }
-            }
-        ],
-        //custom text
-        "language": {
-            "lengthMenu": Lang.get('js-components.lengthMenu'),
-            "zeroRecords": Lang.get('js-components.zeroVolunteers'),
-            "info": Lang.get('js-components.info'),
-            "infoEmpty": Lang.get('js-components.zeroVolunteers'),
-            "paginate": {
-                "first": Lang.get('js-components.first'),
-                "last": Lang.get('js-components.last'),
-                "next": ">",
-                "previous": "<"
-            }
-        }
+                }
+            ],
+            language: VE.tableLanguage('js-components.zeroVolunteers')
+        });
+        // no page length menu in the dashboard widgets
     });
 </script>
 @append

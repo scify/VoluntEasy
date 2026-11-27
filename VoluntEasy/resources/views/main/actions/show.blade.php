@@ -131,7 +131,7 @@
                                 <div class="col-md-12 text-right">
                                     <a href="{{ url('actions/edit/'.$action->id) }}" class="btn btn-success"><i
                                                 class="fa fa-edit"></i> {{ trans('default.edit') }}</a>
-                                    <button onclick="deleteAction({{ $action->id }})" class="btn btn-danger"><i
+                                    <button type="button" data-delete-action="{{ $action->id }}" class="btn btn-danger"><i
                                                 class="fa fa-trash"></i> {{ trans('default.delete') }}
                                     </button>
                                 </div>
@@ -161,8 +161,9 @@
                                                         trans('entities/actions.here') }}</a>.
                                                 </p>
 
-                                                <div id="container"
-                                                     style="min-width: 400px; height: 500px; margin:0 auto;"></div>
+                                                <canvas id="ratingsChart" width="800" height="500"
+                                                        style="max-width:100%;"></canvas>
+                                                <div id="ratingsChartLegend"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -207,116 +208,52 @@
 
 
 @section('footerScripts')
-    <script src="{{ asset('assets/plugins/highcharts-4.1.9/highcharts.js')}}"></script>
-    <script src="{{ asset('assets/plugins/highcharts-4.1.9/module/exporting.js')}}"></script>
     <script src="{{ asset('assets/js/todo.js')}}"></script>
 
     <script>
-        $("#tree").jOrgChart({
-            chartElement: '#unitsTree',
-            chartClass: "jOrgChart actions",
-            actions: true
-        });
-
-
-        //initialize user select
-        $('#volunteerList').select2();
-
-        // get the array of volunteers selected and save them
-        $("#saveVolunteers").click(function () {
-            //array of volunteers
-            var volunteers = [];
-            $('#volunteerList :selected').each(function (i, selected) {
-                volunteers[i] = $(selected).val();
+        VE.ready(function () {
+            //delete action and redirect to action list
+            VE.on(document, 'click', '[data-delete-action]', function (event, el) {
+                if (!VE.confirm(Lang.get('js-components.deleteAction'))) return;
+                VE.http.post('/actions/delete/' + el.getAttribute('data-delete-action'))
+                    .then(function () { window.location = VE.url('/actions'); })
+                    .catch(VE.fail);
             });
 
-            var volunteersUnits = {
-                id: $("#saveVolunteers").attr('data-id'),
-                volunteers: volunteers
-            };
-
-            $.ajax({
-                url: $("body").attr('data-url') + '/actions/volunteers',
-                method: 'POST',
-                data: volunteersUnits,
-                headers: {
-                    'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-                },
-                success: function (data) {
-                    window.location.href = $("body").attr('data-url') + "/actions/one/" + data;
-                }
-            });
-        });
-
-
-        //delete action and redirect to action list
-        function deleteAction(id) {
-            if (confirm(Lang.get('js-components.deleteAction')) == true) {
-                $.ajax({
-                    url: $("body").attr('data-url') + '/actions/delete/' + id,
-                    method: 'GET',
-                    headers: {
-                        'X-CSRF-Token': $('#token').val()
-                    },
-                    success: function () {
-                        window.location = $("body").attr('data-url') + '/actions';
-                    }
-                });
+            //rating chart (only when the ratings panel is shown)
+            var canvas = document.getElementById('ratingsChart');
+            if (canvas) {
+                VE.http.get('/api/actions/rating/' + document.getElementById('actionId').getAttribute('data-action-id'))
+                    .then(initChart)
+                    .catch(VE.fail);
             }
-        }
-        1
 
-        //initialize rating chart
-        $(function () {
-            var id = $("#actionId").attr('data-action-id');
-
-            $.ajax({
-                url: $("body").attr('data-url') + '/api/actions/rating/' + id,
-                method: 'GET',
-                headers: {
-                    'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-                },
-                success: function (data) {
-                    initChart(data);
-                }
-            });
+            function initChart(data) {
+                var colors = ['#CA0020', '#F4A582', '#cccccc', '#92C5DE', '#0571B0'];
+                var series = Object.keys(data.series).map(function (key) { return data.series[key]; });
+                var chartData = {
+                    labels: data.questions,
+                    datasets: series.map(function (serie, i) {
+                        return {
+                            label: serie.name,
+                            fillColor: colors[i % colors.length],
+                            strokeColor: colors[i % colors.length],
+                            highlightFill: colors[i % colors.length],
+                            highlightStroke: colors[i % colors.length],
+                            data: serie.data
+                        };
+                    })
+                };
+                var chart = new Chart(canvas.getContext('2d')).Bar(chartData, {
+                    responsive: true,
+                    scaleBeginAtZero: true,
+                    multiTooltipTemplate: '<%= datasetLabel %>: <%= value %>',
+                    legendTemplate: '<ul class="list-inline"><% for (var i = 0; i < datasets.length; i++) { %>' +
+                        '<li><span style="display:inline-block;width:12px;height:12px;background-color:<%= datasets[i].fillColor %>"></span> ' +
+                        '<%= datasets[i].label %></li><% } %></ul>'
+                });
+                document.getElementById('ratingsChartLegend').innerHTML = chart.generateLegend();
+            }
         });
-
-
-        function initChart(data) {
-
-            var series = [];
-            $.each(data.series, function (key, value) {
-                series.push(value);
-            });
-
-            $('#container').highcharts({
-                chart: {
-                    type: 'bar'
-                },
-                title: {
-                    text: ''
-                },
-                colors: ['#CA0020', '#F4A582', '#ccc', '#92C5DE', '#0571B0'],
-                xAxis: {
-                    categories: data.questions
-                },
-                yAxis: {
-                    min: 0,
-                    title: {
-                        text: Lang.get('js-components.totalRatings')
-                    }
-                },
-                legend: {
-                    reversed: true
-                },
-                plotOptions: {
-                    series: {
-                        stacking: 'normal'
-                    }
-                },
-                series: series
-            });
-        }
     </script>
 @append

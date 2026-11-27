@@ -1,185 +1,75 @@
-//set the task id in the modal
-$(".addSubTask").click(function () {
-    $(".modal-body .taskId").val($(this).attr('data-task-id'));
-    $('#addSubTask .todos').hide();
-    $("#subtask-priorities option[value='2']").prop('selected', true);
-})
+/* Subtasks of the task board: create, view, edit, delete. Needs task_board.js. */
+(function () {
+    'use strict';
 
-//save a subtask
-$("#storeSubTask").click(function (e) {
-    e.preventDefault();
-    if ($("#addSubTask .name").val() == null || $("#addSubTask .name").val() == '')
-        $("#addSubTask .subtask-name_err").show();
-    else {
-        $("#addSubTask .subtask-name_err").hide();
+    var TB = window.TaskBoard;
 
-        $.ajax({
-            url: $("body").attr('data-url') + "/actions/tasks/subtasks/store",
-            method: 'POST',
-            data: $("#createSubTask").serialize(),
-            success: function (result) {
-                location.reload();
-            }
+    //get a subtask by its id
+    TB.getSubtask = function (id) {
+        return VE.http.get('/actions/tasks/subtasks/one/' + id).then(function (result) {
+            TB.subTask = result;
+            return result;
         });
+    };
+
+    //prefill the subtask fields at the edit form
+    function fillSubtaskFields(subTask) {
+        var form = document.getElementById('editSubTaskForm');
+        TB.q('.taskId', form).value = subTask.task_id;
+        TB.q('.subTaskId', form).value = subTask.id;
+        TB.q('.name', form).value = subTask.name;
+        TB.q('.description', form).value = subTask.description || '';
+        TB.setDate(TB.q('.due_date', form), subTask.due_date);
+        TB.q('.subtask-priorities', form).value = subTask.priority;
+        TB.q('.deleteSubtask', form).setAttribute('data-subtask-id', subTask.id);
+        TB.fillAssign(form, 'subtask', subTask);
     }
-});
 
-//update a subtask
-$("#updateSubTask").click(function (e) {
-    e.preventDefault();
-    if ($("#editSubTaskForm .name").val() == null || $("#editSubTaskForm .name").val() == '')
-        $("#editSubTaskForm .subtask-name_err").show();
-    else {
-        $("#editSubTaskForm .subtask-name_err").hide();
-
-        $.ajax({
-            url: $("body").attr('data-url') + "/actions/tasks/subtasks/update",
-            method: 'POST',
-            data: $("#editSubTaskForm").serialize(),
-            success: function (result) {
-                location.reload();
-            }
-        });
-    }
-});
-
-
-//display all the subtask details, shifts and checklist
-$('.viewSubtask').click(function () {
-
-    var subtaskId = $(this).attr('data-subtask');
-
-    $.when(getSubtask(subtaskId))
-        .then(function () {
-
-
-            var imagePath = '';
-            var assignedToName = '';
-
-            if (subTask.users.length > 0) {
-                assignedToName = subTask.users[0].name + ' ' + subTask.users[0].last_name;
-                imagePath = (subTask.users[0].image_name == null || subTask.users[0].image_name == "" ?
-                $("body").attr('data-url') + '/assets/images/default.png' : $("body").attr('data-url') + '/assets/uploads/users/' + subTask.users[0].image_name);
-            }
-            if (subTask.volunteers.length > 0) {
-                assignedToName = subTask.volunteers[0].name + ' ' + subTask.volunteers[0].last_name;
-                imagePath = (subTask.volunteers[0].image_name == null || volunteers.users[0].image_name == "" ?
-                $("body").attr('data-url') + '/assets/images/default.png' : $("body").attr('data-url') + '/assets/uploads/users/' + subTask.volunteers[0].image_name);
-            }
-
-            if (imagePath != '')
-                $(".subtaskInfo .assignedTo").html(Lang.get('js-components.assignedTo') + ' <img class="img-circle avatar userImage" src="' + imagePath + '" width="30" height="30" title="' + assignedToName + '">');
-            else
-                $(".subtaskInfo .assignedTo").html('');
-
-            var priorityText = '';
-            if (subTask.priority == 1)
-                priorityText = Lang.get('js-components.low');
-            if (subTask.priority == 2)
-                priorityText = Lang.get('js-components.medium');
-            if (subTask.priority == 3)
-                priorityText = Lang.get('js-components.high');
-            if (subTask.priority == 4)
-                priorityText = Lang.get('js-components.urgent');
-
-
-            $(".subtaskInfo .priority").html('<i class="fa fa-arrow-up priority-' + subTask.priority + '" title="' + priorityText + '"></i>');
-            $(".subtaskInfo .priority").attr('data-priority', subTask.priority);
-
-            fillSubtaskFields();
-            drawShiftsTable("#subtaskShifts", subTask, 'subtask');
-            drawChecklist('subtask');
-            $('#viewSubtask .add-task').attr('data-mode-id', subTask.id);
-
-            $('#viewSubtask').modal('show');
-
+    VE.ready(function () {
+        //set the task id in the "add subtask" modal
+        VE.on(document, 'click', '.addSubTask', function (event, link) {
+            var modal = document.getElementById('addSubTask');
+            TB.qa('.taskId', modal).forEach(function (input) { input.value = link.getAttribute('data-task-id'); });
+            TB.q('.subtask-priorities', modal).value = '2';
         });
 
-});
-
-
-//delete a subtask
-$(".deleteSubTask").click(function () {
-    if (confirm(Lang.get('js-components.deleteSubtask')) == true) {
-
-        $.ajax({
-            method: 'GET',
-            url: $("body").attr('data-url') + "/actions/tasks/subtasks/delete/" + $(this).attr('data-subtask-id'),
-            success: function (result) {
-                location.reload();
-            }
+        //save a subtask
+        VE.on(document, 'click', '#storeSubTask', function (event) {
+            event.preventDefault();
+            if (!TB.checkName(document.getElementById('addSubTask'), '.subtask-name_err')) return;
+            TB.post('/actions/tasks/subtasks/store', VE.formData('#createSubTask'));
         });
-    }
-});
 
-//set the userSelect and volunteerSelect disabled or not depending on checkbox value
-$('.assignToSubtask').click(function () {
-    var mode = 'store';
-    if ($(this).hasClass('edit'))
-        mode = 'edit';
+        //update a subtask
+        VE.on(document, 'click', '#updateSubTask', function (event) {
+            event.preventDefault();
+            var form = document.getElementById('editSubTaskForm');
+            if (!TB.checkName(form, '.subtask-name_err')) return;
+            TB.post('/actions/tasks/subtasks/update', VE.formData(form));
+        });
 
-    if ($(this).val() == 'user') {
-        $('.subtaskUserSelect.' + mode).removeAttr('disabled');
-        $('.subtaskVolunteerSelect.' + mode).attr('disabled', 'disabled');
-    }
-    else if ($(this).val() == 'volunteer') {
-        $('.subtaskVolunteerSelect.' + mode).removeAttr('disabled');
-        $('.subtaskUserSelect.' + mode).attr('disabled', 'disabled');
-    }
-});
+        //delete a subtask
+        VE.on(document, 'click', '.deleteSubtask', function (event, button) {
+            event.preventDefault();
+            if (!VE.confirm(Lang.get('js-components.deleteSubtask'))) return;
+            TB.post('/actions/tasks/subtasks/delete/' + button.getAttribute('data-subtask-id'));
+        });
 
+        //enable the user select or the volunteer select, depending on the radio button
+        VE.on(document, 'change', '.assignToSubtask', function (event, radio) {
+            TB.setAssign('subtask', radio.classList.contains('edit') ? 'edit' : 'store', radio.value);
+        });
 
-function fillSubtaskFields() {
-
-    $("#editSubTaskForm .taskId").val(subTask.task_id);
-    $("#editSubTaskForm .subTaskId").val(subTask.id);
-    $("#editSubTaskForm .name").val(subTask.name);
-    $("#editSubTaskForm .description").val(subTask.description);
-    $("#editSubTaskForm .due_date").datepicker("update", subTask.due_date);
-
-    $("#editSubTaskForm .subtask-priorities option[value='" + subTask.priority + "']").prop('selected', true);
-
-    if (subTask.users.length > 0) {
-        $('#editSubTaskForm input:radio[name=assignToSubtask][value=user]').attr('checked', 'checked');
-        $('#editSubTaskForm input:radio[name=assignToSubtask][value=user]').parent().addClass('checked');
-
-        $('#editSubTaskForm .subtaskUserSelect').removeAttr('disabled');
-        $('#editSubTaskForm .subtaskUserSelect').val(subTask.users[0].id);
-        $('#editSubTaskForm .subtaskVolunteerSelect').attr('disabled', 'disabled');
-    }
-    else {
-        $('#editSubTaskForm .subtaskUserSelect').attr('disabled', 'disabled');
-        $('#editSubTaskForm input:radio[name=assignToSubtask][value=user]').attr('checked', 'false');
-        $('#editSubTaskForm input:radio[name=assignToSubtask][value=user]').parent().removeClass('checked');
-
-        $('#editSubTaskForm .subtaskUserSelect').val(0);
-    }
-
-    if (subTask.volunteers.length > 0) {
-        $('#editSubTaskForm input:radio[name=assignToSubtask][value=volunteer]').attr('checked', 'checked');
-        $('#editSubTaskForm input:radio[name=assignToSubtask][value=volunteer]').parent().addClass('checked');
-
-        $('#editSubTaskForm .subtaskVolunteerSelect').removeAttr('disabled');
-        $('#editSubTaskForm .subtaskVolunteerSelect').val(subTask.volunteers[0].id);
-        $('#editSubTaskForm .subtaskUserSelect').attr('disabled', 'disabled');
-    }
-    else {
-        $('#editSubTaskForm .subtaskVolunteerSelect').attr('disabled', 'disabled');
-        $('#editSubTaskForm input:radio[name=assignToSubtask][value=volunteer]').attr('checked', 'false');
-        $('#editSubTaskForm input:radio[name=assignToSubtask][value=volunteer]').parent().removeClass('checked');
-
-        $('#editSubTaskForm .subtaskVolunteerSelect').val(0);
-        $('#editSubTaskForm .subtaskVolunteerSelect').val(0);
-    }
-}
-
-//get a subtask by its id
-function getSubtask(id) {
-    return $.ajax({
-        method: 'GET',
-        url: $("body").attr('data-url') + "/actions/tasks/subtasks/one/" + id,
-        success: function (result) {
-            subTask = result;
-        }
+        //display all the subtask details, shifts and checklist
+        VE.on(document, 'click', '.viewSubtask', function (event, card) {
+            if (TB.dragging) return;
+            TB.getSubtask(card.getAttribute('data-subtask')).then(function (subTask) {
+                fillSubtaskFields(subTask);
+                TB.drawShiftsTable('#subtaskShifts', subTask, 'subtask');
+                TB.drawChecklist('subtask');
+                TB.q('#viewSubtask .add-task').setAttribute('data-mode-id', subTask.id);
+                VE.modal('#viewSubtask').show();
+            }).catch(VE.fail);
+        });
     });
-}
+})();

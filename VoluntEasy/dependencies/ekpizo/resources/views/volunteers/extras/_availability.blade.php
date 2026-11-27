@@ -81,7 +81,7 @@
                     @endif
                     @endforeach
                     @endif
-                    {!! Form::formInput('.thursday'.'[]', '', $errors, ['class' =>
+                    {!! Form::formInput('thursday'.'[]', '', $errors, ['class' =>
                     'form-control', 'type' => 'checkbox', 'value' => $a_t_id , 'checked' => $checked]) !!}
                 </td>
                 @endforeach

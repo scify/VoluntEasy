@@ -22,52 +22,29 @@
 
 @section('footerScripts')
 <script>
-
-    var ctx4 = document.getElementById("chart4").getContext("2d");
-    var data4 = [
-        {
-            value: parseInt($("#newVolunteers").attr('data-volunteers')),
-            color:"#12AFCB",
-            highlight: "#30E0FF",
-            label: Lang.get('js-components.new', 10)
-        },
-        {
-            value: parseInt($("#pendingVolunteers").attr('data-volunteers')),
-            color: "#E26E27",
-            highlight: "#FFE04E",
-            label: Lang.get('js-components.pending', 10)
-        },
-        {
-            value: parseInt($("#availableVolunteers").attr('data-volunteers')),
-            color: "#22BAA0",
-            highlight: "#48FFE0",
-            label: Lang.get('js-components.available', 10)
-        },
-        {
-            value: parseInt($("#activeVolunteers").attr('data-volunteers')),
-            color: "#7a6fbe",
-            highlight: "#BAAEFF",
-            label: Lang.get('js-components.active', 10)
-        },
-        {
-            value: parseInt($("#blacklistedVolunteers").attr('data-volunteers')),
-            color: "#f25656",
-            highlight: "#FF7474",
-            label: Lang.get('js-components.blacklisted', 10)
+    VE.ready(function () {
+        function count(id) {
+            return parseInt(document.getElementById(id).getAttribute('data-volunteers'), 10) || 0;
         }
-    ];
 
-    var myDoughnutChart = new Chart(ctx4).Doughnut(data4,{
-        segmentShowStroke : true,
-        segmentStrokeColor : "#fff",
-        segmentStrokeWidth : 2,
-        animationSteps : 100,
-        animationEasing : "linear",
-        animateRotate : true,
-        animateScale : false,
-        responsive: true
+        var data = [
+            {value: count('newVolunteers'), color: '#12AFCB', highlight: '#30E0FF', label: Lang.get('js-components.new', 10)},
+            {value: count('pendingVolunteers'), color: '#E26E27', highlight: '#FFE04E', label: Lang.get('js-components.pending', 10)},
+            {value: count('availableVolunteers'), color: '#22BAA0', highlight: '#48FFE0', label: Lang.get('js-components.available', 10)},
+            {value: count('activeVolunteers'), color: '#7a6fbe', highlight: '#BAAEFF', label: Lang.get('js-components.active', 10)},
+            {value: count('blacklistedVolunteers'), color: '#f25656', highlight: '#FF7474', label: Lang.get('js-components.blacklisted', 10)}
+        ];
+
+        new Chart(document.getElementById('chart4').getContext('2d')).Doughnut(data, {
+            segmentShowStroke: true,
+            segmentStrokeColor: '#fff',
+            segmentStrokeWidth: 2,
+            animationSteps: 100,
+            animationEasing: 'linear',
+            animateRotate: true,
+            animateScale: false,
+            responsive: true
+        });
     });
-
-
 </script>
 @append

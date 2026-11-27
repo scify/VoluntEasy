@@ -53,12 +53,11 @@ $user->last_name }}</span>
 @if(sizeof($action->volunteers)>0)
 
 <div id="rootwizard">
-<ul>
+<ul class="nav nav-pills">
     @foreach($action->volunteers as $i => $volunteer)
     <li data-volunteer-id="{{ $volunteer->id }}"
         class="{{ $i == sizeof($action->volunteers)-1 ? 'last' : '' }}"><a
-            href="#tab{{ $volunteer->id }}"
-            data-toggle="tab">{{
+            href="#tab{{ $volunteer->id }}">{{
             $volunteer->name}} {{
             $volunteer->last_name }}</a></li>
     @endforeach
@@ -324,164 +323,104 @@ $user->last_name }}</span>
 </main>
 <!-- Page Content -->
 @include('template.default.footerIncludes')
-
-<script src="{{ asset('assets/plugins/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js')}}"></script>
-<script src="{{ asset('assets/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
-
 <script>
+    VE.ready(function () {
+        var root = document.getElementById('rootwizard');
+        if (!root) return;
+        var info = document.getElementById('actionInformation');
+        var userId = document.getElementById('user_id').getAttribute('data-user-id');
+        var tabs = Array.prototype.slice.call(root.querySelectorAll('ul.nav > li'));
+        var volunteerIds = []; // the volunteers that the user has seen
+        var maxLength = 900;
+        var sending = false;
 
-    //for the maxlength
-    var maxLength = 900;
-    $('textarea').keyup(function () {
-        volunteerId = $(this).attr('data-volunteer-id');
-        var length = $(this).val().length;
-        length = maxLength - length;
-        $('.chars[data-question="' + $(this).attr('data-question') + '"][data-volunteer-id="' + volunteerId + '"]').text(length);
-    });
+        // the remaining characters of each answer
+        VE.on(root, 'input', 'textarea', function (event, textarea) {
+            var counter = root.querySelector('.chars[data-question="' + textarea.getAttribute('data-question') + '"][data-volunteer-id="' +
+                textarea.getAttribute('data-volunteer-id') + '"]');
+            if (counter) counter.textContent = maxLength - textarea.value.length;
+        });
 
-    //keep an array with all the volunteers ids
-    var volunteerIds = [];
-
-    //wizard properties
-    $('#rootwizard').bootstrapWizard({
-        'tabClass': 'nav nav-pills',
-        'onNext': function (tab, navigation, index) {
-            var volunteerId = tab.attr('data-volunteer-id');
-
-            //if we are at the last tab, and there are no errors, then send the ratings to the server
-            if (tab.hasClass('last')) {
-                sendRatings();
-            }
-        },
-        'onTabClick': function (tab, navigation, index) {
-            var volunteerId = tab.attr('data-volunteer-id');
-
-            if (!validate(volunteerId))
-                return false;
-        },
-        onTabShow: function (tab, navigation, index) {
-            var volunteerId = tab.attr('data-volunteer-id');
-
-            //check if the id already exists in the array
-            if ($.inArray(volunteerId, volunteerIds) == -1)
-                volunteerIds.push(volunteerId);
-
-            var $total = navigation.find('li').length;
-            var $current = index + 1;
-
-            // If it's the last tab then hide the last button and show the finish instead
-            if ($current >= $total) {
-                $('#rootwizard').find('.pager .next').hide();
-                $('#rootwizard').find('.pager .finish').show();
-                $('#rootwizard').find('.pager .finish').removeClass('disabled');
-            } else {
-                $('#rootwizard').find('.pager .next').show();
-                $('#rootwizard').find('.pager .finish').hide();
-            }
+        function fieldValue(selector) {
+            var el = root.querySelector(selector);
+            return el ? el.value : '';
         }
-    });
 
+        function value(selector, volunteerId) {
+            return fieldValue(selector + '[data-volunteer-id="' + volunteerId + '"]');
+        }
 
-    //when the finish button is pressed,
-    //submit the data to the server
-    function sendRatings() {
-        var volunteers = [];
-        var laborSkills = [];
-        var interpersonalSkills = [];
-
-        $.each(volunteerIds, function (key, value) {
-
-            laborSkills = getLaborSkills(value);
-            interpersonalSkills = getInterpersonalSkills(value);
-
-            volunteers.push({
-                volunteer_id: value,
-                user_id: $("#user_id").attr('data-user-id'),
-                actionDescription: $('.actionDescription[data-volunteer-id="' + value + '"]').val(),
-                problemsOccured: $('.problemsOccured[data-volunteer-id="' + value + '"]').val(),
-                training: $('.training[data-volunteer-id="' + value + '"]').val(),
-                fieldsToImprove: $('.fieldsToImprove[data-volunteer-id="' + value + '"]').val(),
-                objectives: $('.objectives[data-volunteer-id="' + value + '"]').val(),
-                support: $('.support[data-volunteer-id="' + value + '"]').val(),
-                generalComments: $('.generalComments[data-volunteer-id="' + value + '"]').val(),
-                laborSkills: laborSkills,
-                interpersonalSkills: interpersonalSkills
+        // the skills (labor or interpersonal) that have an answer or a comment
+        function skills(type, volunteerId) {
+            var result = [];
+            Array.prototype.forEach.call(root.querySelectorAll('.' + type + 'Row[data-volunteer-id="' + volunteerId + '"]'), function (row) {
+                var skillId = row.getAttribute('data-skill-id');
+                var skill = '[data-volunteer-id="' + volunteerId + '"][data-skill-id="' + skillId + '"]';
+                var strongOrWeak = fieldValue('.strongOrWeak.' + type + skill + ':checked');
+                var comments = fieldValue('.commentsEtc.' + type + skill);
+                if (strongOrWeak || comments) result.push({id: skillId, strongOrWeak: strongOrWeak, comments: comments});
             });
-        });
+            return result;
+        }
 
-        //send data to server to save the ratings
-        $.ajax({
-            url: $("body").attr('data-url') + '/ratings/action/volunteers/store',
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        // send the ratings of all the volunteers to the server
+        function sendRatings() {
+            if (sending) return;
+            var data = new URLSearchParams();
+            volunteerIds.forEach(function (volunteerId, i) {
+                var prefix = 'volunteers[' + i + ']';
+                data.append(prefix + '[volunteer_id]', volunteerId);
+                data.append(prefix + '[user_id]', userId);
+                ['actionDescription', 'problemsOccured', 'training', 'fieldsToImprove', 'objectives', 'support', 'generalComments'].forEach(function (name) {
+                    data.append(prefix + '[' + name + ']', value('.' + name, volunteerId));
+                });
+                ['laborSkills', 'interpersonalSkills'].forEach(function (type) {
+                    skills(type, volunteerId).forEach(function (skill, j) {
+                        var key = prefix + '[' + type + '][' + j + ']';
+                        data.append(key + '[id]', skill.id);
+                        data.append(key + '[strongOrWeak]', skill.strongOrWeak);
+                        data.append(key + '[comments]', skill.comments);
+                    });
+                });
+            });
+            data.append('user_id', userId);
+            data.append('action_id', info.getAttribute('data-action-id'));
+            data.append('email', info.getAttribute('data-email'));
+            data.append('actionRatingId', info.getAttribute('data-action-rating-id'));
+            // the token of the link proves which rating this is
+            data.append('token', location.pathname.split('/').filter(Boolean).pop());
+
+            sending = true;
+            VE.http.post('/ratings/action/volunteers/store', data).then(function (actionId) {
+                window.location.href = VE.url('/ratings/action/volunteers/thankyou/' + actionId);
+            }).catch(function (error) {
+                sending = false;
+                VE.fail(error);
+            });
+        }
+
+        VE.wizard(root, {
+            onNext: function (index) {
+                // at the last tab: send the ratings to the server
+                if (tabs[index].classList.contains('last')) {
+                    sendRatings();
+                    return false;
+                }
             },
-            data: {
-                volunteers: volunteers,
-                user_id: $("#user_id").attr('data-user-id'),
-                action_id: $("#actionInformation").attr('data-action-id'),
-                email: $("#actionInformation").attr('data-email'),
-                actionRatingId: $("#actionInformation").attr('data-action-rating-id')
-            },
-            success: function (data) {
-                window.location.href = $("body").attr('data-url') + "/ratings/action/volunteers/thankyou/" + data;
-            },
-            error: function (err) {
-                console.log(err);
+            onTabChanged: function (index) {
+                var volunteerId = tabs[index].getAttribute('data-volunteer-id');
+                if (volunteerIds.indexOf(volunteerId) === -1) volunteerIds.push(volunteerId);
+
+                // at the last tab, show the "submit" button instead of "next"
+                var last = index >= tabs.length - 1;
+                Array.prototype.forEach.call(root.querySelectorAll('.pager .next'), function (li) {
+                    var finish = li.classList.contains('finish');
+                    li.style.display = finish === last ? '' : 'none';
+                    if (finish) li.classList.remove('disabled');
+                });
             }
         });
-    }
-
-
-    /* get an array with the labor skills and their comments */
-    function getLaborSkills(volunteerId) {
-        var laborSkills = [];
-        var skillId, strongOrWeak, commentsEtc;
-
-        $.each($('.laborSkillsRow[data-volunteer-id="' + volunteerId + '"]'), function (k, v) {
-
-            skillId = $(v).attr('data-skill-id');
-            strongOrWeak = $('.laborSkills.strongOrWeak[data-volunteer-id="' + volunteerId + '"][data-skill-id="' + skillId + '"]:checked').val();
-            commentsEtc = $('.commentsEtc.laborSkills[data-volunteer-id="' + volunteerId + '"][data-skill-id="' + skillId + '"]').val();
-
-            if (strongOrWeak || commentsEtc)
-                laborSkills.push({
-                    id: skillId,
-                    strongOrWeak: strongOrWeak,
-                    comments: commentsEtc
-                });
-        });
-
-        return laborSkills;
-    }
-
-
-    /* get an array with the interpersonal skills and their comments */
-    function getInterpersonalSkills(volunteerId) {
-        var interpersonalSkills = [];
-        var skillId, strongOrWeak, commentsEtc;
-
-        $.each($('.interpersonalSkillsRow[data-volunteer-id="' + volunteerId + '"]'), function (k, v) {
-
-            skillId = $(v).attr('data-skill-id');
-            strongOrWeak = $('.interpersonalSkills.strongOrWeak[data-volunteer-id="' + volunteerId + '"][data-skill-id="' + skillId + '"]:checked').val();
-            commentsEtc = $('.commentsEtc.interpersonalSkills[data-volunteer-id="' + volunteerId + '"][data-skill-id="' + skillId + '"]').val();
-
-            if (strongOrWeak == undefined)
-                strongOrWeak == null;
-
-            if (strongOrWeak || commentsEtc)
-                interpersonalSkills.push({
-                    id: skillId,
-                    strongOrWeak: strongOrWeak,
-                    comments: commentsEtc
-                });
-        });
-
-        return interpersonalSkills;
-    }
-
-
+    });
 </script>
 </body>
 </html>

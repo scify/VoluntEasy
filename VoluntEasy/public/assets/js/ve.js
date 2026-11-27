@@ -388,8 +388,12 @@
         return api;
     };
 
-    /** Suggestions while typing (replaces jQuery UI autocomplete with a url source). */
-    VE.autocomplete = function (target, url) {
+    /**
+     * Suggestions while typing (replaces jQuery UI autocomplete with a url source).
+     * options.minLength: characters before the first request (1).
+     */
+    VE.autocomplete = function (target, url, options) {
+        var minLength = (options && options.minLength) || 1;
         VE.each(target, function (input) {
             var list = document.createElement('datalist');
             list.id = 've-autocomplete-' + Math.random().toString(36).slice(2);
@@ -400,7 +404,7 @@
             input.addEventListener('input', function () {
                 clearTimeout(timer);
                 var term = input.value.trim();
-                if (term.length < 1) return;
+                if (term.length < minLength) return;
                 timer = setTimeout(function () {
                     VE.http.get(url, {term: term}).then(function (items) {
                         list.innerHTML = '';
@@ -696,7 +700,8 @@
      *                   "data: 'field'" without render is escaped text. A render
      *                   function returns HTML: escape the values with VE.esc!
      *   order           [[columnIndex, 'asc'|'desc']] or [] (no initial sort)
-     *   paging, pageLength (10), lengthMenu ([10, 25, 50, 100]), info, searching
+     *   paging, lengthChange (true: the page length menu), pageLength (10),
+ *   lengthMenu ([10, 25, 50, 100]), info, searching
      *   buttons         ['print', 'csv', 'copy'] (labels from js-components)
      *   language        {lengthMenu, zeroRecords, info, infoEmpty, search,
      *                    paginate: {first, last, next, previous}} (DataTables keys)
@@ -707,7 +712,7 @@
     function Table(target, options) {
         this.table = element(target);
         this.o = Object.assign({
-            dataSrc: 'data', columns: [], order: [], paging: true, pageLength: 10,
+            dataSrc: 'data', columns: [], order: [], paging: true, lengthChange: true, pageLength: 10,
             lengthMenu: [10, 25, 50, 100], info: true, searching: false, buttons: [], language: {}
         }, options || {});
         this.data = [];
@@ -753,7 +758,7 @@
             wrapper.appendChild(clear);
         }
 
-        if (this.o.paging) {
+        if (this.o.paging && this.o.lengthChange) {
             var length = document.createElement('div');
             length.className = 'dataTables_length';
             var select = '<select class="form-control input-sm">' + this.o.lengthMenu.map(function (n) {
@@ -1091,7 +1096,10 @@
         var clear = form.querySelector('#clear') || document.getElementById('clear');
         if (clear) {
             clear.addEventListener('click', function () {
-                VE.$$('.search', form).forEach(function (input) { input.value = ''; });
+                VE.$$('.search', form).forEach(function (input) {
+                    if (input.type === 'checkbox' || input.type === 'radio') input.checked = false;
+                    else input.value = '';
+                });
                 VE.$$('.searchDropDown', form).forEach(function (select) {
                     if (select.tomselect) select.tomselect.setValue('0'); else select.value = '0';
                 });

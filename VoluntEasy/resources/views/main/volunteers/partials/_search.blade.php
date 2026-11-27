@@ -97,10 +97,19 @@
         <div class="row">
             <div class="col-md-2">
                 <div class="form-group">
-                    <label for="age">{{ trans('entities/volunteers.ageRange') }}:</label>
+                    <label for="age-from">{{ trans('entities/volunteers.ageRange') }}:</label>
                     <span id="age" style="font-weight:bold;"></span>
                     {!! Form::hidden('age-range', '10-90', ['id' => 'age-range']) !!}
-                    <div id="age-slider-range"></div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <input type="number" id="age-from" class="form-control input-sm" min="0" max="100" value="10"
+                                   aria-label="{{ trans('entities/volunteers.ageRange') }} (min)">
+                        </div>
+                        <div class="col-xs-6">
+                            <input type="number" id="age-to" class="form-control input-sm" min="0" max="100" value="90"
+                                   aria-label="{{ trans('entities/volunteers.ageRange') }} (max)">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-2">
@@ -245,10 +254,13 @@
 <script src="{{ asset('assets/js/pages/search.js') }}"></script>
 
 <script>
-    $("#showFilters").click(function () {
-        $("#filters").toggle();
-    });
+    VE.ready(function () {
+        VE.on('#showFilters', 'click', function (event) {
+            event.preventDefault();
+            VE.toggle('#filters');
+        });
 
-    $('#languages').select2();
+        VE.select('#languages');
+    });
 </script>
 @append

@@ -22,154 +22,86 @@
 
 @section('footerScripts')
 <script>
-    var table = $('#usersTable').dataTable({
-        "bFilter": false,
-        "ajax": $("body").attr('data-url') + '/api/users',
-        "columns": [
-            {data: "id"},
-            {
-                //show user name with link
-                data: null, render: function (data, type, row) {
-                var html = '';
-                html += '<a href="' + $("body").attr('data-url') + '/users/one/' + data.id + '">' + data.name;
-                if (data.last_name != null)
-                    html += ' ' + data.last_name;
-                html += '</a>';
+    VE.ready(function () {
+        var url = VE.url;
 
-                return html;
-            }
-            },
-            {
-                //show user address and phone
-                data: null, render: function (data, type, row) {
-                var html = '';
-                if (data.email)
-                    html += '<i class="fa fa-envelope"></i> ' + data.email;
-                if ((data.email && data.addr) || (data.email && data.tel))
-                    html += '<br/>';
-                if (data.addr)
-                    html += '<i class="fa fa-map-marker"></i> ' + data.addr;
-                if (data.addr && data.tel)
-                    html += '<br/>';
-                if (data.tel)
-                    html += '<i class="fa fa-phone"></i> ' + data.tel;
-
-                return html;
-            }
-            },
-            {
-                //show user units
-                data: null, render: function (data, type, row) {
-                var html = '';
-
-                $.each(data.roles, function (key, role) {
-
-                    if (role.name == 'admin')
-                        html += Lang.get('js-components.admin');
-                    else {
-
-                        if (role.name == 'unit_manager') {
-                            html += Lang.get('js-components.unitManager') + ': ';
-
-                            $.each(data.units, function (key, unit) {
-                                if (key == 0)
-                                    html += '<a href="' + $("body").attr('data-url') + '/units/one/' + unit.id + '">' + unit.description + '</a>';
-                                else
-                                    html += ', <a href="' + $("body").attr('data-url') + '/units/one/' + unit.id + '">' + unit.description + '</a>';
-                            });
-                        }
-
-                        if (role.name == 'action_manager') {
-                            html += Lang.get('js-components.actionManager') + ': ';
-
-                            $.each(data.actions, function (key, action) {
-                                if (key == 0)
-                                    html += '<a href="' + $("body").attr('data-url') + '/actions/one/' + action.id + '">' + action.description + '</a>';
-                                else
-                                    html += ', <a href="' + $("body").attr('data-url') + '/actions/one/' + action.id + '">' + action.description + '</a>';
-                            });
-                        }
-                    }
-                    html += '<br/>';
-                });
-
-
-                return html;
-            }
-            },
-            {
-                //if the user is permitted to edit/delete the users,
-                //then show the appropriate buttons
-                data: null, render: function (data, type, row) {
-                var html = '';
-
-                if (data.permitted) {
-                    html = '<ul class="list-inline">';
-                    html += '<li><a href="' + $("body").attr('data-url') + '/users/edit/' + data.id + '" class="btn btn-success" data-toggle="tooltip"';
-                    html += 'data-placement="bottom" title="' + Lang.get('js-components.edit') + '"><i class="fa fa-edit"></i></a></li>';
-                    if (!data.isAdmin) {
-                        html += '<li><button class="btn btn-danger" onclick="deleteUser(' + data.id + ')" data-id="' + data.id + '" data-toggle="tooltip"';
-                        html += 'data-placement="bottom" title="' + Lang.get('js-components.delete') + '"><i class="fa fa-trash"></i></button>';
-                    }
-                    html += '</li></ul>';
-                }
-
-                return html;
-            }
-            }
-        ],
-        //custom text
-        "language": {
-            "lengthMenu": Lang.get('js-components.lengthMenu'),
-            "zeroRecords": Lang.get('js-components.zeroUsers'),
-            "info": Lang.get('js-components.info'),
-            "infoEmpty": Lang.get('js-components.zeroUsers'),
-            "paginate": {
-                "first": Lang.get('js-components.first'),
-                "last": Lang.get('js-components.last'),
-                "next": ">",
-                "previous": "<"
-            }
-        },
-        //disable ordering at the last column (edit, delete buttons)
-        "aoColumnDefs": [
-            {'bSortable': false, 'aTargets': [4]}
-        ],
-        dom: 'T<"clear">lfrtip',
-        "tableTools": {
-            "sSwfPath": $("body").attr('data-url') + "/assets/plugins/data-tables/extras/tabletools/swf/copy_csv_xls_pdf.swf",
-            "aButtons": [
-                {
-                    "sExtends": "copy",
-                    "sButtonText": Lang.get('js-components.copy')
-                },
-                {
-                    "sExtends": "print",
-                    "sButtonText": Lang.get('js-components.print')
-                },
-                {
-                    "sExtends": "csv",
-                    "sButtonText": Lang.get('js-components.csv')
-                }
-            ]
+        function links(items, path) {
+            return (items || []).map(function (item) {
+                return '<a href="' + url(path + item.id) + '">' + VE.esc(item.description) + '</a>';
+            }).join(', ');
         }
+
+        window.table = VE.table('#usersTable', {
+            url: '/api/users',
+            order: [[0, 'asc']],
+            columns: [
+                {data: 'id'},
+                {
+                    // user name with link
+                    data: null, render: function (data) {
+                        var name = data.name + (data.last_name != null ? ' ' + data.last_name : '');
+                        return '<a href="' + url('/users/one/' + data.id) + '">' + VE.esc(name) + '</a>';
+                    }
+                },
+                {
+                    // email, address and phone
+                    data: null, render: function (data) {
+                        var html = '';
+                        if (data.email)
+                            html += '<i class="fa fa-envelope"></i> ' + VE.esc(data.email);
+                        if ((data.email && data.addr) || (data.email && data.tel))
+                            html += '<br/>';
+                        if (data.addr)
+                            html += '<i class="fa fa-map-marker"></i> ' + VE.esc(data.addr);
+                        if (data.addr && data.tel)
+                            html += '<br/>';
+                        if (data.tel)
+                            html += '<i class="fa fa-phone"></i> ' + VE.esc(data.tel);
+                        return html;
+                    }
+                },
+                {
+                    // roles with their units/actions
+                    data: null, render: function (data) {
+                        return (data.roles || []).map(function (role) {
+                            if (role.name == 'admin')
+                                return VE.esc(Lang.get('js-components.admin')) + '<br/>';
+                            var html = '';
+                            if (role.name == 'unit_manager')
+                                html += VE.esc(Lang.get('js-components.unitManager')) + ': ' + links(data.units, '/units/one/');
+                            if (role.name == 'action_manager')
+                                html += VE.esc(Lang.get('js-components.actionManager')) + ': ' + links(data.actions, '/actions/one/');
+                            return html + '<br/>';
+                        }).join('');
+                    }
+                },
+                {
+                    // edit/delete buttons for the permitted users
+                    data: null, orderable: false, render: function (data) {
+                        if (!data.permitted) return '';
+                        var html = '<ul class="list-inline">' +
+                            '<li><a href="' + url('/users/edit/' + data.id) + '" class="btn btn-success" data-toggle="tooltip" ' +
+                            'data-placement="bottom" title="' + VE.esc(Lang.get('js-components.edit')) + '"><i class="fa fa-edit"></i></a></li>';
+                        if (!data.isAdmin) {
+                            html += '<li><button type="button" class="btn btn-danger" data-delete-user="' + data.id + '" data-toggle="tooltip" ' +
+                                'data-placement="bottom" title="' + VE.esc(Lang.get('js-components.delete')) + '"><i class="fa fa-trash"></i></button></li>';
+                        }
+                        return html + '</ul>';
+                    }
+                }
+            ],
+            language: VE.tableLanguage('js-components.zeroUsers'),
+            buttons: ['print', 'csv']
+        });
+
+        VE.searchForm('#searchForm', window.table);
+
+        VE.on(document, 'click', '[data-delete-user]', function (event, el) {
+            if (!VE.confirm(Lang.get('js-components.deleteUser'))) return;
+            VE.http.post('/users/delete/' + el.getAttribute('data-delete-user'))
+                .then(function () { location.reload(); })
+                .catch(VE.fail);
+        });
     });
-
-
-    function deleteUser(id) {
-        if (confirm(Lang.get('js-components.deleteUser')) == true) {
-            $.ajax({
-                url: $("body").attr('data-url') + '/users/delete/' + id,
-                method: 'GET',
-                headers: {
-                    'X-CSRF-Token': $('#token').val()
-                },
-                success: function () {
-                    location.reload();
-                }
-            });
-        }
-    }
-
 </script>
 @append

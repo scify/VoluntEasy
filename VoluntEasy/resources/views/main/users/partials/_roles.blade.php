@@ -88,60 +88,25 @@
 
 @section('footerScripts')
 <script>
-/*
-    //if the role admin is preselected, disable all other fields
-    if ($('#admin').attr("checked")) {
-        $("#action_manager").attr("disabled", true);
-        $("#unit_manager").attr("disabled", true);
-        $("#action_manager").closest('.roles').addClass("disabled");
-        $("#unit_manager").closest('.roles').addClass("disabled");
-    }
-*/
-    $(".role-details").click(function () {
-        var role = $(this).attr('data-role');
+    VE.ready(function () {
+        // a click on a role shows the units or the actions to choose
+        VE.on(document, 'click', '.role-details', function (event, el) {
+            if (el.classList.contains('disabled')) return;
+            var role = el.getAttribute('data-role');
 
-        if (!$(this).hasClass('disabled')) {
-            $(this).addClass('active').siblings().removeClass('active');
+            Array.prototype.forEach.call(el.parentNode.querySelectorAll('.role-details'), function (other) { other.classList.toggle('active', other === el); });
 
             if (role == 'action_manager') {
-                $("#actions").show();
-                $("#units").hide();
+                VE.show('#actions');
+                VE.hide('#units');
+            } else if (role == 'unit_manager') {
+                VE.show('#units');
+                VE.hide('#actions');
+            } else if (role == 'admin') {
+                VE.hide('#units');
+                VE.hide('#actions');
             }
-            else if (role == 'unit_manager') {
-                $("#units").show();
-                $("#actions").hide();
-            }
-            else if (role == 'admin') {
-                $("#units").hide();
-                $("#actions").hide();
-            }
-        }
+        });
     });
-
-/*
-    $(".roles").children("input:checkbox").click(function (e) {
-        var role = $(this).val();
-
-        if ($(this).prop('checked')) {
-            if (role == 'admin') {
-                $("#action_manager").attr("disabled", true);
-                $("#unit_manager").attr("disabled", true);
-                $("#action_manager").parent().removeClass('checked');
-                $("#unit_manager").parent().removeClass('checked');
-                $("#action_manager").closest('.roles').addClass("disabled");
-                $("#unit_manager").closest('.roles').addClass("disabled");
-            }
-        }
-        else {
-            if (role == 'admin') {
-                console.log('aa')
-                $("#action_manager").attr("disabled", false);
-                $("#unit_manager").attr("disabled", false);
-                $("#action_manager").closest('.roles.disabled').removeClass('disabled');
-                $("#unit_manager").closest('.roles.disabled').removeClass('disabled');
-            }
-        }
-    });
-*/
 </script>
 @append

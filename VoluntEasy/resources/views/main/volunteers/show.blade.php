@@ -225,59 +225,34 @@
 
 @section('footerScripts')
 <script>
-
-    //change volunteer status to available
-    $(".makeAvailable").click(function () {
-        $.ajax({
-            url: $("body").attr('data-url') + '/volunteers/available',
-            method: 'POST',
-            data: {
-                'id': $(this).attr('data-status-duration-id'),
-                'comments': $("#notAvailableComments").val()
-            },
-            headers: {
-                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-            },
-            success: function (data) {
-                console.log(data);
-                window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
-            }
-        });
-    });
-
-
-    //change volunteer status to unblacklisted
-    $(".unblacklisted").click(function () {
-        $.ajax({
-            url: $("body").attr('data-url') + '/volunteers/unblacklisted',
-            method: 'POST',
-            data: {
-                'id': $(this).attr('data-volunteer-id'),
-                'comments': $("#blacklistedComments").val()
-            },
-            headers: {
-                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-            },
-            success: function (data) {
-                window.location.href = $("body").attr('data-url') + "/volunteers/one/" + data;
-            }
-        });
-    });
-
-    //delete user and return to user list
-    function deleteVolunteer(id) {
-        if (confirm(Lang.get('js-components.deleteVolunteer')) == true) {
-            $.ajax({
-                url: $("body").attr('data-url') + '/volunteers/delete/' + id,
-                method: 'GET',
-                headers: {
-                    'X-CSRF-Token': $('#token').val()
-                },
-                success: function () {
-                    window.location = $("body").attr('data-url') + '/volunteers';
-                }
-            });
+    VE.ready(function () {
+        function goToProfile(id) {
+            window.location.href = VE.url('/volunteers/one/' + id);
         }
-    }
+
+        // change the volunteer status to available
+        VE.on(document, 'click', '.makeAvailable', function (event, button) {
+            VE.http.post('/volunteers/available', {
+                id: button.getAttribute('data-status-duration-id'),
+                comments: document.getElementById('notAvailableComments').value
+            }).then(goToProfile).catch(VE.fail);
+        });
+
+        // change the volunteer status to "not blacklisted"
+        VE.on(document, 'click', '.unblacklisted', function (event, button) {
+            VE.http.post('/volunteers/unblacklisted', {
+                id: button.getAttribute('data-volunteer-id'),
+                comments: document.getElementById('blacklistedComments').value
+            }).then(goToProfile).catch(VE.fail);
+        });
+
+        // delete the volunteer and return to the volunteer list
+        VE.on(document, 'click', '[data-delete-volunteer]', function (event, button) {
+            if (!VE.confirm(Lang.get('js-components.deleteVolunteer'))) return;
+            VE.http.post('/volunteers/delete/' + button.getAttribute('data-delete-volunteer'))
+                .then(function () { window.location = VE.url('/volunteers'); })
+                .catch(VE.fail);
+        });
+    });
 </script>
 @append

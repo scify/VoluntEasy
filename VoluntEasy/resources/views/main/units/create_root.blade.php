@@ -17,9 +17,6 @@
                 {!! Form::open(['method' => 'POST', 'action' => ['UnitController@store', 'type' => 'root']]) !!}
                 @include('main.units.partials._form', ['submitButtonText' => 'none', 'type' => 'root'])
 
-                <label>{{ trans('entities/units.selectExec') }}:</label>
-                @include('main.units.partials._users', ['userIds' => [], 'users' => $users])
-
                 <div class="form-group text-right">
                     {!! Form::submit(trans('default.save'), ['class' => 'btn btn-success']) !!}
                 </div>
@@ -33,7 +30,9 @@
 
 @section('footerScripts')
 <script>
-    //initialize user select
-    $('#userList').select2();
+    VE.ready(function () {
+        // initialize the user select
+        VE.select('#userList');
+    });
 </script>
-@stop
+@append

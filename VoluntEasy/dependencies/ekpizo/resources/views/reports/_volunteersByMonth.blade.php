@@ -21,136 +21,77 @@
 
 @section('footerScripts')
 <script>
+    // load the volunteers by month, then show a year dropdown and the bar chart
+    VE.ready(function () {
+        var volunteersByMonth = {};
+        var byMonthChart = null;
+        var yearsDropDown = document.getElementById('yearsDropDown');
 
-    //when page loads -> ajax call to retrieve volunteers
-    //create the appropriate obj, then init the chart
-
-    var volunteersByMonth;
-    var byMonthChart;
-
-    $.ajax({
-        url: $("body").attr('data-url') + "/reports/volunteersByMonth",
-        method: 'GET',
-        success: function (result) {
-
-            volunteersByMonth = result;
-            //First we need to initialize the dropdown from where the user can filter the report by year
-            var currentYear = (new Date).getFullYear();
-            var yearsDropDown = '<label>'+Lang.get('js-components.year')+'</label><select class="form-control">';
-
-            //Add the years options and set the current year as selected
-            $.each(result, function (key, value) {
-                if (key == currentYear)
-                    yearsDropDown += '<option value=' + key + ' selected>' + key + '</option>';
-                else
-                    yearsDropDown += '<option value=' + key + '>' + key + '</option>';
-            });
-
-            $("#yearsDropDown").append(yearsDropDown);
-
-            var dataset = initDataset(result, currentYear);
-
-            initChart(dataset);
+        function dataset(year) {
+            var value = volunteersByMonth[year];
+            if (!value) return [];
+            return [
+                bars(Lang.get('js-components.new'), '#12AFCB', value.new),
+                bars(Lang.get('js-components.pending'), '#E26E27', value.pending),
+                bars(Lang.get('js-components.available'), '#22BAA0', value.available),
+                bars(Lang.get('js-components.active'), '#7a6fbe', value.active)
+            ];
         }
-    });
 
+        function bars(label, color, data) {
+            return {label: label, fillColor: color, strokeColor: color, highlightFill: color, highlightStroke: color, data: data};
+        }
 
-    //when the user selected a different year,
-    //we must show the year's data
-    $("#yearsDropDown").change(function() {
+        function initChart(datasets) {
+            var ctx = document.getElementById('volunteersByMonth').getContext('2d');
+            byMonthChart = new Chart(ctx).Bar({
+                labels: [
+                    Lang.get('js-components.january'),
+                    Lang.get('js-components.february'),
+                    Lang.get('js-components.march'),
+                    Lang.get('js-components.april'),
+                    Lang.get('js-components.may'),
+                    Lang.get('js-components.june'),
+                    Lang.get('js-components.july'),
+                    Lang.get('js-components.august'),
+                    Lang.get('js-components.september'),
+                    Lang.get('js-components.october'),
+                    Lang.get('js-components.november'),
+                    Lang.get('js-components.december')
+                ],
+                datasets: datasets
+            }, {
+                scaleBeginAtZero: true,
+                scaleShowGridLines: true,
+                scaleGridLineColor: 'rgba(0,0,0,.05)',
+                scaleGridLineWidth: 1,
+                scaleShowHorizontalLines: true,
+                scaleShowVerticalLines: true,
+                barShowStroke: true,
+                barStrokeWidth: 2,
+                barDatasetSpacing: 1,
+                responsive: true
+            });
+        }
 
-        year = $( "#yearsDropDown option:selected" ).val();
+        VE.http.get('/reports/volunteersByMonth').then(function (result) {
+            volunteersByMonth = result || {};
 
-        var dataset = initDataset(volunteersByMonth, year);
+            // the dropdown to filter the report by year, with the current year selected
+            var currentYear = String(new Date().getFullYear());
+            yearsDropDown.insertAdjacentHTML('beforeend', '<label>' + VE.esc(Lang.get('js-components.year')) + '</label><select class="form-control">' +
+                Object.keys(volunteersByMonth).map(function (year) {
+                    return '<option value="' + VE.esc(year) + '"' + (year === currentYear ? ' selected' : '') + '>' + VE.esc(year) + '</option>';
+                }).join('') + '</select>');
 
-        byMonthChart.destroy();
-        initChart(dataset);
+            initChart(dataset(currentYear));
+        }).catch(VE.fail);
 
-    });
-
-
-    function initChart(dataset){
-        var ctx = document.getElementById("volunteersByMonth").getContext("2d");
-
-        var data = {
-            labels: [
-                Lang.get('js-components.january'),
-                Lang.get('js-components.february'),
-                Lang.get('js-components.march'),
-                Lang.get('js-components.april'),
-                Lang.get('js-components.may'),
-                Lang.get('js-components.june'),
-                Lang.get('js-components.july'),
-                Lang.get('js-components.august'),
-                Lang.get('js-components.september'),
-                Lang.get('js-components.october'),
-                Lang.get('js-components.november'),
-                Lang.get('js-components.december'),
-            ],
-            datasets: dataset
-        };
-
-        byMonthChart = new Chart(ctx).Bar(data, {
-            scaleBeginAtZero: true,
-            scaleShowGridLines: true,
-            scaleGridLineColor: "rgba(0,0,0,.05)",
-            scaleGridLineWidth: 1,
-            scaleShowHorizontalLines: true,
-            scaleShowVerticalLines: true,
-            barShowStroke: true,
-            barStrokeWidth: 2,
-            barDatasetSpacing: 1,
-            responsive: true
+        // when the user selects a different year, show the data of that year
+        yearsDropDown.addEventListener('change', function (event) {
+            if (byMonthChart) byMonthChart.destroy();
+            initChart(dataset(event.target.value));
         });
-    }
-
-    function initDataset(volunteers, year){
-
-        var dataset = [];
-        $.each(volunteers, function (key, value) {
-
-            if (key == year) {
-                dataset.push({
-                    label: Lang.get('js-components.new'),
-                    fillColor: "#12AFCB",
-                    strokeColor: "#12AFCB",
-                    highlightFill: "#12AFCB",
-                    highlightStroke: "#12AFCB",
-                    data: value.new
-                });
-
-                dataset.push({
-                    label: Lang.get('js-components.pending'),
-                    fillColor: "#E26E27",
-                    strokeColor: "#E26E27",
-                    highlightFill: "#E26E27",
-                    highlightStroke: "#E26E27",
-                    data: value.pending
-                });
-
-                dataset.push({
-                    label: Lang.get('js-components.available'),
-                    fillColor: "#22BAA0",
-                    strokeColor: "#22BAA0",
-                    highlightFill: "#22BAA0",
-                    highlightStroke: "#22BAA0",
-                    data: value.available
-                });
-
-                dataset.push({
-                    label: Lang.get('js-components.active'),
-                    fillColor: "#7a6fbe",
-                    strokeColor: "#7a6fbe",
-                    highlightFill: "#7a6fbe",
-                    highlightStroke: "#7a6fbe",
-                    data: value.active
-                });
-                return false;
-            }
-        });
-
-        return dataset;
-    }
-
+    });
 </script>
 @append

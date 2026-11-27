@@ -106,7 +106,7 @@
                     <a href="{{ url('units/edit/'.$active->id) }}" class="btn btn-success"><i
                             class="fa fa-edit"></i> {{ trans('default.edit') }}</a>
                     @if($active->parent_unit_id!=null)
-                    <button onclick="deleteUnit({{ $active->id }})" class="btn btn-danger"><i
+                    <button type="button" data-delete-unit="{{ $active->id }}" class="btn btn-danger"><i
                             class="fa fa-trash"></i> {{ trans('default.delete') }}
                     </button>
                     @endif
@@ -197,63 +197,38 @@
 
 @section('footerScripts')
 <script>
-    //initialize the tree
-    var treewrapper = new Treewrapper({
-        active: {
-            type: 'unit',
-            id: $("#unitId").attr('data-unit-id')
-        },
-        disabled: true
-    });
-    treewrapper.init();
-
-    //initialize user select
-    $('#volunteerList').select2();
-
-
-    // get the array of volunteers selected and save them
-    $("#saveVolunteers").click(function () {
-        //array of volunteers
-        var volunteers = [];
-        $('#volunteerList :selected').each(function (i, selected) {
-            volunteers[i] = $(selected).val();
-        });
-
-        var volunteersUnits = {
-            id: $("#saveVolunteers").attr('data-id'),
-            volunteers: volunteers
-        };
-
-        console.log(volunteersUnits);
-
-        $.ajax({
-            url: $("body").attr('data-url') + '/units/volunteers',
-            method: 'POST',
-            data: volunteersUnits,
-            headers: {
-                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+    VE.ready(function () {
+        // initialize the tree
+        new Treewrapper({
+            active: {
+                type: 'unit',
+                id: document.getElementById('unitId').getAttribute('data-unit-id')
             },
-            success: function (data) {
-                window.location.href = $("body").attr('data-url') + "/units/one/" + data;
-            }
+            disabled: true
+        }).init();
+
+        // initialize the volunteer select
+        var volunteerList = document.getElementById('volunteerList');
+        if (volunteerList) VE.select(volunteerList);
+
+        // get the array of volunteers selected and save them
+        VE.on('#saveVolunteers', 'click', function (event, button) {
+            var volunteers = volunteerList ? Array.prototype.map.call(volunteerList.selectedOptions, function (option) {
+                return option.value;
+            }) : [];
+
+            VE.http.post('/units/volunteers', {id: button.getAttribute('data-id'), volunteers: volunteers})
+                .then(function (data) { location.href = VE.url('/units/one/' + data); })
+                .catch(VE.fail);
+        });
+
+        // delete a unit and redirect to unit list
+        VE.on(document, 'click', '[data-delete-unit]', function (event, el) {
+            if (!VE.confirm(Lang.get('js-components.deleteUnit'))) return;
+            VE.http.post('/units/delete/' + el.getAttribute('data-delete-unit'))
+                .then(function () { location.href = VE.url('/units'); })
+                .catch(VE.fail);
         });
     });
-
-    //delete a unit and redirect to unit list
-    function deleteUnit(id) {
-        if (confirm(Lang.get('js-components.deleteUnit')) == true) {
-            $.ajax({
-                url: $("body").attr('data-url') + '/units/delete/' + id,
-                method: 'GET',
-                headers: {
-                    'X-CSRF-Token': $('#token').val()
-                },
-                success: function () {
-                    window.location = $("body").attr('data-url') + '/units';
-                }
-            });
-        }
-    }
-
 </script>
 @append

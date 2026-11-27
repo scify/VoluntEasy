@@ -117,48 +117,24 @@
 
 @section('footerScripts')
     <script>
+        VE.ready(function () {
+            // confirm, then take the volunteer out of the unit
+            VE.on(document, 'click', '.removeFromUnit', function (event, link) {
+                event.preventDefault();
+                if (!VE.confirm(Lang.get('js-components.removeVolunteerFromUnit'))) return;
+                VE.http.post('/volunteers/' + link.getAttribute('data-volunteer-id') + '/unit/detach/' + link.getAttribute('data-unit-id'))
+                    .then(function () { location.reload(); })
+                    .catch(VE.fail);
+            });
 
-        //display appropriate message before removing volunteer from action
-        $(".removeFromAction").click(function (event) {
-            event.preventDefault();
-            if (confirm(Lang.get('js-components.removeVolunteerFromAction')) == true) {
-                volunteerId = $(this).attr('data-volunteer-id');
-                actionId = $(this).attr('data-action-id');
-
-                $.ajax({
-                    url: $("body").attr('data-url') + '/volunteers/' + volunteerId + '/action/detach/' + actionId,
-                    method: 'GET',
-                    headers: {
-                        'X-CSRF-Token': $('#token').val()
-                    },
-                    success: function () {
-                        location.reload();
-                    }
-                });
-            }
+            // confirm, then take the volunteer out of the action
+            VE.on(document, 'click', '.removeFromAction', function (event, link) {
+                event.preventDefault();
+                if (!VE.confirm(Lang.get('js-components.removeVolunteerFromAction'))) return;
+                VE.http.post('/volunteers/' + link.getAttribute('data-volunteer-id') + '/action/detach/' + link.getAttribute('data-action-id'))
+                    .then(function () { location.reload(); })
+                    .catch(VE.fail);
+            });
         });
-
-        //display appropriate message before removing volunteer from unit
-        $(".removeFromUnit").click(function (event) {
-            event.preventDefault();
-            console.log($(this).attr('data-unit-id'))
-            if (confirm(Lang.get('js-components.removeVolunteerFromUnit')) == true) {
-                volunteerId = $(this).attr('data-volunteer-id');
-                unitId = $(this).attr('data-unit-id');
-
-                $.ajax({
-                    url: $("body").attr('data-url') + '/volunteers/' + volunteerId + '/unit/detach/' + unitId,
-                    method: 'GET',
-                    headers: {
-                        'X-CSRF-Token': $('#token').val()
-                    },
-                    success: function () {
-                        location.reload();
-                    }
-                });
-
-            }
-        });
-
     </script>
 @append

@@ -13,7 +13,6 @@
 
     <tfoot>
     <tr>
-    <tr>
         <th>{{ trans('entities/volunteers.id') }}</th>
         <th>{{ trans('entities/volunteers.name') }}</th>
         <th>{{ trans('entities/volunteers.email') }}</th>
@@ -27,101 +26,67 @@
 
 @section('footerScripts')
 <script>
-    var table = $('#volunteersTable').dataTable({
-        "bFilter": false,
-        "ajax": $("body").attr('data-url') + '/api/units/' + $('#volunteersTable').attr('data-unit-id') + '/volunteers',
-        "columns": [
-            {data: "id"},
-            {
-                //concat first name with last name
-                data: null, render: function (data, type, row) {
-                return '<a href="' + $("body").attr('data-url') + '/volunteers/one/' + data.id + '">' + data.name + ' ' + data.last_name + '</a>';
-            }
-            },
-            {
-                //make email address clickable
-                data: null, render: function (data, type, row) {
-                return '<a href="mailto:' + data.email + '">' + data.email + '</a>';
-            }
-            },
-            {
-                //concat address with city, post box and country
-                data: null, render: function (data, type, row) {
-                var address = '';
-                if (data.address != null && data.address != '')
-                    address += data.address;
-                if (data.city != null && data.city != '')
-                    address += ', ' + data.city;
-                if (data.post_box != null && data.post_box != '')
-                    address += ', ' + data.post_box;
-                if (data.country != null && data.country != '')
-                    address += ', ' + data.country;
+    VE.ready(function () {
+        var tableEl = document.getElementById('volunteersTable');
+        var statuses = {
+            Pending: ['pending', 'js-components.pending'],
+            Available: ['available', 'js-components.available'],
+            Active: ['active', 'js-components.active']
+        };
 
-                return address;
-            }
-            },
-            {
-                //concat all phones
-                data: null, render: function (data, type, row) {
-                var phones = '';
-                if (data.cell_tel != null && data.cell_tel != '')
-                    phones += data.cell_tel;
-                if (data.home_tel != null && data.home_tel != '')
-                    phones += '<br/>' + data.home_tel;
-                if (data.work_tel != null && data.work_tel != '')
-                    phones += '<br/>' + data.work_tel;
-
-                return phones;
-            }
-            },
-            {
-                // display unit statuses
-                data: null, render: function (data, type, row) {
-                var status = '';
-                console.log(data);
-                if (data.units[0].status == 'Pending')
-                    status += '<div class="status pending">' + Lang.get('js-components.pending') + '</div>';
-                else if (data.units[0].status == 'Available')
-                    status += '<div class="status available">' + Lang.get('js-components.available') + '</div>';
-                else if (data.units[0].status == 'Active')
-                    status += '<div class="status active">' + Lang.get('js-components.active') + '</div>';
-
-                return status;
-            }
-            }
-        ],
-        //custom text
-        "language": {
-            "lengthMenu": Lang.get('js-components.lengthMenu'),
-            "zeroRecords": Lang.get('js-components.zeroVolunteers'),
-            "info": Lang.get('js-components.info'),
-            "infoEmpty": Lang.get('js-components.zeroVolunteers'),
-            "paginate": {
-                "first": Lang.get('js-components.first'),
-                "last": Lang.get('js-components.last'),
-                "next": ">",
-                "previous": "<"
-            }
-        },
-        dom: 'T<"clear">lfrtip',
-        "tableTools": {
-            "sSwfPath": $("body").attr('data-url') + "/assets/plugins/data-tables/extras/tabletools/swf/copy_csv_xls_pdf.swf",
-            "aButtons": [
-                {
-                    "sExtends": "copy",
-                    "sButtonText": Lang.get('js-components.copy')
-                },
-                {
-                    "sExtends": "print",
-                    "sButtonText": Lang.get('js-components.print')
-                },
-                {
-                    "sExtends": "csv",
-                    "sButtonText": Lang.get('js-components.csv')
-                }
-            ]
+        function filled(value) {
+            return value != null && value !== '';
         }
-    });
 
+        VE.table(tableEl, {
+            url: '/api/units/' + tableEl.getAttribute('data-unit-id') + '/volunteers',
+            order: [[0, 'asc']],
+            columns: [
+                {data: 'id'},
+                {
+                    // first name with last name
+                    data: null, render: function (data) {
+                        return '<a href="' + VE.url('/volunteers/one/' + data.id) + '">' + VE.esc(data.name + ' ' + data.last_name) + '</a>';
+                    }
+                },
+                {
+                    // clickable email address
+                    data: null, render: function (data) {
+                        return '<a href="mailto:' + VE.esc(data.email) + '">' + VE.esc(data.email) + '</a>';
+                    }
+                },
+                {
+                    // address with city, post box and country
+                    data: null, render: function (data) {
+                        var address = '';
+                        if (filled(data.address)) address += data.address;
+                        if (filled(data.city)) address += ', ' + data.city;
+                        if (filled(data.post_box)) address += ', ' + data.post_box;
+                        if (filled(data.country)) address += ', ' + data.country;
+                        return VE.esc(address);
+                    }
+                },
+                {
+                    // all the phones
+                    data: null, render: function (data) {
+                        var phones = [];
+                        if (filled(data.cell_tel)) phones.push(VE.esc(data.cell_tel));
+                        if (filled(data.home_tel)) phones.push(VE.esc(data.home_tel));
+                        if (filled(data.work_tel)) phones.push(VE.esc(data.work_tel));
+                        return phones.join('<br/>');
+                    }
+                },
+                {
+                    // status of the volunteer in the unit
+                    data: null, render: function (data) {
+                        var status = data.units && data.units[0] ? statuses[data.units[0].status] : null;
+                        return status ? '<div class="status ' + status[0] + '">' + VE.esc(Lang.get(status[1])) + '</div>' : '';
+                    }
+                }
+            ],
+            language: VE.tableLanguage('js-components.zeroVolunteers'),
+            buttons: ['print', 'csv']
+        });
+    });
 </script>
 @append

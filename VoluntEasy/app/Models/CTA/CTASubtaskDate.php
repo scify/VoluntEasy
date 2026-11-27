@@ -16,11 +16,11 @@ class CTASubtaskDate extends Model
 
     protected $table = 'cta_volunteers_subtask_dates';
 
-    protected $fillable = ['cta_volunteers_id', 'subtask_shift_id'];
+    protected $fillable = ['cta_volunteers_id', 'subtask_shifts_id'];
 
     /** @return HasOne<SubtaskShift, $this> */
     public function date(): HasOne
     {
-        return $this->hasOne(SubtaskShift::class, 'id', 'subtask_shift_id');
+        return $this->hasOne(SubtaskShift::class, 'id', 'subtask_shifts_id');
     }
 }

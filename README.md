@@ -140,13 +140,9 @@ vendor/bin/pint                  # code style (Laravel preset)
 php artisan lang:js              # rebuild public/messages.js after a change in resources/lang
 ```
 
-The front end uses plain JavaScript with no jQuery: [`public/assets/js/ve.js`](VoluntEasy/public/assets/js/ve.js) contains the shared helpers (requests with the CSRF token, tables, date pickers, inline editing). The libraries are self-hosted in `public/assets/vendor`.
+The front end uses plain JavaScript: [`public/assets/js/ve.js`](VoluntEasy/public/assets/js/ve.js) contains the shared helpers (requests with the CSRF token, tables, date pickers, inline editing). The libraries are self-hosted in `public/assets/vendor`.
 
 GitHub Actions runs Pint, Larastan and the tests on every push and pull request.
-
-## Project history
-
-VoluntEasy was created by [SciFY](https://www.scify.org/) in 2015 on Laravel 5.1 and was used by Greek organisations to coordinate their volunteers. In 2026 it was upgraded to Laravel 13 and PHP 8, the front end was rewritten without jQuery, and the code got static analysis, tests and continuous integration.
 
 ## Contributing
 

@@ -9,7 +9,7 @@
 
     <hr/>
 
-    {!! Form::model(null, ['id' => 'editPublicAction', 'method' => 'GET', 'action' => ['CTAController@update']]) !!}
+    {!! Form::model(null, ['id' => 'editPublicAction', 'method' => 'POST', 'action' => ['CTAController@update']]) !!}
     @include('main.cta._form')
     <input type="hidden" name="publicActionId" class="publicActionId" value="{{$action->publicAction->id}}">
     <div class="row">
@@ -27,29 +27,23 @@
 
 @section('footerScripts')
     <script>
-        $('#updatePublicAction').click(function (event) {
-            event.preventDefault();
+        VE.ready(function () {
+            var form = document.getElementById('editPublicAction');
 
-            if ($('#public_description').val() == null || $('#public_description').val() == '' || $('#public_address').val() == null || $('#public_address').val() == '') {
-                $('#editPublicAction .errors').show();
-            }
-            else {
-                $('#editPublicAction .errors').hide();
+            VE.on('#updatePublicAction', 'click', function (event) {
+                event.preventDefault();
+                var errors = form.querySelector('.errors');
 
-                $.ajax({
-                    type: $('#editPublicAction').attr('method'),
-                    url: $('#editPublicAction').attr('action'),
-                    data: $('#editPublicAction').serialize(),
-                    success: function (data) {
-                        location.reload();
-                    }
-
-                });
-                return false; // prevent send form
-            }
+                if (!document.getElementById('public_description').value || !document.getElementById('public_address').value) {
+                    VE.show(errors);
+                    return;
+                }
+                VE.hide(errors);
+                VE.http.postForm(form)
+                    .then(function () { location.reload(); })
+                    .catch(VE.fail);
+            });
         });
-
-
     </script>
 @append
 

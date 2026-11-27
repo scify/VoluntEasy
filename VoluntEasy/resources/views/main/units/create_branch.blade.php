@@ -65,45 +65,19 @@
 
 @section('footerScripts')
 <script>
+    VE.ready(function () {
+        // initialize the tree; if the submission returned errors,
+        // the selected parent unit stays in the hidden input and is shown as active
+        new Treewrapper({
+            create: 'unit',
+            active: {
+                type: 'unit',
+                id: document.getElementById('parent_unit_id').value
+            }
+        }).init();
 
-    //initialize the tree
-    var treewrapper = new Treewrapper({
-        create: 'unit',
-        active: {
-            type: 'unit',
-            id: $('#parent_unit_id').val()
-        }
+        // initialize the user select
+        VE.select('#userList');
     });
-    treewrapper.init();
-
-
-    //if the user has clicked on a unit, but the submission returns errors,
-    //the page gets reloaded and the active node is lost.
-    //the value (unit id) stays in the hidden input so we can make it active again.
-    if ($('#parent_unit_id').val() != '') {
-        $(".node").addClass('active-node');
-    }
-
-    //initialize user select
-    $('#userList').select2();
-
-    //make an input to send with the form
-    $('#userList').on("select2:select", function (e) {
-        id = e.params.data.id;
-        input = '<input id="user' + id + '" name="user' + id + '" value="' + id + '" hidden/>';
-        $("#createForm").append(input);
-    });
-
-    //remove input when the option is unselected
-    $('#userList').on("select2:unselect", function (e) {
-        id = e.params.data.id;
-        console.log("#user" + id)
-        $("#user" + id).remove();
-    });
-
-
-    $("#parent_unit").val($("#parent_unit").attr("data-value"));
-
-
 </script>
 @append

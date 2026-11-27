@@ -19,77 +19,56 @@
 
 @section('footerScripts')
 <script>
-    var table = $('#newVolunteersTable').dataTable({
-        "pageLength": 5,
-        "bFilter": false,
-        "bLengthChange": false,
-        "ajax": $("body").attr('data-url') + '/api/volunteers/status/new',
-        "columns": [
-            {data: "id"},
+    VE.ready(function () {
+        var table = VE.table('#newVolunteersTable', {
+            lengthChange: false,
+            url: '/api/volunteers/status/new',
+            pageLength: 5,
+            order: [[0, 'asc']],
+            columns: [
+                {data: 'id'},
             {
-                //concat first name with last name
-                data: null, render: function (data, type, row) {
-                html = '<a href="' + $("body").attr('data-url') + '/volunteers/one/' + data.id + '">' + data.name + ' ' + data.last_name + '</a>';
-                html += '<br/><small><a href="mailto:' + data.email + '">' + data.email + '</a></small>'
-                return html;
-            }
+                // name and email
+                data: null, render: function (data) {
+                    return '<a href="' + VE.url('/volunteers/one/' + data.id) + '">' + VE.esc(data.name + ' ' + data.last_name) + '</a>' +
+                        '<br/><small><a href="mailto:' + VE.esc(data.email) + '">' + VE.esc(data.email) + '</a></small>';
+                }
             },
-            {
-                //if the user is permitted to edit/delete the volunteer,
-                //then show the appropriate buttons
-                data: null, render: function (data, type, row) {
-                    var html = '';
-
-                    if (data.permitted) {
-                        html = '<ul class="list-inline">';
-                        html += '<li><a href="' + $("body").attr('data-url') + '/volunteers/edit/' + data.id + '" class=" btn btn-success" data-toggle="tooltip"';
-                        html += 'data-placement="bottom" title="{{ trans('default.edit') }}"><i class="fa fa-edit"></i></a></li>';
-                        html += '<li><button class=" btn btn-danger" onclick="deleteVolunteer(' + data.id + ')" data-id="' + data.id + '" data-toggle="tooltip"';
-                        html += 'data-placement="bottom" title="{{ trans('default.delete') }}"><i class="fa fa-trash"></i></a>';
-                        html += '</li>';
-
-                        //if the volunteer has not been assigned to root unit, display appropriate button
+                {
+                    // edit, delete and "assign to my unit" for the permitted users
+                    data: null, orderable: false, render: function (data) {
+                        if (!data.permitted) return '';
+                        var html = '<ul class="list-inline">' +
+                            '<li><a href="' + VE.url('/volunteers/edit/' + data.id) + '" class="btn btn-success" data-toggle="tooltip" ' +
+                            'data-placement="bottom" title="{{ trans('default.edit') }}"><i class="fa fa-edit"></i></a></li>' +
+                            '<li><button type="button" class="btn btn-danger" data-delete-new-volunteer="' + data.id + '" data-toggle="tooltip" ' +
+                            'data-placement="bottom" title="{{ trans('default.delete') }}"><i class="fa fa-trash"></i></button></li>';
                         if (data.assignToRoot) {
-                            html += '<li><a href="' + $("body").attr('data-url') + '/volunteers/addToRootUnit/' + data.id + '" data-toggle="tooltip"';
-                            html += 'class=" btn btn-info" data-placement="bottom" title="{{ trans('entities/volunteers.assignToMyUnit') }}"><i class="fa fa-home"></i></a></li>';
+                            html += '<li><button type="button" class="btn btn-info" data-add-new-to-root="' + data.id + '" data-toggle="tooltip" ' +
+                                'data-placement="bottom" title="{{ trans('entities/volunteers.assignToMyUnit') }}"><i class="fa fa-home"></i></button></li>';
                         }
-
-                        html += '</ul>';
+                        return html + '</ul>';
                     }
-                    return html;
                 }
-            }
-        ],
-        //disable ordering at the last column (edit, delete buttons)
-                "aoColumnDefs": [
-                    {'bSortable': false, 'aTargets': [2]}
-                ],
-        //custom text
-        "language": {
-            "lengthMenu": Lang.get('js-components.lengthMenu'),
-            "zeroRecords": Lang.get('js-components.zeroVolunteers'),
-            "info": Lang.get('js-components.info'),
-            "infoEmpty": Lang.get('js-components.zeroVolunteers'),
-            "paginate": {
-                "first": Lang.get('js-components.first'),
-                "last": Lang.get('js-components.last'),
-                "next": ">",
-                "previous": "<"
-            }
-        }
-    });
+            ],
+            language: VE.tableLanguage('js-components.zeroVolunteers')
+        });
+        // no page length menu in the dashboard widgets
 
-    //delete user and return to user list
-    function deleteVolunteer(id) {
-        if (confirm(Lang.get('js-components.deleteVolunteer')) == true) {
-            $.ajax({
-                url: $("body").attr('data-url') + '/volunteers/delete/' + id,
-                method: 'GET',
-                success: function () {
-                    window.location = $("body").attr('data-url') + '/volunteers';
-                }
-            });
-        }
-    }
+        // delete the volunteer and go to the volunteer list
+        VE.on(document, 'click', '[data-delete-new-volunteer]', function (event, el) {
+            if (!VE.confirm(Lang.get('js-components.deleteVolunteer'))) return;
+            VE.http.post('/volunteers/delete/' + el.getAttribute('data-delete-new-volunteer'))
+                .then(function () { window.location = VE.url('/volunteers'); })
+                .catch(VE.fail);
+        });
+
+        VE.on(document, 'click', '[data-add-new-to-root]', function (event, el) {
+            var id = el.getAttribute('data-add-new-to-root');
+            VE.http.post('/volunteers/addToRootUnit/' + id)
+                .then(function () { window.location = VE.url('/volunteers/one/' + id); })
+                .catch(VE.fail);
+        });
+    });
 </script>
 @append

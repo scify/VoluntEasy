@@ -19,13 +19,13 @@
                     <div class="panel panel-default">
                         <div class="panel-heading" role="tab" id="headingOne1">
                             <h4 class="panel-title">
-                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#1"
-                                   aria-expanded="false" aria-controls="collapseOne">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#faq1"
+                                   aria-expanded="false" aria-controls="faq1">
                                     {{ trans('pages/faq.question1') }}
                                 </a>
                             </h4>
                         </div>
-                        <div id="1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne1">
+                        <div id="faq1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne1">
                             <div class="panel-body">
                             <p>{!! trans('pages/faq.answer1') !!}</p>
 
@@ -35,13 +35,13 @@
                     <div class="panel panel-default">
                         <div class="panel-heading" role="tab" id="headingTwo2">
                             <h4 class="panel-title">
-                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#2"
-                                   aria-expanded="false" aria-controls="collapseTwo">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#faq2"
+                                   aria-expanded="false" aria-controls="faq2">
                                      {{ trans('pages/faq.question2') }}
                                 </a>
                             </h4>
                         </div>
-                        <div id="2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo2">
+                        <div id="faq2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo2">
                             <div class="panel-body">
                                 {!! trans('pages/faq.answer2') !!}
                             </div>

@@ -58,110 +58,18 @@
 
 @section('footerScripts')
 <script>
-    //initialize the tree
-    var treewrapper = new Treewrapper({
-        active: {
-            type: 'unit',
-            id: $("#unit_id").val()
-        },
-        disabled: true
-    });
-    treewrapper.init();
-
-    //initialize user select
-    $('#userList').select2();
-
-    // get the array of users selected and save them
-    $("#saveUsers").click(function () {
-        //array of users
-        var users = [];
-        $('#userList :selected').each(function (i, selected) {
-            users[i] = $(selected).val();
-        });
-
-        var userUnits = {
-            id: $("#saveUsers").attr('data-id'),
-            users: users
-        };
-
-        $.ajax({
-            url: $("body").attr('data-url') + '/units/users',
-            method: 'POST',
-            data: userUnits,
-            headers: {
-                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+    VE.ready(function () {
+        // initialize the tree
+        new Treewrapper({
+            active: {
+                type: 'unit',
+                id: document.getElementById('unit_id').value
             },
-            success: function (data) {
-                window.location.href = $("body").attr('data-url') + "/units/one/" + data;
-            }
-        });
+            disabled: true
+        }).init();
+
+        // initialize the user select
+        VE.select('#userList');
     });
-
-
-    //save an action
-    $("#saveAction").click(function () {
-        var action = {
-            description: $("#actionDescription").val(),
-            comments: $("#actionComments").val(),
-            email: $("#actionEmail").val(),
-            start_date: $("#actionStartDate").val(),
-            end_date: $("#actionEndDate").val(),
-            unit_id: $("#saveUsers").attr('data-id')
-        };
-
-        $.ajax({
-            url: $("body").attr('data-url') + "/actions/store",
-            data: action,
-            type: "POST",
-            headers: {
-                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-            }
-        }).done(function (data) {
-            console.log(data)
-            window.location.href = $("body").attr('data-url') + "/units/one/" + data;
-        }).fail(function (jqXHR) {
-
-            if (jqXHR.status == 422) {
-                $("p.help-block").remove();
-                $("#actionDescription").parent().removeClass("has-error");
-                $("#actionComments").parent().removeClass("has-error");
-                $("#actionStartDate").parent().removeClass("has-error");
-                $("#actionEndDate").parent().removeClass("has-error");
-
-                $.each(jqXHR.responseJSON, function (key, value) {
-                    if (key == 'description') {
-                        $("#actionDescription").parent().addClass("has-error");
-                        $("#actionDescription").parent().append('<p class="help-block">' + value + '</p>');
-                    }
-                    if (key == 'comments') {
-                        $("#actionComments").parent().addClass("has-error");
-                        $("#actionComments").parent().append('<p class="help-block">' + value + '</p>');
-                    }
-                    if (key == 'start_date') {
-                        $("#actionStartDate").parent().addClass("has-error");
-                        $("#actionStartDate").parent().append('<p class="help-block">' + value + '</p>');
-                    }
-                    if (key == 'end_date') {
-                        $("#actionEndDate").parent().addClass("has-error");
-                        $("#actionEndDate").parent().append('<p class="help-block">' + value + '</p>');
-                    }
-                });
-            }
-        });
-    });
-
-
-
-
-    /*
-     $(".node").click(function () {
-     $.ajax({
-     url: '/units/one/' + $(this).attr('data-id'),
-     success: function (data) {
-     console.log(data);
-     $(".unit-details").html(data);
-     }
-     });
-     })*/
 </script>
 @append

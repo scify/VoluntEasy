@@ -186,9 +186,5 @@
 
 </main>
 <!-- Page Content -->
-<script src="{{ asset('assets/plugins/jquery/jquery-2.1.3.min.js')}}"></script>
-<script>
-    $('.checkbox').uniform();
-</script>
 </body>
 </html>

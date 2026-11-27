@@ -23,7 +23,7 @@ class CTAController extends Controller
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
-        $this->middleware('auth', ['except' => ['cta', 'participate']]);
+        $this->middleware('auth', ['except' => ['cta', 'participate', 'volunteerInterested']]);
     }
 
     public function cta()
@@ -178,7 +178,7 @@ class CTAController extends Controller
             foreach ($request['dates'] as $id => $date) {
                 $date = new CTASubtaskDate([
                     'cta_volunteers_id' => $ctaVolunteer->id,
-                    'subtask_shift_id' => $id,
+                    'subtask_shifts_id' => $id,
                 ]);
 
                 $date->save();

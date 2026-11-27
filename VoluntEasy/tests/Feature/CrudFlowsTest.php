@@ -47,6 +47,24 @@ class CrudFlowsTest extends TestCase
         $this->get("/volunteers/one/{$volunteer->id}")->assertOk()->assertSee('Marianna');
     }
 
+    public function test_the_availability_days_are_saved_for_every_day(): void
+    {
+        // Thursday was sent as ".thursday[]" and never saved.
+        $this->get('/volunteers/create')->assertSee('name="thursday[]"', false)->assertDontSee('name=".thursday[]"', false);
+
+        $this->submitForm('/volunteers/create', [
+            'name' => 'Petros', 'last_name' => 'D', 'email' => 'petros@example.org', 'birth_date' => '01/02/1990',
+            'cell_tel' => '6900000001', 'city' => 'Athens', 'participation_reason' => 'x',
+            'availability_freqs_id' => '2', 'monday' => ['1'], 'thursday' => ['2', '3'],
+        ])->assertSessionHasNoErrors();
+
+        $volunteer = Volunteer::where('email', 'petros@example.org')->firstOrFail();
+        $this->assertEqualsCanonicalizing(
+            ['monday morning', 'thursday afternoon', 'thursday evening'],
+            $volunteer->availabilityDays()->get()->map(fn ($day) => "{$day->day} {$day->time}")->all(),
+        );
+    }
+
     public function test_create_and_edit_an_action(): void
     {
         $unit = Unit::firstOrFail();

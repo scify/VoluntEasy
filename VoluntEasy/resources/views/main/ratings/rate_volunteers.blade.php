@@ -36,12 +36,11 @@
                             @if(sizeof($action->volunteers)>0)
 
                             <div id="rootwizard">
-                                <ul>
+                                <ul class="nav nav-pills">
                                     @foreach($action->volunteers as $i => $volunteer)
                                     <li data-volunteer-id="{{ $volunteer->id }}"
                                         class="{{ $i == sizeof($action->volunteers)-1 ? 'last' : '' }}"><a
-                                            href="#tab{{ $volunteer->id }}"
-                                            data-toggle="tab">{{
+                                            href="#tab{{ $volunteer->id }}">{{
                                             $volunteer->name}} {{
                                             $volunteer->last_name }}</a></li>
                                     @endforeach
@@ -118,7 +117,7 @@
                                                 </div>
                                             </div>
                                             <ul class="pager wizard">
-                                                <li class="previous"><a href="#" class="btn btn-default"{{ trans('entities/ratings.prevVolunteer') }}</a>
+                                                <li class="previous"><a href="#" class="btn btn-default">{{ trans('entities/ratings.prevVolunteer') }}</a>
                                                 </li>
                                                 <li class="next"><a href="#" class="btn btn-default">{{ trans('entities/ratings.nextVolunteer') }}</a></li>
                                                 <li class="next finish" style="display:none;"><a href="javascript:;">{{ trans('default.submit') }}</a>
@@ -153,147 +152,110 @@
 </main>
 <!-- Page Content -->
 @include('template.default.footerIncludes')
-
-<script src="{{ asset('assets/plugins/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js')}}"></script>
-<script src="{{ asset('assets/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
 <script>
-    $('.attribute.rating').raty({
-        starOff: '{{ asset("assets/plugins/raty/lib/images/star-off.png")}}',
-        starOn: '{{ asset("assets/plugins/raty/lib/images/star-on.png")}}'
-    });
+    VE.ready(function () {
+        var root = document.getElementById('rootwizard');
+        if (!root) return;
+        var info = document.getElementById('actionInformation');
+        var errorMsg = root.querySelector('.error-msg');
+        var tabs = Array.prototype.slice.call(root.querySelectorAll('ul.nav > li'));
+        var volunteerIds = []; // the volunteers that the user has seen
+        var sending = false;
 
+        Array.prototype.forEach.call(root.querySelectorAll('.attribute.rating'), function (el) {
+            VE.stars(el);
+        });
 
-    //keep an array with all the volunteers ids
-    var volunteerIds = [];
-    var ratingFlag = false;
-
-    //wizard properties
-    $('#rootwizard').bootstrapWizard({
-        'tabClass': 'nav nav-pills',
-        'onNext': function (tab, navigation, index) {
-            var volunteerId = tab.attr('data-volunteer-id');
-
-            if (!validate(volunteerId)) {
-                ratingFlag = false;
-                return false;
-            }
-            else
-                ratingFlag = true;
-
-            //if we are at the last tab, and there are no errors, then send the ratings to the server
-            if (ratingFlag && tab.hasClass('last'))
-                sendRatings();
-        },
-        'onTabClick': function (tab, navigation, index) {
-            var volunteerId = tab.attr('data-volunteer-id');
-
-            if (!validate(volunteerId))
-                return false;
-        },
-        onTabShow: function (tab, navigation, index) {
-            var volunteerId = tab.attr('data-volunteer-id');
-
-            //check if the id already exists in the array
-            if ($.inArray(volunteerId, volunteerIds) == -1)
-                volunteerIds.push(volunteerId);
-
-            var $total = navigation.find('li').length;
-            var $current = index + 1;
-
-            // If it's the last tab then hide the last button and show the finish instead
-            if ($current >= $total) {
-                $('#rootwizard').find('.pager .next').hide();
-                $('#rootwizard').find('.pager .finish').show();
-                $('#rootwizard').find('.pager .finish').removeClass('disabled');
-            } else {
-                $('#rootwizard').find('.pager .next').show();
-                $('#rootwizard').find('.pager .finish').hide();
-            }
+        function field(selector, volunteerId) {
+            return root.querySelector(selector + '[data-volunteer-id="' + volunteerId + '"]');
         }
-    });
 
+        function showError(key) {
+            errorMsg.querySelector('.error-msg-text').textContent = Lang.get(key);
+            errorMsg.style.visibility = 'visible';
+        }
 
-    //when the finish button is pressed,
-    //submit the data to the server
-    function sendRatings() {
-        var volunteers = [];
-        var ratings = [];
+        function isNumber(value) {
+            return value.trim() !== '' && isFinite(Number(value));
+        }
 
-        $.each(volunteerIds, function (key, value) {
-            ratings = [];
+        // check that the volunteer has a rating for all the attributes and that hours/minutes are numbers
+        function validate(volunteerId) {
+            var attributes = Array.prototype.slice.call(root.querySelectorAll('.attribute.rating[data-volunteer-id="' + volunteerId + '"]'));
+            var rated = attributes.filter(function (el) { return el.VEStars.score() > 0; }).length;
+            var hours = field('input.hours', volunteerId).value;
+            var minutes = field('input.minutes', volunteerId).value;
 
-            //get the ratings for each volunteer in an array
-            $.each($(".attribute.rating.volunteerRating[data-volunteer-id='" + value + "']"), function (key, value) {
-                ratings.push({
-                    attrId: $(this).attr('data-attr-id'),
-                    rating: $(this).raty("score")
+            if (rated < attributes.length) showError('js-components.answerAllQuestions');
+            if (hours !== '' && !isNumber(hours)) {
+                showError('js-components.pleaseAddOnlyNumbers');
+                return false;
+            }
+            if (minutes !== '' && !isNumber(minutes)) {
+                showError('js-components.pleaseAddOnlyNumbers');
+                return false;
+            }
+            if (rated === attributes.length) {
+                errorMsg.style.visibility = 'hidden';
+                return true;
+            }
+            return false;
+        }
+
+        // send the ratings of all the volunteers to the server
+        function sendRatings() {
+            if (sending) return;
+            var data = new URLSearchParams();
+            volunteerIds.forEach(function (volunteerId, i) {
+                var prefix = 'volunteers[' + i + ']';
+                data.append(prefix + '[id]', volunteerId);
+                Array.prototype.forEach.call(root.querySelectorAll('.attribute.rating.volunteerRating[data-volunteer-id="' + volunteerId + '"]'), function (el, j) {
+                    data.append(prefix + '[ratings][' + j + '][attrId]', el.getAttribute('data-attr-id'));
+                    data.append(prefix + '[ratings][' + j + '][rating]', el.VEStars.score());
                 });
+                data.append(prefix + '[comments]', field('.comments', volunteerId).value);
+                data.append(prefix + '[hours]', field('.hours', volunteerId).value);
+                data.append(prefix + '[minutes]', field('.minutes', volunteerId).value);
             });
+            data.append('actionId', info.getAttribute('data-action-id'));
+            data.append('email', info.getAttribute('data-email'));
+            data.append('actionRatingId', info.getAttribute('data-action-rating-id'));
+            // the token of the link proves which rating this is
+            data.append('token', location.pathname.split('/').filter(Boolean).pop());
 
-            volunteers.push({
-                id: value,
-                ratings: ratings,
-                comments: $('.comments[data-volunteer-id="' + value + '"]').val(),
-                hours: $('.hours[data-volunteer-id="' + value + '"]').val(),
-                minutes: $('.minutes[data-volunteer-id="' + value + '"]').val()
+            sending = true;
+            VE.http.post('/ratings/action/volunteers/store', data).then(function (actionId) {
+                window.location.href = VE.url('/ratings/action/volunteers/thankyou/' + actionId);
+            }).catch(function (error) {
+                sending = false;
+                VE.fail(error);
             });
-        });
+        }
 
-        //send data to server to save the ratings
-        $.ajax({
-            url: $("body").attr('data-url') + '/ratings/action/volunteers/store',
-            method: 'POST',
-            data: {
-                volunteers: volunteers,
-                actionId: $("#actionInformation").attr('data-action-id'),
-                email: $("#actionInformation").attr('data-email'),
-                actionRatingId: $("#actionInformation").attr('data-action-rating-id')
+        VE.wizard(root, {
+            onNext: function (index) {
+                var tab = tabs[index];
+                if (!validate(tab.getAttribute('data-volunteer-id'))) return false;
+                // at the last tab, without errors: send the ratings to the server
+                if (tab.classList.contains('last')) {
+                    sendRatings();
+                    return false;
+                }
             },
-            headers: {
-                'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-            },
-            success: function (data) {
-                window.location.href = $("body").attr('data-url') + "/ratings/action/volunteers/thankyou/" + data;
+            onTabChanged: function (index) {
+                var volunteerId = tabs[index].getAttribute('data-volunteer-id');
+                if (volunteerIds.indexOf(volunteerId) === -1) volunteerIds.push(volunteerId);
+
+                // at the last tab, show the "submit" button instead of "next"
+                var last = index >= tabs.length - 1;
+                Array.prototype.forEach.call(root.querySelectorAll('.pager .next'), function (li) {
+                    var finish = li.classList.contains('finish');
+                    li.style.display = finish === last ? '' : 'none';
+                    if (finish) li.classList.remove('disabled');
+                });
             }
         });
-    }
-
-    //check that all volunteers have been rated before sending the form
-    function validate(volunteerId) {
-        var count = 0;
-        var volunteerAttributes = $(".attribute.rating[data-volunteer-id='" + volunteerId + "']");
-        var hours = $("input.hours[data-volunteer-id='" + volunteerId + "']").val();
-        var minutes = $("input.minutes[data-volunteer-id='" + volunteerId + "']").val();
-
-        volunteerAttributes.each(function (index) {
-            if ($(this).raty('score') == undefined) {
-                $(".error-msg .error-msg-text").text(Lang.get('js-components.answerAllQuestions'));
-                $(".error-msg").css('visibility', 'visible');
-            }
-            else
-                count++;
-        });
-
-        if (hours != '' && !$.isNumeric(hours)) {
-            $(".error-msg .error-msg-text").text(Lang.get('js-components.pleaseRateVolunteer'));
-            $(".error-msg").css('visibility', 'visible');
-            return false;
-        }
-
-        if (minutes != '' && !$.isNumeric(minutes)) {
-            $(".error-msg .error-msg-text").text(Lang.get('js-components.pleaseAddOnlyNumbers'));
-            $(".error-msg").css('visibility', 'visible');
-            return false;
-        }
-
-        if (count == volunteerAttributes.length) {
-            $(".error-msg").css('visibility', 'hidden');
-            return true;
-        }
-        else
-            return false;
-    }
-
+    });
 </script>
 </body>
 </html>

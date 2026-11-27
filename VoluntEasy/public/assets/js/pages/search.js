@@ -1,100 +1,48 @@
 /**
- * All the scripts that initialize the autocompletes and other widjets of the search.
+ * The scripts that initialize the autocompletes and the other widgets of the search forms
+ * (volunteers, collaborations). Every widget is optional: it starts only if its element exists.
  */
+VE.ready(function () {
 
-/*** Slider for the age range ***/
-$("#age-slider-range").slider({
-    range: true,
-    min: 0,
-    max: 100,
-    values: [10, 90],
-    slide: function (event, ui) {
-        $("#age").text(ui.values[0] + "-" + ui.values[1]);
-        $("#age-range").val(ui.values[0] + "-" + ui.values[1]);
+    /*** Age range (two number inputs, they replace the old slider) ***/
+    var ageFrom = document.getElementById('age-from'),
+        ageTo = document.getElementById('age-to'),
+        ageRange = document.getElementById('age-range'),
+        ageText = document.getElementById('age');
+
+    if (ageFrom && ageTo && ageRange) {
+        var updateAge = function () {
+            var from = Math.min(Math.max(parseInt(ageFrom.value, 10) || 0, 0), 100),
+                to = Math.min(Math.max(parseInt(ageTo.value, 10) || 0, 0), 100);
+            if (from > to) {
+                var tmp = from;
+                from = to;
+                to = tmp;
+            }
+            ageRange.value = from + '-' + to;
+            if (ageText) ageText.textContent = from + '-' + to;
+        };
+        ageFrom.addEventListener('input', updateAge);
+        ageTo.addEventListener('input', updateAge);
+        updateAge();
     }
-});
 
-$("#age").text($("#age-slider-range").slider("values", 0) + "-" + $("#age-slider-range").slider("values", 1));
+    /*** Autocompletes ***/
+    var autocompletes = {
+        '#collabType': '/search/collabType',
+        '.volunteer.search.name': '/search/volunteers/firstName',
+        '.volunteer.search.lastName': '/search/volunteers/lastName',
+        '.volunteer.search.additionalSkills': '/search/volunteers/additionalSkills',
+        '.volunteer.search.extraLang': '/search/volunteers/extraLang',
+        '.volunteer.search.workDescription': '/search/volunteers/workDescription',
+        '.volunteer.search.specialty': '/search/volunteers/specialty',
+        '.volunteer.search.department': '/search/volunteers/department',
+        '.volunteer.search.participationΑctions': '/search/volunteers/participationΑctions',
+        '.volunteer.search.computerUsageComments': '/search/volunteers/computerUsageComments'
+    };
 
-
-/*** City autocomplete ***/
-/*
-$( "#city" ).autocomplete({
-    source: $("body").attr('data-url') + '/search/city',
-    minLength: 1
-});
-*/
-/*** Country autocomplete ***/
-/*
-$( "#country" ).autocomplete({
-    source: $("body").attr('data-url') + '/search/country',
-    minLength: 1
-});
-*/
-
-/*** Action user autocomplete ***/
-$( "#actionUser" ).autocomplete({
-    source: $("body").attr('data-url') + '/search/actionUser',
-    minLength: 2
-});
-
-
-/*** Collaboration type autocomplete ***/
-$( "#collabType" ).autocomplete({
-    source: $("body").attr('data-url') + '/search/collabType',
-    minLength: 2
-});
-
-/*** Volunteer first name autocomplete ***/
-$( ".volunteer.search.name" ).autocomplete({
-    source: $("body").attr('data-url') + '/search/volunteers/firstName',
-    minLength: 3
-});
-
-/*** Volunteer last name autocomplete ***/
-$( ".volunteer.search.lastName" ).autocomplete({
-    source: $("body").attr('data-url') + '/search/volunteers/lastName',
-    minLength: 3
-});
-
-/*** Volunteer additional skills autocomplete ***/
-$( ".volunteer.search.additionalSkills" ).autocomplete({
-    source: $("body").attr('data-url') + '/search/volunteers/additionalSkills',
-    minLength: 3
-});
-
-/*** Volunteer extra lang autocomplete ***/
-$( ".volunteer.search.extraLang" ).autocomplete({
-    source: $("body").attr('data-url') + '/search/volunteers/extraLang',
-    minLength: 3
-});
-
-/*** Volunteer additional skills autocomplete ***/
-$( ".volunteer.search.workDescription" ).autocomplete({
-    source: $("body").attr('data-url') + '/search/volunteers/workDescription',
-    minLength: 3
-});
-
-/*** Volunteer specialty autocomplete ***/
-$( ".volunteer.search.specialty" ).autocomplete({
-    source: $("body").attr('data-url') + '/search/volunteers/specialty',
-    minLength: 3
-});
-
-/*** Volunteer department autocomplete ***/
-$( ".volunteer.search.department" ).autocomplete({
-    source: $("body").attr('data-url') + '/search/volunteers/department',
-    minLength: 3
-});
-
-/*** Volunteer participationΑctions autocomplete ***/
-$( ".volunteer.search.participationΑctions" ).autocomplete({
-    source: $("body").attr('data-url') + '/search/volunteers/participationΑctions',
-    minLength: 3
-});
-
-/*** Volunteer participationΑctions autocomplete ***/
-$( ".volunteer.search.computerUsageComments" ).autocomplete({
-    source: $("body").attr('data-url') + '/search/volunteers/computerUsageComments',
-    minLength: 3
+    Object.keys(autocompletes).forEach(function (selector) {
+        var inputs = VE.$$(selector);
+        if (inputs.length) VE.autocomplete(inputs, autocompletes[selector], {minLength: 3});
+    });
 });
