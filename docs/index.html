@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VoluntEasy · Open-source volunteer management</title>
+  <meta name="description" content="VoluntEasy is a free, open-source web platform for organisations that work with volunteers: volunteer records, units, actions, shifts, ratings and reports. Made by SciFY.">
+  <meta name="theme-color" content="#14805a">
+  <meta property="og:title" content="VoluntEasy · Open-source volunteer management">
+  <meta property="og:description" content="Register volunteers, organise them in units, plan actions and shifts, and see the results. Free and open source (Apache 2.0).">
+  <meta property="og:image" content="https://scify.github.io/VoluntEasy/assets/img/hero.png">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/img/favicon.ico">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#top" aria-label="VoluntEasy home"><img src="assets/img/logo.png" alt="VoluntEasy" width="145" height="40"></a>
+      <nav aria-label="Main">
+        <a href="#features">Features</a>
+        <a href="#how">How it works</a>
+        <a href="#start">Get started</a>
+        <a class="button button-small" href="https://github.com/scify/VoluntEasy">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="wrap hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow">Free and open source · Apache 2.0</p>
+          <h1>Volunteer management that your team will actually use</h1>
+          <p class="lead">VoluntEasy keeps your volunteers, your teams and your actions in one place. Register volunteers, follow them through onboarding, plan shifts, and see how many hours they gave.</p>
+          <div class="actions">
+            <a class="button" href="#start">Install VoluntEasy</a>
+            <a class="button button-ghost" href="https://github.com/scify/VoluntEasy">View the code</a>
+          </div>
+          <ul class="facts" aria-label="Key facts">
+            <li>Laravel 13 · PHP 8.3+</li>
+            <li>MySQL or MariaDB</li>
+            <li>English and Greek</li>
+          </ul>
+        </div>
+        <picture class="hero-art">
+          <source media="(max-width: 600px)" srcset="assets/img/hero-mobile.png">
+          <img src="assets/img/hero.png" width="720" height="400" alt="The VoluntEasy volunteers list with the status of each volunteer, and the card of one volunteer with her hours.">
+        </picture>
+      </div>
+    </section>
+
+    <section class="band" aria-label="Who it is for">
+      <div class="wrap band-inner">
+        <p>Made for <strong>non-profits, municipalities, NGOs and community groups</strong> that coordinate many volunteers across teams and activities.</p>
+      </div>
+    </section>
+
+    <section id="features" class="section">
+      <div class="wrap">
+        <h2>Everything a volunteer programme needs</h2>
+        <p class="section-lead">From the first sign-up to the thank-you e-mail after an action.</p>
+
+        <div class="feature">
+          <div class="feature-copy">
+            <h3>Know every volunteer</h3>
+            <p>A complete profile for each volunteer: contact details, skills, languages, interests, availability, files and history. Search by any field and see at a glance who is <em>pending</em>, <em>available</em> or <em>active</em> in each unit.</p>
+            <ul class="checks">
+              <li>Public sign-up form and API for your website</li>
+              <li>Status per unit, with "not available" periods</li>
+              <li>Timeline of every unit, action and status change</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="feature feature-reverse">
+          <picture class="feature-art">
+            <source media="(max-width: 600px)" srcset="assets/img/tree-mobile.png">
+            <img src="assets/img/tree.png" width="560" height="300" loading="lazy" alt="The organisation tree: a root unit with three units below it, one of them with 12 volunteers.">
+          </picture>
+          <div class="feature-copy">
+            <h3>Organise in units</h3>
+            <p>Model your organisation as a tree of units and sub-units. Each unit has its own coordinators and its own onboarding steps, for example a first contact, an interview and a training. Volunteers become available when they complete the steps.</p>
+            <ul class="checks">
+              <li>Coordinators see and edit only their units</li>
+              <li>Roles: administrator, unit manager, action manager</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="feature">
+          <picture class="feature-art">
+            <source media="(max-width: 600px)" srcset="assets/img/board-mobile.png">
+            <img src="assets/img/board.png" width="560" height="300" loading="lazy" alt="The task board of an action with To do, Doing and Done columns, and a subtask with a shift and six of eight volunteers.">
+          </picture>
+          <div class="feature-copy">
+            <h3>Plan actions and shifts</h3>
+            <p>Every action gets a task board. Split the work into tasks and subtasks, add shifts with the number of volunteers you need, keep checklists, and assign people. Publish a call-to-action page so new volunteers can choose a shift.</p>
+            <ul class="checks">
+              <li>Drag subtasks from To do to Done</li>
+              <li>Shifts with dates, hours and volunteer counts</li>
+              <li>Public pages for volunteers to sign up</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="feature feature-reverse">
+          <picture class="feature-art">
+            <source media="(max-width: 600px)" srcset="assets/img/reports-mobile.png">
+            <img src="assets/img/reports.png" width="560" height="300" loading="lazy" alt="The reports page with the number of new volunteers this year and a monthly bar chart.">
+          </picture>
+          <div class="feature-copy">
+            <h3>Measure the impact</h3>
+            <p>After an action, VoluntEasy sends a short questionnaire to the volunteers and to the coordinator. Reports show new volunteers per month, age groups, cities, education, and the hours given per action.</p>
+            <ul class="checks">
+              <li>Ratings of actions and of volunteers</li>
+              <li>Charts and tables you can print or export to CSV</li>
+              <li>In-app notifications for the coordinators</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="section section-tint">
+      <div class="wrap">
+        <h2>How it works</h2>
+        <ol class="steps">
+          <li><span class="step-number" aria-hidden="true">1</span><h3>Volunteers sign up</h3><p>On your website, with the public form, or entered by your team.</p></li>
+          <li><span class="step-number" aria-hidden="true">2</span><h3>Units welcome them</h3><p>Coordinators take each new volunteer through the unit's onboarding steps.</p></li>
+          <li><span class="step-number" aria-hidden="true">3</span><h3>Actions get staffed</h3><p>Available volunteers are assigned to tasks and shifts, or choose them on the call-to-action page.</p></li>
+          <li><span class="step-number" aria-hidden="true">4</span><h3>Everyone gets feedback</h3><p>Ratings and reports show what worked and who helped, so you can thank them.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <h2>Open, private and yours</h2>
+        <div class="cards">
+          <div class="card">
+            <h3>Free forever</h3>
+            <p>Apache 2.0 license. Use it, change it, and run it for as many volunteers as you have.</p>
+          </div>
+          <div class="card">
+            <h3>Your data stays with you</h3>
+            <p>Host it on your own server. No tracking, no third-party scripts, no external services required.</p>
+          </div>
+          <div class="card">
+            <h3>Modern and maintained</h3>
+            <p>Laravel 13 on PHP 8.3+, no jQuery, static analysis with Larastan and automated tests on every change.</p>
+          </div>
+          <div class="card">
+            <h3>Adapt it to your organisation</h3>
+            <p>Deployment "flavours" let you change the volunteer form, the ratings and the reports without forking the core.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="start" class="section section-tint">
+      <div class="wrap start">
+        <div>
+          <h2>Get started in minutes</h2>
+          <p>You need PHP 8.3 or newer, Composer and MySQL or MariaDB. The full guide is in the <a href="https://github.com/scify/VoluntEasy#readme">README</a>.</p>
+        </div>
+        <pre class="code" aria-label="Installation commands"><code>git clone https://github.com/scify/VoluntEasy.git
+cd VoluntEasy/VoluntEasy
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+php artisan serve</code></pre>
+      </div>
+    </section>
+
+    <section class="section cta">
+      <div class="wrap cta-inner">
+        <h2>Help us make volunteering easier</h2>
+        <p>VoluntEasy is built in the open. Report a bug, suggest a feature, translate it to your language, or send a pull request.</p>
+        <div class="actions">
+          <a class="button" href="https://github.com/scify/VoluntEasy">Star it on GitHub</a>
+          <a class="button button-ghost" href="https://github.com/scify/VoluntEasy/issues">Open an issue</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p>VoluntEasy is made by <a href="https://www.scify.org/">SciFY</a>, a not-for-profit organisation in Greece that brings technology and research to everyday life.</p>
+      <p>Released under the <a href="https://github.com/scify/VoluntEasy/blob/master/LICENSE.TXT">Apache License 2.0</a>.</p>
+    </div>
+  </footer>
+</body>
+</html>

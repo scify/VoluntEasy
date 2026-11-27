@@ -1,0 +1,29 @@
+.ve-reports {
+  & .ss-stage {
+    --gutter: 32px;
+    --ss-accent: #1f9d6b;
+    --ss-accent-soft: rgba(31, 157, 107, 0.12);
+    overflow: hidden;
+    border-radius: 18px;
+    background: #e9f4ee;
+  }
+  .vr-window {
+    position: absolute;
+    top: var(--gutter);
+    left: var(--gutter);
+    right: var(--gutter);
+    height: 400px;
+    border-radius: 10px;
+    box-shadow: var(--ss-shadow-hero);
+  }
+  .vr-window .ss-window__body { padding: 16px; background: #f4f6f9; }
+  .vr-grid { display: grid; grid-template-columns: minmax(0, 1fr) 140px; gap: 12px; }
+  .vr-card { display: flex; flex-direction: column; gap: 10px; padding: 16px; border-radius: 8px; background: var(--ss-surface); box-shadow: 0 0 0 1px var(--ss-line-faint); }
+  .vr-side { display: flex; flex-direction: column; gap: 12px; }
+  .vr-label { font-size: 12px; font-weight: 600; color: var(--ss-text); }
+  .vr-number { font-size: 30px; line-height: 1.1; font-weight: 600; color: var(--ss-text-strong); font-variant-numeric: tabular-nums; }
+  .vr-chart { margin-top: 6px; }
+}
+.ve-reports [data-layout="compact"] {
+  & .vr-window { left: 24px; right: auto; width: 480px; top: 24px; }
+}

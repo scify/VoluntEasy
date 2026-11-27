@@ -7,6 +7,7 @@ use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserTableSeeder extends Seeder
 {
@@ -19,12 +20,21 @@ class UserTableSeeder extends Seeder
     public function run()
     {
 
+        // The first administrator. Set ADMIN_EMAIL and ADMIN_PASSWORD in .env,
+        // or a random password is generated and printed once.
+        $email = (string) env('ADMIN_EMAIL', 'admin@example.org');
+        $password = (string) env('ADMIN_PASSWORD', '');
+        if ($password === '') {
+            $password = Str::password(16, symbols: false);
+            $this->command?->warn("Administrator: {$email} / {$password} (change the password after the first login)");
+        }
+
         $admin = new User([
             'name' => 'admin',
-            'email' => 'test@scify.org',
-            'password' => Hash::make('1q2w3e'),
-            'addr' => 'Αμφικτύονος 17, Θησείο, 11851, Αθήνα',
-            'tel' => '2114004192',
+            'email' => $email,
+            'password' => Hash::make($password),
+            'addr' => '',
+            'tel' => '',
         ]);
 
         $admin->save();

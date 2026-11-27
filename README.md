@@ -1,183 +1,163 @@
-# Volunteasy
+<p align="center">
+  <img src="docs/assets/img/logo.png" alt="VoluntEasy" width="240">
+</p>
 
-### Starting the project
+<p align="center">
+  <strong>Open-source volunteer management for non-profits, municipalities and community groups.</strong><br>
+  Register volunteers, organise them in units, plan actions and shifts, and measure the impact.
+</p>
 
-For installing Laravel, please refer to [Official Laravel installation
-guide](http://laravel.com/docs/5.1).
+<p align="center">
+  <a href="https://github.com/scify/VoluntEasy/actions/workflows/ci.yml"><img src="https://github.com/scify/VoluntEasy/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="LICENSE.TXT"><img src="https://img.shields.io/badge/license-Apache%202.0-1f9d6b" alt="License: Apache 2.0"></a>
+  <img src="https://img.shields.io/badge/Laravel-13-1f9d6b" alt="Laravel 13">
+  <img src="https://img.shields.io/badge/PHP-8.3%2B-1f9d6b" alt="PHP 8.3+">
+  <img src="https://img.shields.io/badge/Larastan-level%205-1f9d6b" alt="Larastan level 5">
+</p>
 
-Check the server eequirements of the version in the project, install and enable the required php modules.
+<p align="center">
+  <a href="https://scify.github.io/VoluntEasy/"><strong>Website</strong></a> ·
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#features">Features</a> ·
+  <a href="#contributing">Contributing</a>
+</p>
 
-### Installing dependencies (assuming apache as web server and mysql as db):
+<p align="center">
+  <img src="docs/assets/img/hero.png" alt="The VoluntEasy volunteers list with the status of each volunteer, and the card of one volunteer with her hours." width="720">
+</p>
 
-In a nutshell (assuming debian-based OS), first install the dependencies needed:
+---
 
-Note: php5 package installs apache2 as a dependency so we have no need to add
-it manually.
+## Why VoluntEasy?
 
-`% sudo aptitude install php5 php5-cli mcrypt php5-mcrypt mysql-server php5-mysql`
+Organisations that work with volunteers often keep them in spreadsheets, e-mail threads and paper forms. VoluntEasy puts everything in one web application:
 
-Install composer according to official instructions (link above) and move binary to ~/bin:
+- **One record per volunteer**, with skills, languages, availability, interests, files and the full history.
+- **Teams that match your organisation**: a tree of units, each with its own coordinators and onboarding steps.
+- **Actions that get staffed**: task boards, shifts with the number of volunteers you need, and a public page where volunteers choose a shift.
+- **Feedback and numbers**: questionnaires after each action, ratings, and reports with charts.
 
-`% curl -sS https://getcomposer.org/installer | php5 && mv composer.phar ~/bin`
+It is free, it runs on your own server, and your data stays with you: no tracking and no third-party services.
 
-Download Laravel installer via composer:
+## Features
 
-`% composer global require "laravel/installer=~1.1"`
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <img src="docs/assets/img/tree.png" alt="The organisation tree with three units." width="100%"><br>
+      <strong>Units and onboarding.</strong> Model your organisation as a tree of units. Each unit has coordinators and onboarding steps (for example a first contact, an interview and a training). A volunteer is <em>pending</em> until the steps are complete, then <em>available</em>, and <em>active</em> while in an action.
+    </td>
+    <td width="50%" valign="top">
+      <img src="docs/assets/img/board.png" alt="The task board of an action." width="100%"><br>
+      <strong>Actions, tasks and shifts.</strong> Every action has a task board with tasks, subtasks, checklists and shifts. Assign users and volunteers, drag work from <em>To do</em> to <em>Done</em>, and publish a call-to-action page for sign-ups.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <img src="docs/assets/img/reports.png" alt="The reports page with a monthly bar chart." width="100%"><br>
+      <strong>Reports.</strong> New volunteers per month, age groups, gender, cities, education levels, interests and the hours given per action. Print the tables or export them to CSV.
+    </td>
+    <td width="50%" valign="top">
+      <strong>And also</strong>
+      <ul>
+        <li>Detailed volunteer profiles and a search on every field</li>
+        <li>Public volunteer form and a JSON endpoint for your website</li>
+        <li>Questionnaires by e-mail after an action, for volunteers and coordinators</li>
+        <li>Ratings of actions and of volunteers</li>
+        <li>Collaborations with partner organisations</li>
+        <li>In-app notifications</li>
+        <li>Roles: administrator, unit manager, action manager</li>
+        <li>English and Greek user interface</li>
+        <li>Deployment "flavours" to adapt forms, ratings and reports</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
-And add ~/.composer/vendor/bin to your $PATH. Example:
+## Quick start
 
-```
-% cat ~/.profile
-[..snip..]
-LARAVEL=/home/username/.composer/vendor
-PATH=$PATH:$LARAVEL/bin
-```
+Requirements: **PHP 8.3+** (with `pdo_mysql`, `mbstring`, `intl`, `zip`), **Composer**, and **MySQL 8 or MariaDB 10.6+**.
 
-And source your .profile with `% source ~/.profile`
-
-After cloning the project with a simple `git clone https://github.com/scify/VoluntEasy.git`, type `cd VoluntEasy/VoluntEasy && composer install` to install all dependencies.
-
-### Editing the .env file
-
-Copy the existing `VoluntEasy/.env.example` file to `VoluntEasy/.env`.
-
-First, you have to generate an application key. Use `php artisan key:generate`.
-
-An example .env file should look like this (populate it using your own credentials):
-
-```
-APP_DEBUG=false
-APP_KEY=generatedkeygoeshere
-
-DB_HOST=localhost
-DB_DATABASE=volunteasy
-DB_USERNAME=volunteasy
-DB_PASSWORD=secretpass
-
-CACHE_DRIVER=file
-SESSION_DRIVER=file
-QUEUE_DRIVER=sync
-
-MAIL_DRIVER=smtp
-MAIL_HOST=smtp.mailtrap.io
-MAIL_PORT=2525
-MAIL_USERNAME=username
-MAIL_PASSWORD=mailpassword
-MAIL_FROM_ADDR=hello@example.com
-MAIL_FROM_NAME=Name
-
-LOCALE=el
-
-MODE=municipality
-ROOT_URL=http://volunteasy.example.com
-```
-
-### Apache configuration:
-
-```
-% cat /etc/apache2/sites-available/mysite.conf
-<VirtualHost *:80>
-	ServerName myapp.localhost.com
-	DocumentRoot "/path/to/VoluntEasy/VoluntEasy/public"
-	<Directory "/path/to/VoluntEasy/VoluntEasy/public">
-		AllowOverride all
-	</Directory>
-</VirtualHost>
-```
-
-Make the symbolic link:
-
-`% cd /etc/apache2/sites-enabled && sudo ln -s ../sites-available/mysite.conf`
-
-Enable mod_rewrite and restart apache:
-
-`% sudo a2enmod rewrite && sudo service apache2 restart`
-
-Fix permissions for storage directory:
-
-`% chmod -R 755 path/to/VoluntEasy/VoluntEasy/storage && chown -R www-data:www-data /path/to/VoluntEasy/VoluntEasy/storage`
-
-Test your setup with:
-
-`% php artisan serve`
-
-and navigate to localhost:8000.
-
-
-### Nginx configuration:
-
-Add additional the additional dependencies needed:
-
-`% sudo aptitude install nginx php5-fpm`
-
-Disable cgi.fix_pathinfo at /etc/php5/fpm/php.ini: `cgi.fix_pathinfo=0`
-
-`% sudo php5enmod mcrypt && sudo service php5-fpm restart`
-
-Nginx server block:
-
-```
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server ipv6only=on;
-
-    root /var/www/laravel/public;
-    index index.php index.html index.htm;
-
-    server_name server_domain_or_IP;
-
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-
-    location ~ \.php$ {
-        try_files $uri /index.php =404;
-        fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        fastcgi_pass unix:/var/run/php5-fpm.sock;
-        fastcgi_index index.php;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
-}
+```bash
+git clone https://github.com/scify/VoluntEasy.git
+cd VoluntEasy/VoluntEasy
+composer install
+cp .env.example .env
+php artisan key:generate
 ```
 
-`% sudo service nginx restart && sudo chmod -R 755 path/to/project/storage`
+Edit `.env` (database, mail, `APP_URL`, the first administrator), then create the database tables and the reference data:
 
-And finally, set the group appropriately:
-
-`% sudo chown -R www-data:www-data storage`
-
-### Database
-
-#### Creating a new database
-
-Initialize the database with `php artisan migrate` and test the installation with `php artisan serve` and hit `localhost:8000/auth/register` at your browser of choice.
-
-After running migrations, it's time to create an initial user.
-
-Navigate at the root directory and run `./config-user.pl`. The script asks for initial user info. After filling everything, you will be asked if the info is correct. If not, just press `n` and it will run once more. Upon successful completion, the database seed file will be generated. It's time to seed the database with `php artisan db:seed --class=UserTableSeeder`.
-
-
-Try login credentials by navigating at http://localhost/auth/login
-
-#### Importing the demo database
-
-If you want, you may try to import the .sql file into your database instead of
-creating a new one. Just enter `mysql -u user -p database_name < project_voldemo.sql`.
-
-Credentials for the root user are:
-
-```
-user:	demo@scify.org
-pass:	demo1234
+```bash
+php artisan migrate --seed
+php artisan serve
 ```
 
-### Command scheduling
+Open <http://localhost:8000> and log in as the administrator. If you did not set `ADMIN_PASSWORD`, the seeder prints a random password: change it after the first login.
 
-As of now, a background job performs a search for actions that are going to expire in seven days and sends a questionnaire link to all the subscribed volunteers. While the job exists, because it resides on `artisan`, you will need to add a cronjob entry for this.
-Something like
+### Configuration
+
+The settings are in `.env`. The ones specific to VoluntEasy:
+
+| Variable | Meaning |
+|---|---|
+| `PLATFORM_NAME` | The name in the page titles and e-mails, for example `VoluntEasy` |
+| `MODE` | The deployment flavour: `scify`, `municipality` or `ekpizo` (see below) |
+| `APP_LOCALE` | The default language: `el` or `en` |
+| `ADMIN_EMAIL`, `ADMIN_PASSWORD` | The first administrator, created by `php artisan db:seed` |
+| `DB_STRICT` | MySQL strict mode; `false` by default for compatibility with existing databases |
+
+### Scheduled jobs
+
+After an action ends, VoluntEasy sends the questionnaires, and it makes volunteers available again when their "not available" period ends. Run the Laravel scheduler every minute:
+
+```cron
+* * * * * cd /path/to/VoluntEasy/VoluntEasy && php artisan schedule:run >> /dev/null 2>&1
 ```
-% crontab -l
-0 1 * * * php /path/to/artisan schedule:run 1>> /dev/null 2>&1
+
+### Web server
+
+Point the document root of your virtual host to `VoluntEasy/public`, and give the web server write access to `storage/` and `bootstrap/cache/`. See the [Laravel deployment guide](https://laravel.com/docs/13.x/deployment) for Nginx and Apache examples.
+
+## Deployment flavours
+
+A flavour changes parts of the application for one organisation without a fork. Each one is a folder in [`VoluntEasy/dependencies/`](VoluntEasy/dependencies) with:
+
+- a `configuration` (the view folders, the extra volunteer fields),
+- a `VolunteerServiceImpl` (the volunteer form and its validation),
+- a `RatingServiceImpl` (the rating pages),
+- a `ReportsService` (extra reports),
+- its own views and reference data.
+
+The common behaviour is in [`VoluntEasy/interfaces/`](VoluntEasy/interfaces). Choose the flavour with `MODE` in `.env`.
+
+## Development
+
+```bash
+php artisan test                 # PHPUnit: unit and feature tests
+vendor/bin/phpstan analyse       # Larastan (level 5)
+vendor/bin/pint                  # code style (Laravel preset)
+php artisan lang:js              # rebuild public/messages.js after a change in resources/lang
 ```
-will suffice.
+
+The front end uses plain JavaScript with no jQuery: [`public/assets/js/ve.js`](VoluntEasy/public/assets/js/ve.js) contains the shared helpers (requests with the CSRF token, tables, date pickers, inline editing). The libraries are self-hosted in `public/assets/vendor`.
+
+GitHub Actions runs Pint, Larastan and the tests on every push and pull request.
+
+## Project history
+
+VoluntEasy was created by [SciFY](https://www.scify.org/) in 2015 on Laravel 5.1 and was used by Greek organisations to coordinate their volunteers. In 2026 it was upgraded to Laravel 13 and PHP 8, the front end was rewritten without jQuery, and the code got static analysis, tests and continuous integration.
+
+## Contributing
+
+Contributions are welcome:
+
+- **Report a bug or suggest a feature** in the [issues](https://github.com/scify/VoluntEasy/issues).
+- **Translate** the interface: the texts are in `VoluntEasy/resources/lang/<language>/`.
+- **Send a pull request**: keep `php artisan test`, `vendor/bin/phpstan analyse` and `vendor/bin/pint --test` green.
+
+Please report security problems privately to SciFY ([scify.org](https://www.scify.org/)) and not in a public issue.
+
+## License
+
+VoluntEasy is released under the [Apache License 2.0](LICENSE.TXT).

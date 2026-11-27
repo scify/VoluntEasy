@@ -1,0 +1,100 @@
+.ve-hero {
+  & .ss-stage {
+    --gutter: 32px;
+    --ss-accent: #1f9d6b;
+    --ss-accent-soft: rgba(31, 157, 107, 0.12);
+    --ve-sidebar: #34425a;
+    overflow: hidden;
+    border-radius: 18px;
+    background: #e9f4ee;
+  }
+
+  /* Corner bleed: inset top and left, off the right and bottom */
+  .ve-window {
+    position: absolute;
+    top: var(--gutter);
+    left: 176px;
+    width: 640px;
+    height: 430px;
+    background: var(--ss-surface);
+    border-radius: 10px;
+    box-shadow: var(--ss-shadow-hero);
+  }
+
+  .ve-window .ss-window__body { display: flex; }
+
+  .ve-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: none;
+    gap: 6px;
+    width: 64px;
+    padding: 16px 0;
+    background: var(--ve-sidebar);
+    color: #9aa5b8;
+  }
+  .ve-nav {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+  }
+  .ve-nav[data-on] { background: rgba(255, 255, 255, 0.12); color: #fff; }
+
+  .ve-main { flex: 1; min-width: 0; padding: 18px 22px; background: #f4f6f9; }
+  .ve-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .ve-title { font-size: 15px; font-weight: 600; color: var(--ss-text-strong); }
+  .ve-new { margin-left: 16px; }
+  .ve-filters { display: flex; gap: 8px; margin-bottom: 14px; }
+
+  .ve-list {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    padding: 6px 12px;
+    background: var(--ss-surface);
+    border-radius: 8px;
+  }
+  .ve-row {
+    height: 42px;
+    margin: 0 -10px;
+    padding: 0 10px;
+    border-radius: 8px;
+    border-bottom: 1px solid var(--ss-line-faint);
+    align-content: center;
+  }
+  .ve-row[data-selected] { background: var(--ss-accent-soft); border-bottom-color: transparent; }
+  .ve-name { font-size: 12.5px; line-height: 1.4; font-weight: 500; color: var(--ss-text-strong); }
+  .ve-unit { display: inline-flex; align-items: center; gap: 8px; margin-left: 24px; }
+  .ve-unitname { font-size: 11.5px; color: var(--ss-text); }
+
+  /* The satellite straddles the window's left edge over the sidebar */
+  .ve-card {
+    position: absolute;
+    left: var(--gutter);
+    bottom: var(--gutter);
+    width: 236px;
+    padding: 16px;
+    border-radius: 12px;
+    background: var(--ss-surface);
+    box-shadow: var(--ss-shadow-satellite);
+  }
+  & [data-layout="compact"] .ve-card { left: 16px; width: 210px; bottom: 20px; }
+  .ve-card-head { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid var(--ss-line); }
+  .ve-card-who { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+  .ve-card-name { font-size: 13px; font-weight: 600; color: var(--ss-text-strong); }
+  .ve-card-stat { display: flex; align-items: baseline; gap: 8px; padding: 12px 0 10px 42px; }
+  .ve-card-number { font-size: 24px; font-weight: 600; color: var(--ss-text-strong); font-variant-numeric: tabular-nums; }
+  .ve-card-label { font-size: 11.5px; color: var(--ss-text); }
+  .ve-card-rows { display: flex; flex-direction: column; gap: 8px; padding-left: 42px; }
+}
+
+/* Compact (phone column): crop closer on the list, drop the satellite and the action */
+.ve-hero [data-layout="compact"] {
+  & .ve-window { left: 24px; top: 24px; width: 520px; }
+  & .ve-card, & .ve-new { display: none; }
+  & .ve-main { padding: 18px 24px; }
+  & .ve-list { width: 220px; }
+}

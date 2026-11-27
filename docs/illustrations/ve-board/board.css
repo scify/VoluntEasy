@@ -1,0 +1,56 @@
+.ve-board {
+  & .ss-stage {
+    --gutter: 32px;
+    --ss-accent: #1f9d6b;
+    --ss-accent-soft: rgba(31, 157, 107, 0.12);
+    overflow: hidden;
+    border-radius: 18px;
+    background: #e9f4ee;
+  }
+
+  /* Pinned: inset left, right and top, off the bottom */
+  .vb-window {
+    position: absolute;
+    top: var(--gutter);
+    left: var(--gutter);
+    right: var(--gutter);
+    height: 400px;
+    border-radius: 10px;
+    box-shadow: var(--ss-shadow-hero);
+  }
+  .vb-window .ss-window__body { padding: 16px 18px; background: #f4f6f9; }
+
+  .vb-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .vb-title { font-size: 14px; font-weight: 600; color: var(--ss-text-strong); }
+
+  .vb-columns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .vb-column { display: flex; flex-direction: column; gap: 8px; }
+  .vb-column-head { display: flex; align-items: center; gap: 8px; padding: 0 2px 2px; }
+  .vb-column-title { font-size: 12px; font-weight: 600; color: var(--ss-text-strong); }
+  .vb-count { font-size: 11px; color: var(--ss-text-faint); font-variant-numeric: tabular-nums; }
+
+  .vb-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 8px;
+    background: var(--ss-surface);
+    box-shadow: 0 0 0 1px var(--ss-line-faint);
+  }
+  .vb-card-focal { gap: 8px; box-shadow: var(--ss-shadow-card), 0 0 0 1px var(--ss-line); border-left: 3px solid var(--ss-accent); padding-left: 10px; }
+  .vb-card-title { font-size: 12px; line-height: 1.35; font-weight: 600; color: var(--ss-text-strong); }
+  .vb-shift { display: inline-flex; align-items: center; gap: 6px; color: var(--ss-text); }
+  .vb-shift-text { font-size: 11px; color: var(--ss-text); }
+  .vb-card-foot { display: flex; align-items: center; gap: 8px; padding-top: 2px; }
+  .vb-team { display: inline-flex; }
+  .vb-team .ss-avatar + .ss-avatar { margin-left: -6px; }
+  .vb-filled { font-size: 11px; color: var(--ss-accent-text); font-weight: 600; }
+}
+
+/* Compact: the "Doing" column in focus, its neighbours cut by the crop */
+.ve-board [data-layout="compact"] {
+  & .vb-window { left: 24px; right: auto; width: 460px; top: 24px; }
+  & .vb-columns { grid-template-columns: 140px 140px 140px; }
+}
+.ve-board [data-layout="compact"] .vb-column:nth-child(3) { display: none; }
