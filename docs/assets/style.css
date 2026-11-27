@@ -250,3 +250,11 @@ nav a:not(.button):hover { color: var(--ink); }
 
 /* Language switch: stays visible on small screens */
 nav a.lang { display: inline-flex !important; font-weight: 600; color: var(--link) !important; }
+
+/* Hero: the video on wide screens; the still on phones and with reduced motion */
+.hero-art video, .hero-art img { width: 100%; height: auto; display: block; border-radius: 18px; box-shadow: 0 30px 60px -30px rgba(11, 61, 44, .45); }
+.hero-art .hero-still { display: none; }
+@media (max-width: 600px), (prefers-reduced-motion: reduce) {
+  .hero-art .hero-video { display: none; }
+  .hero-art .hero-still { display: block; }
+}

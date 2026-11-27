@@ -49,10 +49,17 @@
             <li>English and Greek</li>
           </ul>
         </div>
-        <picture class="hero-art">
-          <source media="(max-width: 600px)" srcset="assets/img/hero-mobile.png">
-          <img src="assets/img/hero.png" width="720" height="400" alt="The VoluntEasy volunteers list with the status of each volunteer, and the card of one volunteer with her hours.">
-        </picture>
+        <div class="hero-art">
+          <video class="hero-video" autoplay muted loop playsinline preload="metadata" width="720" height="400"
+                 poster="assets/video/lifecycle-poster.jpg" aria-label="A coordinator adds an available volunteer to a shift: the shift count goes up and the volunteer becomes active.">
+            <source src="assets/video/lifecycle.webm" type="video/webm">
+            <source src="assets/video/lifecycle.mp4" type="video/mp4">
+          </video>
+          <picture class="hero-still">
+            <source media="(max-width: 600px)" srcset="assets/img/hero-mobile.png">
+            <img src="assets/img/hero.png" width="720" height="400" alt="The VoluntEasy volunteers list with the status of each volunteer, and the card of one volunteer with her hours.">
+          </picture>
+        </div>
       </div>
     </section>
 

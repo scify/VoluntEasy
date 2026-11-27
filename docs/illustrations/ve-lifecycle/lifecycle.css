@@ -1,0 +1,156 @@
+.ve-lifecycle {
+  & .ss-stage {
+    /* VoluntEasy's own palette (public/assets/css: modern.css, custom.css) */
+    --ve-teal: #22baa0;
+    --ve-orange: #e26e27;
+    --ve-purple: #6a5fac;
+    --ve-slate: #34425a;
+    --ss-accent: var(--ve-teal);
+    --ss-accent-soft: rgba(34, 186, 160, 0.14);
+    --gutter: 32px;
+    font-family: 'Open Sans', system-ui, sans-serif;
+    overflow: hidden;
+    border-radius: 18px;
+    background: #e4e9f1;
+  }
+
+  /* Corner bleed: inset top and left, off the right and bottom */
+  .vl-window {
+    position: absolute;
+    top: var(--gutter);
+    left: 168px;
+    width: 640px;
+    height: 440px;
+    border-radius: 10px;
+    box-shadow: var(--ss-shadow-hero);
+  }
+  .vl-window .ss-window__body { position: relative; background: #f1f4f9; }
+
+  /* The two actions take turns: a page swap inside one window */
+  .vl-scenes { position: relative; }
+  .vl-scene {
+    will-change: transform;
+    position: absolute;
+    inset: 0;
+    padding: 16px 18px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .vl-scene[data-on] { position: relative; opacity: 1; transform: none; }
+
+  .vl-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .vl-title { font-size: 14px; font-weight: 600; color: var(--ss-text-strong); }
+  .vl-chip {
+    padding: 3px 9px;
+    border-radius: 3px;
+    font-size: 11px;
+    line-height: 1.35;
+    font-weight: 600;
+    color: #fff;
+    background: var(--ve-teal);
+  }
+
+  .vl-columns { display: grid; grid-template-columns: repeat(3, 196px); gap: 12px; }
+  .vl-column { display: flex; flex-direction: column; gap: 8px; }
+  .vl-column-title { font-size: 12px; font-weight: 600; color: var(--ss-text-strong); padding: 0 2px 2px; }
+  .vl-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 6px;
+    background: var(--ss-surface);
+    box-shadow: 0 0 0 1px var(--ss-line-faint);
+  }
+  .vl-card-focal { gap: 10px; border-left: 3px solid var(--ve-teal); padding-left: 10px; box-shadow: var(--ss-shadow-card), 0 0 0 1px var(--ss-line); }
+  .vl-card-title { font-size: 12px; line-height: 1.35; font-weight: 600; color: var(--ss-text-strong); }
+  .vl-shift { display: flex; flex-direction: column; gap: 8px; padding-top: 8px; border-top: 1px solid var(--ss-line-faint); }
+  .vl-when { display: inline-flex; align-items: center; gap: 6px; color: var(--ss-text); }
+  .vl-when-text { font-size: 11px; color: var(--ss-text); }
+  .vl-staff { display: flex; align-items: center; gap: 8px; }
+  .vl-faces { display: inline-flex; align-items: center; flex: none; }
+  .vl-faces .ss-facepile { flex: none; }
+
+  /* The new face opens its own room next to the others */
+  .vl-new {
+    display: inline-flex;
+    flex: none;
+    width: 0;
+    margin-left: 0;
+    opacity: 0;
+    transform: scale(0.6);
+    will-change: transform;
+    transition: width 0.45s cubic-bezier(0.45, 0, 0.1, 1), margin 0.45s cubic-bezier(0.45, 0, 0.1, 1), opacity 0.3s ease 0.1s, transform 0.45s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .vl-new[data-in] { width: 16px; margin-left: 0; opacity: 1; transform: none; }
+  /* overlap the faces like the Facepile: the slot is narrower than the avatar */
+  .vl-new .ss-avatar { flex: none; margin-left: -6px; }
+  .vl-new .ss-avatar { box-shadow: 0 0 0 2px var(--ss-surface); }
+
+  .vl-count { display: inline-flex; align-items: baseline; gap: 4px; font-size: 11.5px; font-weight: 600; color: var(--ss-accent-text); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .vl-add {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 24px;
+    height: 24px;
+    margin-left: auto;
+    padding: 0;
+    border: 1px solid var(--ss-line);
+    border-radius: 6px;
+    background: var(--ss-surface);
+    color: var(--ve-slate);
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .vl-add[data-hover], .vl-add[data-open] { background: rgba(34, 186, 160, 0.12); border-color: var(--ve-teal); color: var(--ve-teal); }
+  .vl-add[data-pressed] { background: rgba(34, 186, 160, 0.22); }
+
+  /* The volunteer list straddles the window's left edge, over the To Do filler */
+  .vl-people {
+    position: absolute;
+    left: var(--gutter);
+    top: 150px;
+    bottom: -24px;
+    width: 252px;
+    padding: 14px 16px 8px;
+    border-radius: 12px;
+    background: var(--ss-surface);
+    box-shadow: var(--ss-shadow-satellite);
+  }
+  .vl-people-title { display: block; font-size: 12.5px; font-weight: 600; color: var(--ss-text-strong); padding-bottom: 8px; border-bottom: 1px solid var(--ss-line); }
+  .vl-people-scenes { position: relative; }
+  .vl-people-scene { position: absolute; inset: 0; opacity: 0; transition: opacity 0.2s ease; }
+  .vl-people-scene[data-on] { position: relative; opacity: 1; }
+  .vl-person { display: flex; align-items: center; gap: 10px; height: 40px; border-bottom: 1px solid var(--ss-line-faint); }
+  .vl-person:last-child { border-bottom: none; }
+  .vl-person-name { flex: 1; min-width: 0; font-size: 12px; line-height: 1.4; color: var(--ss-text-strong); }
+  .vl-person[data-focal] .vl-person-name { font-weight: 600; }
+
+  /* Solid status chips as in the application; the colour follows the word */
+  .vl-status {
+    flex: none;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 10.5px;
+    line-height: 1.35;
+    font-weight: 600;
+    color: #fff;
+    background: var(--ve-teal);
+    transition: background-color 0.2s ease;
+    will-change: transform;
+  }
+  .vl-status[data-status="pending"] { background: var(--ve-orange); }
+  .vl-status[data-status="active"] { background: var(--ve-purple); }
+
+  .vl-menu { width: 220px; height: 108px; padding: 10px 3px; --ss-row: 34px; }
+  .vl-menu .ss-menu__item { padding-left: 7px; padding-right: 7px; }
+  .vl-menu-title { display: block; padding: 0 7px 6px; font-size: 11px; font-weight: 600; color: var(--ss-text); }
+  .vl-menu-item { display: inline-flex; align-items: center; gap: 8px; }
+  .vl-menu-name { font-size: 12px; color: var(--ss-text-strong); }
+
+  .vl-rest { position: absolute; right: 64px; bottom: 56px; width: 8px; height: 8px; pointer-events: none; }
+}
+
+/* No compact design: this scene is exported as a video for wide screens;
+   phones get the still images (ve-hero) instead. */

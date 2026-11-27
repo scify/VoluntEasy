@@ -49,10 +49,17 @@
             <li>Ελληνικά και αγγλικά</li>
           </ul>
         </div>
-        <picture class="hero-art">
-          <source media="(max-width: 600px)" srcset="../assets/img/hero-mobile-el.png">
-          <img src="../assets/img/hero-el.png" width="720" height="400" alt="Η λίστα εθελοντών του VoluntEasy με την κατάσταση κάθε εθελοντή, και η κάρτα μιας εθελόντριας με τις ώρες της.">
-        </picture>
+        <div class="hero-art">
+          <video class="hero-video" autoplay muted loop playsinline preload="metadata" width="720" height="400"
+                 poster="../assets/video/lifecycle-el-poster.jpg" aria-label="Ένας υπεύθυνος προσθέτει έναν διαθέσιμο εθελοντή σε μια βάρδια: ο αριθμός της βάρδιας αυξάνεται και ο εθελοντής γίνεται ενεργός.">
+            <source src="../assets/video/lifecycle-el.webm" type="video/webm">
+            <source src="../assets/video/lifecycle-el.mp4" type="video/mp4">
+          </video>
+          <picture class="hero-still">
+            <source media="(max-width: 600px)" srcset="../assets/img/hero-mobile-el.png">
+            <img src="../assets/img/hero-el.png" width="720" height="400" alt="Η λίστα εθελοντών του VoluntEasy με την κατάσταση κάθε εθελοντή, και η κάρτα μιας εθελόντριας με τις ώρες της.">
+          </picture>
+        </div>
       </div>
     </section>
 

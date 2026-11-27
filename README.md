@@ -23,7 +23,7 @@
 </p>
 
 <p align="center">
-  <img src="docs/assets/img/hero.png" alt="The VoluntEasy volunteers list with the status of each volunteer, and the card of one volunteer with her hours." width="720">
+  <img src="docs/assets/video/lifecycle.gif" alt="A coordinator adds an available volunteer to a shift: the shift count goes up and the volunteer becomes active." width="720">
 </p>
 
 ---
@@ -38,6 +38,10 @@ Organisations that work with volunteers often keep them in spreadsheets, e-mail 
 - **Feedback and numbers**: questionnaires after each action, ratings, and reports with charts.
 
 It is free, it runs on your own server, and your data stays with you: no tracking and no third-party services.
+
+<p align="center">
+  <img src="docs/assets/img/hero.png" alt="The VoluntEasy volunteers list with the status of each volunteer, and the card of one volunteer with her hours." width="720">
+</p>
 
 ## Features
 
