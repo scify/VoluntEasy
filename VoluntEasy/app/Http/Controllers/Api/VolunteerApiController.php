@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Services\Volunteers\VolunteerProfile;
 use Interfaces\VolunteerInterface;
 use App\Models\Descriptions\StepStatus;
 use App\Models\Volunteer;
@@ -65,7 +66,7 @@ class VolunteerApiController extends Controller {
     }
 
     public function show($id) {
-        $volunteer = VolunteerService::fullProfile($id);
+        $volunteer = app(VolunteerProfile::class)->fullProfile($id);
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
 
         //get the count of pending and available units, used in the front end

@@ -19,9 +19,7 @@ class ReportsService extends ReportsServiceAbstract {
             foreach ($action->volunteers as $v => $volunteer) {
                 $totalVolunteerHours = 0;
                 foreach ($volunteer->subtaskShifts as $shift) {
-                    $to_time = strtotime($shift->to_hour);
-                    $from_time = strtotime($shift->from_hour);
-                    $workHours = (($to_time - $from_time) / 60) / 60;
+                    $workHours = $shift->workingHours();
                     $totalVolunteerHours += $workHours;
                     $totalHours += $workHours;
                 }

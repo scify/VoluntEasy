@@ -1,6 +1,9 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Services\Volunteers\VolunteerProfile;
+use Illuminate\Http\Request;
+use App\Services\Volunteers\VolunteerSearch;
 use Interfaces\VolunteerInterface;
 use Interfaces\RatingInterface;
 use Interfaces\ConfigurationInterface;
@@ -134,13 +137,13 @@ class VolunteerController extends Controller {
      */
     public function show($id) {
 
-        $volunteer = VolunteerService::fullProfile($id);
+        $volunteer = app(VolunteerProfile::class)->fullProfile($id);
        // return $volunteer;
-        $timeline = VolunteerService::timeline($id);
+        $timeline = app(VolunteerProfile::class)->timeline($id);
         $volunteer = VolunteerService::setStatusToUnits($volunteer);
-        $totalWorkingHours = VolunteerService::totalWorkingHours($timeline);
+        $totalWorkingHours = app(VolunteerProfile::class)->totalWorkingHours($timeline);
         $totalRatings = RatingService::totalVolunteerRating($timeline);
-        $actionsRatings = VolunteerService::actionsRatings($id);
+        $actionsRatings = app(VolunteerProfile::class)->actionsRatings($id);
 
         //get the count of pending and available units, used in the front end
         $pending = 0;
@@ -314,19 +317,14 @@ class VolunteerController extends Controller {
     }
 
     /**
-     * Search all volunteers and re-render the partial
-     * that contains the table with the volunteer data.
+     * Search the volunteers (AJAX, for the volunteers table).
      *
-     * @return mixed
+     * @return array{data: array<int, \App\Models\Volunteer>}
      */
-    public function search() {
-        $volunteers = VolunteerService::search();
-
-        return $volunteers;
-
-        /*   $view = View::make('main.volunteers.list')->with('volunteers', $volunteers);
-           return $view->renderSections()['table'];*/
+    public function search(Request $request, VolunteerSearch $volunteerSearch): array {
+        return $volunteerSearch->search($request);
     }
+
 
     public function newVolunteers() {
         $volunteers = Volunteer::unassigned();

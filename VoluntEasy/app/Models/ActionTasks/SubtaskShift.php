@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property float|int $workHours Computed
  */
 class SubtaskShift extends Model {
+    use \App\Models\Concerns\HasWorkingHours;
 
     use SoftDeletes;
 
