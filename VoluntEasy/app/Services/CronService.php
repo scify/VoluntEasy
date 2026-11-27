@@ -86,13 +86,13 @@ class CronService {
 
             //calculate the duration of the action and get the half of it
             //since we want to notify the user when the action is halfway
-            $durationHalf = intval($endDate->diffInDays($startDate) / 2);
+            $durationHalf = intval((int) $endDate->diffInDays($startDate, true) / 2);
 
             $now = \Carbon::now();
 
             //if the time is right (that is if today is the same day as
             //start_date + durationHalf, notify the users
-            if ($startDate->addDays($durationHalf)->diffInDays($now) == 0) {
+            if ((int) $startDate->addDays($durationHalf)->diffInDays($now, true) == 0) {
                 NotificationServiceFacade::actionWillExpire($action->id);
                 $count++;
             }
@@ -122,7 +122,7 @@ class CronService {
                     $to = \Carbon::createFromFormat('d/m/Y', $volunteer->statusDuration[0]->to_date);
 
                     //set as available again
-                    if ($now->diffInDays($to) == 1) {
+                    if ((int) $now->diffInDays($to, true) == 1) {
                         VolunteerServiceFacade::setVolunteerToAvailable($volunteer->statusDuration[0]->id);
                         $count++;
                     }

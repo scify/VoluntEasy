@@ -13,8 +13,10 @@
 
 @else
 {{-- also add the parent unit to the available units --}}
-{{--*/ $availableUnitsWithParent = $unit->availableUnits /*--}}
-{{--*/ $availableUnitsWithParent[$unit->id] = $unit->description /*--}}
+@php
+    $availableUnitsWithParent = $unit->availableUnits;
+    $availableUnitsWithParent[$unit->id] = $unit->description;
+@endphp
 
 {!! Form::formInput('', trans('entities/volunteers.assignToUnit') .'*:', $errors, ['class' => 'form-control',
 'type' => 'select', 'id' => 'unitSelect-'.$unit->id, 'value' => $availableUnitsWithParent, 'data-parent' => $unit->id]) !!}

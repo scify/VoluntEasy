@@ -31,7 +31,7 @@ class TaskService {
                     $dueDate->hour = 0;
                     $dueDate->minute = 0;
                     $dueDate->second = 0;
-                    $subtask->expires = $today->diffInDays($dueDate, false);
+                    $subtask->expires = (int) $today->diffInDays($dueDate, false);
                 }
                 else $subtask->expires = 'null';
 
@@ -68,9 +68,10 @@ class TaskService {
 
                 //set the due date in a nicer format, ie 28/01
                 //only if the due date's year is the current year
+                $subtask->dueDateMin = null;
                 if ($subtask->due_date != null) {
                     $tmpDueDate = \Carbon::createFromFormat('d/m/Y', $subtask->due_date);
-                    if ($tmpDueDate && $now->diffInYears($tmpDueDate) == 0)
+                    if ($tmpDueDate && (int) $now->diffInYears($tmpDueDate, true) == 0)
                         $subtask->dueDateMin = $tmpDueDate->format('d/m');
                     else
                         $subtask->dueDateMin = $tmpDueDate->format('d/m/y');
@@ -89,7 +90,7 @@ class TaskService {
                 $dueDate->hour = 0;
                 $dueDate->minute = 0;
                 $dueDate->second = 0;
-                $task->expires = $today->diffInDays($dueDate, false);
+                $task->expires = (int) $today->diffInDays($dueDate, false);
             }
             else $task->expires = 'null';
 
@@ -116,9 +117,10 @@ class TaskService {
 
             //set the task's due date in a nicer format, ie 28/01
             //only if the due date's year is the current year
+            $task->dueDateMin = null;
             if ($task->due_date != null) {
                 $tmpDueDate = \Carbon::createFromFormat('d/m/Y', $task->due_date);
-                if ($now->diffInYears($tmpDueDate) == 0)
+                if ((int) $now->diffInYears($tmpDueDate, true) == 0)
                     $task->dueDateMin = $tmpDueDate->format('d/m');
                 else
                     $task->dueDateMin = $tmpDueDate->format('d/m/y');
